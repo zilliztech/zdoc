@@ -4,12 +4,12 @@ slug: /node/node/Collections-addCollectionFunction
 sidebar_label: "addCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation adds a function to an existing collection. | Node.js"
+description: "This operation adds a custom function to an existing collection. | Node.js"
 type: docx
-token: VyADdglU4ohvGTxHuwTc6yBRnTe
+token: SmI4dGF4qoAjbKxamfhcndjxnCc
 sidebar_position: 21
 keywords: 
   - Zilliz database
@@ -27,68 +27,87 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # addCollectionFunction()
 
-This operation adds a function to an existing collection.
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**Deprecated.**
+
+This method is deprecated. Use addFunctionField() instead.
+
+</Admonition>
+
+This operation adds a custom function to an existing collection.
+
+```javascript
+await milvusClient.addCollectionFunction(data: AddCollectionFunctionReq)
+```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
-milvusClient.addCollectionFunction({ collection_name, function, db_name?, timeout? })
+```javascript
+await milvusClient.addCollectionFunction({
+    collection_name: string,
+    function: FunctionObject,
+    db_name?: string,
+    timeout?: number,
+})
 ```
 
 **PARAMETERS:**
 
 - **collection_name** (*string*) -
 
-    The name of an existing collection.
+    **[REQUIRED]**
+
+    The name of the collection to add the function to.
 
 - **function** (*FunctionObject*) -
 
-    The function object to add to the collection.
+    **[REQUIRED]**
+
+    The function to add to the collection. See FunctionObject.
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the collection.
+    The name of the database where the collection resides.
 
 - **timeout** (*number*) -
 
-    An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or error occurs. Default is undefined.
+    The timeout duration in milliseconds for this operation.
 
 **RETURNS:**
 
-*ResStatus*
+*Promise&lt;ResStatus&gt;*
 
-The response status of the operation has the shape of `{error_code, reason}`.
-
-**PARAMETERS:**
-
-- **error_code** (*number*) -
-
-    The error code number: 0 means success.
-
-- **reason** (*string*) -
-
-    The cause of the error, if any.
+This method returns a promise that resolves to a **ResStatus** object.
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception will be raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```javascript
-await milvusClient.addCollectionFunction({
-  collection_name: 'my_collection',
-  function: {
-    name: 'bm25_fn',
-    type: 'BM25',
-    input_field_names: ['text'],
-    output_field_names: ['sparse_vector'],
-    params: {},
-  },
+import { MilvusClient, FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const resStatus = await milvusClient.addCollectionFunction({
+    collection_name: 'my_collection',
+    function: {
+        name: 'my_bm25_function',
+        description: 'BM25 sparse embedding function',
+        type: FunctionType.BM25,
+        input_field_names: ['text'],
+        output_field_names: ['sparse_vector'],
+        params: {},
+    },
 });
 ```
+

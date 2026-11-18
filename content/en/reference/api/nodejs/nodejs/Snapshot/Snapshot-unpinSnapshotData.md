@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # unpinSnapshotData()
 
 This operation unpins snapshot data, allowing it to be garbage collected when no longer needed.
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData(data: UnpinSnapshotDataReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData({
     pin_id: number | string,
     timeout?: number,
@@ -48,23 +45,25 @@ await milvusClient.unpinSnapshotData({
 
 **PARAMETERS:**
 
-- **pin_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
-  The pin ID returned by pinSnapshotData().
+- **pin_id** (*number | string*) -
+**[REQUIRED]**
+The pin ID returned by pinSnapshotData().
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
 **RETURNS:**
 
 *Promise&lt;ResStatus&gt;*
 
+This method returns a promise that resolves to a **ResStatus** object.
+
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldType()
 
 This operation returns the primary key field's data type for a collection. This is a convenient method that describes the collection and extracts the primary key field type.
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldType(data: DescribeCollectionReq)
 ```javascript
 getPkFieldType({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldType({
 
     The name of the collection.
 
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **cache** (*boolean*) -
+
+    Whether to use the cached description of the collection. Optional.
+
 - **timeout** (*number*) -
 
     RPC timeout in milliseconds. Optional.
 
 **RETURNS:**
 
-*Promise\<keyof typeof DataType\>*
+*Promise\<keyof typeof DataType\\>*
 
-The data type of the primary key field (e.g., `"Int64"`, `"VarChar"`).
+The data type of the primary key field (e.g., `"Int64"`, `"VarChar"`). See [DataType](./Collections-DataType).
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterOptions
 
 This interface configures a `BulkWriter` instance, including schema validation, storage behavior, file format, chunk size, and local output path.

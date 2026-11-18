@@ -1,0 +1,2573 @@
+{
+  "schema_version": 1,
+  "kind": "shared-manual",
+  "group": "node",
+  "manual": "node",
+  "site": "en",
+  "inputs": {
+    "upstream": {
+      "repository": "https://github.com/milvus-io/web-content",
+      "dir": "API_Reference/milvus-sdk-node/v3.0.x",
+      "current": "d3d901492abc3d17fa5724341f991a4ab1927eeb",
+      "next": "d3d901492abc3d17fa5724341f991a4ab1927eeb"
+    },
+    "tools": {
+      "zdoc": "b852ba8948cfdfb5ac4e69807c59f040031aad49"
+    },
+    "config": {
+      "files": [
+        {
+          "path": "Variables.json",
+          "sha256": "8072f71b11bd788b287e375d7d8db1e2a6d7b2511963843cc4511e04c587438d"
+        },
+        {
+          "path": "content/DataImport-BulkWriterOptions.md",
+          "sha256": "ad0251196eebe18fb70beaaf906062db953539f78f31f622204666170b569d46"
+        },
+        {
+          "path": "content/DataImport-FlushEvent.md",
+          "sha256": "607112298ddb307f80c81efb462e66d833d322966c623b3f9b8143230854e76f"
+        },
+        {
+          "path": "content/DataImport-Formatter.md",
+          "sha256": "39409ebefa9d1d27ad8e4e3402fc138b63ae2b2f7e17186c199cf71bdaf2c759"
+        },
+        {
+          "path": "content/DataImport-HttpImportCreateReq.md",
+          "sha256": "dbf8218119a8b8eeffcab1fbaa761fe7a84280f4644c5c369c44943c2fe8099e"
+        },
+        {
+          "path": "content/DataImport-HttpImportCreateResponse.md",
+          "sha256": "b4a8f612dafc09858287965736f3d09934c379ac21432e399999859d0854091e"
+        },
+        {
+          "path": "content/DataImport-HttpImportListResponse.md",
+          "sha256": "bd89ae4caa565c53b8bde50ec411273ce6d464c7d305c2c91f3b2ddf32d24525"
+        },
+        {
+          "path": "content/DataImport-HttpImportProgressReq.md",
+          "sha256": "b8d059ed458a6157002c71a8a89f21be5ac16a204a476780c3a80f73a1cc6467"
+        },
+        {
+          "path": "content/DataImport-HttpImportProgressResponse.md",
+          "sha256": "b9b9220e5ae27d613a47d0855ea6c57dc8b52aa22a8000646f069150dfc2f678"
+        },
+        {
+          "path": "manual.yaml",
+          "sha256": "efe24eca0bcfdd826f5e06d1288a8516919533e53e4a7d34464596494a69c3de"
+        },
+        {
+          "path": "product-names.yaml",
+          "sha256": "f61773204e0240880ae625117d8a65d47f7627c8c6bfe085940083ceaedbd696"
+        },
+        {
+          "path": "source.yaml",
+          "sha256": "b341727362a31df2ac1fae9df3b90ae2de4683115568c5480934763ff29710ba"
+        }
+      ]
+    },
+    "images": []
+  },
+  "pages": [
+    {
+      "logical": "Authentication/addUserToRole.md",
+      "token": "Qc72dTKgroNdHjxIG2xcwNdmnHb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/addUserToRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-addUserToRole.md",
+        "sha256": "ebe5611343525f06a9d311873cabf25015f6ab75e10ce43be2ed47633e58d96e"
+      }
+    },
+    {
+      "logical": "Authentication/createRole.md",
+      "token": "SDoYdccLWo1W3PxkNFncibwDnch",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-createRole.md",
+        "sha256": "c72ea88609fb6472848eed478f213ffcfe6f23b1716df21986c886564f864758"
+      }
+    },
+    {
+      "logical": "Authentication/createUser.md",
+      "token": "JNZxdKEX3ohBl2xud7Wckhq7nVh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createUser.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-createUser.md",
+        "sha256": "eea760252c6a1904d922b7452e1fc133afdafedf136a9579ee3df24cc853caa6"
+      }
+    },
+    {
+      "logical": "Authentication/deleteUser.md",
+      "token": "Cl5PdhU5jouHnrxyYXLcOQAZneb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/deleteUser.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-deleteUser.md",
+        "sha256": "6c36555620cf20e5448320ffaf4b38689f170ec5c3d1eb130f5ec47af1313a17"
+      }
+    },
+    {
+      "logical": "Authentication/describeRole.md",
+      "token": "ItZPd1o4uoodqtx1sxIcq38hn7e",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/describeRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-describeRole.md",
+        "sha256": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626"
+      }
+    },
+    {
+      "logical": "Authentication/describeUser.md",
+      "token": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/describeUser.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-describeUser.md",
+        "sha256": "6a94214f07ebc279c40baecca9eff3f480bd5e0923331fde374d8019ecb8f189"
+      }
+    },
+    {
+      "logical": "Authentication/dropAllRoles.md",
+      "token": "E5rYdw3EWo2WKZxEyGac049an3e",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropAllRoles.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-dropAllRoles.md",
+        "sha256": "9ad0cbbf14d46a01c765bccdc4252160807d654fd81d3bf75b55668cf0f8d9cf"
+      }
+    },
+    {
+      "logical": "Authentication/dropPrivilegeGroup.md",
+      "token": "I63tdWAY2ok8V1xrK4tcrkwjncd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropPrivilegeGroup.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-dropPrivilegeGroup.md",
+        "sha256": "44c777155a2b614134aafa22f0f9096627ca72ee82da0f90fa961de2e84ab71e"
+      }
+    },
+    {
+      "logical": "Authentication/dropRole.md",
+      "token": "AnkUdEHXmob3Vwx9GIWcDOQanng",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-dropRole.md",
+        "sha256": "d9559d4c8855e574e41200bbc7f0aa32203979c4e9a1fa16ed1b8d95780ac2e2"
+      }
+    },
+    {
+      "logical": "Authentication/grantPrivilegeV2.md",
+      "token": "R618dfeMYo9GdmxMwe9cQLclncs",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/grantPrivilegeV2.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-grantPrivilegeV2.md",
+        "sha256": "837a8c5f500b61b0e835e77b4634c0b885552bec32398f255e3fd33267ddada4"
+      }
+    },
+    {
+      "logical": "Authentication/grantRole.md",
+      "token": "LPJsdEnvwo6apcxjhZgc3rpDnuc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/grantRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-grantRole.md",
+        "sha256": "e4e569f7b0754678e5da293ba91d4ec1a67055a9a296a971c8ce80d4f3550653"
+      }
+    },
+    {
+      "logical": "Authentication/hasRole.md",
+      "token": "Beq1d1hDUoTzIsxJ6WTcVtlpnah",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/hasRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-hasRole.md",
+        "sha256": "d337f451f42fd84e4f88b0911847a896df98c0318cb678c381201621ac8ed018"
+      }
+    },
+    {
+      "logical": "Authentication/listGrant.md",
+      "token": "HSIDdxQGEoPdyaxkMDjcAWGQnpd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listGrant.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-listGrant.md",
+        "sha256": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b"
+      }
+    },
+    {
+      "logical": "Authentication/listGrants.md",
+      "token": "CJ9DdmU1ooquOnxcK5AciA3sn3g",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listGrants.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-listGrants.md",
+        "sha256": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62"
+      }
+    },
+    {
+      "logical": "Authentication/listPrivilegeGroups.md",
+      "token": "HGpSdc7AOo7AV3xKCmOcWaIEnrd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listPrivilegeGroups.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
+        "sha256": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1"
+      }
+    },
+    {
+      "logical": "Authentication/listRoles.md",
+      "token": "GIeMdvjlMoLwGrxUOu3cFw7bnWc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listRoles.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-listRoles.md",
+        "sha256": "80e951320c87272b082cd9bf85d96c39a826637b012a739a5dc95bee3fdc6838"
+      }
+    },
+    {
+      "logical": "Authentication/listUsers.md",
+      "token": "Z0EOd1PXooNeowx4SQgcq3synBc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listUsers.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-listUsers.md",
+        "sha256": "380a1af4d3b5880c56a9d7795a415fbfb60eb09439ec2e98e1a70e137e1c5bff"
+      }
+    },
+    {
+      "logical": "Authentication/removePrivilegesFromGroup.md",
+      "token": "EeAfdukBNoIIgCxX248c6VULnOb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/removePrivilegesFromGroup.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-removePrivilegesFromGroup.md",
+        "sha256": "31d146ae137742873502cbf6bcea2b5e556f52ca2f2e228a85c8468417720598"
+      }
+    },
+    {
+      "logical": "Authentication/removeUserFromRole.md",
+      "token": "XmyMdqvDLosr6oxzvhWcw8H2ntg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/removeUserFromRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-removeUserFromRole.md",
+        "sha256": "f568a96a385e1b9b35af6a2b264d53dd54acdc7c788a0ddb65ef317afe8be0a2"
+      }
+    },
+    {
+      "logical": "Authentication/revokePrivilegeV2.md",
+      "token": "UlAUdLNkCo1Mp8xFZYWclSL9n6b",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/revokePrivilegeV2.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-revokePrivilegeV2.md",
+        "sha256": "e5156f3eff173b74e06297da8b6e93abd069a29d2abb8999724320d202162061"
+      }
+    },
+    {
+      "logical": "Authentication/revokeRole.md",
+      "token": "W7XJdZDHnoFECDxCYoMcrZqrnnd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/revokeRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-revokeRole.md",
+        "sha256": "d1ad5cb637e3fd3ae8dfcec8b39e6a8d7079d2d835dded4069b0f215f478dee2"
+      }
+    },
+    {
+      "logical": "Authentication/updateUser.md",
+      "token": "BCGKdCttdotF32xUJTec8UFlndg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/updateUser.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-updateUser.md",
+        "sha256": "3bbe0609145090d1129792b024a8abe960b13a733b7f879e1cb60b79555b6ae3"
+      }
+    },
+    {
+      "logical": "Client/MilvusClient.md",
+      "token": "DsyLdmJr0o7FAfxwPcNct1Bqnth",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/MilvusClient.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-MilvusClient.md",
+        "sha256": "b0808ca491adcdb6a888d30df4e5089b106e8843004ca10295d7ac7f9f3a16a7"
+      }
+    },
+    {
+      "logical": "Client/checkCompatibility.md",
+      "token": "Tq1Md4GuIoNbfuxK03ncIa7onMc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/checkCompatibility.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-checkCompatibility.md",
+        "sha256": "76d03f85131a4361e9e27b5ab03e4381c88efaa157550189526490aa931b307f"
+      }
+    },
+    {
+      "logical": "Client/checkHealth.md",
+      "token": "DDvudeY20o6tV5xwwo4cKovjnHf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/checkHealth.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-checkHealth.md",
+        "sha256": "ed68d8fc8b157ba285020f88e0093915430d90cd615b68c00dd7af5efdd15bb8"
+      }
+    },
+    {
+      "logical": "Client/close.md",
+      "token": "Xwg8dMovYoRP94xNDjOc1TSNnsg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/close.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-close.md",
+        "sha256": "d2ca661941c6712cc9642a9801b5c731040f5868e89040b36822f65acc642c71"
+      }
+    },
+    {
+      "logical": "Client/closeConnection.md",
+      "token": "HtOGdjTpOoG0RcxpGv1cCBcEnAh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/closeConnection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-closeConnection.md",
+        "sha256": "4136f1e749fde7ec3f1b8daab2351b59e60078be31f323834ef8de2c58469f6c"
+      }
+    },
+    {
+      "logical": "Client/connect.md",
+      "token": "SkLsdMpB7oiZLMx8T04cCd9Knqf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/connect.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-connect.md",
+        "sha256": "2acbad1132642add7140d41659713420894a916e4054ca81e3325c8566c18782"
+      }
+    },
+    {
+      "logical": "Client/getVersion.md",
+      "token": "WA81dokeYotwt9xAiKKcaaIpnxc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/getVersion.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-getVersion.md",
+        "sha256": "f9297c5f022e59ea374764e08029ace3b615fd1f65e2f48aab7d71fb0d800d9c"
+      }
+    },
+    {
+      "logical": "Client/session.md",
+      "token": "LPfrdnntOogNMRxwqvCccBgnnve",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/session.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-session.md",
+        "sha256": "06c271544a2b3357599230c91792ed6c0fe7ad5018772df3477f8c764dd0b959"
+      }
+    },
+    {
+      "logical": "Client/use.md",
+      "token": "Dc3JdXF5dogLOLxqUPGclM6jn6f",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Client/use.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Client/Client-use.md",
+        "sha256": "323d8ff3979ea3e565c7bcf03931555bba77d466fd85d70829384e92e663087f"
+      }
+    },
+    {
+      "logical": "Collections/DataType.md",
+      "token": "AtLEdt0ZWoUbHoxkfvHcq1ZunUg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/DataType.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-DataType.md",
+        "sha256": "f660e5217911e5e7d4d9f80fbd03480db4ff57ac10ec3fbe55dd58b6508f4985"
+      }
+    },
+    {
+      "logical": "Collections/FunctionType.md",
+      "token": "Vq2VdsWJaoufsGx5stJcTuyPnDb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/FunctionType.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-FunctionType.md",
+        "sha256": "a9fb67a444d0854d2fef075d492fefabf26faef1fa3cdfea462a4e4291002141"
+      }
+    },
+    {
+      "logical": "Collections/addCollectionField.md",
+      "token": "BKqIdIm0cop2s0xYjtQcSZL5nth",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionField.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-addCollectionField.md",
+        "sha256": "520ab2b7a53c99a981c723b6b45b977e8f42f89e6d03d62d31720e1d0c7f9e33"
+      }
+    },
+    {
+      "logical": "Collections/addCollectionFields.md",
+      "token": "FmG6dw3O1ouzgbxnl4jc5T7cnXf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionFields.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-addCollectionFields.md",
+        "sha256": "16c36a6283520ab27426c38e41324f42bfa73cd17c553a677cfed62c14ccb97a"
+      }
+    },
+    {
+      "logical": "Collections/addCollectionFunction.md",
+      "token": "SmI4dGF4qoAjbKxamfhcndjxnCc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionFunction.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-addCollectionFunction.md",
+        "sha256": "ccc19cd25e49a2b16f382060816d80e0316368f649de1c20fe7b0aa697f7429e"
+      }
+    },
+    {
+      "logical": "Collections/alterAlias.md",
+      "token": "DXTLdtFCso7fo6xJHShc7XLpngh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterAlias.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-alterAlias.md",
+        "sha256": "8f05d31784dc1ea57591dff0b966b00e9d26b9a91dae6370f4908e9299ba96be"
+      }
+    },
+    {
+      "logical": "Collections/alterCollectionFieldProperties.md",
+      "token": "RQH5dhSenoDGjYxyBb2c3n1rnie",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionFieldProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-alterCollectionFieldProperties.md",
+        "sha256": "f6b529d1b9b769dfeae309c8e34c1ed7bc8387eeaf8d77fd693326ec56285a3c"
+      }
+    },
+    {
+      "logical": "Collections/alterCollectionFunction.md",
+      "token": "DBEFdVorMomen0x4xNEcKkM1n8O",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionFunction.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-alterCollectionFunction.md",
+        "sha256": "61585d71d41b3bd27f3cdb0edefd52d734006c9cb3a9182c5ab8ee74843d787f"
+      }
+    },
+    {
+      "logical": "Collections/alterCollectionProperties.md",
+      "token": "EHPGdbCP5o7UzCxlDnRc6y5Pn1c",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-alterCollectionProperties.md",
+        "sha256": "e87e95d3cc826ff7568e5bbeea1ac6e1a37346655a463e8016420b8106c6035f"
+      }
+    },
+    {
+      "logical": "Collections/batchDescribeCollections.md",
+      "token": "ByKKdHVcAojjyZxKK3PciOTVnQg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/batchDescribeCollections.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-batchDescribeCollections.md",
+        "sha256": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4"
+      }
+    },
+    {
+      "logical": "Collections/createAlias.md",
+      "token": "MPuIdwujBoXM6rx7Okfc3lhZnUd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/createAlias.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-createAlias.md",
+        "sha256": "a5fac50820dd6ceb06119a2266e84a99052863d5f85142d7e7de7f0f84cbdf43"
+      }
+    },
+    {
+      "logical": "Collections/createCollection.md",
+      "token": "KPZZd2TiAodSeWxUdlJciHGcnbg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/createCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-createCollection.md",
+        "sha256": "5df518e8bef3294e4e0203053ceedbe9286960271006bd1a6a2871febbe64c8f"
+      }
+    },
+    {
+      "logical": "Collections/describeAlias.md",
+      "token": "YCzNdg5yWoeZVrxj7jGcb1UXnBd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/describeAlias.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-describeAlias.md",
+        "sha256": "327359ed15e0dd55623994572ab53b9caa6ddbdf5fb0c4a4a61a9aa2f5f095e4"
+      }
+    },
+    {
+      "logical": "Collections/describeCollection.md",
+      "token": "IuTYdjSHHoznXNx5f7jcKqvYnhr",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/describeCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-describeCollection.md",
+        "sha256": "b447860aea79cd0a9525a7531f2579dd293850b644c5de80bfa1d21224faafb3"
+      }
+    },
+    {
+      "logical": "Collections/dropAlias.md",
+      "token": "FubcdxJ0LoyQiJxmUMjcZnbjnbc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropAlias.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-dropAlias.md",
+        "sha256": "438499fe3bdcacc6fbaeae93ea41ec590d9583634cef36e3135c90e8f4efbf48"
+      }
+    },
+    {
+      "logical": "Collections/dropCollection.md",
+      "token": "KLknda2VtocQSBx7PKVc6F9Nnug",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-dropCollection.md",
+        "sha256": "36865e545752a22e5caa9d3bcc9136919df75259731fa3a39c512c63c2354cf0"
+      }
+    },
+    {
+      "logical": "Collections/dropCollectionFunction.md",
+      "token": "T6xNdPPtsotGiYxL1WActF3qnxb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollectionFunction.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-dropCollectionFunction.md",
+        "sha256": "81ed431ae0ac8ff32987687ce7ae9d846c0c8658f3e45a15f7a9d8575ef67683"
+      }
+    },
+    {
+      "logical": "Collections/dropCollectionProperties.md",
+      "token": "EjFMdRFz0ofehXxxCPqc6raSnAg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollectionProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-dropCollectionProperties.md",
+        "sha256": "13ce6a9e9258a3868a50af588fdd45d5f2fb36d88134842386dc0c49b00d59c7"
+      }
+    },
+    {
+      "logical": "Collections/getCollectionStatistics.md",
+      "token": "LQMGdRHjKogdeMxekCtcdBLqnNf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getCollectionStatistics.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-getCollectionStatistics.md",
+        "sha256": "5671e11e9905d961b51ae26c7b7f61c46ccfb20d130288a48afb0ec9a8a6ccad"
+      }
+    },
+    {
+      "logical": "Collections/getPkField.md",
+      "token": "LmnudtyV5owY2zx5D9WcENcsnFg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkField.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-getPkField.md",
+        "sha256": "3190d4af377632b2d2ee6e69e6319a3d8db49733e85794a2a552c3b08ef32e1c"
+      }
+    },
+    {
+      "logical": "Collections/getPkFieldName.md",
+      "token": "WiVnd8VXooFQ9PxVgiyc7FkqnAg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkFieldName.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-getPkFieldName.md",
+        "sha256": "4b831603cd309438b7cb42a3d5a3b6fd9fb4bb12ce595d39d4512bba3cf04297"
+      }
+    },
+    {
+      "logical": "Collections/getPkFieldType.md",
+      "token": "AKpldMJPTo6MfuxxrpicBKRInCh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkFieldType.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-getPkFieldType.md",
+        "sha256": "b0216cc771b4520ee70900653bc75f15b210359748bdac141d93ca8bade38ef4"
+      }
+    },
+    {
+      "logical": "Collections/getRefreshExternalCollectionProgress.md",
+      "token": "E7pZd2Yfzolgiyxcvz8cSFfKnoc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getRefreshExternalCollectionProgress.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-getRefreshExternalCollectionProgress.md",
+        "sha256": "caaa8fa73c765bbb7797146af38d883465661b16980ae412be452103dc0786d2"
+      }
+    },
+    {
+      "logical": "Collections/hasCollection.md",
+      "token": "FhbbdNrlNouBXJxHIdKctXVKnmf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/hasCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-hasCollection.md",
+        "sha256": "223af1d61427ed5405ada148a96e0e78e28b73e841ac9edcc37d5fb1b5be9e0a"
+      }
+    },
+    {
+      "logical": "Collections/listAliases.md",
+      "token": "KeoKdlitaog6n1xpX8McIIIrnWb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listAliases.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-listAliases.md",
+        "sha256": "a6c7fd9c05a0a795b399932b59ad98baabac77feea51bc8314106106c1112614"
+      }
+    },
+    {
+      "logical": "Collections/listCollections.md",
+      "token": "Djg7dlb5NoINz9xOAs1cyY67nsh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listCollections.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-listCollections.md",
+        "sha256": "bcad1726d95e9c19ecd90ed4293e3204fb7d44e35b619603a446d96eceb33d9c"
+      }
+    },
+    {
+      "logical": "Collections/listRefreshExternalCollectionJobs.md",
+      "token": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listRefreshExternalCollectionJobs.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-listRefreshExternalCollectionJobs.md",
+        "sha256": "13ceb31143981dae57442d407dff221a0e496f2b9675d7b0f7e5e1eda5550022"
+      }
+    },
+    {
+      "logical": "Collections/refreshExternalCollection.md",
+      "token": "JoiWdRIFcojRI4xVXnCclEoVnh2",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/refreshExternalCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-refreshExternalCollection.md",
+        "sha256": "25731473adc3b2d749736ddb7a23d5b6d0fd85824cb06c1d73d015cbcb056d57"
+      }
+    },
+    {
+      "logical": "Collections/renameCollection.md",
+      "token": "LSwVdMg4SorzZ5xSHHVcQeVDnfh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/renameCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-renameCollection.md",
+        "sha256": "1a14820bb1c9603504c8c5cb8b27428dfce3bff0322f86a50e1162192dfbc67a"
+      }
+    },
+    {
+      "logical": "Collections/runAnalyzer.md",
+      "token": "LsMldPd8GodoVqxCAZUcWYjdnwh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/runAnalyzer.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-runAnalyzer.md",
+        "sha256": "53b6674bfea29a44d54d50f43f842acf07c746d320769c50e4f5609718daa397"
+      }
+    },
+    {
+      "logical": "Collections/truncateCollection.md",
+      "token": "J0IBdbw3Voyqw9xnInUcn9EonTe",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/truncateCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Collections/Collections-truncateCollection.md",
+        "sha256": "04ebb986e8885f316427c4d48a32c004faaa09288e84b4632fab23403bb776e6"
+      }
+    },
+    {
+      "logical": "DataImport/BulkWriter.md",
+      "token": "RSrRdD4fLoy50Bx5s2xcQ6lMnVd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/BulkWriter.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-BulkWriter.md",
+        "sha256": "3276613c8e7b139d10b01dbd83f1c9a2719a40d9fbcfa9cf6b20f4d0b21821ae"
+      }
+    },
+    {
+      "logical": "DataImport/BulkWriterOptions.md",
+      "token": "Q9UUdw8VWojtDtx2h00chPvRnqh",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-BulkWriterOptions.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-BulkWriterOptions.md",
+        "sha256": "2b897199b8d78fbff726b0b58056a416cf8b5139f6903f7ec1e01ff33919dc47"
+      }
+    },
+    {
+      "logical": "DataImport/BulkWriterSchema.md",
+      "token": "U7w6d4gUioGzw2xmYqvcFz1Jnub",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/BulkWriterSchema.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-BulkWriterSchema.md",
+        "sha256": "e68fa21d9c0716d945ff531b6a72772427b408cfe0f1b3897bcc1583d741e322"
+      }
+    },
+    {
+      "logical": "DataImport/FlushEvent.md",
+      "token": "RC5YdaKIhoRU0ZxU48OcJxn7nS2",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-FlushEvent.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-FlushEvent.md",
+        "sha256": "557c77df4d964f051a009f68f9a369c8f17f98a564db7f6b0f1a29cf1e81355f"
+      }
+    },
+    {
+      "logical": "DataImport/Formatter.md",
+      "token": "CkuWdW6EXo8o9nxZsIrcBiSGn4d",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-Formatter.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-Formatter.md",
+        "sha256": "2d7cdb21cf37d337fdb41fd346e6392061bbb1c3aac00a75ab5a15948330a388"
+      }
+    },
+    {
+      "logical": "DataImport/HttpImportCreateReq.md",
+      "token": "MUzJdvT3LoZz65xpAPMcnvo2nbb",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-HttpImportCreateReq.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-HttpImportCreateReq.md",
+        "sha256": "bcd0dd3790a551814a4f19f341f4213ecb13cb15321e45481c2216b43554f3cd"
+      }
+    },
+    {
+      "logical": "DataImport/HttpImportCreateResponse.md",
+      "token": "CZ3DduFXkoyoX9xJs9ic2HkRnqc",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-HttpImportCreateResponse.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-HttpImportCreateResponse.md",
+        "sha256": "f3ea0cbdcbd421d36e14af60147fbb5418a6bdfcd8270219b070877895d6f168"
+      }
+    },
+    {
+      "logical": "DataImport/HttpImportListResponse.md",
+      "token": "L709dd1mWo6CFjxi2ygczQmpn9e",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-HttpImportListResponse.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-HttpImportListResponse.md",
+        "sha256": "e767b7ab1f462cd3bdb443d1b3a0874329382718392602753aa590d8511abff9"
+      }
+    },
+    {
+      "logical": "DataImport/HttpImportProgressReq.md",
+      "token": "Yb27dGNgwoXKmHx0yyZc4n45nr9",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-HttpImportProgressReq.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-HttpImportProgressReq.md",
+        "sha256": "950c93264fe6323722940534bc1cbdbfcdd999bed000f71631e085891adea964"
+      }
+    },
+    {
+      "logical": "DataImport/HttpImportProgressResponse.md",
+      "token": "WadbddIBYoC4GcxDzORcjMQYnmW",
+      "source": {
+        "kind": "cloud",
+        "file": "content/DataImport-HttpImportProgressResponse.md"
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-HttpImportProgressResponse.md",
+        "sha256": "aa2dd5685db781d1cf7e5adde939dc50c99cb59d4906bb7a7174a73da0dcd51a"
+      }
+    },
+    {
+      "logical": "DataImport/Storage.md",
+      "token": "DsLHde5AWomjFhxD3K7c4Yklnlh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/Storage.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-Storage.md",
+        "sha256": "be4fa7c01e33bbd2274f019dd30ffd3fb338cc8d67d48691e6572d08153a4897"
+      }
+    },
+    {
+      "logical": "DataImport/bulkInsert.md",
+      "token": "V65MdZWnsoMwpfxkt0sc5qQPnbb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/bulkInsert.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-bulkInsert.md",
+        "sha256": "fc901d52cf62eac4ddb9f1cc8607720b46ec96d90cf977ee94e0c4852ebea5cc"
+      }
+    },
+    {
+      "logical": "DataImport/createImportJobs.md",
+      "token": "PGmQdpQ8roiLJVxJSZrcbnAVn1e",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/createImportJobs.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-createImportJobs.md",
+        "sha256": "04a5f2bdc392d7efef41e802941e3eda6359d874496767026374d30bdbde0177"
+      }
+    },
+    {
+      "logical": "DataImport/getImportState.md",
+      "token": "DJ4NdIIQ4oeA7gx4bDQcxT3gn0c",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/getImportState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-getImportState.md",
+        "sha256": "6b12ac9bbd3ea780b1b2689e431377cc281eadd25203414d21a1b2d315ace45d"
+      }
+    },
+    {
+      "logical": "DataImport/listImportJobs.md",
+      "token": "CdK7dr8pyo36PZxpGFKcrZsjnEf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/listImportJobs.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-listImportJobs.md",
+        "sha256": "ed4771af270b554c2425b2c8f33d75ded38431f58a0279d659ce74d219b0b2cd"
+      }
+    },
+    {
+      "logical": "DataImport/listImportTasks.md",
+      "token": "KX8pd5PnGoo8UAx8QhhcI5YpnHg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/listImportTasks.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-listImportTasks.md",
+        "sha256": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a"
+      }
+    },
+    {
+      "logical": "Database/alterDatabase.md",
+      "token": "HTGgd3icQo2ssuxywUocz02Enhe",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/alterDatabase.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-alterDatabase.md",
+        "sha256": "5715e2094c2e0474b4948d7c85ce8a0bc163a3367ac9380ea6eff2f754f5aca7"
+      }
+    },
+    {
+      "logical": "Database/alterDatabaseProperties.md",
+      "token": "NNWed9Vd1o7vDkxY4pncM4wYnaf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/alterDatabaseProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-alterDatabaseProperties.md",
+        "sha256": "b37c4360dc24b74a63b6a3120c1ea867a08f40217de09f2ad21e544164a2a8a9"
+      }
+    },
+    {
+      "logical": "Database/createDatabase.md",
+      "token": "UouKd4h01oL9Rqx73jjcHM3enSh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/createDatabase.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-createDatabase.md",
+        "sha256": "c53d9a7e17dd3efb717f554b2be0f00456327e2a12d1dc734333142123843ed8"
+      }
+    },
+    {
+      "logical": "Database/describeDatabase.md",
+      "token": "PzXldcfljoU9rOx9TFUcIoNknt6",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/describeDatabase.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-describeDatabase.md",
+        "sha256": "f25df44893266a5bed5facc1d49dafdf90781f33c19e7e10bfa03df0bee176f8"
+      }
+    },
+    {
+      "logical": "Database/dropDatabase.md",
+      "token": "Ja99dnnaOoncwbx2zIPc4PjunXx",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/dropDatabase.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-dropDatabase.md",
+        "sha256": "d4b3281ae6a959262c4ec148c32b5d905908ed66b76dc2f66044ad3d14a1fa3c"
+      }
+    },
+    {
+      "logical": "Database/dropDatabaseProperties.md",
+      "token": "GulFdOWMboEK9bxnzMSc8Uf8n8b",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/dropDatabaseProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-dropDatabaseProperties.md",
+        "sha256": "bfe7d8e1a72c30b6188833384a03fdaaafe122ae9ccc53e753bf8c59cee74ee4"
+      }
+    },
+    {
+      "logical": "Database/listDatabases.md",
+      "token": "DZMUdKbtfoT1HbxaXEDcgFkJnsh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/listDatabases.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-listDatabases.md",
+        "sha256": "9b5aeeafbbed43a6f1cd9346f9cad2b39b89b3f884f6a182bb68bc56376ac481"
+      }
+    },
+    {
+      "logical": "Database/useDatabase.md",
+      "token": "NDcldy9OLo62DLxw1a9cFSLsnYb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Database/useDatabase.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Database/Database-useDatabase.md",
+        "sha256": "f692a4c8c88259cd027f75ac13227ceb33b53651102dcf5193e33b0b112093cb"
+      }
+    },
+    {
+      "logical": "Management/IndexType.md",
+      "token": "SI3Td00AroRtx8xXQcUce8i2nrb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/IndexType.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-IndexType.md",
+        "sha256": "57ad253a93d7915f32ffafcf77d4cbcbcf2cf8f6a375b5f716ced3cd41cde177"
+      }
+    },
+    {
+      "logical": "Management/MetricType.md",
+      "token": "KQDEdcccXozuKpxDg78cSmxYnQg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/MetricType.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-MetricType.md",
+        "sha256": "088edcd2ec4e554578fed0af65257ab8ffeeab48584e27d792f729c5e96acb04"
+      }
+    },
+    {
+      "logical": "Management/alterIndexProperties.md",
+      "token": "PcQcdDwthoSEZaxI6GncpUpGnBh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/alterIndexProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-alterIndexProperties.md",
+        "sha256": "6ce516338a902f668511236fb79c92d380c380efb14f00852425fdd325246eff"
+      }
+    },
+    {
+      "logical": "Management/compact.md",
+      "token": "DCK5d56UZop0kGxpQu8cLqlvndg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/compact.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-compact.md",
+        "sha256": "5d4d0d521168037b0ecbdfde8a66e9289d0ab680cdee8f739fc359475a06f07d"
+      }
+    },
+    {
+      "logical": "Management/createIndex.md",
+      "token": "Nu0Id3wzGoJIFyxkC7IcmjAznNf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/createIndex.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-createIndex.md",
+        "sha256": "084fbc3494d5d201ce62fa10dcc4ecae518609a13b300d68f7960820af94638e"
+      }
+    },
+    {
+      "logical": "Management/describeIndex.md",
+      "token": "PePIdiq9po6cplxAoF6ca5C2ntb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/describeIndex.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-describeIndex.md",
+        "sha256": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1"
+      }
+    },
+    {
+      "logical": "Management/dropIndex.md",
+      "token": "UBbndftiQo2HdOxUNtocIISnnVh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/dropIndex.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-dropIndex.md",
+        "sha256": "b7c854bb69899a477368b1816ed288cc008cbb9c1e557090542a71c11d01ec71"
+      }
+    },
+    {
+      "logical": "Management/dropIndexProperties.md",
+      "token": "Acvxd7t9poXj6nxb0vMco0wsngh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/dropIndexProperties.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-dropIndexProperties.md",
+        "sha256": "44d3a70828f6960637dc2df8d45f7803cc3ff4b358bed642f3bb98d01e28dadc"
+      }
+    },
+    {
+      "logical": "Management/flush.md",
+      "token": "E2XJd4ZHvoc7QlxyrEJcrOJOn9f",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flush.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-flush.md",
+        "sha256": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee"
+      }
+    },
+    {
+      "logical": "Management/flushAll.md",
+      "token": "Zyi9dGUnQodt7MxIq17cyN54nOd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushAll.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-flushAll.md",
+        "sha256": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4"
+      }
+    },
+    {
+      "logical": "Management/flushAllSync.md",
+      "token": "HoRIdZtHjosja7xOdNPc8CConrb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushAllSync.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-flushAllSync.md",
+        "sha256": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5"
+      }
+    },
+    {
+      "logical": "Management/flushSync.md",
+      "token": "QsTwdUbgyoZPV1xzCBxchX8Fnid",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushSync.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-flushSync.md",
+        "sha256": "cd41c5b45db3cc4589a414ca549e9b5c22bea24ee1532cc52718807e1ab35e51"
+      }
+    },
+    {
+      "logical": "Management/getCompactionState.md",
+      "token": "CRFLdvgkhoeRikxMcMAcJk3qnIc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getCompactionState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getCompactionState.md",
+        "sha256": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a"
+      }
+    },
+    {
+      "logical": "Management/getFlushAllState.md",
+      "token": "WgfTdXbMmoFhO9xBpencxLRRnbb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getFlushAllState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getFlushAllState.md",
+        "sha256": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7"
+      }
+    },
+    {
+      "logical": "Management/getFlushState.md",
+      "token": "X8qWdMHg5oQQK6xZdBYcGNOnn3c",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getFlushState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getFlushState.md",
+        "sha256": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6"
+      }
+    },
+    {
+      "logical": "Management/getIndexBuildProgress.md",
+      "token": "G6CGdbM4QoNgr5xS1ZAc94lhnFd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getIndexBuildProgress.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getIndexBuildProgress.md",
+        "sha256": "948a5b60fb859743f0ef50d542aa6ac76a4f27b90942f000e66fbe950c9197e9"
+      }
+    },
+    {
+      "logical": "Management/getIndexState.md",
+      "token": "HqE5d2jOroEuObxIjkZcHkX4nWX",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getIndexState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getIndexState.md",
+        "sha256": "48b5c18c0fcbd5fdec4c2d13a95ab589b078ce298463e4a727613915d442cd4a"
+      }
+    },
+    {
+      "logical": "Management/getLoadState.md",
+      "token": "J17ZdPNwqo4nt3x5b8pc0H5Nnph",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getLoadState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getLoadState.md",
+        "sha256": "c3f6ca4fccf6dad6771a5656cafc9ed8c7ac315f424b7df04a5f5788201bf368"
+      }
+    },
+    {
+      "logical": "Management/getLoadingProgress.md",
+      "token": "DkImdRkJwoUmdqxzqn1cpQr9nhy",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getLoadingProgress.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getLoadingProgress.md",
+        "sha256": "f8fbfc6b0e20c98058ae4b172d80f8f4f66286a7cb72c20c339f3e6684b3964f"
+      }
+    },
+    {
+      "logical": "Management/getReplicas.md",
+      "token": "XKRWdKvQVolmduxrtrDc0dhjnzc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getReplicas.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getReplicas.md",
+        "sha256": "21d1874815e104cbc3db3b377673dc65859c799d37cd44817b897887c15ed928"
+      }
+    },
+    {
+      "logical": "Management/listIndexes.md",
+      "token": "N1fldMqhtoWBJPxh8VccivqxnZd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/listIndexes.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-listIndexes.md",
+        "sha256": "a1c82b67cbd52e2674396a2df963634fc00bb3d238fdc9458a59443f25777c18"
+      }
+    },
+    {
+      "logical": "Management/loadCollection.md",
+      "token": "LoNvdRK80oWllFxV0H6co0HrnBe",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-loadCollection.md",
+        "sha256": "adfe953a5fccf5d2a96eee55e5559018977543890ccdd25b75c08efed26ebce3"
+      }
+    },
+    {
+      "logical": "Management/loadCollectionAsync.md",
+      "token": "SqSZdmSoVoBuiSxe1a1cdOuZnDd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollectionAsync.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-loadCollectionAsync.md",
+        "sha256": "1558d31826911ffcfe20e1c63e92037d832cd74cad131311201327b9274273b5"
+      }
+    },
+    {
+      "logical": "Management/loadCollectionSync.md",
+      "token": "XXUAdI8T2oOmw2x7iITc8vJgnjm",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollectionSync.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-loadCollectionSync.md",
+        "sha256": "0986cd23814552b214380d110b36a88dbe6584bfce1d826e95f96dd5d179c8de"
+      }
+    },
+    {
+      "logical": "Management/refreshLoad.md",
+      "token": "Jc43d397doxCRkxal2XcQ1Wyn2g",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/refreshLoad.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-refreshLoad.md",
+        "sha256": "498218af3b5aa49f5f8805436a1847cb0739351d61365d25fcf220db9cf25f36"
+      }
+    },
+    {
+      "logical": "Management/releaseCollection.md",
+      "token": "UxOXdeKF1oOIBuxTjPhcKBtPnRb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/releaseCollection.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-releaseCollection.md",
+        "sha256": "b8b1f9dfaf480d1e53c946eafe38269e35eb51616b7a2e65c48914514255f629"
+      }
+    },
+    {
+      "logical": "Partitions/createPartition.md",
+      "token": "PPLtdSbtfomgF1x5MHncKPgPnSf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/createPartition.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-createPartition.md",
+        "sha256": "af4450398fa38885e959673b1958643fc2ae6cbeb346c60fa9b025ee640465d6"
+      }
+    },
+    {
+      "logical": "Partitions/dropPartition.md",
+      "token": "BBmsddqZEozxWyxkoADcFfzpncW",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/dropPartition.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-dropPartition.md",
+        "sha256": "545fde82f2eb944457d02473be4423f4f9c8173c4bb36999c735051cfd1d76d0"
+      }
+    },
+    {
+      "logical": "Partitions/getPartitionStatistics.md",
+      "token": "XDXid6aZ8oCHnVxxFpPcKAB9n0c",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/getPartitionStatistics.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-getPartitionStatistics.md",
+        "sha256": "f1e9f5189f43e70a011c5c5f056ce5a335ab19cedc928a669f40746207fcd877"
+      }
+    },
+    {
+      "logical": "Partitions/hasPartition.md",
+      "token": "TVWPdTw2WoPAJYxsbGMc7MX6nEf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/hasPartition.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-hasPartition.md",
+        "sha256": "e57d96751ccfd741e9840a2275e28de7c55a04c0cfd8cb727c3a0a0f2cfdb354"
+      }
+    },
+    {
+      "logical": "Partitions/listPartitions.md",
+      "token": "IvnLd6nXooRR6NxM9jdcDxCHnhh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/listPartitions.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-listPartitions.md",
+        "sha256": "48222f2fe67c3afba75361eeacb1438c5d1ae42d252e243ffa11051a1adf2326"
+      }
+    },
+    {
+      "logical": "Partitions/loadPartitions.md",
+      "token": "Pyh3dttWKoBqcBx8FGhcArhAnqg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/loadPartitions.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-loadPartitions.md",
+        "sha256": "443e746bb2d3a8b9077f8a5b2556ac4bea920c0c9d8a84fd9f343f56b6124f93"
+      }
+    },
+    {
+      "logical": "Partitions/loadPartitionsSync.md",
+      "token": "VGofdSRi0o6EagxNkokc9Iinndf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/loadPartitionsSync.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-loadPartitionsSync.md",
+        "sha256": "0a97004ae3e00b13be0b321f9858a4bc499c351328952df23b9125f5a40af5f5"
+      }
+    },
+    {
+      "logical": "Partitions/releasePartitions.md",
+      "token": "Sqoed1lkwo8umixJJO1cvKIxnZc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/releasePartitions.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Partitions/Partitions-releasePartitions.md",
+        "sha256": "d68c5a8ffe9d9b40e934753a2aec4e417d59e45a79c9bcf9f8e3c351600069ef"
+      }
+    },
+    {
+      "logical": "Snapshot/createSnapshot.md",
+      "token": "NeUFdr0OXo90RExodnccqc3OnYU",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/createSnapshot.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-createSnapshot.md",
+        "sha256": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
+      }
+    },
+    {
+      "logical": "Snapshot/describeSnapshot.md",
+      "token": "KNOwdbcYXoVwGEx8ysScLO1CnUd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/describeSnapshot.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-describeSnapshot.md",
+        "sha256": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9"
+      }
+    },
+    {
+      "logical": "Snapshot/dropSnapshot.md",
+      "token": "DgiOdVOuLoKWFPxzKyucGV8Tnfb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/dropSnapshot.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-dropSnapshot.md",
+        "sha256": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795"
+      }
+    },
+    {
+      "logical": "Snapshot/getRestoreSnapshotState.md",
+      "token": "IHY0di5uzooBe8xOCJqci9vinNh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/getRestoreSnapshotState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
+        "sha256": "764e86531510d2b5f0c01b93edcf0e430f7a4ece133070297faa755529c0564c"
+      }
+    },
+    {
+      "logical": "Snapshot/listRestoreSnapshotJobs.md",
+      "token": "TIXDdW1BmoPA3FxX0ONczHFqnKf",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/listRestoreSnapshotJobs.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
+        "sha256": "fd84956f8774387468c056db661c33c2193463147d5267a9f80796a5b0342103"
+      }
+    },
+    {
+      "logical": "Snapshot/listSnapshots.md",
+      "token": "VjhTds7NPoyPjBxk4PNc5pe0nw6",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/listSnapshots.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-listSnapshots.md",
+        "sha256": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d"
+      }
+    },
+    {
+      "logical": "Snapshot/pinSnapshotData.md",
+      "token": "Bx6FdwVlUoqZjVxZwSFcnUr2nDe",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/pinSnapshotData.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-pinSnapshotData.md",
+        "sha256": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece"
+      }
+    },
+    {
+      "logical": "Snapshot/restoreSnapshot.md",
+      "token": "PpuUdB9bLoL1UUxfIH4cxXkXnSb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/restoreSnapshot.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-restoreSnapshot.md",
+        "sha256": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33"
+      }
+    },
+    {
+      "logical": "Snapshot/unpinSnapshotData.md",
+      "token": "IjXedJe6poxhmAx6hFpcpNyJnsb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/unpinSnapshotData.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-unpinSnapshotData.md",
+        "sha256": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
+      }
+    },
+    {
+      "logical": "Vector/count.md",
+      "token": "NaOadUNSpo1EsIxPMSfc0R4Hnfb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/count.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-count.md",
+        "sha256": "c3a671df6b7d7802981d85d4f1b88650c2913115116320fcb478c84c2aa43207"
+      }
+    },
+    {
+      "logical": "Vector/delete.md",
+      "token": "KOZHdyeQvo4htOxhO8BcbEudnNd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/delete.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-delete.md",
+        "sha256": "67fac06f4b5ad6de33828cd778e2678332142be3ed4d521915f85a11f068606b"
+      }
+    },
+    {
+      "logical": "Vector/get.md",
+      "token": "IbxXdvdZlonJk9xnlk2cZlIinCh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/get.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-get.md",
+        "sha256": "56548796c939bdb27e7937d3fd0a1174e14b97c019d16c29b6acc8c235906557"
+      }
+    },
+    {
+      "logical": "Vector/hybridSearch.md",
+      "token": "Ph9ldBswooKwebxKI9EcqSu4nlc",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/hybridSearch.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-hybridSearch.md",
+        "sha256": "d2709a385639979d4ecc52ff1953049b4292d4cfe688d8285997a59cdf3276ed"
+      }
+    },
+    {
+      "logical": "Vector/insert.md",
+      "token": "SZNQds74zoKniRxtJwdcfdz1nCh",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/insert.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-insert.md",
+        "sha256": "2b78f33d726146a484cf807bda2ee60321837ea08a6daa6617a0192f487e87d2"
+      }
+    },
+    {
+      "logical": "Vector/query.md",
+      "token": "Nle5dNFMuoy3MgxGIFGcJDWtnpg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/query.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-query.md",
+        "sha256": "ab3edc563e5a10890ce2e763aa76dc17ef222cd3096395130bd4ff6eba2b1ae4"
+      }
+    },
+    {
+      "logical": "Vector/queryIterator.md",
+      "token": "YZ3GdmklAolLnux8LRhcw7hxnvd",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/queryIterator.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-queryIterator.md",
+        "sha256": "eb543bac644378ca23ba5f69721b0cf014f9252f2bbaf1f5a8732005f229c831"
+      }
+    },
+    {
+      "logical": "Vector/search.md",
+      "token": "HYv3d0NiRoc09Bx4rz0cIhqknb5",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/search.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-search.md",
+        "sha256": "5bef2be69e669ed2174b94a1d17e0286a43e12b0ba21890ed7d6e2067f1b9c00"
+      }
+    },
+    {
+      "logical": "Vector/searchIterator.md",
+      "token": "K5APdBqphoQG7vxU4P2ccr5Wnig",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/searchIterator.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-searchIterator.md",
+        "sha256": "614c00d516ee131179754baf572af4633e4ccd7039081be08246d13d19fa484d"
+      }
+    },
+    {
+      "logical": "Vector/upsert.md",
+      "token": "LEptdqqfcoqdtCx0LO1c3yxvnBo",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/upsert.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-upsert.md",
+        "sha256": "ed32aeda65a85ac5760b4a4d2268d1d83419456cfb3ca1ad0cebcfcb29776565"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "path": "images.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "node/Authentication/Authentication-addUserToRole.md",
+      "sha256": "ebe5611343525f06a9d311873cabf25015f6ab75e10ce43be2ed47633e58d96e"
+    },
+    {
+      "path": "node/Authentication/Authentication-createRole.md",
+      "sha256": "c72ea88609fb6472848eed478f213ffcfe6f23b1716df21986c886564f864758"
+    },
+    {
+      "path": "node/Authentication/Authentication-createUser.md",
+      "sha256": "eea760252c6a1904d922b7452e1fc133afdafedf136a9579ee3df24cc853caa6"
+    },
+    {
+      "path": "node/Authentication/Authentication-deleteUser.md",
+      "sha256": "6c36555620cf20e5448320ffaf4b38689f170ec5c3d1eb130f5ec47af1313a17"
+    },
+    {
+      "path": "node/Authentication/Authentication-describeRole.md",
+      "sha256": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626"
+    },
+    {
+      "path": "node/Authentication/Authentication-describeUser.md",
+      "sha256": "6a94214f07ebc279c40baecca9eff3f480bd5e0923331fde374d8019ecb8f189"
+    },
+    {
+      "path": "node/Authentication/Authentication-dropAllRoles.md",
+      "sha256": "9ad0cbbf14d46a01c765bccdc4252160807d654fd81d3bf75b55668cf0f8d9cf"
+    },
+    {
+      "path": "node/Authentication/Authentication-dropPrivilegeGroup.md",
+      "sha256": "44c777155a2b614134aafa22f0f9096627ca72ee82da0f90fa961de2e84ab71e"
+    },
+    {
+      "path": "node/Authentication/Authentication-dropRole.md",
+      "sha256": "d9559d4c8855e574e41200bbc7f0aa32203979c4e9a1fa16ed1b8d95780ac2e2"
+    },
+    {
+      "path": "node/Authentication/Authentication-grantPrivilegeV2.md",
+      "sha256": "837a8c5f500b61b0e835e77b4634c0b885552bec32398f255e3fd33267ddada4"
+    },
+    {
+      "path": "node/Authentication/Authentication-grantRole.md",
+      "sha256": "e4e569f7b0754678e5da293ba91d4ec1a67055a9a296a971c8ce80d4f3550653"
+    },
+    {
+      "path": "node/Authentication/Authentication-hasRole.md",
+      "sha256": "d337f451f42fd84e4f88b0911847a896df98c0318cb678c381201621ac8ed018"
+    },
+    {
+      "path": "node/Authentication/Authentication-listGrant.md",
+      "sha256": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b"
+    },
+    {
+      "path": "node/Authentication/Authentication-listGrants.md",
+      "sha256": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62"
+    },
+    {
+      "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
+      "sha256": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1"
+    },
+    {
+      "path": "node/Authentication/Authentication-listRoles.md",
+      "sha256": "80e951320c87272b082cd9bf85d96c39a826637b012a739a5dc95bee3fdc6838"
+    },
+    {
+      "path": "node/Authentication/Authentication-listUsers.md",
+      "sha256": "380a1af4d3b5880c56a9d7795a415fbfb60eb09439ec2e98e1a70e137e1c5bff"
+    },
+    {
+      "path": "node/Authentication/Authentication-removePrivilegesFromGroup.md",
+      "sha256": "31d146ae137742873502cbf6bcea2b5e556f52ca2f2e228a85c8468417720598"
+    },
+    {
+      "path": "node/Authentication/Authentication-removeUserFromRole.md",
+      "sha256": "f568a96a385e1b9b35af6a2b264d53dd54acdc7c788a0ddb65ef317afe8be0a2"
+    },
+    {
+      "path": "node/Authentication/Authentication-revokePrivilegeV2.md",
+      "sha256": "e5156f3eff173b74e06297da8b6e93abd069a29d2abb8999724320d202162061"
+    },
+    {
+      "path": "node/Authentication/Authentication-revokeRole.md",
+      "sha256": "d1ad5cb637e3fd3ae8dfcec8b39e6a8d7079d2d835dded4069b0f215f478dee2"
+    },
+    {
+      "path": "node/Authentication/Authentication-updateUser.md",
+      "sha256": "3bbe0609145090d1129792b024a8abe960b13a733b7f879e1cb60b79555b6ae3"
+    },
+    {
+      "path": "node/Client/Client-MilvusClient.md",
+      "sha256": "b0808ca491adcdb6a888d30df4e5089b106e8843004ca10295d7ac7f9f3a16a7"
+    },
+    {
+      "path": "node/Client/Client-checkCompatibility.md",
+      "sha256": "76d03f85131a4361e9e27b5ab03e4381c88efaa157550189526490aa931b307f"
+    },
+    {
+      "path": "node/Client/Client-checkHealth.md",
+      "sha256": "ed68d8fc8b157ba285020f88e0093915430d90cd615b68c00dd7af5efdd15bb8"
+    },
+    {
+      "path": "node/Client/Client-close.md",
+      "sha256": "d2ca661941c6712cc9642a9801b5c731040f5868e89040b36822f65acc642c71"
+    },
+    {
+      "path": "node/Client/Client-closeConnection.md",
+      "sha256": "4136f1e749fde7ec3f1b8daab2351b59e60078be31f323834ef8de2c58469f6c"
+    },
+    {
+      "path": "node/Client/Client-connect.md",
+      "sha256": "2acbad1132642add7140d41659713420894a916e4054ca81e3325c8566c18782"
+    },
+    {
+      "path": "node/Client/Client-getVersion.md",
+      "sha256": "f9297c5f022e59ea374764e08029ace3b615fd1f65e2f48aab7d71fb0d800d9c"
+    },
+    {
+      "path": "node/Client/Client-session.md",
+      "sha256": "06c271544a2b3357599230c91792ed6c0fe7ad5018772df3477f8c764dd0b959"
+    },
+    {
+      "path": "node/Client/Client-use.md",
+      "sha256": "323d8ff3979ea3e565c7bcf03931555bba77d466fd85d70829384e92e663087f"
+    },
+    {
+      "path": "node/Collections/Collections-DataType.md",
+      "sha256": "f660e5217911e5e7d4d9f80fbd03480db4ff57ac10ec3fbe55dd58b6508f4985"
+    },
+    {
+      "path": "node/Collections/Collections-FunctionType.md",
+      "sha256": "a9fb67a444d0854d2fef075d492fefabf26faef1fa3cdfea462a4e4291002141"
+    },
+    {
+      "path": "node/Collections/Collections-addCollectionField.md",
+      "sha256": "520ab2b7a53c99a981c723b6b45b977e8f42f89e6d03d62d31720e1d0c7f9e33"
+    },
+    {
+      "path": "node/Collections/Collections-addCollectionFields.md",
+      "sha256": "16c36a6283520ab27426c38e41324f42bfa73cd17c553a677cfed62c14ccb97a"
+    },
+    {
+      "path": "node/Collections/Collections-addCollectionFunction.md",
+      "sha256": "ccc19cd25e49a2b16f382060816d80e0316368f649de1c20fe7b0aa697f7429e"
+    },
+    {
+      "path": "node/Collections/Collections-alterAlias.md",
+      "sha256": "8f05d31784dc1ea57591dff0b966b00e9d26b9a91dae6370f4908e9299ba96be"
+    },
+    {
+      "path": "node/Collections/Collections-alterCollectionFieldProperties.md",
+      "sha256": "f6b529d1b9b769dfeae309c8e34c1ed7bc8387eeaf8d77fd693326ec56285a3c"
+    },
+    {
+      "path": "node/Collections/Collections-alterCollectionFunction.md",
+      "sha256": "61585d71d41b3bd27f3cdb0edefd52d734006c9cb3a9182c5ab8ee74843d787f"
+    },
+    {
+      "path": "node/Collections/Collections-alterCollectionProperties.md",
+      "sha256": "e87e95d3cc826ff7568e5bbeea1ac6e1a37346655a463e8016420b8106c6035f"
+    },
+    {
+      "path": "node/Collections/Collections-batchDescribeCollections.md",
+      "sha256": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4"
+    },
+    {
+      "path": "node/Collections/Collections-createAlias.md",
+      "sha256": "a5fac50820dd6ceb06119a2266e84a99052863d5f85142d7e7de7f0f84cbdf43"
+    },
+    {
+      "path": "node/Collections/Collections-createCollection.md",
+      "sha256": "5df518e8bef3294e4e0203053ceedbe9286960271006bd1a6a2871febbe64c8f"
+    },
+    {
+      "path": "node/Collections/Collections-describeAlias.md",
+      "sha256": "327359ed15e0dd55623994572ab53b9caa6ddbdf5fb0c4a4a61a9aa2f5f095e4"
+    },
+    {
+      "path": "node/Collections/Collections-describeCollection.md",
+      "sha256": "b447860aea79cd0a9525a7531f2579dd293850b644c5de80bfa1d21224faafb3"
+    },
+    {
+      "path": "node/Collections/Collections-dropAlias.md",
+      "sha256": "438499fe3bdcacc6fbaeae93ea41ec590d9583634cef36e3135c90e8f4efbf48"
+    },
+    {
+      "path": "node/Collections/Collections-dropCollection.md",
+      "sha256": "36865e545752a22e5caa9d3bcc9136919df75259731fa3a39c512c63c2354cf0"
+    },
+    {
+      "path": "node/Collections/Collections-dropCollectionFunction.md",
+      "sha256": "81ed431ae0ac8ff32987687ce7ae9d846c0c8658f3e45a15f7a9d8575ef67683"
+    },
+    {
+      "path": "node/Collections/Collections-dropCollectionProperties.md",
+      "sha256": "13ce6a9e9258a3868a50af588fdd45d5f2fb36d88134842386dc0c49b00d59c7"
+    },
+    {
+      "path": "node/Collections/Collections-getCollectionStatistics.md",
+      "sha256": "5671e11e9905d961b51ae26c7b7f61c46ccfb20d130288a48afb0ec9a8a6ccad"
+    },
+    {
+      "path": "node/Collections/Collections-getPkField.md",
+      "sha256": "3190d4af377632b2d2ee6e69e6319a3d8db49733e85794a2a552c3b08ef32e1c"
+    },
+    {
+      "path": "node/Collections/Collections-getPkFieldName.md",
+      "sha256": "4b831603cd309438b7cb42a3d5a3b6fd9fb4bb12ce595d39d4512bba3cf04297"
+    },
+    {
+      "path": "node/Collections/Collections-getPkFieldType.md",
+      "sha256": "b0216cc771b4520ee70900653bc75f15b210359748bdac141d93ca8bade38ef4"
+    },
+    {
+      "path": "node/Collections/Collections-getRefreshExternalCollectionProgress.md",
+      "sha256": "caaa8fa73c765bbb7797146af38d883465661b16980ae412be452103dc0786d2"
+    },
+    {
+      "path": "node/Collections/Collections-hasCollection.md",
+      "sha256": "223af1d61427ed5405ada148a96e0e78e28b73e841ac9edcc37d5fb1b5be9e0a"
+    },
+    {
+      "path": "node/Collections/Collections-listAliases.md",
+      "sha256": "a6c7fd9c05a0a795b399932b59ad98baabac77feea51bc8314106106c1112614"
+    },
+    {
+      "path": "node/Collections/Collections-listCollections.md",
+      "sha256": "bcad1726d95e9c19ecd90ed4293e3204fb7d44e35b619603a446d96eceb33d9c"
+    },
+    {
+      "path": "node/Collections/Collections-listRefreshExternalCollectionJobs.md",
+      "sha256": "13ceb31143981dae57442d407dff221a0e496f2b9675d7b0f7e5e1eda5550022"
+    },
+    {
+      "path": "node/Collections/Collections-refreshExternalCollection.md",
+      "sha256": "25731473adc3b2d749736ddb7a23d5b6d0fd85824cb06c1d73d015cbcb056d57"
+    },
+    {
+      "path": "node/Collections/Collections-renameCollection.md",
+      "sha256": "1a14820bb1c9603504c8c5cb8b27428dfce3bff0322f86a50e1162192dfbc67a"
+    },
+    {
+      "path": "node/Collections/Collections-runAnalyzer.md",
+      "sha256": "53b6674bfea29a44d54d50f43f842acf07c746d320769c50e4f5609718daa397"
+    },
+    {
+      "path": "node/Collections/Collections-truncateCollection.md",
+      "sha256": "04ebb986e8885f316427c4d48a32c004faaa09288e84b4632fab23403bb776e6"
+    },
+    {
+      "path": "node/DataImport/DataImport-BulkWriter.md",
+      "sha256": "3276613c8e7b139d10b01dbd83f1c9a2719a40d9fbcfa9cf6b20f4d0b21821ae"
+    },
+    {
+      "path": "node/DataImport/DataImport-BulkWriterOptions.md",
+      "sha256": "2b897199b8d78fbff726b0b58056a416cf8b5139f6903f7ec1e01ff33919dc47"
+    },
+    {
+      "path": "node/DataImport/DataImport-BulkWriterSchema.md",
+      "sha256": "e68fa21d9c0716d945ff531b6a72772427b408cfe0f1b3897bcc1583d741e322"
+    },
+    {
+      "path": "node/DataImport/DataImport-FlushEvent.md",
+      "sha256": "557c77df4d964f051a009f68f9a369c8f17f98a564db7f6b0f1a29cf1e81355f"
+    },
+    {
+      "path": "node/DataImport/DataImport-Formatter.md",
+      "sha256": "2d7cdb21cf37d337fdb41fd346e6392061bbb1c3aac00a75ab5a15948330a388"
+    },
+    {
+      "path": "node/DataImport/DataImport-HttpImportCreateReq.md",
+      "sha256": "bcd0dd3790a551814a4f19f341f4213ecb13cb15321e45481c2216b43554f3cd"
+    },
+    {
+      "path": "node/DataImport/DataImport-HttpImportCreateResponse.md",
+      "sha256": "f3ea0cbdcbd421d36e14af60147fbb5418a6bdfcd8270219b070877895d6f168"
+    },
+    {
+      "path": "node/DataImport/DataImport-HttpImportListResponse.md",
+      "sha256": "e767b7ab1f462cd3bdb443d1b3a0874329382718392602753aa590d8511abff9"
+    },
+    {
+      "path": "node/DataImport/DataImport-HttpImportProgressReq.md",
+      "sha256": "950c93264fe6323722940534bc1cbdbfcdd999bed000f71631e085891adea964"
+    },
+    {
+      "path": "node/DataImport/DataImport-HttpImportProgressResponse.md",
+      "sha256": "aa2dd5685db781d1cf7e5adde939dc50c99cb59d4906bb7a7174a73da0dcd51a"
+    },
+    {
+      "path": "node/DataImport/DataImport-Storage.md",
+      "sha256": "be4fa7c01e33bbd2274f019dd30ffd3fb338cc8d67d48691e6572d08153a4897"
+    },
+    {
+      "path": "node/DataImport/DataImport-bulkInsert.md",
+      "sha256": "fc901d52cf62eac4ddb9f1cc8607720b46ec96d90cf977ee94e0c4852ebea5cc"
+    },
+    {
+      "path": "node/DataImport/DataImport-createImportJobs.md",
+      "sha256": "04a5f2bdc392d7efef41e802941e3eda6359d874496767026374d30bdbde0177"
+    },
+    {
+      "path": "node/DataImport/DataImport-getImportState.md",
+      "sha256": "6b12ac9bbd3ea780b1b2689e431377cc281eadd25203414d21a1b2d315ace45d"
+    },
+    {
+      "path": "node/DataImport/DataImport-listImportJobs.md",
+      "sha256": "ed4771af270b554c2425b2c8f33d75ded38431f58a0279d659ce74d219b0b2cd"
+    },
+    {
+      "path": "node/DataImport/DataImport-listImportTasks.md",
+      "sha256": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a"
+    },
+    {
+      "path": "node/Database/Database-alterDatabase.md",
+      "sha256": "5715e2094c2e0474b4948d7c85ce8a0bc163a3367ac9380ea6eff2f754f5aca7"
+    },
+    {
+      "path": "node/Database/Database-alterDatabaseProperties.md",
+      "sha256": "b37c4360dc24b74a63b6a3120c1ea867a08f40217de09f2ad21e544164a2a8a9"
+    },
+    {
+      "path": "node/Database/Database-createDatabase.md",
+      "sha256": "c53d9a7e17dd3efb717f554b2be0f00456327e2a12d1dc734333142123843ed8"
+    },
+    {
+      "path": "node/Database/Database-describeDatabase.md",
+      "sha256": "f25df44893266a5bed5facc1d49dafdf90781f33c19e7e10bfa03df0bee176f8"
+    },
+    {
+      "path": "node/Database/Database-dropDatabase.md",
+      "sha256": "d4b3281ae6a959262c4ec148c32b5d905908ed66b76dc2f66044ad3d14a1fa3c"
+    },
+    {
+      "path": "node/Database/Database-dropDatabaseProperties.md",
+      "sha256": "bfe7d8e1a72c30b6188833384a03fdaaafe122ae9ccc53e753bf8c59cee74ee4"
+    },
+    {
+      "path": "node/Database/Database-listDatabases.md",
+      "sha256": "9b5aeeafbbed43a6f1cd9346f9cad2b39b89b3f884f6a182bb68bc56376ac481"
+    },
+    {
+      "path": "node/Database/Database-useDatabase.md",
+      "sha256": "f692a4c8c88259cd027f75ac13227ceb33b53651102dcf5193e33b0b112093cb"
+    },
+    {
+      "path": "node/Management/Management-IndexType.md",
+      "sha256": "57ad253a93d7915f32ffafcf77d4cbcbcf2cf8f6a375b5f716ced3cd41cde177"
+    },
+    {
+      "path": "node/Management/Management-MetricType.md",
+      "sha256": "088edcd2ec4e554578fed0af65257ab8ffeeab48584e27d792f729c5e96acb04"
+    },
+    {
+      "path": "node/Management/Management-alterIndexProperties.md",
+      "sha256": "6ce516338a902f668511236fb79c92d380c380efb14f00852425fdd325246eff"
+    },
+    {
+      "path": "node/Management/Management-compact.md",
+      "sha256": "5d4d0d521168037b0ecbdfde8a66e9289d0ab680cdee8f739fc359475a06f07d"
+    },
+    {
+      "path": "node/Management/Management-createIndex.md",
+      "sha256": "084fbc3494d5d201ce62fa10dcc4ecae518609a13b300d68f7960820af94638e"
+    },
+    {
+      "path": "node/Management/Management-describeIndex.md",
+      "sha256": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1"
+    },
+    {
+      "path": "node/Management/Management-dropIndex.md",
+      "sha256": "b7c854bb69899a477368b1816ed288cc008cbb9c1e557090542a71c11d01ec71"
+    },
+    {
+      "path": "node/Management/Management-dropIndexProperties.md",
+      "sha256": "44d3a70828f6960637dc2df8d45f7803cc3ff4b358bed642f3bb98d01e28dadc"
+    },
+    {
+      "path": "node/Management/Management-flush.md",
+      "sha256": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee"
+    },
+    {
+      "path": "node/Management/Management-flushAll.md",
+      "sha256": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4"
+    },
+    {
+      "path": "node/Management/Management-flushAllSync.md",
+      "sha256": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5"
+    },
+    {
+      "path": "node/Management/Management-flushSync.md",
+      "sha256": "cd41c5b45db3cc4589a414ca549e9b5c22bea24ee1532cc52718807e1ab35e51"
+    },
+    {
+      "path": "node/Management/Management-getCompactionState.md",
+      "sha256": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a"
+    },
+    {
+      "path": "node/Management/Management-getFlushAllState.md",
+      "sha256": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7"
+    },
+    {
+      "path": "node/Management/Management-getFlushState.md",
+      "sha256": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6"
+    },
+    {
+      "path": "node/Management/Management-getIndexBuildProgress.md",
+      "sha256": "948a5b60fb859743f0ef50d542aa6ac76a4f27b90942f000e66fbe950c9197e9"
+    },
+    {
+      "path": "node/Management/Management-getIndexState.md",
+      "sha256": "48b5c18c0fcbd5fdec4c2d13a95ab589b078ce298463e4a727613915d442cd4a"
+    },
+    {
+      "path": "node/Management/Management-getLoadState.md",
+      "sha256": "c3f6ca4fccf6dad6771a5656cafc9ed8c7ac315f424b7df04a5f5788201bf368"
+    },
+    {
+      "path": "node/Management/Management-getLoadingProgress.md",
+      "sha256": "f8fbfc6b0e20c98058ae4b172d80f8f4f66286a7cb72c20c339f3e6684b3964f"
+    },
+    {
+      "path": "node/Management/Management-getReplicas.md",
+      "sha256": "21d1874815e104cbc3db3b377673dc65859c799d37cd44817b897887c15ed928"
+    },
+    {
+      "path": "node/Management/Management-listIndexes.md",
+      "sha256": "a1c82b67cbd52e2674396a2df963634fc00bb3d238fdc9458a59443f25777c18"
+    },
+    {
+      "path": "node/Management/Management-loadCollection.md",
+      "sha256": "adfe953a5fccf5d2a96eee55e5559018977543890ccdd25b75c08efed26ebce3"
+    },
+    {
+      "path": "node/Management/Management-loadCollectionAsync.md",
+      "sha256": "1558d31826911ffcfe20e1c63e92037d832cd74cad131311201327b9274273b5"
+    },
+    {
+      "path": "node/Management/Management-loadCollectionSync.md",
+      "sha256": "0986cd23814552b214380d110b36a88dbe6584bfce1d826e95f96dd5d179c8de"
+    },
+    {
+      "path": "node/Management/Management-refreshLoad.md",
+      "sha256": "498218af3b5aa49f5f8805436a1847cb0739351d61365d25fcf220db9cf25f36"
+    },
+    {
+      "path": "node/Management/Management-releaseCollection.md",
+      "sha256": "b8b1f9dfaf480d1e53c946eafe38269e35eb51616b7a2e65c48914514255f629"
+    },
+    {
+      "path": "node/Partitions/Partitions-createPartition.md",
+      "sha256": "af4450398fa38885e959673b1958643fc2ae6cbeb346c60fa9b025ee640465d6"
+    },
+    {
+      "path": "node/Partitions/Partitions-dropPartition.md",
+      "sha256": "545fde82f2eb944457d02473be4423f4f9c8173c4bb36999c735051cfd1d76d0"
+    },
+    {
+      "path": "node/Partitions/Partitions-getPartitionStatistics.md",
+      "sha256": "f1e9f5189f43e70a011c5c5f056ce5a335ab19cedc928a669f40746207fcd877"
+    },
+    {
+      "path": "node/Partitions/Partitions-hasPartition.md",
+      "sha256": "e57d96751ccfd741e9840a2275e28de7c55a04c0cfd8cb727c3a0a0f2cfdb354"
+    },
+    {
+      "path": "node/Partitions/Partitions-listPartitions.md",
+      "sha256": "48222f2fe67c3afba75361eeacb1438c5d1ae42d252e243ffa11051a1adf2326"
+    },
+    {
+      "path": "node/Partitions/Partitions-loadPartitions.md",
+      "sha256": "443e746bb2d3a8b9077f8a5b2556ac4bea920c0c9d8a84fd9f343f56b6124f93"
+    },
+    {
+      "path": "node/Partitions/Partitions-loadPartitionsSync.md",
+      "sha256": "0a97004ae3e00b13be0b321f9858a4bc499c351328952df23b9125f5a40af5f5"
+    },
+    {
+      "path": "node/Partitions/Partitions-releasePartitions.md",
+      "sha256": "d68c5a8ffe9d9b40e934753a2aec4e417d59e45a79c9bcf9f8e3c351600069ef"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-createSnapshot.md",
+      "sha256": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-describeSnapshot.md",
+      "sha256": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-dropSnapshot.md",
+      "sha256": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
+      "sha256": "764e86531510d2b5f0c01b93edcf0e430f7a4ece133070297faa755529c0564c"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
+      "sha256": "fd84956f8774387468c056db661c33c2193463147d5267a9f80796a5b0342103"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-listSnapshots.md",
+      "sha256": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-pinSnapshotData.md",
+      "sha256": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-restoreSnapshot.md",
+      "sha256": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33"
+    },
+    {
+      "path": "node/Snapshot/Snapshot-unpinSnapshotData.md",
+      "sha256": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
+    },
+    {
+      "path": "node/Vector/Vector-count.md",
+      "sha256": "c3a671df6b7d7802981d85d4f1b88650c2913115116320fcb478c84c2aa43207"
+    },
+    {
+      "path": "node/Vector/Vector-delete.md",
+      "sha256": "67fac06f4b5ad6de33828cd778e2678332142be3ed4d521915f85a11f068606b"
+    },
+    {
+      "path": "node/Vector/Vector-get.md",
+      "sha256": "56548796c939bdb27e7937d3fd0a1174e14b97c019d16c29b6acc8c235906557"
+    },
+    {
+      "path": "node/Vector/Vector-hybridSearch.md",
+      "sha256": "d2709a385639979d4ecc52ff1953049b4292d4cfe688d8285997a59cdf3276ed"
+    },
+    {
+      "path": "node/Vector/Vector-insert.md",
+      "sha256": "2b78f33d726146a484cf807bda2ee60321837ea08a6daa6617a0192f487e87d2"
+    },
+    {
+      "path": "node/Vector/Vector-query.md",
+      "sha256": "ab3edc563e5a10890ce2e763aa76dc17ef222cd3096395130bd4ff6eba2b1ae4"
+    },
+    {
+      "path": "node/Vector/Vector-queryIterator.md",
+      "sha256": "eb543bac644378ca23ba5f69721b0cf014f9252f2bbaf1f5a8732005f229c831"
+    },
+    {
+      "path": "node/Vector/Vector-search.md",
+      "sha256": "5bef2be69e669ed2174b94a1d17e0286a43e12b0ba21890ed7d6e2067f1b9c00"
+    },
+    {
+      "path": "node/Vector/Vector-searchIterator.md",
+      "sha256": "614c00d516ee131179754baf572af4633e4ccd7039081be08246d13d19fa484d"
+    },
+    {
+      "path": "node/Vector/Vector-upsert.md",
+      "sha256": "ed32aeda65a85ac5760b4a4d2268d1d83419456cfb3ca1ad0cebcfcb29776565"
+    }
+  ]
+}

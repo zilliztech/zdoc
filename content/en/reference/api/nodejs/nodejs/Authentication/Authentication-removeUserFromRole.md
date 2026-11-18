@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # removeUserFromRole()
 
 This operation removes a user from a specific role.
@@ -41,7 +38,7 @@ await milvusClient.removeUserFromRole(data)
 ```javascript
 await milvusClient.removeUserFromRole({
    username: string,
-   rolename: string,
+   roleName: string,
    timeout?: number
  })
 ```
@@ -54,7 +51,7 @@ await milvusClient.removeUserFromRole({
 
     The name of a user.
 
-- **rolename** (*string*) -
+- **roleName** (*string*) -
 
     **[REQUIRED]**
 
@@ -66,7 +63,9 @@ await milvusClient.removeUserFromRole({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -92,9 +91,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.removeUserFromRole({
    username: 'my',
    roleName: 'myrole'

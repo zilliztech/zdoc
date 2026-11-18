@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPrivilegeGroups()
 
 This operation lists all privilege groups.
@@ -52,11 +49,13 @@ await milvusClient.listPrivilegeGroups(data?)
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;ListPrivilegeGroupsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
 This method returns a promise that resolves to a **ListPrivilegeGroupsResponse** object.
 
-```typescript
+```javascript
 {
     privilege_groups: PrivelegeGroup[],
     status:  ResStatus
@@ -65,27 +64,20 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
 **PARAMETERS:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
-  A list of privilege groups defined in the current Milvus instance.
+- **privilege_groups** (*PrivelegeGroup[]*) -
+
+A list of privilege groups defined in the current Milvus instance.
 
     - **group_name** (*string*) -
 
         The name of the privilege group.
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -
 
         The privileges contained in the group.
 
-        - **name** (*string*) -
-
-        The privilege name (for example, **Insert**, **Search**, **CreateCollection**).
-
-        - **name** (*string*) -
-
-            The privilege name (for example, **Insert**, **Search**, **CreateCollection**).
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -99,9 +91,16 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.listPrivilegeGroups();
 ```
 

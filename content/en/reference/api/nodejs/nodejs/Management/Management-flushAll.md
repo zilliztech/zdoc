@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flushAll()
 
 This operation flushes all collections, sealing all segments and persisting data on disk.
 
-```typescript
+```javascript
 await milvusClient.flushAll(data?: FlushAllReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.flushAll({
     db_name?: string,
     timeout?: number,
@@ -48,20 +45,22 @@ await milvusClient.flushAll({
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -<br/>
-  The name of the database. Optional.
+- **db_name** (*string*) -
+The name of the database. Optional.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;FlushAllResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;FlushAllResponse&gt;*
 
 This method returns a promise that resolves to a **FlushAllResponse** object.
 
-```typescript
+```javascript
 {
     flush_all_ts: number,
     flush_all_tss: Record<string, number>,
@@ -73,17 +72,17 @@ This method returns a promise that resolves to a **FlushAllResponse** object.
 
 **PARAMETERS:**
 
-- **flush_all_ts** (*number*) -<br/>
-  A single hybrid timestamp identifying the flush. Deprecated; prefer **flush_all_tss** for multi-cluster deployments.
+- **flush_all_ts** (*number*) -
+A single hybrid timestamp identifying the flush. Deprecated; prefer **flush_all_tss** for multi-cluster deployments.
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  A mapping from cluster ID to the hybrid timestamp at which the flush completed in that cluster.
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+A mapping from cluster ID to the hybrid timestamp at which the flush completed in that cluster.
 
-- **flush_all_msgs** (*Record&lt;string, any&gt;*) -<br/>
-  A mapping from physical channel name to flush metadata used by the storage layer.
+- **flush_all_msgs** (*Record&lt;string, any&gt;*) -
+A mapping from physical channel name to flush metadata used by the storage layer.
 
-- **cluster_info** (*FlushClusterInfo*) -<br/>
-  The cluster topology that participated in the flush.
+- **cluster_info** (*FlushClusterInfo*) -
+The cluster topology that participated in the flush.
 
     - **cluster_id** (*string*) -
 
@@ -97,8 +96,8 @@ This method returns a promise that resolves to a **FlushAllResponse** object.
 
         The physical channels covered by the flush.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -111,6 +110,13 @@ This method returns a promise that resolves to a **FlushAllResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

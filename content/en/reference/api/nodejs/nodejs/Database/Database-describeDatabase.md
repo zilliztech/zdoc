@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeDatabase()
 
 This operation describes a database, returning details such as the database name, ID, creation timestamp, and properties.
@@ -57,11 +54,13 @@ await milvusClient.describeDatabase({
 
     RPC timeout in milliseconds. Optional.
 
-**RETURNS** *Promise&lt;DescribeDatabaseResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;DescribeDatabaseResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeDatabaseResponse** object.
 
-```typescript
+```javascript
 {
     db_name: string,
     dbID: number,
@@ -73,20 +72,20 @@ This method returns a promise that resolves to a **DescribeDatabaseResponse** ob
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -<br/>
-  The database name.
+- **db_name** (*string*) -
+The database name.
 
-- **dbID** (*number*) -<br/>
-  The internal database identifier.
+- **dbID** (*number*) -
+The internal database identifier.
 
-- **created_timestamp** (*number*) -<br/>
-  The creation timestamp of the database, in milliseconds.
+- **created_timestamp** (*number*) -
+The creation timestamp of the database, in milliseconds.
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  Database-level properties (for example, **database.replica.number**, **database.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
+- **properties** (*KeyValuePair[]*) -
+Database-level properties (for example, **database.replica.number**, **database.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -99,6 +98,13 @@ This method returns a promise that resolves to a **DescribeDatabaseResponse** ob
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

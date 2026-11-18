@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listUsers()
 
 This operation lists currently available users.
@@ -50,11 +47,13 @@ milvusClient.listUsers()
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;ListCredUsersResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListCredUsersResponse&gt;*
 
 This method returns a promise that resolves to a **ListCredUsersResponse** object.
 
-```typescript
+```javascript
 {
     usernames: string[],
     status:  ResStatus
@@ -63,11 +62,11 @@ This method returns a promise that resolves to a **ListCredUsersResponse** objec
 
 **PARAMETERS:**
 
-- **usernames** (*string[]*) -<br/>
-  A list of usernames that exist in the current Milvus instance.
+- **usernames** (*string[]*) -
+A list of usernames that exist in the current Milvus instance.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -81,9 +80,16 @@ This method returns a promise that resolves to a **ListCredUsersResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 milvusClient.listUsers()
 ```
 

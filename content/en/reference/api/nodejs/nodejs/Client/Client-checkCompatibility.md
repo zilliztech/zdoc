@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # checkCompatibility()
 
 This operation checks the compatibility of the SDK with the Milvus server.
@@ -55,15 +52,20 @@ await milvusClient.checkCompatibility({
 
     The error message to throw if the SDK is incompatible.
 
-**RETURN TYPE:**
-
-*Promise*\<*any*>
-
 **RETURNS:**
+
+*Promise&lt;any&gt;*
 
 A promise that resolves to the result of the specified checker function.
 
-## Examples\{#examples}
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
 
 ```javascript
 await milvusClient.checkCompatibility({

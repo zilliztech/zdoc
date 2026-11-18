@@ -4,12 +4,12 @@ slug: /node/node/Authentication-createUser
 sidebar_label: "createUser()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation creates a new user account for the Milvus server. | Node.js"
+description: "This operation creates a user. | Node.js"
 type: docx
-token: MtHHdvQ36oZcM8xEDpwcCUBynmb
+token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 7
 keywords: 
   - natural language processing
@@ -25,66 +25,90 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createUser()
 
-This operation creates a new user account for the Milvus server.
+This operation creates a user.
+
+```javascript
+await milvusClient.createUser(data)
+```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
-milvusClient.createUser({ username, password, description?, timeout? })
+```javascript
+await milvusClient.createUser({
+   username: string,
+   password: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **PARAMETERS:**
 
 - **username** (*string*) -
 
-    The username of the new user.
+    **[REQUIRED]**
+
+    The name of the user to create.
 
 - **password** (*string*) -
 
-    The password for the new user.
+    **[REQUIRED]**
+
+    The password of the user to create.
 
 - **description** (*string*) -
 
-    An optional description for the new user.
+    The description of the user to create.
 
-- **timeout** (*number*) -
+- **timeout** (*number*)  -
 
-    An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or error occurs. Default is undefined.
+    The timeout duration for this operation. 
 
-**RETURN TYPE:**
-
-*ResStatus*
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURNS:**
 
-The response status: `{error_code, reason}`.
+*Promise\<ResStatus\>*
+
+This method returns a promise that resolves to a **ResStatus** object.
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **PARAMETERS:**
 
-- **error_code** (*number*) -
+- **code** (*number*) -
 
-    The error code number: 0 means success.
+    A code that indicates the operation result. It remains **0** if this operation succeeds.
 
-- **reason** (*string*) -
+- **error_code** (*string* | *number*) -
 
-    The cause of the error, if any.
+    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+
+- **reason** (*string*) - 
+
+    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```javascript
 await milvusClient.createUser({
-  username: 'exampleUser',
-  password: 'examplePassword',
-});
+   username: 'exampleUser',
+   password: 'examplePassword',
+ })
 ```
+

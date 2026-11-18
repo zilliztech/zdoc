@@ -25,24 +25,23 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createImportJobs()
 
 This operation creates an HTTP import job from file groups. Use it after preparing files in object storage or another location accessible to the Milvus import service.
 
-```typescript
+```javascript
 await milvusClient.createImportJobs(params: HttpImportCreateReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.createImportJobs({
     collectionName: string,
     files: string[][],
     dbName?: string,
+    projectId?: string,
+    regionId?: string,
     options?: {
         timeout: string,
     },
@@ -67,6 +66,14 @@ await milvusClient.createImportJobs({
 
     Specifies the database name.
 
+- **projectId** (*string*) -
+
+    The ID of the Zilliz Cloud project. Optional.
+
+- **regionId** (*string*) -
+
+    The ID of the Zilliz Cloud region. Optional.
+
 - **options** (*object*) -
 
     Specifies import options such as timeout.
@@ -74,6 +81,29 @@ await milvusClient.createImportJobs({
 **RETURNS:**
 
 *Promise&lt;HttpImportCreateResponse&gt;*
+
+This method returns a promise that resolves to a **HttpImportCreateResponse** object.
+
+**PARAMETERS:**
+
+- **code** (*number*) -
+
+    Specifies the HTTP API response code.
+
+- **data.jobId** (*string*) -
+
+    Specifies the created import job ID.
+
+- **message** (*string*) -
+
+    Specifies the response message.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

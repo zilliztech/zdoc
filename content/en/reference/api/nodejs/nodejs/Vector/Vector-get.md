@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get()
 
 This operation gets specific entities by their IDs.
@@ -48,6 +45,8 @@ await milvusClient.get({
    offset?: number,
    output_fields?: string[],
    partition_names?: string[],
+   transformers?: OutputTransformers,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -70,9 +69,9 @@ await milvusClient.get({
 
     A specific entity ID or a list of entity IDs.
 
-- **consistency_level** (*string*) -
+- **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection.
+    The consistency level of the target collection. See ConsistencyLevelEnum.
 
 - **limit** (*number*) -
 
@@ -80,7 +79,7 @@ await milvusClient.get({
 
     You can use this parameter in combination with **offset** in **param** to enable pagination.
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+    The sum of this value and **offset** in **param** should be less than or equal to 16,384. 
 
 - **offset** (*number*) -
 
@@ -88,7 +87,7 @@ await milvusClient.get({
 
     You can use this parameter in combination with `limit` to enable pagination.
 
-    The sum of this value and `limit` should be less than 16,384. 
+    The sum of this value and `limit` should be less than or equal to 16,384. 
 
 - **partition_names** (*string[]*) -
 
@@ -100,17 +99,27 @@ await milvusClient.get({
 
     The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
+- **transformers** (*OutputTransformers*) -
+
+    A custom function to convert data for specific data types.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you use placeholders in the filter expression, you can specify the actual values for these placeholders as key-value pairs.
+
 - **timeout** (*number*) -
 
     The timeout duration for this operation. 
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;QueryResults&gt;*
+**RETURNS:**
+
+*Promise&lt;QueryResults&gt;*
 
 This method returns a promise that resolves to a **QueryResults** object.
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -119,11 +128,11 @@ This method returns a promise that resolves to a **QueryResults** object.
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  The rows whose primary keys match the supplied **ids**. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key.
+- **data** (*Record&lt;string, any&gt;[]*) -
+The rows whose primary keys match the supplied **ids**. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -137,9 +146,16 @@ This method returns a promise that resolves to a **QueryResults** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

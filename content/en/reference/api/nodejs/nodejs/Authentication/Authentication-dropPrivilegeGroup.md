@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropPrivilegeGroup()
 
-This operation adds a user to a specific role.
+This operation drops a privilege group.
 
 ```javascript
 await milvusClient.dropPrivilegeGroup(data)
@@ -40,11 +37,18 @@ await milvusClient.dropPrivilegeGroup(data)
 
 ```javascript
 await milvusClient.dropPrivilegeGroup({
+   group_name: string,
    timeout?: number
 })
 ```
 
 **PARAMETERS:**
+
+- **group_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the privilege group to drop.
 
 - **timeout** (*number*) -  
 
@@ -52,9 +56,11 @@ await milvusClient.dropPrivilegeGroup({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
 
-This method returns a list of promises, each of which resolves to a **ResStatus** object.
+*Promise\<ResStatus\>*
+
+This method returns a promise that resolves to a **ResStatus** object.
 
 ```javascript
 {
@@ -78,9 +84,18 @@ This method returns a list of promises, each of which resolves to a **ResStatus*
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
-milvusClient.dropPrivilegeGroup()
+```javascript
+await milvusClient.dropPrivilegeGroup({
+    group_name: 'my_group',
+});
 ```
 

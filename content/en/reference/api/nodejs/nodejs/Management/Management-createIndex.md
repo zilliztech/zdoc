@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createIndex()
 
 This operation creates an index for a specific collection.
@@ -47,7 +44,7 @@ await milvusClient.createIndex([
        index_name?: string,
        index_type: string,
        metric_type: string,
-       params?: KeyValueObj,
+       params?: keyValueObj,
        timeout?: number
      }
  ] | {
@@ -57,7 +54,8 @@ await milvusClient.createIndex([
        index_name?: string,
        index_type: string,
        metric_type: string,
-       params?: KeyValueObj,
+       params?: keyValueObj,
+       extra_params?: CreateIndexParam,
        timeout?: number    
  });
 ```
@@ -86,23 +84,29 @@ await milvusClient.createIndex([
 
 - **index_type** (*string*) -
 
-    The type of the index to create.
+    The type of the index to create. See [IndexType](./Management-IndexType).
 
 - **metric_type** (*string*) -
 
-    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). See [MetricType](./Management-MetricType).
 
     This is available only when the specified field is a vector field.
 
-- **params** (*string*) -
+- **params** (*keyValueObj*) -
 
     Other index-specific parameters.
+
+- **extra_params** (*CreateIndexParam*) -
+
+    Alternative index parameters, used with the request form that omits `index_type` and `metric_type`. The object carries `index_type`, `metric_type`, and `params`. See [IndexType](./Management-IndexType) and [MetricType](./Management-MetricType).
 
 - **timeout** (number) -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -128,13 +132,22 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
-await milvusClient._createIndex({
+```javascript
+await milvusClient.createIndex({
    collection_name: "my_collection",
    field_name: "vector_field",
-   index_name: "vector_index"
+   index_name: "vector_index",
+   index_type: IndexType.AUTOINDEX,
+   metric_type: MetricType.COSINE,
  });
 ```
 

@@ -25,26 +25,27 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # upsert()
 
 This operation inserts or updates data in a specific collection.
 
-```typescript
+```javascript
 await milvusClient.upsert(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.upsert({
     db_name?: string,
     collection_name: string,
     data: RowData[],
+    fields_data?: RowData[],
     hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
     partial_update?: boolean,
+    field_ops?: FieldPartialUpdateOp[],
     partition_name?: string,
     timeout?: number,
 })
@@ -60,9 +61,7 @@ await milvusClient.upsert({
 
 - **data** (*RowData[]*) -
 
-    **[REQUIRED]**
-
-    The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the collection schema. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted.
+    The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the collection schema. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted. Provide either **data** or **fields_data**.
 
 - **db_name** (*string*) -
 
@@ -71,6 +70,18 @@ await milvusClient.upsert({
 - **hash_keys** (*number[]*) -
 
     Reserved for internal use. Do not set this parameter unless explicitly required.
+
+- **fields_data** (*RowData[]*) -
+
+    An alias of **data**. You can pass the rows under either key; do not set both.
+
+- **transformers** (*InsertTransformers*) -
+
+    Custom data transformers for `BFloat16Vector` and `Float16Vector` data. Optional.
+
+- **skip_check_schema** (*boolean*) -
+
+    Whether to skip the schema check before upserting. Optional.
 
 - **partial_update** (*boolean*) -
 
@@ -88,11 +99,13 @@ await milvusClient.upsert({
 
     Partial update operations for array fields. Optional.
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+**RETURNS:**
+
+*Promise&lt;MutationResult&gt;*
 
 This method returns a promise that resolves to a **MutationResult** object.
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +114,40 @@ This method returns a promise that resolves to a **MutationResult** object.
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -<br/>
-  The zero-based positions in the input data of rows that were successfully upserted.
+- **succ_index** (*number[]*) -
+The zero-based positions in the input data of rows that were successfully upserted.
 
-- **err_index** (*number[]*) -<br/>
-  The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
+- **err_index** (*number[]*) -
+The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
 
-- **acknowledged** (*boolean*) -<br/>
-  Whether the write was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -
+Whether the write was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -<br/>
-  The number of rows newly inserted by this operation, formatted as a string.
+- **insert_cnt** (*string*) -
+The number of rows newly inserted by this operation, formatted as a string.
 
-- **delete_cnt** (*string*) -<br/>
-  The number of rows logically deleted to make room for replacements.
+- **delete_cnt** (*string*) -
+The number of rows logically deleted to make room for replacements.
 
-- **upsert_cnt** (*string*) -<br/>
-  The total number of rows upserted by this operation.
+- **upsert_cnt** (*string*) -
+The total number of rows upserted by this operation.
 
-- **timestamp** (*string*) -<br/>
-  The hybrid timestamp at which the write became visible.
+- **timestamp** (*string*) -
+The hybrid timestamp at which the write became visible.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  The primary keys carried in the upserted rows. For the full field reference, refer to the `insert()` doc.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+The primary keys carried in the upserted rows. For the full field reference, refer to the `insert()` doc.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -146,6 +160,13 @@ This method returns a promise that resolves to a **MutationResult** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 
@@ -160,11 +181,9 @@ const milvusClient = new MilvusClient({
 // Upsert a single entity
 const result = await milvusClient.upsert({
     collection_name: 'my_collection',
-    data: {
-        id: 0,
-        vector: [0.62, 0.59, 0.85, 0.93, -0.42],
-        color: 'grass-green',
-    },
+    data: [
+        { id: 0, vector: [0.62, 0.59, 0.85, 0.93, -0.42], color: 'grass-green' },
+    ],
 });
 
 // Upsert multiple entities

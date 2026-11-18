@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revokePrivilegeV2()
 
 This operation revokes a privilege already assigned to a role.
@@ -39,7 +36,7 @@ await milvusClient.revokePrivilegeV2(data)
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-await milvusClient.revokePrivilege({
+await milvusClient.revokePrivilegeV2({
    role: string,
    privilege: string,
    db_name: string,
@@ -82,7 +79,9 @@ await milvusClient.revokePrivilege({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -108,9 +107,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 await milvusClient.revokePrivilegeV2({
     role: 'exampleRole',
     privilege: 'CreateCollection',

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listImportTasks()
 
 List import tasks for a collection, showing the status and details of bulk import operations.
@@ -41,6 +38,7 @@ await milvusClient.listImportTasks(data: ListImportTasksReq)
 ```javascript
 await milvusClient.listImportTasks({
     collection_name: string,
+    db_name?: string,
     limit?: number,
     timeout?: number,
 })
@@ -54,6 +52,10 @@ await milvusClient.listImportTasks({
 
     The name of the collection.
 
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
 - **limit** (*number*) -
 
     Maximum number of tasks to return. Set to `0` for all tasks. Optional.
@@ -62,11 +64,13 @@ await milvusClient.listImportTasks({
 
     RPC timeout in milliseconds. Optional.
 
-**RETURNS** *Promise&lt;ListImportTasksResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListImportTasksResponse&gt;*
 
 This method returns a promise that resolves to a **ListImportTasksResponse** object.
 
-```typescript
+```javascript
 {
     tasks: GetImportStateResponse[],
     status:  ResStatus
@@ -75,8 +79,8 @@ This method returns a promise that resolves to a **ListImportTasksResponse** obj
 
 **PARAMETERS:**
 
-- **tasks** (*GetImportStateResponse[]*) -<br/>
-  A list of import-task descriptors. Each entry carries the task's state, row count, segment IDs, and creation timestamp.
+- **tasks** (*GetImportStateResponse[]*) -
+A list of import-task descriptors. Each entry carries the task's state, row count, segment IDs, and creation timestamp.
 
     - **state** (*ImportState*) -
 
@@ -110,8 +114,8 @@ This method returns a promise that resolves to a **ListImportTasksResponse** obj
 
         The creation timestamp of the task.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -124,6 +128,13 @@ This method returns a promise that resolves to a **ListImportTasksResponse** obj
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

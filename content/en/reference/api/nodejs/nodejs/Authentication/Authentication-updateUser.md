@@ -4,12 +4,12 @@ slug: /node/node/Authentication-updateUser
 sidebar_label: "updateUser()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation updates a user account password, description, or both. | Node.js"
+description: "This operation updates the password of a specific user. | Node.js"
 type: docx
-token: L4tGd5KqLoLtp2xQRyhcaXjsnL5
+token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
   - information retrieval
@@ -25,70 +25,94 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # updateUser()
 
-This operation updates a user account password, description, or both.
+This operation updates the password of a specific user.
+
+```javascript
+await milvusClient.updateUser(data)
+```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
-milvusClient.updateUser({ username, newPassword?, oldPassword?, description?, timeout? })
+```javascript
+await milvusClient.updateUser({
+   username: string,
+   newPassword: string,
+   oldPassword: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **PARAMETERS:**
 
 - **username** (*string*) -
 
-    The username of the user to be updated.
+    **[REQUIRED]**
 
-- **newPassword** (*string*) -
-
-    The new password for the user. Required only when updating the password.
+    The name of an existing user.
 
 - **oldPassword** (*string*) -
 
-    The old password of the user. Required when a password update is requested.
+    The original password of the user. Required when changing the password.
+
+- **newPassword** (*string*) -
+
+    The new password of the user. Required when changing the password.
 
 - **description** (*string*) -
 
-    The new description for the user.
+    The description of the user.
 
-- **timeout** (*number*) -
+- **timeout** (*number*) -  
 
-    An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or error occurs. Default is undefined.
+    The timeout duration for this operation. 
 
-**RETURN TYPE:**
-
-*ResStatus*
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURNS:**
 
-The response status: `{error_code, reason}`.
+*Promise\<ResStatus\>*
+
+This method returns a promise that resolves to a **ResStatus** object.
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **PARAMETERS:**
 
-- **error_code** (*number*) -
+- **code** (*number*) -
 
-    The error code number: 0 means success.
+    A code that indicates the operation result. It remains **0** if this operation succeeds.
 
-- **reason** (*string*) -
+- **error_code** (*string* | *number*) -
 
-    The cause of the error, if any.
+    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+
+- **reason** (*string*) - 
+
+    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```javascript
 await milvusClient.updateUser({
-  username: 'exampleUser',
-  description: 'new description',
-});
+   username: 'exampleUser',
+   newPassword: 'newPassword',
+   oldPassword: 'oldPassword',
+ })
 ```
+

@@ -25,22 +25,13 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabase()
 
 This operation drops a database.
 
 ```javascript
-await milvusClient.dropDatabase(data?)
+await milvusClient.dropDatabase(data)
 ```
-
-<Admonition type="info" title="Notes">
-
-This method applies only to dedicated clusters.
-
-</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
@@ -65,7 +56,9 @@ await milvusClient.dropDatabase({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -90,6 +83,13 @@ This method returns a promise that resolves to a **ResStatus** object.
 - **reason** (*string*) - 
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

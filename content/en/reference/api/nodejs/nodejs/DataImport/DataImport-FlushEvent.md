@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # FlushEvent
 
 This interface describes a `BulkWriter` flush event. It reports the files generated for a chunk, the row count in that chunk, and the chunk index.

@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getFlushAllState()
 
 This operation checks whether a flush-all operation has completed.
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState(data: GetFlushAllStateReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState({
     flush_all_ts?: number,
     flush_all_tss?: Record\<string, number\>,
@@ -50,26 +47,28 @@ await milvusClient.getFlushAllState({
 
 **PARAMETERS:**
 
-- **flush_all_ts** (*number*) -<br/>
-  The flush-all timestamp. Optional and deprecated.
+- **flush_all_ts** (*number*) -
+The flush-all timestamp. Optional and deprecated.
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  A map of database names to flush-all timestamps. Optional.
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+A map of database names to flush-all timestamps. Optional.
 
-- **db_name** (*string*) -<br/>
-  The name of the database. Optional and deprecated.
+- **db_name** (*string*) -
+The name of the database. Optional and deprecated.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;GetFlushAllStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetFlushAllStateResponse** object.
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -78,11 +77,11 @@ This method returns a promise that resolves to a **GetFlushAllStateResponse** ob
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -<br/>
-  Whether the flush-all operation identified by the supplied timestamps has fully completed. It is **true** when every channel reaches the requested flush timestamp, otherwise **false**.
+- **flushed** (*boolean*) -
+Whether the flush-all operation identified by the supplied timestamps has fully completed. It is **true** when every channel reaches the requested flush timestamp, otherwise **false**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -95,6 +94,13 @@ This method returns a promise that resolves to a **GetFlushAllStateResponse** ob
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

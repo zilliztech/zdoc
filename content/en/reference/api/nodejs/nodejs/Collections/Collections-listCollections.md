@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listCollections()
 
 This operation lists all existing collections.
@@ -40,23 +37,26 @@ milvusClient.listCollections();
 
 ```javascript
 listCollections({
-    collection_name: string
+    collection_names?: string[],
     type: ShowCollectionsType,
+    db_name?: string,
     timeout?: number
 })
 ```
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
+- **collection_names** (*string[]*) -
 
-    **[REQUIRED]**
-
-    The name of an existing collection.
+    A list of collection names to filter by. If left unspecified, all collections are returned.
 
 - **type** (*ShowCollectionsType*) 
 
     The scope of this operation. Possible values are **All** or **Loaded**.
+
+- **db_name** (*string*) -
+
+    The name of the database to list collections from.
 
 - **timeout** (*number*) -
 
@@ -64,11 +64,13 @@ listCollections({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise&lt;ShowCollectionsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ShowCollectionsResponse&gt;*
 
 This method returns a promise that resolves to a **ShowCollectionsResponse** object.
 
-```typescript
+```javascript
 {
     data: CollectionData[],
     created_timestamps: string[],
@@ -79,17 +81,17 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 
 **PARAMETERS:**
 
-- **data** (*CollectionData[]*) -<br/>
-  A list of collection data objects. Each entry contains the collection name, ID, timestamp, and loaded percentage.
+- **data** (*CollectionData[]*) -
+A list of collection data objects. Each entry contains the collection name, ID, timestamp, and loaded percentage.
 
-- **created_timestamps** (*string[]*) -<br/>
-  A list of hybrid timestamps indicating when each collection was created.
+- **created_timestamps** (*string[]*) -
+A list of hybrid timestamps indicating when each collection was created.
 
-- **created_utc_timestamps** (*string[]*) -<br/>
-  A list of UTC timestamps indicating when each collection was created.
+- **created_utc_timestamps** (*string[]*) -
+A list of UTC timestamps indicating when each collection was created.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -103,13 +105,20 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const res = await milvusClient.listCollections({ collection_name: 'my_collection' });
+const res = await milvusClient.listCollections();
 ```
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPartitions()
 
 This operation lists the partitions in a specified collection.
@@ -75,14 +72,18 @@ await milvusClient.listPartitions({
 
         Indicates that only the loaded partitions are to be listed.
 
-**RETURNS** *Promise&lt;ShowPartitionsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ShowPartitionsResponse&gt;*
 
 This method returns a promise that resolves to a **ShowPartitionsResponse** object.
 
-```typescript
+```javascript
 {
     partition_names: string[],
     partitionIDs: number[],
+    created_timestamps: string[],
+    created_utc_timestamps: string[],
     data: PartitionData[],
     status:  ResStatus
 }
@@ -90,14 +91,20 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
 **PARAMETERS:**
 
-- **partition_names** (*string[]*) -<br/>
-  A list of partition names defined on the collection.
+- **partition_names** (*string[]*) -
+A list of partition names defined on the collection.
 
-- **partitionIDs** (*number[]*) -<br/>
-  The internal identifiers of the partitions, in the same order as **partition_names**.
+- **partitionIDs** (*number[]*) -
+The internal identifiers of the partitions, in the same order as **partition_names**.
 
-- **data** (*PartitionData[]*) -<br/>
-  A flattened, per-partition view that bundles the name, identifier, creation timestamp, and load percentage.
+- **created_timestamps** (*string[]*) -
+A list of hybrid timestamps indicating when each partition was created.
+
+- **created_utc_timestamps** (*string[]*) -
+A list of UTC timestamps indicating when each partition was created.
+
+- **data** (*PartitionData[]*) -
+A flattened, per-partition view that bundles the name, identifier, creation timestamp, and load percentage.
 
     - **name** (*string*) -
 
@@ -115,8 +122,8 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
         The percentage of the partition that is currently loaded into memory.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -130,9 +137,16 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

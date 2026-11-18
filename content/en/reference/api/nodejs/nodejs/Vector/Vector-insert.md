@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 This operation inserts data into a specific collection.
@@ -41,9 +38,13 @@ await milvusClient.insert(data: InsertReq)
 ```javascript
 await milvusClient.insert({
     collection_name: string,
-    data: RowData | RowData[],
+    data: RowData[],
     partition_name?: string,
     db_name?: string,
+    hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
+    fields_data?: RowData[],
     timeout?: number,
 })
 ```
@@ -106,6 +107,22 @@ await milvusClient.insert({
     ]
     ```
 
+- **hash_keys** (*number[]*) -
+
+    A list of hash values computed from the primary keys, used to decide which shard receives each row. Optional.
+
+- **transformers** (*InsertTransformers*) -
+
+    Custom data transformers for `BFloat16Vector` and `Float16Vector` data. Optional.
+
+- **skip_check_schema** (*boolean*) -
+
+    Whether to skip the schema check before inserting. Optional.
+
+- **fields_data** (*RowData[]*) -
+
+    An alias of **data**. You can pass the rows under either key; do not set both.
+
 - **timeout** (*number*)  
 
     The timeout duration for this operation. 
@@ -118,11 +135,13 @@ await milvusClient.insert({
 
     If specified, the data is to be inserted into the specified partition.
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+**RETURNS:**
+
+*Promise&lt;MutationResult&gt;*
 
 This method returns a promise that resolves to a **MutationResult** object.
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -131,36 +150,37 @@ This method returns a promise that resolves to a **MutationResult** object.
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -<br/>
-  The zero-based positions in the input data of rows that were successfully inserted.
+- **succ_index** (*number[]*) -
+The zero-based positions in the input data of rows that were successfully inserted.
 
-- **err_index** (*number[]*) -<br/>
-  The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
+- **err_index** (*number[]*) -
+The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
 
-- **acknowledged** (*boolean*) -<br/>
-  Whether the write was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -
+Whether the write was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -<br/>
-  The number of rows inserted, formatted as a string.
+- **insert_cnt** (*string*) -
+The number of rows inserted, formatted as a string.
 
-- **delete_cnt** (*string*) -<br/>
-  The number of rows deleted by this operation. For `insert()` this remains **"0"**.
+- **delete_cnt** (*string*) -
+The number of rows deleted by this operation. For `insert()` this remains **"0"**.
 
-- **upsert_cnt** (*string*) -<br/>
-  The number of rows upserted by this operation. For `insert()` this remains **"0"**.
+- **upsert_cnt** (*string*) -
+The number of rows upserted by this operation. For `insert()` this remains **"0"**.
 
-- **timestamp** (*string*) -<br/>
-  The hybrid timestamp at which the write became visible. Use this value for time-travel queries.
+- **timestamp** (*string*) -
+The hybrid timestamp at which the write became visible. Use this value for time-travel queries.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  The primary keys assigned to the inserted rows. For autoID collections, Milvus generates these values; otherwise, they echo the input keys.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
+
+The primary keys assigned to the inserted rows. For autoID collections, Milvus generates these values; otherwise, they echo the input keys.
 
     - **int_id** (*\{ data: number[] }*) -
 
@@ -170,12 +190,8 @@ This method returns a promise that resolves to a **MutationResult** object.
 
         Set when the primary key is a VARCHAR field.
 
-    - **id_field** (*'int_id' | 'str_id'*) -
-
-        Indicates which of the two id arrays carries the values.
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -188,6 +204,13 @@ This method returns a promise that resolves to a **MutationResult** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

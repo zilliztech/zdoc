@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollection()
 
 This operation loads the data of a specific collection into memory.
@@ -45,6 +42,8 @@ await milvusClient.loadCollection({
     refresh?: boolean,
     replica_number?: number,
     resource_groups?: string[],
+    load_fields?: string[],
+    skip_load_dynamic_field?: boolean,
     timeout?: number
 })
 ```
@@ -71,7 +70,15 @@ await milvusClient.loadCollection({
 
 - **resource_groups** (*string[]*) -
 
-    The number of resource groups in the collection to load.
+    The names of the resource groups that hold the loaded collection.
+
+- **load_fields** (*string[]*) -
+
+    A list of field names to load. If left unspecified, all fields are loaded.
+
+- **skip_load_dynamic_field** (*boolean*) -
+
+    Whether to skip loading the dynamic field.
 
 - **timeout** (*number*) -
 
@@ -79,7 +86,9 @@ await milvusClient.loadCollection({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -105,9 +114,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

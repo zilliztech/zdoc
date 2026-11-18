@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # query()
 
 This operation conducts a scalar filtering with a specified boolean expression.
@@ -46,10 +45,14 @@ await milvusClient.query(data)
     output_fields?: string[];
     ids?: string[] | number[];
     filter?: string;
+    expr?: string;
     offset?: number;
     limit?: number;
     consistency_level?: ConsistencyLevelEnum;
     exprValues?: keyValueObj;
+    group_by_fields?: string[];
+    transformers?: OutputTransformers;
+    params?: keyValueObj;
 })
 ```
 
@@ -85,13 +88,21 @@ await milvusClient.query(data)
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
+- **expr** (*string*) -
+
+    An alias of **filter**. Provide either **filter** or **expr**, not both.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](https://milvus.io/docs/filtering-templating.md), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+
 - **offset** (*number*) -
 
     The number of records to skip in the query result. 
 
     You can use this parameter in combination with `limit` to enable pagination.
 
-    The sum of this value and `limit` should be less than 16,384. 
+    The sum of this value and `limit` should be less than or equal to 16,384. 
 
 - **limit** (*number*) -
 
@@ -99,23 +110,21 @@ await milvusClient.query(data)
 
     You can use this parameter in combination with `offset` to enable pagination.
 
-    The sum of this value and `offset` should be less than 16,384. 
+    The sum of this value and `offset` should be less than or equal to 16,384. 
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection.
+    The consistency level of the target collection. See ConsistencyLevelEnum.
 
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**).
 
-    <Admonition type="info" title="Note">
-
-    What is the consistency level?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
     
-        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
     
-        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -131,11 +140,25 @@ await milvusClient.query(data)
 
     Alias for order_by_fields. Optional.
 
-**RETURNS** *Promise&lt;QueryResults&gt;*
+- **group_by_fields** (*string[]*) -
+
+    The scalar fields used to group the aggregation results. Optional.
+
+- **transformers** (*OutputTransformers*) -
+
+    A custom function to convert data for specific data types. Optional.
+
+- **params** (*keyValueObj*) -
+
+    Additional query parameters in key-value pairs. Optional.
+
+**RETURNS:**
+
+*Promise&lt;QueryResults&gt;*
 
 This method returns a promise that resolves to a **QueryResults** object.
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -144,11 +167,11 @@ This method returns a promise that resolves to a **QueryResults** object.
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  The matched rows. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key. When **enable_dynamic_field** is **true** on the collection, dynamic-field values appear inline alongside declared fields.
+- **data** (*Record&lt;string, any&gt;[]*) -
+The matched rows. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key. When **enable_dynamic_field** is **true** on the collection, dynamic-field values appear inline alongside declared fields.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -162,9 +185,16 @@ This method returns a promise that resolves to a **QueryResults** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

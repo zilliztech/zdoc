@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getVersion()
 
 This operation returns version information for the Milvus server.
@@ -36,11 +33,13 @@ This operation returns version information for the Milvus server.
 await milvusClient.getVersion()
 ```
 
-**RETURNS** *Promise&lt;GetVersionResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetVersionResponse&gt;*
 
 This method returns a promise that resolves to a **GetVersionResponse** object.
 
-```typescript
+```javascript
 {
     version: string
 }
@@ -51,6 +50,13 @@ This method returns a promise that resolves to a **GetVersionResponse** object.
 - **version** (*string*) -
 
     The semantic version of the Milvus server (for example, **"v3.0.0"**).
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

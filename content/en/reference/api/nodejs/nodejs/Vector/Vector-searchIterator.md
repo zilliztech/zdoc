@@ -25,28 +25,45 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # searchIterator()
 
-This operation conducts a scalar filtering query iteratively and returns results in batches. Use this instead of a single query() call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return.
+This operation conducts a vector similarity search iteratively and returns results in batches. Use this instead of a single search() call when you need to process large result sets incrementally or when the total result count exceeds what a single search can return.
 
 ```javascript
-await milvusClient.queryIterator(data: QueryIteratorReq)
+await milvusClient.searchIterator(data: SearchIteratorReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-await milvusClient.queryIterator({
+await milvusClient.searchIterator({
     collection_name: string,
+    data: SearchData | SearchData[],
+    vector?: SearchData | SearchData[],
     batchSize: number,
-    filter?: string,
     limit?: number,
+    filter?: string,
+    expr?: string,
+    anns_field?: string,
     output_fields?: string[],
     partition_names?: string[],
+    params?: keyValueObj,
+    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
+    ignore_growing?: boolean,
+    group_by_field?: string,
+    group_size?: number,
+    strict_group_size?: boolean,
+    order_by_fields?: OrderByFields,
+    hints?: string,
+    round_decimal?: number,
+    exprValues?: keyValueObj,
+    rerank?: RerankerObj | FunctionObject | FunctionScore,
+    transformers?: OutputTransformers,
+    nq?: number,
+    ids?: number[] | string[],
+    highlighter?: Highlighter,
+    external_filter_fn?: (row: SearchResultData) => boolean,
     db_name?: string,
     timeout?: number,
 })
@@ -58,33 +75,113 @@ await milvusClient.queryIterator({
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    The name of the collection to search.
+
+- **data** (*SearchData | SearchData[]*) -
+
+    The query vector(s). Supported types include FloatVector (number[]), BFloat16Vector (Uint8Array), Float16Vector (Uint8Array), BinaryVector (number[]), and SparseFloatVector. Provide either **data** or **vector**.
+
+- **vector** (*SearchData | SearchData[]*) -
+
+    An alias of **data** for the query vector(s).
 
 - **batchSize** (*number*) -
 
     **[REQUIRED]**
 
-    The number of entities to return per iteration. Cannot exceed 16,384.
-
-- **filter** (*string*) -
-
-    A scalar filtering condition to filter matching entities. Set to an empty string to return all entities. To build a scalar filtering condition, refer to Boolean Expression Rules.
+    The number of results to return per iteration. Cannot exceed 16,384.
 
 - **limit** (*number*) -
 
-    The maximum total number of entities to return across all iterations. Defaults to the total count of matching entities (no limit).
+    The maximum total number of results across all iterations. Defaults to the total count of matching entities (no limit).
+
+- **filter** (*string*) -
+
+    A scalar filtering condition to filter matching entities before the search. Defaults to an empty string (no filter).
+
+- **expr** (*string*) -
+
+    An alias of **filter**. Provide either **filter** or **expr**, not both.
+
+- **anns_field** (*string*) -
+
+    The name of the target vector field. Required when the collection has multiple vector fields.
 
 - **output_fields** (*string[]*) -
 
-    A list of field names to include in each returned entity. All fields are returned by default.
+    A list of field names to include in each returned entity. Only the primary field is included by default.
 
 - **partition_names** (*string[]*) -
 
-    The names of the partitions to query.
+    The names of the partitions to search.
+
+- **params** (*keyValueObj*) -
+
+    Additional search parameters as key-value pairs, such as `radius` and `range_filter` for range searches.
+
+- **metric_type** (*string*) -
+
+    The metric type used to measure similarity between vectors. Defaults to the metric type of the indexed field.
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level for this operation. Options: Strong (0), Bounded (1), Session (2), Eventually (3). Defaults to the consistency level set when the collection was created.
+    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to Bounded. See ConsistencyLevelEnum.
+
+- **ignore_growing** (*boolean*) -
+
+    Whether to skip growing segments during the search.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by the specified field to ensure diversity.
+
+- **group_size** (*number*) -
+
+    The target number of entities to return within each group in a grouping search.
+
+- **strict_group_size** (*boolean*) -
+
+    Whether **group_size** is strictly enforced in a grouping search.
+
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the search results by.
+
+- **hints** (*string*) -
+
+    A hints string to improve search performance.
+
+- **round_decimal** (*number*) -
+
+    The number of decimal places to keep in the final results.
+
+- **exprValues** (*keyValueObj*) -
+
+    Placeholder values for a templated filter expression.
+
+- **nq** (*number*) -
+
+    The number of query vectors.
+
+- **ids** (*number[]* | *string[]*) -
+
+    Primary keys for search-by-PK queries.
+
+- **highlighter** (*Highlighter*) -
+
+    A highlighter for the search results.
+
+- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+
+    A reranking strategy and its parameters. See `search()` for details on supported reranker types.
+
+- **transformers** (*OutputTransformers*) -
+
+    Custom transformers for special vector data types such as BFloat16Vector and Float16Vector.
+
+- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+
+    An optional client-side filter function applied to each batch of results. Entities for which this function returns `false` are excluded from the yielded batch.
 
 - **db_name** (*string*) -
 
@@ -92,21 +189,17 @@ await milvusClient.queryIterator({
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation in milliseconds.
-
-- **order_by_fields** (*OrderByFields*) -
-
-    The fields to order the search results by. Optional.
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURNS:**
 
-*Promise\<AsyncIterable\<object[]\>\>*
+*Promise&lt;AsyncIterable&lt;SearchResultData[]&gt;&gt;*
 
-Returns an async iterable. Each iteration yields an array of entities for that batch. Iteration ends when the total result count reaches `limit` or all matching entities are exhausted.
+Returns an async iterable. Each iteration yields an array of matching entities for that batch. Iteration ends when the total result count reaches `limit` or all matching entities are exhausted.
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 
@@ -120,15 +213,16 @@ const milvusClient = new MilvusClient({
     token: 'YOUR_CLUSTER_TOKEN',
 });
 
-const iterator = await milvusClient.queryIterator({
+const iterator = await milvusClient.searchIterator({
     collection_name: 'my_collection',
-    filter: 'age > 30',
+    data: [0.1, 0.2, 0.3, 0.4, 0.5],
     batchSize: 100,
     limit: 500,
-    output_fields: ['id', 'age', 'text'],
+    output_fields: ['id', 'text'],
+    filter: 'age > 18',
 });
 
 for await (const batch of iterator) {
-    console.log(`Batch of ${batch.length} entities:`, batch);
+    console.log(`Batch of ${batch.length} results:`, batch);
 }
 ```

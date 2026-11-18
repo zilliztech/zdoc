@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getCompactionState()
 
 This operation lists the statistics collected on a specific collection.
@@ -59,11 +56,13 @@ await milvusClient.getCompactionState({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise&lt;GetCompactionStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetCompactionStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetCompactionStateResponse** object.
 
-```typescript
+```javascript
 {
     state: CompactionState,
     executingPlanNo: string,
@@ -76,23 +75,24 @@ This method returns a promise that resolves to a **GetCompactionStateResponse** 
 
 **PARAMETERS:**
 
-- **state** (*CompactionState*) -<br/>
-  The aggregate state of the compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
+- **state** (*CompactionState*) -
 
-- **executingPlanNo** (*string*) -<br/>
-  The number of plans still executing.
+The aggregate state of the compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
 
-- **timeoutPlanNo** (*string*) -<br/>
-  The number of plans that timed out.
+- **executingPlanNo** (*string*) -
+The number of plans still executing.
 
-- **completedPlanNo** (*string*) -<br/>
-  The number of plans that completed successfully.
+- **timeoutPlanNo** (*string*) -
+The number of plans that timed out.
 
-- **failedPlanNo** (*string*) -<br/>
-  The number of plans that failed.
+- **completedPlanNo** (*string*) -
+The number of plans that completed successfully.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **failedPlanNo** (*string*) -
+The number of plans that failed.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -105,6 +105,13 @@ This method returns a promise that resolves to a **GetCompactionStateResponse** 
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

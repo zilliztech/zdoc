@@ -2,7 +2,7 @@
 title: "dropSnapshot() | Node.js"
 slug: /node/node/Snapshot-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropSnapshot()
 
 This operation deletes a snapshot for a collection.
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -50,30 +47,32 @@ await milvusClient.dropSnapshot({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the collection the snapshot belongs to.
+- **collection_name** (*string*) -
+**[REQUIRED]**
+The name of the collection the snapshot belongs to.
 
-- **snapshot_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the snapshot to delete.
+- **snapshot_name** (*string*) -
+**[REQUIRED]**
+The name of the snapshot to delete.
 
-- **db_name** (*string*) -<br/>
-  The name of the database. Optional.
+- **db_name** (*string*) -
+The name of the database. Optional.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
 **RETURNS:**
 
 *Promise&lt;ResStatus&gt;*
 
+This method returns a promise that resolves to a **ResStatus** object.
+
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 

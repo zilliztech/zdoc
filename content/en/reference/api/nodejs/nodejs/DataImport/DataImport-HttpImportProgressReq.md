@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportProgressReq
 
 This interface defines the request body for `getImportJobProgress()`.

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadState()
 
 This operation displays whether a specified collection or partition is loaded or not.
@@ -67,11 +64,13 @@ await milvusClient.getLoadState({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise&lt;GetLoadStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetLoadStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetLoadStateResponse** object.
 
-```typescript
+```javascript
 {
     state: LoadState,
     status:  ResStatus
@@ -80,11 +79,11 @@ This method returns a promise that resolves to a **GetLoadStateResponse** object
 
 **PARAMETERS:**
 
-- **state** (*LoadState*) -<br/>
-  The current load state. Possible values are **LoadStateNotExist**, **LoadStateNotLoad**, **LoadStateLoading**, and **LoadStateLoaded**.
+- **state** (*LoadState*) -
+The current load state. Possible values are **LoadStateNotExist**, **LoadStateNotLoad**, **LoadStateLoading**, and **LoadStateLoaded**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ This method returns a promise that resolves to a **GetLoadStateResponse** object
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

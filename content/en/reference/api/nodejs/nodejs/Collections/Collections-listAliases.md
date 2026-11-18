@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listAliases()
 
 This is a method template.
@@ -66,11 +63,13 @@ listAliases({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise&lt;ListAliasesResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListAliasesResponse&gt;*
 
 This method returns a promise that resolves to a **ListAliasesResponse** object.
 
-```typescript
+```javascript
 {
     db_name: string,
     aliases: string[],
@@ -81,17 +80,17 @@ This method returns a promise that resolves to a **ListAliasesResponse** object.
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -<br/>
-  The database that owns the listed aliases.
+- **db_name** (*string*) -
+The database that owns the listed aliases.
 
-- **aliases** (*string[]*) -<br/>
-  A list of all aliases that point to the requested collection.
+- **aliases** (*string[]*) -
+A list of all aliases that point to the requested collection.
 
-- **collection_name** (*string*) -<br/>
-  The collection name to which the listed aliases point.
+- **collection_name** (*string*) -
+The collection name to which the listed aliases point.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -105,9 +104,16 @@ This method returns a promise that resolves to a **ListAliasesResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

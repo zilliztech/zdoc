@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkField()
 
 This operation gets the complete primary field schema of a collection. This is a convenient method that describes the collection and extracts the primary key field.
@@ -41,6 +38,8 @@ await milvusClient.getPkField(data: DescribeCollectionReq)
 ```javascript
 getPkField({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkField({
 
     The name of the collection.
 
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **cache** (*boolean*) -
+
+    Whether to use the cached description of the collection. Optional.
+
 - **timeout** (*number*) -
 
     RPC timeout in milliseconds. Optional.
 
 **RETURNS:**
 
-*Promise\<FieldSchema\>*
+*Promise&lt;FieldSchema&gt;*
 
 The complete field schema object for the primary key, including name, data type, field ID, and other properties.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

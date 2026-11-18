@@ -27,8 +27,16 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # getIndexState()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**Deprecated.**
+
+This method may be removed in a future release.
+
+</Admonition>
+
 
 This operation gets the status of the specified index.
 
@@ -72,11 +80,13 @@ await milvusClient.getIndexState({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;GetIndexStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetIndexStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetIndexStateResponse** object.
 
-```typescript
+```javascript
 {
     state: IndexState,
     status:  ResStatus
@@ -85,11 +95,11 @@ This method returns a promise that resolves to a **GetIndexStateResponse** objec
 
 **PARAMETERS:**
 
-- **state** (*IndexState*) -<br/>
-  The current build state of the index. Possible values are **IndexStateNone**, **Unissued**, **InProgress**, **Finished**, and **Failed**.
+- **state** (*IndexState*) -
+The current build state of the index. Possible values are **IndexStateNone**, **Unissued**, **InProgress**, **Finished**, and **Failed**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -103,9 +113,16 @@ This method returns a promise that resolves to a **GetIndexStateResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexStateReq = {
   collection_name: 'my_collection',

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation checks the progress of a refresh job for an external collection. Use the jobid returned by refreshExternalCollection(). | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 33
+sidebar_position: 29
 keywords: 
   - Anomaly Detection
   - sentence transformers
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRefreshExternalCollectionProgress()
 
 This operation checks the progress of a refresh job for an external collection. Use the job_id returned by refreshExternalCollection().
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **PARAMETERS:**
 
-- **job_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
-  The job ID returned by refreshExternalCollection().
+- **job_id** (*number | string*) -
+**[REQUIRED]**
+The job ID returned by refreshExternalCollection().
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetRefreshExternalCollectionProgressResponse** object.
 
-```typescript
+```javascript
 {
     job_info: RefreshExternalCollectionJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 
 **PARAMETERS:**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
-  The current state of the refresh job.
+- **job_info** (*RefreshExternalCollectionJobInfo*) -
+
+The current state of the refresh job.
 
     - **job_id** (*string*) -
 
@@ -84,7 +84,7 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        The current job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**. A refresh job transitions from **RefreshInProgress** to **RefreshCompleted** or **RefreshFailed**.
+        The current job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**.
 
     - **progress** (*string*) -
 
@@ -106,8 +106,8 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 
         The time at which the job ended, or an empty string when the job is still running.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -120,6 +120,13 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

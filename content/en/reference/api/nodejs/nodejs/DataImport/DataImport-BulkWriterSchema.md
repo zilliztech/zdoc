@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterSchema
 
-This interface describes the collection schema used by `BulkWriter` to validate rows and generate JSON or Parquet files that Milvus can import.
+This interface describes the collection schema used by [`BulkWriter`](./DataImport-BulkWriter) to validate rows and generate JSON or Parquet files that Milvus can import.
 
-```typescript
+```javascript
 interface BulkWriterSchema
 ```
 

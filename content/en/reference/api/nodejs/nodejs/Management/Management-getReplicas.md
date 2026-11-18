@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getReplicas()
 
 This operation gets replicas of a collection, returning information about each replica including its ID, node assignments, and shard details.
@@ -41,6 +38,8 @@ await milvusClient.getReplicas(data: GetReplicaReq)
 ```javascript
 await milvusClient.getReplicas({
     collectionID: number | string,
+    collection_name?: string,
+    db_name?: string,
     with_shard_nodes?: boolean,
     timeout?: number,
 })
@@ -54,6 +53,14 @@ await milvusClient.getReplicas({
 
     The ID of the collection.
 
+- **collection_name** (*string*) -
+
+    The name of the collection. Optional.
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection. Optional.
+
 - **with_shard_nodes** (*boolean*) -
 
     Whether to include shard node information in the response. Optional.
@@ -62,11 +69,13 @@ await milvusClient.getReplicas({
 
     RPC timeout in milliseconds. Optional.
 
-**RETURNS** *Promise&lt;ReplicasResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ReplicasResponse&gt;*
 
 This method returns a promise that resolves to a **ReplicasResponse** object.
 
-```typescript
+```javascript
 {
     replicas: ReplicaInfo[],
     status:  ResStatus
@@ -75,8 +84,8 @@ This method returns a promise that resolves to a **ReplicasResponse** object.
 
 **PARAMETERS:**
 
-- **replicas** (*ReplicaInfo[]*) -<br/>
-  A list of replicas currently serving the requested collection.
+- **replicas** (*ReplicaInfo[]*) -
+A list of replicas currently serving the requested collection.
 
     - **replicaID** (*string*) -
 
@@ -110,22 +119,6 @@ This method returns a promise that resolves to a **ReplicasResponse** object.
 
         The query node IDs that hold this shard's data.
 
-        - **leaderID** (*string*) -
-
-            The query node ID acting as the shard leader.
-
-        - **leader_addr** (*string*) -
-
-            The address of the leader query node.
-
-        - **dm_channel_name** (*string*) -
-
-            The DML channel served by this shard.
-
-        - **node_ids** (*string[]*) -
-
-            The query node IDs that hold this shard's data.
-
     - **node_ids** (*string[]*) -
 
         The query node IDs that participate in this replica.
@@ -138,8 +131,8 @@ This method returns a promise that resolves to a **ReplicasResponse** object.
 
         The count of outbound nodes per resource group, used during rebalancing.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -152,6 +145,13 @@ This method returns a promise that resolves to a **ReplicasResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

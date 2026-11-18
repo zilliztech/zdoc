@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRoles()
 
 This operation lists all custom roles.
@@ -57,11 +54,13 @@ await milvusClient.listRoles(
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;SelectRoleResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 This method returns a promise that resolves to a **SelectRoleResponse** object.
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -70,11 +69,11 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*RoleResult[]*) -<br/>
-  A list of **RoleResult** objects, one per role defined in the current Milvus instance. For the full **RoleResult** field reference, refer to the `describeRole()` doc.
+- **results** (*RoleResult[]*) -
+A list of **RoleResult** objects, one per role defined in the current Milvus instance. For the full **RoleResult** field reference, refer to the `describeRole()` doc.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -88,9 +87,23 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.listRoles({ includeUserInfo: true });
 ```
 

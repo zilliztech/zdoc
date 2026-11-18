@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # compact()
 
 This operation compacts and merges small segments into a larger one to save memory usage and improve search performance.
@@ -39,16 +36,59 @@ await milvusClient.compact(data)
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.compact()
+milvusClient.compact({
+    collection_name: string,
+    db_name?: string,
+    timetravel?: number | string,
+    majorCompaction?: boolean,
+    partition_id?: number | string,
+    channel?: string,
+    segment_ids?: number[],
+    l0Compaction?: boolean,
+    target_size?: number | string,
+    timeout?: number,
+})
 ```
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target collection to reassign an alias to.
+    The name of the collection to compact.
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **timetravel** (*number* | *string*) -
+
+    A timestamp in the past. Compaction drops the deleted data committed before this timestamp.
+
+- **majorCompaction** (*boolean*) -
+
+    Whether to run a major compaction that also compacts the deleted data of the collection.
+
+- **partition_id** (*number* | *string*) -
+
+    The ID of the partition to compact.
+
+- **channel** (*string*) -
+
+    The message channel of the segments to compact.
+
+- **segment_ids** (*number[]*) -
+
+    A list of segment IDs to compact.
+
+- **l0Compaction** (*boolean*) -
+
+    Whether to run an L0-level compaction.
+
+- **target_size** (*number* | *string*) -
+
+    The target size of the compacted segments.
 
 - **timeout** (*number*)  
 
@@ -56,11 +96,13 @@ milvusClient.compact()
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;CompactionResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;CompactionResponse&gt;*
 
 This method returns a promise that resolves to a **CompactionResponse** object.
 
-```typescript
+```javascript
 {
     compactionID: string,
     compactionPlanCount: number,
@@ -70,14 +112,14 @@ This method returns a promise that resolves to a **CompactionResponse** object.
 
 **PARAMETERS:**
 
-- **compactionID** (*string*) -<br/>
-  The identifier of the compaction operation. Pass this value to `getCompactionState()` or `getCompactionStateWithPlans()` to poll progress.
+- **compactionID** (*string*) -
+The identifier of the compaction operation. Pass this value to `getCompactionState()` or `getCompactionStateWithPlans()` to poll progress.
 
-- **compactionPlanCount** (*number*) -<br/>
-  The number of compaction plans generated for this operation.
+- **compactionPlanCount** (*number*) -
+The number of compaction plans generated for this operation.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -91,9 +133,16 @@ This method returns a promise that resolves to a **CompactionResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

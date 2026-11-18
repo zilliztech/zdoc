@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flushAllSync()
 
 This operation flushes all collections and waits until the flush operation is completed. It internally calls flushAll followed by polling getFlushAllState until the flush is complete.
 
-```typescript
+```javascript
 await milvusClient.flushAllSync(data?: FlushAllReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.flushAllSync({
     db_name?: string,
     timeout?: number,
@@ -48,20 +45,22 @@ await milvusClient.flushAllSync({
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -<br/>
-  The name of the database. Optional.
+- **db_name** (*string*) -
+The name of the database. Optional.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;GetFlushAllStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetFlushAllStateResponse** object.
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ This method returns a promise that resolves to a **GetFlushAllStateResponse** ob
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -<br/>
-  Whether the flush-all operation has fully completed. Because `flushAllSync()` blocks until completion, this value is **true** on success.
+- **flushed** (*boolean*) -
+Whether the flush-all operation has fully completed. Because `flushAllSync()` blocks until completion, this value is **true** on success.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ This method returns a promise that resolves to a **GetFlushAllStateResponse** ob
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

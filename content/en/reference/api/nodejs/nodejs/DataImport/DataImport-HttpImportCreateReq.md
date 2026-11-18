@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportCreateReq
 
 This interface defines the request body for `createImportJobs()`.

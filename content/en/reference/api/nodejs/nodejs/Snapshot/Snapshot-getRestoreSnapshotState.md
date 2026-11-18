@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Node.js"
 slug: /node/node/Snapshot-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRestoreSnapshotState()
 
 This operation checks the state of a snapshot restore job. Use the job_id returned by restoreSnapshot().
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRestoreSnapshotState({
 
 **PARAMETERS:**
 
-- **job_id** (*number | string*) -<br/>
-  **[REQUIRED]**<br/>
-  The restore job ID returned by restoreSnapshot().
+- **job_id** (*number | string*) -
+**[REQUIRED]**
+The restore job ID returned by restoreSnapshot().
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetRestoreSnapshotStateResponse** object.
 
-```typescript
+```javascript
 {
     info: RestoreSnapshotJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ This method returns a promise that resolves to a **GetRestoreSnapshotStateRespon
 
 **PARAMETERS:**
 
-- **info** (*RestoreSnapshotJobInfo*) -<br/>
-  The current state of the restore job.
+- **info** (*RestoreSnapshotJobInfo*) -
+
+The current state of the restore job.
 
     - **job_id** (*string*) -
 
@@ -110,8 +110,8 @@ This method returns a promise that resolves to a **GetRestoreSnapshotStateRespon
 
         The total elapsed time since the job started.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -124,6 +124,13 @@ This method returns a promise that resolves to a **GetRestoreSnapshotStateRespon
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

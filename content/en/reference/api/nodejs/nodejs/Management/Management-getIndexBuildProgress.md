@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getIndexBuildProgress()
 
 This operation gets the build progress of the specified index.
@@ -42,8 +39,8 @@ await milvusClient.getIndexBuildProgress(data)
 await milvusClient.getIndexBuildProgress({
       db_name?: string,
       collection_name: string,
-      field_name: string,
-      index_name: string,
+      field_name?: string,
+      index_name?: string,
       timeout?: number
 });
 ```
@@ -62,25 +59,23 @@ await milvusClient.getIndexBuildProgress({
 
 - **index_name** (*string*) -
 
-    **[REQUIRED]**
-
-    The name of the target index. This parameter and `field_name` are mutually exclusive. 
+    The name of the target index. This parameter and `field_name` are mutually exclusive; provide exactly one of them.
 
 - **field_name** (*string*) -
 
-    **[REQUIRED]**
-
-    The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an index has been built upon the specified field.
+    The name of the target field. This parameter and `index_name` are mutually exclusive; provide exactly one of them. When you use this parameter, ensure that an index has been built upon the specified field.
 
 - **timeout** (number) -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;GetIndexBuildProgressResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetIndexBuildProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetIndexBuildProgressResponse** object.
 
-```typescript
+```javascript
 {
     indexed_rows: number,
     total_rows: number,
@@ -90,14 +85,14 @@ This method returns a promise that resolves to a **GetIndexBuildProgressResponse
 
 **PARAMETERS:**
 
-- **indexed_rows** (*number*) -<br/>
-  The number of rows that have been indexed so far.
+- **indexed_rows** (*number*) -
+The number of rows that have been indexed so far.
 
-- **total_rows** (*number*) -<br/>
-  The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
+- **total_rows** (*number*) -
+The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -111,9 +106,16 @@ This method returns a promise that resolves to a **GetIndexBuildProgressResponse
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexBuildProgressReq = {
   collection_name: 'my_collection',

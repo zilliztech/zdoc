@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPartitionStatistics()
 
 This operation displays the statistics collected on a specific partition.
@@ -71,11 +68,13 @@ await milvusClient.getPartitionStatistics({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;StatisticsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;StatisticsResponse&gt;*
 
 This method returns a promise that resolves to a **StatisticsResponse** object.
 
-```typescript
+```javascript
 {
     stats: KeyValuePair[],
     data: { [x: string]: any },
@@ -85,14 +84,14 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -<br/>
-  The raw statistics list returned by Milvus. Each entry has a **key** (for example, **row_count**) and a **value** as a string.
+- **stats** (*KeyValuePair[]*) -
+The raw statistics list returned by Milvus. Each entry has a **key** (for example, **row_count**) and a **value** as a string.
 
-- **data** (*Record&lt;string, any&gt;*) -<br/>
-  A flattened, key-indexed view of **stats** for convenience. For example, `data.row_count` returns the partition row count as a string.
+- **data** (*Record&lt;string, any&gt;*) -
+A flattened, key-indexed view of **stats** for convenience. For example, `data.row_count` returns the partition row count as a string.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -106,9 +105,16 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

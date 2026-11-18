@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # useDatabase()
 
 This operation sets the active database for the gRPC client.
@@ -52,23 +49,20 @@ await milvusClient.useDatabase({
 
     There should be a database with the specified name. Otherwise, exceptions will occur.
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**RETURNS:**
 
-This method returns a promise that resolves to a **ResStatus** object.
+*Promise&lt;\{ error_code: string, reason: string }&gt;*
+
+This method returns a promise that resolves to an object carrying the result status.
 
 ```javascript
 {
-    code: number,
     error_code: string | number,
     reason: string
 }
 ```
 
 **PARAMETERS:**
-
-- **code** (*number*) -
-
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
 
 - **error_code** (*string* | *number*) -
 
@@ -77,6 +71,13 @@ This method returns a promise that resolves to a **ResStatus** object.
 - **reason** (*string*) - 
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # runAnalyzer()
 
 This operation runs an analyzer on the provided text for test purposes.
@@ -39,11 +36,15 @@ await milvusClient.runAnalyzer(data)
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient({
+milvusClient.runAnalyzer({
     analyzer_params: Record<string, any>,
     text: string | string[],
     with_detail: boolean,
-    with_hash: boolean
+    with_hash: boolean,
+    db_name?: string,
+    collection_name?: string,
+    field_name?: string,
+    analyzer_names?: string[],
 })
 ```
 
@@ -65,11 +66,29 @@ milvusClient({
 
     Optional flag indicating whether to include hash-based processing.
 
-**RETURNS** *Promise&lt;RunAnalyzerResponse&gt;*
+- **db_name** (*string*) -
+
+    The name of the database in which the analyzer is defined.
+
+- **collection_name** (*string*) -
+
+    The name of the collection that uses the analyzer.
+
+- **field_name** (*string*) -
+
+    The name of the field that uses the analyzer.
+
+- **analyzer_names** (*string[]*) -
+
+    The names of the analyzers to run on the input text.
+
+**RETURNS:**
+
+*Promise&lt;RunAnalyzerResponse&gt;*
 
 This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
-```typescript
+```javascript
 {
     results: AnalyzerResult[],
     status:  ResStatus
@@ -78,8 +97,8 @@ This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*AnalyzerResult[]*) -<br/>
-  The tokenization output. When **text** is a single string, this list has one entry; when **text** is an array, the entries align with the input order.
+- **results** (*AnalyzerResult[]*) -
+The tokenization output. When **text** is a single string, this list has one entry; when **text** is an array, the entries align with the input order.
 
     - **tokens** (*AnalyzerToken[]*) -
 
@@ -109,32 +128,8 @@ This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
         The token hash, populated when the request set **with_hash** to **true**.
 
-        - **token** (*string*) -
-
-            The token text.
-
-        - **start_offset** (*number*) -
-
-            The zero-based character offset where the token begins in the input.
-
-        - **end_offset** (*number*) -
-
-            The zero-based character offset immediately after the token.
-
-        - **position** (*number*) -
-
-            The token position in the stream, used by phrase queries.
-
-        - **position_length** (*number*) -
-
-            The number of stream positions the token spans.
-
-        - **hash** (*number*) -
-
-            The token hash, populated when the request set **with_hash** to **true**.
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -147,3 +142,31 @@ This method returns a promise that resolves to a **RunAnalyzerResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.runAnalyzer({
+    analyzer_params: {
+        tokenizer: 'standard',
+        filter: ['lowercase'],
+    },
+    text: 'Hello Milvus',
+    with_detail: true,
+});
+
+console.log(res.results);
+```

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listGrant()
 
 This operation lists the privileges granted to the specified role.
@@ -39,10 +36,11 @@ await milvusClient.listGrant(data)
 ## Request Syntax\{#request-syntax}
 
 ```javascript
- milvusClient.listGrants({
+ milvusClient.listGrant({
    roleName: 'roleName',
    object: 'Collection',
-   objectName: '*'
+   objectName: '*',
+   db_name?: string
  });
 ```
 
@@ -60,13 +58,19 @@ await milvusClient.listGrant(data)
 
 - **objectName** (*string*)
 
-    The name of a specific object in the specified object group. Using a wildcard (&ast;) indicates that all privileges in the specified group are to be granted.
+    The name of a specific object in the specified object group. Using a wildcard (*) indicates that all privileges in the specified group are to be granted.
+
+- **db_name** (*string*)
+
+    The name of the database to which the target object belongs.
 
 - **timeout** (*number*) 
 
     The timeout duration of this operation.
 
-***Returns** Promise\<SelectGrantResponse>*
+**RETURNS:**
+
+*Promise&lt;SelectGrantResponse&gt;*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
@@ -88,55 +92,11 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 - **entities** (*GrantEntity[]*) -
 
-    A list of grant entities, each of which is shaped as follows:
-
-    - **db_name** (*string*) -
-
-        The name of the database in which the privilege has been granted.
-
-    - **grantor** (*Grantor*) -
-
-        A **Grantor** object that is shaped as follows:
-
-        - **privilege** (*PrivilegeEntity*) -
-
-            A **PrivilegeEntity** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the granted privilege.
-
-        - **user** (*User*) - 
-
-            A **User** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the user that grants the above privilege to the role. 
-
-    - **object** (*ObjectEntity*) -
-
-        An **ObjectEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the object entity.
-
-    - **object_name** (*string*) -
-
-        The name of a specific object within the above object entity.
-
-    - **role** (*RoleEntity*) -   
-
-        A **RoleEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the role to which the privilege has been granted.
+    A list of grant entities, each of which is shaped as follows.
 
 - **status** (*ResStatus*) -
 
-    A **ResStatus** object.
+    A **ResStatus object.
 
     - **code** (*number*) -
 
@@ -149,6 +109,13 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
     - **reason** (*string*) - 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

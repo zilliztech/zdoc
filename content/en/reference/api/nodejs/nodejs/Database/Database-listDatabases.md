@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listDatabases()
 
 This operation lists all existing databases.
@@ -52,11 +49,13 @@ await milvusClient.listDatabases({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;ListDatabasesResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListDatabasesResponse&gt;*
 
 This method returns a promise that resolves to a **ListDatabasesResponse** object.
 
-```typescript
+```javascript
 {
     db_names: string[],
     db_ids: string[],
@@ -67,17 +66,17 @@ This method returns a promise that resolves to a **ListDatabasesResponse** objec
 
 **PARAMETERS:**
 
-- **db_names** (*string[]*) -<br/>
-  A list of database names defined in the current Milvus instance.
+- **db_names** (*string[]*) -
+A list of database names defined in the current Milvus instance.
 
-- **db_ids** (*string[]*) -<br/>
-  The internal database identifiers, in the same order as **db_names**.
+- **db_ids** (*string[]*) -
+The internal database identifiers, in the same order as **db_names**.
 
-- **created_timestamp** (*string[]*) -<br/>
-  The creation timestamps of the databases, in the same order as **db_names**.
+- **created_timestamp** (*string[]*) -
+The creation timestamps of the databases, in the same order as **db_names**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -90,6 +89,13 @@ This method returns a promise that resolves to a **ListDatabasesResponse** objec
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

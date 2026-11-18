@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revokeRole()
 
 This operation revokes the role assigned to a user.
@@ -48,13 +45,13 @@ await milvusClient.revokeRole({
 
 **PARAMETERS:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
     **[REQUIRED]**
 
     The name of an existing user.
 
-- **roleName** (*str*) -
+- **roleName** (*string*) -
 
     **[REQUIRED]**
 
@@ -66,7 +63,9 @@ await milvusClient.revokeRole({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -92,10 +91,17 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
-await milvusClient.removeUserFromRole({
+```javascript
+await milvusClient.revokeRole({
    username: 'my',
    roleName: 'myrole'
  });

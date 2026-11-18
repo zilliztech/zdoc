@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropIndexProperties()
 
 This operation resets the index properties to their default values.
@@ -74,13 +71,15 @@ await milvusClient.dropIndexProperties({
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the specified index. Setting this to `True` offloads the specified index onto the disk. For details, refer to [Use mmap](/docs/use-mmap)
+        Whether to enable mmap for the specified index. Setting this to `True` offloads the specified index onto the disk. For details, refer to [Mmap-enabled Data Storage](https://milvus.io/docs/mmap.md)
 
 - **timeout** (number) -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -106,9 +105,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const dropIndexPropertiesReq = {
     collection_name: 'my_collection',

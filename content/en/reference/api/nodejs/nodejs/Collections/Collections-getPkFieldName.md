@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldName()
 
 This operation gets the primary key field name of a collection. This is a convenient method that describes the collection and extracts the primary key field name.
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldName(data: DescribeCollectionReq)
 ```javascript
 getPkFieldName({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldName({
 
     The name of the collection.
 
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **cache** (*boolean*) -
+
+    Whether to use the cached description of the collection. Optional.
+
 - **timeout** (*number*) -
 
     RPC timeout in milliseconds. Optional.
 
 **RETURNS:**
 
-*Promise\<string\>*
+*Promise&lt;string&gt;*
 
 The name of the primary key field.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

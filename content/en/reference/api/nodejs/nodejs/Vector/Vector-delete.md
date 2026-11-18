@@ -25,7 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -49,7 +48,8 @@ await milvusClient.delete({
    collection_name: string,
    partition_name?: string,
    ids: string[] | number[],
-   consistency_level: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -80,7 +80,11 @@ await milvusClient.delete({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See ConsistencyLevelEnum.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you use placeholders in the filter expression, you can specify the actual values for these placeholders as key-value pairs.
 
 - **timeout** (*number*) -
 
@@ -88,11 +92,63 @@ await milvusClient.delete({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+### With DeleteByFilterReq\{#with-deletebyfilterreq}
+
+```javascript
+await milvusClient.delete({
+   db_name: string,
+   collection_name: string,
+   partition_name?: string,
+   filter: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
+   timeout?: number
+ })
+```
+
+**PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of an existing collection.
+
+- **partition_name** (*string*) -
+
+    The name of an existing partition in the collection.
+
+- **filter** (*string*) -
+
+    **[REQUIRED]**
+
+    A scalar filtering condition to match the entities to delete.
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See ConsistencyLevelEnum.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you use placeholders in the filter expression, you can specify the actual values for these placeholders as key-value pairs.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. 
+
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURNS:**
+
+*Promise&lt;MutationResult&gt;*
 
 This method returns a promise that resolves to a **MutationResult** object.
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +157,40 @@ This method returns a promise that resolves to a **MutationResult** object.
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -<br/>
-  The zero-based positions of input IDs that matched a row and were marked deleted.
+- **succ_index** (*number[]*) -
+The zero-based positions of input IDs that matched a row and were marked deleted.
 
-- **err_index** (*number[]*) -<br/>
-  The zero-based positions of input IDs that did not match any row.
+- **err_index** (*number[]*) -
+The zero-based positions of input IDs that did not match any row.
 
-- **acknowledged** (*boolean*) -<br/>
-  Whether the delete was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -
+Whether the delete was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -<br/>
-  Always **"0"** for `delete()`.
+- **insert_cnt** (*string*) -
+Always **"0"** for `delete()`.
 
-- **delete_cnt** (*string*) -<br/>
-  The number of rows logically deleted by this operation.
+- **delete_cnt** (*string*) -
+The number of rows logically deleted by this operation.
 
-- **upsert_cnt** (*string*) -<br/>
-  Always **"0"** for `delete()`.
+- **upsert_cnt** (*string*) -
+Always **"0"** for `delete()`.
 
-- **timestamp** (*string*) -<br/>
-  The hybrid timestamp at which the delete became visible.
+- **timestamp** (*string*) -
+The hybrid timestamp at which the delete became visible.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  The primary keys that were targeted by this delete. For the full field reference, refer to the `insert()` doc.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+The primary keys that were targeted by this delete. For the full field reference, refer to the `insert()` doc.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -147,12 +204,19 @@ This method returns a promise that resolves to a **MutationResult** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example\{#example}
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Examples\{#examples}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
-```python
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -167,7 +231,7 @@ const milvusClient = new MilvusClient({
 
 <TabItem value='java'>
 
-```java
+```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const milvusClient = new MilvusClient({

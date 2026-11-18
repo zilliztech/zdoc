@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listGrants()
 
 This operation lists the privileges granted to the specified role.
@@ -41,22 +38,34 @@ await milvusClient.listGrants(data)
 ```javascript
  milvusClient.listGrants({
    roleName: 'roleName',
+   db_name?: string,
+   timeout?: number,
  });
 ```
 
 **PARAMETERS:**
 
-- roleName (*string*)  
+- **roleName** (*string*)  
 
     The target role name
 
     Setting this to the name of a non-existing role may result in errors.
 
-**RETURNS** *Promise&lt;SelectGrantResponse&gt;*
+- **db_name** (*string*)  
+
+    The name of the database to which the target role belongs.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURNS:**
+
+*Promise&lt;SelectGrantResponse&gt;*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
-```typescript
+```javascript
 {
     entities: GrantEntity[],
     status:  ResStatus
@@ -65,11 +74,12 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -<br/>
-  A list of grants attached to the requested role. Each entry pairs a privilege with the target object and the principal that granted it. For the full **GrantEntity** field reference, refer to the `describeRole()` doc.
+- **entities** (*GrantEntity[]*) -
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+A list of grants attached to the requested role. Each entry pairs a privilege with the target object and the principal that granted it. For the full **GrantEntity** field reference, refer to the `describeRole()` doc.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -82,6 +92,13 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

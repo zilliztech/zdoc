@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists all refresh jobs for external collections. You can filter by collection name and database name. | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
-sidebar_position: 34
+sidebar_position: 30
 keywords: 
   - AI Agent
   - semantic search
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRefreshExternalCollectionJobs()
 
 This operation lists all refresh jobs for external collections. You can filter by collection name and database name.
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs({
     collection_name?: string,
     db_name?: string,
@@ -49,23 +46,25 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -<br/>
-  Optional filter by collection name.
+- **collection_name** (*string*) -
+Optional filter by collection name.
 
-- **db_name** (*string*) -<br/>
-  Optional filter by database name.
+- **db_name** (*string*) -
+Optional filter by database name.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
 This method returns a promise that resolves to a **ListRefreshExternalCollectionJobsResponse** object.
 
-```typescript
+```javascript
 {
     jobs: RefreshExternalCollectionJobInfo[],
     status:  ResStatus
@@ -74,11 +73,12 @@ This method returns a promise that resolves to a **ListRefreshExternalCollection
 
 **PARAMETERS:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
-  A list of refresh jobs that match the requested database and collection filters. For the full **RefreshExternalCollectionJobInfo** field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+A list of refresh jobs that match the requested database and collection filters. For the full RefreshExternalCollectionJobInfo field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -91,6 +91,13 @@ This method returns a promise that resolves to a **ListRefreshExternalCollection
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

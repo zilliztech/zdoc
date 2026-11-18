@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadingProgress()
 
 This operation gets the loading progress of a specific collection.
@@ -67,11 +64,13 @@ await milvusClient.getLoadingProgress({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;GetLoadingProgressResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetLoadingProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetLoadingProgressResponse** object.
 
-```typescript
+```javascript
 {
     progress: string,
     status:  ResStatus
@@ -80,11 +79,11 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 
 **PARAMETERS:**
 
-- **progress** (*string*) -<br/>
-  The completion percentage of the load operation as an integer between **"0"** and **"100"**. The collection is fully loaded once this value reaches **"100"**.
+- **progress** (*string*) -
+The completion percentage of the load operation as an integer between **"0"** and **"100"**. The collection is fully loaded once this value reaches **"100"**.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

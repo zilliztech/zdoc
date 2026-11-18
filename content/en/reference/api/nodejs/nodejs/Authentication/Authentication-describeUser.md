@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeUser()
 
-This is a method template.
+This operation describes a user and its assigned roles.
 
 ```javascript
 await milvusClient.describeUser(data)
@@ -64,11 +61,13 @@ await milvusClient.describeUser({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;SelectUserResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;SelectUserResponse&gt;*
 
 This method returns a promise that resolves to a **SelectUserResponse** object.
 
-```typescript
+```javascript
 {
     results: UserResult[],
     status:  ResStatus
@@ -77,35 +76,23 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*UserResult[]*) -<br/>
-  A list of **UserResult** objects. For `describeUser()`, this list contains a single entry describing the requested user.
+- **results** (*UserResult[]*) -
+A list of **UserResult** objects. For `describeUser()`, this list contains a single entry describing the requested user.
 
     - **user** (*User*) -
 
         A **User** object identifying the user.
 
-        - **name** (*string*) -
-
-        The username.
-
-        - **name** (*string*) -
-
-            The username.
-
     - **roles** (*RoleEntity[]*) -
 
         A list of roles assigned to this user.
 
-        - **name** (*string*) -
+    - **description** (*string*) -
 
-        The role name.
+        The description of the user.
 
-        - **name** (*string*) -
-
-            The role name.
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -119,9 +106,16 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 milvusClient.describeUser({username: 'name'})
 ```
 

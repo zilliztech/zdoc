@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropAlias()
 
 This operation drops a specified collection alias. 
@@ -41,8 +38,6 @@ await milvusClient.dropAlias(data)
 ```javascript
 await milvusClient.dropAlias({
    alias: string,
-   db_name: string,
-   collection_name: string,
    timeout?: number
  })
 ```
@@ -57,21 +52,15 @@ await milvusClient.dropAlias({
 
     Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
 
-- **db_name** (*string*) -
-
-    The name of the database that holds the specified collection.
-
-- **collection_name** (*string*) -
-
-    The name of the collection that the alias binds to.
-
 - **timeout** (*number*)  
 
     The timeout duration for this operation. 
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -97,16 +86,22 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const resStatus = await milvusClient.dropAlias({
    alias: 'my_collection_alias',
-   collection_name: 'my_collection',
 });
 ```
 

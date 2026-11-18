@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # use()
 
 This operation sets the active database for the gRPC client. After calling this method, all subsequent operations will target the specified database.
@@ -52,11 +49,13 @@ await milvusClient.use({
 
 **RETURNS:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+This method returns a promise that resolves to a **ResStatus** object.
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 

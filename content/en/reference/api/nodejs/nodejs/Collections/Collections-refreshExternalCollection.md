@@ -10,7 +10,7 @@ notebook: false
 description: "This operation triggers a data refresh for an external collection. Use this when the external data source has been updated and you want Milvus to reload the data. | Node.js"
 type: docx
 token: JoiWdRIFcojRI4xVXnCclEoVnh2
-sidebar_position: 35
+sidebar_position: 31
 keywords: 
   - Audio similarity search
   - Elastic vector database
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # refreshExternalCollection()
 
 This operation triggers a data refresh for an external collection. Use this when the external data source has been updated and you want Milvus to reload the data.
 
-```typescript
+```javascript
 await milvusClient.refreshExternalCollection(data: RefreshExternalCollectionReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.refreshExternalCollection({
     collection_name: string,
     external_source?: string,
@@ -51,30 +48,32 @@ await milvusClient.refreshExternalCollection({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the external collection to refresh.
+- **collection_name** (*string*) -
+**[REQUIRED]**
+The name of the external collection to refresh.
 
-- **external_source** (*string*) -<br/>
-  Optional new external source path. If provided, the collection will be refreshed from this new source. Provide `external_source` and `external_spec` together, or omit both; when both are omitted, the refresh reuses the persisted source and spec. On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` URI, the rule above applies. For a `milvus://` source, the same rule applies — omitting it reuses the persisted source, and the refresh still syncs the latest data.
+- **external_source** (*string*) -
+Optional new external source path. If provided, the collection will be refreshed from this new source.
 
-- **external_spec** (*string*) -<br/>
-  Optional new external spec configuration. If provided, the collection will use this new spec. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`. On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
+- **external_spec** (*string*) -
+Optional new external spec configuration. If provided, the collection will use this new spec.
 
-- **db_name** (*string*) -<br/>
-  The name of the database. Optional.
+- **db_name** (*string*) -
+The name of the database. Optional.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;RefreshExternalCollectionResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;RefreshExternalCollectionResponse&gt;*
 
 This method returns a promise that resolves to a **RefreshExternalCollectionResponse** object.
 
-```typescript
+```javascript
 {
     job_id: string,
     status:  ResStatus
@@ -83,11 +82,11 @@ This method returns a promise that resolves to a **RefreshExternalCollectionResp
 
 **PARAMETERS:**
 
-- **job_id** (*string*) -<br/>
-  The identifier of the asynchronous refresh job. Pass this value to `getRefreshExternalCollectionProgress()` to poll for completion.
+- **job_id** (*string*) -
+The identifier of the asynchronous refresh job. Pass this value to `getRefreshExternalCollectionProgress()` to poll for completion.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -100,6 +99,13 @@ This method returns a promise that resolves to a **RefreshExternalCollectionResp
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listIndexes()
 
 This operation lists the indexes of a specific collection
@@ -72,11 +69,13 @@ await milvusClient.listIndexes({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;ListIndexResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListIndexResponse&gt;*
 
 This method returns a promise that resolves to a **ListIndexResponse** object.
 
-```typescript
+```javascript
 {
     indexes: string[],
     status:  ResStatus
@@ -85,11 +84,11 @@ This method returns a promise that resolves to a **ListIndexResponse** object.
 
 **PARAMETERS:**
 
-- **indexes** (*string[]*) -<br/>
-  A list of index names defined on the requested collection.
+- **indexes** (*string[]*) -
+A list of index names defined on the requested collection.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -102,3 +101,26 @@ This method returns a promise that resolves to a **ListIndexResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.listIndexes({
+    collection_name: 'my_collection',
+});
+
+console.log(res.indexes);
+```

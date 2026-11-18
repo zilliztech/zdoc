@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Storage
 
 This interface stores files produced by `BulkWriter`. Use it to upload generated files to object storage or another remote location before calling `bulkInsert()`.
 
-```typescript
+```javascript
 interface Storage
 ```
 

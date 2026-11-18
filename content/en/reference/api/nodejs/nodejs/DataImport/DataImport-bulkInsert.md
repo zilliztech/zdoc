@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # bulkInsert()
 
 This operation imports the data from a specified data file into Milvus.
@@ -43,6 +40,7 @@ await milvusClient.bulkInsert({
     db_name?: string,
     collection_name: string,
     partition_name?: string,
+    channel_names?: string[],
     files: string[],
     timeout?: number,
     options?: KeyValuePair<string, string | number>[]
@@ -65,6 +63,10 @@ await milvusClient.bulkInsert({
 
     The name of the target partition.
 
+- **channel_names** (*string[]*) -
+
+    The message channels to use for the import. Optional.
+
 - **files** (*string[]*) -
 
     A list of paths to the data files from which the import is conducted.
@@ -79,15 +81,13 @@ await milvusClient.bulkInsert({
 
     Extra options for the current operation in key-value pairs.
 
-**RETURN TYPE:**
+**RETURNS:**
 
-*Promise*\<*ImportResponse*>
-
-**RETURNS** *Promise&lt;ImportResponse&gt;*
+*Promise&lt;ImportResponse&gt;*
 
 This method returns a promise that resolves to a **ImportResponse** object.
 
-```typescript
+```javascript
 {
     tasks: number[],
     status:  ResStatus
@@ -96,11 +96,11 @@ This method returns a promise that resolves to a **ImportResponse** object.
 
 **PARAMETERS:**
 
-- **tasks** (*number[]*) -<br/>
-  The identifiers of the asynchronous import tasks dispatched to the data nodes. Pass these values to `listImportTasks()` to poll for completion.
+- **tasks** (*number[]*) -
+The identifiers of the asynchronous import tasks dispatched to the data nodes. Pass these values to `listImportTasks()` to poll for completion.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -114,7 +114,14 @@ This method returns a promise that resolves to a **ImportResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Examples\{#examples}
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

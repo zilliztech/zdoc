@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # flushSync()
 
 This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns.
@@ -36,7 +35,7 @@ This operation manually seals a segment and persists the data on disk. It is rec
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.
 
@@ -70,11 +69,13 @@ await milvusClient.flushSync({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;GetFlushStateResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;GetFlushStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetFlushStateResponse** object.
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -83,11 +84,11 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -<br/>
-  Whether all targeted segments are flushed to persistent storage. Because `flushSync()` blocks until the flush completes, this value is **true** on success.
+- **flushed** (*boolean*) -
+Whether all targeted segments are flushed to persistent storage. Because `flushSync()` blocks until the flush completes, this value is **true** on success.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -101,9 +102,16 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

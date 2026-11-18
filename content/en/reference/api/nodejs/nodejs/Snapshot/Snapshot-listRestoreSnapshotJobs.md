@@ -2,7 +2,7 @@
 title: "listRestoreSnapshotJobs() | Node.js"
 slug: /node/node/Snapshot-listRestoreSnapshotJobs
 sidebar_label: "listRestoreSnapshotJobs()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRestoreSnapshotJobs()
 
 This operation lists all snapshot restore jobs. You can filter by target collection name and database name.
 
-```typescript
+```javascript
 await milvusClient.listRestoreSnapshotJobs(data?: ListRestoreSnapshotJobsReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listRestoreSnapshotJobs({
     collection_name?: string,
     db_name?: string,
@@ -49,23 +46,25 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -<br/>
-  Optional filter by target collection name.
+- **collection_name** (*string*) -
+Optional filter by target collection name.
 
-- **db_name** (*string*) -<br/>
-  Optional filter by database name.
+- **db_name** (*string*) -
+Optional filter by database name.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
 
 This method returns a promise that resolves to a **ListRestoreSnapshotJobsResponse** object.
 
-```typescript
+```javascript
 {
     jobs: RestoreSnapshotJobInfo[],
     status:  ResStatus
@@ -74,11 +73,12 @@ This method returns a promise that resolves to a **ListRestoreSnapshotJobsRespon
 
 **PARAMETERS:**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
-  A list of restore jobs that match the requested database and collection filters. For the full **RestoreSnapshotJobInfo** field reference, refer to the `getRestoreSnapshotState()` doc.
+- **jobs** (*RestoreSnapshotJobInfo[]*) -
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+A list of restore jobs that match the requested database and collection filters. For the full RestoreSnapshotJobInfo field reference, refer to the `getRestoreSnapshotState()` doc.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -91,6 +91,13 @@ This method returns a promise that resolves to a **ListRestoreSnapshotJobsRespon
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

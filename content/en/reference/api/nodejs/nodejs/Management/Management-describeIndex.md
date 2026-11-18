@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeIndex()
 
 This operation describes a specific index.
@@ -72,11 +69,13 @@ await milvusClient.describeIndex(data)
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;DescribeIndexResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;DescribeIndexResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeIndexResponse** object.
 
-```typescript
+```javascript
 {
     index_descriptions: IndexDescription[],
     status:  ResStatus
@@ -85,8 +84,9 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
 **PARAMETERS:**
 
-- **index_descriptions** (*IndexDescription[]*) -<br/>
-  A list of index descriptions for the requested collection. When **field_name** or **index_name** is supplied, the list contains only the matching entry.
+- **index_descriptions** (*IndexDescription[]*) -
+
+A list of index descriptions for the requested collection. When **field_name** or **index_name** is supplied, the list contains only the matching entry.
 
     - **index_name** (*string*) -
 
@@ -124,8 +124,8 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
         The number of rows still waiting to be indexed.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -139,9 +139,16 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const describeIndexReq = {
   collection_name: 'my_collection',

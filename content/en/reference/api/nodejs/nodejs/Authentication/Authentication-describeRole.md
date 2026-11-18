@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeRole()
 
 This operation describes a specific role.
@@ -64,11 +61,13 @@ await milvusClient.describeRole({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;SelectRoleResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 This method returns a promise that resolves to a **SelectRoleResponse** object.
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -77,103 +76,23 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*RoleResult[]*) -<br/>
-  A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
+- **results** (*RoleResult[]*) -
+A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
 
     - **role** (*RoleEntity*) -
 
         A **RoleEntity** object describing the role.
 
-        - **name** (*string*) -
-
-        The role name.
-
-        - **name** (*string*) -
-
-            The role name.
-
     - **users** (*User[]*) -
 
         A list of users that hold this role.
-
-        - **name** (*string*) -
-
-        The username.
-
-        - **name** (*string*) -
-
-            The username.
 
     - **entities** (*GrantEntity[]*) -
 
         A list of grants attached to this role. Each entry includes the granted privilege, the target object, and the user who granted it.
 
-        - **role** (*RoleEntity*) -
-
-        The role to which the privilege is granted.
-
-        - **object** (*ObjectEntity*) -
-
-        The object type the privilege applies to (for example, **Collection**, **Global**, **User**).
-
-        - **object_name** (*string*) -
-
-        The specific object name to which the privilege applies. Use `*` for all objects.
-
-        - **grantor** (*Grantor*) -
-
-        The principal that granted this privilege.
-
-          - **user** (*User*) -
-
-          The user who granted the privilege.
-
-          - **privilege** (*PrivilegeEntity*) -
-
-          The privilege that was granted.
-
-        - **db_name** (*string*) -
-
-        The database the grant applies to. Use `*` for all databases.
-
-        - **role** (*RoleEntity*) -
-
-            The role to which the privilege is granted.
-
-        - **object** (*ObjectEntity*) -
-
-            The object type the privilege applies to (for example, **Collection**, **Global**, **User**).
-
-        - **object_name** (*string*) -
-
-            The specific object name to which the privilege applies. Use `*` for all objects.
-
-        - **grantor** (*Grantor*) -
-
-            The principal that granted this privilege.
-
-            - **user** (*User*) -
-
-            The user who granted the privilege.
-
-            - **privilege** (*PrivilegeEntity*) -
-
-            The privilege that was granted.
-
-            - **user** (*User*) -
-
-                The user who granted the privilege.
-
-            - **privilege** (*PrivilegeEntity*) -
-
-                The privilege that was granted.
-
-        - **db_name** (*string*) -
-
-            The database the grant applies to. Use `*` for all databases.
-
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -187,9 +106,16 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 milvusClient.describeRole({roleName: 'myrole'});
 ```
 

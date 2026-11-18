@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # alterAlias()
 
 This operation reassigns the alias of one collection to another.
@@ -49,41 +48,39 @@ await milvusClient.alterAlias({
 
 **PARAMETERS:**
 
-- **alias** (*str*) -
+- **alias** (*string*) -
 
     **[REQUIRED]**
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" title="Note">
-
-    What is a collection alias?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. 
+    A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. 
     
-        On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
+    In Milvus, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
     
-        Below is an example of reassigning the alias of one collection to another:
+    Below is an example of reassigning the alias of one collection to another:
     
-        Suppose there are two collections: `collection_1` and `collection_2`. There is also a collection alias named `bob`, which was originally assigned to `collection_1`:
+    Suppose there are two collections: `collection_1` and `collection_2`. There is also a collection alias named `bob`, which was originally assigned to `collection_1`:
     
-        - `collection_1`'s alias = ["bob"]
+    - `collection_1`'s alias = ["bob"]
     
-        - `collection_2`'s alias = []
+    - `collection_2`'s alias = []
     
-        After calling `alter_alias("collection_2", "bob")`:
+    After calling `alter_alias("collection_2", "bob")`:
     
-        - `collection_1`'s alias = []
+    - `collection_1`'s alias = []
     
-        - `collection_2`'s alias = ["bob"]
-
+    - `collection_2`'s alias = ["bob"]
+    
     </Admonition>
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     The name of the database that holds the target collection.
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
@@ -95,7 +92,9 @@ await milvusClient.alterAlias({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -121,9 +120,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasCollection()
 
 This operation checks whether a specific collection exists.
@@ -48,11 +45,11 @@ await milvusClient.hasCollection({
 
 **PARAMETERS:**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     The name of the database that holds the target collection.
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
@@ -64,11 +61,13 @@ await milvusClient.hasCollection({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise&lt;BoolResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;BoolResponse&gt;*
 
 This method returns a promise that resolves to a **BoolResponse** object.
 
-```typescript
+```javascript
 {
     value: boolean,
     status:  ResStatus
@@ -77,11 +76,11 @@ This method returns a promise that resolves to a **BoolResponse** object.
 
 **PARAMETERS:**
 
-- **value** (*boolean*) -<br/>
-  A boolean that indicates whether the requested collection exists. It is **true** when the collection exists and **false** when it does not.
+- **value** (*boolean*) -
+A boolean that indicates whether the requested collection exists. It is **true** when the collection exists and **false** when it does not.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -95,9 +94,16 @@ This method returns a promise that resolves to a **BoolResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

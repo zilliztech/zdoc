@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # checkHealth()
 
 This operation checks the health status of the Milvus server.
@@ -42,15 +39,13 @@ await milvusClient.checkHealth()
 milvusClient.checkHealth()
 ```
 
-**RETURN TYPE:**
+**RETURNS:**
 
-*Promise*\<*CheckHealthResponse*>
-
-**RETURNS** *Promise&lt;CheckHealthResponse&gt;*
+*Promise&lt;CheckHealthResponse&gt;*
 
 This method returns a promise that resolves to a **CheckHealthResponse** object.
 
-```typescript
+```javascript
 {
     isHealthy: boolean,
     reasons: string[]
@@ -67,7 +62,14 @@ This method returns a promise that resolves to a **CheckHealthResponse** object.
 
     When **isHealthy** is **false**, a list of human-readable reasons explaining which components are unhealthy. The list is empty when **isHealthy** is **true**.
 
-## Examples\{#examples}
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
 
 ```javascript
 milvusClient.checkHealth()

@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # createCollection()
 
 This operation creates a collection either with default or customized settings. 
@@ -53,16 +52,13 @@ await milvusClient.createCollection({
     consistency_level?: "Strong" | "Session" | "Bounded" | "Eventually" | "Customized";
     description?: string;
     enable_dynamic_field?: boolean;
+    enableDynamicField?: boolean;
     id_type?: Int64 | VarChar;
     index_params?: CreateIndexParam;
-    metric_type?: string;
+    metric_type?: string | MetricType;
     primary_field_name?: string;
     vector_field_name?: string;
     timeout?: number;
-    external_source?: string;
-    external_spec?: string;
-    do_physical_backfill?: boolean;
-    file_source_ids?: Array<number | string>;
  })
 ```
 
@@ -80,6 +76,8 @@ await milvusClient.createCollection({
 
 - **dimension** (*number*) -
 
+    **[REQUIRED]**
+
     The dimensionality of the vector embeddings. The value should be an integer greater than 1. Skip this if you need to customize the collection schema.
 
 - **auto_id** (*boolean*) - 
@@ -90,21 +88,19 @@ await milvusClient.createCollection({
 
     This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None**.
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     The consistency level of the target collection.
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" title="Note">
-
-    What is the consistency level?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
     
-        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
     
-        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -118,15 +114,19 @@ await milvusClient.createCollection({
 
     The value defaults to **True**, indicating that the meta field is used.
 
+- **enableDynamicField** (*boolean)* -
+
+    An alias of **enable_dynamic_field**.
+
 - **id_type** (*Int64* | *VarChar*) -
 
     The data type of the primary field.
 
-- **index_params** (*CreatIndexParam*) -
+- **index_params** (*CreateIndexParam*) -
 
     The index parameters for the collection to create.
 
-- **metric_type** (*string*) -
+- **metric_type** (*string* | *MetricType*) -
 
     The metric type determines how similarities between vector embeddings are measured.
 
@@ -142,28 +142,6 @@ await milvusClient.createCollection({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-- **external_source** (*string*) -
-
-    The external source path. This applies to the creation of external collections.
-
-    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
-
-- **external_spec** (*string*) -
-
-    The external spec configuration. This applies to the creation of external collections.
-
-    The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
-
-    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
-
-- **do_physical_backfill** (*boolean*) -
-
-    Whether to physically backfill external data. This applies to the creation of external collections.
-
-- **file_resource_ids** (*Array&lt;number | string&gt;*) -
-
-    The external file resource IDs. This applies to the creation of external collections.
-
 ### With CreateCollectionReq\{#with-createcollectionreq}
 
 Using this request body, you can customize the schema settings of the collection.
@@ -172,9 +150,10 @@ Using this request body, you can customize the schema settings of the collection
 await milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
-   consistency_level: number | string,
+   consistency_level: string,
    description: string,
    enable_dynamic_field: boolean,
+   fields?: FieldType[],
    schema: [
      {
        name: string,
@@ -184,6 +163,7 @@ await milvusClient.createCollection({
        is_primary_key?: boolean,
        is_partition_key?: boolean,
        is_function_output?: boolean,
+       is_clustering_key?: boolean,
        type_params: {
          dim: number,
          max_length: number,
@@ -196,7 +176,7 @@ await milvusClient.createCollection({
        },
        autoID?: boolean,
        nullable: boolean,
-       default_value: object,
+       default_value: number | string
      }
    ],
    functions: [
@@ -211,13 +191,13 @@ await milvusClient.createCollection({
    ],
    num_partitions?: number,
    partition_key_field?: string,
+   clustering_key_field?: string,
    shards_num?: number,
    properties?: Properties,
    timeout?: number,
    external_source?: string;
    external_spec?: string;
-   do_physical_backfill?: boolean;
-   file_source_ids?: Array<number | string>;
+   file_resource_ids?: Array<number | string>;
 })
 ```
 
@@ -233,21 +213,19 @@ await milvusClient.createCollection({
 
     The name of the collection to create.
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     The consistency level of the target collection.
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" title="Note">
-
-    What is the consistency level?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
     
-        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
     
-        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -263,141 +241,13 @@ await milvusClient.createCollection({
 
 - **schema** (*FieldType[]*) -
 
-    - **name** (*string)* -
+    The schema of the collection as a list of field definitions.
 
-        The name of the field.
+- **fields** (*FieldType[]*) -
 
-    - **data_type** (*string)* -
+    An alternative to **schema** that lists the fields of the collection as a list of field definitions.
 
-        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
-
-    - **description** (*string)* -
-
-        The description of the field.
-
-    - **is_partition_key** (*boolean)* -
-
-        A boolean value indicating whether this field will work as the partition key field.
-
-    - **is_primary_key** (*boolean)* -
-
-        Whether the field will work as the primary key.
-
-        The value defaults to **False**. Setting this to **True** makes the field a primary key field which is unique throughout the collection.
-
-    - **is_function_output** (boolean) -
-
-        Whether the field serves as the output field of a function.
-
-    - **type_params** (*string* | *number)* -
-
-        Other parameters for the field.
-
-        - **dim** (*string* | *number*) -
-
-            The dimensionality of the collection field that holds vector embeddings. 
-
-            The value should be an integer greater than 1 and is usually determined by the model you use to generate vector embeddings.
-
-        - **element_type** (string) -
-
-            The data type of the elements in an array. 
-
-            This parameter applies if the current field is an array field.
-
-        - **max_capacity** (*string* | *number)* -
-
-            The number of elements in an array.
-
-            This parameter applies if the current field is an array field.
-
-        - **max_length** (*string*) -
-
-            The maximum lengths of a string in this field.
-
-            This is required when the **data_type** of this field is **VarChar**.
-
-        - **enable_analyzer** (*boolean*) -
-
-            Whether to enable text analysis for the specified `VarChar` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
-
-        - **enable_match** (*boolean*)
-
-            Whether to enable keyword matching for the specified `VarChar` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enable_match` works in conjunction with `enable_analyzer` to provide structured term-based text search, with `enable_analyzer` handling tokenization and `enable_match` handling the search operations on these tokens.
-
-        - **analyzer_params** (*object*)
-
-            Configures the analyzer for text processing, specifically for `VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
-
-            - Built-in analyzer
-
-                ```javascript
-                const analyzer_params: { type: 'english' };
-                ```
-
-                - `type` (*string*) -
-
-                    Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
-
-            - Custom analyzer
-
-                ```javascript
-                const analyzer_params: {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase"],
-                };
-                ```
-
-                - `tokenizer` (*string*) -
-
-                    Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
-
-                - `filter` (*list*) -
-
-                    Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
-
-        - **multi_analyzer_params** (*object*) -
-
-            Configures multiple analyzers for text processing. The value of this parameter is a single JSON object that determines how Milvus selects the appropriate analyzer for each entity:
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
-    - **autoID** (*boolean)* -
-
-        Whether the primary field automatically increments upon data insertions into this collection.
-
-        The value defaults to **False**. Setting this to **True** makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
-
-    - **nullable** (*boolean*) -
-
-        A Boolean parameter that specifies whether the field can accept null values. Valid values:
-
-        - **true**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
-
-        - **false** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
-
-        For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
-
-    - **default_value** (*object*)
-
-        Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
-
-- **functions** (*list*)
+- **functions** (*FunctionObject[]*)
 
     Converts data into vector embeddings. This function will be added to the schema of a collection.
 
@@ -427,11 +277,9 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" title="Note">
-
-    What is partitioning?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
+    Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
 
     </Admonition>
 
@@ -439,11 +287,19 @@ await milvusClient.createCollection({
 
     The name of the field that serves as the partition key.
 
-    <Admonition type="info" title="Note">
-
-    What is a partition key?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+    Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    The name of the field that serves as the clustering key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction is a feature in Milvus that redistributes entities among segments in a collection based on the values in a scalar field. To enable this feature, you first need to select a scalar field as the clustering key. This allows Milvus to redistribute entities into a segment when their clustering key values fall within a specific range. When you trigger a clustering compaction, Milvus generates/updates a global index called PartitionStats, which records the mapping relationship between segments and clustering key values.
 
     </Admonition>
 
@@ -453,13 +309,11 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" title="Note">
-
-    What is sharding?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
     
-        By default, a collection contains one shard.
+    By default, a collection contains one shard.
 
     </Admonition>
 
@@ -495,25 +349,15 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
-    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
-
 - **external_spec** (*string*) -
 
     The external spec configuration. This applies to the creation of external collections.
-
-    The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
-
-    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
-
-- **do_physical_backfill** (*boolean*) -
-
-    Whether to physically backfill external data. This applies to the creation of external collections.
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
     The external file resource IDs. This applies to the creation of external collections.
 
-### With CreateCollectionWithSchemaAndIndexParamsReq\{#with-createcollectionwithschemaandindexparamsreq}
+### With CreateColWithSchemaAndIndexParamsReq\{#with-createcolwithschemaandindexparamsreq}
 
 Using this request body, you can customize the schema and index settings of the collection. Upon creation, the collection is automatically loaded.
 
@@ -521,9 +365,10 @@ Using this request body, you can customize the schema and index settings of the 
 await milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
-   consistency_level: number | string,
+   consistency_level: string,
    description: string,
    enable_dynamic_field: boolean,
+   fields?: FieldType[],
    schema: [
      {
        name: string,
@@ -533,6 +378,7 @@ await milvusClient.createCollection({
        is_primary_key?: boolean,
        is_partition_key?: boolean,
        is_function_output?: boolean,
+       is_clustering_key?: boolean,
        type_params: {
          dim: number,
          max_length: number,
@@ -544,7 +390,7 @@ await milvusClient.createCollection({
          'mmap.enabled': boolean
        },
        nullable: boolean,
-       default_value: object
+       default_value: number | string
      }
    ],
    functions: [
@@ -586,21 +432,19 @@ await milvusClient.createCollection({
 
     The name of the collection to create.
 
-- **consistency_level** (*number* | *string*)
+- **consistency_level** (*string*)
 
     The consistency level of the target collection.
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" title="Note">
-
-    What is the consistency level?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
     
-        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
     
-        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -616,139 +460,13 @@ await milvusClient.createCollection({
 
 - **schema** (*FieldType[]*) -
 
-    - **name** (*string)* -
+    The schema of the collection as a list of field definitions.
 
-        The name of the field.
+- **fields** (*FieldType[]*) -
 
-    - **data_type** (*string)* -
+    An alternative to **schema** that lists the fields of the collection as a list of field definitions.
 
-        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
-
-    - **description** (*string)* -
-
-        The description of the field.
-
-    - **is_partition_key** (*boolean)* -
-
-        A boolean value indicating whether this field will work as the partition key field.
-
-    - **is_primary_key** (*boolean)* -
-
-        Whether the field will work as the primary key.
-
-    - **is_function_output** (boolean) -
-
-        Whether the field serves as the output field of a function.
-
-    - **type_params** (*string* | *number)* -
-
-        Other parameters for the field.
-
-        - **dim** (*string* | *number*) -
-
-            The dimensionality of the collection field that holds vector embeddings. 
-
-            The value should be an integer greater than 1 and is usually determined by the model you use to generate vector embeddings.
-
-        - **element_type** (string) -
-
-            The data type of the elements in an array. 
-
-            This parameter applies if the current field is an array field.
-
-        - **max_capacity** (*string* | *number)* -
-
-            The number of elements in an array.
-
-            This parameter applies if the current field is an array field.
-
-        - **max_length** (*string*) -
-
-            The maximum lengths of a string in this field.
-
-            This is required when the **data_type** of this field is **VarChar**.
-
-        - **enable_analyzer** (*boolean*) -
-
-            Whether to enable text analysis for the specified `VarChar` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
-
-        - **enable_match** (*boolean*)
-
-            Whether to enable keyword matching for the specified `VarChar` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enable_match` works in conjunction with `enable_analyzer` to provide structured term-based text search, with `enable_analyzer` handling tokenization and `enable_match` handling the search operations on these tokens.
-
-        - **analyzer_params** (*object*)
-
-            Configures the analyzer for text processing, specifically for `VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
-
-            - Built-in analyzer
-
-                ```javascript
-                const analyzer_params: { type: 'english' };
-                ```
-
-                - `type` (*string*) -
-
-                    Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
-
-            - Custom analyzer
-
-                ```javascript
-                const analyzer_params: {
-                    "tokenizer": "standard",
-                    "filter": ["lowercase"],
-                };
-                ```
-
-                - `tokenizer` (*string*) -
-
-                    Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
-
-                - `filter` (*list*) -
-
-                    Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
-
-        - **multi_analyzer_params** (*object*) -
-
-            Configures multiple analyzers for text processing. The value of this parameter is a single JSON object that determines how Milvus selects the appropriate analyzer for each entity:
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
-    - **autoID** (*boolean)* -
-
-        Whether the primary field automatically increments upon data insertions into this collection.
-
-        The value defaults to **False**. Setting this to **True** makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
-
-    - **nullable** (*boolean*) -
-
-        A Boolean parameter that specifies whether the field can accept null values. Valid values:
-
-        - **true**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
-
-        - **false** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
-
-        For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
-
-    - **default_value** (*[DataType](./Collections-DataType)*)
-
-        Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
-
-- **functions** (*list*)
+- **functions** (*FunctionObject[]*)
 
     Converts data into vector embeddings. This function will be added to the schema of a collection.
 
@@ -778,23 +496,29 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" title="Note">
-
-    What is partitioning?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
+    Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
 
     </Admonition>
 
-- **partition_key_field** (*boolean)* -
+- **partition_key_field** (*string*) -
 
-    A boolean value indicating whether to enable partition key.
+    The name of the field that serves as the partition key.
 
-    <Admonition type="info" title="Note">
-
-    What is a partition key?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+    Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    The name of the field that serves as the clustering key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction is a feature in Milvus that redistributes entities among segments in a collection based on the values in a scalar field. To enable this feature, you first need to select a scalar field as the clustering key. This allows Milvus to redistribute entities into a segment when their clustering key values fall within a specific range. When you trigger a clustering compaction, Milvus generates/updates a global index called PartitionStats, which records the mapping relationship between segments and clustering key values.
 
     </Admonition>
 
@@ -804,13 +528,11 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" title="Note">
-
-    What is sharding?
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
     
-        By default, a collection contains one shard.
+    By default, a collection contains one shard.
 
     </Admonition>
 
@@ -870,25 +592,17 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
-    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`.
-
 - **external_spec** (*string*) -
 
     The external spec configuration. This applies to the creation of external collections.
-
-    The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
-
-    On Zilliz Cloud, `milvus-table` sources are used with the `milvus://` scheme; `format` can be omitted and defaults to `milvus-table` for a `milvus://` source.
-
-- **do_physical_backfill** (*boolean*) -
-
-    Whether to physically backfill external data. This applies to the creation of external collections.
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
     The external file resource IDs. This applies to the creation of external collections.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -914,9 +628,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -942,3 +663,4 @@ const milvusClient = new MilvusClient({
    ],
  });
 ```
+

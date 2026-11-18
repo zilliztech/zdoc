@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollectionAsync()
 
 This operation loads collection data into query nodes, then you can do vector search on this collection. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status.
@@ -89,11 +86,13 @@ await milvusClient.loadCollectionAsync({
 
 **RETURNS:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+This method returns a promise that resolves to a **ResStatus** object.
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 

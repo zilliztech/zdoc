@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadPartitionsSync()
 
 This operation loads the data of specific partitions into memory. This is the synchronous function that helps to ensure that the specified partitions have been loaded.
@@ -42,7 +39,7 @@ await milvusClient.loadPartitionsSync(data)
 await milvusClient.loadPartitionsSync({ 
     db_name: string,
     collection_name: string,
-    refresh?: boolean,
+    partition_names: string[],
     replica_number?: number,
     resource_groups?: string[],
     timeout?: number
@@ -79,7 +76,9 @@ await milvusClient.loadPartitionsSync({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -105,9 +104,16 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

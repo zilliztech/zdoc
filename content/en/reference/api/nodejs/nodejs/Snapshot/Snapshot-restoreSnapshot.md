@@ -2,7 +2,7 @@
 title: "restoreSnapshot() | Node.js"
 slug: /node/node/Snapshot-restoreSnapshot
 sidebar_label: "restoreSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # restoreSnapshot()
 
 This operation restores a collection from a snapshot to a new or existing collection.
 
-```typescript
+```javascript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.restoreSnapshot({
     snapshot_name: string,
     source_collection_name: string,
@@ -52,35 +49,37 @@ await milvusClient.restoreSnapshot({
 
 **PARAMETERS:**
 
-- **snapshot_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the snapshot to restore from.
+- **snapshot_name** (*string*) -
+**[REQUIRED]**
+The name of the snapshot to restore from.
 
-- **source_collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the source collection.
+- **source_collection_name** (*string*) -
+**[REQUIRED]**
+The name of the source collection.
 
-- **target_collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  The name of the target collection to restore to.
+- **target_collection_name** (*string*) -
+**[REQUIRED]**
+The name of the target collection to restore to.
 
-- **source_db_name** (*string*) -<br/>
-  The source database name. Optional.
+- **source_db_name** (*string*) -
+The source database name. Optional.
 
-- **target_db_name** (*string*) -<br/>
-  The target database name. Optional.
+- **target_db_name** (*string*) -
+The target database name. Optional.
 
-- **timeout** (*number*) -<br/>
-  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -<br/>
-  A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -
+A trace ID for request tracking. Optional.
 
-**RETURNS** *Promise&lt;RestoreSnapshotResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;RestoreSnapshotResponse&gt;*
 
 This method returns a promise that resolves to a **RestoreSnapshotResponse** object.
 
-```typescript
+```javascript
 {
     job_id: string,
     status:  ResStatus
@@ -89,11 +88,11 @@ This method returns a promise that resolves to a **RestoreSnapshotResponse** obj
 
 **PARAMETERS:**
 
-- **job_id** (*string*) -<br/>
-  The identifier of the asynchronous restore job. Pass this value to `getRestoreSnapshotState()` to poll for completion.
+- **job_id** (*string*) -
+The identifier of the asynchronous restore job. Pass this value to `getRestoreSnapshotState()` to poll for completion.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -106,6 +105,13 @@ This method returns a promise that resolves to a **RestoreSnapshotResponse** obj
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

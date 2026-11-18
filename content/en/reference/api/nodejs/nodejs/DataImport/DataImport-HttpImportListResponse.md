@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportListResponse
 
 This interface describes the response returned by `listImportJobs()`.

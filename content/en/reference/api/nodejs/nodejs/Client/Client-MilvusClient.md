@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # MilvusClient
 
-A **MilvusClient** instance represents a Node.js client that connects to a specific Zilliz Cloud cluster.
+A **MilvusClient** instance represents a Node.js client that connects to a specific Milvus instance.
 
 ```javascript
 new MilvusClient(options:ClientConfig)
@@ -48,9 +45,9 @@ new MilvusClient(config: ClientConfig)
 
     **[REQUIRED]**
 
-    The address of the Zilliz Cloud cluster. For example:
+    The address of the Milvus instance. For example:
 
-    ```plaintext
+    ```javascript
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
@@ -62,11 +59,11 @@ new MilvusClient(config: ClientConfig)
 
         The cluster endpoint. For example:
 
-        ```plaintext
+        ```javascript
         https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
         ```
 
-    - **_SKIPCONNECT__** (*boolean*) -
+    - **__SKIP_CONNECT__** (*boolean*) -
 
         A boolean value indicating whether to skip the connection or not. 
 
@@ -126,19 +123,13 @@ new MilvusClient(config: ClientConfig)
 
         A generic poll option, which abides by the rules specified in [this repo](https://github.com/coopernurse/node-pool).
 
-    - **protoFilePath** (*protoFilePath*) -
-
-        - **milvus** (*string*) -
-
-        - **schema** (*string*) -
-
     - **retryDelay** (*number*) -
 
         The interval between retry attempts.
 
     - **ssl** (*boolean*) -
 
-        A boolean value indicating whether to use SSL or not. Always set this to `true` on Zilliz Cloud.
+        A boolean value indicating whether to use SSL or not. Set this to `true` if you have configured Milvus to work at a TLS endpoint. For details, refer to [Encryption in Transit](https://milvus.io/docs/tls.md).
 
     - **timeout** (*string* | *number*) -
 
@@ -180,7 +171,7 @@ new MilvusClient(config: ClientConfig)
 
             Whether to skip the checks against the provided certificates. Setting it `true` indicates a skip.
 
-        - **verifyOptions** (*string*) -
+        - **verifyOptions** (*Record&lt;string, any&gt;*) -
 
             The verification options.
 
@@ -192,23 +183,35 @@ new MilvusClient(config: ClientConfig)
 
         Whether to enable tracing. 
 
+    - **telemetry** (*TelemetryConfig*) -
+
+        Configuration for client metrics, heartbeat, and server-pushed commands.
+
+    - **isGlobal** (*boolean*) -
+
+        Whether to enable global-cluster mode. When **true**, the SDK fetches the cluster topology from the endpoint and routes to the primary cluster. When omitted, the mode is auto-detected from the address URI.
+
     - **username** (*string*) -
 
         The username used for connection.
 
 - **ssl** (*boolean*) -
 
-    A boolean value indicating whether to use SSL or not. Always set this to `true` on Zilliz Cloud.
+    A boolean value indicating whether to use SSL or not. Set this to `true` if you have configured Milvus to work at a TLS endpoint. For details, refer to [Encryption in Transit](https://milvus.io/docs/tls.md).
 
 - **username** (*string*) -
 
-    A valid username used to connect to the specified Zilliz Cloud cluster.
+    A valid username used to connect to the specified Milvus instance.
+
+    Use this if authentication has been enabled on the target Milvus instance. To enable authentication, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
 
     This should be used along with **password**.
 
 - **password** (*string*) -
 
-    A valid password used to connect to the specified Zilliz Cloud cluster.
+    A valid password used to connect to the specified Milvus instance.
+
+    Use this if authentication has been enabled on the target Milvus instance. To enable authentication, refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md).
 
     This should be used along with **username**.
 
@@ -216,19 +219,31 @@ new MilvusClient(config: ClientConfig)
 
     Additional channel options for gRPC.
 
-**RETURNS** *MilvusClient*
+**METHODS:**
 
-This method returns a Milvus Client instance that extends GRPC Client and handles communication with Zilliz Cloud clusters.
+- `static get sdkInfo`
+
+    Returns `{ version, recommendMilvus }`, the SDK version and the recommended Milvus version generated at build time.
+
+- `session(clusterId: string): MilvusClientSession`
+
+    Creates a lightweight DQL session pinned to a target cluster ID. The session reuses this client's connection and injects `cluster_id` into `search`, `hybridSearch`, `searchIterator`, `query`, `queryIterator`, and `get` requests. See [session()](./Client-session).
+
+- `createCollection(data): Promise<ResStatus>`
+
+    The high-level collection creation method that builds a default schema from `collection_name` and `dimension` and optionally creates the index and loads the collection.
+
+- All other operations (for example, `insert`, `search`, `query`, `createIndex`, `loadCollection`) are inherited from the underlying GRPC client.
+
+**RETURNS:**
+
+*MilvusClient*
+
+This method returns a Milvus Client instance that extends GRPC Client and handles communication with Milvus server.
 
 ## Example\{#example}
 
-```java
+```javascript
 new MilvusClient(config: ClientConfig)
 ```
-
-<Admonition type="info" title="Notes">
-
-- Set **configOrAddress** to your cluster endpoint. You can find the relevant information in Cluster details on the Zilliz Cloud console.
-
-</Admonition>
 

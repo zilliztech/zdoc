@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # connect()
 
-This method connects to the Zilliz Cloud cluster using the optionally specified SDK version.
+This method connects to the Milvus instance using the optionally specified SDK version.
 
 ```javascript
 connect(sdkVersion): void
@@ -39,9 +36,7 @@ connect(sdkVersion): void
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-connect({
-    sdkVersion: string
-})
+connect(sdkVersion: string)
 ```
 
 **PARAMETERS:**
@@ -52,13 +47,22 @@ connect({
 
     The version of your Node.js SDK.
 
-**RETURNS** *void*
+**RETURNS:**
+
+*void*
 
 This method returns nothing.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
-connect(2.3.5)
+```javascript
+connect('2.3.5')
 ```
 

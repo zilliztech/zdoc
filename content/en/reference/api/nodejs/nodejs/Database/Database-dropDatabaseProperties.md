@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabaseProperties()
 
 This operation drops the setting of the specified properties.
@@ -36,18 +33,12 @@ This operation drops the setting of the specified properties.
 await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" title="Notes">
-
-This method applies only to dedicated clusters.
-
-</Admonition>
-
 ## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.dropDatabaseProperties({
     db_name: string,
-    delete_properties: string[],
+    properties: string[],
     timeout?: number
 })
 ```
@@ -60,31 +51,31 @@ await milvusClient.dropDatabaseProperties({
 
     There should be a database with the specified name. Otherwise, exceptions will occur.
 
-- **delete_properties** (*string[]*) -
+- **properties** (*string[]*) -
 
     Names of the properties to drop in an array. Possible database properties are as follows:
 
-    - **database.replica.number** (*int*) -
+    - **database.replica.number** (*number*) -
 
         Number of replicas for the database.
 
-    - **database.resource_groups** (*[]str*) -
+    - **database.resource_groups** (*string[]*) -
 
         Resource groups dedicated to the database.
 
-    - **database.diskQuota.mb** (*int*) -
+    - **database.diskQuota.mb** (*number*) -
 
         Disk quota allocated to the database in megabytes (**MB**).
 
-    - **database.max.collections** (*int*) -
+    - **database.max.collections** (*number*) -
 
         Maximum number of collections allowed in the database.
 
-    - **database.force.deny.writing** (*bool*) -
+    - **database.force.deny.writing** (*boolean*) -
 
         Whether to deny all write operations in the database.
 
-    - **database.force.deny.reading** (*bool*) -
+    - **database.force.deny.reading** (*boolean*) -
 
         Whether to deny all read operations in the database.
 
@@ -94,7 +85,9 @@ await milvusClient.dropDatabaseProperties({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise |&lt;ResStatus&gt;*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -120,6 +113,13 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
 ```javascript
@@ -129,6 +129,6 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabaseProperties({ 
     db_name: 'new_db',
-    delete_properties: ["database.replica.number"] 
+    properties: ["database.replica.number"] 
 });
 ```

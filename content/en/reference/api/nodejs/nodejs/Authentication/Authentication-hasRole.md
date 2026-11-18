@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasRole()
 
 This operation checks if a role exists in the Milvus cluster.
@@ -57,11 +54,13 @@ await milvusClient.hasRole({
 
     RPC timeout in milliseconds. Optional.
 
-**RETURNS** *Promise&lt;HasRoleResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;HasRoleResponse&gt;*
 
 This method returns a promise that resolves to a **HasRoleResponse** object.
 
-```typescript
+```javascript
 {
     hasRole: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ This method returns a promise that resolves to a **HasRoleResponse** object.
 
 **PARAMETERS:**
 
-- **hasRole** (*boolean*) -<br/>
-  A boolean that indicates whether the requested role exists. It is **true** when the role exists and **false** when it does not.
+- **hasRole** (*boolean*) -
+A boolean that indicates whether the requested role exists. It is **true** when the role exists and **false** when it does not.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ This method returns a promise that resolves to a **HasRoleResponse** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 

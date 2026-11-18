@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterCollectionFieldProperties()
 
 This operation modifies the properties of a specified collection field.
@@ -58,7 +55,7 @@ await milvusClient.alterCollectionFieldProperties({
 
     **[REQUIRED]**
 
-    The name of the target collection to reassign an alias to.
+    The name of the target collection.
 
 - **field_name** (*string*) -
 
@@ -76,15 +73,15 @@ await milvusClient.alterCollectionFieldProperties({
 
         The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: [1, 65,535].
 
-        This is mandatory for a **DataType.VARCHAR** field.
+        This is mandatory for a **DataType.VARCHAR** field. See [DataType](./Collections-DataType).
 
     - **max_capacity** (*number*) -
 
         The number of elements in an Array field value.
 
-        This is mandatory for a **DataType.ARRAY** field.
+        This is mandatory for a **DataType.ARRAY** field. See [DataType](./Collections-DataType).
 
-    - **mmap_enabled** (*bool*) -
+    - **mmap.enabled** (*boolean*) -
 
         Whether Milvus maps the field data into memory instead of fully loading it. For details, refer to MMap-enabled Data Storage.
 
@@ -94,7 +91,9 @@ await milvusClient.alterCollectionFieldProperties({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -120,14 +119,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const resStatus = await milvusClient.alterCollectionField({
+const resStatus = await milvusClient.alterCollectionFieldProperties({
   collection_name: 'my-collection',
   field_name: 'my-field',
   properties: {"mmap.enabled": true}

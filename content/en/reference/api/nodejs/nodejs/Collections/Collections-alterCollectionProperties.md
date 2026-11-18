@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterCollectionProperties()
 
 This operation modifies the properties of a specified collection.
@@ -74,7 +71,7 @@ await milvusClient.alterCollectionProperties({
 
         The time-to-live (TTL) of a collection in seconds.
 
-    - **mmap.enabled** (*bool*) -
+    - **mmap.enabled** (*boolean*) -
 
         Whether to enable mmap for the raw data and indexes of all fields in the collection.
 
@@ -84,7 +81,9 @@ await milvusClient.alterCollectionProperties({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS:**
+
+*Promise\<ResStatus\>*
 
 This method returns a promise that resolves to a **ResStatus** object.
 
@@ -110,14 +109,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const resStatus = await milvusClient.alterCollection({
+const resStatus = await milvusClient.alterCollectionProperties({
     collection_name: 'my-collection',
     properties: {"collection.ttl.seconds": 18000}
 });

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeCollection()
 
 This operation lists detailed information about a specific collection.
@@ -41,7 +38,8 @@ await milvusClient.describeCollection(data)
 ```javascript
 await milvusClient.describeCollection({ 
     db_name: string,
-    collection_name: string 
+    collection_name: string,
+    cache?: boolean
 })
 ```
 
@@ -57,23 +55,32 @@ await milvusClient.describeCollection({
 
     The name of an existing collection.
 
+- **cache** (*boolean*) -
+
+    Whether to use the cached collection schema. Defaults to **false**.
+
 - **timeout** (*number*)  
 
     The timeout duration for this operation. 
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;DescribeCollectionResponse&gt;*
+**RETURNS:**
+
+*Promise&lt;DescribeCollectionResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeCollectionResponse** object.
 
-```typescript
+```javascript
 {
     schema: CollectionSchema,
     collectionID: string,
     collection_name: string,
     consistency_level: string,
     aliases: string[],
+    virtual_channel_names: string[],
+    physical_channel_names: string[],
+    start_positions: string[],
     properties: KeyValuePair[],
     created_timestamp: string,
     created_utc_timestamp: string,
@@ -81,10 +88,6 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
     num_partitions: string,
     db_name: string,
     functions: FunctionObject[],
-    external_source?: string,
-    external_spec?: string,
-    do_physical_backfill?: boolean,
-    file_resource_ids?: string[],
     update_timestamp_str: string,
     update_timestamp: number,
     anns_fields: Record<string, FieldSchema>,
@@ -96,8 +99,8 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
 **PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -<br/>
-  The schema of the collection.
+- **schema** (*CollectionSchema*) -
+The schema of the collection.
 
     - **name** (*string*) -
 
@@ -123,72 +126,82 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
         Doc-in / doc-out functions attached to the collection (for example, the BM25 sparse-vector function).
 
-- **collectionID** (*string*) -<br/>
-  The internal collection ID assigned by Milvus.
+    - **struct_array_fields** (*FieldSchema[]*) -
 
-- **collection_name** (*string*) -<br/>
-  The collection name.
+        All struct and array fields declared on the collection.
 
-- **consistency_level** (*string*) -<br/>
-  The default consistency level for queries against this collection. Possible values are **Strong**, **Session**, **Bounded**, **Eventually**, and **Customized**.
+    - **external_source** (*string*) -
 
-- **aliases** (*string[]*) -<br/>
-  A list of aliases that point to this collection.
+        The external source path. Optional.
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  Collection-level properties (for example, **mmap.enabled**, **collection.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
+    - **external_spec** (*string*) -
 
-- **created_timestamp** (*string*) -<br/>
-  The hybrid timestamp at which the collection was created.
+        The external spec configuration. Optional.
 
-- **created_utc_timestamp** (*string*) -<br/>
-  The UTC timestamp, in milliseconds, at which the collection was created.
+    - **file_resource_ids** (*string[]*) -
 
-- **shards_num** (*number*) -<br/>
-  The number of shards configured on the collection.
+        The external file resource IDs. Optional.
 
-- **num_partitions** (*string*) -<br/>
-  The number of partitions configured on the collection. This value is meaningful only when a partition key field is declared.
+- **collectionID** (*string*) -
+The internal collection ID assigned by Milvus.
 
-- **db_name** (*string*) -<br/>
-  The database that owns this collection.
+- **collection_name** (*string*) -
+The collection name.
 
-- **functions** (*FunctionObject[]*) -<br/>
-  A flattened list of doc-in / doc-out functions attached to the collection.
+- **consistency_level** (*string*) -
+The default consistency level for queries against this collection. Possible values are **Strong**, **Session**, **Bounded**, **Eventually**, and **Customized**.
 
-- **external_source** (*string*) -
+- **aliases** (*string[]*) -
+A list of aliases that point to this collection.
 
-    The external source path. Optional.
+- **virtual_channel_names** (*string[]*) -
+The names of the virtual channels assigned to the collection. This value is not useful for now.
 
-- **external_spec** (*string*) -
+- **physical_channel_names** (*string[]*) -
+The names of the physical channels assigned to the collection. This value is not useful for now.
 
-    The external spec configuration. Optional.
+- **start_positions** (*string[]*) -
+The start positions of the collection at the time it was created.
 
-- **do_physical_backfill** (*boolean*) -
+- **properties** (*KeyValuePair[]*) -
+Collection-level properties (for example, **mmap.enabled**, **collection.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
 
-    Whether to physically backfill external data. Optional.
+- **created_timestamp** (*string*) -
+The hybrid timestamp at which the collection was created.
 
-- **file_resource_ids** (*Array&lt;number | string&gt;*) -
+- **created_utc_timestamp** (*string*) -
+The UTC timestamp, in milliseconds, at which the collection was created.
 
-    The external file resource IDs. Optional.
+- **shards_num** (*number*) -
+The number of shards configured on the collection.
 
-- **update_timestamp_str** (*string*) -<br/>
-  The hybrid timestamp at which the collection was last updated, formatted as a string.
+- **num_partitions** (*string*) -
+The number of partitions configured on the collection. This value is meaningful only when a partition key field is declared.
 
-- **update_timestamp** (*number*) -<br/>
-  The numeric form of the last-update timestamp.
+- **db_name** (*string*) -
+The database that owns this collection.
 
-- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  A mapping from vector-field name to its **FieldSchema**, covering all vector fields declared on the collection.
+- **functions** (*FunctionObject[]*) -
 
-- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  A mapping from scalar-field name to its **FieldSchema**, covering all scalar fields declared on the collection.
+A flattened list of doc-in / doc-out functions attached to the collection.
 
-- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  A mapping from function-output-field name to its **FieldSchema**.
+- **update_timestamp_str** (*string*) -
+The hybrid timestamp at which the collection was last updated, formatted as a string.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **update_timestamp** (*number*) -
+The numeric form of the last-update timestamp.
+
+- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -
+A mapping from vector-field name to its **FieldSchema**, covering all vector fields declared on the collection.
+
+- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -
+A mapping from scalar-field name to its **FieldSchema**, covering all scalar fields declared on the collection.
+
+- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -
+A mapping from function-output-field name to its **FieldSchema**.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -202,9 +215,16 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
 ## Example\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

@@ -4,12 +4,12 @@ slug: /node/node/Authentication-createRole
 sidebar_label: "createRole()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation creates a new role in the Milvus server. | Node.js"
+description: "This operation creates a custom role. | Node.js"
 type: docx
-token: TR8xdMnzEo85sLxAtizcJWZdn6b
+token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
   - what is milvus
@@ -25,61 +25,82 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createRole()
 
-This operation creates a new role in the Milvus server.
+This operation creates a custom role.
+
+```javascript
+await milvusClient.createRole(data)
+```
 
 ## Request Syntax\{#request-syntax}
 
-```typescript
-milvusClient.createRole({ roleName, description?, timeout? })
+```javascript
+await milvusClient.createRole({
+   roleName: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **PARAMETERS:**
 
 - **roleName** (*string*) -
 
-    The name of the new role.
+    **[REQUIRED]**
+
+    The name of the role to create.
 
 - **description** (*string*) -
 
-    An optional description for the new role.
+    The description of the role to create.
 
 - **timeout** (*number*) -
 
-    An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or error occurs. Default is undefined.
+    The timeout duration for this operation. 
 
-**RETURN TYPE:**
-
-*ResStatus*
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURNS:**
 
-The response status: `{error_code, reason}`.
+*Promise\<ResStatus\>*
+
+This method returns a promise that resolves to a **ResStatus** object.
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **PARAMETERS:**
 
-- **error_code** (*number*) -
+- **code** (*number*) -
 
-    The error code number: 0 means success.
+    A code that indicates the operation result. It remains **0** if this operation succeeds.
 
-- **reason** (*string*) -
+- **error_code** (*string* | *number*) -
 
-    The cause of the error, if any.
+    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+
+- **reason** (*string*) - 
+
+    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
-    Raised when the server rejects the request or the RPC fails. Inspect the server error message for the exact failure reason.
+    This exception is raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```javascript
 await milvusClient.createRole({
-  roleName: 'exampleRole',
-});
+   roleName: 'exampleRole',
+ })
 ```
+

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # count()
 
 This operation counts the number of entities that match the specified filtering expression.
@@ -43,21 +40,25 @@ await milvusClient.count({
     db_name?: string,
     collection_name: string,
     expr?: string,
-    timeout?: boolean
+    filter?: string,
+    exprValues?: keyValueObj,
+    partition_names?: string[],
+    consistency_level?: ConsistencyLevelEnum,
+    timeout?: number
 })
 ```
 
 **PARAMETERS:**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     The name of the database that holds the target collection.
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the collection to create an alias for.
+    The name of the collection to count.
 
 - **expr** (*string*) -
 
@@ -65,15 +66,33 @@ await milvusClient.count({
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
+- **filter** (*string*) -
+
+    An alias of **expr** for the filtering condition.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](https://milvus.io/docs/filtering-templating.md), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+
+- **partition_names** (*string[]*) -
+
+    A list of the names of the partitions to count.
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See ConsistencyLevelEnum.
+
 - **timeout** (*number*)  
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise&lt;CountResult&gt;*
+**RETURNS:**
+
+*Promise&lt;CountResult&gt;*
 
 This method returns a promise that resolves to a **CountResult** object.
 
-```typescript
+```javascript
 {
     data: number,
     status:  ResStatus
@@ -82,11 +101,11 @@ This method returns a promise that resolves to a **CountResult** object.
 
 **PARAMETERS:**
 
-- **data** (*number*) -<br/>
-  The number of rows in the collection that match the supplied filter expression. When no expression is supplied, this is the total row count.
+- **data** (*number*) -
+The number of rows in the collection that match the supplied filter expression. When no expression is supplied, this is the total row count.
 
-- **ResStatus**<br/>
-  A **ResStatus** object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -100,7 +119,14 @@ This method returns a promise that resolves to a **CountResult** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Examples\{#examples}
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

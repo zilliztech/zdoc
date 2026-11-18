@@ -27,8 +27,15 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # dropCollectionFunction()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**Deprecated.**
+
+This method is deprecated. Use dropFunctionField() instead.
+
+</Admonition>
 
 This operation removes a custom function from an existing collection.
 
@@ -71,11 +78,13 @@ dropCollectionFunction({
 
 **RETURNS:**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+This method returns a promise that resolves to a **ResStatus** object.
 
 **EXCEPTIONS:**
 
-- **MilvusError**
+- **Error**
 
     This exception will be raised when any error occurs during this operation.
 
