@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 'use strict'
 
-// Shared-docs pin-drift and variant-health watchdog core. Read-only: for every
-// shared page it compares the track head with each lock pin, reports drift, and
-// audits adopted variants against the live upstream pull-request state. Nothing
-// here writes locks or variants: pins move only through reviewed re-pin PRs and
-// reconciliation stays a deliberate human step.
+// Shared-docs pin-drift and variant-health watchdog core. Read-only: it compares
+// the track head with each lock pin, reports drift, and audits adopted variants
+// against the live upstream pull-request state. Nothing here writes locks or
+// variants: pins move only through reviewed re-pin PRs and reconciliation stays
+// a deliberate human step.
+//
+// Both layouts are audited. Page-layout groups (shared-docs/<group>/pages/) are
+// scanned page by page; manual-layout groups (shared-docs/<group>/manual.yaml)
+// are audited as one manual: group lock pins, the upstream source directory, and
+// the cloud_pages content references. Declared transform targets are additionally
+// asserted against the upstream head (WP-3b third layer), which also covers
+// reserved named markers that have no content wired yet.
 
 const fs = require('node:fs')
 const path = require('node:path')
@@ -17,6 +24,9 @@ const core = path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src',
 const {parsePageConfig, parseSourceConfig} = loadTypeScript(path.join(core, 'config.ts'))
 const {parseLock} = loadTypeScript(path.join(core, 'lock.ts'))
 const {parseVariants, variantFileName, variantSidecarName} = loadTypeScript(path.join(core, 'variants.ts'))
+// Reuse the build's own manual-input reader so the watchdog audits exactly what
+// the build would consume, including cloud_pages path safety.
+const {readManualSharedDocs} = loadTypeScript(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'shared-docs', 'commands', 'build.ts'))
 const manualRegistry = loadTypeScript(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'manuals', 'registry.ts')).manualRegistry
 const {DOC_HEADING_TAGS} = loadTypeScript(path.join(__dirname, '..', '..', 'packages', 'docs-ui', 'src', 'shared', 'utils', 'docHeadingTags.ts'))
 
@@ -81,6 +91,16 @@ function pageReport({name, repositoryRoot, upstreamRepo, headSha, fetchPullState
   }
   const log = git(upstreamRepo, 'log', '--format=%H %s', `${lock.lock.next}..${headSha}`, '--', sourceFile)
   entry.drifted = (log || '').trim().split('\n').filter(Boolean)
+  // WP-3b third layer: every transform target declared in page.yaml must still be a
+  // named block at the upstream head. Upstream deletions of markers are otherwise
+  // silent for reserved targets that have no content wired yet.
+  const declaredTargets = [...new Set((config.config.transforms ?? []).map(transform => transform.target?.block).filter(Boolean))]
+  if (declaredTargets.length) {
+    const upstreamBytes = git(upstreamRepo, 'show', `${headSha}:${sourceFile}`)
+    if (upstreamBytes !== null && declaredTargets.some(block => !upstreamBytes.includes(`doc:block:start id="${block}"`))) {
+      entry.transformIssue = 'TRANSFORM_TARGET_MISSING'
+    }
+  }
   const rawVariants = {}
   for (const channel of ['current', 'next']) {
     const text = readConfig(variantFileName(channel)), provenanceText = readConfig(variantSidecarName(channel))
@@ -123,30 +143,97 @@ function pageReport({name, repositoryRoot, upstreamRepo, headSha, fetchPullState
   return entry
 }
 
-/** Full read-only scan. `fetchPullState` is injectable for hermetic tests. */
+/** Manual-layout audit: one whole-manual entry per group. Configuration errors
+ *  (including cloud_pages content references, validated with the build's own
+ *  reader) count as errors; pins off the tracking branch and a vanished upstream
+ *  source directory are unhealthy; plain drift is informational. */
+async function manualScan({sharedDocsRoot, upstreamRepo, headSha}) {
+  const loaded = await readManualSharedDocs(sharedDocsRoot)
+  const report = {schemaVersion: '1.0', layout: 'manual', group: path.basename(sharedDocsRoot), manual: undefined,
+    generatedOn: new Date().toISOString(), head: headSha, drifted: [], issues: []}
+  if ('errors' in loaded) {
+    report.errors = loaded.errors.map(error => `${error.code}: ${error.message}`)
+    return report
+  }
+  report.manual = loaded.manualConfig.publish.manual
+  const sourceDir = loaded.manualConfig.source.dir
+  if (git(upstreamRepo, 'cat-file', '-e', `${headSha}:${sourceDir}`) === null) {
+    report.issues.push({code: 'UPSTREAM_SOURCE_DIR_MISSING', severity: 'unhealthy',
+      message: `source.dir ${sourceDir} is missing at the upstream head`})
+  }
+  for (const [channel, commit] of [['current', loaded.lock.current], ['next', loaded.lock.next]]) {
+    // One unhealthy entry for the whole manual, matching the page layout's single pinIssue.
+    if (git(upstreamRepo, 'merge-base', '--is-ancestor', commit, headSha) === null
+      && !report.issues.some(issue => issue.code === 'PIN_OFF_BRANCH')) {
+      report.issues.push({code: 'PIN_OFF_BRANCH', severity: 'unhealthy',
+        message: `locked ${channel} ${commit} is missing from or off the tracking branch`})
+    }
+  }
+  if (!report.issues.some(issue => issue.code === 'UPSTREAM_SOURCE_DIR_MISSING' || issue.code === 'PIN_OFF_BRANCH')) {
+    const log = git(upstreamRepo, 'log', '--format=%H %s', `${loaded.lock.next}..${headSha}`, '--', sourceDir)
+    report.drifted = (log || '').trim().split('\n').filter(Boolean)
+  }
+  return report
+}
+
+function summarize(report, driftCount) {
+  const unhealthyCount = report.layout === 'manual'
+    ? report.issues.filter(issue => issue.severity === 'unhealthy').length
+    : report.pages.filter(page => page.pinIssue || page.transformIssue
+      || page.variant?.issues.some(issue => issue.severity === 'unhealthy')).length
+  const errors = report.layout === 'manual'
+    ? (report.errors?.length ?? 0)
+    : report.pages.filter(page => page.error || page.errors?.length).length
+  const digest = crypto.createHash('sha256').update(JSON.stringify({
+    drifted: report.layout === 'manual'
+      ? report.drifted
+      : report.pages.filter(page => page.drifted?.length).map(page => ({page: page.page, commits: page.drifted})),
+    transformIssues: report.layout === 'manual' ? [] : report.pages.filter(page => page.transformIssue).map(page => page.page),
+    variantIssues: report.layout === 'manual'
+      ? report.issues.map(issue => issue.code)
+      : report.pages.filter(page => page.variant?.issues.length).map(page => ({page: page.page, issues: page.variant.issues.map(issue => issue.code)})),
+  })).digest('hex')
+  report.summary = {scannedPages: report.layout === 'manual' ? 1 : report.pages.length,
+    driftedCount: driftCount, unhealthyCount, pendingReconciliationCount: report.layout === 'manual' ? 0
+      : report.pages.filter(page => page.variant?.issues.some(issue => issue.code === 'RECONCILIATION_PENDING')).length,
+    errorCount: errors, diffDigest: digest}
+}
+
+/** Full read-only scan of one group. `fetchPullState` is injectable for hermetic tests. */
 async function scan({sharedDocsRoot, upstreamRepo, headSha, fetchPullState}) {
   if (!fs.existsSync(path.join(sharedDocsRoot, 'source.yaml'))) fail(`Missing shared-docs group root: ${sharedDocsRoot}`)
   const head = (git(upstreamRepo, 'rev-parse', headSha) || '').trim()
   if (!/^[a-f0-9]{40}$/.test(head)) fail(`Upstream head is unavailable in the audit clone: ${headSha}`)
-  const pages = fs.readdirSync(path.join(sharedDocsRoot, 'pages'), {withFileTypes: true})
-    .filter(entry => entry.isDirectory() && !entry.isSymbolicLink()).map(entry => entry.name).sort()
-  const report = {schemaVersion: '1.0', group: path.basename(sharedDocsRoot), generatedOn: new Date().toISOString(), head, pages: []}
-  for (const name of pages) report.pages.push(await pageReport({name, repositoryRoot: sharedDocsRoot, upstreamRepo, headSha: head, fetchPullState}))
-  const driftPages = report.pages.filter(page => page.drifted?.length)
-  const unhealthy = report.pages.filter(page => page.pinIssue || page.variant?.issues.some(issue => issue.severity === 'unhealthy'))
-  const errors = report.pages.filter(page => page.error || page.errors?.length)
-  const pending = report.pages.filter(page => page.variant?.issues.some(issue => issue.code === 'RECONCILIATION_PENDING'))
-  const digest = crypto.createHash('sha256').update(JSON.stringify({
-    drifted: driftPages.map(page => ({page: page.page, commits: page.drifted})),
-    variantIssues: report.pages.filter(page => page.variant?.issues.length)
-      .map(page => ({page: page.page, issues: page.variant.issues.map(issue => issue.code)})),
-  })).digest('hex')
-  report.summary = {scannedPages: pages.length, driftedCount: driftPages.length, unhealthyCount: unhealthy.length,
-    pendingReconciliationCount: pending.length, errorCount: errors.length, diffDigest: digest}
+  let report
+  if (fs.existsSync(path.join(sharedDocsRoot, 'manual.yaml'))) {
+    report = await manualScan({sharedDocsRoot, upstreamRepo, headSha: head})
+    summarize(report, report.drifted.length ? 1 : 0)
+  } else if (fs.existsSync(path.join(sharedDocsRoot, 'pages'))) {
+    const pages = fs.readdirSync(path.join(sharedDocsRoot, 'pages'), {withFileTypes: true})
+      .filter(entry => entry.isDirectory() && !entry.isSymbolicLink()).map(entry => entry.name).sort()
+    report = {schemaVersion: '1.0', layout: 'pages', group: path.basename(sharedDocsRoot),
+      generatedOn: new Date().toISOString(), head, pages: []}
+    for (const name of pages) report.pages.push(await pageReport({name, repositoryRoot: sharedDocsRoot, upstreamRepo, headSha: head, fetchPullState}))
+    summarize(report, report.pages.filter(page => page.drifted?.length).length)
+  } else {
+    fail(`Unsupported shared-docs layout for ${sharedDocsRoot}: neither manual.yaml nor pages/ is present`)
+  }
   return report
 }
 
+function manualMarkdown(report) {
+  const lines = [`## Shared-docs pin drift (${report.group} manual ${report.manual ?? '(invalid config)'}, head ${report.head.slice(0, 12)})`, '',
+    `Drifted: ${report.summary.driftedCount}; unhealthy: ${report.summary.unhealthyCount}; pending reconciliation: 0; errors: ${report.summary.errorCount}`,
+    `diffDigest: \`${report.summary.diffDigest}\``, '']
+  const notes = [...(report.errors ?? []), ...report.issues.map(issue => `${issue.severity}: ${issue.message}`),
+    ...report.drifted.map(commit => `drift: ${commit}`)]
+  if (notes.length) lines.push(`- **${report.manual ?? report.group}**: ${notes.join('; ')}`)
+  else lines.push('- No drift, unhealthy pins or configuration errors.')
+  return lines.join('\n') + '\n'
+}
+
 function renderMarkdown(report) {
+  if (report.layout === 'manual') return manualMarkdown(report)
   const lines = [`## Shared-docs pin drift (${report.group}, ${report.summary.scannedPages} pages, head ${report.head.slice(0, 12)})`, '',
     `Drifted: ${report.summary.driftedCount}; unhealthy: ${report.summary.unhealthyCount}; pending reconciliation: ${report.summary.pendingReconciliationCount}; errors: ${report.summary.errorCount}`,
     `diffDigest: \`${report.summary.diffDigest}\``, '']
@@ -155,13 +242,14 @@ function renderMarkdown(report) {
     if (page.error) notes.push(page.error)
     if (page.errors?.length) notes.push(...page.errors)
     if (page.pinIssue) notes.push(page.pinIssue)
+    if (page.transformIssue) notes.push(page.transformIssue)
     for (const commit of page.drifted || []) notes.push(`drift: ${commit}`)
     for (const issue of page.variant?.issues || []) notes.push(`${issue.severity}: ${issue.message}`)
     if (notes.length) {
       lines.push(`- **${page.page}**: ${notes.join('; ')}`)
     }
   }
-  if (lines.length === 5) lines.push('- No drift, unhealthy pins or variant issues.')
+  if (lines.length === 5) lines.push('- No drift, unhealthy pins, transform targets or variant issues.')
   return lines.join('\n') + '\n'
 }
 

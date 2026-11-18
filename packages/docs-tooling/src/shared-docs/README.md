@@ -191,6 +191,16 @@ cloud — still links a vanishing page, and handwritten block-level
 removed automatically. Both commands stage their outputs (`lock.yaml`,
 `manual.yaml`, reports) for the caller's PR; neither edits the group.
 
+The scheduled lane that turns those outputs into PRs is
+`shared-docs-manual-update.yml`: it runs `update` daily per manual-layout group
+(`promote` only on dispatch), opens one candidate PR per group and mode through
+a PAT (single-flight per open candidate branch), and lets the normal
+shared-docs PR workflows validate the candidate. The daily pin-drift watchdog
+(`shared-docs-pin-drift-watchdog.yml` + `scripts/docs-workflow/shared-docs-pin-drift.js`)
+audits both layouts: page groups page by page, manual groups as one manual
+(group lock pins, upstream `source.dir`, `cloud_pages` content references), and
+asserts declared transform target blocks still exist at the upstream head.
+
 ## Fetch production for shared-source manuals (design 10 R2)
 
 A manual registered with a `shared` source publishes through the same fetch

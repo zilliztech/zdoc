@@ -416,6 +416,7 @@ export async function runBuild(options: BuildOptions, write: (text: string) => v
           tools: { zdoc: tooling }, config: { files: [...configFiles].map(([path, text]) => ({ path, text })) },
           images, pages: recordPages, artifacts: [{ path: 'images.json', text: imagesJson }] })
         const problems = validateManualRecord(record, { group: group.name, manual: shared.manualConfig.publish.manual, upstream,
+          tools: { zdoc: tooling },
           config: { files: [...configFiles].map(([path, text]) => ({ path, sha256: sha256(text) })) },
           images: images.map(image => ({ source: image.original, sha256: image.sha256, address: image.address })),
           pages: recordPages.map(({ output: { path, mdx }, ...rest }) => ({ ...rest, output: { path, sha256: sha256(mdx) } })),

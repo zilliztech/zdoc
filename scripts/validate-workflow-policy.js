@@ -37,6 +37,9 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   // The adoption workflow pushes one adoption branch per dispatch with a PAT and
   // opens a master PR; it never pushes master or dev.
   ['shared-docs-adopt-variant.yml', new Set(['adopt'])],
+  // The manual update/promote lane pushes one candidate branch per dispatch with a
+  // PAT and opens a master PR; it never pushes master or dev.
+  ['shared-docs-manual-update.yml', new Set(['lane'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
 const publishingWorkflows = new Set([
@@ -381,7 +384,7 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       Object.keys(jobs).join(',') !== 'fork_notice,lock,infrastructure_report' || jobs.lock?.permissions !== undefined || jobs.lock?.if !== sameRepo ||
       JSON.stringify(jobs.fork_notice?.permissions) !== JSON.stringify({contents: 'read'}) ||
       JSON.stringify(jobs.infrastructure_report?.permissions) !== JSON.stringify({contents: 'read'})) fail('only the same-repository lock job may inherit contents/actions write')
-  if (JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(['shared-docs/*/pages/**'])) fail('lock trigger must be scoped to shared-docs/*/pages/**')
+  if (JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(['shared-docs/**'])) fail('lock trigger must be scoped to shared-docs/** (both layouts)')
   const notice = run('fork_notice', 'Explain fork onboarding boundary')
   if (jobs.fork_notice?.if !== 'github.event.pull_request.head.repo.full_name != github.repository' || stepsOf('fork_notice').length !== 1 ||
       !notice.includes('::warning title=LOCK_FORK_PR::Please submit this onboarding PR from a branch in this repository') ||
@@ -395,10 +398,13 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
     'fs.lstatSync(file).isFile()', "entry.startsWith('100644 ')", 'git ls-remote --exit-code', 'test "$remote_head" = "$SOURCE_SHA"',
     'GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader',
     'git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$PR_HEAD_BRANCH"', 'pushed_sha=%s']
-  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('SHARED_DOC_GROUPS.join(\'|\')') ||
+  if (pushRequirements.some(text => !push.includes(text)) || !push.includes('manual.yaml') ||
+      !push.includes("fs.existsSync(`shared-docs/${group}/manual.yaml`)") ||
+      !push.includes("fs.existsSync(`shared-docs/${group}/pages`)") ||
+      !push.includes('lockPatterns.join(\'|\')') || !push.includes('No shared-docs group layout found for the lock guard') ||
       !push.includes('A-Za-z0-9]+(?:-[A-Za-z0-9]+)*') || !push.includes("'-z', '--', 'shared-docs/'") ||
       /git add -A|git add \.|--force|credential.helper|remote set-url|git config.*extraheader/.test(push) ||
-      stepsOf('lock').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1) fail('push must allow only new regular locks, recheck the remote head and use ephemeral HTTP authorization without force')
+      stepsOf('lock').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1) fail('push must allow only new regular locks per layout, recheck the remote head and use ephemeral HTTP authorization without force')
   const dispatchStep = step('lock', 'Dispatch and wait for exact pushed validation')
   const dispatch = dispatchStep?.run || ''
   const dispatchRequirements = ['request_id="lock-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"',
@@ -433,6 +439,94 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
         return item?.['continue-on-error'] !== true || item?.env?.FEISHU_NOTIFICATIONS_DISABLED !== "${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}" ||
           !/pnpm docs-tooling report-card (?:create|note|finish)/.test(item?.run || '')
       })) fail('only best-effort infrastructure card steps may receive Feishu secrets and must honor the kill switch')
+}
+
+/** Manual-layout update/promote lane (design 10 WP12/WP13): one candidate PR per
+ *  group and mode, delivered only through a PAT, never touching master or dev. */
+function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) {
+  const fail = message => errors.push(`${file}: shared-docs manual lane ${message}`)
+  const jobs = workflow.jobs || {}
+  const stepsOf = job => jobs[job]?.steps || []
+  const step = (job, name) => stepsOf(job).find(item => item.name === name)
+  const run = (job, name) => String(step(job, name)?.run || '')
+  const modeFallback = "${{ inputs.mode || 'update' }}"
+  const groupFallback = "${{ inputs.group || 'node' }}"
+  const baseFallback = "${{ inputs.base_ref || 'master' }}"
+  if (JSON.stringify(Object.keys(workflow.on || {}).sort()) !== JSON.stringify(['schedule', 'workflow_dispatch'])) {
+    fail('must keep the scheduled update and dispatch-only lane triggers')
+  }
+  const dispatch = workflow.on?.workflow_dispatch?.inputs || {}
+  if (JSON.stringify(Object.keys(dispatch).sort()) !== JSON.stringify(['base_ref', 'draft_pr', 'group', 'mode']) ||
+      dispatch.mode?.default !== 'update' || dispatch.group?.default !== 'node' || dispatch.base_ref?.default !== 'master' ||
+      dispatch.draft_pr?.default !== 'true') fail('must keep the default update/node/master/draft dispatch inputs')
+  if (workflow.concurrency?.group !== `shared-docs-manual-update-${modeFallback}-${groupFallback}` ||
+      workflow.concurrency?.['cancel-in-progress'] !== false || workflow.concurrency?.queue !== undefined) {
+    fail('must serialize lane runs per mode and group without the production queue')
+  }
+  if (JSON.stringify(workflow.permissions) !== JSON.stringify({contents: 'read'}) ||
+      JSON.stringify(jobs.gate?.permissions) !== JSON.stringify({contents: 'read', 'pull-requests': 'read'}) ||
+      JSON.stringify(jobs.lane?.permissions) !== JSON.stringify({contents: 'read'}) || jobs.lane?.needs !== 'gate' ||
+      jobs.lane?.if !== "needs.gate.outputs.proceed == 'true'") {
+    fail('gate and lane must stay least-privileged with the lane behind the single-flight gate')
+  }
+  const gateEnv = jobs.gate?.env || {}
+  if (gateEnv.GH_TOKEN !== '${{ github.token }}' || gateEnv.MODE !== modeFallback || gateEnv.GROUP !== groupFallback || gateEnv.BASE_REF !== baseFallback) {
+    fail('gate identity must fall back to the scheduled update/node/master defaults')
+  }
+  const gateCheckout = step('gate', 'Check out pinned master for the layout gate')
+  if (gateCheckout?.with?.ref !== '${{ github.sha }}' || gateCheckout?.with?.['persist-credentials'] !== false) {
+    fail('the gate must check out the pinned master without credential persistence')
+  }
+  const guard = run('gate', 'Validate the dispatch inputs before any upstream access')
+  if (!guard.includes("test -f \"shared-docs/$GROUP/manual.yaml\"") || !guard.includes("== master") ||
+      !guard.includes('^[a-z0-9]+(-[a-z0-9]+)*$') || !guard.includes('== update || "$MODE" == promote')) {
+    fail('the gate must require a manual-layout group, a slug group, master base and a known mode')
+  }
+  const flight = run('gate', 'Gate the single-flight lane per group')
+  if (!flight.includes('--state open --limit 500 --json headRefName') ||
+      !flight.includes('grep -E "^shared-docs-${MODE}/${GROUP}-[0-9a-f]{7,40}$"') ||
+      !flight.includes("echo 'proceed=false' >> \"$GITHUB_OUTPUT\"")) {
+    fail('the single-flight gate must match open candidate branches only')
+  }
+  const checkouts = Object.values(jobs).flatMap(job => job.steps || []).filter(item => String(item.uses || '').startsWith('actions/checkout@'))
+  if (checkouts.some(item => item.uses !== 'actions/checkout@v5' || item.with?.['persist-credentials'] !== false)) {
+    fail('every checkout must disable credential persistence')
+  }
+  const devCheckout = step('lane', 'Check out read-only upstream dev snapshot')
+  if (devCheckout?.with?.repository !== 'zilliztech/zdoc' || devCheckout?.with?.ref !== 'refs/heads/dev' ||
+      !String(devCheckout?.with?.['sparse-checkout'] || '').includes('/content/en/reference/')) {
+    fail('the dev snapshot must be read-only and sparse to the reference content root')
+  }
+  const candidate = run('lane', 'Prepare the lane candidate')
+  if (!candidate.includes('pnpm docs-tooling shared-docs "$MODE" --shared-docs "shared-docs/$GROUP" --repo "$RUNNER_TEMP/upstream/$GROUP"') ||
+      !candidate.includes('--dev .shared-docs-dev --out "$out"')) {
+    fail('the lane must run the dual-layout update/promote command against the audited clone')
+  }
+  const apply = run('lane', 'Apply the candidate to the group')
+  if (!apply.includes('grep -Eq "^next: [0-9a-f]{40}$"') || !apply.includes('grep -Eq "^current: [0-9a-f]{40}$"') ||
+      !apply.includes('git add -- ') || /git add -A|git add \./.test(apply)) {
+    fail('candidate application must authenticate the lock identity and stage explicit paths only')
+  }
+  const deliverStep = step('lane', 'Deliver the candidate as a PR')
+  const deliver = run('lane', 'Deliver the candidate as a PR')
+  if (deliverStep?.env?.SHARED_DOCS_UPDATE_PAT !== '${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT }}') {
+    fail('delivery credentials must flow only through the delivery step env')
+  }
+  if (!deliver.includes('if [ -z "$SHARED_DOCS_UPDATE_PAT" ]') || !deliver.includes('exit 1') ||
+      !deliver.includes('Provision the PAT and re-dispatch')) {
+    fail('delivery must fail closed when the PAT is missing')
+  }
+  if (!deliver.includes('git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$branch"') ||
+      /--force|credential.helper|remote set-url/.test(deliver) ||
+      stepsOf('lane').filter(item => /\bgit push\b/.test(item.run || '')).length !== 1 ||
+      !deliver.includes('GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh pr create') ||
+      !deliver.includes("--repo \"$GITHUB_REPOSITORY\" --base \"$BASE_REF\" --head \"$branch\"") ||
+      !deliver.includes('--body-file')) {
+    fail('delivery must push one candidate branch non-forcefully and open its PR through the PAT')
+  }
+  if (step('lane', 'Retain the lane evidence')?.if !== 'always()') {
+    fail('lane evidence must be retained even when the lane fails')
+  }
 }
 
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
@@ -553,6 +647,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }
     if (file === 'shared-docs-lock.yml' || file === 'shared-docs-validate.yml') validateSharedDocsWorkflow(workflow, source, file, errors)
+    if (file === 'shared-docs-manual-update.yml') validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors)
     const primaryJobs = Object.values(workflow.jobs || {}).filter(job => job?.['runs-on'])
     if (primaryJobs.some(job => !Number.isFinite(job?.['timeout-minutes']))) {
       errors.push(`${file}: every primary job must have a timeout`)
