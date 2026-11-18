@@ -20,9 +20,11 @@ import {atomicReplace, withAtomicPublicationGroupFence, type AtomicReplaceOption
 import {
   capturePublicationDiagnostics,
   localizedRestTargets,
+  publicationDiagnosticsOwnedTargets,
   publicationOwnedTargets,
   restDerivationManifestTargets,
   readAndValidatePublicationDiagnostics,
+  sharedManualRecordTarget as sharedManualRecordPath,
   writePublicationAnchor,
   writePublicationDiagnostics,
   type PublicationDiagnostics,
@@ -1274,9 +1276,16 @@ async function validatePublicationSnapshot(
   selected: SelectedPublicationAdapters,
   snapshot: AtomicValidationSnapshot,
 ): Promise<void> {
-  const expectedOwnedPaths = [...publicationOwnedTargets(context.request.site, context.publication as ManualPublication),
-    ...(sharedManualRecordTarget(context) ? [sharedManualRecordTarget(context)!] : [])]
-    .sort((left, right) => left.localeCompare(right, 'en'));
+  // One owned-target derivation with capture and manifest (the drift between those
+  // sets was the deterministic stale-baseline failure of the first production node
+  // fetch), so this check compares the same path set the publication hashes.
+  const expectedOwnedPaths = publicationDiagnosticsOwnedTargets({
+    site: context.request.site,
+    manual: context.request.manual,
+    stage: context.request.stage,
+    publication: context.publication as ManualPublication,
+    sourceChain: context.sourceChain,
+  });
   if (snapshot.ownedPaths.length !== expectedOwnedPaths.length
     || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
     throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
@@ -1554,10 +1563,15 @@ async function defaultPublish(
 /** The whole-manual record's publication target (design 10 R2): shared-source fetches
  * produce `generated/en/manifests/shared-manuals/<group>.json` and the atomic publication
  * must carry it out of the stage like a derivation manifest, or the checkpoint loses the
- * collection's input identity. Undefined for every other source family. */
+ * collection's input identity. One derivation with the diagnostics owned-target set, or
+ * the publication baseline compare-and-swap hashes a different path set than the capture
+ * (observed as a deterministic stale-baseline failure on the first production node
+ * fetch). Undefined for every other source family. */
 function sharedManualRecordTarget(context: CommandContext): string | undefined {
-  if (context.request.site !== 'en' || (context.source as ManualSource).sourceType !== 'shared') return undefined;
-  return `generated/en/manifests/shared-manuals/${context.request.group}.json`;
+  // For every shared-source group the group name and the manual id agree (the registry's
+  // shared() source pins this identity), so the diagnostics helper's manual key is the
+  // group key here.
+  return sharedManualRecordPath(context.request.site, context.request.group, context.sourceChain);
 }
 
 async function executeParsedDocsToolingCommand(

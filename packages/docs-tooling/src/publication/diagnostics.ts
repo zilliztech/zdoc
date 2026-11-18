@@ -221,6 +221,27 @@ export function localizedRestTargets(site: SiteId, publication: PublicationIdent
     })));
 }
 
+/** The whole-manual record's publication path (design 10 R2): an English shared-source
+ * fetch publishes `generated/en/manifests/shared-manuals/<group>.json` through the atomic
+ * publication. The record is part of the owned-target set the diagnostics baseline hashes,
+ * because the publication's compare-and-swap hashes the replacement target set — if the
+ * capture framed one fewer path, every shared-source publish would fail as a stale
+ * baseline (observed as run 44283079178's produce_node failure). Undefined for every
+ * other source family. */
+export function sharedManualRecordTarget(site: SiteId, manual: string, sourceChain: readonly SourceEntry[]): string | undefined {
+  const active = sourceChain.at(-1);
+  if (site !== 'en' || active?.source.sourceType !== 'shared') return undefined;
+  return `generated/en/manifests/shared-manuals/${manual}.json`;
+}
+
+/** One owned-target derivation for capture, manifest, and validation: the publication's
+ * structural targets plus the shared manual record when the active source is shared. */
+export function publicationDiagnosticsOwnedTargets(input: PublicationDiagnosticsIdentity): readonly string[] {
+  const recordTarget = sharedManualRecordTarget(input.site, input.manual, input.sourceChain);
+  return [...publicationOwnedTargets(input.site, input.publication), ...(recordTarget ? [recordTarget] : [])]
+    .sort((left, right) => left.localeCompare(right, 'en'));
+}
+
 export function createPublicationDiagnostics(
   input: PublicationDiagnosticsIdentity,
   baselineCommit: string,
@@ -233,7 +254,7 @@ export function createPublicationDiagnostics(
     manual: input.manual,
     stage: input.stage,
     publicationIdentity: publicationIdentity(input.publication),
-    ownedTargets: [...publicationOwnedTargets(input.site, input.publication)],
+    ownedTargets: [...publicationDiagnosticsOwnedTargets(input)],
     baselineCommit,
     sourceIdentity: sourceIdentity(input),
   };
@@ -244,7 +265,7 @@ export function capturePublicationDiagnostics(
   repositoryRoot: string,
   input: PublicationDiagnosticsIdentity,
 ): PublicationDiagnostics {
-  const ownedTargets = publicationOwnedTargets(input.site, input.publication);
+  const ownedTargets = publicationDiagnosticsOwnedTargets(input);
   return createPublicationDiagnostics(input, ownedTreeCommit(repositoryRoot, ownedTargets));
 }
 

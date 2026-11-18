@@ -1071,6 +1071,48 @@ describe('shared manual producer fetch', () => {
     }
   }, 180_000);
 
+  it('publishes the whole-manual record through the full lane twice without a stale baseline', async () => {
+    // Regression for the first production node fetch (run 44283079178): the record
+    // replacement target was absent from the diagnostics owned-target set, so the
+    // publication compare-and-swap hashed one path more than the capture and every
+    // shared-source publish failed as a stale baseline.
+    const root = temporaryRoot();
+    const {createManualDemo, git} = await import('../shared-docs/testing/manual/demo');
+    const demo = await createManualDemo(root);
+    const commit = await git(demo.repo, 'rev-parse', 'HEAD');
+    writeFileSync(path.join(demo.sharedDocs, 'lock.yaml'), `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n`);
+    write(root, 'content/en/reference/api/nodejs/nodejs/nodejs.md', '---\nsidebar_label: "Overview"\n---\n\n# Node.js SDK\n');
+    write(root, 'config/reference-navigation.json', `${JSON.stringify({targets: [{sidebar: 'node', landingPage: 'api/nodejs/nodejs/nodejs.md'}]})}\n`);
+    await git(root, 'init', '--quiet', '--initial-branch=master');
+    await git(root, 'add', '.');
+    await git(root, 'commit', '--quiet', '-m', 'Fixture workspace');
+    const scratch = realpathSync(mkdtempSync(path.join(tmpdir(), 'docs-tooling-shared-scratch-')));
+    const environment = {
+      DOCS_TOOLING_SHARED_UPSTREAM: demo.repo,
+      DOCS_TOOLING_SHARED_SCRATCH: scratch,
+      IMAGE_BED_URL: 'https://images.example.com/bed',
+    };
+    try {
+      for (let round = 0; round < 2; round += 1) {
+        await executePublicationGroup({site: 'en', group: 'node', stage: 'fetch'}, {repositoryRoot: root, environment});
+        await executePublicationGroup({site: 'en', group: 'node', stage: 'validate'}, {repositoryRoot: root, environment});
+        await executePublicationGroup({site: 'en', group: 'node', stage: 'publish'}, {repositoryRoot: root, environment});
+        // The record reaches the workspace and the derived sidebar replaces the live one.
+        const recordPath = path.join(root, 'generated/en/manifests/shared-manuals/node.json');
+        expect(JSON.parse(readFileSync(recordPath, 'utf8')).group).toBe('node');
+        expect(existsSync(path.join(root, 'content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md'))).toBe(true);
+        expect(existsSync(path.join(root, 'content/en/reference/api/nodejs/nodejs/nodejs.md'))).toBe(true);
+        expect(existsSync(path.join(root, 'generated/en/sidebars/node.sidebar.js'))).toBe(true);
+        // The published record must not be double-counted: its path appears once in the
+        // diagnostics owned-target set that the next round's baseline hashes.
+        const diagnostics = JSON.parse(readFileSync(path.join(root, 'tmp/docs-tooling/en/node/.publication-diagnostics.json'), 'utf8'));
+        expect(diagnostics.ownedTargets?.filter((owned: string) => owned === 'generated/en/manifests/shared-manuals/node.json')).toHaveLength(1);
+      }
+    } finally {
+      rmSync(scratch, {recursive: true, force: true});
+    }
+  }, 240_000);
+
   it('fails closed when the shared producer environment is incomplete', async () => {
     const root = temporaryRoot();
     const {createManualDemo, git} = await import('../shared-docs/testing/manual/demo');
