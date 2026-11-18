@@ -22,6 +22,8 @@ export function batchBudget() {
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
 const traversalLimit = 50_000
+const gitCommandBytes = 16 * 1024 * 1024
+const fragmentRoot = 'site/en/fragments'
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 interface TreeEntry { mode: string; oid: string }
 interface Commit { tree: string; parents: string[] }
@@ -113,7 +115,7 @@ export class BatchGitStore {
     return store
   }
   private run(args: string[], input?: string): Promise<Buffer> {
-    const maximum = Math.min(16 * 1024 * 1024, IO.objectBytes - this.budget.gitBytes)
+    const maximum = Math.min(gitCommandBytes, IO.objectBytes - this.budget.gitBytes)
     if (maximum < 1) stop('GIT_BYTE_LIMIT')
     const timeout = this.budget.remaining()
     return new Promise((resolve, reject) => {
@@ -218,10 +220,8 @@ export class BatchGitStore {
     if (reachable.size !== graph.size) stop('SOURCE_HISTORY_INCOMPLETE')
     return new BatchHistory(graph, this.budget)
   }
-  private async tree(oid: string) {
-    const cached = this.trees.get(oid)
-    if (cached) return cached
-    const [bytes] = await this.objects('tree', [oid]), entries = new Map<string, TreeEntry>()
+  private rememberTree(oid: string, bytes: Buffer) {
+    const entries = new Map<string, TreeEntry>()
     let previous: Buffer | undefined
     for (let at = 0; at < bytes.length;) {
       const sp = bytes.indexOf(32, at), end = bytes.indexOf(0, sp + 1)
@@ -235,16 +235,60 @@ export class BatchGitStore {
       entries.set(name, { mode, oid: bytes.subarray(end + 1, end + 21).toString('hex') }); at = end + 21
     }
     this.trees.set(oid, entries)
+  }
+  private async readTrees(ids: string[]) {
+    const bodies = await this.objects('tree', ids)
+    bodies.forEach((bytes, i) => this.rememberTree(ids[i], bytes))
+  }
+  private async loadTrees(ids: Set<string>) {
+    const missing = [...ids].filter(oid => !this.trees.has(oid))
+    for (let at = 0; at < missing.length; at += 256) {
+      const chunk = missing.slice(at, at + 256)
+      if (chunk.length === 1) {
+        await this.readTrees(chunk)
+        continue
+      }
+      // Size hints keep each process within the existing stdout bound even for large trees.
+      // Only the independently hashed contents returned by readTrees populate the cache.
+      const hints = await this.run(['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'], chunk.join('\n') + '\n')
+      const lines = hints.toString('latin1').split('\n')
+      if (lines.pop() !== '' || lines.length !== chunk.length) stop('GIT_OBJECT_UNAVAILABLE')
+      let batch: string[] = [], bytes = 0
+      for (const [index, line] of lines.entries()) {
+        const match = /^([a-f0-9]{40}) tree (0|[1-9][0-9]*)$/.exec(line)
+        if (!match || match[1] !== chunk[index]) stop('GIT_OBJECT_UNAVAILABLE')
+        const frameBytes = Number(match[2]) + line.length + 2
+        if (frameBytes > gitCommandBytes) stop('GIT_BYTE_LIMIT')
+        if (bytes + frameBytes > gitCommandBytes) {
+          await this.readTrees(batch)
+          batch = []; bytes = 0
+        }
+        batch.push(match[1]); bytes += frameBytes
+      }
+      await this.readTrees(batch)
+    }
+  }
+  private async tree(oid: string) {
+    if (!this.trees.has(oid)) await this.readTrees([oid])
+    return this.trees.get(oid)!
+  }
+  private async entriesAt(commits: readonly string[], path: string) {
+    RepoPathSchema.parse(path)
+    for (let at = 0; at < commits.length; at += 256) await this.loadCommits(commits.slice(at, at + 256))
+    let entries: (TreeEntry | undefined)[] = commits.map(commit => ({ mode: '40000', oid: this.commits.get(commit)!.tree }))
+    for (const part of path.split('/')) {
+      const trees = new Set<string>()
+      for (const entry of entries) if (entry) {
+        if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+        trees.add(entry.oid)
+      }
+      await this.loadTrees(trees)
+      entries = entries.map(entry => entry && this.trees.get(entry.oid)!.get(part))
+    }
     return entries
   }
-  private async entry(commit: string, path: string): Promise<TreeEntry | undefined> {
-    RepoPathSchema.parse(path); await this.loadCommits([commit])
-    let entry: TreeEntry | undefined = { mode: '40000', oid: this.commits.get(commit)!.tree }
-    for (const part of path.split('/')) {
-      if (!entry) return undefined
-      if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
-      entry = (await this.tree(entry.oid)).get(part)
-    }
+  private async entry(commit: string, path: string) {
+    const [entry] = await this.entriesAt([commit], path)
     return entry
   }
   async directory(commit: string, path: string) {
@@ -257,6 +301,9 @@ export class BatchGitStore {
     const entry = await this.entry(commit, root)
     if (!entry) return []
     if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+    return this.inventoryTree(root, entry.oid)
+  }
+  private async inventoryTree(root: string, oid: string) {
     const entries: {path: string; oid: string; mode: '100644' | '100755'}[] = []
     let visits = 0
     const walk = async (path: string, oid: string) => {
@@ -269,7 +316,7 @@ export class BatchGitStore {
         else stop('GIT_PATH_TYPE_INVALID')
       }
     }
-    await walk(root, entry.oid)
+    await walk(root, oid)
     return entries.sort((a, b) => Buffer.compare(Buffer.from(a.path), Buffer.from(b.path)))
   }
   private async blob(entry: TreeEntry) {
@@ -292,6 +339,37 @@ export class BatchGitStore {
     return entry ? this.blob(entry) : null
   }
   async file(commit: string, path: string) { return await this.optionalFile(commit, path) ?? stop('GIT_PATH_MISSING') }
+
+  async measureFragmentSnapshots(commits: readonly string[]) {
+    const snapshots: {commit: string; bytes: number; count: number}[] = []
+    const byTree = new Map<string, {bytes: number; count: number}>()
+    const roots = await this.entriesAt(commits, fragmentRoot)
+    for (const [index, root] of roots.entries()) {
+      this.budget.remaining()
+      const commit = commits[index]
+      if (!root) {
+        snapshots.push({commit, bytes: 0, count: 1})
+        continue
+      }
+      if (root.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+      let measured = byTree.get(root.oid)
+      if (!measured) {
+        const entries = (await this.inventoryTree(fragmentRoot, root.oid)).filter(entry => entry.path.endsWith('.md'))
+        const directories = new Set(['.'])
+        let bytes = 0
+        for (const entry of entries) {
+          const raw = await this.blob(entry)
+          // Match the worker reader's UTF-8 replacement-character expansion.
+          bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
+          for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
+        }
+        measured = {bytes, count: entries.length + directories.size}
+        byTree.set(root.oid, measured)
+      }
+      snapshots.push({commit, ...measured})
+    }
+    return snapshots
+  }
 
   /** Walk changed subtrees from both authenticated roots. Report regular-file transitions and hash both endpoint blobs. */
   async delta(from: string | null, to: string): Promise<RawChange[]> {
@@ -368,27 +446,12 @@ export function batchRenderCommitSet(history: readonly {oid: string; parents: re
   return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
 }
 
-async function measureFragmentSnapshot(store: BatchGitStore, commit: string) {
-  GitShaSchema.parse(commit)
-  const entries = (await store.inventory(commit, 'site/en/fragments')).filter(entry => entry.path.endsWith('.md'))
-  const directories = new Set(['.'])
-  let bytes = 0
-  for (const entry of entries) {
-    const raw = await store.optionalFile(commit, entry.path)
-    if (!raw || raw.oid !== entry.oid) stop('BATCH_FRAGMENT_BINDING_INVALID')
-    // Match the unchanged reader's UTF-8 replacement-character expansion.
-    bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
-    for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
-  }
-  return {commit, bytes, count: entries.length + directories.size}
-}
 /** Endpoint observations retain one snapshot per distinct commit concurrently. */
 export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
   const store = await BatchGitStore.open(repository, batchBudget())
   let bytes = 0, count = 0
   const distinct = [...new Set(commits)]
-  for (const commit of distinct) {
-    const measured = await measureFragmentSnapshot(store, commit)
+  for (const measured of await store.measureFragmentSnapshots(distinct)) {
     bytes += measured.bytes; count += measured.count
   }
   await store.verify()
@@ -404,13 +467,12 @@ export async function measureBatchRenderFragments(repository: string, commits: r
   const history = await store.history(target)
   const required = batchRenderCommitSet(history.records(), current, oldNext, target)
   const endpoints = [...new Set(commits)], intermediate = required.filter(commit => !endpoints.includes(commit))
+  const measured = await store.measureFragmentSnapshots([...endpoints, ...intermediate])
   let endpointBytes = 0, endpointCount = 0
-  for (const commit of endpoints) {
-    const measured = await measureFragmentSnapshot(store, commit)
-    endpointBytes += measured.bytes; endpointCount += measured.count
+  for (const endpoint of measured.slice(0, endpoints.length)) {
+    endpointBytes += endpoint.bytes; endpointCount += endpoint.count
   }
-  const sequential = []
-  for (const commit of intermediate) sequential.push(await measureFragmentSnapshot(store, commit))
+  const sequential = measured.slice(endpoints.length)
   await store.verify()
   return {bytes: Math.max(endpointBytes, ...sequential.map(snapshot => snapshot.bytes)),
     count: Math.max(endpointCount, ...sequential.map(snapshot => snapshot.count)),
