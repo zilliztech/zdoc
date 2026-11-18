@@ -81,7 +81,9 @@ export function collectHeadings(markdown: string): Heading[] {
   for (let index = 0; index < tokens.length; index++) {
     const token = tokens[index]
     if (token.type !== 'heading_open') continue
-    const text = visibleText(parser.parseInline(tokens[index + 1].content, env)[0])
+    // Custom heading ids (escaped or bare `{#id}` suffixes) are projection output, not
+    // part of the anchor text: strip them so fragments resolve against the real heading.
+    const text = visibleText(parser.parseInline(tokens[index + 1].content, env)[0]).replace(/\\?\{#[^}]*\}\s*$/u, '')
     const level = Number(token.tag.slice(1))
     const base = cloudAnchor(text)
     let cloud = base

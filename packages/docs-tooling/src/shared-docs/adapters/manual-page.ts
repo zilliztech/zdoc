@@ -181,7 +181,7 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   }
   // Excluded pages emit nothing but keep reserving their identity: a cloud page may not
   // take over the address of an upstream page, excluded ones included.
-  const reserved = { id: new Map<string, string>(), publishPath: new Map<string, string>(), basename: new Map<string, string>() }
+  const reserved = { id: new Map<string, string>(), publishPath: new Map<string, string>() }
   const excludedBasenames = new Set<string>()
   const excludedLogicals = new Set<string>()
   for (const entry of manual.exclude ?? []) {
@@ -197,7 +197,6 @@ export function expandManualPages(files: readonly string[] | { current: readonly
       const derived = identity(logical)
       reserved.id.set(derived.pageId.toLowerCase(), logical)
       reserved.publishPath.set(derived.publishPath.toLowerCase(), logical)
-      reserved.basename.set(derived.basename, logical)
       excludedBasenames.add(derived.basename)
       excludedLogicals.add(logical)
       // Metadata for excluded pages is inert rather than a typo; consume it so the

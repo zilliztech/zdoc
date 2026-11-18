@@ -107,7 +107,7 @@ describe('shape and scalar validation', () => {
     expect(parsePageConfig('delete-entities', page + `metadata: {beta: ${beta}}\n`, context))
       .toMatchObject({ errors: [{ code: 'CONFIG_BETA_INVALID', line: 7 }] })
   })
-  it.each(['FALSE', '"FALSE"', 'PUBLIC', 'PRIVATE'])('accepts beta %s', beta => {
+  it.each(['FALSE', '"FALSE"', '"false"', 'PUBLIC', 'PRIVATE'])('accepts beta %s', beta => {
     expect(parsePageConfig('delete-entities', page + `metadata: {beta: ${beta}}\n`, context)).toHaveProperty('config')
   })
   it('reports aliases at their use site and nested flow keys at their actual line', () => {
