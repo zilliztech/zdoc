@@ -323,6 +323,10 @@ All the properties listed in this section apply only to managed collections.
      <td><p><code>timezone</code></p></td>
      <td><p>Specifies the default timezone for this collection when handling time-sensitive operations, especially <code>TIMESTAMPTZ</code> fields. Timestamps are stored internally in UTC, and Zilliz Cloud converts values for display and comparison according to this setting. If set, the collection timezone overrides the database’s default timezone; a query’s timezone parameter can temporarily override both. The value must be a valid <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA time zone identifier</a> (for example, <strong>Asia/Shanghai</strong>, <strong>America/Chicago</strong>, or <strong>UTC</strong>). For details on how to use a <code>TIMESTAMPTZ</code> field, refer to <a href="./use-timestamptz-field">TIMESTAMPTZ Field</a>.</p></td>
    </tr>
+   <tr>
+     <td><p><code>consistency_level</code></p></td>
+     <td><p>Alters the consistency level of the collection. The new level applies to subsequent searches and queries on this collection that do not specify a consistency level of their own; per-request settings still take precedence. The value must be one of <strong>Strong</strong>, <strong>Session</strong>, <strong>Bounded</strong> (default), or <strong>Eventually</strong>. Changing this property does not require releasing the collection. For details, refer to <a href="./consistency-level">Consistency Level</a>.</p></td>
+   </tr>
 </table>
 
 ### Example 1: Set collection-level TTL\{#example-1-set-collection-level-ttl}
@@ -1246,6 +1250,123 @@ curl --request POST \
     "collectionName": "my_collection",
     "properties": {
         "timezone": "Asia/Shanghai"
+    }
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+### Example 8: Alter the consistency level\{#example-8-alter-the-consistency-level}
+
+The following code snippet alters the consistency level of an existing collection to **Eventually**. The new level applies to subsequent searches and queries on this collection that do not explicitly set a consistency level; per-request settings still take precedence. For details, refer to [Consistency Level](./consistency-level).
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.alter_collection_properties(
+    collection_name="my_collection",
+    properties={"consistency_level": "Eventually"}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .property("consistency_level", "Eventually")
+        .build();
+
+client.alterCollectionProperties(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty("consistency_level", "Eventually"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='rust'>
+
+```rust
+client
+    .alter_collection_properties(
+        AlterCollectionPropertiesRequest::builder()
+            .collection_name("my_collection")
+            .property("consistency_level", "Eventually")
+            .build()?,
+    )
+    .await?;
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```cpp
+auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                                   .WithCollectionName("my_collection")
+                                                   .AddProperty("consistency_level", "Eventually"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "consistency_level": "Eventually"
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='csharp'>
+
+```csharp
+await client.AlterCollectionPropertiesAsync(new AlterCollectionPropertiesReq
+{
+    CollectionName = "my_collection",
+    Properties = { ["consistency_level"] = "Eventually" }
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
+-d '{
+    "collectionName": "my_collection",
+    "properties": {
+        "consistency_level": "Eventually"
     }
 }'
 ```

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T10:43:13.625Z",
+  "generated_at": "2026-11-18T18:50:44.373Z",
   "manual": "guides",
   "target": null,
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
@@ -434,7 +434,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-field-overview",
-                "inputs_sha256": "ad81c58d6aa97fad81fae11b467090f31e701c123ca4e74197effc057853aef9",
+                "inputs_sha256": "40e5f31de8edcb6d24153d4546556500c406a4eca977a8b13c6bfb978d0b1a70",
                 "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
               },
               "score": 86,
@@ -457,7 +457,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-filtering-operators",
-                "inputs_sha256": "1a70b091b4ec21e08410cf739071247b1a312c1b96810821a6722bea963060a2",
+                "inputs_sha256": "12f0c515861f8af099bb91da7bacaef6c67a93c5d38ec16def4b1f715dc06217",
                 "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
               },
               "score": 86,
@@ -1004,7 +1004,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "trie-index-type",
-                "inputs_sha256": "e22f55ee288b63041c61c15f3cda3a5e54266fc047754f46af5ba23943d009d9",
+                "inputs_sha256": "bbd48e6088553f25fbb96bedddc65259a2036e78651353f6dc3c3706d1d0b540",
                 "record": "generated/en/manifests/shared-pages/guides/trie-index-type.json"
               },
               "score": 86,
