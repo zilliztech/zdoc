@@ -1,5 +1,6 @@
 // @vitest-environment node
 import {expect, it} from 'vitest'
+import {mkdirSync, writeFileSync} from 'node:fs'
 import {mkdtemp, readFile, rm, writeFile} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
@@ -30,7 +31,19 @@ it('reverses only recorded oracle relocations to the exact aa98 provider source'
   const slice = source.slice(source.indexOf('/** Preserve raw bytes:'), source.indexOf('/** Internal ordinary-call seam'))
   expect(helper.slice(helper.indexOf('/** Preserve raw bytes:'), helper.indexOf('\nexport {inventory'))).toBe(slice)
 })
-function exact(a: unknown, b: unknown) {expect(Buffer.from(canonicalBytes(a)).equals(Buffer.from(canonicalBytes(b)))).toBe(true)}
+let mismatchSequence = 0
+function exact(a: unknown, b: unknown) {
+  const actual = Buffer.from(canonicalBytes(a)), expected = Buffer.from(canonicalBytes(b)), equal = actual.equals(expected)
+  if (!equal) {
+    const directory = join(process.cwd(), '.superpowers/sdd/wp12-guides-batch-qualification/evidence/oracle-mismatches')
+    mkdirSync(directory, {recursive: true})
+    const prefix = join(directory, `${process.pid}-${mismatchSequence++}`)
+    writeFileSync(prefix + '.actual.json', actual); writeFileSync(prefix + '.expected.json', expected)
+    const offset = actual.findIndex((byte, i) => byte !== expected[i])
+    console.error(JSON.stringify({oracleMismatch: prefix, offset, actual: actual.subarray(Math.max(0, offset - 80), offset + 160).toString(), expected: expected.subarray(Math.max(0, offset - 80), offset + 160).toString()}))
+  }
+  expect(equal).toBe(true)
+}
 function contexts(result: GuidesCollectionResult, prepared: boolean) {
   return result.pages.map(p => {
     if (!prepared) return p.context

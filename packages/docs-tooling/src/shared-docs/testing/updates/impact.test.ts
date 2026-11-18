@@ -11,6 +11,7 @@ import { FakeImageFetcher } from '../../adapters/images'
 import { createZdocContentReader } from '../../adapters/zdoc-content'
 import { createGuidesSnapshot, guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { collectUpdateInputs, readUpdateConfiguration } from '../../adapters/update-inputs'
+import * as unitRoutines from '../../core/updates/units'
 import { analyzeUpdates, renderImpactJson, renderImpactMarkdown } from '../../core/updates/impact'
 
 vi.setConfig({ testTimeout: 120_000, hookTimeout: 120_000 })
@@ -171,6 +172,11 @@ it('derives multi-page adoption units from actual renamed anchors and references
       current: { commit: baseline, configuration: f.config }, candidateNext: { commit: candidate, configuration: f.config } })) })
   const report = analyzeUpdates(input)
   expect(report.pages.flatMap(page => page.errors)).toEqual([])
+  expect(unitRoutines.confirmedAdoptionDependencies).toBeTypeOf('function')
+  const projected = input.pages.map(page => ({pageId: page.pageId, manuals: page.candidateNext.manuals,
+    promotionAnchors: report.pages.find(p => p.pageId === page.pageId)!.promotion.anchors}))
+  expect(unitRoutines.computeUpdateUnits({pages: input.pages.flatMap(p => p.candidateNext.targets.map(t => ({pageId: p.pageId, ...t}))),
+    dependencies: unitRoutines.confirmedAdoptionDependencies(projected)})).toEqual(report.units)
   expect(report.pages.find(page => page.pageId === 'shared-target')!.promotion.anchors).toEqual(expect.arrayContaining([expect.objectContaining({ kind: 'renamed', status: 'confirmed', manual: 'guides' })]))
   expect(report.units).toHaveLength(1)
   expect(report.units[0].pages).toHaveLength(4)

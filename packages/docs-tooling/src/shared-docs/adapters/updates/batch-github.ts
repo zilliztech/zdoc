@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { z } from 'zod'
+import * as z from 'zod'
 import type { BatchPullIdentity, BatchPathChange } from '../../core/updates/batch-discovery'
 import { parseStrictJson } from '../../core/updates/canonical'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
@@ -144,4 +144,58 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     return { master: await ref(zdoc, 'master'), dev: await ref(zdoc, 'dev'), source: await ref(milvus, 'v3.0.x') }
   }
   return { pins, association }
+}
+
+import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'
+import {latestGuidesRun, stepWindow, successfulJob} from './guides-run-metadata'
+import {coordinatorBodyReader} from './guides-lifecycle-transport'
+import {replayMetadataReader, type ReplayMetadataRow} from './guides-metadata-broker'
+/** A separate fixed GET sequence, after Python has finished reading. No broker
+ * channels, archive grant or caller-supplied positive classification is reused. */
+export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; sourceJobId: number; run: {id: number; attempt: 1; head: string};
+  sourceArtifact: {id: number; bytes: number; sha256: string}; publicationArtifact: {id: number; bytes: number; sha256: string};
+  pins: {master: string; dev: string; source: string}}, now: number, replay?: readonly ReplayMetadataRow[], signal?: AbortSignal) {
+  const raw = replay === undefined ? undefined : replayMetadataReader(replay)
+  const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal)
+  let count = 0, total = 0
+  const api: ReadonlyGitHub = {async get(path) {
+    signal?.throwIfAborted()
+    if (++count > 63) throw Error('BATCH_FINAL_METADATA_LIMIT')
+    const bytes = raw ? await raw.read(path) : await read(path, 16 * 1024 * 1024, 30_000)
+    total += bytes.length
+    if (total > 64 * 1024 * 1024) throw Error('BATCH_FINAL_METADATA_LIMIT')
+    signal?.throwIfAborted(); return parseStrictJson(bytes)
+  }, async zip() {throw Error('BATCH_FINAL_ARCHIVE_REQUEST_INVALID')}}
+  const root = 'repos/zilliztech/zdoc'
+  const select = (value: unknown) => {
+    const rows = object(value).workflow_runs
+    if (!Array.isArray(rows) || rows.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
+    const run = object(rows[0])
+    if (run.id !== expected.run.id || run.run_attempt !== 1 || run.head_sha !== expected.run.head ||
+      run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
+      run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.event !== 'schedule' ||
+      run.status !== 'completed' || run.conclusion !== 'success') throw Error('BATCH_FINAL_RUN_CHANGED')
+    return run
+  }
+  select(await api.get(root + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'))
+  const facts = await retainedMetadata(api, expected.run.id), run = select({workflow_runs: [facts.run]})
+  for (const [name, expectedArtifact] of [[`guides-sources-en-${run.id}`, expected.sourceArtifact],
+    [`publication-results-fetch-${run.id}-1`, expected.publicationArtifact]] as const) {
+    const artifact = boundArtifact(facts.artifacts, run, name)
+    if (artifact.id !== expectedArtifact.id || artifact.size_in_bytes !== expectedArtifact.bytes || artifact.digest !== 'sha256:' + expectedArtifact.sha256) throw Error('BATCH_FINAL_ARTIFACT_CHANGED')
+  }
+  const sourceJob = successfulJob(facts.jobs, 'produce_guides_sources / fetch', run)
+  const scan = stepWindow(sourceJob, 'Fetch shared guides sources')
+  if (!scan || scan.start !== expected.scanStartMs || sourceJob?.id !== expected.sourceJobId) throw Error('BATCH_FINAL_SCAN_CHANGED')
+  if (!scan || !Number.isSafeInteger(now) || now - scan.start > 36 * 3600_000 || scan.start - now > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+  if (!await latestGuidesRun(api, run, scan.start)) throw Error('BATCH_FINAL_HISTORY_CHANGED')
+  for (const [repo, id] of [['zilliztech/zdoc', 660446555], ['milvus-io/milvus-docs', 267273319]] as const) {
+    const value = object(await api.get('repos/' + repo))
+    if (value.id !== id || value.full_name !== repo) throw Error('GITHUB_REPOSITORY_MISMATCH')
+  }
+  for (const [repo, branch, sha] of [['zilliztech/zdoc', 'master', expected.pins.master], ['zilliztech/zdoc', 'dev', expected.pins.dev], ['milvus-io/milvus-docs', 'v3.0.x', expected.pins.source]]) {
+    const value = object(await api.get(`repos/${repo}/git/ref/heads/${branch}`))
+    if (value.ref !== 'refs/heads/' + branch || value.object?.type !== 'commit' || value.object.sha !== sha) throw Error('BATCH_PIN_CHANGED')
+  }
+  raw?.finish(); signal?.throwIfAborted()
 }

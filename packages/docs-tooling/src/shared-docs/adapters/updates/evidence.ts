@@ -201,6 +201,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       ownedJournals.set(ref.path, { dev: after.dev, ino: after.ino }); return bytes
     },
     async writeBlob(bytes) {
+      await reserveBatchBlob(store, bytes)
       const ref = { path: `blobs/${rawSha256(bytes)}`, sha256: rawSha256(bytes), bytes: bytes.byteLength }
       // An exclusive create makes the path visible before its bytes are durable.
       // Order this store's same-path writers, but retain no completed trust result:
@@ -222,6 +223,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       return readBlob(ref)
     },
     async writeJournal(path, bytes) {
+      await reserveBatchAllocation(store, bytes.length, 2)
       RepoPathSchema.parse(path)
       if (path.includes('/') || path === '.owner.json' || path === 'blobs') throw new Error('Invalid journal path')
       await verify()
@@ -258,4 +260,87 @@ export async function writeOwnedBlob(store: EvidenceStore, bytes: Uint8Array): P
   const owned = evidenceStores.get(store)
   if (!owned) throw new Error('Evidence store is not independently owned')
   await owned.verify(); return owned.writeBlob(bytes)
+}
+
+import {statfs} from 'node:fs/promises'
+import {AsyncLocalStorage} from 'node:async_hooks'
+const MiB = 1024 ** 2, GiB = 1024 ** 3
+interface BatchLifetime {deadline: number; signal: AbortSignal; check(): number}
+const batchLifetime = new AsyncLocalStorage<BatchLifetime>()
+export function currentBatchLifetime() {return batchLifetime.getStore()}
+/** Fixed operation-wide ceiling; callers cannot select a deadline or retry. */
+export async function withBatchLifetime<T>(body: () => Promise<T>) {
+  const controller = new AbortController(), deadline = performance.now() + 4_500_000
+  const timer = setTimeout(() => controller.abort(Error('BATCH_OPERATION_DEADLINE')), 4_500_000)
+  const lifetime: BatchLifetime = {deadline, signal: controller.signal, check() {
+    const remaining = Math.floor(deadline - performance.now())
+    if (remaining < 1 || controller.signal.aborted) throw Error('BATCH_OPERATION_DEADLINE')
+    return remaining
+  }}
+  try {return await batchLifetime.run(lifetime, body)} finally {clearTimeout(timer)}
+}
+export function checkBatchAllocation(state: {available: number; blockSize: number; existing: number}, bytes: number, entries: number) {
+  const values = [state.available, state.blockSize, state.existing, bytes, entries]
+  if (values.some(v => !Number.isSafeInteger(v) || v < 0) || state.blockSize < 512 || entries < 1) throw Error('BATCH_FILESYSTEM_UNSUPPORTED')
+  // One block of metadata per entry plus block rounding for each live file.
+  const incremental = Math.ceil(bytes / state.blockSize) * state.blockSize + entries * state.blockSize * 2
+  if (!Number.isSafeInteger(incremental) || state.existing + incremental > 3 * GiB) throw Error('BATCH_TRANSIENT_LIMIT')
+  if (state.available - incremental <= GiB) throw Error('BATCH_FREE_SPACE_FLOOR')
+  return incremental
+}
+export async function batchAllocatedTree(root: string, excludeBlobs = false): Promise<number> {
+  let total = 0, count = 0
+  async function visit(path: string) {
+    currentBatchLifetime()?.check()
+    if (++count > 100_000) throw Error('BATCH_TRANSIENT_ENTRY_LIMIT')
+    const st = await lstat(path, {bigint: true})
+    const allocation = Number(st.blocks * 512n) + 4096
+    if (!Number.isSafeInteger(allocation)) throw Error('BATCH_FILESYSTEM_UNSUPPORTED')
+    total += allocation
+    if (st.isDirectory()) for (const name of await readdir(path)) {
+      if (excludeBlobs && path === root && name === 'blobs') continue
+      await visit(join(path, name))
+    }
+  }
+  await visit(root); return total
+}
+interface BatchResources {pages: number; category: 'page' | 'qualifier' | 'other'; totals: Record<'page' | 'qualifier' | 'other', number>; seen: Map<string, number>; peak: number}
+const batchResources = new WeakMap<EvidenceStore, BatchResources>()
+export function bindBatchResources(store: EvidenceStore, pages: number) {
+  if (!evidenceStores.has(store) || batchResources.has(store) || !Number.isSafeInteger(pages) || pages < 1) throw Error('BATCH_RESOURCE_BINDING_INVALID')
+  batchResources.set(store, {pages, category: 'other', totals: {page: 0, qualifier: 0, other: 0}, seen: new Map(), peak: 0})
+}
+export function batchCasCategory(store: EvidenceStore, category: BatchResources['category']) {
+  const state = batchResources.get(store); if (state) state.category = category
+}
+export async function reserveBatchAllocation(store: EvidenceStore, bytes: number, entries = 1) {
+  const state = batchResources.get(store)
+  if (!state) return
+  currentBatchLifetime()?.check()
+  await evidenceStores.get(store)!.verify()
+  const fs = await statfs(store.root, {bigint: true}), existing = await batchAllocatedTree(store.root, true)
+  state.peak = Math.max(state.peak, existing)
+  checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing}, bytes, entries)
+  currentBatchLifetime()?.check()
+}
+async function reserveBatchBlob(store: EvidenceStore, bytes: Uint8Array) {
+  const state = batchResources.get(store)
+  if (!state) return
+  currentBatchLifetime()?.check()
+  if (bytes.length > 64 * MiB) throw Error('BATCH_CAS_BLOB_LIMIT')
+  const digest = rawSha256(bytes)
+  if (state.seen.has(digest)) {
+    if (state.seen.get(digest) !== bytes.length) throw Error('BATCH_CAS_BINDING_INVALID')
+    return
+  }
+  const cap = state.category === 'page' ? Math.min(state.pages * 128 * MiB, 12 * GiB) : state.category === 'qualifier' ? 128 * MiB : 64 * MiB
+  if (state.totals[state.category] + bytes.length > cap) throw Error('BATCH_CAS_TOTAL_LIMIT')
+  // CAS has its own ceiling, independent of the transient ceiling.
+  const fs = await statfs(store.root, {bigint: true})
+  checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, bytes.length, 1)
+  state.seen.set(digest, bytes.length); state.totals[state.category] += bytes.length
+}
+export function batchResourceMeasurement(store: EvidenceStore) {
+  const state = batchResources.get(store)
+  return state && {casBytes: {...state.totals}, distinctBlobs: state.seen.size, sampledTransientAllocatedBytes: state.peak}
 }

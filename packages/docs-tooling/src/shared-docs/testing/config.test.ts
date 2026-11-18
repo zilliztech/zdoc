@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
+import { ConfigValidation, parseYaml } from '../core/yaml'
 import { manualRegistry, resolveManualPublication } from '../../manuals/registry'
 
 const context = { manuals: ['guides', 'guides-byoc'], betaValues: ['PUBLIC', 'PRIVATE', 'BYOC'], file: 'page.yaml' }
@@ -136,4 +137,39 @@ it('[3-7] preserves all pilot identities and publication paths at the existing G
       expect(target.path.split('/').at(-1)).toBe(id)
     }
   }
+})
+
+it.each(['source', 'page'] as const)('interrupts a single %s parse when its cooperative monotonic budget expires', kind => {
+  const text = kind === 'source'
+    ? 'schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\npresentation:\n'
+      + Array.from({length: 200}, (_, i) => `  manual-${i}: {title_suffix: Cloud}\n`).join('')
+    : page + 'transforms:\n' + Array.from({length: 200}, (_, i) => `  - operation: remove\n    target: {block: block-${i}}\n`).join('')
+  let now = 0, checks = 0
+  const deadline = 60_000
+  const checkBudget = () => {checks++; now += 1000; if (now >= deadline) throw new Error('Config budget expired during parse')}
+  expect(() => kind === 'source' ? parseSourceConfig(text, {}, checkBudget) : parsePageConfig('delete-entities', text, context, checkBudget))
+    .toThrow('Config budget expired during parse')
+  expect(checks).toBe(60)
+})
+
+it('preserves config values and diagnostics with a cooperative checker that remains in budget', () => {
+  const checkBudget = () => {}
+  for (const text of [page, page + 'unknown: true\n', page + 'metadata: {beta: BYOC}\n', 'schema_version: [\n']) {
+    expect(parsePageConfig('delete-entities', text, context, checkBudget)).toEqual(parsePageConfig('delete-entities', text, context))
+  }
+  for (const text of ['schema_version: 1\nrepository: https://github.com/milvus-io/milvus-docs\ntrack: v3.0.x\n', 'schema_version: 2\nunknown: true\n']) {
+    expect(parseSourceConfig(text, {}, checkBudget)).toEqual(parseSourceConfig(text))
+  }
+})
+it('keeps config validation and retained YAML locations cooperatively interruptible', () => {
+  let expired = false
+  const checkBudget = () => {if (expired) throw new Error('Validation budget expired')}
+  const parsed = parseYaml(page, 'CONFIG_SYNTAX_INVALID', {}, checkBudget)
+  if ('errors' in parsed) throw new Error('Invalid fixture')
+  const validation = new ConfigValidation(parsed.document, {}, undefined, undefined, checkBudget)
+  expired = true
+  expect(() => parsed.document.line(['source', 'file'])).toThrow('Validation budget expired')
+  expect(() => validation.object({}, [], [])).toThrow('Validation budget expired')
+  expect(() => validation.string('value', [])).toThrow('Validation budget expired')
+  expect(() => validation.error([], 'invalid')).toThrow('Validation budget expired')
 })
