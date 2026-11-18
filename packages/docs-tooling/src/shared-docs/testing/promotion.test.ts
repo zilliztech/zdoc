@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
@@ -363,6 +363,37 @@ it('holds a deployment preview before using a local Git history overlay', async 
   expect(report).toMatchObject({ status: 'paused',
     deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/Git grafts/i) } })
   expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('protects a worktree with a trailing space in its canonical path', async () => {
+  const f = await fixture()
+  const dev = f.dev + ' '
+  renameSync(f.dev, dev)
+  mkdirSync(f.dev)
+  const evidence = deploymentFixture(f)
+  const out = join(dev, 'preview')
+  const command = deploymentPreview({ ...f, dev: join(dev, 'content') }, evidence, out)
+  expect(command.status).toBe(2)
+  expect(command.stdout).toContain('overlaps input data')
+  expect(existsSync(out)).toBe(false)
+})
+
+it('checks grafts in spaced Git and common directories even when a lookalike exists', async () => {
+  const f = await fixture()
+  const gitDir = join(f.root, 'metadata ')
+  git(f.dev, 'init', '--separate-git-dir', gitDir)
+  mkdirSync(gitDir.trimEnd())
+  const linked = join(f.root, 'linked')
+  git(f.dev, 'worktree', 'add', '--detach', linked)
+  put(gitDir, 'info/grafts', '')
+  const evidence = deploymentFixture(f)
+  for (const [name, dev] of [['separate', f.dev], ['linked', linked]]) {
+    const out = join(f.root, `${name}-preview`)
+    const command = deploymentPreview({ ...f, dev }, evidence, out)
+    expect(command.status, command.stderr || command.stdout).toBe(1)
+    const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+    expect(report).toMatchObject({ status: 'paused', comparison: { status: 'blocked', reason: expect.stringMatching(/Git grafts/i) } })
+  }
 })
 
 it('prepares one selected page and the fixed eligible group as exact patches', async () => {

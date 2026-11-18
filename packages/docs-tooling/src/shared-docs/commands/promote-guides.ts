@@ -1,9 +1,9 @@
-import { link, mkdir, mkdtemp, realpath, rm, unlink, writeFile } from 'node:fs/promises'
+import { link, mkdir, mkdtemp, rm, unlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { isEnglishUatBuildIdentity } from '../../../../../deploy/contracts/verify-image.mjs'
-import { collectPromotionPreview, preparePromotion, previewUatEvidence, promotionError } from '../adapters/promotion'
-import { gitMetadataDirectories, gitRead } from '../adapters/updates/git'
+import { collectPromotionPreview, preparePromotion, previewUatEvidence, promotionError, readUatGitDirectories } from '../adapters/promotion'
+import { gitMetadataDirectories } from '../adapters/updates/git'
 import { promotionPageId, type PromotionPreview, type PromotionResult } from '../core/promotion'
 import { checkOutput } from './update'
 
@@ -71,17 +71,13 @@ function argumentsFor(argv: string[], root: string): Options {
 async function reserveOutput(options: Options, master: string) {
   const { out, upstream, dev } = options
   const repositories = [...new Set([master, upstream, dev])]
-  const metadata = (await Promise.all(repositories.map(async repository => {
-    const directories = await gitMetadataDirectories(repository)
-    if ('build' in options && directories.length
-      && await gitRead(repository, ['rev-parse', '--is-bare-repository']) === 'false') {
-      // Git accepts a subdirectory as -C. Protect its whole worktree as well
-      // as the path supplied by the request and the resolved Git metadata.
-      directories.push(await realpath(await gitRead(repository, ['rev-parse', '--show-toplevel'])))
-    }
-    return directories
-  }))).flat()
-  const requestDirectories = [...repositories, ...metadata]
+  // Git accepts subdirectories as -C, so protect the discovered worktree
+  // as well as each requested path and its metadata directories.
+  const protectedDirectories = 'build' in options
+    ? (await Promise.all(repositories.map(readUatGitDirectories))).flatMap(root =>
+      root.worktree ? [...root.metadata, root.worktree] : root.metadata)
+    : (await Promise.all(repositories.map(gitMetadataDirectories))).flat()
+  const requestDirectories = [...repositories, ...protectedDirectories]
   const evidenceRoot = 'build' in options ? process.env.VDC_JENKINS_EVIDENCE_ROOT : undefined
   const inputs = [...requestDirectories, ...('record' in options ? [options.record] : []),
     ...(options.mode === 'prepare' ? [options.preview] : []), ...(evidenceRoot ? [evidenceRoot] : [])]

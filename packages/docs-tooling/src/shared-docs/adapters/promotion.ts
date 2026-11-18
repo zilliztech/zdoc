@@ -1,8 +1,8 @@
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { lstat, mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { lstat, mkdir, readFile, realpath, writeFile } from 'node:fs/promises'
+import { dirname, isAbsolute, join } from 'node:path'
 import { isDeepStrictEqual, promisify } from 'node:util'
 import { compileFunction, constants } from 'node:vm'
 import { pathToFileURL } from 'node:url'
@@ -28,7 +28,7 @@ import { classifyPromotion, decidePromotion, promotionPageId, selectPromotionPag
 import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
 import { canonicalBytes, compareUtf8, parseStrictJson } from '../core/updates/canonical'
 import { guidesSnapshotPath } from './guides-snapshot'
-import { exportTree, gitEnvironment, gitMetadataDirectories, gitRead, resolveCommit } from './updates/git'
+import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/git'
 
 const exec = promisify(execFile)
 const require = createRequire(import.meta.url)
@@ -632,6 +632,39 @@ function verifyHistoricalDev(receipt: SharedReceipt, actual: ReadonlyMap<string,
   }
 }
 
+function gitDirectoryLines(output: string, pathCount: number) {
+  const lines = output.split('\n')
+  const bare = lines.pop()
+  if (lines.length !== pathCount || (bare !== 'true' && bare !== 'false')
+    || lines.some(line => !isAbsolute(line) || /[\0\r]/.test(line))) {
+    throw new Error('Ambiguous Git directories in UAT evidence preview')
+  }
+  return { paths: lines, bare }
+}
+
+export async function readUatGitDirectories(repository: string): Promise<{ metadata: string[]; worktree?: string }> {
+  try { await lstat(repository) }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return { metadata: [] }
+    throw error
+  }
+  let output: string
+  try {
+    // gitRead trims the complete command output. A final Boolean keeps
+    // whitespace that is part of an absolute Git directory path intact.
+    output = await gitRead(repository, ['rev-parse', '--path-format=absolute', '--git-dir', '--git-common-dir', '--is-bare-repository'])
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('not a git repository')) return { metadata: [] }
+    throw error
+  }
+  const { paths, bare } = gitDirectoryLines(output, 2)
+  const metadata = [...new Set(await Promise.all(paths.map(path => realpath(path))))]
+  if (bare === 'true') return { metadata }
+  const worktree = gitDirectoryLines(await gitRead(repository, ['rev-parse', '--show-toplevel', '--is-bare-repository']), 1)
+  if (worktree.bare !== 'false') throw new Error('Git worktree changed while reading UAT input directories')
+  return { metadata, worktree: await realpath(worktree.paths[0]) }
+}
+
 export async function previewUatEvidence(
   input: PromotionRepositories & { build: string; page: string; requestDirectories: string[] },
   scratch: string,
@@ -687,7 +720,8 @@ export async function previewUatEvidence(
 
 async function requireUatHistory(input: PromotionRepositories) {
   const repositories = [...new Set([input.master, input.dev, input.upstream])]
-  const metadata = new Set((await Promise.all(repositories.map(gitMetadataDirectories))).flat())
+  const roots = await Promise.all(repositories.map(readUatGitDirectories))
+  const metadata = new Set(roots.flatMap(root => root.metadata))
   for (const directory of metadata) {
     try {
       await lstat(join(directory, 'info', 'grafts'))
