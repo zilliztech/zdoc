@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # batchDescribeCollections()
 
 此操作通过一次调用检索多个 Collection 的 Schema 和元数据。
 
-```typescript
+```javascript
 await milvusClient.batchDescribeCollections(data: BatchDescribeCollectionReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.batchDescribeCollections({
     collection_names: string[],
     db_name?: string,
@@ -50,27 +47,29 @@ await milvusClient.batchDescribeCollections({
 
 **参数：**
 
-- **collection_names** (*string[]*) -<br/>
-  **[REQUIRED]**<br/>
-  要描述的 Collection 名称。
+- **collection_names** （*string[]*） -
+**[必需]**
+要描述的 Collection 的名称。
 
-- **db_name** (*string*) -<br/>
-  Database 的名称。可选。
+- **db_name** （*string*） -
+Database 名称。可选。
 
-- **collectionIDs** (*number[]*) -<br/>
-  要描述的 Collection ID。可选。
+- **collectionIDs** （*number[]*） -
+要描述的 Collection 的 ID。可选。
 
-- **timeout** (*number*) -<br/>
-  RPC 允许的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** （*number*） -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** （*string*） -
+用于请求跟踪的追踪 ID。可选。
 
-**返回** *Promise&lt;BatchDescribeCollectionResponse&gt;*
+**返回：**
+
+*Promise&lt;BatchDescribeCollectionResponse&gt;*
 
 此方法返回一个 promise，解析为 **BatchDescribeCollectionResponse** 对象。
 
-```typescript
+```javascript
 {
     responses: DescribeCollectionResponse[],
     status:  ResStatus
@@ -79,11 +78,11 @@ await milvusClient.batchDescribeCollections({
 
 **参数：**
 
-- **responses** (*DescribeCollectionResponse[]*) -<br/>
-  一个数组，包含每个请求的 Collection 的 Schema 和元数据。数组项的顺序与输入的 Collection 名称顺序相同。有关 **DescribeCollectionResponse** 的完整字段参考，请参阅 `describeCollection()` 文档。
+- **responses** （*DescribeCollectionResponse[]*） -
+包含每个所请求的 Collection 的 Schema 和元数据的数组。条目顺序与输入 Collection 名称的顺序相同。有关 **DescribeCollectionResponse** 的完整字段参考，请参阅 `describeCollection()` 文档。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -97,6 +96,13 @@ await milvusClient.batchDescribeCollections({
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
 ```javascript
@@ -108,6 +114,6 @@ const client = new MilvusClient({
 });
 
 const res = await client.batchDescribeCollections({
-    collection_names: ['collection1', 'collection2'],
+    collection_names: ['my_collection', 'hello_milvus'],
 });
 ```

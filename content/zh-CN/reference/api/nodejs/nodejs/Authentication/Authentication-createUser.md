@@ -4,12 +4,12 @@ slug: /node/node/Authentication-createUser
 sidebar_label: "createUser()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为 Milvus 服务器创建一个新用户账户。 | Node.js"
+description: "此操作会创建一个用户。 | Node.js"
 type: docx
-token: MtHHdvQ36oZcM8xEDpwcCUBynmb
+token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 7
 keywords: 
   - 自然语言处理
@@ -25,66 +25,89 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createUser()
 
-此操作为 Milvus 服务器创建一个新用户账户。
+此操作会创建一个用户。
+
+```javascript
+await milvusClient.createUser(data)
+```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
-milvusClient.createUser({ username, password, description?, timeout? })
+```javascript
+await milvusClient.createUser({
+   username: string,
+   password: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **参数：**
 
 - **username**（*string*）-
 
-    新用户的用户名。
+    **[必需]**
+
+    要创建的用户名。
 
 - **password**（*string*）-
 
-    新用户的密码。
+    **[必需]**
+
+    要创建的用户密码。
 
 - **description**（*string*）-
 
-    新用户的可选描述。
+    要创建用户的描述。
 
-- **timeout**（*number*）-
+- **timeout**（*number*）  -
 
-    允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+    此操作的超时持续时间。
 
-**返回类型：**
-
-*ResStatus*
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回：**
 
-响应状态：`{error_code, reason}`。
+*Promise\<ResStatus\>*
+
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **参数：**
 
-- **error_code**（*number*）-
+- **code**（*number*） -
 
-    错误代码编号：0 表示成功。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
-- **reason**（*string*）-
+- **error_code**（*string* | *number*） -
 
-    错误的原因（如有）。
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
+
+- **reason**（*string*） -
+
+    用于说明所报告错误的原因。如果此操作成功，该值为空字符串。
+
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
-    当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息，以了解确切的失败原因。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
 ```javascript
 await milvusClient.createUser({
-  username: 'exampleUser',
-  password: 'examplePassword',
-});
+   username: 'exampleUser',
+   password: 'examplePassword',
+ })
 ```

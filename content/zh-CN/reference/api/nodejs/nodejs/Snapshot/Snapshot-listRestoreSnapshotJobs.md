@@ -2,7 +2,7 @@
 title: "listRestoreSnapshotJobs() | Node.js"
 slug: /node/node/Snapshot-listRestoreSnapshotJobs
 sidebar_label: "listRestoreSnapshotJobs()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRestoreSnapshotJobs()
 
 此操作会列出所有快照恢复作业。您可以按目标 Collection 名称和 Database 名称进行筛选。
 
-```typescript
+```javascript
 await milvusClient.listRestoreSnapshotJobs(data?: ListRestoreSnapshotJobsReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listRestoreSnapshotJobs({
     collection_name?: string,
     db_name?: string,
@@ -49,23 +46,25 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **参数：**
 
-- **collection_name** (*string*) -<br/>
-  可选，按目标 Collection 名称筛选。
+- **collection_name** (*string*) -
+可选，按目标 Collection 名称进行筛选。
 
-- **db_name** (*string*) -<br/>
-  可选，按 Database 名称筛选。
+- **db_name** (*string*) -
+可选，按 Database 名称进行筛选。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将此项设置为 undefined，则客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的 trace ID。可选。
 
-**返回：** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
+**返回：**
+
+*Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
 
 此方法返回一个 promise，该 promise 解析为 **ListRestoreSnapshotJobsResponse** 对象。
 
-```typescript
+```javascript
 {
     jobs: RestoreSnapshotJobInfo[],
     status:  ResStatus
@@ -74,11 +73,12 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **参数：**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
-  与所请求的 Database 和 Collection 筛选条件匹配的恢复作业列表。有关 **RestoreSnapshotJobInfo** 字段的完整参考，请参见 `getRestoreSnapshotState()` 文档。
+- **jobs** (*RestoreSnapshotJobInfo[]*) -
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+与请求的 Database 和 Collection 筛选条件匹配的恢复作业列表。有关 RestoreSnapshotJobInfo 字段的完整参考，请参见 `getRestoreSnapshotState()` 文档。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -91,6 +91,13 @@ await milvusClient.listRestoreSnapshotJobs({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

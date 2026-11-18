@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # Storage
 
 此接口存储由 `BulkWriter` 生成的文件。您可以使用它在调用 `bulkInsert()` 之前，将生成的文件上传到对象存储或其他远程位置。
 
-```typescript
+```javascript
 interface Storage
 ```
 

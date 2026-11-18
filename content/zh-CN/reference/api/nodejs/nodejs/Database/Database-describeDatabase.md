@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeDatabase()
 
 此操作描述一个 Database，返回 Database 名称、ID、创建时间戳和属性等详细信息。
@@ -57,11 +54,13 @@ await milvusClient.describeDatabase({
 
     以毫秒为单位的 RPC 超时时间。可选。
 
-**返回值** *Promise&lt;DescribeDatabaseResponse&gt;*
+**返回：**
+
+*Promise&lt;DescribeDatabaseResponse&gt;*
 
 此方法返回一个 promise，解析为 **DescribeDatabaseResponse** 对象。
 
-```typescript
+```javascript
 {
     db_name: string,
     dbID: number,
@@ -73,20 +72,20 @@ await milvusClient.describeDatabase({
 
 **参数：**
 
-- **db_name** (*string*) -<br/>
-  Database 名称。
+- **db_name** (*string*) -
+Database 名称。
 
-- **dbID** (*number*) -<br/>
-  Database 的内部标识符。
+- **dbID** (*number*) -
+Database 的内部标识符。
 
-- **created_timestamp** (*number*) -<br/>
-  Database 的创建时间戳，以毫秒为单位。
+- **created_timestamp** (*number*) -
+Database 的创建时间戳，单位为毫秒。
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  在创建时声明或通过 `alterDatabaseProperties()` 设置的 Database 级属性（例如 **database.replica.number**、**database.resource_groups**）。
+- **properties** (*KeyValuePair[]*) -
+Database 级别的属性（例如 **database.replica.number**、**database.resource_groups**），可在创建时声明，或通过 `alterDatabaseProperties()` 设置。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -99,6 +98,13 @@ await milvusClient.describeDatabase({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

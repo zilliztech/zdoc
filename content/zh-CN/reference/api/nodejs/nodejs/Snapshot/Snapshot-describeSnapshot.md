@@ -2,7 +2,7 @@
 title: "describeSnapshot() | Node.js"
 slug: /node/node/Snapshot-describeSnapshot
 sidebar_label: "describeSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeSnapshot()
 
 此操作检索特定快照的详细信息。
 
-```typescript
+```javascript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.describeSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -50,28 +47,30 @@ await milvusClient.describeSnapshot({
 
 **参数：**
 
-- **collection_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  快照所属 Collection 的名称。
+- **collection_name** (*string*) -
+**[必需]**
+快照所属 Collection 的名称。
 
-- **snapshot_name** (*string*) -<br/>
-  **[REQUIRED]**<br/>
-  要描述的快照名称。
+- **snapshot_name** (*string*) -
+**[必需]**
+要描述的快照名称。
 
-- **db_name** (*string*) -<br/>
-  Database 名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的追踪 ID。可选。
 
-**返回** *Promise&lt;DescribeSnapshotResponse&gt;*
+**返回：**
+
+*Promise&lt;DescribeSnapshotResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **DescribeSnapshotResponse** 对象。
 
-```typescript
+```javascript
 {
     name: string,
     description: string,
@@ -85,26 +84,26 @@ await milvusClient.describeSnapshot({
 
 **参数：**
 
-- **name** (*string*) -<br/>
-  快照名称。
+- **name** (*string*) -
+快照名称。
 
-- **description** (*string*) -<br/>
-  创建快照时提供的描述；如果未提供，则为空字符串。
+- **description** (*string*) -
+创建快照时提供的描述；如果未提供，则为空字符串。
 
-- **collection_name** (*string*) -<br/>
-  拥有该快照的 Collection。
+- **collection_name** (*string*) -
+拥有该快照的 Collection。
 
-- **partition_names** (*string[]*) -<br/>
-  该快照捕获的 Partition 名称。
+- **partition_names** (*string[]*) -
+快照捕获的 Partition 名称。
 
-- **create_ts** (*string*) -<br/>
-  创建快照时的混合时间戳。
+- **create_ts** (*string*) -
+创建快照时的混合时间戳。
 
-- **s3_location** (*string*) -<br/>
-  持久化存储快照数据的对象存储 URI。
+- **s3_location** (*string*) -
+持久化存储快照数据的对象存储 URI。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -117,6 +116,13 @@ await milvusClient.describeSnapshot({
     - **reason** (*string*) -
 
         用于说明所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

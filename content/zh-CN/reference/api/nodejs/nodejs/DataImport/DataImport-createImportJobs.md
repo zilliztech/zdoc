@@ -25,24 +25,23 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createImportJobs()
 
 此操作根据文件组创建一个 HTTP 导入任务。在对象存储或 Milvus 导入服务可访问的其他位置准备好文件后，您可以使用此操作。
 
-```typescript
+```javascript
 await milvusClient.createImportJobs(params: HttpImportCreateReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.createImportJobs({
     collectionName: string,
     files: string[][],
     dbName?: string,
+    projectId?: string,
+    regionId?: string,
     options?: {
         timeout: string,
     },
@@ -67,6 +66,14 @@ await milvusClient.createImportJobs({
 
     指定 Database 名称。
 
+- **projectId** (*string*) -
+
+    Zilliz Cloud 项目的 ID。可选。
+
+- **regionId** (*string*) -
+
+    Zilliz Cloud 区域的 ID。可选。
+
 - **options** (*object*) -
 
     指定导入选项，例如超时。
@@ -74,6 +81,29 @@ await milvusClient.createImportJobs({
 **返回：**
 
 *Promise&lt;HttpImportCreateResponse&gt;*
+
+此方法返回一个 promise，解析为 **HttpImportCreateResponse** 对象。
+
+**参数：**
+
+- **code** (*number*) -
+
+    指定 HTTP API 响应代码。
+
+- **data.jobId** (*string*) -
+
+    指定创建的导入作业 ID。
+
+- **message** (*string*) -
+
+    指定响应消息。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

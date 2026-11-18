@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # closeConnection()
 
 此操作会关闭与 Milvus 服务器的当前连接。
@@ -42,13 +39,18 @@ await milvusClient.closeConnection()
 milvusClient.closeConnection()
 ```
 
-**返回类型：**
-
-*Promise*\<*CONNECT_STATUS*>
-
 **返回值：**
 
+*Promise&lt;CONNECT_STATUS&gt;*
+
 一个 Promise，解析为与 Milvus 服务器当前连接的最终状态，应为 `SHUTDOWN`。
+
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 

@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # createAlias()
 
 此操作为现有 Collection 创建别名。
@@ -49,41 +48,39 @@ await milvusClient.createAlias({
 
 **参数：**
 
-- **alias** （*str*） -
+- **alias** (*string*) -
 
     **[必需]**
 
     Collection 的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，则会发生异常。
 
-    <Admonition type="info" title="Note">
-
-    什么是 Collection 别名？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需对代码做任何更改时，Collection 别名会很有用。
+    Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需对代码做任何更改时，Collection 别名会很有用。
     
-        在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
+    在 Milvus 中，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以拥有多个别名。
     
-        以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
+    以下是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给 `collection_1`：
+    假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给 `collection_1`：
     
-        - `collection_1` 的别名 = ["bob"]
+    - `collection_1` 的别名 = ["bob"]
     
-        - `collection_2` 的别名 = []
+    - `collection_2` 的别名 = []
     
-        调用 `alter_alias("collection_2", "bob")` 后：
+    调用 `alter_alias("collection_2", "bob")` 后：
     
-        - `collection_1` 的别名 = []
+    - `collection_1` 的别名 = []
     
-        - `collection_2` 的别名 = ["bob"]
-
+    - `collection_2` 的别名 = ["bob"]
+    
     </Admonition>
 
-- **db_name** （*str*） -
+- **db_name** (*string*) -
 
     保存目标 Collection 的 Database 名称。
 
-- **collection_name** （*str*） -
+- **collection_name** (*string*) -
 
     **[必需]**
 
@@ -93,7 +90,9 @@ await milvusClient.createAlias({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -119,9 +118,16 @@ await milvusClient.createAlias({
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -131,4 +137,3 @@ const milvusClient = new MilvusClient({
    collection_name: 'my_collection',
  });
 ```
-

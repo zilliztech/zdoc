@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listDatabases()
 
 此操作会列出所有现有 Database。
@@ -52,11 +49,13 @@ await milvusClient.listDatabases({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作将超时。
 
-**返回值** *Promise&lt;ListDatabasesResponse&gt;*
+**返回：**
+
+*Promise&lt;ListDatabasesResponse&gt;*
 
 此方法返回一个 promise，该 promise 解析为 **ListDatabasesResponse** 对象。
 
-```typescript
+```javascript
 {
     db_names: string[],
     db_ids: string[],
@@ -67,17 +66,17 @@ await milvusClient.listDatabases({
 
 **参数：**
 
-- **db_names** (*string[]*) -<br/>
-  当前 Milvus 实例中定义的 Database 名称列表。
+- **db_names** (*string[]*) -
+当前 Milvus 实例中定义的 Database 名称列表。
 
-- **db_ids** (*string[]*) -<br/>
-  Database 的内部标识符，顺序与 **db_names** 相同。
+- **db_ids** (*string[]*) -
+Database 的内部标识符，顺序与 **db_names** 相同。
 
-- **created_timestamp** (*string[]*) -<br/>
-  Database 的创建时间戳，顺序与 **db_names** 相同。
+- **created_timestamp** (*string[]*) -
+Database 的创建时间戳，顺序与 **db_names** 相同。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -90,6 +89,13 @@ await milvusClient.listDatabases({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作过程中发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

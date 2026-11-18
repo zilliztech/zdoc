@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportCreateResponse
 
 此接口描述了 `createImportJobs()` 返回的响应。

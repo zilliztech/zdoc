@@ -25,22 +25,13 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabase()
 
 此操作会删除一个 Database。
 
 ```javascript
-await milvusClient.dropDatabase(data?)
+await milvusClient.dropDatabase(data)
 ```
-
-<Admonition type="info" title="Notes">
-
-此方法仅适用于 Dedicated 集群。
-
-</Admonition>
 
 ## 请求语法\{#request-syntax}
 
@@ -65,7 +56,9 @@ await milvusClient.dropDatabase({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise |&lt;ResStatus&gt;*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -91,6 +84,13 @@ await milvusClient.dropDatabase({
 
     表示所报告错误原因的说明。如果此操作成功，其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
 ```javascript
@@ -100,4 +100,3 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
-

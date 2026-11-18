@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # runAnalyzer()
 
 此操作会对提供的文本运行 Analyzer，以用于测试。
@@ -39,11 +36,15 @@ await milvusClient.runAnalyzer(data)
 ## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient({
+milvusClient.runAnalyzer({
     analyzer_params: Record<string, any>,
     text: string | string[],
     with_detail: boolean,
-    with_hash: boolean
+    with_hash: boolean,
+    db_name?: string,
+    collection_name?: string,
+    field_name?: string,
+    analyzer_names?: string[],
 })
 ```
 
@@ -65,11 +66,29 @@ milvusClient({
 
     可选标志，指示是否包含基于哈希的处理。
 
-**返回** *Promise&lt;RunAnalyzerResponse&gt;*
+- **db_name** (*string*) -
+
+    定义 Analyzer 的 Database 名称。
+
+- **collection_name** (*string*) -
+
+    使用该 Analyzer 的 Collection 名称。
+
+- **field_name** (*string*) -
+
+    使用该 Analyzer 的字段名称。
+
+- **analyzer_names** (*string[]*) -
+
+    要在输入文本上运行的 Analyzer 名称。
+
+**返回：**
+
+*Promise&lt;RunAnalyzerResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **RunAnalyzerResponse** 对象。
 
-```typescript
+```javascript
 {
     results: AnalyzerResult[],
     status:  ResStatus
@@ -78,8 +97,8 @@ milvusClient({
 
 **参数：**
 
-- **results** (*AnalyzerResult[]*) -<br/>
-  分词输出。当 **text** 为单个字符串时，此列表包含一个条目；当 **text** 为数组时，各条目与输入顺序一一对应。
+- **results** (*AnalyzerResult[]*) -
+分词输出。当 **text** 为单个字符串时，此列表包含一个条目；当 **text** 为数组时，各条目与输入顺序一致。
 
     - **tokens** (*AnalyzerToken[]*) -
 
@@ -109,32 +128,8 @@ milvusClient({
 
         token 的哈希值；当请求将 **with_hash** 设置为 **true** 时会填充该字段。
 
-        - **token** (*string*) -
-
-            token 文本。
-
-        - **start_offset** (*number*) -
-
-            token 在输入中开始位置的从零开始字符偏移量。
-
-        - **end_offset** (*number*) -
-
-            token 之后紧接位置的从零开始字符偏移量。
-
-        - **position** (*number*) -
-
-            token 在流中的位置，用于短语查询。
-
-        - **position_length** (*number*) -
-
-            token 跨越的流位置数量。
-
-        - **hash** (*number*) -
-
-            token 的哈希值；当请求将 **with_hash** 设置为 **true** 时会填充该字段。
-
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+**ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -147,3 +142,31 @@ milvusClient({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
+## 示例\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.runAnalyzer({
+    analyzer_params: {
+        tokenizer: 'standard',
+        filter: ['lowercase'],
+    },
+    text: 'Hello Milvus',
+    with_detail: true,
+});
+
+console.log(res.results);
+```

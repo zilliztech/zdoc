@@ -25,39 +25,34 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # queryIterator()
 
-此操作以迭代方式执行向量相似性搜索，并分批返回结果。当您需要逐步处理大型结果集，或总结果数超出单次 query 可返回的数量时，请使用此操作，而不是单次 search() 调用。
+此操作以迭代方式执行标量过滤查询，并分批返回结果。当您需要逐步处理大型结果集，或总结果数超出单次 query() 调用可返回的数量时，请使用此操作，而不是单次 query() 调用。
 
 ```javascript
-await milvusClient.searchIterator(data: SearchIteratorReq)
+await milvusClient.queryIterator(data: QueryIteratorReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
 ```javascript
-await milvusClient.searchIterator({
+await milvusClient.queryIterator({
     collection_name: string,
-    data: SearchData | SearchData[],
     batchSize: number,
-    limit?: number,
     filter?: string,
-    anns_field?: string,
+    expr?: string,
+    exprValues?: keyValueObj,
+    params?: keyValueObj,
+    group_by_fields?: string[],
+    order_by_fields?: OrderByFields,
+    order_by?: OrderByFields,
+    transformers?: OutputTransformers,
+    limit?: number,
     output_fields?: string[],
     partition_names?: string[],
-    params?: keyValueObj,
-    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
-    ignore_growing?: boolean,
-    group_by_field?: string,
-    exprValues?: keyValueObj,
-    rerank?: RerankerObj | FunctionObject | FunctionScore,
-    transformers?: OutputTransformers,
-    external_filter_fn?: (row: SearchResultData) => boolean,
     db_name?: string,
+    timeout?: number,
 })
 ```
 
@@ -67,93 +62,79 @@ await milvusClient.searchIterator({
 
     **[必填]**
 
-    要搜索的 Collection 名称。
-
-- **data** (*SearchData | SearchData[]*) -
-
-    **[必填]**
-
-    查询向量。支持的类型包括 FloatVector (number[])、BFloat16Vector (Uint8Array)、Float16Vector (Uint8Array)、BinaryVector (number[]) 和 SparseFloatVector。
+    现有 Collection 的名称。
 
 - **batchSize** (*number*) -
 
     **[必填]**
 
-    每次迭代返回的结果数量。不得超过 16,384。
-
-- **limit** (*number*) -
-
-    所有迭代中的结果总数上限。默认为匹配 Entity 的总数（即不设限制）。
+    每次迭代返回的 Entity 数量。不能超过 16,384。
 
 - **filter** (*string*) -
 
-    在搜索前用于筛选匹配 Entity 的标量过滤条件。默认为空字符串（不筛选）。
+    用于筛选匹配 Entity 的标量过滤条件。将其设置为空字符串可返回所有 Entity。要构建标量过滤条件，请参见布尔表达式规则。
 
-- **anns_field** (*string*) -
+- **expr** (*string*) -
 
-    目标向量字段的名称。当 Collection 包含多个向量字段时为必填。
-
-- **output_fields** (*string[]*) -
-
-    要包含在每个返回 Entity 中的字段名称列表。默认仅包含主字段。
-
-- **partition_names** (*string[]*) -
-
-    要搜索的 Partition 名称。
-
-- **params** (*keyValueObj*) -
-
-    附加搜索参数，以键值对形式提供，例如用于范围搜索的 `radius` 和 `range_filter`。
-
-- **metric_type** (*string*) -
-
-    用于衡量向量之间相似度的度量类型。默认使用已建立索引字段的度量类型。
-
-- **consistency_level** (*ConsistencyLevelEnum*) -
-
-    此操作的一致性级别。可选值：Strong (0)、Bounded (1)、Session (2)、Eventually (3)。默认为 Bounded。
-
-- **ignore_growing** (*boolean*) -
-
-    是否在搜索期间跳过 growing Segment。
-
-- **group_by_field** (*string*) -
-
-    按指定字段对搜索结果进行分组，以确保结果多样性。
+    **filter** 的别名。请提供 **filter** 或 **expr**，不要同时提供两者。
 
 - **exprValues** (*keyValueObj*) -
 
-    模板化过滤表达式的占位符值。
+    如果在过滤表达式中使用占位符，您可以将这些占位符的实际值指定为键值对。
 
-- **rerank** (*RerankerObj | FunctionObject | FunctionScore*) -
+- **params** (*keyValueObj*) -
 
-    重排序策略及其参数。有关支持的 reranker 类型的详细信息，请参见 `search()`。
+    以键值对形式提供的其他查询参数。
+
+- **group_by_fields** (*string[]*) -
+
+    用于对聚合结果进行分组的标量字段。
+
+- **order_by_fields** (*OrderByFields*) -
+
+    用于对查询结果排序的字段。
+
+- **order_by** (*OrderByFields*) -
+
+    **order_by_fields** 的别名。
 
 - **transformers** (*OutputTransformers*) -
 
-    适用于 BFloat16Vector 和 Float16Vector 等特殊向量数据类型的自定义转换器。
+    用于针对特定数据类型转换数据的自定义函数。
 
-- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+- **limit** (*number*) -
 
-    可选的客户端过滤函数，会应用于每一批结果。对于该函数返回 `false` 的 Entity，将从产出的批次中排除。
+    所有迭代中返回的 Entity 最大总数。该值默认为匹配 Entity 的总数（无限制）。
+
+- **output_fields** (*string[]*) -
+
+    每个返回的 Entity 中要包含的字段名列表。默认返回所有字段。
+
+- **partition_names** (*string[]*) -
+
+    要查询的 Partition 名称。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    此操作的一致性级别。可选值为 Strong（0）、Session（1）、Bounded（2）和 Eventually（3）。该值默认为创建 Collection 时设置的一致性级别。请参见 ConsistencyLevelEnum。
 
 - **db_name** (*string*) -
 
     包含该 Collection 的 Database 名称。
 
-- **element_indices** (*ElementIndices[]*) -
+- **timeout** (*number*) -
 
-    查询迭代器的元素索引。可选。
+    此操作的超时时间，单位为毫秒。
 
 **返回：**
 
-*Promise\<AsyncIterable\<SearchResultData[]\>\>*
+*Promise&lt;AsyncIterable&lt;object[]&gt;&gt;*
 
-返回一个异步可迭代对象。每次迭代都会产出该批次匹配 Entity 的数组。当结果总数达到 `limit` 或所有匹配 Entity 均已耗尽时，迭代结束。
+返回一个异步可迭代对象。每次迭代都会生成该批次对应的 Entity 数组。当总结果数达到 `limit` 或所有匹配的 Entity 均已耗尽时，迭代结束。
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     当此操作期间发生任何错误时，将引发此异常。
 
@@ -167,16 +148,15 @@ const milvusClient = new MilvusClient({
     token: 'YOUR_CLUSTER_TOKEN',
 });
 
-const iterator = await milvusClient.searchIterator({
+const iterator = await milvusClient.queryIterator({
     collection_name: 'my_collection',
-    data: [0.1, 0.2, 0.3, 0.4, 0.5],
+    filter: 'age > 30',
     batchSize: 100,
     limit: 500,
-    output_fields: ['id', 'text'],
-    filter: 'age > 18',
+    output_fields: ['id', 'age', 'text'],
 });
 
 for await (const batch of iterator) {
-    console.log(`Batch of ${batch.length} results:`, batch);
+    console.log(`Batch of ${batch.length} entities:`, batch);
 }
 ```

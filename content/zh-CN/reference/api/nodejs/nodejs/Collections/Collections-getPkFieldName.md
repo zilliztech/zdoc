@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldName()
 
 此操作获取 Collection 的主键字段名称。这是一种便捷方法，会描述该 Collection 并提取主键字段名称。
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldName(data: DescribeCollectionReq)
 ```javascript
 getPkFieldName({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldName({
 
     Collection 的名称。
 
+- **db_name** (*string*) -
+
+    保存目标 Collection 的 Database 名称。
+
+- **cache** (*boolean*) -
+
+    是否使用 Collection 的缓存描述。可选。
+
 - **timeout** (*number*) -
 
     RPC 超时时间，单位为毫秒。可选。
 
 **返回：**
 
-*Promise\<string\>*
+*Promise&lt;string&gt;*
 
 主键字段的名称。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

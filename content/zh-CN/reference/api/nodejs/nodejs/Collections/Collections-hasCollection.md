@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasCollection()
 
 此操作检查指定的 Collection 是否存在。
@@ -48,11 +45,11 @@ await milvusClient.hasCollection({
 
 **参数：**
 
-- **db_name** (*str*) -
+- **db_name** (*string*) -
 
     包含目标 Collection 的 Database 名称。
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[必需]**
 
@@ -64,11 +61,13 @@ await milvusClient.hasCollection({
 
     将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**返回值** *Promise&lt;BoolResponse&gt;*
+**返回：**
+
+*Promise&lt;BoolResponse&gt;*
 
 此方法返回一个解析为 **BoolResponse** 对象的 Promise。
 
-```typescript
+```javascript
 {
     value: boolean,
     status:  ResStatus
@@ -77,11 +76,11 @@ await milvusClient.hasCollection({
 
 **参数：**
 
-- **value** (*boolean*) -<br/>
-  一个布尔值，表示请求的 Collection 是否存在。Collection 存在时为 **true**，不存在时为 **false**。
+- **value** (*boolean*) -
+一个布尔值，表示所请求的 Collection 是否存在。Collection 存在时为 **true**，不存在时为 **false**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -95,13 +94,19 @@ await milvusClient.hasCollection({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const res = await milvusClient.hasCollection({ collection_name: 'my_collection' });
 ```
-

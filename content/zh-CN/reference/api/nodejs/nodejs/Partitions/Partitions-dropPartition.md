@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropPartition()
 
 此操作会从当前 Collection 中删除指定的 Partition。
@@ -71,7 +68,9 @@ await milvusClient.dropPartition({
 
     将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，解析为 **ResStatus** 对象。
 
@@ -97,9 +96,16 @@ await milvusClient.dropPartition({
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -108,4 +114,3 @@ new MilvusClient({
     partition_name: 'my_partition',
  });
 ```
-

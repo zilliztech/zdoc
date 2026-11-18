@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterCollectionProperties()
 
 此操作会修改指定 Collection 的属性。
@@ -74,7 +71,7 @@ await milvusClient.alterCollectionProperties({
 
         Collection 的生存时间（TTL），单位为秒。
 
-    - **mmap.enabled** (*bool*) -
+    - **mmap.enabled** (*boolean*) -
 
         是否为 Collection 中所有字段的原始数据和索引启用 mmap。
 
@@ -84,7 +81,9 @@ await milvusClient.alterCollectionProperties({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 解析为 **ResStatus** 对象。
 
@@ -110,16 +109,22 @@ await milvusClient.alterCollectionProperties({
 
     表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const resStatus = await milvusClient.alterCollection({
+const resStatus = await milvusClient.alterCollectionProperties({
     collection_name: 'my-collection',
     properties: {"collection.ttl.seconds": 18000}
 });
 ```
-

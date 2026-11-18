@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadingProgress()
 
 此操作用于获取特定 Collection 的加载进度。
@@ -67,11 +64,13 @@ await milvusClient.getLoadingProgress({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise&lt;GetLoadingProgressResponse&gt;*
+**返回：**
+
+*Promise&lt;GetLoadingProgressResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetLoadingProgressResponse** 对象。
 
-```typescript
+```javascript
 {
     progress: string,
     status:  ResStatus
@@ -80,11 +79,11 @@ await milvusClient.getLoadingProgress({
 
 **参数：**
 
-- **progress** (*string*) -<br/>
-  加载操作的完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。当该值达到 **"100"** 时，Collection 即已完全加载。
+- **progress** (*string*) -
+加载操作的完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。当此值达到 **"100"** 时，Collection 即完全加载。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ await milvusClient.getLoadingProgress({
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +115,3 @@ const resStatus = await milvusClient.getLoadingProgress({
     collection_name: 'my_collection',
 });
 ```
-

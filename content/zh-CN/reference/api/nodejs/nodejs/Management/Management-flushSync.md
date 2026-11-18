@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # flushSync()
 
 此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在所有数据都插入 Collection 后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus 会定期自动将数据 flush 到持久化存储中。建议您依赖这种自动数据持久化机制。
 
@@ -70,11 +69,13 @@ await milvusClient.flushSync({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回：** *Promise&lt;GetFlushStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetFlushStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetFlushStateResponse** 对象。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -83,11 +84,11 @@ await milvusClient.flushSync({
 
 **参数：**
 
-- **flushed** (*boolean*) -<br/>
-  表示所有目标 Segment 是否都已 flush 到持久化存储。由于 `flushSync()` 会阻塞直至 flush 完成，因此成功时该值为 **true**。
+- **flushed** (*boolean*) -
+所有目标 Segment 是否都已 flush 到持久化存储。由于 `flushSync()` 会阻塞直到 flush 完成，因此成功时该值为 **true**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -101,9 +102,16 @@ await milvusClient.flushSync({
 
         表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -112,4 +120,3 @@ const flushSyncStatus = await milvusClient.flushSync({
     collection_names: ['my_collection'],
 });
 ```
-

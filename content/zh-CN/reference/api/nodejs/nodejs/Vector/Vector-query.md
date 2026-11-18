@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # query()
 
 此操作使用指定的布尔表达式执行标量过滤。
@@ -46,10 +45,14 @@ await milvusClient.query(data)
     output_fields?: string[];
     ids?: string[] | number[];
     filter?: string;
+    expr?: string;
     offset?: number;
     limit?: number;
     consistency_level?: ConsistencyLevelEnum;
     exprValues?: keyValueObj;
+    group_by_fields?: string[];
+    transformers?: OutputTransformers;
+    params?: keyValueObj;
 })
 ```
 
@@ -85,13 +88,21 @@ await milvusClient.query(data)
 
     您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。 
 
+- **expr** （*string*） -
+
+    **filter** 的别名。请提供 **filter** 或 **expr**，不能同时提供两者。
+
+- **exprValues** （*keyValueObj*） -
+
+    如果您选择按照[过滤表达式模板](https://milvus.io/docs/filtering-templating.md)中所述，在 `filter` 中使用占位符，则可以将这些占位符的实际值以键值对的形式指定为此参数的值。
+
 - **offset** （*number*） -
 
     查询结果中要跳过的记录数。 
 
     您可以将此参数与 `limit` 结合使用以启用分页。
 
-    此值与 `limit` 的总和应小于 16,384。 
+    此值与 `limit` 的总和应小于或等于 16,384。 
 
 - **limit** （*number*） -
 
@@ -99,23 +110,21 @@ await milvusClient.query(data)
 
     您可以将此参数与 `offset` 结合使用以启用分页。
 
-    此值与 `offset` 的总和应小于 16,384。 
+    此值与 `offset` 的总和应小于或等于 16,384。 
 
 - **consistency_level** （*ConsistencyLevelEnum*） -
 
-    目标 Collection 的一致性级别。
+    目标 Collection 的一致性级别。请参见 ConsistencyLevelEnum。
 
-    该值默认为创建当前 Collection 时指定的值，可选值为 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
+    该值默认为您创建当前 Collection 时指定的值，可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
 
-    <Admonition type="info" title="Note">
-
-    什么是一致性级别？
+    <Admonition type="info" icon="📘" title="Notes">
     
-        分布式 Database 中的一致性具体指这样一项特性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
+    分布式 Database 中的一致性具体指这样一项特性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
     
-        Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+    Milvus 支持四种一致性级别：**Strong**、**Bounded Staleness**、**Session** 和 **Eventually**。Milvus 中的默认一致性级别为 **Bounded Staleness**。
     
-        您可以在执行向量相似度搜索或查询时轻松调整一致性级别，使其最适合您的应用。
+    您可以在执行向量相似度搜索或查询时轻松调整一致性级别，使其最适合您的应用。
 
     </Admonition>
 
@@ -131,11 +140,25 @@ await milvusClient.query(data)
 
     order_by_fields 的别名。可选。
 
-**返回类型：** *Promise&lt;QueryResults&gt;*
+- **group_by_fields** （*string[]*） -
+
+    用于对聚合结果进行分组的标量字段。可选。
+
+- **transformers** （*OutputTransformers*） -
+
+    用于转换特定数据类型的数据的自定义函数。可选。
+
+- **params** （*keyValueObj*） -
+
+    以键值对形式提供的其他查询参数。可选。
+
+**返回：**
+
+*Promise&lt;QueryResults&gt;*
 
 此方法返回一个 Promise，该 Promise 解析为 **QueryResults** 对象。
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -144,11 +167,11 @@ await milvusClient.query(data)
 
 **参数：**
 
-- **data** （*Record&lt;string, any&gt;[]*） -<br/>
-  匹配的行。每个条目以字段名为键，并包含每个请求的 **output_fields** 条目对应的值以及主键。当 Collection 上的 **enable_dynamic_field** 为 **true** 时，动态字段值会与已声明的字段一同内联显示。
+- **data** （*Record&lt;string, any&gt;[]*） -
+匹配的行。每个条目均以字段名作为键，并包含所请求的每个 **output_fields** 条目对应的值以及主键。当 Collection 上的 **enable_dynamic_field** 为 **true** 时，动态字段值会与已声明字段一起内联显示。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** （*number*） -
 
@@ -162,9 +185,16 @@ await milvusClient.query(data)
 
         用于说明所报告错误的原因。如果此操作成功，则该值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -175,4 +205,3 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
-

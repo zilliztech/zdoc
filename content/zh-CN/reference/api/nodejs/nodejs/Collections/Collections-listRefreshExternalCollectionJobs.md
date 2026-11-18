@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会列出外部 Collection 的所有刷新作业。您可以按 Collection 名称和 Database 名称进行筛选。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
-sidebar_position: 34
+sidebar_position: 30
 keywords: 
   - AI Agent
   - 语义搜索
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRefreshExternalCollectionJobs()
 
 此操作会列出外部 Collection 的所有刷新作业。您可以按 Collection 名称和 Database 名称进行筛选。
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listRefreshExternalCollectionJobs({
     collection_name?: string,
     db_name?: string,
@@ -49,23 +46,25 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **参数：**
 
-- **collection_name** (*string*) -<br/>
-  可选，按 Collection 名称筛选。
+- **collection_name** (*string*) -
+按 Collection 名称筛选，此项为可选。
 
-- **db_name** (*string*) -<br/>
-  可选，按 Database 名称筛选。
+- **db_name** (*string*) -
+按 Database 名称筛选，此项为可选。
 
-- **timeout** (*number*) -<br/>
-  RPC 允许的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的 Trace ID。此项为可选。
 
-**返回值** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**返回：**
+
+*Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
 此方法返回一个 promise，解析为 **ListRefreshExternalCollectionJobsResponse** 对象。
 
-```typescript
+```javascript
 {
     jobs: RefreshExternalCollectionJobInfo[],
     status:  ResStatus
@@ -74,11 +73,12 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **参数：**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
-  与请求的 Database 和 Collection 筛选条件匹配的刷新作业列表。有关 **RefreshExternalCollectionJobInfo** 的完整字段说明，请参阅 `getRefreshExternalCollectionProgress()` 文档。
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+与所请求的 Database 和 Collection 筛选条件匹配的刷新作业列表。有关 RefreshExternalCollectionJobInfo 字段的完整参考，请参阅 `getRefreshExternalCollectionProgress()` 文档。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -91,6 +91,13 @@ await milvusClient.listRefreshExternalCollectionJobs({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

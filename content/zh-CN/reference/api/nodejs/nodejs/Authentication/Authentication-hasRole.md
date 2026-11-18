@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasRole()
 
 此操作检查 Milvus 集群中是否存在某个角色。
@@ -57,11 +54,13 @@ await milvusClient.hasRole({
 
     RPC 超时时间，单位为毫秒。可选。
 
-**返回值** *Promise&lt;HasRoleResponse&gt;*
+**返回：**
+
+*Promise&lt;HasRoleResponse&gt;*
 
 此方法返回一个 promise，解析为 **HasRoleResponse** 对象。
 
-```typescript
+```javascript
 {
     hasRole: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.hasRole({
 
 **参数：**
 
-- **hasRole** (*boolean*) -<br/>
-  一个布尔值，表示请求的角色是否存在。角色存在时为 **true**，不存在时为 **false**。
+- **hasRole** (*boolean*) -
+一个布尔值，表示所请求的角色是否存在。角色存在时为 **true**，不存在时为 **false**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ await milvusClient.hasRole({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

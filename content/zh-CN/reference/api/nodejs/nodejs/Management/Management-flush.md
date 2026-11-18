@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # flush()
 
 此操作会手动封存一个 Segment，并将数据持久化到磁盘。建议在将所有数据插入 Collection 后调用此操作。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.flush(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus 会定期自动将数据刷新到持久化存储中。建议您依赖此自动数据持久化机制。
 
@@ -70,11 +69,13 @@ await milvusClient.flush({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise&lt;FlushResult&gt;*
+**返回：**
+
+*Promise&lt;FlushResult&gt;*
 
 此方法返回一个 promise，解析为 **FlushResult** 对象。
 
-```typescript
+```javascript
 {
     coll_segIDs: Record<string, { data: number[] }>,
     status:  ResStatus
@@ -83,11 +84,11 @@ await milvusClient.flush({
 
 **参数：**
 
-- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
-  从 Collection 名称到此次 flush 所封存 Segment ID 的映射。使用返回的 ID 和 `getFlushState()` 确认持久化。
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
+将 Collection 名称映射到此次 flush 所封存的 Segment ID。将返回的 ID 与 `getFlushState()` 一起使用，以确认持久化。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -101,9 +102,16 @@ await milvusClient.flush({
 
         用于说明所报告错误的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -112,4 +120,3 @@ const flushStatus = await milvusClient.flush({
     collection_names: ['my_collection'],
 });
 ```
-

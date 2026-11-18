@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getCompactionState()
 
 此操作列出在特定 Collection 上收集的统计信息。
@@ -59,11 +56,13 @@ await milvusClient.getCompactionState({
 
     将其设置为 **None** 表示当返回任意响应或发生错误时，此操作将超时。
 
-**返回** *Promise&lt;GetCompactionStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetCompactionStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetCompactionStateResponse** 对象。
 
-```typescript
+```javascript
 {
     state: CompactionState,
     executingPlanNo: string,
@@ -76,23 +75,24 @@ await milvusClient.getCompactionState({
 
 **参数：**
 
-- **state** (*CompactionState*) -<br/>
-  Compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
+- **state** (*CompactionState*) -
 
-- **executingPlanNo** (*string*) -<br/>
-  仍在执行的计划数量。
+Compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
 
-- **timeoutPlanNo** (*string*) -<br/>
-  已超时的计划数量。
+- **executingPlanNo** (*string*) -
+仍在执行的计划数量。
 
-- **completedPlanNo** (*string*) -<br/>
-  已成功完成的计划数量。
+- **timeoutPlanNo** (*string*) -
+已超时的计划数量。
 
-- **failedPlanNo** (*string*) -<br/>
-  失败的计划数量。
+- **completedPlanNo** (*string*) -
+成功完成的计划数量。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **failedPlanNo** (*string*) -
+失败的计划数量。
+
+- **ResStatus**
+**ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -106,6 +106,13 @@ await milvusClient.getCompactionState({
 
         指示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
 ```javascript
@@ -117,4 +124,3 @@ const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });
 ```
-

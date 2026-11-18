@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # grantPrivilegeV2()
 
 此操作会将权限或权限组授予某个角色。
@@ -82,7 +79,9 @@ await milvusClient.grantPrivilegeV2(data)
 
     将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，解析为 **ResStatus** 对象。
 
@@ -108,9 +107,16 @@ await milvusClient.grantPrivilegeV2(data)
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.grantPrivilegeV2({
     role: 'exampleRole',
     privilege: 'CreateCollection',
@@ -118,4 +124,3 @@ await milvusClient.grantPrivilegeV2({
     collection_name: 'exampleCollection',
 });
 ```
-

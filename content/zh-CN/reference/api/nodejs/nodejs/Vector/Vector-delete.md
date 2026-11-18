@@ -25,7 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -49,7 +48,8 @@ await milvusClient.delete({
    collection_name: string,
    partition_name?: string,
    ids: string[] | number[],
-   consistency_level: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -80,7 +80,11 @@ await milvusClient.delete({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    目标 Collection 的一致性级别。该值默认为 **Bounded**（**1**），可选值包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
+    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 ConsistencyLevelEnum。
+
+- **exprValues** (*keyValueObj*) -
+
+    如果在过滤表达式中使用占位符，您可以将这些占位符的实际值指定为键值对。
 
 - **timeout** (*number*) -
 
@@ -88,11 +92,63 @@ await milvusClient.delete({
 
     将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**返回值** *Promise&lt;MutationResult&gt;*
+### 使用 DeleteByFilterReq\{#with-deletebyfilterreq}
+
+```javascript
+await milvusClient.delete({
+   db_name: string,
+   collection_name: string,
+   partition_name?: string,
+   filter: string,
+   consistency_level: ConsistencyLevelEnum,
+   exprValues?: keyValueObj,
+   timeout?: number
+ })
+```
+
+**参数：**
+
+- **db_name** (*string*) -
+
+    保存目标 Collection 的 Database 名称。
+
+- **collection_name** (*string*) -
+
+    **[必需]**
+
+    现有 Collection 的名称。
+
+- **partition_name** (*string*) -
+
+    Collection 中现有 Partition 的名称。
+
+- **filter** (*string*) -
+
+    **[必需]**
+
+    用于匹配要删除的 Entity 的标量过滤条件。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 ConsistencyLevelEnum。
+
+- **exprValues** (*keyValueObj*) -
+
+    如果在过滤表达式中使用占位符，您可以将这些占位符的实际值指定为键值对。
+
+- **timeout** (*number*) -
+
+    此操作的超时时长。
+
+    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+
+**返回：**
+
+*Promise&lt;MutationResult&gt;*
 
 此方法返回一个 promise，解析为 **MutationResult** 对象。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +157,40 @@ await milvusClient.delete({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **参数：**
 
-- **succ_index** (*number[]*) -<br/>
-  与某一行匹配并被标记为已删除的输入 ID 的零基位置。
+- **succ_index** (*number[]*) -
+匹配到一行并已标记为删除的输入 ID 的从零开始的位置。
 
-- **err_index** (*number[]*) -<br/>
-  未匹配到任何行的输入 ID 的零基位置。
+- **err_index** (*number[]*) -
+未匹配到任何行的输入 ID 的从零开始的位置。
 
-- **acknowledged** (*boolean*) -<br/>
-  删除操作是否已被 Milvus 确认。
+- **acknowledged** (*boolean*) -
+Milvus 是否已确认此删除操作。
 
-- **insert_cnt** (*string*) -<br/>
-  对于 `delete()`，始终为 **"0"**。
+- **insert_cnt** (*string*) -
+对于 `delete()`，始终为 **"0"**。
 
-- **delete_cnt** (*string*) -<br/>
-  此操作逻辑删除的行数。
+- **delete_cnt** (*string*) -
+此操作逻辑删除的行数。
 
-- **upsert_cnt** (*string*) -<br/>
-  对于 `delete()`，始终为 **"0"**。
+- **upsert_cnt** (*string*) -
+对于 `delete()`，始终为 **"0"**。
 
-- **timestamp** (*string*) -<br/>
-  删除变得可见时的混合时间戳。
+- **timestamp** (*string*) -
+该删除操作变为可见时的混合时间戳。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  此次删除操作所针对的主键。有关完整字段参考，请参阅 `insert()` 文档。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+此删除操作针对的主键。有关完整的字段参考，请参见 `insert()` 文档。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -147,12 +204,19 @@ await milvusClient.delete({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## 示例\{#example}
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时都会引发此异常。
+
+## 示例\{#examples}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
-```python
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -167,7 +231,7 @@ const milvusClient = new MilvusClient({
 
 <TabItem value='java'>
 
-```java
+```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const milvusClient = new MilvusClient({

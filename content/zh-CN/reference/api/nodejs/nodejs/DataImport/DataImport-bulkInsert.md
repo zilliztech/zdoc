@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # bulkInsert()
 
 此操作将指定数据文件中的数据导入 Milvus。
@@ -43,6 +40,7 @@ await milvusClient.bulkInsert({
     db_name?: string,
     collection_name: string,
     partition_name?: string,
+    channel_names?: string[],
     files: string[],
     timeout?: number,
     options?: KeyValuePair<string, string | number>[]
@@ -65,6 +63,10 @@ await milvusClient.bulkInsert({
 
     目标 Partition 的名称。
 
+- **channel_names** (*string[]*) -
+
+    用于导入的消息通道。可选。
+
 - **files** (*string[]*) -
 
     执行导入的数据文件路径列表。
@@ -79,15 +81,13 @@ await milvusClient.bulkInsert({
 
     当前操作的额外选项，以键值对形式提供。
 
-**返回类型：**
+**返回：**
 
-*Promise*\<*ImportResponse*>
-
-**返回值** *Promise&lt;ImportResponse&gt;*
+*Promise&lt;ImportResponse&gt;*
 
 此方法返回一个 promise，解析为 **ImportResponse** 对象。
 
-```typescript
+```javascript
 {
     tasks: number[],
     status:  ResStatus
@@ -96,11 +96,11 @@ await milvusClient.bulkInsert({
 
 **参数：**
 
-- **tasks** (*number[]*) -<br/>
-  分发到数据节点的异步导入任务标识符。将这些值传递给 `listImportTasks()` 以轮询完成状态。
+- **tasks** (*number[]*) -
+已分发至数据节点的异步导入任务的标识符。将这些值传递给 `listImportTasks()`，以轮询完成情况。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -114,7 +114,14 @@ await milvusClient.bulkInsert({
 
         表示所报告错误原因的原因说明。如果此操作成功，则其为空字符串。
 
-## 示例\{#examples}
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
+## 示例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

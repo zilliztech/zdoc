@@ -2,7 +2,7 @@
 title: "dropSnapshot() | Node.js"
 slug: /node/node/Snapshot-dropSnapshot
 sidebar_label: "dropSnapshot()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropSnapshot()
 
 此操作会删除 Collection 的快照。
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.dropSnapshot({
     collection_name: string,
     snapshot_name: string,
@@ -50,30 +47,32 @@ await milvusClient.dropSnapshot({
 
 **参数：**
 
-- **collection_name** （*string*） -<br/>
-  **[必需]**<br/>
-  快照所属 Collection 的名称。
+- **collection_name** (*string*) -
+**[必需]**
+快照所属的 Collection 的名称。
 
-- **snapshot_name** （*string*） -<br/>
-  **[必需]**<br/>
-  要删除的快照的名称。
+- **snapshot_name** (*string*) -
+**[必需]**
+要删除的快照的名称。
 
-- **db_name** （*string*） -<br/>
-  Database 的名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** （*number*） -<br/>
-  允许 RPC 使用的可选持续时间，以毫秒为单位。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** （*string*） -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的追踪 ID。可选。
 
 **返回：**
 
 *Promise&lt;ResStatus&gt;*
 
+此方法返回一个 Promise，该 Promise 会解析为 **ResStatus** 对象。
+
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     当此操作过程中发生任何错误时，将引发此异常。
 

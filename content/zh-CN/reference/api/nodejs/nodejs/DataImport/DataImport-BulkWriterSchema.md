@@ -25,14 +25,11 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterSchema
 
-此接口描述了 `BulkWriter` 用于验证行并生成可由 Milvus 导入的 JSON 或 Parquet 文件的 Collection Schema。
+此接口描述了 [`BulkWriter`](./DataImport-BulkWriter) 用于验证行并生成可由 Milvus 导入的 JSON 或 Parquet 文件的 Collection Schema。
 
-```typescript
+```javascript
 interface BulkWriterSchema
 ```
 

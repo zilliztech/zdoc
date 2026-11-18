@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropPrivilegeGroup()
 
-此操作会将用户添加到特定角色。
+此操作会删除一个权限组。
 
 ```javascript
 await milvusClient.dropPrivilegeGroup(data)
@@ -40,11 +37,18 @@ await milvusClient.dropPrivilegeGroup(data)
 
 ```javascript
 await milvusClient.dropPrivilegeGroup({
+   group_name: string,
    timeout?: number
 })
 ```
 
 **参数：**
+
+- **group_name** (*string*) -
+
+    **[必需]**
+
+    要删除的权限组名称。
 
 - **timeout** (*number*) -  
 
@@ -52,9 +56,11 @@ await milvusClient.dropPrivilegeGroup({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
 
-此方法返回一个 promise 列表，其中每个 promise 都会解析为一个 **ResStatus** 对象。
+*Promise\<ResStatus\>*
+
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -78,9 +84,17 @@ await milvusClient.dropPrivilegeGroup({
 
     表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
-milvusClient.dropPrivilegeGroup()
+```javascript
+await milvusClient.dropPrivilegeGroup({
+    group_name: 'my_group',
+});
 ```
-

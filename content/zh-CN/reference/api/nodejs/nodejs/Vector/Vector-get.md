@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # get()
 
 此操作通过 ID 获取特定 Entity。
@@ -48,6 +45,8 @@ await milvusClient.get({
    offset?: number,
    output_fields?: string[],
    partition_names?: string[],
+   transformers?: OutputTransformers,
+   exprValues?: keyValueObj,
    timeout?: number
  })
 ```
@@ -70,9 +69,9 @@ await milvusClient.get({
 
     特定 Entity ID 或 Entity ID 列表。
 
-- **consistency_level** (*string*) -
+- **consistency_level** (*ConsistencyLevelEnum*) -
 
-    目标 Collection 的一致性级别。
+    目标 Collection 的一致性级别。请参见 ConsistencyLevelEnum。
 
 - **limit** (*number*) -
 
@@ -80,7 +79,7 @@ await milvusClient.get({
 
     您可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
-    此值与 **param** 中 **offset** 的总和应小于 16,384。 
+    此值与 **param** 中 **offset** 的总和应小于或等于 16,384。
 
 - **offset** (*number*) -
 
@@ -88,7 +87,7 @@ await milvusClient.get({
 
     您可以将此参数与 `limit` 结合使用，以启用分页。
 
-    此值与 `limit` 的总和应小于 16,384。 
+    此值与 `limit` 的总和应小于或等于 16,384。
 
 - **partition_names** (*string[]*) -
 
@@ -100,17 +99,27 @@ await milvusClient.get({
 
     该值默认为 **None**。如果未指定，则选择所有字段作为输出字段。
 
+- **transformers** (*OutputTransformers*) -
+
+    用于转换特定数据类型的数据的自定义函数。
+
+- **exprValues** (*keyValueObj*) -
+
+    如果您在过滤表达式中使用占位符，可以将这些占位符的实际值指定为键值对。
+
 - **timeout** (*number*) -
 
     此操作的超时时长。 
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回** *Promise&lt;QueryResults&gt;*
+**返回值：**
+
+*Promise&lt;QueryResults&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **QueryResults** 对象。
 
-```typescript
+```javascript
 {
     data: Record<string, any>[],
     status:  ResStatus
@@ -119,11 +128,11 @@ await milvusClient.get({
 
 **参数：**
 
-- **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  主键与提供的 **ids** 匹配的行。每个条目都以字段名称为键，并包含每个请求的 **output_fields** 条目的值以及主键。
+- **data** (*Record&lt;string, any&gt;[]*) -
+主键与提供的 **ids** 匹配的行。每个条目都以字段名作为键，并包含所请求的每个 **output_fields** 条目对应的值以及主键。
 
-- **ResStatus**<br/>
-  **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -137,9 +146,16 @@ await milvusClient.get({
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -150,4 +166,3 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
-

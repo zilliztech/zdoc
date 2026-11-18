@@ -2,7 +2,7 @@
 title: "unpinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-unpinSnapshotData
 sidebar_label: "unpinSnapshotData()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # unpinSnapshotData()
 
 此操作会取消固定快照数据，使其在不再需要时可被垃圾回收。
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData(data: UnpinSnapshotDataReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.unpinSnapshotData({
     pin_id: number | string,
     timeout?: number,
@@ -48,23 +45,25 @@ await milvusClient.unpinSnapshotData({
 
 **参数：**
 
-- **pin_id** （*number | string*） -<br/>
-  **[必需]**<br/>
-  由 pinSnapshotData() 返回的 pin ID。
+- **pin_id** (*number | string*) -
+**[必需]**
+由 pinSnapshotData() 返回的 pin ID。
 
-- **timeout** （*number*） -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** （*string*） -<br/>
-  用于跟踪请求的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于跟踪请求的 trace ID。可选。
 
 **返回：**
 
 *Promise&lt;ResStatus&gt;*
 
+此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
+
 **异常：**
 
-- **MilvusError**
+- **错误**
 
     在此操作期间发生任何错误时，都会引发此异常。
 

@@ -2,7 +2,7 @@
 title: "pinSnapshotData() | Node.js"
 slug: /node/node/Snapshot-pinSnapshotData
 sidebar_label: "pinSnapshotData()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # pinSnapshotData()
 
 此操作会固定快照数据，以防止其被垃圾回收。使用此操作可确保快照保持可用以用于恢复。
 
-```typescript
+```javascript
 await milvusClient.pinSnapshotData(data: PinSnapshotDataReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.pinSnapshotData({
     collection_name: string,
     snapshot_name: string,
@@ -51,31 +48,33 @@ await milvusClient.pinSnapshotData({
 
 **参数：**
 
-- **collection_name** （*string*） -<br/>
-  **[必填]**<br/>
-  快照所属的 Collection 名称。
+- **collection_name** (*string*) -
+**[必需]**
+快照所属 Collection 的名称。
 
-- **snapshot_name** （*string*） -<br/>
-  **[必填]**<br/>
-  要固定的快照名称。
+- **snapshot_name** (*string*) -
+**[必需]**
+要固定的快照的名称。
 
-- **ttl_seconds** （*number | string*） -<br/>
-  可选的固定 TTL，单位为秒。如果未指定，快照会被无限期固定。
+- **ttl_seconds** (*number | string*) -
+可选的固定 TTL，单位为秒。如果未指定，快照将被无限期固定。
 
-- **db_name** （*string*） -<br/>
-  Database 名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** （*number*） -<br/>
-  可选的 RPC 持续时间，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+可选，允许 RPC 的时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** （*string*） -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的跟踪 ID。可选。
 
-**返回** *Promise&lt;PinSnapshotDataResponse&gt;*
+**返回：**
+
+*Promise&lt;PinSnapshotDataResponse&gt;*
 
 此方法返回一个 Promise，该 Promise 会解析为 **PinSnapshotDataResponse** 对象。
 
-```typescript
+```javascript
 {
     pin_id: string,
     status:  ResStatus
@@ -84,11 +83,11 @@ await milvusClient.pinSnapshotData({
 
 **参数：**
 
-- **pin_id** （*string*） -<br/>
-  固定租约的标识符。将此值传递给 `unpinSnapshotData()`，可在固定 TTL 到期前释放固定。
+- **pin_id** (*string*) -
+固定租约的标识符。将此值传递给 `unpinSnapshotData()`，以便在其 TTL 到期前释放固定。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** （*number*） -
 
@@ -101,6 +100,13 @@ await milvusClient.pinSnapshotData({
     - **reason** （*string*） -
 
         指示所报告错误原因的说明。如果此操作成功，该值为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

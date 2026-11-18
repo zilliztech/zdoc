@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # addUserToRole()
 
 此操作会将用户添加到特定角色。
@@ -41,7 +38,7 @@ await milvusClient.addUserToRole(data)
 ```javascript
 await milvusClient.addUserToRole({
    username: string,
-   rolename: string,
+   roleName: string,
    timeout?: number
  })
 ```
@@ -54,7 +51,7 @@ await milvusClient.addUserToRole({
 
     用户名称。
 
-- **rolename** (*string*) -
+- **roleName** (*string*) -
 
     **[必需]**
 
@@ -66,7 +63,9 @@ await milvusClient.addUserToRole({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -92,12 +91,18 @@ await milvusClient.addUserToRole({
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.addUserToRole({
     username: 'myUser',
     roleName: 'myRole'
 });
 ```
-

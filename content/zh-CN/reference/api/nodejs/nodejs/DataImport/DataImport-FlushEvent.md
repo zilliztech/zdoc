@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # FlushEvent
 
 此接口描述一个 `BulkWriter` flush 事件。它会报告为某个 chunk 生成的文件、该 chunk 中的行数以及 chunk 索引。

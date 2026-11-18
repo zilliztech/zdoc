@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPartitions()
 
 此操作列出指定 Collection 中的 Partition。
@@ -75,14 +72,18 @@ await milvusClient.listPartitions({
 
         表示仅列出已加载的 Partition。
 
-**返回** *Promise&lt;ShowPartitionsResponse&gt;*
+**返回：**
+
+*Promise&lt;ShowPartitionsResponse&gt;*
 
 此方法返回一个 Promise，解析为 **ShowPartitionsResponse** 对象。
 
-```typescript
+```javascript
 {
     partition_names: string[],
     partitionIDs: number[],
+    created_timestamps: string[],
+    created_utc_timestamps: string[],
     data: PartitionData[],
     status:  ResStatus
 }
@@ -90,14 +91,20 @@ await milvusClient.listPartitions({
 
 **参数：**
 
-- **partition_names** (*string[]*) -<br/>
-  Collection 上定义的 Partition 名称列表。
+- **partition_names** (*string[]*) -
+Collection 中定义的 Partition 名称列表。
 
-- **partitionIDs** (*number[]*) -<br/>
-  Partition 的内部标识符，顺序与 **partition_names** 相同。
+- **partitionIDs** (*number[]*) -
+Partition 的内部标识符，顺序与 **partition_names** 相同。
 
-- **data** (*PartitionData[]*) -<br/>
-  按 Partition 展开的视图，包含名称、标识符、创建时间戳和加载百分比。
+- **created_timestamps** (*string[]*) -
+一个混合时间戳列表，指示每个 Partition 的创建时间。
+
+- **created_utc_timestamps** (*string[]*) -
+一个 UTC 时间戳列表，指示每个 Partition 的创建时间。
+
+- **data** (*PartitionData[]*) -
+一种扁平化的按 Partition 视图，汇集名称、标识符、创建时间戳和加载百分比。
 
     - **name** (*string*) -
 
@@ -115,8 +122,8 @@ await milvusClient.listPartitions({
 
         当前已加载到内存中的 Partition 百分比。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -130,9 +137,16 @@ await milvusClient.listPartitions({
 
         表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -140,4 +154,3 @@ new MilvusClient({
     collection_name: 'my_collection',
  });
 ```
-

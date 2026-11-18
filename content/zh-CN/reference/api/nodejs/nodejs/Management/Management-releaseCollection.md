@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # releaseCollection()
 
 此操作会将特定 Collection 的数据从内存中释放。
@@ -52,7 +49,7 @@ await milvusClient.releaseCollection({
 
     持有目标 Collection 的 Database 名称。
 
-- **collection_name** (*str*) -
+- **collection_name** (*string*) -
 
     **[必需]**
 
@@ -64,7 +61,9 @@ await milvusClient.releaseCollection({
 
     将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，解析为 **ResStatus** 对象。
 
@@ -90,13 +89,19 @@ await milvusClient.releaseCollection({
 
     表示已报告错误原因的说明。如果此操作成功，则其为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const resStatus = await milvusClient.releaseCollection({ collection_name: 'my_collection' });
 ```
-

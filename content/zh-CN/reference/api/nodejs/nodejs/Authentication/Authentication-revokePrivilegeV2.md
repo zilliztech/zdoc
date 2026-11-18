@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # revokePrivilegeV2()
 
 此操作会撤销已授予某个角色的权限。
@@ -39,7 +36,7 @@ await milvusClient.revokePrivilegeV2(data)
 ## 请求语法\{#request-syntax}
 
 ```javascript
-await milvusClient.revokePrivilege({
+await milvusClient.revokePrivilegeV2({
    role: string,
    privilege: string,
    db_name: string,
@@ -82,7 +79,9 @@ await milvusClient.revokePrivilege({
 
     将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，解析为 **ResStatus** 对象。
 
@@ -108,9 +107,16 @@ await milvusClient.revokePrivilege({
 
     表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.revokePrivilegeV2({
     role: 'exampleRole',
     privilege: 'CreateCollection',
@@ -118,4 +124,3 @@ await milvusClient.revokePrivilegeV2({
     collection_name: 'exampleCollection',
 });
 ```
-

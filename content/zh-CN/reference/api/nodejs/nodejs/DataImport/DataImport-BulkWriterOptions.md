@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # BulkWriterOptions
 
 此接口用于配置 `BulkWriter` 实例，包括 Schema 验证、存储行为、文件格式、分块大小和本地输出路径。

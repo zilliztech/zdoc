@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # MilvusClient
 
-**MilvusClient** 实例表示一个连接到特定 Zilliz Cloud 集群的 Node.js 客户端。
+一个 **MilvusClient** 实例表示一个连接到特定 Milvus 实例的 Node.js 客户端。
 
 ```javascript
 new MilvusClient(options:ClientConfig)
@@ -48,9 +45,9 @@ new MilvusClient(config: ClientConfig)
 
     **[必需]**
 
-    Zilliz Cloud 集群的地址。例如：
+    Milvus 实例的地址。例如：
 
-    ```plaintext
+    ```javascript
     https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
@@ -62,11 +59,11 @@ new MilvusClient(config: ClientConfig)
 
         集群 Endpoint。例如：
 
-        ```plaintext
+        ```javascript
         https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
         ```
 
-    - **_SKIPCONNECT__** （*boolean*） -
+    - **__SKIP_CONNECT__** （*boolean*） -
 
         一个布尔值，指示是否跳过连接。
 
@@ -126,19 +123,13 @@ new MilvusClient(config: ClientConfig)
 
         通用轮询选项，遵循[此仓库](https://github.com/coopernurse/node-pool)中规定的规则。
 
-    - **protoFilePath** （*protoFilePath*） -
-
-        - **milvus** （*string*） -
-
-        - **Schema** （*string*） -
-
     - **retryDelay** （*number*） -
 
         重试尝试之间的间隔。
 
     - **ssl** （*boolean*） -
 
-        一个布尔值，指示是否使用 SSL。在 Zilliz Cloud 上，请始终将其设置为 `true`。
+        指示是否使用 SSL 的布尔值。如果您已将 Milvus 配置为在 TLS Endpoint 上工作，请将其设置为 `true`。详细信息请参见 [传输加密](https://milvus.io/docs/tls.md)。
 
     - **timeout** （*string* | *number*） -
 
@@ -180,7 +171,7 @@ new MilvusClient(config: ClientConfig)
 
             是否跳过对所提供的证书的检查。将其设置为 `true` 表示跳过。
 
-        - **verifyOptions** （*string*） -
+        - **verifyOptions** （*Record&lt;string, any&gt;*） -
 
             验证选项。
 
@@ -192,23 +183,35 @@ new MilvusClient(config: ClientConfig)
 
         是否启用跟踪。
 
+    - **telemetry** （*TelemetryConfig*） -
+
+        客户端指标、心跳和服务器推送命令的配置。
+
+    - **isGlobal** （*boolean*） -
+
+        是否启用全局集群模式。当设置为 **true** 时，SDK 会从 Endpoint 获取集群拓扑，并将请求路由到主集群。如果省略此参数，则会从地址 URI 自动检测该模式。
+
     - **username** （*string*） -
 
         用于连接的用户名。
 
 - **ssl** （*boolean*） -
 
-    一个布尔值，指示是否使用 SSL。在 Zilliz Cloud 上，请始终将其设置为 `true`。
+    指示是否使用 SSL 的布尔值。如果您已将 Milvus 配置为在 TLS Endpoint 上工作，请将其设置为 `true`。详细信息请参见 [传输加密](https://milvus.io/docs/tls.md)。
 
 - **username** （*string*） -
 
-    用于连接指定 Zilliz Cloud 集群的有效用户名。
+    用于连接指定 Milvus 实例的有效用户名。
+
+    如果目标 Milvus 实例已启用身份验证，请使用此参数。要启用身份验证，请参见 [用户访问认证](https://milvus.io/docs/authenticate.md)。
 
     此参数应与 **password** 一起使用。
 
 - **password** （*string*） -
 
-    用于连接指定 Zilliz Cloud 集群的有效密码。
+    用于连接指定 Milvus 实例的有效密码。
+
+    如果目标 Milvus 实例已启用身份验证，请使用此参数。要启用身份验证，请参见 [用户访问认证](https://milvus.io/docs/authenticate.md)。
 
     此参数应与 **username** 一起使用。
 
@@ -216,19 +219,30 @@ new MilvusClient(config: ClientConfig)
 
     gRPC 的附加通道选项。
 
-**返回：** *MilvusClient*
+**方法：**
 
-此方法返回一个扩展了 GRPC Client 并负责与 Zilliz Cloud 集群通信的 Milvus Client 实例。
+- `static get sdkInfo`
+
+    返回 `{ version, recommendMilvus }`，即构建时生成的 SDK 版本和推荐的 Milvus 版本。
+
+- `session(clusterId: string): MilvusClientSession`
+
+    创建一个固定到目标集群 ID 的轻量级 DQL 会话。该会话会复用此客户端的连接，并将 `cluster_id` 注入 `search`、`hybridSearch`、`searchIterator`、`query`、`queryIterator` 和 `get` 请求。请参见 [session()](./Client-session)。
+
+- `createCollection(data): Promise<ResStatus>`
+
+    高级 Collection 创建方法，它会根据 `collection_name` 和 `dimension` 构建默认 Schema，并可选择创建索引和加载 Collection。
+
+- 所有其他操作（例如 `insert`、`search`、`query`、`createIndex`、`loadCollection`）均继承自底层 GRPC 客户端。
+
+**返回：**
+
+*MilvusClient*
+
+此方法返回一个继承自 GRPC Client 并负责与 Milvus 服务器通信的 Milvus Client 实例。
 
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient(config: ClientConfig)
 ```
-
-<Admonition type="info" title="Notes">
-
-- 将 **configOrAddress** 设置为您的集群 Endpoint。您可以在 Zilliz Cloud 控制台的 Cluster details 中找到相关信息。
-
-</Admonition>
-

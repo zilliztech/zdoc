@@ -10,7 +10,7 @@ notebook: false
 description: "此操作检查外部 Collection 刷新作业的进度。请使用 refreshExternalCollection() 返回的 jobid。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 33
+sidebar_position: 29
 keywords: 
   - 异常检测
   - 句子转换器
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRefreshExternalCollectionProgress()
 
 此操作检查外部 Collection 刷新作业的进度。请使用 refreshExternalCollection() 返回的 job_id。
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRefreshExternalCollectionProgress({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **参数：**
 
-- **job_id** (*number | string*) -<br/>
-  **[必需]**<br/>
-  refreshExternalCollection() 返回的作业 ID。
+- **job_id** (*number | string*) -
+**[必需]**
+refreshExternalCollection() 返回的作业 ID。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+可选，用于指定 RPC 的持续时间，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的追踪 ID。可选。
 
-**返回：** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
+**返回类型：**
+
+*Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetRefreshExternalCollectionProgressResponse** 对象。
 
-```typescript
+```javascript
 {
     job_info: RefreshExternalCollectionJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **参数：**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
-  刷新作业的当前状态。
+- **job_info** (*RefreshExternalCollectionJobInfo*) -
+
+刷新作业的当前状态。
 
     - **job_id** (*string*) -
 
@@ -84,7 +84,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **state** (*RefreshExternalCollectionState*) -
 
-        当前作业状态。可能的值包括 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。刷新作业会从 **RefreshInProgress** 转换为 **RefreshCompleted** 或 **RefreshFailed**。
+        当前作业状态。可选值为 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。
 
     - **progress** (*string*) -
 
@@ -106,8 +106,8 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
         作业结束的时间；如果作业仍在运行，则为空字符串。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -120,6 +120,13 @@ await milvusClient.getRefreshExternalCollectionProgress({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作过程中发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 

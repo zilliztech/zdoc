@@ -27,24 +27,23 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # truncateCollection()
 
 此操作会移除 Collection 中的所有数据，但保留 Collection 的 Schema 和结构。
 
 ```javascript
-await milvusClient.truncateCollection(data: TruncateCollectionRequest)
+await milvusClient.truncateCollection(data: DropCollectionReq)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 - **不可逆操作**
 
-    截断 Collection 会永久删除所有数据。
+截断 Collection 会永久删除所有数据。
 
 - **保留 Schema**
 
-    Collection 的结构、字段、索引和属性都会保持不变。
+Collection 的结构、字段、索引和属性都会保持不变。
 
 </Admonition>
 
@@ -76,33 +75,42 @@ truncateCollection({
 
 **返回值：**
 
-*Promise\<ResStatus\>*
+*Promise&lt;\{ status: ResStatus }&gt;*
 
-此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
+此方法返回一个 Promise，该 Promise 解析为包含 **ResStatus** 的对象。
 
 ```javascript
 {
-    code: number,
-    error_code: string | number,
-    reason: string
+    status: ResStatus
 }
 ```
 
 **参数：**
 
-- **code** (*number*) -
+- **status** (*ResStatus*) -
 
-    表示操作结果的代码。如果此操作成功，该值保持为 **0**。
+    一个 **ResStatus** 对象。
 
-- **error_code** (*string* | *number*) -
+    - **code** (*number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，该值保持为 **Success**。 
+        表示操作结果的代码。如果此操作成功，该值保持为 **0**。
 
-- **reason** (*string*) - 
+    - **error_code** (*string* | *number*) -
 
-    表示所报告错误原因的说明。如果此操作成功，该值保持为空字符串。
+        表示已发生错误的错误代码。如果此操作成功，该值保持为 **Success**。 
 
-## 示例\{#example}
+    - **reason** (*string*) - 
+
+        表示所报告错误原因的说明。如果此操作成功，该值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
+## 示例\{#examples}
 
 ### 基本用法\{#basic-usage}
 
@@ -120,7 +128,7 @@ const res = await milvusClient.truncateCollection({
 });
 
 console.log(res);
-// Output: { error_code: 'Success', reason: '' }
+// Output: { status: { error_code: 'Success', reason: '' } }
 ```
 
 ### 指定 Database 时\{#with-database-specified}

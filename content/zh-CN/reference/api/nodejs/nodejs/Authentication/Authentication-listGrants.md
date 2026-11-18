@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listGrants()
 
 此操作列出授予指定角色的权限。
@@ -41,22 +38,34 @@ await milvusClient.listGrants(data)
 ```javascript
  milvusClient.listGrants({
    roleName: 'roleName',
+   db_name?: string,
+   timeout?: number,
  });
 ```
 
 **参数：**
 
-- roleName (*string*)  
+- **roleName** (*string*)  
 
     目标角色名称
 
     如果将其设置为不存在的角色名称，可能会导致错误。
 
-**返回** *Promise&lt;SelectGrantResponse&gt;*
+- **db_name** (*string*)  
+
+    目标角色所属的 Database 名称。
+
+- **timeout** (*number*) -
+
+    此操作的超时时长。将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
+
+**返回：**
+
+*Promise&lt;SelectGrantResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为一个 **SelectGrantResponse** 对象。
 
-```typescript
+```javascript
 {
     entities: GrantEntity[],
     status:  ResStatus
@@ -65,11 +74,12 @@ await milvusClient.listGrants(data)
 
 **参数：**
 
-- **entities** (*GrantEntity[]*) -<br/>
-  附加到所请求角色的授权列表。每个条目将一项权限与其目标对象以及授予该权限的主体配对。有关 **GrantEntity** 字段的完整说明，请参阅 `describeRole()` 文档。
+- **entities** (*GrantEntity[]*) -
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+附加到所请求角色的授权列表。每个条目都将一项权限与目标对象以及授予该权限的主体配对。有关 **GrantEntity** 字段的完整参考，请参见 `describeRole()` 文档。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -82,6 +92,13 @@ await milvusClient.listGrants(data)
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

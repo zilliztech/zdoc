@@ -4,12 +4,12 @@ slug: /node/node/Authentication-updateUser
 sidebar_label: "updateUser()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更新用户账户的密码、描述，或同时更新两者。 | Node.js"
+description: "此操作会更新指定用户的密码。 | Node.js"
 type: docx
-token: L4tGd5KqLoLtp2xQRyhcaXjsnL5
+token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
   - 信息检索
@@ -25,70 +25,93 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # updateUser()
 
-此操作会更新用户账户的密码、描述，或同时更新两者。
+此操作会更新指定用户的密码。
+
+```javascript
+await milvusClient.updateUser(data)
+```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
-milvusClient.updateUser({ username, newPassword?, oldPassword?, description?, timeout? })
+```javascript
+await milvusClient.updateUser({
+   username: string,
+   newPassword: string,
+   oldPassword: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **参数：**
 
 - **username** （*string*） -
 
-    要更新的用户的用户名。
+    **[必需]**
 
-- **newPassword** （*string*） -
-
-    用户的新密码。仅在更新密码时必须提供。
+    现有用户的名称。
 
 - **oldPassword** （*string*） -
 
-    用户的旧密码。在请求更新密码时必须提供。
+    用户的原始密码。更改密码时为必需项。
+
+- **newPassword** （*string*） -
+
+    用户的新密码。更改密码时为必需项。
 
 - **description** （*string*） -
 
-    用户的新描述。
+    用户的描述。
 
-- **timeout** （*number*） -
+- **timeout** (*number*) -  
 
-    允许 RPC 执行的以毫秒为单位的可选时长。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
+    此操作的超时时长。
 
-**返回类型：**
-
-*ResStatus*
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回：**
 
-响应状态：`{error_code, reason}`。
+*Promise\<ResStatus\>*
+
+此方法返回一个 Promise，该 Promise 会解析为 **ResStatus** 对象。
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **参数：**
 
-- **error_code** （*number*） -
+- **code** (*number*) -
 
-    错误代码编号：0 表示成功。
+    表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
-- **reason** （*string*） -
+- **error_code** (*string* | *number*) -
 
-    错误的原因（如果有）。
+    表示已发生错误的错误码。如果此操作成功，则该值保持为 **Success**。
+
+- **reason** (*string*) - 
+
+    表示所报告错误的原因。如果此操作成功，则该值保持为空字符串。
+
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
-    当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息，以获取确切的失败原因。
+    此操作过程中发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
 ```javascript
 await milvusClient.updateUser({
-  username: 'exampleUser',
-  description: 'new description',
-});
+   username: 'exampleUser',
+   newPassword: 'newPassword',
+   oldPassword: 'oldPassword',
+ })
 ```

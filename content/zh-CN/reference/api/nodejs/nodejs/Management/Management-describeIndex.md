@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeIndex()
 
 此操作描述特定索引。
@@ -72,11 +69,13 @@ await milvusClient.describeIndex(data)
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;DescribeIndexResponse&gt;*
+**返回：**
+
+*Promise&lt;DescribeIndexResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **DescribeIndexResponse** 对象。
 
-```typescript
+```javascript
 {
     index_descriptions: IndexDescription[],
     status:  ResStatus
@@ -85,8 +84,9 @@ await milvusClient.describeIndex(data)
 
 **参数：**
 
-- **index_descriptions** (*IndexDescription[]*) -<br/>
-  请求的 Collection 的索引描述列表。提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
+- **index_descriptions** (*IndexDescription[]*) -
+
+所请求 Collection 的索引描述列表。当提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
 
     - **index_name** (*string*) -
 
@@ -124,8 +124,8 @@ await milvusClient.describeIndex(data)
 
         仍在等待建立索引的行数。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -139,9 +139,16 @@ await milvusClient.describeIndex(data)
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const describeIndexReq = {
   collection_name: 'my_collection',
@@ -150,4 +157,3 @@ const describeIndexReq = {
 const res = await milvusClient.describeIndex(describeIndexReq);
 console.log(res);
 ```
-

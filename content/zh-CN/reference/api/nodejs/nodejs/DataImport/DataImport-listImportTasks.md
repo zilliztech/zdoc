@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listImportTasks()
 
 列出 Collection 的导入任务，显示批量导入操作的状态和详细信息。
@@ -41,6 +38,7 @@ await milvusClient.listImportTasks(data: ListImportTasksReq)
 ```javascript
 await milvusClient.listImportTasks({
     collection_name: string,
+    db_name?: string,
     limit?: number,
     timeout?: number,
 })
@@ -54,6 +52,10 @@ await milvusClient.listImportTasks({
 
     Collection 的名称。
 
+- **db_name** (*string*) -
+
+    包含目标 Collection 的 Database 名称。
+
 - **limit** (*number*) -
 
     返回任务的最大数量。将其设置为 `0` 可返回所有任务。可选。
@@ -62,11 +64,13 @@ await milvusClient.listImportTasks({
 
     以毫秒为单位的 RPC 超时时间。可选。
 
-**返回** *Promise&lt;ListImportTasksResponse&gt;*
+**返回：**
+
+*Promise&lt;ListImportTasksResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **ListImportTasksResponse** 对象。
 
-```typescript
+```javascript
 {
     tasks: GetImportStateResponse[],
     status:  ResStatus
@@ -75,8 +79,8 @@ await milvusClient.listImportTasks({
 
 **参数：**
 
-- **tasks** (*GetImportStateResponse[]*) -<br/>
-  导入任务描述符列表。每个条目都包含任务状态、行数、Segment ID 和创建时间戳。
+- **tasks** (*GetImportStateResponse[]*) -
+一个导入任务描述符列表。每个条目包含任务状态、行数、Segment ID 和创建时间戳。
 
     - **state** (*ImportState*) -
 
@@ -110,8 +114,8 @@ await milvusClient.listImportTasks({
 
         任务的创建时间戳。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -124,6 +128,13 @@ await milvusClient.listImportTasks({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

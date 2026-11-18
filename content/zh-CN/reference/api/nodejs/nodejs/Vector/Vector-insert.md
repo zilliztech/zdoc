@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # insert()
 
 此操作会将数据插入到指定的 Collection 中。
@@ -41,9 +38,13 @@ await milvusClient.insert(data: InsertReq)
 ```javascript
 await milvusClient.insert({
     collection_name: string,
-    data: RowData | RowData[],
+    data: RowData[],
     partition_name?: string,
     db_name?: string,
+    hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
+    fields_data?: RowData[],
     timeout?: number,
 })
 ```
@@ -106,6 +107,22 @@ await milvusClient.insert({
     ]
     ```
 
+- **hash_keys** (*number[]*) -
+
+    由主键计算出的哈希值列表，用于确定由哪个分片接收每一行。可选。
+
+- **transformers** (*InsertTransformers*) -
+
+    用于 `BFloat16Vector` 和 `Float16Vector` 数据的自定义数据转换器。可选。
+
+- **skip_check_schema** (*boolean*) -
+
+    是否在插入前跳过 Schema 检查。可选。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** 的别名。您可以通过其中任一键传入这些行；请勿同时设置两者。
+
 - **timeout** (*number*)  
 
     此操作的超时时长。 
@@ -118,11 +135,13 @@ await milvusClient.insert({
 
     如果指定，则数据将插入到指定的 Partition 中。
 
-**返回值** *Promise&lt;MutationResult&gt;*
+**返回：**
+
+*Promise&lt;MutationResult&gt;*
 
 此方法返回一个 promise，解析为 **MutationResult** 对象。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -131,36 +150,37 @@ await milvusClient.insert({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **参数：**
 
-- **succ_index** (*number[]*) -<br/>
-  输入数据中成功插入行的从 0 开始的位置。
+- **succ_index** (*number[]*) -
+成功插入的各行在输入数据中的从零开始位置。
 
-- **err_index** (*number[]*) -<br/>
-  被拒绝行的从 0 开始的位置。当所有行都成功时，此列表为空。
+- **err_index** (*number[]*) -
+被拒绝的各行的从零开始位置。当所有行都成功时，此列表为空。
 
-- **acknowledged** (*boolean*) -<br/>
-  写入是否已被 Milvus 确认。
+- **acknowledged** (*boolean*) -
+写入是否已由 Milvus 确认。
 
-- **insert_cnt** (*string*) -<br/>
-  已插入的行数，格式为字符串。
+- **insert_cnt** (*string*) -
+已插入的行数，以字符串格式表示。
 
-- **delete_cnt** (*string*) -<br/>
-  此操作删除的行数。对于`insert()`，该值始终为 **"0"**。
+- **delete_cnt** (*string*) -
+此操作删除的行数。对于 `insert()`，该值保持为 **"0"**。
 
-- **upsert_cnt** (*string*) -<br/>
-  此操作 upsert 的行数。对于`insert()`，该值始终为 **"0"**。
+- **upsert_cnt** (*string*) -
+此操作执行 upsert 的行数。对于 `insert()`，该值保持为 **"0"**。
 
-- **timestamp** (*string*) -<br/>
-  此次写入变为可见时的混合时间戳。请将此值用于时间旅行查询。
+- **timestamp** (*string*) -
+写入变为可见时的混合时间戳。可使用此值进行时间旅行查询。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  分配给已插入行的主键。对于 autoID Collection，这些值由 Milvus 生成；否则，它们与输入键相同。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
+
+分配给已插入行的主键。对于 autoID Collection，Milvus 会生成这些值；否则，这些值会回显输入键。
 
     - **int_id** (*\{ data: number[] }*) -
 
@@ -170,12 +190,8 @@ await milvusClient.insert({
 
         当主键为 VARCHAR 字段时设置。
 
-    - **id_field** (*'int_id' | 'str_id'*) -
-
-        指示两个 id 数组中哪一个承载这些值。
-
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -188,6 +204,13 @@ await milvusClient.insert({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时都会引发此异常。
 
 ## 示例\{#example}
 
@@ -209,4 +232,3 @@ const res = await milvusClient.insert({
 
 console.log(res.insert_cnt); // '2'
 ```
-

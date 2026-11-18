@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createDatabase()
 
 此操作创建一个 Database。
@@ -35,12 +32,6 @@ import Admonition from '@theme/Admonition';
 ```javascript
 await milvusClient.createDatabase(data)
 ```
-
-<Admonition type="info" title="Notes">
-
-此方法仅适用于 Dedicated 集群。
-
-</Admonition>
 
 ## 请求语法\{#request-syntax}
 
@@ -64,27 +55,27 @@ await milvusClient.createDatabase({
 
     创建 Database 时随该 Database 一并设置的 Database 属性。可选的 Database 属性如下：
 
-    - **database.replica.number** （*int*） -
+    - **database.replica.number** (*number*) -
 
         Database 的副本数量。
 
-    - **database.resource_groups** （*[]str*） -
+    - **database.resource_groups** (*string[]*) -
 
         专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** （*int*） -
+    - **database.diskQuota.mb** (*number*) -
 
         为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** （*int*） -
+    - **database.max.collections** (*number*) -
 
         该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** （*bool*） -
+    - **database.force.deny.writing** (*boolean*) -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** （*bool*） -
+    - **database.force.deny.reading** (*boolean*) -
 
         是否拒绝该 Database 中的所有读取操作。
 
@@ -94,7 +85,9 @@ await milvusClient.createDatabase({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise |&lt;ResStatus&gt;*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
@@ -119,6 +112,13 @@ await milvusClient.createDatabase({
 - **reason** （*string*） - 
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

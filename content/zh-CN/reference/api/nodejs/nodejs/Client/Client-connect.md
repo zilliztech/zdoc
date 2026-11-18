@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # connect()
 
-此方法使用可选指定的 SDK 版本连接到 Zilliz Cloud 集群。
+此方法使用可选指定的 SDK 版本连接到 Milvus 实例。
 
 ```javascript
 connect(sdkVersion): void
@@ -39,9 +36,7 @@ connect(sdkVersion): void
 ## 请求语法\{#request-syntax}
 
 ```javascript
-connect({
-    sdkVersion: string
-})
+connect(sdkVersion: string)
 ```
 
 **参数：**
@@ -52,13 +47,21 @@ connect({
 
     您的 Node.js SDK 版本。
 
-**返回** *void*
+**返回值：**
+
+*void*
 
 此方法不返回任何内容。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，会引发此异常。
+
 ## 示例\{#example}
 
-```java
-connect(2.3.5)
+```javascript
+connect('2.3.5')
 ```
-

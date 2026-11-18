@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listAliases()
 
 这是一个方法模板。
@@ -66,11 +63,13 @@ listAliases({
 
     将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**返回** *Promise&lt;ListAliasesResponse&gt;*
+**返回：**
+
+*Promise&lt;ListAliasesResponse&gt;*
 
 此方法返回一个 promise，解析为 **ListAliasesResponse** 对象。
 
-```typescript
+```javascript
 {
     db_name: string,
     aliases: string[],
@@ -81,17 +80,17 @@ listAliases({
 
 **参数：**
 
-- **db_name** (*string*) -<br/>
-  拥有所列别名的 Database。
+- **db_name** (*string*) -
+持有所列别名的 Database。
 
-- **aliases** (*string[]*) -<br/>
-  指向所请求 Collection 的所有别名列表。
+- **aliases** (*string[]*) -
+指向所请求 Collection 的所有别名的列表。
 
-- **collection_name** (*string*) -<br/>
-  所列别名指向的 Collection 名称。
+- **collection_name** (*string*) -
+所列别名指向的 Collection 名称。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -105,13 +104,19 @@ listAliases({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const res = await milvusClient.listAliases({ collection_name: 'my_collection' });
 ```
-

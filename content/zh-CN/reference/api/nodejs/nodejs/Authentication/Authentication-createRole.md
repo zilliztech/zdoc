@@ -4,12 +4,12 @@ slug: /node/node/Authentication-createRole
 sidebar_label: "createRole()"
 beta: false
 added_since: v2.3.x
-last_modified: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在 Milvus 服务器中创建一个新角色。 | Node.js"
+description: "此操作会创建一个自定义角色。 | Node.js"
 type: docx
-token: TR8xdMnzEo85sLxAtizcJWZdn6b
+token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
   - 什么是 Milvus
@@ -25,61 +25,81 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # createRole()
 
-此操作会在 Milvus 服务器中创建一个新角色。
+此操作会创建一个自定义角色。
+
+```javascript
+await milvusClient.createRole(data)
+```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
-milvusClient.createRole({ roleName, description?, timeout? })
+```javascript
+await milvusClient.createRole({
+   roleName: string,
+   description?: string,
+   timeout?: number
+ })
 ```
 
 **参数：**
 
 - **roleName**（*string*）-
 
-    新角色的名称。
+    **[必需]**
+
+    要创建的角色名称。
 
 - **description**（*string*）-
 
-    新角色的可选描述。
+    要创建的角色描述。
 
 - **timeout**（*number*）-
 
-    允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
+    此操作的超时时长。 
 
-**返回类型：**
-
-*ResStatus*
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
 **返回：**
 
-响应状态：`{error_code, reason}`。
+*Promise\<ResStatus\>*
+
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
 
 **参数：**
 
-- **error_code**（*number*）-
+- **code** (*number*) -
 
-    错误代码编号：0 表示成功。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
-- **reason**（*string*）-
+- **error_code** (*string* | *number*) -
 
-    错误的原因（如有）。
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+
+- **reason** (*string*) - 
+
+    表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
-    当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息以获取确切的失败原因。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
 ```javascript
 await milvusClient.createRole({
-  roleName: 'exampleRole',
-});
+   roleName: 'exampleRole',
+ })
 ```

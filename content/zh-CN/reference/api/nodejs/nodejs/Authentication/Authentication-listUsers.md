@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listUsers()
 
 此操作列出当前可用的用户。
@@ -50,11 +47,13 @@ milvusClient.listUsers()
 
     将此项设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise&lt;ListCredUsersResponse&gt;*
+**返回：**
+
+*Promise&lt;ListCredUsersResponse&gt;*
 
 此方法返回一个 promise，解析为 **ListCredUsersResponse** 对象。
 
-```typescript
+```javascript
 {
     usernames: string[],
     status:  ResStatus
@@ -63,11 +62,11 @@ milvusClient.listUsers()
 
 **参数：**
 
-- **usernames** (*string[]*) -<br/>
-  当前 Milvus 实例中存在的用户名列表。
+- **usernames** (*string[]*) -
+当前 Milvus 实例中存在的用户名列表。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -81,9 +80,15 @@ milvusClient.listUsers()
 
         表示所报告错误原因的原因。如果此操作成功，则该值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 milvusClient.listUsers()
 ```
-

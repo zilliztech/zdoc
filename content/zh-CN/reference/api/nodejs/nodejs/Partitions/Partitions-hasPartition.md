@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # hasPartition()
 
 此操作检查指定 Collection 中是否存在指定的 Partition。
@@ -71,11 +68,13 @@ await milvusClient.hasPartition({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;BoolResponse&gt;*
+**返回：**
+
+*Promise&lt;BoolResponse&gt;*
 
 此方法返回一个 promise，解析为 **BoolResponse** 对象。
 
-```typescript
+```javascript
 {
     value: boolean,
     status:  ResStatus
@@ -84,11 +83,11 @@ await milvusClient.hasPartition({
 
 **参数：**
 
-- **value** (*boolean*) -<br/>
-  一个布尔值，表示请求的 Partition 在 Collection 中是否存在。当 Partition 存在时为 **true**，不存在时为 **false**。
+- **value** (*boolean*) -
+一个布尔值，表示所请求的 Partition 是否存在于该 Collection 中。Partition 存在时为 **true**，不存在时为 **false**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -102,9 +101,16 @@ await milvusClient.hasPartition({
 
         表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -113,4 +119,3 @@ new MilvusClient({
     partition_name: 'my_partition',
  });
 ```
-

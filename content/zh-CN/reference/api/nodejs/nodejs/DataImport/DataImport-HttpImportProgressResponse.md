@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # HttpImportProgressResponse
 
 此接口描述了由 `getImportJobProgress()` 返回的响应。

@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flushAllSync()
 
 此操作会刷新所有 Collection，并等待刷新操作完成。它会在内部先调用 flushAll，然后轮询 getFlushAllState，直到刷新完成。
 
-```typescript
+```javascript
 await milvusClient.flushAllSync(data?: FlushAllReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.flushAllSync({
     db_name?: string,
     timeout?: number,
@@ -48,20 +45,22 @@ await milvusClient.flushAllSync({
 
 **参数：**
 
-- **db_name** (*string*) -<br/>
-  Database 的名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，以毫秒为单位。如果将其设置为 undefined，则客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的 trace ID。可选。
 
-**返回值** *Promise&lt;GetFlushAllStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetFlushAllStateResponse** 对象。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.flushAllSync({
 
 **参数：**
 
-- **flushed** (*boolean*) -<br/>
-  flush-all 操作是否已完全完成。由于 `flushAllSync()` 会阻塞直到完成，因此成功时该值为 **true**。
+- **flushed** (*boolean*) -
+flush-all 操作是否已完全完成。由于 `flushAllSync()` 会阻塞直至完成，因此成功时该值为 **true**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -87,6 +86,13 @@ await milvusClient.flushAllSync({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，该值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

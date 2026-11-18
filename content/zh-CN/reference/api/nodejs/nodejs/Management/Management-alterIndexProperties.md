@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterIndexProperties()
 
 此操作会修改特定索引属性的设置。
@@ -72,15 +69,17 @@ await milvusClient.alterIndexProperties({
 
     要修改的索引属性及其预期值。可用属性如下：
 
-    - **mmap.enabled** (*bool*) -
+    - **mmap.enabled**（*boolean*） -
 
-        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见 [使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见[支持 mmap 的数据存储](https://milvus.io/docs/mmap.md)。
 
 - **timeout** (number) -
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -106,15 +105,22 @@ await milvusClient.alterIndexProperties({
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const alterIndexReq = {
     collection_name: 'my_collection',
+    index_name: 'my_index',
     params: { nlist: 20 },
 };
-const res = await milvusClient.alterIndex(alterIndexReq);
+const res = await milvusClient.alterIndexProperties(alterIndexReq);
 console.log(res);
 ```
-

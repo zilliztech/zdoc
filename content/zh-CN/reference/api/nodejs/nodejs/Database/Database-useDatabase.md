@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # useDatabase()
 
 此操作为 gRPC 客户端设置活动 Database。
@@ -52,23 +49,20 @@ await milvusClient.useDatabase({
 
     必须存在具有指定名称的 Database。否则会引发异常。
 
-**返回值** *Promise |&lt;ResStatus&gt;*
+**返回：**
 
-此方法返回一个 promise，并将其解析为 **ResStatus** 对象。
+*Promise&lt;\{ error_code: string, reason: string }&gt;*
+
+此方法返回一个 promise，该 promise 会解析为包含结果状态的对象。
 
 ```javascript
 {
-    code: number,
     error_code: string | number,
     reason: string
 }
 ```
 
 **参数：**
-
-- **code** (*number*) -
-
-    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
@@ -77,6 +71,13 @@ await milvusClient.useDatabase({
 - **reason** (*string*) - 
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

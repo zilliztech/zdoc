@@ -25,12 +25,9 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeUser()
 
-这是一个方法模板。
+此操作描述一个用户及其分配的角色。
 
 ```javascript
 await milvusClient.describeUser(data)
@@ -64,11 +61,13 @@ await milvusClient.describeUser({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**返回** *Promise&lt;SelectUserResponse&gt;*
+**返回：**
+
+*Promise&lt;SelectUserResponse&gt;*
 
 此方法返回一个 promise，解析为 **SelectUserResponse** 对象。
 
-```typescript
+```javascript
 {
     results: UserResult[],
     status:  ResStatus
@@ -77,35 +76,23 @@ await milvusClient.describeUser({
 
 **参数：**
 
-- **results** (*UserResult[]*) -<br/>
-  **UserResult** 对象列表。对于 `describeUser()`，此列表包含一个条目，用于描述所请求的用户。
+- **results** (*UserResult[]*) -
+**UserResult** 对象列表。对于 `describeUser()`，此列表仅包含一个描述所请求用户的条目。
 
     - **user** (*User*) -
 
         用于标识该用户的 **User** 对象。
 
-        - **name** (*string*) -
-
-        用户名。
-
-        - **name** (*string*) -
-
-            用户名。
-
     - **roles** (*RoleEntity[]*) -
 
         分配给该用户的角色列表。
 
-        - **name** (*string*) -
+    - **description** (*string*) -
 
-        角色名称。
+        用户的描述。
 
-        - **name** (*string*) -
-
-            角色名称。
-
-- **ResStatus**<br/>
-  **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -119,9 +106,15 @@ await milvusClient.describeUser({
 
         指示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 milvusClient.describeUser({username: 'name'})
 ```
-

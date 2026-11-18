@@ -27,8 +27,15 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # dropCollectionFunction()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**已弃用。**
+
+此方法已弃用。请改用 dropFunctionField()。
+
+</Admonition>
 
 此操作会从现有 Collection 中移除自定义函数。
 
@@ -71,11 +78,13 @@ dropCollectionFunction({
 
 **返回：**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+此方法返回一个 Promise，其解析结果为 **ResStatus** 对象。
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     当此操作期间发生任何错误时，将引发此异常。
 

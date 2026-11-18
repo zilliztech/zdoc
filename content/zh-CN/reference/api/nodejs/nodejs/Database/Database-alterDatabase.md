@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterDatabase()
 
 此操作会修改 Database 属性，例如设置或删除配置键值对。
@@ -76,11 +73,13 @@ await milvusClient.alterDatabase({
 
 **返回：**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     此操作期间发生任何错误时，都会引发此异常。
 

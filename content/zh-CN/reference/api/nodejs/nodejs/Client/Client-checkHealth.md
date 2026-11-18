@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # checkHealth()
 
 此操作用于检查 Milvus 服务器的健康状态。
@@ -42,15 +39,13 @@ await milvusClient.checkHealth()
 milvusClient.checkHealth()
 ```
 
-**返回类型：**
+**返回：**
 
-*Promise*\<*CheckHealthResponse*>
-
-**返回值** *Promise&lt;CheckHealthResponse&gt;*
+*Promise&lt;CheckHealthResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **CheckHealthResponse** 对象。
 
-```typescript
+```javascript
 {
     isHealthy: boolean,
     reasons: string[]
@@ -67,7 +62,14 @@ milvusClient.checkHealth()
 
     当 **isHealthy** 为 **false** 时，返回一个人类可读的原因列表，用于说明哪些组件不健康。当 **isHealthy** 为 **true** 时，该列表为空。
 
-## 示例\{#examples}
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，会引发此异常。
+
+## 示例\{#example}
 
 ```javascript
 milvusClient.checkHealth()

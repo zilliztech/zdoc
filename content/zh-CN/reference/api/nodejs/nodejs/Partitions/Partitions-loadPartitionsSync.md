@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadPartitionsSync()
 
 此操作会将特定 Partition 的数据加载到内存中。这是一个同步函数，可帮助确保指定的 Partition 已完成加载。
@@ -42,7 +39,7 @@ await milvusClient.loadPartitionsSync(data)
 await milvusClient.loadPartitionsSync({ 
     db_name: string,
     collection_name: string,
-    refresh?: boolean,
+    partition_names: string[],
     replica_number?: number,
     resource_groups?: string[],
     timeout?: number
@@ -79,7 +76,9 @@ await milvusClient.loadPartitionsSync({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -105,9 +104,16 @@ await milvusClient.loadPartitionsSync({
 
     表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -116,4 +122,3 @@ new MilvusClient({
     partition_names: ['my_partition'],
  });
 ```
-

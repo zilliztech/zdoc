@@ -27,7 +27,6 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # getFlushState()
 
 此操作返回特定 Segment 的 flush 状态。
@@ -36,7 +35,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getFlushState(data)
 ```
 
-<Admonition type="info" title="Notes">
+<Admonition type="info" icon="📘" title="Notes">
 
 Milvus 会定期自动将数据 flush 到持久化存储中。建议您依赖这种自动数据持久化机制。
 
@@ -46,18 +45,31 @@ Milvus 会定期自动将数据 flush 到持久化存储中。建议您依赖这
 
 ```javascript
 await milvusClient.getFlushState({
-    segment_ids: number[],
+    segmentIDs?: number[],
+    flush_ts?: number,
+    db_name?: string,
+    collection_name?: string,
     timeout?: number
 })
 ```
 
 **参数：**
 
-- **segment_ids** (*number[]*) -
-
-    **[必需]**
+- **segmentIDs** (*number[]*) -
 
     目标 Segment ID 列表。
+
+- **flush_ts** (*number*) -
+
+    用于对照检查的 flush 时间戳。
+
+- **db_name** (*string*) -
+
+    持有目标 Collection 的 Database 名称。
+
+- **collection_name** (*string*) -
+
+    要检查其 flush 状态的 Collection 名称。请至少提供 **segmentIDs**、**flush_ts** 和 **collection_name** 中的一项。
 
 - **timeout** (*number*)  
 
@@ -65,11 +77,13 @@ await milvusClient.getFlushState({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回** *Promise&lt;GetFlushStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetFlushStateResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetFlushStateResponse** 对象。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -78,11 +92,11 @@ await milvusClient.getFlushState({
 
 **参数：**
 
-- **flushed** (*boolean*) -<br/>
-  是否所有目标 Segment 都已 flush 到持久化存储中。当每个请求的 Segment ID 都已封存并持久化时，该值为 **true**；否则为 **false**。
+- **flushed** (*boolean*) -
+所有目标 Segment 是否都已 flush 到持久化存储。当每个请求的 Segment ID 均已封存并持久化时，该值为 **true**；否则为 **false**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -96,9 +110,16 @@ await milvusClient.getFlushState({
 
         表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -107,4 +128,3 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeCollection()
 
 此操作列出特定 Collection 的详细信息。
@@ -41,7 +38,8 @@ await milvusClient.describeCollection(data)
 ```javascript
 await milvusClient.describeCollection({ 
     db_name: string,
-    collection_name: string 
+    collection_name: string,
+    cache?: boolean
 })
 ```
 
@@ -57,23 +55,32 @@ await milvusClient.describeCollection({
 
     现有 Collection 的名称。
 
+- **cache** (*boolean*) -
+
+    是否使用缓存的 Collection Schema。该值默认为 **false**。
+
 - **timeout** (*number*)  
 
     此操作的超时时长。 
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise&lt;DescribeCollectionResponse&gt;*
+**返回：**
+
+*Promise&lt;DescribeCollectionResponse&gt;*
 
 此方法返回一个 promise，解析为 **DescribeCollectionResponse** 对象。
 
-```typescript
+```javascript
 {
     schema: CollectionSchema,
     collectionID: string,
     collection_name: string,
     consistency_level: string,
     aliases: string[],
+    virtual_channel_names: string[],
+    physical_channel_names: string[],
+    start_positions: string[],
     properties: KeyValuePair[],
     created_timestamp: string,
     created_utc_timestamp: string,
@@ -81,10 +88,6 @@ await milvusClient.describeCollection({
     num_partitions: string,
     db_name: string,
     functions: FunctionObject[],
-    external_source?: string,
-    external_spec?: string,
-    do_physical_backfill?: boolean,
-    file_resource_ids?: string[],
     update_timestamp_str: string,
     update_timestamp: number,
     anns_fields: Record<string, FieldSchema>,
@@ -96,8 +99,8 @@ await milvusClient.describeCollection({
 
 **参数：**
 
-- **schema** (*CollectionSchema*) -<br/>
-  Collection 的 Schema。
+- **schema** (*CollectionSchema*) -
+Collection 的 Schema。
 
     - **name** (*string*) -
 
@@ -123,72 +126,82 @@ await milvusClient.describeCollection({
 
         附加到 Collection 的 doc-in / doc-out 函数（例如 BM25 稀疏向量函数）。
 
-- **collectionID** (*string*) -<br/>
-  由 Milvus 分配的 Collection 内部 ID。
+    - **struct_array_fields** (*FieldSchema[]*) -
 
-- **collection_name** (*string*) -<br/>
-  Collection 名称。
+        此 Collection 上声明的所有 struct 和 array 字段。
 
-- **consistency_level** (*string*) -<br/>
-  针对此 Collection 查询的默认一致性级别。可能的值包括 **Strong**、**Session**、**Bounded**、**Eventually** 和 **Customized**。
+    - **external_source** (*string*) -
 
-- **aliases** (*string[]*) -<br/>
-  指向此 Collection 的别名列表。
+        外部源路径。可选。
 
-- **properties** (*KeyValuePair[]*) -<br/>
-  在创建时声明或通过 `alterCollectionProperties()` 设置的 Collection 级属性（例如 **mmap.enabled**、**collection.ttl.seconds**）。
+    - **external_spec** (*string*) -
 
-- **created_timestamp** (*string*) -<br/>
-  Collection 创建时的混合时间戳。
+        外部规范配置。可选。
 
-- **created_utc_timestamp** (*string*) -<br/>
-  Collection 创建时的 UTC 时间戳（以毫秒为单位）。
+    - **file_resource_ids** (*string[]*) -
 
-- **shards_num** (*number*) -<br/>
-  为 Collection 配置的分片数量。
+        外部文件资源 ID。可选。
 
-- **num_partitions** (*string*) -<br/>
-  为 Collection 配置的 Partition 数量。仅当声明了 Partition 键字段时，此值才有意义。
+- **collectionID** (*string*) -
+由 Milvus 分配的 Collection 内部 ID。
 
-- **db_name** (*string*) -<br/>
-  拥有此 Collection 的 Database。
+- **collection_name** (*string*) -
+Collection 名称。
 
-- **functions** (*FunctionObject[]*) -<br/>
-  附加到 Collection 的 doc-in / doc-out 函数的扁平列表。
+- **consistency_level** (*string*) -
+针对此 Collection 的查询的默认一致性级别。可选值为 **Strong**、**Session**、**Bounded**、**Eventually** 和 **Customized**。
 
-- **external_source** (*string*) -
+- **aliases** (*string[]*) -
+指向此 Collection 的别名列表。
 
-    外部源路径。可选。
+- **virtual_channel_names** (*string[]*) -
+分配给此 Collection 的虚拟通道名称。此值目前没有用处。
 
-- **external_spec** (*string*) -
+- **physical_channel_names** (*string[]*) -
+分配给此 Collection 的物理通道名称。此值目前没有用处。
 
-    外部规范配置。可选。
+- **start_positions** (*string[]*) -
+此 Collection 创建时的起始位置。
 
-- **do_physical_backfill** (*boolean*) -
+- **properties** (*KeyValuePair[]*) -
+创建时声明或通过 `alterCollectionProperties()` 设置的 Collection 级属性（例如 **mmap.enabled**、**collection.ttl.seconds**）。
 
-    是否对外部数据执行物理回填。可选。
+- **created_timestamp** (*string*) -
+创建此 Collection 时的混合时间戳。
 
-- **file_resource_ids** (*Array&lt;number | string&gt;*) -
+- **created_utc_timestamp** (*string*) -
+创建此 Collection 时的 UTC 时间戳，单位为毫秒。
 
-    外部文件资源 ID。可选。
+- **shards_num** (*number*) -
+此 Collection 上配置的分片数量。
 
-- **update_timestamp_str** (*string*) -<br/>
-  Collection 上次更新时的混合时间戳，格式为字符串。
+- **num_partitions** (*string*) -
+此 Collection 上配置的 Partition 数量。仅当声明了 Partition key 字段时，此值才有意义。
 
-- **update_timestamp** (*number*) -<br/>
-  上次更新时间戳的数值形式。
+- **db_name** (*string*) -
+拥有此 Collection 的 Database。
 
-- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  从向量字段名称到其 **FieldSchema** 的映射，涵盖 Collection 上声明的所有向量字段。
+- **functions** (*FunctionObject[]*) -
 
-- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  从标量字段名称到其 **FieldSchema** 的映射，涵盖 Collection 上声明的所有标量字段。
+附加到此 Collection 的 doc-in / doc-out 函数的扁平列表。
 
-- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  从函数输出字段名称到其 **FieldSchema** 的映射。
+- **update_timestamp_str** (*string*) -
+此 Collection 上次更新时的混合时间戳，以字符串格式表示。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **update_timestamp** (*number*) -
+上次更新时间戳的数值形式。
+
+- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -
+从向量字段名称到其 **FieldSchema** 的映射，涵盖此 Collection 上声明的所有向量字段。
+
+- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -
+从标量字段名称到其 **FieldSchema** 的映射，涵盖此 Collection 上声明的所有标量字段。
+
+- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -
+从函数输出字段名称到其 **FieldSchema** 的映射。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -202,13 +215,19 @@ await milvusClient.describeCollection({
 
         表示所报告错误原因的原因说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const res = await milvusClient.describeCollection({ collection_name: 'my_collection' });
 ```
-

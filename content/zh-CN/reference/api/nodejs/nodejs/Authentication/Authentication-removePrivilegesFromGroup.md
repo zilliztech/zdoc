@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # removePrivilegesFromGroup()
 
 此操作从 Milvus 中的特定权限组移除权限。
@@ -66,7 +63,9 @@ await milvusClient.removePrivilegesFromGroup({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，解析为 **ResStatus** 对象。
 
@@ -92,12 +91,18 @@ await milvusClient.removePrivilegesFromGroup({
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作过程中发生任何错误时，会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.removePrivilegesFromGroup({
     group_name: 'exampleGroup',
     privileges: ['CreateCollection', 'DropCollection'],
 });
 ```
-

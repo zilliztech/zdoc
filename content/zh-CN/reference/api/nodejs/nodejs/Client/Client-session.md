@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # session()
 
 此操作会创建一个绑定到目标集群 ID 的轻量级 DQL 会话。该会话会将 `cluster_id` 注入到 search/query/get 请求中。
 
-```typescript
+```javascript
 const session = milvusClient.session(clusterId: string)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 const session = milvusClient.session('cluster-a')
 ```
 

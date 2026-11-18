@@ -2,7 +2,7 @@
 title: "listSnapshots() | Node.js"
 slug: /node/node/Snapshot-listSnapshots
 sidebar_label: "listSnapshots()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listSnapshots()
 
 此操作会列出某个 Collection 的所有快照。
 
-```typescript
+```javascript
 await milvusClient.listSnapshots(data: ListSnapshotsReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.listSnapshots({
     collection_name: string,
     db_name?: string,
@@ -49,24 +46,26 @@ await milvusClient.listSnapshots({
 
 **参数：**
 
-- **collection_name** (*string*) -<br/>
-  **[必需]**<br/>
-  Collection 的名称。
+- **collection_name** (*string*) -
+**[必需]**
+Collection 的名称。
 
-- **db_name** (*string*) -<br/>
-  Database 的名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的追踪 ID。可选。
 
-**返回值** *Promise&lt;ListSnapshotsResponse&gt;*
+**返回：**
+
+*Promise&lt;ListSnapshotsResponse&gt;*
 
 此方法会返回一个 promise，并解析为 **ListSnapshotsResponse** 对象。
 
-```typescript
+```javascript
 {
     snapshots: string[],
     status:  ResStatus
@@ -75,11 +74,11 @@ await milvusClient.listSnapshots({
 
 **参数：**
 
-- **snapshots** (*string[]*) -<br/>
-  所请求 Collection 当前存在的快照名称列表。
+- **snapshots** (*string[]*) -
+所请求 Collection 当前存在的快照名称列表。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -92,6 +91,13 @@ await milvusClient.listSnapshots({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作过程中发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

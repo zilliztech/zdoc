@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterCollectionFieldProperties()
 
 此操作会修改指定 Collection 字段的属性。
@@ -58,7 +55,7 @@ await milvusClient.alterCollectionFieldProperties({
 
     **[必需]**
 
-    要重新分配别名的目标 Collection 名称。
+    目标 Collection 的名称。
 
 - **field_name** (*string*) -
 
@@ -76,15 +73,15 @@ await milvusClient.alterCollectionFieldProperties({
 
         允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能会占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
 
-        这对于 **DataType.VARCHAR** 字段是必需的。
+        对于 **DataType.VARCHAR** 字段，此参数为必填项。请参见 [DataType](./Collections-DataType)。
 
     - **max_capacity** (*number*) -
 
         Array 字段值中的元素数量。
 
-        这对于 **DataType.ARRAY** 字段是必需的。
+        对于 **DataType.ARRAY** 字段，此参数为必填项。请参见 [DataType](./Collections-DataType)。
 
-    - **mmap_enabled** (*bool*) -
+    - **mmap.enabled** (*boolean*) -
 
         是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存中。详情请参阅 MMap-enabled Data Storage。
 
@@ -94,7 +91,9 @@ await milvusClient.alterCollectionFieldProperties({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作会超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 解析为 **ResStatus** 对象。
 
@@ -120,17 +119,23 @@ await milvusClient.alterCollectionFieldProperties({
 
     表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    如果此操作期间发生任何错误，则会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const resStatus = await milvusClient.alterCollectionField({
+const resStatus = await milvusClient.alterCollectionFieldProperties({
   collection_name: 'my-collection',
   field_name: 'my-field',
   properties: {"mmap.enabled": true}
 });
 ```
-

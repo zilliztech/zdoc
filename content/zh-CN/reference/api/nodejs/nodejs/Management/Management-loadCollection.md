@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollection()
 
 此操作将特定 Collection 的数据加载到内存中。
@@ -45,6 +42,8 @@ await milvusClient.loadCollection({
     refresh?: boolean,
     replica_number?: number,
     resource_groups?: string[],
+    load_fields?: string[],
+    skip_load_dynamic_field?: boolean,
     timeout?: number
 })
 ```
@@ -71,7 +70,15 @@ await milvusClient.loadCollection({
 
 - **resource_groups** (*string[]*) -
 
-    要加载的 Collection 中的资源组数量。
+    已加载 Collection 所在资源组的名称。
+
+- **load_fields** (*string[]*) -
+
+    要加载的字段名称列表。如果未指定，则加载所有字段。
+
+- **skip_load_dynamic_field** (*boolean*) -
+
+    是否跳过加载动态字段。
 
 - **timeout** (*number*) -
 
@@ -79,7 +86,9 @@ await milvusClient.loadCollection({
 
     将此项设置为 **None** 表示当返回任意响应或发生错误时，此操作将超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -105,13 +114,19 @@ await milvusClient.loadCollection({
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
  const resStatus = await milvusClient.loadCollection({ collection_name: 'my_collection' });
 ```
-

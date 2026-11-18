@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropAllRoles()
 
 此操作会删除 Milvus 中的所有角色。
@@ -52,7 +49,9 @@ await milvusClient.dropAllRoles({
 
     将此项设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus[]>*
+**返回：**
+
+*Promise\<ResStatus[]\>*
 
 此方法返回一个 promise 列表，其中每个 promise 都会解析为一个 **ResStatus** 对象。
 
@@ -78,9 +77,16 @@ await milvusClient.dropAllRoles({
 
     表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 milvusClient.dropAllRoles()
 ```
 

@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # flushAll()
 
 此操作会刷新所有 Collection，封存所有 Segment，并将数据持久化到磁盘。
 
-```typescript
+```javascript
 await milvusClient.flushAll(data?: FlushAllReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.flushAll({
     db_name?: string,
     timeout?: number,
@@ -48,20 +45,22 @@ await milvusClient.flushAll({
 
 **参数：**
 
-- **db_name** (*string*) -<br/>
-  Database 的名称。可选。
+- **db_name** (*string*) -
+Database 的名称。可选。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，以毫秒为单位。如果将其设置为 undefined，则客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的 trace ID。可选。
 
-**返回值** *Promise&lt;FlushAllResponse&gt;*
+**返回：**
+
+*Promise&lt;FlushAllResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **FlushAllResponse** 对象。
 
-```typescript
+```javascript
 {
     flush_all_ts: number,
     flush_all_tss: Record<string, number>,
@@ -73,17 +72,17 @@ await milvusClient.flushAll({
 
 **参数：**
 
-- **flush_all_ts** (*number*) -<br/>
-  用于标识此次 flush 的单个混合时间戳。已弃用；对于多集群部署，建议优先使用 **flush_all_tss**。
+- **flush_all_ts** (*number*) -
+用于标识此次 flush 的单个混合时间戳。已弃用；对于多集群部署，优先使用 **flush_all_tss**。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  从集群 ID 到该集群中 flush 完成时混合时间戳的映射。
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+从集群 ID 到该集群中 flush 完成时的混合时间戳的映射。
 
-- **flush_all_msgs** (*Record&lt;string, any&gt;*) -<br/>
-  从物理通道名称到存储层使用的 flush 元数据的映射。
+- **flush_all_msgs** (*Record&lt;string, any&gt;*) -
+从物理通道名称到存储层所用 flush 元数据的映射。
 
-- **cluster_info** (*FlushClusterInfo*) -<br/>
-  参与此次 flush 的集群拓扑信息。
+- **cluster_info** (*FlushClusterInfo*) -
+参与此次 flush 的集群拓扑。
 
     - **cluster_id** (*string*) -
 
@@ -97,8 +96,8 @@ await milvusClient.flushAll({
 
         此次 flush 涵盖的物理通道。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -111,6 +110,13 @@ await milvusClient.flushAll({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因说明。如果此操作成功，则该值始终为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作过程中发生任何错误时都会引发此异常。
 
 ## 示例\{#example}
 

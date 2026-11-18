@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getReplicas()
 
 此操作用于获取一个 Collection 的副本，返回每个副本的信息，包括其 ID、节点分配和分片详情。
@@ -41,6 +38,8 @@ await milvusClient.getReplicas(data: GetReplicaReq)
 ```javascript
 await milvusClient.getReplicas({
     collectionID: number | string,
+    collection_name?: string,
+    db_name?: string,
     with_shard_nodes?: boolean,
     timeout?: number,
 })
@@ -54,6 +53,14 @@ await milvusClient.getReplicas({
 
     Collection 的 ID。
 
+- **collection_name** (*string*) -
+
+    Collection 的名称。可选。
+
+- **db_name** (*string*) -
+
+    包含目标 Collection 的 Database 名称。可选。
+
 - **with_shard_nodes** (*boolean*) -
 
     是否在响应中包含分片节点信息。可选。
@@ -62,11 +69,13 @@ await milvusClient.getReplicas({
 
     RPC 超时时间，单位为毫秒。可选。
 
-**返回** *Promise&lt;ReplicasResponse&gt;*
+**返回：**
+
+*Promise&lt;ReplicasResponse&gt;*
 
 此方法返回一个 promise，解析为 **ReplicasResponse** 对象。
 
-```typescript
+```javascript
 {
     replicas: ReplicaInfo[],
     status:  ResStatus
@@ -75,8 +84,8 @@ await milvusClient.getReplicas({
 
 **参数：**
 
-- **replicas** (*ReplicaInfo[]*) -<br/>
-  当前为所请求 Collection 提供服务的副本列表。
+- **replicas** (*ReplicaInfo[]*) -
+当前为所请求 Collection 提供服务的副本列表。
 
     - **replicaID** (*string*) -
 
@@ -110,22 +119,6 @@ await milvusClient.getReplicas({
 
         持有此分片数据的查询节点 ID。
 
-        - **leaderID** (*string*) -
-
-            作为分片 leader 的查询节点 ID。
-
-        - **leader_addr** (*string*) -
-
-            leader 查询节点的地址。
-
-        - **dm_channel_name** (*string*) -
-
-            此分片提供服务的 DML 通道。
-
-        - **node_ids** (*string[]*) -
-
-            持有此分片数据的查询节点 ID。
-
     - **node_ids** (*string[]*) -
 
         参与此副本的查询节点 ID。
@@ -138,8 +131,8 @@ await milvusClient.getReplicas({
 
         每个资源组的出站节点数量，用于重新均衡期间。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -152,6 +145,13 @@ await milvusClient.getReplicas({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

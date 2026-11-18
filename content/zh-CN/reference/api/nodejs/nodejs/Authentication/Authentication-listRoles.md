@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listRoles()
 
 此操作列出所有自定义角色。
@@ -57,11 +54,13 @@ await milvusClient.listRoles(
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;SelectRoleResponse&gt;*
+**返回：**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 此方法返回一个 promise，解析为 **SelectRoleResponse** 对象。
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -70,11 +69,11 @@ await milvusClient.listRoles(
 
 **参数：**
 
-- **results** (*RoleResult[]*) -<br/>
-  **RoleResult** 对象列表，当前 Milvus 实例中定义的每个角色对应一个对象。有关 **RoleResult** 字段的完整说明，请参见 `describeRole()` 文档。
+- **results** (*RoleResult[]*) -
+**RoleResult** 对象列表，当前 Milvus 实例中定义的每个角色对应一个对象。有关 **RoleResult** 的完整字段参考，请参阅 `describeRole()` 文档。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -88,9 +87,22 @@ await milvusClient.listRoles(
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.listRoles({ includeUserInfo: true });
 ```
-

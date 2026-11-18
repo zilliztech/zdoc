@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # renameCollection()
 
 此操作用于重命名现有 Collection。
@@ -43,6 +40,7 @@ await milvusClient.renameCollection({
    db_name: string,
    collection_name: string,
    new_collection_name: string,
+   new_db_name?: string,
    timeout?: number
  })
 ```
@@ -65,13 +63,19 @@ await milvusClient.renameCollection({
 
     执行此操作后目标 Collection 的名称。
 
+- **new_db_name** (*string*) -
+
+    将 Collection 移动到的 Database 名称。可选。
+
 - **timeout** (*number*) -
 
     此操作的超时时长。 
 
     将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -97,9 +101,16 @@ await milvusClient.renameCollection({
 
     表示已报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +120,3 @@ const milvusClient = new MilvusClient({
    new_collection_name: 'my_new_collection'
  });
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getVersion()
 
 此操作返回 Milvus 服务器的版本信息。
@@ -36,11 +33,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getVersion()
 ```
 
-**返回** *Promise&lt;GetVersionResponse&gt;*
+**返回：**
+
+*Promise&lt;GetVersionResponse&gt;*
 
 此方法返回一个 promise，并解析为 **GetVersionResponse** 对象。
 
-```typescript
+```javascript
 {
     version: string
 }
@@ -51,6 +50,13 @@ await milvusClient.getVersion()
 - **version** (*string*) -
 
     Milvus 服务器的语义版本号（例如 **"v3.0.0"**）。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

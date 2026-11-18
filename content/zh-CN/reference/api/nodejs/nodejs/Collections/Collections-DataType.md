@@ -25,88 +25,147 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # DataType
 
-这是一个提供以下常量的枚举。
+定义 Milvus 字段支持的逻辑数据类型。
 
-## 常量\{#constants}
+```typescript
+export enum DataType {
+  None = 0,
+  Bool = 1,
+  Int8 = 2,
+  Int16 = 3,
+  Int32 = 4,
+  Int64 = 5,
 
-- NONE = 0
+  Float = 10,
+  Double = 11,
 
-    将数据类型设置为 **NoneType**。
+  VarChar = 21, // variable-length strings with a specified maximum length
+  Array = 22,
+  JSON = 23,
+  Geometry = 24,
+  Text = 25, // variable-length strings without a max_length limit; requires StorageV3
+  Timestamptz = 26,
 
-- BOOL = 1
+  BinaryVector = 100,
+  FloatVector = 101,
+  Float16Vector = 102,
+  BFloat16Vector = 103,
+  SparseFloatVector = 104,
+  Int8Vector = 105,
+  ArrayOfVector = 106,
+
+  Struct = 201,
+}
+```
+
+**常量：**
+
+- **None** (0)
+
+    将数据类型设置为 **None**。
+
+- **Bool** (1)
 
     将数据类型设置为 **Boolean**。
 
-- INT8 = 2
+- **Int8** (2)
 
     将数据类型设置为 **Int8**。
 
-- INT16 = 3
+- **Int16** (3)
 
-    将数据类型设置为 **Int64**。
+    将数据类型设置为 **Int16**。
 
-- INT32 = 4
+- **Int32** (4)
 
     将数据类型设置为 **Int32**。
 
-- INT64 = 5
+- **Int64** (5)
 
     将数据类型设置为 **Int64**。
 
-- FLOAT = 10
+- **Float** (10)
 
     将数据类型设置为 **Float**。
 
-- DOUBLE = 11
+- **Double** (11)
 
     将数据类型设置为 **Double**。
 
-- VARCHAR = 21
+- **VarChar** (21)
 
-    将数据类型设置为 **Varchar**。
+    将数据类型设置为 **VarChar**，即具有指定最大长度的变长字符串。
 
-- ARRAY = 22
+- **Array** (22)
 
     将数据类型设置为 **Array**。
 
-- JSON = 23
+- **JSON** (23)
 
     将数据类型设置为 **JSON**。
 
-- Geometry = 24
+- **Geometry** (24)
 
     将数据类型设置为 **Geometry**。
 
-- BinaryVector = 100
+- **Text** (25)
 
-    将数据类型设置为 **Binary Vector**。
+    将数据类型设置为 **Text**，即没有 `max_length` 限制的变长字符串。这需要 **StorageV3**。
 
-- FloatVector = 101
+- **Timestamptz** (26)
 
-    将数据类型设置为 **Float Vector**。
+    将数据类型设置为 **Timestamptz**。
 
-- Float16Vector = 102
+- **BinaryVector** (100)
 
-    将数据类型设置为 **Float16 Vector**。
+    将数据类型设置为 **BinaryVector**。
 
-- BFloat16Vector = 103
+- **FloatVector** (101)
 
-    将数据类型设置为 **BFloat16 Vector**。
+    将数据类型设置为 **FloatVector**。
 
-- SparseFloatVector = 104
+- **Float16Vector** (102)
 
-    将数据类型设置为 **Sparse Vector**。
+    将数据类型设置为 **Float16Vector**。
 
-- Int8Vector = 105
+- **BFloat16Vector** (103)
+
+    将数据类型设置为 **BFloat16Vector**。
+
+- **SparseFloatVector** (104)
+
+    将数据类型设置为 **SparseFloatVector**。
+
+- **Int8Vector** (105)
 
     将数据类型设置为 **Int8Vector**。
 
-- Struct = 201
+- **ArrayOfVector** (106)
+
+    将数据类型设置为 **ArrayOfVector**。
+
+- **Struct** (201)
 
     将数据类型设置为 **Struct**。请注意，这仅适用于 **Array** 字段中的元素。
 
+## 示例\{#example}
+
+```javascript
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+await milvusClient.createCollection({
+    collection_name: 'my_collection',
+    fields: [
+        { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: true },
+        { name: 'text', data_type: DataType.VarChar, type_params: { max_length: 512 } },
+        { name: 'vector', data_type: DataType.FloatVector, type_params: { dim: 8 } },
+    ],
+});
+```

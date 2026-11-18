@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listPrivilegeGroups()
 
 此操作会列出所有特权组。
@@ -52,11 +49,13 @@ await milvusClient.listPrivilegeGroups(data?)
 
     将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise&lt;ListPrivilegeGroupsResponse&gt;*
+**返回：**
+
+*Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **ListPrivilegeGroupsResponse** 对象。
 
-```typescript
+```javascript
 {
     privilege_groups: PrivelegeGroup[],
     status:  ResStatus
@@ -65,27 +64,20 @@ await milvusClient.listPrivilegeGroups(data?)
 
 **参数：**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
-  当前 Milvus 实例中定义的特权组列表。
+- **privilege_groups** (*PrivelegeGroup[]*) -
+
+当前 Milvus 实例中定义的特权组列表。
 
     - **group_name** (*string*) -
 
         特权组的名称。
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -
 
         组中包含的特权。
 
-        - **name** (*string*) -
-
-        特权名称（例如 **Insert**、**Search**、**CreateCollection**）。
-
-        - **name** (*string*) -
-
-            特权名称（例如 **Insert**、**Search**、**CreateCollection**）。
-
-- **ResStatus**<br/>
-  **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -99,9 +91,15 @@ await milvusClient.listPrivilegeGroups(data?)
 
         表示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 await milvusClient.listPrivilegeGroups();
 ```
-

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadCollectionAsync()
 
 此操作会将 Collection 数据加载到查询节点中，随后您就可以对该 Collection 执行向量搜索。这是一个异步函数——请使用 `getLoadState()` 或 `getLoadingProgress()` 检查加载状态。
@@ -89,11 +86,13 @@ await milvusClient.loadCollectionAsync({
 
 **返回：**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     此操作期间发生任何错误时，都会引发此异常。
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listIndexes()
 
 此操作列出特定 Collection 的索引
@@ -72,11 +69,13 @@ await milvusClient.listIndexes({
 
     此操作的超时时长。将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;ListIndexResponse&gt;*
+**返回：**
+
+*Promise&lt;ListIndexResponse&gt;*
 
 此方法返回一个 promise，解析为 **ListIndexResponse** 对象。
 
-```typescript
+```javascript
 {
     indexes: string[],
     status:  ResStatus
@@ -85,11 +84,11 @@ await milvusClient.listIndexes({
 
 **参数：**
 
-- **indexes** (*string[]*) -<br/>
-  在所请求 Collection 上定义的索引名称列表。
+- **indexes** (*string[]*) -
+所请求 Collection 上定义的索引名称列表。
 
-- **ResStatus**<br/>
-  **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -102,3 +101,26 @@ await milvusClient.listIndexes({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
+## 示例\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const res = await milvusClient.listIndexes({
+    collection_name: 'my_collection',
+});
+
+console.log(res.indexes);
+```

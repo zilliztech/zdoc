@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropDatabaseProperties()
 
 此操作会删除指定属性的设置。
@@ -36,18 +33,12 @@ import Admonition from '@theme/Admonition';
 await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" title="Notes">
-
-此方法仅适用于 Dedicated 集群。
-
-</Admonition>
-
 ## 请求语法\{#request-syntax}
 
 ```javascript
 await milvusClient.dropDatabaseProperties({
     db_name: string,
-    delete_properties: string[],
+    properties: string[],
     timeout?: number
 })
 ```
@@ -60,31 +51,31 @@ await milvusClient.dropDatabaseProperties({
 
     必须存在具有指定名称的 Database。否则，将会发生异常。
 
-- **delete_properties** （*string[]*） -
+- **properties** （*string[]*） -
 
     要删除的属性名称，以数组形式提供。可用的 Database 属性如下：
 
-    - **database.replica.number** （*int*） -
+    - **database.replica.number** （*number*） -
 
         此 Database 属性用于指定 Database 的副本数。
 
-    - **database.resource_groups** （*[]str*） -
+    - **database.resource_groups** （*string[]*） -
 
         此 Database 属性用于指定专供 Database 使用的资源组。
 
-    - **database.diskQuota.mb** （*int*） -
+    - **database.diskQuota.mb** （*number*） -
 
         此 Database 属性用于指定分配给 Database 的磁盘配额，以兆字节（**MB**）为单位。
 
-    - **database.max.collections** （*int*） -
+    - **database.max.collections** （*number*） -
 
         此 Database 属性用于指定 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** （*bool*） -
+    - **database.force.deny.writing** （*boolean*） -
 
         此 Database 属性用于指定是否拒绝 Database 中的所有写操作。
 
-    - **database.force.deny.reading** （*bool*） -
+    - **database.force.deny.reading** （*boolean*） -
 
         此 Database 属性用于指定是否拒绝 Database 中的所有读操作。
 
@@ -94,7 +85,9 @@ await milvusClient.dropDatabaseProperties({
 
     将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
 
-**返回：** *Promise |&lt;ResStatus&gt;*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个会解析为 **ResStatus** 对象的 Promise。
 
@@ -120,6 +113,13 @@ await milvusClient.dropDatabaseProperties({
 
     用于说明所报告错误的原因。如果此操作成功，该值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
 ```javascript
@@ -129,6 +129,6 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.dropDatabaseProperties({ 
     db_name: 'new_db',
-    delete_properties: ["database.replica.number"] 
+    properties: ["database.replica.number"] 
 });
 ```

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getPkFieldType()
 
 此操作返回 Collection 主键字段的数据类型。这是一个便捷方法，用于描述 Collection 并提取主键字段类型。
@@ -41,6 +38,8 @@ await milvusClient.getPkFieldType(data: DescribeCollectionReq)
 ```javascript
 getPkFieldType({
     collection_name: string,
+    db_name?: string,
+    cache?: boolean,
     timeout: number
 })
 ```
@@ -53,15 +52,30 @@ getPkFieldType({
 
     Collection 的名称。
 
+- **db_name** (*string*) -
+
+    目标 Collection 所在 Database 的名称。
+
+- **cache** (*boolean*) -
+
+    是否使用 Collection 的缓存描述。可选。
+
 - **timeout** (*number*) -
 
     以毫秒为单位的 RPC 超时时间。可选。
 
 **返回：**
 
-*Promise\<keyof typeof DataType\>*
+*Promise\<keyof typeof DataType\\>*
 
-主键字段的数据类型（例如 `"Int64"`、`"VarChar"`）。
+主键字段的数据类型（例如 `"Int64"`、`"VarChar"`）。请参见 [DataType](./Collections-DataType)。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
@@ -77,4 +91,3 @@ const pkType = await client.getPkFieldType({
 });
 console.log(pkType); // e.g., "Int64"
 ```
-

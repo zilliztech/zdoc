@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # listCollections()
 
 此操作列出所有现有 Collection。
@@ -40,23 +37,26 @@ milvusClient.listCollections();
 
 ```javascript
 listCollections({
-    collection_name: string
+    collection_names?: string[],
     type: ShowCollectionsType,
+    db_name?: string,
     timeout?: number
 })
 ```
 
 **参数：**
 
-- **collection_name** (*string*) -
+- **collection_names** (*string[]*) -
 
-    **[必填]**
-
-    现有 Collection 的名称。
+    用于筛选的 Collection 名称列表。如果未指定，则返回所有 Collection。
 
 - **type** (*ShowCollectionsType*) 
 
     此操作的范围。可能的值包括 **All** 或 **Loaded**。
+
+- **db_name** (*string*) -
+
+    要从中列出 Collection 的 Database 名称。
 
 - **timeout** (*number*) -
 
@@ -64,11 +64,13 @@ listCollections({
 
     将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**返回值** *Promise&lt;ShowCollectionsResponse&gt;*
+**返回：**
+
+*Promise&lt;ShowCollectionsResponse&gt;*
 
 此方法返回一个 promise，解析为 **ShowCollectionsResponse** 对象。
 
-```typescript
+```javascript
 {
     data: CollectionData[],
     created_timestamps: string[],
@@ -79,17 +81,17 @@ listCollections({
 
 **参数：**
 
-- **data** (*CollectionData[]*) -<br/>
-  Collection 数据对象列表。每个条目都包含 Collection 名称、ID、时间戳和加载百分比。
+- **data** (*CollectionData[]*) -
+一个 Collection 数据对象列表。每个条目包含 Collection 名称、ID、时间戳和加载百分比。
 
-- **created_timestamps** (*string[]*) -<br/>
-  混合时间戳列表，表示每个 Collection 的创建时间。
+- **created_timestamps** (*string[]*) -
+一个混合时间戳列表，指示每个 Collection 的创建时间。
 
-- **created_utc_timestamps** (*string[]*) -<br/>
-  UTC 时间戳列表，表示每个 Collection 的创建时间。
+- **created_utc_timestamps** (*string[]*) -
+一个 UTC 时间戳列表，指示每个 Collection 的创建时间。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -103,13 +105,19 @@ listCollections({
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const res = await milvusClient.listCollections({ collection_name: 'my_collection' });
+const res = await milvusClient.listCollections();
 ```
-

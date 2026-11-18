@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getIndexBuildProgress()
 
 此操作用于获取指定索引的构建进度。
@@ -42,8 +39,8 @@ await milvusClient.getIndexBuildProgress(data)
 await milvusClient.getIndexBuildProgress({
       db_name?: string,
       collection_name: string,
-      field_name: string,
-      index_name: string,
+      field_name?: string,
+      index_name?: string,
       timeout?: number
 });
 ```
@@ -62,25 +59,23 @@ await milvusClient.getIndexBuildProgress({
 
 - **index_name** (*string*) -
 
-    **[必需]**
-
-    目标索引的名称。此参数与 `field_name` 互斥。 
+    目标索引的名称。此参数与 `field_name` 互斥；请仅提供其中一个。
 
 - **field_name** (*string*) -
 
-    **[必需]**
-
-    目标字段的名称。此参数与 `index_name` 互斥。使用此参数时，请确保已在指定字段上构建索引。
+    目标字段的名称。此参数与 `index_name` 互斥；请仅提供其中一个。使用此参数时，请确保已基于指定字段构建索引。
 
 - **timeout** (number) -
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;GetIndexBuildProgressResponse&gt;*
+**返回：**
+
+*Promise&lt;GetIndexBuildProgressResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetIndexBuildProgressResponse** 对象。
 
-```typescript
+```javascript
 {
     indexed_rows: number,
     total_rows: number,
@@ -90,14 +85,14 @@ await milvusClient.getIndexBuildProgress({
 
 **参数：**
 
-- **indexed_rows** (*number*) -<br/>
-  当前已建立索引的行数。
+- **indexed_rows** (*number*) -
+目前已建立索引的行数。
 
-- **total_rows** (*number*) -<br/>
-  该索引覆盖的总行数。当 **indexed_rows** 等于 **total_rows** 时，构建完成。
+- **total_rows** (*number*) -
+索引覆盖的总行数。当 **indexed_rows** 等于 **total_rows** 时，构建完成。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -111,9 +106,16 @@ await milvusClient.getIndexBuildProgress({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexBuildProgressReq = {
   collection_name: 'my_collection',
@@ -122,4 +124,3 @@ const getIndexBuildProgressReq = {
 const res = await milvusClient.getIndexBuildProgress(getIndexBuildProgressReq);
 console.log(res);
 ```
-

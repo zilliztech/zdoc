@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # close()
 
 此操作会关闭 `MilvusClientSession` 实例，并阻止后续会话请求。
 
-```typescript
+```javascript
 session.close(): void
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 session.close()
 ```
 

@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getLoadState()
 
 此操作显示指定的 Collection 或 Partition 是否已加载。
@@ -67,11 +64,13 @@ await milvusClient.getLoadState({
 
     此操作的超时时长。将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**返回** *Promise&lt;GetLoadStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetLoadStateResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetLoadStateResponse** 对象。
 
-```typescript
+```javascript
 {
     state: LoadState,
     status:  ResStatus
@@ -80,11 +79,11 @@ await milvusClient.getLoadState({
 
 **参数：**
 
-- **state** (*LoadState*) -<br/>
-  当前加载状态。可能的值包括 **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading** 和 **LoadStateLoaded**。
+- **state** (*LoadState*) -
+当前加载状态。可能的值包括 **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading** 和 **LoadStateLoaded**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -98,9 +97,16 @@ await milvusClient.getLoadState({
 
         表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -109,4 +115,3 @@ const milvusClient = new MilvusClient({
    collection_name: 'my_collection',
  });
 ```
-

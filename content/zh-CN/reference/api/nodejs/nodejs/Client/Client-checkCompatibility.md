@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # checkCompatibility()
 
 此操作用于检查 SDK 与 Milvus 服务器的兼容性。
@@ -55,15 +52,20 @@ await milvusClient.checkCompatibility({
 
     如果 SDK 不兼容，则抛出的错误消息。
 
-**返回类型：**
-
-*Promise*\<*any*>
-
 **返回值：**
+
+*Promise&lt;any&gt;*
 
 一个 Promise，会解析为指定 checker 函数的结果。
 
-## 示例\{#examples}
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
+## 示例\{#example}
 
 ```javascript
 await milvusClient.checkCompatibility({

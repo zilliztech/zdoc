@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # describeRole()
 
 此操作描述特定角色。
@@ -64,11 +61,13 @@ await milvusClient.describeRole({
 
     将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise&lt;SelectRoleResponse&gt;*
+**返回值：**
+
+*Promise&lt;SelectRoleResponse&gt;*
 
 此方法返回一个 promise，解析为 **SelectRoleResponse** 对象。
 
-```typescript
+```javascript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -77,103 +76,23 @@ await milvusClient.describeRole({
 
 **参数：**
 
-- **results** (*RoleResult[]*) -<br/>
-  **RoleResult** 对象列表。对于 `describeRole()`，此列表仅包含一个条目，用于描述所请求的角色。
+- **results** (*RoleResult[]*) -
+**RoleResult** 对象的列表。对于 `describeRole()`，此列表包含一个描述所请求角色的条目。
 
     - **role** (*RoleEntity*) -
 
         描述该角色的 **RoleEntity** 对象。
 
-        - **name** (*string*) -
-
-        角色名称。
-
-        - **name** (*string*) -
-
-            角色名称。
-
     - **users** (*User[]*) -
 
         拥有此角色的用户列表。
-
-        - **name** (*string*) -
-
-        用户名。
-
-        - **name** (*string*) -
-
-            用户名。
 
     - **entities** (*GrantEntity[]*) -
 
         附加到此角色的授权列表。每个条目都包含被授予的权限、目标对象以及授予该权限的用户。
 
-        - **role** (*RoleEntity*) -
-
-        被授予该权限的角色。
-
-        - **object** (*ObjectEntity*) -
-
-        该权限适用的对象类型（例如 **Collection**、**Global**、**User**）。
-
-        - **object_name** (*string*) -
-
-        该权限适用的具体对象名称。对所有对象使用 `*`。
-
-        - **grantor** (*Grantor*) -
-
-        授予此权限的主体。
-
-          - **user** (*User*) -
-
-          授予该权限的用户。
-
-          - **privilege** (*PrivilegeEntity*) -
-
-          被授予的权限。
-
-        - **db_name** (*string*) -
-
-        该授权适用的 Database。对所有 Database 使用 `*`。
-
-        - **role** (*RoleEntity*) -
-
-            被授予该权限的角色。
-
-        - **object** (*ObjectEntity*) -
-
-            该权限适用的对象类型（例如 **Collection**、**Global**、**User**）。
-
-        - **object_name** (*string*) -
-
-            该权限适用的具体对象名称。对所有对象使用 `*`。
-
-        - **grantor** (*Grantor*) -
-
-            授予此权限的主体。
-
-            - **user** (*User*) -
-
-            授予该权限的用户。
-
-            - **privilege** (*PrivilegeEntity*) -
-
-            被授予的权限。
-
-            - **user** (*User*) -
-
-                授予该权限的用户。
-
-            - **privilege** (*PrivilegeEntity*) -
-
-                被授予的权限。
-
-        - **db_name** (*string*) -
-
-            该授权适用的 Database。对所有 Database 使用 `*`。
-
-- **ResStatus**<br/>
-  **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -187,9 +106,15 @@ await milvusClient.describeRole({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作发生任何错误时都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 milvusClient.describeRole({roleName: 'myrole'});
 ```
-

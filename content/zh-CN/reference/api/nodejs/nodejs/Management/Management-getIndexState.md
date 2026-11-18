@@ -27,8 +27,16 @@ displayed_sidebar: nodeSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # getIndexState()
+
+<Admonition type="warning" icon="🚧" title="Warning">
+
+**已弃用。**
+
+此方法可能会在未来的版本中移除。
+
+</Admonition>
+
 
 此操作获取指定索引的状态。
 
@@ -72,11 +80,13 @@ await milvusClient.getIndexState({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise&lt;GetIndexStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetIndexStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetIndexStateResponse** 对象。
 
-```typescript
+```javascript
 {
     state: IndexState,
     status:  ResStatus
@@ -85,11 +95,11 @@ await milvusClient.getIndexState({
 
 **参数：**
 
-- **state** (*IndexState*) -<br/>
-  索引当前的构建状态。可能的值包括 **IndexStateNone**、**Unissued**、**InProgress**、**Finished** 和 **Failed**。
+- **state** (*IndexState*) -
+索引的当前构建状态。可能的值包括 **IndexStateNone**、**Unissued**、**InProgress**、**Finished** 和 **Failed**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -103,9 +113,16 @@ await milvusClient.getIndexState({
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const getIndexStateReq = {
   collection_name: 'my_collection',
@@ -114,4 +131,3 @@ const getIndexStateReq = {
 const res = await milvusClient.getIndexState(getIndexStateReq);
 console.log(res);
 ```
-

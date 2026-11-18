@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getImportState()
 
 此操作检索特定导入任务的当前状态和元数据。在调用 `bulkInsert()` 后，可使用此操作轮询任务是否完成。
 
-```typescript
+```javascript
 await milvusClient.getImportState(data)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getImportState({
     task: number,
     timeout?: number
@@ -55,11 +52,13 @@ await milvusClient.getImportState({
 
     RPC 允许的可选时长，单位为毫秒。
 
-**返回** *Promise&lt;GetImportStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetImportStateResponse&gt;*
 
 此方法返回一个 Promise，解析为 **GetImportStateResponse** 对象。
 
-```typescript
+```javascript
 {
     state: ImportState,
     row_count: number,
@@ -122,6 +121,13 @@ await milvusClient.getImportState({
     - **reason** (*string*) -
 
     表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

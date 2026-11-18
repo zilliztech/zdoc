@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # use()
 
 此操作为 gRPC 客户端设置活动 Database。调用此方法后，所有后续操作都将以指定的 Database 为目标。
@@ -52,11 +49,13 @@ await milvusClient.use({
 
 **返回值：**
 
-*Promise\<ResStatus\>*
+*Promise&lt;ResStatus&gt;*
+
+此方法返回一个 Promise，其解析结果为 **ResStatus** 对象。
 
 **异常：**
 
-- **MilvusError**
+- **Error**
 
     当此操作期间发生任何错误时，将引发此异常。
 

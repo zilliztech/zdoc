@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropIndexProperties()
 
 此操作会将索引属性重置为其默认值。
@@ -74,13 +71,15 @@ await milvusClient.dropIndexProperties({
 
     - **mmap.enabled** -
 
-        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见 [使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见[支持 mmap 的数据存储](https://milvus.io/docs/mmap.md)。
 
 - **timeout** (number) -
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -106,9 +105,16 @@ await milvusClient.dropIndexProperties({
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const dropIndexPropertiesReq = {
     collection_name: 'my_collection',
@@ -118,4 +124,3 @@ const dropIndexPropertiesReq = {
 const res = await milvusClient.dropIndexProperties(dropIndexPropertiesReq);
 console.log(res);
 ```
-

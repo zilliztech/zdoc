@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # loadPartitions()
 
 此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。
@@ -44,7 +41,7 @@ await milvusClient.loadPartitions({
     collection_name: string,
     partition_names: string[],
     replica_number?: number,
-    resource_groups[]?: string[],
+    resource_groups?: string[],
     timeout?: number
  });
 ```
@@ -79,7 +76,9 @@ await milvusClient.loadPartitions({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
 
@@ -105,9 +104,16 @@ await milvusClient.loadPartitions({
 
     表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
@@ -116,4 +122,3 @@ new MilvusClient({
     partition_names: ['my_partition'],
  });
 ```
-

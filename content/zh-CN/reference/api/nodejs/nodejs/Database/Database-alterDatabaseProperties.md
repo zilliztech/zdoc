@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # alterDatabaseProperties()
 
 此操作会修改指定 Database 的属性。
@@ -36,18 +33,13 @@ import Admonition from '@theme/Admonition';
 await milvusClient.alterDatabaseProperties(data)
 ```
 
-<Admonition type="info" title="Notes">
-
-此方法仅适用于 Dedicated 集群。
-
-</Admonition>
-
 ## 请求语法\{#request-syntax}
 
 ```javascript
 await milvusClient.alterDatabaseProperties({
     db_name: string,
-    delete_keys: Object,
+    db_id?: string,
+    delete_keys?: string[],
     properties: Record<string, string | number | boolean>
     timeout?: number
 })
@@ -61,31 +53,35 @@ await milvusClient.alterDatabaseProperties({
 
     必须存在具有指定名称的 Database。否则将发生异常。
 
-- **delete_properties** (*string[]*) -
+- **db_id** (*string*) -
+
+    要修改的 Database 的 ID。可选。
+
+- **delete_keys** (*string[]*) -
 
     以数组形式指定要删除的属性名称。可用的 Database 属性如下：
 
-    - **database.replica.number** (*int*) -
+    - **database.replica.number** (*number*) -
 
         Database 的副本数量，由 Database 属性 **database.replica.number** 指定。
 
-    - **database.resource_groups** (*[]str*) -
+    - **database.resource_groups** (*string[]*) -
 
         专用于该 Database 的资源组，由 Database 属性 **database.resource_groups** 指定。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **database.diskQuota.mb** (*number*) -
 
         为该 Database 分配的磁盘配额，单位为兆字节（**MB**），由 Database 属性 **database.diskQuota.mb** 指定。
 
-    - **database.max.collections** (*int*) -
+    - **database.max.collections** (*number*) -
 
         该 Database 中允许的最大 Collection 数量，由 Database 属性 **database.max.collections** 指定。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **database.force.deny.writing** (*boolean*) -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **database.force.deny.reading** (*boolean*) -
 
         是否拒绝该 Database 中的所有读取操作。
 
@@ -93,27 +89,27 @@ await milvusClient.alterDatabaseProperties({
 
     以键值对形式指定属性及其值。
 
-    - **database.replica.number** (*int*) -
+    - **database.replica.number** (*number*) -
 
         Database 的副本数量，由 Database 属性 **database.replica.number** 指定。
 
-    - **database.resource_groups** (*[]str*) -
+    - **database.resource_groups** (*string[]*) -
 
         专用于该 Database 的资源组，由 Database 属性 **database.resource_groups** 指定。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **database.diskQuota.mb** (*number*) -
 
         为该 Database 分配的磁盘配额，单位为兆字节（**MB**），由 Database 属性 **database.diskQuota.mb** 指定。
 
-    - **database.max.collections** (*int*) -
+    - **database.max.collections** (*number*) -
 
         该 Database 中允许的最大 Collection 数量，由 Database 属性 **database.max.collections** 指定。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **database.force.deny.writing** (*boolean*) -
 
         是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **database.force.deny.reading** (*boolean*) -
 
         是否拒绝该 Database 中的所有读取操作。
 
@@ -123,7 +119,9 @@ await milvusClient.alterDatabaseProperties({
 
     将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise |&lt;ResStatus&gt;*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
 
@@ -149,6 +147,13 @@ await milvusClient.alterDatabaseProperties({
 
     表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，都会引发此异常。
+
 ## 示例\{#example}
 
 ```javascript
@@ -158,7 +163,6 @@ const milvusClient = new MilvusClient({
 });
 const resStatus = await milvusClient.alterDatabaseProperties({ 
     db_name: 'new_db',
-    delete_properties: {'database.replica.number': 3} 
+    delete_keys: ['database.replica.number'] 
 });
 ```
-

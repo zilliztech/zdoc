@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropIndex()
 
 此操作会从特定 Collection 中删除一个索引。
@@ -39,7 +36,7 @@ await milvusClient.dropIndex(data)
 ## 请求语法\{#request-syntax}
 
 ```javascript
-await milvusClient.dropPartition({
+await milvusClient.dropIndex({
     db_name: string,
     collection_name: string,
     field_name?: string,
@@ -72,7 +69,9 @@ await milvusClient.dropPartition({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
@@ -98,9 +97,16 @@ await milvusClient.dropPartition({
 
     表示已报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);
 const dropIndexReq = {
   collection_name: 'my_collection',
@@ -109,4 +115,3 @@ const dropIndexReq = {
 const res = await milvusClient.dropIndex(dropIndexReq);
 console.log(res);
 ```
-

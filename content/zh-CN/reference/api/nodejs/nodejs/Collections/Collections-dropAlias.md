@@ -25,9 +25,6 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # dropAlias()
 
 此操作会删除指定 Collection 的别名。
@@ -41,8 +38,6 @@ await milvusClient.dropAlias(data)
 ```javascript
 await milvusClient.dropAlias({
    alias: string,
-   db_name: string,
-   collection_name: string,
    timeout?: number
  })
 ```
@@ -57,21 +52,15 @@ await milvusClient.dropAlias({
 
     执行此操作前，请确保该别名存在。否则会引发异常。
 
-- **db_name** (*string*) -
-
-    包含指定 Collection 的 Database 名称。
-
-- **collection_name** (*string*) -
-
-    该别名所绑定的 Collection 名称。
-
 - **timeout** (*number*)  
 
     此操作的超时时长。
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回：**
+
+*Promise\<ResStatus\>*
 
 此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
@@ -97,16 +86,21 @@ await milvusClient.dropAlias({
 
     表示已报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+
+**异常：**
+
+- **Error**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
 ## 示例\{#example}
 
-```java
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
 const resStatus = await milvusClient.dropAlias({
    alias: 'my_collection_alias',
-   collection_name: 'my_collection',
 });
 ```
-

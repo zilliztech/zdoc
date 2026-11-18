@@ -25,26 +25,27 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # upsert()
 
 此操作会在指定 Collection 中插入或更新数据。
 
-```typescript
+```javascript
 await milvusClient.upsert(data)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.upsert({
     db_name?: string,
     collection_name: string,
     data: RowData[],
+    fields_data?: RowData[],
     hash_keys?: number[],
+    transformers?: InsertTransformers,
+    skip_check_schema?: boolean,
     partial_update?: boolean,
+    field_ops?: FieldPartialUpdateOp[],
     partition_name?: string,
     timeout?: number,
 })
@@ -60,9 +61,7 @@ await milvusClient.upsert({
 
 - **data** (*RowData[]*) -
 
-    **[必需]**
-
-    要执行 upsert 的数据。每个元素都是一个普通的 JavaScript 对象，其键与 Collection Schema 中的字段名称相匹配。主键与现有记录匹配的 Entity 会被更新；否则会插入新的 Entity。
+    要 upsert 的数据。每个元素都是一个普通 JavaScript 对象，其键与 Collection Schema 的字段名称匹配。主键与现有记录匹配的 Entity 会被更新；否则会插入新的 Entity。请通过 **data** 或 **fields_data** 之一提供数据。
 
 - **db_name** (*string*) -
 
@@ -71,6 +70,18 @@ await milvusClient.upsert({
 - **hash_keys** (*number[]*) -
 
     保留供内部使用。除非明确要求，否则请勿设置此参数。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** 的别名。您可以通过其中任一键传入这些行；请勿同时设置两者。
+
+- **transformers** (*InsertTransformers*) -
+
+    用于 `BFloat16Vector` 和 `Float16Vector` 数据的自定义数据转换器。可选。
+
+- **skip_check_schema** (*boolean*) -
+
+    是否在 upsert 前跳过 Schema 检查。可选。
 
 - **partial_update** (*boolean*) -
 
@@ -88,11 +99,13 @@ await milvusClient.upsert({
 
     数组字段的部分更新操作。可选。
 
-**返回值** *Promise&lt;MutationResult&gt;*
+**返回：**
+
+*Promise&lt;MutationResult&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **MutationResult** 对象。
 
-```typescript
+```javascript
 {
     succ_index: number[],
     err_index: number[],
@@ -101,39 +114,40 @@ await milvusClient.upsert({
     delete_cnt: string,
     upsert_cnt: string,
     timestamp: string,
-    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] } },
     status:  ResStatus
 }
 ```
 
 **参数：**
 
-- **succ_index** (*number[]*) -<br/>
-  输入数据中成功执行 upsert 的各行的零基位置。
+- **succ_index** (*number[]*) -
+成功 upsert 的各行在输入数据中的从零开始位置。
 
-- **err_index** (*number[]*) -<br/>
-  被拒绝行的零基位置。当所有行都成功时，此列表为空。
+- **err_index** (*number[]*) -
+被拒绝的各行的从零开始位置。当所有行都成功时，此列表为空。
 
-- **acknowledged** (*boolean*) -<br/>
-  此写入是否已被 Milvus 确认。
+- **acknowledged** (*boolean*) -
+写入是否已由 Milvus 确认。
 
-- **insert_cnt** (*string*) -<br/>
-  此操作新插入的行数，以字符串格式表示。
+- **insert_cnt** (*string*) -
+此操作新插入的行数，以字符串格式表示。
 
-- **delete_cnt** (*string*) -<br/>
-  为给替换记录腾出空间而在逻辑上删除的行数。
+- **delete_cnt** (*string*) -
+为给替换项腾出空间而逻辑删除的行数。
 
-- **upsert_cnt** (*string*) -<br/>
-  此操作执行 upsert 的总行数。
+- **upsert_cnt** (*string*) -
+此操作执行 upsert 的总行数。
 
-- **timestamp** (*string*) -<br/>
-  此写入变为可见时的混合时间戳。
+- **timestamp** (*string*) -
+写入变为可见时的混合时间戳。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  已执行 upsert 的行中携带的主键。有关完整字段说明，请参阅 `insert()` 文档。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+已 upsert 的各行所携带的主键。有关完整的字段参考，请参见 `insert()` 文档。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -146,6 +160,13 @@ await milvusClient.upsert({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时都会引发此异常。
 
 ## 示例\{#example}
 
@@ -160,11 +181,9 @@ const milvusClient = new MilvusClient({
 // Upsert a single entity
 const result = await milvusClient.upsert({
     collection_name: 'my_collection',
-    data: {
-        id: 0,
-        vector: [0.62, 0.59, 0.85, 0.93, -0.42],
-        color: 'grass-green',
-    },
+    data: [
+        { id: 0, vector: [0.62, 0.59, 0.85, 0.93, -0.42], color: 'grass-green' },
+    ],
 });
 
 // Upsert multiple entities

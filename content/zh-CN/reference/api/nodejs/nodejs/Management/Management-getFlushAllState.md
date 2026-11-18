@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getFlushAllState()
 
 此操作检查 flush-all 操作是否已完成。
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState(data: GetFlushAllStateReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getFlushAllState({
     flush_all_ts?: number,
     flush_all_tss?: Record\<string, number\>,
@@ -50,26 +47,28 @@ await milvusClient.getFlushAllState({
 
 **参数：**
 
-- **flush_all_ts** (*number*) -<br/>
-  flush-all 时间戳。可选，且已弃用。
+- **flush_all_ts** (*number*) -
+flush-all 时间戳。可选且已弃用。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  Database 名称到 flush-all 时间戳的映射。可选。
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+一个将 Database 名称映射到 flush-all 时间戳的映射。可选。
 
-- **db_name** (*string*) -<br/>
-  Database 的名称。可选，且已弃用。
+- **db_name** (*string*) -
+Database 的名称。可选且已弃用。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** (*number*) -
+用于 RPC 的可选时长，单位为毫秒。如果将其设置为 undefined，客户端将一直等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** (*string*) -
+用于请求跟踪的 trace ID。可选。
 
-**返回值** *Promise&lt;GetFlushAllStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetFlushAllStateResponse&gt;*
 
 此方法返回一个 promise，并解析为 **GetFlushAllStateResponse** 对象。
 
-```typescript
+```javascript
 {
     flushed: boolean,
     status:  ResStatus
@@ -78,11 +77,11 @@ await milvusClient.getFlushAllState({
 
 **参数：**
 
-- **flushed** (*boolean*) -<br/>
-  由提供的时间戳标识的 flush-all 操作是否已完全完成。当每个通道都达到请求的 flush 时间戳时，其值为 **true**；否则为 **false**。
+- **flushed** (*boolean*) -
+由所提供时间戳标识的 flush-all 操作是否已完全完成。当每个通道都达到请求的 flush 时间戳时，该值为 **true**；否则为 **false**。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -95,6 +94,13 @@ await milvusClient.getFlushAllState({
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

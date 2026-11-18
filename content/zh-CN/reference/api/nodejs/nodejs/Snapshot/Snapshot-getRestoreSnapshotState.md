@@ -2,7 +2,7 @@
 title: "getRestoreSnapshotState() | Node.js"
 slug: /node/node/Snapshot-getRestoreSnapshotState
 sidebar_label: "getRestoreSnapshotState()"
-beta: ON REQUEST
+beta: false
 added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
@@ -25,20 +25,17 @@ displayed_sidebar: nodeSidebar
 
 ---
 
-import Admonition from '@theme/Admonition';
-
-
 # getRestoreSnapshotState()
 
 此操作用于检查快照恢复任务的状态。请使用 restoreSnapshot() 返回的 job_id。
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
 ```
 
 ## 请求语法\{#request-syntax}
 
-```typescript
+```javascript
 await milvusClient.getRestoreSnapshotState({
     job_id: number | string,
     timeout?: number,
@@ -48,21 +45,23 @@ await milvusClient.getRestoreSnapshotState({
 
 **参数：**
 
-- **job_id** (*number | string*) -<br/>
-  **[必需]**<br/>
-  restoreSnapshot() 返回的恢复任务 ID。
+- **job_id** （*number | string*） -
+**[必需]**
+restoreSnapshot() 返回的恢复任务 ID。
 
-- **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+- **timeout** （*number*） -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+- **client_request_id** （*string*） -
+用于请求跟踪的追踪 ID。可选。
 
-**返回** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
+**返回：**
+
+*Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
 此方法返回一个 promise，解析为 **GetRestoreSnapshotStateResponse** 对象。
 
-```typescript
+```javascript
 {
     info: RestoreSnapshotJobInfo,
     status:  ResStatus
@@ -71,8 +70,9 @@ await milvusClient.getRestoreSnapshotState({
 
 **参数：**
 
-- **info** (*RestoreSnapshotJobInfo*) -<br/>
-  恢复任务的当前状态。
+- **info** （*RestoreSnapshotJobInfo*） -
+
+恢复任务的当前状态。
 
     - **job_id** (*string*) -
 
@@ -110,8 +110,8 @@ await milvusClient.getRestoreSnapshotState({
 
         任务开始以来的总耗时。
 
-- **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+- **ResStatus**
+一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
@@ -124,6 +124,13 @@ await milvusClient.getRestoreSnapshotState({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+
+
+**异常：**
+
+- **Error**
+
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
