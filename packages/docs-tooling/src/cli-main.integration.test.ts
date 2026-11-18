@@ -744,25 +744,44 @@ describe('shared-docs promotion dispatch', () => {
 });
 
 describe('revision inventory snapshot gating', () => {
-  const repositoryRoot = path.resolve(import.meta.dirname, '../../..');
-
   it('builds shared-source groups without a snapshot (node is Git-pinned)', () => {
     // The guard passes for shared-docs groups, so the command fails on the next
-    // missing required option instead of demanding --snapshot.
-    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'node']);
+    // missing required option instead of demanding --snapshot. A throwaway root is
+    // fine because the guard fires during option parsing, before any filesystem access.
+    const root = temporaryRoot();
+    const result = runCli(root, ['revision-inventory', 'build', '--group', 'node']);
     expect(result.status, result.stderr || result.stdout).not.toBe(0);
     expect(result.stderr).toMatch(/--baseline is required/);
   });
 
   it('rejects snapshots for groups without Lark sources', () => {
-    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'node', '--snapshot', 'tmp/snapshot.json']);
+    const root = temporaryRoot();
+    const result = runCli(root, ['revision-inventory', 'build', '--group', 'node', '--snapshot', 'tmp/snapshot.json']);
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/has no Lark sources; revision inventory does not accept snapshots/);
   });
 
   it('still requires snapshots for Lark-fetched groups', () => {
-    const result = runCli(repositoryRoot, ['revision-inventory', 'build', '--group', 'python']);
+    const root = temporaryRoot();
+    const result = runCli(root, ['revision-inventory', 'build', '--group', 'python']);
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/--snapshot is required/);
+  });
+
+  it('builds a complete empty node inventory over a pre-cutover Lark baseline without snapshots', () => {
+    // The production retry scenario (run 44318086768 follow-up): dev still holds the
+    // pre-cutover Lark-driven node inventory, and the shared-docs cutover retires it
+    // through a complete empty candidate instead of erroring.
+    const root = temporaryRoot();
+    writeJson(root, 'generated/en/manifests/lark-revisions/node.json', revisionInventory('node', [revisionRecord('legacy')]));
+
+    const result = runCli(root, revisionBuildArgs('node'));
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/lark-revisions/node.json'), 'utf8')))
+      .toMatchObject({group: 'node', complete: true, records: []});
+    const report = JSON.parse(readFileSync(path.join(root, 'tmp/revision-reports/node.json'), 'utf8'));
+    expect(report.changes).toMatchObject([{type: 'deleted', canonicalToken: 'legacy'}]);
+    expect(report.authoritativeReplacements ?? []).toEqual([]);
   });
 });
