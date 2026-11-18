@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "監査ログにより、管理者は Zilliz Cloud クラスター上でユーザー主導の操作や API 呼び出しを追跡・監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作など、ベクトル DB のアクティビティの詳細な記録を提供します。 | BYOC"
+description: "VectorDB 監査ログを使用すると、検索、クエリ、コレクション、インデックス、データの変更など、クラスター上の操作を調査できます。これらのログを、保持のためにオブジェクトストレージへ、またはログシステムで処理するために HTTPS エンドポイントへ転送します。 | BYOC"
 type: origin
-token: M5dXwsGOOiPdAjkWLZUc2Pxonuh
+token: FrKYwyBXKiktPzkQcFXco2qUnYd
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,116 +18,82 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # VectorDB 監査ログ
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+VectorDB 監査ログを使用すると、検索、クエリ、コレクション、インデックス、データの変更など、クラスター上の操作を調査できます。これらのログを、保持のためにオブジェクトストレージへ、またはログシステムで処理するために HTTPS エンドポイントへ転送します。
 
-この機能は、Enterprise プラン以上および BYOC デプロイでのみ利用できます。
+クラスターのバックアップ、リストア、移行などの管理アクティビティについては、[Platform Audit Logs](./view-activities) を参照してください。
 
-</FeatureNote>
+## 事前準備\{#before-you-start}
 
-監査ログにより、管理者は Zilliz Cloud クラスター上でユーザー主導の操作や API 呼び出しを追跡・監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作など、ベクトル DB のアクティビティの詳細な記録を提供します。
+- Enterprise プラン以上で Dedicated クラスターを使用していること。
 
-<Admonition type="info" title="Notes">
+- **Organization Owner** または **Project Admin** としてサインインし、監査ログ設定を管理できるよう、クラスターが稼働中であることを確認すること。
 
-- 監査ログは、Milvus 2.5.x 以降で動作する Zilliz Cloud クラスターでのみサポートされています。
+- 監査ログとアクセスログのいずれかを選択すること。これらは同じクラスターで同時に有効化できません。スローログは別途設定します。
 
-- BYOC デプロイでは、VDB 監査ログはデータプレーンのローカルオブジェクトストレージ (S3/Azure Blob Storage/GCS), に設定されたログバケットへ直接書き込まれるため、データがインフラストラクチャの外部に出ることはありません。監査ログを有効にして設定するには、[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
+- **クラスターと同じプロジェクト内**で転送先の統合を作成すること。ログを使用する場所に応じて転送先を選択してください。
 
-</Admonition>
-
-## 概要\{#overview}
-
-監査ログは、以下を含むデータプレーン上の幅広い操作を追跡します。
-
-- **検索およびクエリ操作**: ベクトル検索、ハイブリッド検索、クエリ操作。
-
-- **データ管理**: インデックス作成、コレクション作成、パーティション管理、および insert、delete、upsert などのエンティティ操作。
-
-- **システムイベント**: ユーザーアクセス試行、認可チェック、その他の事前定義されたアクション。
+    | 転送先 | 準備するもの |
+    | --- | --- |
+    | オブジェクトストレージ | ログを保持するためのバケットまたはコンテナと、そのプロジェクト統合です。[Amazon S3](./integrate-with-aws-s3)、[Google Cloud Storage](./integrate-with-gcp)、または [Azure Blob Storage](./integrate-with-azure-blob-storage) の設定手順に従ってください。 |
+    | HTTPS エンドポイント | HTTPS 経由でログを受け付けるサービス、および URL と認証設定を構成した統合です。サービスを準備して統合をテストするには、[HTTPS エンドポイント統合](./integrate-with-https-endpoint) の手順に従ってください。 |
 
 <Admonition type="info" title="Notes">
 
-移行、バックアップ、リストアなどのクラスター レベルのデータジョブでは監査ログは生成されません。これらのアクティビティ記録を表示するには、[アクティビティを表示](./view-activities)を参照してください。
+既存の BYOC 監査ログ設定では、ログはデータプレーンに設定されたオブジェクトストレージに書き込まれます。監査ログを有効化または設定するには、[サポート](https://support.zilliz.com/hc/en-us) にお問い合わせください。
 
 </Admonition>
 
-監査ログは、定期的にユーザー指定のオブジェクトストレージバケットへ直接転送されます。ログは、アクセスや管理を容易にするため、構造化されたファイルパスおよび命名形式で保存されます。
+## 監査ログ転送を有効にする\{#enable-audit-log-forwarding}
 
-- **ファイルパス**: `/<Cluster ID>/<Log type>/<Date>`
+**パフォーマンスとコスト：** 監査ログは、クエリと書き込みのパフォーマンスに影響する可能性があり、監査ログの CU コストが発生します。有効にする前に、[監査ログのコスト](./audit-log-cost) を確認してください。
 
-- **ファイル命名規則**: `<File name><File name suffix>`（形式: *HH:MM:SS-&#36;UUID*）で、*HH:MM:SS* は UTC 時刻を表し、*&#36;UUID* は一意のランダム文字列です。例: `09:16:53-jz5l7D8Q`。
+<Procedures>
 
-以下は、バケットに転送される監査ログエントリの例です。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) でプロジェクトを開き、対象のクラスターを選択します。
 
-- **コレクションの作成**
+1. **Logs** タブを開きます。**Audit Logs** カードで **Configure** をクリックします。
 
-    ```json
-    {
-      "action": "CreateCollection",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit",
-        "consistency_level": 2
-      },
-      "status": "Receive",
-      "timestamp": 1742983070463,
-      "trace_id": "216a8129c06fd3d93a47bd69fa0a65ad",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
+1. **Audit Logs Settings** で、**Send To** から転送先を選択し、出力を設定します。
 
-- **インデックスの作成**
+    | 設定 | 選択する内容 |
+    | --- | --- |
+    | Send To | このプロジェクトで準備した統合を選択します。オブジェクトストレージの場合は、この設定によってバケットまたはコンテナが特定されます。HTTPS の場合は、受信サービスが特定されます。 |
+    | Format | ダウンストリームのパーサーまたはログシステムでサポートされている形式を、使用可能なオプションから選択します：**JSON**、**ECS**、**OTel**（OpenTelemetry）。 |
+    | Forward directory<br/>（オブジェクトストレージのみ） | バケットまたはコンテナ内のログを保存する場所を選択します。パスのプレビューを確認して、このクラスターの監査ログをどこで確認できるかを把握してください。HTTPS 転送ではディレクトリを使用しません。 |
 
-    ```json
-    {
-      "action": "CreateIndex",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit"
-      },
-      "status": "Receive",
-      "timestamp": 1742983070645,
-      "trace_id": "4402e7bfc498dd06be1408c7e6a7954d",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
+1. 設定を確認し、**Start Forwarding** をクリックします。
 
-- **インデックスの削除**
+1. 監査ログのステータスが **Active** になるまで待ち、ログが転送先に届くことを確認します。
 
-    ```json
-    {
-      "action": "DropIndex",
-      "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-      "connection_uid": 456912553983082500,
-      "database": "default",
-      "interface": "Grpc",
-      "log_type": "AUDIT",
-      "params": {
-        "collection": "test_audit"
-      },
-      "status": "Receive",
-      "timestamp": 1742983073378,
-      "trace_id": "066ec33c3f55d3edbf7d01c6270024e2",
-      "user": "key-hwjsxhwppegkatwjaivsgf"
-    }
-    ```
+</Procedures>
 
-サポートされているアクションと対応するログフィールドの詳細な一覧については、[監査ログリファレンス](./audit-logs-ref)を参照してください。
+## ログが届くことを確認する\{#verify-that-logs-arrive}
 
-<Admonition type="info" title="Notes">
+<Procedures>
 
-監査ログは、データプレーンのデプロイ時に設定されたオブジェクトストレージバケットへ直接転送されます。
+1. 監査ログが有効になったら、既存のコレクションに対するクエリなど、サポートされている操作をクラスターで実行します。操作の時刻を記録します。
 
-ログをさらに分析するためにご利用のロギングシステムへエクスポートするには、[お問い合わせ](https://support.zilliz.com/hc/en-us/requests/new)ください。
+1. その時刻前後に、設定した転送先でこのクラスターからの新しいログレコードを確認します。
 
-</Admonition>
+    | 転送先 | 確認場所 |
+    | --- | --- |
+    | オブジェクトストレージ | バケットまたはコンテナを開き、設定に表示されているディレクトリを特定します。新しいログオブジェクトを検査し、操作に対応するレコードを見つけます。 |
+    | HTTPS エンドポイント | 受信サービスの取り込み記録または保存済みログで、該当する操作を確認します。統合テストが成功しても、実際のクラスターログの配信確認に代わるものではありません。 |
 
+</Procedures>
+
+サポートされている操作とフィールド定義については、[VectorDB Audit Logs Reference](./audit-logs-ref) を参照してください。
+
+## よくある質問\{#faq}
+
+- **監査ログ設定を開けないのはなぜですか？**
+
+    クラスターが稼働中であり、必要なロールとプランがあることを確認してください。一時停止中のクラスターでは、Logs タブに **Auditing Unavailable** と表示されます。
+
+- **ログが届かない場合は何を確認すればよいですか？**
+
+    監査ログのステータスと、コンソールに表示されるエラーを確認してください。ログが有効になった後にサポートされている操作が実行されたことを確認します。オブジェクトストレージの場合は、設定したディレクトリと書き込み権限を確認してください。HTTPS の場合は、受信側の可用性、認証、取り込みエラーを確認してください。問題が解決しない場合は、クラスター ID、操作の時刻、エラーメッセージを添えて [サポート](https://support.zilliz.com/hc/en-us) にお問い合わせください。

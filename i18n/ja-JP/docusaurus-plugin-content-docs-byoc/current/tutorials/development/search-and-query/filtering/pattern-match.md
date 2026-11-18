@@ -22,6 +22,8 @@ import TabItem from '@theme/TabItem';
 
 # パターンマッチング
 
+<NextChannel action="exclude">
+
 エージェント型検索アプリケーションでは、ベクトル検索と grep 形式のパターンマッチングがしばしば互いを補完します。ベクトル検索は意味的に関連するエンティティを取得し、パターンマッチングはエラーコード、ログプレフィックス、メールドメイン、URL パス、識別子などの正確な文字列構造によってその結果を絞り込みます。
 
 Zilliz Cloud では、これらのパターン制約をスカラーフィルターで表現できます。単純なワイルドカードマッチングには `LIKE` を、[RE2](https://github.com/google/re2/wiki/syntax) 正規表現には `=~` または `!~` を使用します。これらのフィルターは `query`、`search`、ハイブリッド検索と組み合わせることができます。
@@ -31,6 +33,20 @@ Zilliz Cloud では、これらのパターン制約をスカラーフィルタ�
 このページでは、`query`、`search`、ハイブリッド検索で使用されるスカラーフィルター式でのパターンマッチングについて説明します。これらの式はフィールド値を評価し、アナライザーが生成するトークンを変更しません。テキスト分析中にトークンをフィルタリングする場合は、[Regex Analyzer Filter](./regex-filter) を参照してください。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+Use `LIKE` for wildcard matching and `=~` or `!~` for [RE2](https://github.com/google/re2/wiki/syntax) regular expressions. These スカラー filters match string structures such as error codes, prefixes, email domains, or URL paths in `query`, `search`, and hybrid search.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+These filters match string values. They do not change analyzer tokens or enable token-based `TEXT_MATCH` and `PHRASE_MATCH`. See [Regex Analyzer Filter](./regex-filter) and [Text Match](https://milvus.io/docs/keyword-match.md) for those mechanisms.
+
+</Admonition>
+
+</NextChannel>
 
 パターンマッチング式は `filter` パラメーターに記述します。たとえば、次のクエリは `E1001` などのエラーコードを含むログメッセージに一致します：
 
@@ -241,6 +257,8 @@ zilliz vector query --collection log_events --filter 'message =~ "E[0-9]{4}"' --
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 このページの例では、`filter` に割り当てる式に焦点を当てています。`query`、`search`、ハイブリッド検索など、スカラーフィルターを受け入れる Zilliz Cloud の操作では、同じフィルター式構文を使用できます。
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -251,9 +269,25 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 </Admonition>
 
+</NextChannel>
+
+<NextChannel action="include">
+
+残りの例では、`filter` に割り当てる式を示します。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+左辺には、`message` などのコレクションフィールド、または `struct[0][subfield] =~ "E[0-9]{4}"` のように特定の要素インデックスにある StructArray サブフィールドを指定できます。詳細は、[StructArray Operators](./struct-array-filtering) を参照してください。
+
+</Admonition>
+
+</NextChannel>
+
 ## サポートされているフィールド型\{#supported-field-types}
 
 パターンマッチングは文字列値で利用できます。
+
+<NextChannel action="exclude">
 
 | 対象 | `LIKE` | 正規表現 `=~` / `!~` | 備考 |
 | --- | --- | --- | --- |
@@ -262,11 +296,34 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 | `ARRAY<VARCHAR>` 要素 | はい | はい | `tags[0]` など、インデックスで特定の要素を指定して一致させます。パターンマッチングはすべての要素をスキャン**しません**。指定したインデックスの要素にのみ適用されます。 |
 | 数値、Boolean、ベクトル、`TEXT`、その他の `VARCHAR` 以外の対象 | いいえ | いいえ | パターンマッチングは、`VARCHAR` 値、文字列に解決される JSON パス、またはインデックスが作成された `ARRAY<VARCHAR>` 要素でのみ利用できます。 |
 
+</NextChannel>
+
+<NextChannel action="include">
+
+| 対象 | `LIKE` | 正規表現 `=~` / `!~` | 備考 |
+| --- | --- | --- | --- |
+| `VARCHAR` フィールド | はい | はい | 文字列フィールドに対するパターンマッチングの一般的な対象です。 |
+| 文字列値を持つ `JSON` パス | はい | はい | 肯定的な一致には文字列値が必要です。インデックスの path/cast 設定については、[JSON インデックス](./json-indexing#understand-cast-types) を参照してください。 |
+| `ARRAY<VARCHAR>` 要素 | はい | はい | `tags[0]` など、インデックスで特定の要素を指定して一致させます。パターンマッチングはすべての要素をスキャン**しません**。指定したインデックスの要素にのみ適用されます。 |
+| 数値、Boolean、ベクトル、`TEXT`、その他の文字列以外の対象 | いいえ | いいえ | パターンには文字列値が必要です。 |
+
+</NextChannel>
+
 ## LIKE または正規表現の選択\{#choose-like-or-regex}
+
+<NextChannel action="exclude">
 
 必要なパターンを表現する最も単純な演算子を選択してください。
 
 文字列の完全一致が必要な場合は、パターンマッチングではなく `==` の使用をお勧めします。フィルターでパターンに一致させる必要がある場合にのみ、`LIKE` または正規表現を使用してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+文字列の完全等価には `==` を使用します。それ以外の場合は、次の表から演算子を選択してください：
+
+</NextChannel>
 
 | 要件 | 推奨される演算子 | 例 | 説明 |
 | --- | --- | --- | --- |
@@ -278,7 +335,11 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 | 大文字と小文字を区別しないパターンマッチング | `=~` と `(?i)` | `message =~ "(?i)error"` | `error`、`ERROR`、その他の大文字と小文字のバリエーションに一致します。 |
 | 正規表現パターンに一致する値を除外 | `!~` | `message !~ "^DEBUG"` | `DEBUG` で始まる文字列を除外します。 |
 
+<NextChannel action="exclude">
+
 単純なワイルドカードマッチングには `LIKE` を使用します。パターンに文字クラス、繰り返し、`error|failed` などの選択、アンカー、または大文字と小文字を区別しないマッチングが必要な場合は、正規表現を使用します。
+
+</NextChannel>
 
 ## LIKE の使用\{#use-like}
 
@@ -304,11 +365,25 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 前方一致、後方一致、部分一致、固定位置の 1 文字一致には `LIKE` を使用します。`LIKE` は、`[0-9]` などの文字クラス、`error|failed` などの選択、`{4}` などの繰り返し回数、`^` や `$` などのアンカー、`(?i)` などの大文字と小文字を区別しないフラグをサポートしていません。これらのパターンには正規表現を使用してください。
 
+<NextChannel action="exclude">
+
 文字列全体の完全等価には `==` を使用します。フィルターでワイルドカードマッチングが必要な場合にのみ、`LIKE` を使用してください。
+
+</NextChannel>
 
 ### LIKE パターンでのワイルドカードのエスケープ\{#escaping-wildcards-in-a-like-pattern}
 
+<NextChannel action="exclude">
+
 `LIKE` パターンでは、`%` は 0 文字以上に一致し、`_` はちょうど 1 文字に一致します。`%`、`_`、または `\` をリテラルとして一致させるには、バックスラッシュ（`\`）でその文字をエスケープします：
+
+</NextChannel>
+
+<NextChannel action="include">
+
+`%`、`_`、または `\` をリテラルとして一致させるには、バックスラッシュ（`\`）でその文字をエスケープします：
+
+</NextChannel>
 
 - `name LIKE r"\%"` はリテラル値 `%` に一致します。
 - `name LIKE r"\_%"` はリテラル `_` で始まる値に一致します。
@@ -318,9 +393,19 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 ## 正規表現の使用 | PUBLIC\{#use-regex-or-public}
 
+<NextChannel action="exclude">
+
 パターンに文字クラス、繰り返し、選択、アンカー、または大文字と小文字を区別しないマッチングなどの正規表現機能が必要な場合は、正規表現フィルターを使用します。Zilliz Cloud は文字列値に [RE2](https://github.com/google/re2/wiki/syntax) 正規表現を適用します。
 
 `=~` または `!~` の右辺は文字列リテラルである必要があります。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+正規表現は、文字クラス、繰り返し、選択、アンカー、大文字と小文字を区別しないマッチングをサポートしています。`=~` または `!~` の右辺は文字列リテラルである必要があります：
+
+</NextChannel>
 
 | 演算子 | 意味 | 例 |
 | --- | --- | --- |
@@ -329,9 +414,19 @@ StructArray フィールドでのスカラーフィルタリングの詳細は�
 
 ### raw 文字列リテラルの使用\{#using-raw-string-literals}
 
+<NextChannel action="exclude">
+
 バックスラッシュを含む正規表現パターンには、raw 文字列リテラルの使用をお勧めします。`r"..."` または `r'...'` と記述する raw 文字列では、バックスラッシュが正規表現エンジンにそのまま渡されます。これにより、通常の文字列リテラルで必要な追加のエスケープを回避できます。
 
 例：
+
+</NextChannel>
+
+<NextChannel action="include">
+
+RE2 にバックスラッシュをそのまま渡し、通常のフィルター文字列での追加のエスケープを回避するには、raw 文字列リテラル（`r"..."` または `r'...'`）を使用します：
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -581,7 +676,21 @@ zilliz vector query --collection my_collection --filter 'email =~ "@gmail\\.com$
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 注記：Zilliz Cloud の正規表現フィルターは RE2 構文に従います。正規表現パターンが RE2 でサポートされていない構文を使用している場合、またはその他の理由で無効な場合、Zilliz Cloud はフィルター式を拒否します。正規表現のメタ文字、フラグ、マッチング動作の詳細については、[RE2 構文](https://github.com/google/re2/wiki/syntax)リファレンスを参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Zilliz Cloud は、無効な正規表現パターンや、[RE2](https://github.com/google/re2/wiki/syntax) でサポートされていない構文を拒否します。
+
+</Admonition>
+
+</NextChannel>
 
 ### マッチング動作\{#matching-behavior}
 
@@ -838,6 +947,8 @@ JSON パスでは、パスが存在しない場合、null の場合、または�
 
 ## インデックスによるパターンマッチングの高速化\{#accelerate-pattern-matching-with-indexes}
 
+<NextChannel action="exclude">
+
 Zilliz Cloud は、`VARCHAR` フィールドまたは JSON 文字列パスに対する `LIKE` および正規表現フィルターと併用できるいくつかのインデックスタイプを文字列フィールドでサポートしています。たとえば、`NGRAM`、`STL_SORT`、`INVERTED`、`BITMAP` などです。パターンマッチングはインデックスなしでも機能しますが、インデックスによって大規模なデータセットでのパフォーマンスを向上できます。
 
 インデックスの有効性は、パターン式、Zilliz Cloud が固定のリテラル部分文字列を抽出できるかどうか、および対象フィールドのカーディナリティと分散によって決まります。`name LIKE "Prod%"` などの前方一致形式のパターンは、`description LIKE "%vector%"` や `filename LIKE "%.json"` などの中間一致または後方一致のパターンとは異なるインデックス戦略の恩恵を受ける場合があります。
@@ -849,3 +960,17 @@ Zilliz Cloud は、`VARCHAR` フィールドまたは JSON 文字列パスに対
 | `message =~ "error.*timeout"` や `message LIKE "%database%"` など、固定のリテラル部分文字列を含む | `NGRAM` | Zilliz Cloud がパターンから意味のあるリテラル部分文字列を抽出できる場合に役立ちます。詳細は、[NGRAM](./ngram-index-type) を参照してください。 |
 | 前方一致、完全一致、または等価に近い文字列フィルター。特にカーディナリティが低から中程度のフィールド | `STL_SORT`、`INVERTED`、または `BITMAP` | フィールドに重複する値がある場合、またはフィルターが完全一致に近い場合に、より効果的となることがあります。詳細は、[STL_SORT](./slt-sort-index-type)、[INVERTED](./inverted-index-type)、および [BITMAP](./bitmap-index-type) を参照してください。 |
 | 固定リテラルを含まない正規表現パターン、または文字クラス、短いトークン、ワイルドカードが中心のパターン | インデックスによる高速化に依存する前にベンチマークする | これらのパターンはインデックスの選択性が限定的であり、より広範なスキャンにフォールバックする可能性があります。 |
+
+</NextChannel>
+
+<NextChannel action="include">
+
+パターンマッチングはスカラーインデックスなしでも機能します。高速化のオプションとその適用条件については、[文字列パターンインデックスの選択](./scalar-index-overview#String-pattern-indexes) を参照してください。JSON パスインデックスについては、[JSON 固有の前提条件](./json-indexing#index-requirements) を確認してください。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+クエリプランニングでは、ワイルドカードを含まない LIKE 式を等価比較に、または単純なアンカー付き正規表現を等価比較、前方一致、後方一致に簡略化できます。たとえば、`name =~ "^abc$"` は等価テストになり、等価検索のサポートに従います。元の式に記述された演算子だけでなく、この簡略化後の操作に対するインデックスのサポートを確認してください。
+
+</Admonition>
+
+</NextChannel>

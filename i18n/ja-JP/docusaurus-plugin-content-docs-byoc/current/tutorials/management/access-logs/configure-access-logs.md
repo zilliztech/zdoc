@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud におけるアクセスログのライフサイクル全体（有効化、設定調整、無効化）を説明します。 | BYOC"
+description: "アクセスログを使用すると、アプリケーションによるデータの検索およびクエリの実行方法を把握できます。記録する操作とフィールドを選択し、ログをオブジェクトストレージまたは HTTPS サービスに転送して分析します。 | BYOC"
 type: origin
-token: QPgEwd4qziOa5RkgJR2c9gpnn3b
+token: E2X9wUPLpi3pQxkJzBpcpZ4snHg
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -18,86 +18,87 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
-
 import Procedures from '@site/src/components/Procedures';
 
 # アクセスログを設定する
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
-
-この機能は、Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
-
-</FeatureNote>
-
-このガイドでは、Zilliz Cloud におけるアクセスログのライフサイクル全体、つまり有効化、設定調整、無効化について説明します。
-
-<Admonition type="info" title="Notes">
-
-- このリリースでは、検索系またはクエリ系のアクションのみがログに記録されます: Search、HybridSearch、Query。アクション一覧全体のサポートは今後のリリースで予定されています。
-
-- このリリースでは、監査ログとアクセスログは相互に排他的です。つまり、一度に有効化できるのはいずれか一方のみです。
-
-</Admonition>
+アクセスログを使用すると、アプリケーションによるデータの検索およびクエリの実行方法を把握できます。記録する操作とフィールドを選択し、ログをオブジェクトストレージまたは HTTPS サービスに転送して分析します。
 
 ## 事前準備\{#before-you-start}
 
-- 対象クラスターと同じリージョンに構成されたオブジェクトストレージ統合（AWS S3、Google Cloud Storage、または Azure Blob Storage）があること。
+- Enterprise プラン以上で、稼働中の Dedicated クラスターを使用していること。
 
-- プロジェクトに対する **Organization Owner**、**Project Admin**、または **クラスター Admin** の権限を持っていること。必要な権限がない場合は、Zilliz Cloud の管理者にお問い合わせください。
+- クラスターへのアクセス権を持つ **Organization Owner**、**Project Admin**、または **クラスター Admin** としてサインインしていること。
 
-## アクセスログを有効にする\{#enable-access-logs}
+- クラスターで監査ログが有効になっていないこと。監査ログとアクセスログは同時に有効にできません。スローログは別途設定します。
 
-<Supademo id="cmn5r1yif3u0fz3qmiev350yz" title=""  />
+- **クラスターと同じプロジェクト内**で、転送先の統合を準備していること：
 
-<Procedures>
+    | 実現したいこと | 準備するもの |
+    | --- | --- |
+    | ログをバケットまたはコンテナに保存する | [Amazon S3](./integrate-with-aws-s3)、[Google Cloud Storage](./integrate-with-gcp)、または [Azure Blob Storage](./integrate-with-azure-blob-storage) との統合。 |
+    | ログをログ管理システムに送信する | HTTPS 経由でログを受け付けるサービス、および URL と認証設定を構成した [HTTPS エンドポイント統合](./integrate-with-https-endpoint)。 |
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、対象のクラスターに移動します。
-
-1. クラスター設定ページで **Access Log** タブをクリックし、**Enable** をクリックします。
-
-1. **Access Log Settings** ダイアログボックスで、以下の設定を構成します。
-
-    - **Storage Integration**: ログファイルの配信先となる、統合済みのストレージバケットを選択します。
-
-    - **Directory**: アクセスログを保存するバケット内のディレクトリを指定します。
-
-    - **Sampling Rate**: ログに記録するクエリの割合を設定します。100% にすると、すべての操作が記録されます。高トラフィックのワークロードでは、より低い割合（たとえば 1%）にすることで、統計的な有意性を保ちながらストレージコストを削減できます。
-
-    - **Actions**: アクセスログエントリとして記録する操作タイプ（たとえば Search や HybridSearch）を指定します。
-
-    - **Output Fields**: オブジェクトストレージに書き込まれる各アクセスログエントリに含めるメタデータフィールドを指定します。**Always included** とマークされたフィールドはすべてのエントリに記録され、選択したフィールドはそれに加えて取得されます。
-
-1. **Save** をクリックします。ログファイルは数分以内に、`/<Cluster ID>/Access/<Date>/<HH:MM:SS>-<UUID>.log` のパス規則に従ってバケットに表示され始めます。
-
-</Procedures>
-
-## アクセスログ設定を編集する\{#edit-access-log-settings}
-
-アクセスログを無効化しなくても、Sampling Rate と Output Fields はいつでも調整できます。
+## アクセスログ転送を有効にする\{#enable-access-log-forwarding}
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、クラスターに移動します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) でプロジェクトを開き、対象のクラスターを選択します。
 
-1. クラスター設定ページで **Access Log** タブをクリックします。
+1. **Logs** タブを開きます。**Access Logs** カードで **Configure** をクリックします。
 
-1. **Edit** をクリックします。
+1. **Access Logs Settings** でログの送信先を選択します：
 
-1. 必要に応じて **Sampling Rate** または **Output Fields** を調整します。
+    - **Send To:** このプロジェクトで準備した統合を選択します。
 
-1. **Save** をクリックします。更新された設定は、新しいログエントリに対して即座に反映されます。バケット内の既存のログファイルには影響しません。
+    - **Format:** 使用可能なオプションの中から、受信側システムで処理できる形式（**JSON**、**ECS**、**OTel**（OpenTelemetry））を選択します。
+
+    - **オブジェクトストレージの場合:** 転送先ディレクトリを設定し、パスのプレビューを確認します。HTTPS の転送先ではディレクトリを使用しません。
+
+1. 記録するリクエストを選択します：
+
+    - **Operations:** 分析するトラフィックに応じて、**Search**、**HybridSearch**、**Query** のいずれかまたは複数（and/or）を選択します。
+
+    - **Sample Rate:** **0 から 1** の値を入力します。値を小さくするとログ量が減り、値を大きくすると、選択した操作をより多く記録できます。
+
+1. **Output Fields** で、分析に必要な情報を選択します。たとえば、リクエストの実行時間を確認するには `execution_time` を、頻繁に返されるエンティティを特定するには `result_pks` を、検索スコアを分析するには `result_scores` を含めます。フィールド `cluster_id`、`log_type`、`user` は常に含まれます。フィールドの定義と操作ごとの可用性については、[Access Log Reference](./access-log-reference) を参照してください。
+
+1. 選択内容を確認し、**Start Forwarding** をクリックします。Access Logs カードでステータスを確認し、ログが転送先に届くことを確認します。
 
 </Procedures>
 
-## アクセスログを無効にする\{#disable-access-logs}
+## ログが届くことを確認する\{#verify-that-logs-arrive}
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) を開き、クラスターに移動します。
+1. 転送を有効にした後、このクラスター内のコレクションに対して、**Operations** で選択した操作を実行します。操作時刻を記録します。サンプルレートが低い場合、1 回のリクエストがログに記録されないことがあります。
 
-1. クラスター設定ページで **Access Log** タブをクリックします。
+1. 転送先で一致するレコードを検索します：
 
-1. **Disable** をクリックします。新しいログエントリは即座に停止します。既存のログファイルはバケットに残ります。Access Logs の課金は、無効化されると停止します。
+    - **オブジェクトストレージ:** 設定したバケットまたはコンテナとディレクトリを開き、新しく配信されたログオブジェクトを検査します。
+
+    - **HTTPS エンドポイント:** 受信サービスの取り込み記録または保存済みログで、該当する操作を確認します。
 
 </Procedures>
+
+統合テストが成功すると、テストイベントが受け入れられたことを確認できます。クラスターの転送設定を検証するには、実際のアクセスログレコードを確認してください。
+
+## よくある質問\{#faq}
+
+- **Configure が使用できないのはなぜですか？**
+
+    クラスターが稼働中で、使用しているロールとプランがアクセスログをサポートしていることを確認してください。監査ログが有効かどうかを確認してください。監査ログとアクセスログは、クラスターで同時に有効にできません。
+
+- **転送先の統合が見つからないのはなぜですか？**
+
+    統合は、クラスターと同じプロジェクトに属している必要があります。プロジェクトの Integrations ページを確認し、必要に応じてそこから統合を作成してください。
+
+- **アクセスログが届かないのはなぜですか？**
+
+    コンソールで転送ステータスとエラーの有無を確認し、以下を確認してください：
+
+    - リクエストが転送開始後に発生し、その操作が **Operations** で選択されていることを確認してください。サンプルレートが低い場合、1 回のリクエストが記録されないことがあります。
+
+    - オブジェクトストレージの場合は、書き込み権限を確認し、設定したディレクトリを確認してください。
+
+    - HTTPS の場合は、受信側の可用性、認証設定、取り込みエラーを確認してください。

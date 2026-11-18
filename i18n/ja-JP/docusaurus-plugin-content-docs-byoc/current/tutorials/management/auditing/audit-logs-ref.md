@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud における監査ログの構文は次のとおりです | BYOC"
+description: "このリファレンスを使用すると、データベース操作を実行したユーザーを特定し、記録された結果を確認し、監査レコードを相互に関連付けられます。JSON、Elastic Common Schema（ECS）スキーマ、OpenTelemetry（OTel）の出力を扱います。セットアップ手順については、VectorDB 監査ログを参照してください。 | BYOC"
 type: origin
-token: Nby4wCqNviuLg3kEZpkcdKtnnnb
+token: IrxCwX9Hoi2BYckqDdjcSN7ynkh
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,201 +20,226 @@ import Admonition from '@theme/Admonition';
 
 # VectorDB 監査ログリファレンス
 
-<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+このリファレンスを使用すると、データベース操作を実行したユーザーを特定し、記録された結果を確認し、監査レコードを相互に関連付けられます。**JSON**、Elastic Common Schema **（ECS）** スキーマ、OpenTelemetry **（OTel）** の出力を扱います。セットアップ手順については、[VectorDB 監査ログ](./audit-logs) を参照してください。
 
-この機能は、Enterprise プラン以上および BYOC デプロイメントでのみ利用できます。
+## ログ形式\{#log-formats}
 
-</FeatureNote>
+HTTPS 転送では、各リクエスト本文に改行区切りの JSON（NDJSON）が格納され、1 行につき 1 件の監査レコードが含まれます。各行を個別に解析し、選択した形式に従ってフィールドを読み取ります。
 
-Zilliz Cloud における監査ログの構文は次のとおりです。
+| 形式 | 監査フィールドの確認場所 |
+| --- | --- |
+| JSON | `action` や `params.execution_time` などのフィールドをオブジェクトから直接読み取ります。 |
+| ECS | `event.action` や `event.duration` などの標準フィールドを使用します。元のレコード全体は `zilliz.original` にあるオブジェクトです。 |
+| OTel | `timeUnixNano` と `attributes` を使用します。元のレコードを読み取るには、`body.stringValue` を JSON として解析します。 |
+
+## ログフィールド\{#log-fields}
+
+フィールドの表では、元の JSON レコード内のパスを使用しています。ECS では、各パスの先頭に `zilliz.original` とドットを追加します。OTel では、`body.stringValue` を解析してからこれらのフィールドを読み取ります。フィールドは操作、インターフェース、レコードの段階によって異なります。
+
+### 共通フィールド\{#common-fields}
+
+| フィールド | 型 | 意味 |
+| --- | --- | --- |
+| `action` | 文字列 | `ShowCollections` や `Query` などの操作名です。 |
+| `user` | 文字列 | 操作に関連付けられたデータベースユーザーまたは API キーの識別子です。 |
+| `cluster_id` | 文字列 | 操作が実行されたクラスターの識別子です。 |
+| `database` | 文字列 | 操作に関連付けられたデータベースです。 |
+| `interface` | 文字列 | `Restful` や `Grpc` などのリクエストインターフェースです。 |
+| `log_type` | 文字列 | VectorDB 監査レコードの場合は `AUDIT` です。 |
+| `timestamp` | 整数 | Unix ミリ秒単位のレコードタイムスタンプです。 |
+| `trace_id` | 文字列 | リクエストのレコードを相互に関連付けるために使用するトレース識別子です。 |
+| `params` | オブジェクト | 操作固有の詳細です。内容は操作とレコードの段階によって異なります。 |
+
+`params` 内では、`collection`、`expr`（フィルター式）、`input_params` など、操作に関連する詳細を確認します。1 つの操作に存在するフィールドが、別の操作には存在しない場合があります。
+
+### 結果と実行時間のフィールド\{#result-and-execution-time-fields}
+
+| フィールド | 解釈方法 |
+| --- | --- |
+| `result` | 操作の結果コードです。`0` は成功を示します。失敗したレスポンスには 0 以外のコードが含まれる場合があります。これは HTTP ステータスコードではありません。 |
+| `status` | 記録された結果です（例: `Success`、`Failed`）。リクエストレコードでは、このフィールドが省略される場合があります。 |
+| `params.execution_time` | 実行時間は、`3.568487ms` や `384.774µs` などの単位を含む文字列です。すべての値がミリ秒単位であると想定せず、単位を解析してください。 |
+
+`result` または `status` が欠けていても、成功または失敗を証明するものではありません。結果を解釈する前に、対応するレスポンスレコードを特定してください。これらのフィールドは、監査ログに記録された結果を表します。エラーを調査する場合は、API レスポンスも確認してください。
+
+たとえば、不完全なフィルター式を含む Query では、`result: 1100` と `status: Failed` が出力されました。その OTel の `event.outcome` 属性は `failure` でした。
+
+### 接続および SDK のフィールド\{#connection-and-sdk-fields}
+
+gRPC レコードには、次の接続メタデータも含まれる場合があります。これらのフィールドは、後述する REST の例には含まれていません。
+
+| フィールド | 型 | 意味 |
+| --- | --- | --- |
+| `connection_uid` | 整数 | クライアント接続の識別子です。 |
+| `params.sdk` | 文字列 | `Java` など、接続について記録された SDK 言語です。 |
+| `params.sdk_version` | 文字列 | 接続について記録された SDK バージョンです。 |
+
+### リクエストレコードとレスポンスレコード\{#request-and-response-records}
+
+1 つの操作から、個別のリクエストレコードとレスポンスレコードが生成される場合があります。この JSON リクエストは操作と実行主体を識別しますが、結果はまだ含まれていません。対応するレスポンスは、後述する JSON の例に示されています。
 
 ```json
 {
-    "date": "<timestamp>",
-    "action": "<action_type>",
-    "cluster_id": "<unique_cluster_identifier>",
-    "database": "<database_name>",
-    "interface": "<interface_type>",
-    "log_type": "<log_type>",
-    "params": {
-        "<key1>": "<value1>",
-        "<key2>": "<value2>",
-      ...
-    },
-    "result": <result_code>,
-    "status": "<action_status>",
-    "time": <timestamp>,
-    "trace_id": "<unique_trace_identifier>",
-    "user": "<user_identifier>"
+  "action": "ShowCollections",
+  "cluster_id": "<cluster-id>",
+  "database": "default",
+  "interface": "Restful",
+  "log_type": "AUDIT",
+  "timestamp": 1793876926440,
+  "trace_id": "<same-trace-id>",
+  "user": "<database-user>"
 }
 ```
 
-<table>
-   <tr>
-     <th><p>フィールド</p></th>
-     <th><p>型</p></th>
-     <th><p>説明</p></th>
-   </tr>
-   <tr>
-     <td><p><code>date</code></p></td>
-     <td><p>String (ISO 8601 形式)</p></td>
-     <td><p>アクションが発生したタイムスタンプ (UTC、例: <code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>)。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>action</code></p></td>
-     <td><p>String</p></td>
-     <td><p>実行されたアクション (例: <code>&quot;DescribeCollection&quot;</code>)。利用可能なアクションの一覧については、<a href="./audit-logs-ref">アクションの一覧</a>を参照してください。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>cluster_id</code></p></td>
-     <td><p>String</p></td>
-     <td><p>アクションが発生したクラスターの一意の識別子 (例: <code>&quot;in01-b5a7e190615xxxf&quot;</code>)。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>database</code></p></td>
-     <td><p>String</p></td>
-     <td><p>アクションに関連するデータベース名 (例: <code>&quot;default&quot;</code>)。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>interface</code></p></td>
-     <td><p>string</p></td>
-     <td><p>アクションの実行に使用されたインターフェース (例: <code>&quot;Grpc&quot;</code>、<code>&quot;Restful&quot;</code>)。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>log_type</code></p></td>
-     <td><p>String</p></td>
-     <td><p>ログエントリの種類 (例: <code>&quot;AUDIT&quot;</code>)。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>params</code></p></td>
-     <td><p>オブジェクト (キーと値のペア)</p></td>
-     <td><p>アクションに関連する追加パラメーターです。<code>collection</code> や <code>consistency_level</code> などが含まれます。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>result</code></p></td>
-     <td><p>Integer</p></td>
-     <td><p>結果コードまたはステータスコード (例: 成功時は <code>0</code>、それ以外のコードはエラーを示す場合があります)。<code>status</code> が <code>Receive</code> の場合は取得できません。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>status</code></p></td>
-     <td><p>String</p></td>
-     <td><p>記録対象のアクションのステータス (例: <code>Receive</code>、<code>Success</code>、<code>Failed</code>)。</p><ul><li><p><code>Receive</code>: アクションはシステムによって受信されましたが、まだ完了していません。</p></li><li><p><code>Success</code>: アクションが正常に完了しました。</p></li><li><p><code>Failed</code>: アクションが失敗しました。</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><code>time</code></p></td>
-     <td><p>Integer (エポック時間、ミリ秒)</p></td>
-     <td><p>1970年からの経過時間をミリ秒単位で表したタイムスタンプ (エポック時間) です。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>trace_id</code></p></td>
-     <td><p>String</p></td>
-     <td><p>システム間でリクエストを追跡するための一意の識別子です。複数のログを関連付けるために使用されます。</p></td>
-   </tr>
-   <tr>
-     <td><p><code>user</code></p></td>
-     <td><p>String</p></td>
-     <td><p>アクションを実行したユーザーです。</p></td>
-   </tr>
-</table>
+`trace_id` は、一意のレコード ID としてではなく、リクエストとそのレスポンスを関連付けるために使用します。2 つのレコードは、同じリクエストの異なる段階を表します。`trace_id` のみで重複排除すると、一方が破棄されます。ECS では `trace.id` を使用し、OTel ではキーが `trace.id` の属性を使用します。
 
-## アクションの一覧\{#list-of-actions}
+## 形式マッピング\{#format-mappings}
 
-以下の表に、監査ログとして記録可能なデータプレーンのアクションをまとめます。
+これらのマッピングを使用して、共通の監査フィールドを特定します。OTel 列では、`timeUnixNano` を除くすべての名前が `attributes` 配列のキーです。文字列属性では `value.stringValue` を使用します。
 
-### 接続\{#connection}
+| フィールド | JSON | ECS | OTel |
+| --- | --- | --- | --- |
+| 時間 | `timestamp` — Unix ミリ秒 | `@timestamp` — UTC 日時 | `timeUnixNano` — 文字列としてのナノ秒 |
+| 操作 | `action` | `event.action` | `event.action` |
+| 呼び出し元 | `user` | `user.name` | `user.name` |
+| クラスター | `cluster_id` | `zilliz.original.cluster_id` | `zilliz.cluster.id` |
+| ログタイプ | `log_type` = `AUDIT` | `event.dataset` = `zilliz.milvus.audit` | `zilliz.log.type` = `AUDIT` |
+| トレース | `trace_id` | `trace.id` | `trace.id` |
+| 実行時間 | `params.execution_time` — 単位を含む文字列 | `event.duration` — 数値としてのナノ秒 | `event.duration` — `value.intValue` 内のナノ秒（文字列） |
+| 結果 | `status`（例: `Success`） | `event.outcome`（例: `success`） | `event.outcome`（例: `success`） |
 
-| `action` | 説明 |
-| --- | --- |
-| Connect | 接続を確立します |
+リクエストレコードでは、実行時間と結果が省略される場合があります。操作パラメーターと数値の `result` コードは元のレコードに残ります。マッピングされた結果は、HTTP ステータスコードではなく、記録された監査ステータスを表します。
 
-### データベース\{#database}
+## 例\{#examples}
 
-| `action` | 説明 |
-| --- | --- |
-| ListDatabases | 現在のインスタンス内のすべてのデータベースを表示します |
-| DescribeDatabase | データベースの詳細を表示します |
-| CreateDatabase | データベースを作成します |
-| DropDatabase | データベースを削除します |
-| AlterDatabase | データベースのプロパティを変更します |
+これらの完全なレスポンスレコードは、実際の HTTPS 配信によるものです。それぞれ、別々のリクエストで実行された成功時の `ShowCollections` 操作を示しています。識別情報の値は置き換えられていますが、その他のフィールドと値は変更されていません。読みやすくするためにインデントが追加されています。
 
-### コレクション\{#collection}
+### JSON の例\{#json-example}
 
-| `action` | 説明 |
-| --- | --- |
-| GetLoadState | コレクションのロード状態を確認します |
-| GetLoadingProgress | コレクションのロード進捗を確認します |
-| DescribeCollection | コレクションの詳細を表示します |
-| CreateCollection | コレクションを作成します |
-| HasCollection | データベース内にコレクションが存在するか確認します |
-| DropCollection | コレクションを削除します |
-| LoadCollection | コレクションをロードします |
-| AlterCollection | コレクションのスキーマまたは設定を変更します |
-| ShowCollections | コレクション権限を持つすべてのコレクションを表示します |
-| RenameCollection | コレクションの名前を変更します |
-| ReleaseCollection | コレクションを解放します |
-| GetCollectionStatistics | コレクションの統計情報を取得します (例: コレクション内のエンティティ数) |
-| Flush | コレクション内のすべてのエンティティをシールドセグメントに永続化します。フラッシュ操作後に挿入されたエンティティは、新しいセグメントに保存されます。 |
-| GetFlushState | コレクションのフラッシュ操作の状態を確認します |
-| CreateAlias | コレクションのエイリアスを作成します |
-| DescribeAlias | コレクションのエイリアスの詳細を表示します |
-| AlterAlias | コレクションに関連付けられたエイリアスを変更します |
-| ListAliases | コレクションのすべてのエイリアスを表示します |
-| DropAlias | コレクションのエイリアスを削除します |
-| GetReplicas | コレクションのレプリカを取得します |
+このレスポンスはリクエストの `trace_id` を共有し、記録された結果と実行時間を追加します。
 
-### パーティション\{#partition}
+```json
+{
+  "action": "ShowCollections",
+  "cluster_id": "<cluster-id>",
+  "database": "default",
+  "interface": "Restful",
+  "log_type": "AUDIT",
+  "timestamp": 1793876926443,
+  "trace_id": "<same-trace-id>",
+  "user": "<database-user>",
+  "params": {
+    "execution_time": "3.568487ms"
+  },
+  "result": 0,
+  "status": "Success"
+}
+```
 
-| `action` | 説明 |
-| --- | --- |
-| CreatePartition | パーティションを作成します |
-| HasPartition | パーティションが存在するか確認します |
-| LoadPartitions | 1つ以上のパーティションをロードします |
-| ShowPartitions | コレクション内のすべてのパーティションを表示します |
-| DropPartition | パーティションを削除します |
-| ReleasePartitions | 1つ以上のパーティションを解放します |
-| GetPartitionStatistics | パーティションの統計情報を取得します |
+### ECS の例\{#ecs-example}
 
-### インデックス\{#index}
+このレスポンスは ECS バージョン `8.11.0` を宣言し、完全な監査レコードを `zilliz.original` に保持します。
 
-| `action` | 説明 |
-| --- | --- |
-| CreateIndex | インデックスを作成します |
-| DescribeIndex | コレクションのインデックス構築状況を表示します |
-| AlterIndex | 既存のインデックスの設定またはパラメーターを更新します |
-| GetIndexState | 既存のインデックスの設定またはパラメーターを更新します |
-| GetIndexStatistics | インデックスの現在の状態を取得します (例: `building`、`built`、または `failed`) |
-| GetIndexBuildProgress | メモリ使用量やインデックス済みエンティティ数など、インデックスに関する詳細な統計情報を取得します |
-| DropIndex | コレクション内の特定のセグメントの詳細なインデックスデータを取得します |
+```json
+{
+  "@timestamp": "2026-11-11T02:09:55.737Z",
+  "ecs": {
+    "version": "8.11.0"
+  },
+  "event": {
+    "action": "ShowCollections",
+    "category": [
+      "database"
+    ],
+    "dataset": "zilliz.milvus.audit",
+    "duration": 7963611,
+    "kind": "event",
+    "outcome": "success",
+    "type": [
+      "access"
+    ]
+  },
+  "trace": {
+    "id": "0000000000000000000000000000000a"
+  },
+  "user": {
+    "name": "key-example"
+  },
+  "zilliz": {
+    "original": {
+      "action": "ShowCollections",
+      "cluster_id": "in01-example",
+      "database": "default",
+      "interface": "Restful",
+      "log_type": "AUDIT",
+      "params": {
+        "execution_time": "7.963611ms"
+      },
+      "result": 0,
+      "status": "Success",
+      "timestamp": 1794362995737,
+      "trace_id": "0000000000000000000000000000000a",
+      "user": "key-example"
+    }
+  }
+}
+```
 
-### エンティティ\{#entity}
+### OTel の例\{#otel-example}
 
-| `action` | 説明 |
-| --- | --- |
-| Insert | エンティティを挿入します |
-| Query | クエリを実行します |
-| Search | 検索を実行します |
-| HybridSearch | ハイブリッド検索を実行します |
-| Delete | エンティティを削除します |
-| Upsert | エンティティをアップサートします |
+元の監査レコードは、`body.stringValue` 内のエスケープされた JSON 文字列です。各 NDJSON 行には、`resourceLogs` エンベロープなしで 1 件のログレコードが含まれます。
 
-### RBAC\{#rbac}
+```json
+{
+  "timeUnixNano": "1794363609012000000",
+  "body": {
+    "stringValue": "{\"action\":\"ShowCollections\",\"cluster_id\":\"in01-example\",\"database\":\"default\",\"interface\":\"Restful\",\"log_type\":\"AUDIT\",\"params\":{\"execution_time\":\"3.3319ms\"},\"result\":0,\"status\":\"Success\",\"timestamp\":1794363609012,\"trace_id\":\"00000000000000000000000000000020\",\"user\":\"key-example\"}"
+  },
+  "attributes": [
+    {
+      "key": "zilliz.cluster.id",
+      "value": {
+        "stringValue": "in01-example"
+      }
+    },
+    {
+      "key": "zilliz.log.type",
+      "value": {
+        "stringValue": "AUDIT"
+      }
+    },
+    {
+      "key": "user.name",
+      "value": {
+        "stringValue": "key-example"
+      }
+    },
+    {
+      "key": "event.action",
+      "value": {
+        "stringValue": "ShowCollections"
+      }
+    },
+    {
+      "key": "event.outcome",
+      "value": {
+        "stringValue": "success"
+      }
+    },
+    {
+      "key": "trace.id",
+      "value": {
+        "stringValue": "00000000000000000000000000000020"
+      }
+    },
+    {
+      "key": "event.duration",
+      "value": {
+        "intValue": "3331900"
+      }
+    }
+  ]
+}
+```
 
-| `action` | 説明 |
-| --- | --- |
-| SelectRole | 現在のインスタンスで利用可能なロールの一覧を取得します |
-| CreateRole | ユーザー権限を管理するための新しいロールを定義します |
-| DropRole | ロールを削除します |
-| OperateUserRole | ユーザーへのロールの割り当て、またはユーザーからのロールの削除を行います |
-| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します |
-| OperatePrivilegeV2 | 権限グループに対して特定の権限を追加または削除します |
-| SelectGrant | 特定のロールまたはユーザーに付与されたすべての権限の一覧を取得します |
-| CreateCredential | システムアクセス用の新しい資格情報 (API キーやトークンなど) を作成します |
-| UpdateCredential | 既存の資格情報のプロパティまたは権限を更新します |
-| DeleteCredential | システムから資格情報を削除します |
-| ListCredUsers | 特定の資格情報に関連付けられたすべてのユーザーの一覧を取得します |
-
-### その他\{#others}
-
-| `action` | 説明 |
-| --- | --- |
-| Authorize | 認可に失敗した場合にのみログに記録され、`status` は `Refused` として記録されます。 |
+`timeUnixNano` と `value.intValue` を読み取る際は、整数の精度を維持してください。たとえば、JavaScript ではナノ秒のタイムスタンプに `BigInt` を使用します。

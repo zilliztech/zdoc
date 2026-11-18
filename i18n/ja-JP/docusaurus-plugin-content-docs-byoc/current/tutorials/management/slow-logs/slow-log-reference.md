@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "スローログは JSON Lines 形式で配信されます。1 行につき 1 つの JSON オブジェクトです。各行は単一の操作を表す自己完結型の JSON オブジェクトです。次の例は、search リクエストに対する代表的なスローログエントリを示しています | BYOC"
+description: "遅いリクエストの所要時間、結果、実行コンテキストを確認するためのリファレンスです。JSON、Elastic Common スキーマ（ECS）、OpenTelemetry（OTel）出力について説明します。しきい値と送信先を設定するには、スローログの設定を参照してください。 | BYOC"
 type: origin
-token: Ke8ownBFFiAmZFkBnWec81qEn70
+token: QvqMw06F7iI6oKkXiD4cjV33nCd
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,85 +20,227 @@ import Admonition from '@theme/Admonition';
 
 # スローログ リファレンス
 
-スローログは [JSON Lines](https://jsonlines.org/) 形式で配信されます。1 行につき 1 つの JSON オブジェクトです。各行は、単一の操作を表す自己完結型の JSON オブジェクトです。次の例は、search リクエストに対する代表的なスローログエントリを示しています。
+このリファレンスでは、遅いリクエストの所要時間、結果、実行コンテキストを確認できます。**JSON**、Elastic Common スキーマ**（ECS）**、OpenTelemetry**（OTel）** 出力について説明します。しきい値と送信先を設定するには、[スローログの設定](./configure-slow-logs) を参照してください。
+
+## ログ形式\{#log-formats}
+
+HTTPS 転送では、3つの形式すべてで改行区切り JSON（NDJSON）を使用し、1 行に 1つのログエントリを記録します。各行を JSON オブジェクトとして解析し、選択した形式に従ってレコードを読み取ります。
+
+| 形式 | ログフィールドの確認場所 |
+| --- | --- |
+| JSON | `params.execution_time` など、オブジェクトから直接フィールドを読み取ります。 |
+| ECS | `event.duration` などの標準フィールドを読み取ります。元のレコード全体は `zilliz.original` にあるオブジェクトです。 |
+| OTel | `timeUnixNano` と `attributes` を読み取ります。元のレコードにアクセスするには、`body.stringValue` を JSON として解析します。 |
+
+## ログフィールド\{#log-fields}
+
+以下の表では、元の JSON レコード内のフィールドについて説明します。ECS 出力では、これらのフィールドは `zilliz.original` の下に入れ子になっています。たとえば、`params.execution_time` は `zilliz.original.params.execution_time` になります。OTel 出力では、`body.stringValue` を JSON として解析して同じフィールドを読み取ります。
+
+### 実行時間と結果\{#execution-time-and-result}
+
+| フィールド | JSON の型 | 説明 |
+| --- | --- | --- |
+| `params.execution_time` | string | 記録された実行時間です（単位を含む）。この例では `1.802601ms` が記録されています。設定したしきい値と所要時間を比較する際は、同じ単位を使用してください。 |
+| `status` | string | 人間が読み取れる形式のリクエストステータスです。この例は `Success` です。リクエストが成功していても、スローログの対象になる場合があります。 |
+| `error_code` | 整数 | リクエスト結果コードです。この例の成功したリクエストでは `0` が記録されています。 |
+
+### リクエストコンテキスト\{#request-context}
+
+| フィールド | JSON の型 | 説明 |
+| --- | --- | --- |
+| `action` | string | `Search` などの操作名です。スローログの対象となる操作は、`Search`、`HybridSearch`、`Query` です。 |
+| `timestamp` | 整数 | ログに記録されたリクエストの時刻を、ミリ秒単位の Unix タイムスタンプで示します。 |
+| `cluster_id` | string | リクエストを処理したクラスターの識別子です。 |
+| `database` | string | リクエストによってアクセスされたデータベースです。 |
+| `log_type` | string | ログのカテゴリです。値は `SLOW` です。 |
+| `user` | string | リクエストを発行した主体です。ユーザー名や API キー識別子などが該当します。 |
+| `interface` | string | リクエストに使用されたインターフェースです。この例では REST API が使用され、`Restful` が記録されています。 |
+| `ip` | string | リクエストに対して記録された送信元 IP アドレスです。 |
+| `trace_id` | string | リクエストに関連付けられたトレース識別子です。相関分析やトラブルシューティングに役立ちます。 |
+
+### 操作パラメーター\{#operation-parameters}
+
+| フィールド | JSON の型 | 説明 |
+| --- | --- | --- |
+| `params.collection` | string | 検索対象のコレクション名です。 |
+| `params.nq` | 整数 | クエリベクトルの数です。この例には 1つのベクトルが含まれています。 |
+| `params.output_fields` | 文字列の配列 | レスポンスで要求されたエンティティフィールドです。これらはコレクションのフィールドであり、ログレコード用に選択されたフィールドではありません。 |
+| `params.consistency_level` | 整数 | リクエストに対して記録された数値の整合性レベルです。この例では `2` が記録されています。 |
+| `params.partition` | この例では null | リクエストに対して記録されたパーティション選択です。このリクエストではパーティションが指定されていないため、値は `null` です。 |
+
+## 形式のマッピング\{#format-mappings}
+
+これらのマッピングを使用して、各形式の共通フィールドを特定できます。OTel 列では、`timeUnixNano` を除くすべての名前が `attributes` 配列内のキーです。文字列属性は `value.stringValue` を使用します。
+
+| フィールド | JSON | ECS | OTel |
+| --- | --- | --- | --- |
+| 時刻 | `timestamp` — ミリ秒 | `@timestamp` — UTC の日時 | `timeUnixNano` — 文字列として表されたナノ秒 |
+| 所要時間 | `params.execution_time` — 単位を含む文字列 | `event.duration` — 数値として表されたナノ秒 | `event.duration` — `value.intValue` 内のナノ秒（文字列） |
+| 操作 | `action` | `event.action` | `event.action` |
+| 呼び出し元 | `user` | `user.name` | `user.name` |
+| クラスター | `cluster_id` | `zilliz.original.cluster_id` | `zilliz.cluster.id` |
+| ログタイプ | `log_type` = SLOW | `event.dataset` = `zilliz.milvus.slow` | `zilliz.log.type` = SLOW |
+| 結果 | `status` = `Success` | `event.outcome` = `success` | `event.outcome` = `success` |
+| クライアントアドレス | `ip` | `source.ip` | `source.address` |
+| トレース | `trace_id` | `trace.id` | `trace.id` |
+
+コレクションの詳細、リクエストパラメーター、エラーコードは元のレコードに残ります。上記のマッピングでは、これらは個別のフィールドに展開されません。ここに示す結果のマッピングは、成功したリクエストのものです。
+
+## 例\{#examples}
+
+以下の完全なレコードは、実際の HTTPS 配信から取得したものです。識別情報の値は置き換えられていますが、その他のフィールドと値は変更されていません。読みやすさのため、改行とインデントが追加されています。これらのスローログを収集するには、一時的な 1 ms のしきい値が使用されました。
+
+### JSON の例\{#json-example}
+
+この成功した Search リクエストは `1.802601ms` かかり、一時的な 1 ms のしきい値を超えています。
 
 ```json
 {
   "action": "Search",
-  "cluster_id": "inxx-xxxxxxxxxxxxxxx",
-  "collection": "medium_articles",
-  "connection_uid": "453798218345292801",
-  "consistency_level": "Bounded",
+  "cluster_id": "in01-example",
   "database": "default",
   "error_code": 0,
-  "execution_time": "231.4ms",
-  "interface": "Grpc",
-  "ip": "203.0.113.10",
+  "interface": "Restful",
+  "ip": "192.0.2.10",
   "log_type": "SLOW",
-  "output_fields": ["title", "author"],
-  "partition": null,
-  "sdk": "pymilvus",
-  "sdk_version": "2.6.0",
+  "params": {
+    "collection": "docs_log_sample_20261110",
+    "consistency_level": 2,
+    "execution_time": "1.802601ms",
+    "nq": 1,
+    "output_fields": [
+      "primary_key"
+    ],
+    "partition": null
+  },
   "status": "Success",
-  "timestamp": 1776148276827,
-  "trace_id": "f89903d701329910380442aa86941be9",
-  "user": "key-ibchakktguxxrvvxseoasz"
+  "timestamp": 1794300563698,
+  "trace_id": "0123456789abcdef0123456789abcdef",
+  "user": "key-example"
 }
 ```
 
-実際には、各エントリは `.log` ファイル内で 1 行を占めます。以下のセクションでは、各フィールドについて詳しく説明します。
+### ECS の例\{#ecs-example}
 
-## ログフィールドスキーマ\{#log-field-schema}
+この Search レコードは ECS バージョン `8.11.0` を宣言しています。標準フィールドは、`zilliz.original` 内の完全なレコードと並んで表示されます。
 
-| **Field** | **Required** | **Type** | **Description** | **Example** |
-| --- | --- | --- | --- | --- |
-| `action` | いいえ | string | `Query`、`Search`、`Hybrid Search` などの操作名。 | `"Search"` |
-| `cluster_id` | はい | string | cluster の一意識別子です。このフィールドは下流のログパイプラインで必須です。 | `"inxx-xxxxxxxxxxxxxxx"` |
-| `collection` | いいえ | string | アクションが collection スコープの場合の対象 collection。 | `"medium_articles"` |
-| `connection_uid` | いいえ | string | リクエストに関連付けられた内部接続識別子。 | `"453798218345292801"` |
-| `consistency_level` | いいえ | string | リクエストで使用された整合性レベル。 | `"Bounded"` |
-| `database` | いいえ | string | 操作が発生した database。 | `"default"` |
-| `error_code` | いいえ | int | リクエスト結果コード。通常、`0` は成功を示します。 | `0` |
-| `execution_time` | いいえ | string | リクエストをスローログに出力するかどうかを判断するために使用される測定済み実行時間。 | `"231.4ms"` |
-| `interface` | いいえ | string | リクエストインターフェース。通常は `Grpc` または `Restful`。 | `"Grpc"` |
-| `ip` | いいえ | string | リクエストに対して記録されたクライアント IP アドレス。 | `"203.0.113.10"` |
-| `log_type` | はい | string | ログカテゴリ。スローログエントリでは、値は `SLOW` です。 | `"SLOW"` |
-| `output_fields` | いいえ | array | 該当する場合、query によって要求された出力フィールド。 | `["title", "author"]` |
-| `partition` | いいえ | string or null | 対象 partition。partition が指定されていない場合、値は `null` です。 | `null` |
-| `sdk` | いいえ | string | クライアント SDK 名。 | `"pymilvus"` |
-| `sdk_version` | いいえ | string | クライアント SDK バージョン。 | `"2.6.0"` |
-| `status` | いいえ | string | 人が読める形式のリクエストステータス。 | `"Success"` |
-| `timestamp` | はい | int | ミリ秒単位の Unix タイムスタンプ。このフィールドは、最終的なファイルパスを生成する際にオブジェクトストレージシンクで必須です。 | `1776148276827` |
-| `trace_id` | いいえ | string | 相関付けおよびトラブルシューティングのための一意のリクエストトレース識別子。 | `"f89903d701329910380442aa86941be9"` |
-| `user` | はい | string | リクエストを発行したユーザー名または API key。このフィールドはパイプラインフィルターでも使用されます。 | `"key-ibchakktguxxrvvxseoasz"` |
-
-## サポートされているアクション\{#supported-actions}
-
-現在のスローログ機能では、デフォルトで次のアクションが有効になっています。
-
-| Action | Description |
-| --- | --- |
-| Search | vector 類似度検索 |
-| HybridSearch | 再ランキング付きのマルチ vector 検索 |
-| Query | scalar フィルタリング query |
-
-## ファイルパスと命名\{#file-path-and-naming}
-
-スローログファイルは、オブジェクトストレージの `slow` ディレクトリ配下にアップロードされ、最終的なオブジェクトキーでは UTC の日付と時刻が使用されます。
-
-```plaintext
-/<Cluster ID>/slow/<Date>/<File name>.log
+```json
+{
+  "@timestamp": "2026-11-10T09:23:25.97Z",
+  "ecs": {
+    "version": "8.11.0"
+  },
+  "event": {
+    "action": "Search",
+    "category": [
+      "database"
+    ],
+    "dataset": "zilliz.milvus.slow",
+    "duration": 4868781,
+    "kind": "event",
+    "outcome": "success",
+    "type": [
+      "access"
+    ]
+  },
+  "source": {
+    "ip": "192.0.2.10"
+  },
+  "trace": {
+    "id": "0123456789abcdef0123456789abcdef"
+  },
+  "user": {
+    "name": "key-example"
+  },
+  "zilliz": {
+    "original": {
+      "action": "Search",
+      "cluster_id": "in01-example",
+      "database": "default",
+      "error_code": 0,
+      "interface": "Restful",
+      "ip": "192.0.2.10",
+      "log_type": "SLOW",
+      "params": {
+        "collection": "docs_log_sample_20261110",
+        "consistency_level": 2,
+        "execution_time": "4.868781ms",
+        "nq": 1,
+        "output_fields": [
+          "primary_key"
+        ],
+        "partition": null
+      },
+      "status": "Success",
+      "timestamp": 1794302605970,
+      "trace_id": "0123456789abcdef0123456789abcdef",
+      "user": "key-example"
+    }
+  }
+}
 ```
 
-| **Component** | **Format** | **Example** |
-| --- | --- | --- |
-| Cluster ID | cluster の一意識別子。 | `inxx-xxxxxxxxxxxxxxx` |
-| Log type directory | `slow` に固定。 | `slow` |
-| Date | `YYYY-MM-DD` 形式の UTC 日付。 | `2026-04-14` |
-| File name | UTC 時刻を使用した `HH:MM:SS-<UUID>.log`。 | `06:31:16-jz5l7D8Q.log` |
+### OTel の例\{#otel-example}
 
-完全なパスの例:
+この Search レコードには、元の JSON がエスケープされた文字列として `body.stringValue` に格納されており、マッピングされた `attributes` も含まれています。各 NDJSON 行は個別のログレコードであり、`resourceLogs` エンベロープはありません。
 
-```plaintext
-/inxx-xxxxxxxxxxxxxxx/slow/2026-04-14/06:31:16-jz5l7D8Q.log
+```json
+{
+  "timeUnixNano": "1794302922142000000",
+  "body": {
+    "stringValue": "{\"action\":\"Search\",\"cluster_id\":\"in01-example\",\"database\":\"default\",\"error_code\":0,\"interface\":\"Restful\",\"ip\":\"192.0.2.10\",\"log_type\":\"SLOW\",\"params\":{\"collection\":\"docs_log_sample_20261110\",\"consistency_level\":2,\"execution_time\":\"1.579877ms\",\"nq\":1,\"output_fields\":[\"primary_key\"],\"partition\":null},\"status\":\"Success\",\"timestamp\":1794302922142,\"trace_id\":\"0123456789abcdef0123456789abcdef\",\"user\":\"key-example\"}"
+  },
+  "attributes": [
+    {
+      "key": "zilliz.cluster.id",
+      "value": {
+        "stringValue": "in01-example"
+      }
+    },
+    {
+      "key": "zilliz.log.type",
+      "value": {
+        "stringValue": "SLOW"
+      }
+    },
+    {
+      "key": "user.name",
+      "value": {
+        "stringValue": "key-example"
+      }
+    },
+    {
+      "key": "source.address",
+      "value": {
+        "stringValue": "192.0.2.10"
+      }
+    },
+    {
+      "key": "event.action",
+      "value": {
+        "stringValue": "Search"
+      }
+    },
+    {
+      "key": "event.outcome",
+      "value": {
+        "stringValue": "success"
+      }
+    },
+    {
+      "key": "trace.id",
+      "value": {
+        "stringValue": "0123456789abcdef0123456789abcdef"
+      }
+    },
+    {
+      "key": "event.duration",
+      "value": {
+        "intValue": "1579877"
+      }
+    }
+  ]
+}
 ```
+
+`timeUnixNano` または `value.intValue` を読み取る際は、整数の精度を維持してください。たとえば、JavaScript でナノ秒のタイムスタンプを扱う場合は `BigInt` を使用します。

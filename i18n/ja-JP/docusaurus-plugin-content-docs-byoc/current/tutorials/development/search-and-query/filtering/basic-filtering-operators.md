@@ -24,6 +24,8 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud は、エンティティをフィルタリングするための比較演算子、範囲演算子、算術演算子、論理演算子、NULL 演算子を提供します。各演算子は特定のフィールド型をサポートしています。
 
+<NextChannel action="exclude">
+
 <Admonition type="info" icon="📘" title="Notes">
 
 フィルタ式の左辺に指定できるリテラルは、以下の例で使用されている `status`、`color` などのコレクションフィールド名、または `filter = 'struct[0][subfield] > 10'` のように特定の要素インデックスにある StructArray サブフィールド名です。
@@ -31,6 +33,18 @@ Zilliz Cloud は、エンティティをフィルタリングするための比�
 StructArray フィールドでのスカラーフィルタリングの詳細については、[StructArray 演算子](./struct-array-filtering) を参照してください。
 
 </Admonition>
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+左辺には、`status` などのコレクションフィールド、または `struct[0][subfield] > 10` のように特定の要素インデックスにある StructArray サブフィールドを指定できます。詳細については、[StructArray 演算子](./struct-array-filtering) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 ## 比較演算子\{#comparison-operators}
 
@@ -549,7 +563,11 @@ filter='color in ["red", "green", "blue"]'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 これは、値のリストに含まれているかどうかを確認する場合に便利です。
+
+</NextChannel>
 
 ## パターンマッチング演算子\{#pattern-matching-operators}
 
@@ -768,7 +786,17 @@ filter='message !~ "^DEBUG"'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 `LIKE` と正規表現の選択、サポートされているフィールド型、正規表現の構文、エスケープ規則、パフォーマンスの詳細については、[パターンマッチング](./pattern-match) を参照してください。Zilliz Cloud では、`VARCHAR` フィールドまたは JSON 文字列パスに `NGRAM` インデックスを構築して、対象となるパターンマッチングフィルタを高速化することもできます。詳細については、[NGRAM](./ngram-index-type) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+構文、エスケープ、フィールドのサポート、および `NGRAM` などの高速化オプションについては、[パターンマッチング](./pattern-match) を参照してください。
+
+</NextChannel>
 
 ## 算術演算子\{#arithmetic-operators}
 
@@ -1179,6 +1207,16 @@ filter='(permissions ^ 7) == 2'
 ## 論理演算子\{#logical-operators}
 
 論理演算子は、複数の条件を組み合わせて、より複雑なフィルタ式を作成するために使用します。これらには `AND`、`OR`、`NOT` が含まれます。
+
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+各条件は、それぞれ使用可能なインデックスまたはスキャンパスを使用できます。1つのインデックスタイプで式全体を処理する必要はありません。詳細については、[スカラーインデックス](./scalar-index-overview) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 ### サポートされている論理演算子\{#supported-logical-operators}
 
@@ -1652,8 +1690,11 @@ curl -X 'POST' \
 | `embedding IS NOT NULL` | `1`、`2` | 埋め込みのあるエンティティを検索します。 |
 | `category IS NOT NULL AND embedding IS NOT NULL` | `1` | 両方の値を持つエンティティを検索します。 |
 
+<a id="regular-scalar-fields-with-null-values"></a>
 <a id="Regular-scalar-fields-with-null-values"></a>
+<a id="json-fields-with-null-values"></a>
 <a id="JSON-fields-with-null-values"></a>
+<a id="array-fields-with-null-values"></a>
 <a id="ARRAY-fields-with-null-values"></a>
 
 ### フィールド値の扱い\{#how-field-values-are-treated}
@@ -1669,6 +1710,16 @@ curl -X 'POST' \
 
 `nullable=False` で定義されたサポート対象のフィールドでは、`IS NULL` はどのエンティティにも一致せず、`IS NOT NULL` は表示可能なすべてのエンティティに一致します。フィルタ内の他の条件も引き続き適用されます。
 
+<NextChannel action="include">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+スカラー NULL フィルタは、使用可能なインデックスまたはフィールドデータの有効性情報を使用します。特定のスカラーインデックスタイプを必要としません。NULL 非許容フィールドでは、定数結果が得られる場合があります。
+
+</Admonition>
+
+</NextChannel>
+
 ### ベクトル検索での NULL フィルタの使用\{#use-null-filters-in-vector-search}
 
 同じ演算子を検索フィルタで使用できますが、類似検索に参加するには、検索対象のフィールドにベクトルを持つエンティティである必要もあります。
@@ -1681,15 +1732,35 @@ curl -X 'POST' \
 | `embedding IS NULL` | なし | エンティティ `3` はフィルタに一致しますが、クエリベクトルと比較するための `embedding` ベクトルがありません。 |
 | `embedding IS NOT NULL` | `1`、`2` | どちらのエンティティにも `embedding` ベクトルがあります。 |
 
+<NextChannel action="exclude">
+
 3 つのフィルタはすべて有効です。`embedding IS NULL` を指定して `embedding` を検索しても、両方の要件を満たすエンティティはないため、ヒットは返されません。埋め込みがないエンティティを取得するには、上記のように `query()` を使用します。
 
 ベクトル検索では、検索対象のベクトルフィールドが NULL のエンティティがすでにスキップされるため、`embedding IS NOT NULL` を指定しても、`embedding` の検索候補はさらに絞り込まれません。返される候補は、ランキング、他のフィルタ、検索制限によって決まります。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+埋め込みがないエンティティを取得するには、`query()` を使用します。`embedding IS NULL` を指定して `embedding` を検索することは有効ですが、ヒットは返されません。ベクトル検索では NULL の埋め込みがすでにスキップされるため、`embedding IS NOT NULL` を指定しても候補はさらに絞り込まれません。返されるヒットは、ランキング、他のフィルタ、検索制限によって決まります。
+
+</NextChannel>
+
 ## JSON フィールドと ARRAY フィールドで基本演算子を使用するためのヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
+
+<NextChannel action="exclude">
 
 Zilliz Cloud の基本演算子は汎用性が高く、スカラーフィールドに適用できますが、JSON フィールドと ARRAY フィールド内のキーおよびインデックスにも効果的に使用できます。
 
 たとえば、`price`、`model`、`tags` などの複数のキーを含む `product` フィールドがある場合は、常にキーを直接参照します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+式では、JSON のキーまたは ARRAY の要素を直接参照します。たとえば、`product` という名前の JSON フィールドの `price` キーをフィルタリングするには、次のようにします。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1827,9 +1898,20 @@ filter='history_temperatures[0] > 30'
 
 </Tabs>
 
+<NextChannel action="exclude">
+
 ## まとめ\{#conclusion}
 
 Zilliz Cloud は、データのフィルタリングとクエリを柔軟に行える一連の基本演算子を提供します。比較演算子、範囲演算子、算術演算子、論理演算子を組み合わせることで、強力なフィルタ式を作成し、検索結果を絞り込んで、必要なデータを効率的に取得できます。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+<a id="conclusion"></a>
+<a id="Conclusion"></a>
+
+</NextChannel>
 
 ## FAQ\{#faq}
 

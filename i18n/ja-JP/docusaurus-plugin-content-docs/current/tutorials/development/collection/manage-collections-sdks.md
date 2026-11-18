@@ -22,7 +22,6 @@ import TabItem from '@theme/TabItem';
 
 # コレクションを作成する
 
-
 スキーマ、インデックスパラメーター、メトリクスタイプ、および作成時にロードするかどうかを定義してコレクションを作成できます。このページでは、コレクションをゼロから作成する方法を説明します。
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -58,7 +57,6 @@ import TabItem from '@theme/TabItem';
 任意のスカラーフィールドにデフォルト値を設定し、Nullable にできます。詳細は、[Nullable & Default](./nullable-fields) を参照してください。
 
 </Admonition>
-
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -337,13 +335,25 @@ export schema='{
 
 ## （オプション）インデックスパラメーターを設定する\{#optional-set-index-parameters}
 
+<NextChannel action="exclude">
+
 特定のフィールドにインデックスを作成すると、そのフィールドに対する検索が高速化されます。インデックスは、コレクション内のエンティティの順序を記録します。次のコードスニペットに示すように、`metric_type` と `index_type` を使用して、Zilliz Cloud がフィールドにインデックスを作成し、ベクトル埋め込み間の類似度を測定するための適切な方法を選択できます。
 
 Zilliz Cloud では、すべてのベクトルフィールドのインデックスタイプとして `AUTOINDEX` を使用でき、ニーズに応じて `COSINE`、`L2`、`IP` のいずれかをメトリクスタイプとして使用できます。
 
 上記のコードスニペットに示すように、ベクトルフィールドにはインデックスタイプとメトリクスタイプの両方を設定し、スカラーフィールドにはインデックスタイプのみを設定する必要があります。インデックスはベクトルフィールドに必須であり、フィルター条件で頻繁に使用されるスカラーフィールドにはインデックスを作成することをお勧めします。
 
-For details, refer to [インデックス ベクトル Fields](https://milvus.io/docs/index-vector-fields.md) and [Index スカラー Fields](https://milvus.io/docs/index-scalar-fields.md).
+詳細は、[Index ベクトル Fields](https://milvus.io/docs/index-vector-fields.md) および [スカラーインデックス](./scalar-index-overview) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+以下の例では、スキーマのフィールドのインデックス定義を準備します。ベクトルフィールドのデータ型と互換性のあるベクトルインデックスとメトリクスを選択してください。詳細は、[インデックスの説明](./indexes) および [類似度メトリクス](./search-metrics-explained) を参照してください。
+
+ベクトルフィールドは、ロードする前にインデックスが必要です。スカラーインデックスはオプションです。フィールドの互換性と、タイプの明示的または自動選択については、[スカラーインデックス](./scalar-index-overview) を参照してください。
+
+</NextChannel>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -725,7 +735,6 @@ curl --request POST \
 
 </Tabs>
 
-
 インデックスパラメーターを指定せずにコレクションを作成し、後から追加することもできます。この場合、Zilliz Cloud は作成時にコレクションをロードしません。
 
 既存のコレクションのインデックスを作成する方法の詳細は、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
@@ -960,6 +969,7 @@ curl --request POST \
 シャードはコレクションを水平方向に分割したものであり、各シャードは 1 つのデータ入力チャネルに対応します。デフォルトでは、すべてのコレクションに 1 つのシャードがあります。コレクションを作成するときにシャード数を指定して、データ量とワークロードにより適した構成にできます。
 
 一般的なガイドラインとして、シャード数を設定するときは次の点を検討してください。
+
 - **データサイズ:** 一般的な方法は、2 億エンティティごとに 1 つのシャードを用意することです。総データサイズに基づいて見積もることもできます。たとえば、挿入する予定のデータ 100 GB ごとに 1 つのシャードを追加します。
 - **ストリームノードの使用率:** Zilliz Cloud インスタンスに複数のストリームノードがある場合は、複数のシャードを使用することを推奨します。これにより、データ挿入ワークロードが使用可能なすべてのストリームノードに分散され、一部のノードがアイドル状態のまま他のノードに過負荷がかかることを防ぎます。
 
