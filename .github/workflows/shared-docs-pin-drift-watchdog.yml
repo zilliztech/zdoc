@@ -1,10 +1,12 @@
 name: shared docs pin drift watchdog
 
-# Read-only daily audit: compares every shared page's lock pins against the
-# upstream track head, and audits adopted variants against the live upstream
-# pull-request state. It never writes pins or variants; unhealthy pins (which
-# silently degrade production Fetch to per-page baseline fallback) fail the
-# report card, plain drift is informational.
+# Read-only daily audit: compares every shared group's lock pins against the
+# upstream track head (page-by-page for page-layout groups, whole-manual for
+# manual-layout groups), audits adopted variants against the live upstream
+# pull-request state, and asserts declared transform targets still exist at the
+# head. It never writes pins or variants; unhealthy pins (which silently degrade
+# production Fetch to per-page baseline fallback) fail the report card, plain
+# drift is informational.
 
 on:
   schedule:

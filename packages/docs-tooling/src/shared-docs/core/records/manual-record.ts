@@ -97,6 +97,8 @@ export interface ManualRecordExpectation {
   group: string
   manual: string
   upstream: { repository: string; dir: string; current: string; next: string }
+  /** Tooling identity the record must attest; validated like the upstream commits. */
+  tools: { zdoc: string }
   /** Configuration file digests the build must attest (manual.yaml, source.yaml, …). */
   config: { files: { path: string; sha256: string }[] }
   images: readonly { source: string; sha256: string; address: string }[]
@@ -209,9 +211,12 @@ export function validateManualRecord(value: unknown, expected: ManualRecordExpec
     }
     let tools: Record<string, unknown>
     try { tools = object(inputs.tools, 'Record.inputs.tools') } catch (caught) { errors.push(caught as SharedDocsError); tools = {} }
-    if (exactKeys(tools, ['zdoc'], 'Record.inputs.tools', errors)
-      && (typeof tools.zdoc !== 'string' || !COMMIT.test(tools.zdoc))) {
-      errors.push(error('Record inputs.tools.zdoc must be a complete lowercase commit SHA'))
+    if (exactKeys(tools, ['zdoc'], 'Record.inputs.tools', errors)) {
+      if (typeof tools.zdoc !== 'string' || !COMMIT.test(tools.zdoc)) {
+        errors.push(error('Record inputs.tools.zdoc must be a complete lowercase commit SHA'))
+      } else if (tools.zdoc !== expected.tools.zdoc) {
+        errors.push(error(`Record inputs.tools.zdoc ${JSON.stringify(tools.zdoc)} does not match ${expected.tools.zdoc}`))
+      }
     }
     let config: Record<string, unknown>
     try { config = object(inputs.config, 'Record.inputs.config') } catch (caught) { errors.push(caught as SharedDocsError); config = {} }

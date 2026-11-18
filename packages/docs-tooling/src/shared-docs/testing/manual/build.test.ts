@@ -551,6 +551,7 @@ cloud_pages:
   const expectation = {
     group: 'node', manual: 'node',
     upstream: { repository: 'https://github.com/milvus-io/web-content', dir: sourceDir, current: demo.commit, next: demo.nextCommit },
+    tools: { zdoc: TOOLING },
     config: { files: [...await Promise.all(['manual.yaml', 'source.yaml', 'product-names.yaml'].map(configOf)),
       { path: 'Variables.json', sha256: sha256('{}') }, { path: 'content/overview.md', sha256: sha256('# Overview\n\nManual-local page.\n') }] },
     images: stagedImages, pages: expectedPages,
@@ -564,6 +565,7 @@ cloud_pages:
   }
   reject(copy => { copy.kind = 'shared-page' }, 'Unknown record kind')
   reject(copy => { copy.schema_version = 2 }, 'Unsupported record schema_version')
+  reject(copy => { copy.inputs.tools.zdoc = 'b'.repeat(40) }, 'Record inputs.tools.zdoc')
   reject(copy => { copy.inputs.upstream.current = null }, 'Record inputs.upstream.current must be a complete lowercase commit SHA')
   reject(copy => { copy.inputs.upstream.next = demo.commit }, 'Record inputs.upstream.next')
   reject(copy => { copy.pages[0].output.sha256 = '0'.repeat(64) }, 'Record output mismatch')
