@@ -16,11 +16,13 @@ transforms:
     content:
       file: cloud-json-heading.md
   - operation: replace
+    channel: current
     target:
       block: inverted-drop-note
     content:
       file: cloud-drop-note.md
   - operation: replace
+    channel: current
     target:
       block: inverted-next-steps
     content:

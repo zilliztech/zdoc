@@ -78,6 +78,10 @@ function buildFaqAccordions() {
       n = n.nextElementSibling;
     }
     if (!els.length) return;
+    // Cloning a React Tabs subtree loses its event handlers. Keep these FAQs
+    // in their authored layout so every SDK selector remains interactive.
+    if (els.some((el) => el.matches('.tabs-container, [role="tablist"]') ||
+      el.querySelector('.tabs-container, [role="tablist"]'))) return;
 
     // zh/ja author questions with the full-width ？ (U+FF1F); accept both it and
     // the ASCII ? as a question terminator.

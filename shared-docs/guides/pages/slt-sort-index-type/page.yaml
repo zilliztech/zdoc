@@ -11,7 +11,14 @@ publish:
 
 transforms:
   - operation: replace
+    channel: current
     target:
       block: stl-sort-drop-note
     content:
       file: cloud-drop-note.md
+  - operation: replace
+    channel: next
+    target:
+      block: stl-sort-json-index-requirements
+    content:
+      file: cloud-json-index-requirements.md

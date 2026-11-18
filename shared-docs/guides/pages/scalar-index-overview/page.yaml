@@ -1,0 +1,29 @@
+schema_version: 1
+
+source:
+  file: site/en/reference/scalar_index.md
+
+publish:
+  - manual: guides
+    path: tutorials/development/scalar-index/scalar-index-overview
+  - manual: guides-byoc
+    path: tutorials/development/scalar-index/scalar-index-overview
+
+transforms:
+  - operation: replace
+    target:
+      block: scalar-auto-defaults
+    content:
+      file: cloud-auto-defaults.md
+  - operation: remove
+    target:
+      block: scalar-auto-admin-settings
+  - operation: remove
+    target:
+      block: scalar-index-drop-compatibility
+  - operation: add
+    target:
+      block: scalar-index-field-compatibility
+    position: before
+    content:
+      file: cloud-index-lifecycle.md
