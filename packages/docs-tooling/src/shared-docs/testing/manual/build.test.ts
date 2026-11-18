@@ -144,7 +144,7 @@ it('builds the whole manual with registry presentation, migrated identity, and r
   expect(created).toContain('type: docx')
   expect(created).toContain('token: KPZZd2TiAodSeWxUdlJciHGcnbg')
   expect(created).toContain('sidebar_position: 5')
-  expect(created).toContain('keywords:\n  - Vector retrieval')
+  expect(created).toContain('keywords: \n  - Vector retrieval')
   expect(created).toContain('displayed_sidebar: nodeSidebar')
   expect(created).toContain('](./Collections-DataType)')
   expect(created).toContain('](./Client-MilvusClientV2)')
@@ -585,4 +585,64 @@ it('rejects authored block-level gates on whole-page channel pages', async () =>
   expect(code).toBe(1)
   expect(output).toContain('MERGE_NESTED_CHANNEL')
   expect(output).toContain('whole-page next page must not contain block-level NextChannel')
+})
+
+it('lets a published page win its basename over an excluded upstream duplicate', () => {
+  // Upstream carried true duplicates (Collections/ vs Snapshot/ createSnapshot.md) and
+  // later deleted them; the manual must publish the live sibling while excluding the
+  // duplicate. Address reservations (id, publishPath) still hold for cloud identity.
+  const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' },
+    exclude: ['Collections/createCollection.md'] }
+  const { pages, excluded, errors } = expandManualPages(
+    [`${sourceDir}/Collections/createCollection.md`, `${sourceDir}/Snapshot/createCollection.md`], manual)
+  expect(errors).toEqual([])
+  expect([...pages.keys()]).toEqual(['Snapshot-createCollection'])
+  expect([...excluded]).toEqual([])
+  // Without a live sibling the exclusion still reserves the basename.
+  const reserved = expandManualPages(
+    [`${sourceDir}/Collections/createCollection.md`, `${sourceDir}/Client/MilvusClientV2.md`], manual)
+  expect(reserved.errors).toEqual([])
+  expect([...reserved.excluded]).toEqual(['createcollection.md'])
+})
+
+it('accepts lowercase cloud-slug anchors and rewrites them to the heading id', async () => {
+  const demo = await createManualDemo(await temp('manual-anchor-'), {
+    upstream: { 'Collections/anchor.md': '# anchor()\n\nSee [Types](#types) below.\n\n## Types\n\n- **a** (*string*) -\n' } })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.commit}\n`)
+  let output = ''
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text }, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  const built = await readFile(join(demo.out, 'node/Collections/Collections-anchor.md'), 'utf8')
+  expect(built).toContain('](#types)')
+  expect(built).toContain('## Types\\{#types}')
+})
+
+it('skips markup wrapper lines when deriving the page description', () => {
+  const derived = deriveHeadingMetadata('# addCollectionFunction()\n\n<div class="alert warning">\n\n**Deprecated.**\n\nUse the replacement.\n\n</div>\n\nBody prose.\n')
+  expect(derived.title).toBe('addCollectionFunction()')
+  // The wrapper line is not prose; the description comes from the first real paragraph.
+  expect(derived.description).toBe('**Deprecated.**')
+})
+
+it('emits the lowercase beta spelling and backfilled descriptions for manual pages', async () => {
+  const demo = await createManualDemo(await temp('manual-beta-'), {
+    manual: `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+metadata:
+  Collections/createCollection.md:
+    beta: false
+    description: Custom summary kept verbatim.
+    sidebar_position: 5
+` })
+  await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${demo.commit}\n`)
+  const code = await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    () => {}, { toolingCommit: TOOLING })
+  expect(code).toBe(0)
+  const created = await readFile(join(demo.out, 'node/Collections/Collections-createCollection.md'), 'utf8')
+  expect(created).toContain('beta: false')
+  expect(created).toContain('description: "Custom summary kept verbatim. | Node.js"')
 })

@@ -106,13 +106,14 @@ export function rewriteLinksAndImages(input: RewriteInput) {
       let anchor = fragment
       try { anchor = decodeURIComponent(fragment) } catch { /* Invalid fragments cannot match a heading. */ }
       const anchorSource = projected ? input.markdown : target ?? input.manualCloudPages?.get(file)
-      const resolved = anchorSource == null ? {} : resolveAnchor(anchorSource, anchor)
+      const resolved = anchorSource == null ? {} : resolveAnchor(anchorSource, anchor,
+        input.anchorCloudFallback && kind === 'anchor')
       if (resolved.ambiguous) {
         fail(ref, 'ANCHOR_AMBIGUOUS', `Multiple emitted elements use #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor })
         continue
       }
       if (!resolved.id) {
-        const upstream = target != null && resolveAnchor(target, anchor).id
+        const upstream = target != null && resolveAnchor(target, anchor, input.anchorCloudFallback && kind === 'anchor').id
         fail(ref, 'ANCHOR_NOT_FOUND', upstream ? `No heading matches #${fragment} in the projected ${file || input.sourceFile}; the heading exists upstream and the projection removes it.`
           : `No heading matches #${fragment} in ${file || input.sourceFile}.`, { target: file || input.sourceFile, anchor: fragment })
         continue
