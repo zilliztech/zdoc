@@ -654,3 +654,91 @@ it('reports forbidden execution dependencies as infrastructure failure before lo
   expect(result.stderr).toContain('Forbidden ambient execution setting: GIT_CONFIG_COUNT');
   expect(result.stdout).toBe('');
 });
+
+describe('shared-docs promotion dispatch', () => {
+  const launcher = path.resolve(import.meta.dirname, '../../../scripts/docs-tooling.js');
+  function promotion(root: string, ...args: string[]) {
+    return spawnSync(process.execPath, [launcher, 'shared-docs', ...args], {cwd: root, encoding: 'utf8'});
+  }
+
+  it('requires the replay arguments and reserves a fresh output directory', () => {
+    const root = realpathSync(temporaryRoot());
+    try {
+      const userPath = path.join(root, 'inputs');
+      mkdirSync(userPath);
+      const upstream = path.join(userPath, 'upstream');
+      const dev = path.join(userPath, 'dev');
+      const record = path.join(root, 'uat.json');
+      mkdirSync(upstream);
+      mkdirSync(dev);
+      const args = ['promote-guides', '--mode', 'preview', '--repo', upstream, '--dev', dev, '--uat-record', record];
+      const missing = promotion(userPath, 'promote-guides', '--mode', 'preview');
+      expect(missing.status).toBe(2);
+      expect(missing.stdout).toContain('--uat-record is required');
+      const repeated = promotion(userPath, ...args, '--mode', 'preview');
+      expect(repeated.status).toBe(2);
+      expect(repeated.stdout).toContain('repeated option');
+      const wrongMode = promotion(userPath, ...args, '--out', path.join(root, 'extra'), '--pages', 'first');
+      expect(wrongMode.status).toBe(2);
+      expect(wrongMode.stdout).toContain('prepare options');
+      const overlapping = promotion(userPath, ...args, '--out', path.join(userPath, 'out'));
+      expect(overlapping.status).toBe(2);
+      expect(overlapping.stdout).toContain('overlaps input data');
+      const existing = path.join(root, 'empty');
+      mkdirSync(existing);
+      const reused = promotion(userPath, ...args, '--out', existing);
+      expect(reused.status).toBe(2);
+      expect(reused.stdout).toMatch(/already exists|EEXIST/i);
+
+      writeFileSync(record, '{}\n');
+      const reportDir = path.join(root, 'invalid-record');
+      const pause = promotion(userPath, ...args, '--out', reportDir);
+      expect(pause.status).toBe(1);
+      expect(JSON.parse(readFileSync(path.join(reportDir, 'promotion-preview.json'), 'utf8'))).toMatchObject({
+        observation: 'replay', status: 'paused', reason: expect.any(String), pages: [],
+      });
+    } finally {
+      rmSync(root, {recursive: true, force: true});
+    }
+  });
+
+  it('preserves the existing whole-manual promote command', () => {
+    const root = realpathSync(temporaryRoot());
+    try {
+      const upstream = path.join(root, 'upstream');
+      const manual = path.join(root, 'shared-docs/node');
+      mkdirSync(path.join(upstream, 'site/en'), {recursive: true});
+      mkdirSync(manual, {recursive: true});
+      initGitRepository(upstream);
+      const upstreamPage = path.join(upstream, 'site/en/example.md');
+      writeFileSync(upstreamPage, '# Example\n\nFirst revision.\n');
+      commitGitRepository(upstream, 'Initial manual page');
+      function head() {
+        const result = spawnSync('git', ['rev-parse', 'HEAD'], {cwd: upstream, encoding: 'utf8'});
+        expect(result.status).toBe(0);
+        return result.stdout.trim();
+      }
+      const current = head();
+      writeFileSync(upstreamPage, '# Example\n\nStaged revision.\n');
+      commitGitRepository(upstream, 'Stage manual page');
+      const next = head();
+      const branch = spawnSync('git', ['branch', 'v3.0.x'], {cwd: upstream, encoding: 'utf8'});
+      expect(branch.status).toBe(0);
+      writeFileSync(path.join(manual, 'source.yaml'), 'schema_version: 1\nrepository: https://github.com/milvus-io/web-content\ntrack: v3.0.x\n');
+      writeFileSync(path.join(manual, 'manual.yaml'), 'schema_version: 1\nsource: {dir: site/en}\npublish: {manual: node}\n');
+      writeFileSync(path.join(manual, 'product-names.yaml'), 'check: [localhost:19530]\nallow: []\n');
+      const lock = path.join(manual, 'lock.yaml');
+      const original = `schema_version: 1\ncurrent: ${current}\nnext: ${next}\n`;
+      writeFileSync(lock, original);
+      const out = path.join(root, 'output');
+      const result = promotion(root, 'promote', '--shared-docs', manual, '--repo', upstream, '--dev', root, '--out', out);
+      expect(result.status, result.stderr || result.stdout).toBe(0);
+      expect(JSON.parse(readFileSync(path.join(out, 'report.json'), 'utf8'))).toMatchObject({
+        kind: 'shared-manual-promotion', manual: 'node', lock: {from: {current, next}, to: {current: next, next}},
+      });
+      expect(readFileSync(lock, 'utf8')).toBe(original);
+    } finally {
+      rmSync(root, {recursive: true, force: true});
+    }
+  });
+});
