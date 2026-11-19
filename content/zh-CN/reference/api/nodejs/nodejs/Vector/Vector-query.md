@@ -114,7 +114,7 @@ await milvusClient.query(data)
 
 - **consistency_level** （*ConsistencyLevelEnum*） -
 
-    目标 Collection 的一致性级别。请参见 ConsistencyLevelEnum。
+    目标 Collection 的一致性级别。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
     该值默认为您创建当前 Collection 时指定的值，可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
 

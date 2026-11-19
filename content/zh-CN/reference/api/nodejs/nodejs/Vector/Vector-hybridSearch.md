@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     用于度量向量之间相似度的度量类型。
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     用于合并多个子搜索结果的重新排序策略。有关完整的 rerank 参数 Schema，请参见 `search()`。
 
@@ -116,7 +116,7 @@ await milvusClient.hybridSearch({
 
 - **consistency_level**（*ConsistencyLevelEnum*） -
 
-    目标 Collection 的一致性级别。可选值：`Strong`（0）、`Session`（1）、`Bounded`（2）和 `Eventually`（3）。默认值为 `Bounded`。请参见 ConsistencyLevelEnum。
+    目标 Collection 的一致性级别。可选值为 `Strong`（0）、`Session`（1）、`Bounded`（2）和 `Eventually`（3）。该值默认为 `Bounded`。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **ignore_growing**（*boolean*） -
 

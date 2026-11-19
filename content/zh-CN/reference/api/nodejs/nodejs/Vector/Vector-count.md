@@ -80,7 +80,7 @@ await milvusClient.count({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 ConsistencyLevelEnum。
+    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **timeout** (*number*)  
 

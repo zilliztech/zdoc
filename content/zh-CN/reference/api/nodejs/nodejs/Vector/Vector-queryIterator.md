@@ -116,7 +116,7 @@ await milvusClient.queryIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    此操作的一致性级别。可选值为 Strong（0）、Session（1）、Bounded（2）和 Eventually（3）。该值默认为创建 Collection 时设置的一致性级别。请参见 ConsistencyLevelEnum。
+    此操作的一致性级别。可选值包括 Strong (0)、Session (1)、Bounded (2) 和 Eventually (3)。该值默认为创建 Collection 时设置的一致性级别。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **db_name** (*string*) -
 

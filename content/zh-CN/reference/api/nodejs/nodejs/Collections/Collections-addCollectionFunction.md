@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **已弃用。**
 
-此方法已弃用。请改用 addFunctionField()。
+此方法已弃用。请改用 [addFunctionField()](./Collections-addFunctionField)。
 
 </Admonition>
 
@@ -62,11 +62,11 @@ await milvusClient.addCollectionFunction({
 
     要添加函数的 Collection 名称。
 
-- **function** （*FunctionObject*） -
+- **function** （*[FunctionObject](./Collections-FunctionObject)*） -
 
     **[必需]**
 
-    要添加到 Collection 的函数。请参见 FunctionObject。
+    要添加到 Collection 的函数。请参阅 [FunctionObject](./Collections-FunctionObject)。
 
 - **db_name** （*string*） -
 

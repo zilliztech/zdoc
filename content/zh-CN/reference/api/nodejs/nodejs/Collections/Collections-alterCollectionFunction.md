@@ -59,11 +59,11 @@ await milvusClient.alterCollectionFunction({
 
     要修改的函数名称。
 
-- **function** （*FunctionObject*） -
+- **function** (*[FunctionObject](./Collections-FunctionObject)*) -
 
     **[必需]**
 
-    更新后的函数 Schema。请参见 FunctionObject。
+    更新后的函数 Schema。请参见 [FunctionObject](./Collections-FunctionObject)。
 
 - **db_name** （*string*） -
 

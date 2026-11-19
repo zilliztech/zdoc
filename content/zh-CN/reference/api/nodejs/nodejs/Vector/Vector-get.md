@@ -71,7 +71,7 @@ await milvusClient.get({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    目标 Collection 的一致性级别。请参见 ConsistencyLevelEnum。
+    目标 Collection 的一致性级别。请参阅 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **limit** (*number*) -
 
@@ -166,3 +166,4 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
+

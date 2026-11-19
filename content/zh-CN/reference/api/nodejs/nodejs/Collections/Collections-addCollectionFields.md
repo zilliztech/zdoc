@@ -62,7 +62,7 @@ await milvusClient.addCollectionFields({
 
     目标 Database 的名称。
 
-- **fields**（*FieldType[]*）-
+- **fields**（*[FieldType](./Collections-FieldType)[]*）-
 
     要添加的字段的配置，其中每一项都是一个 **FieldType** 对象，该对象包含以下字段。
 

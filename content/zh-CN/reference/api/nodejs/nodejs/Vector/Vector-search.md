@@ -163,7 +163,7 @@ await milvusClient.search({
 
 - **consistency_level**（*ConsistencyLevelEnum*） -
 
-    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 ConsistencyLevelEnum。
+    目标 Collection 的一致性级别。该值默认为 **Bounded**（**2**），可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **metric_type**（*string*） -
 
@@ -197,9 +197,9 @@ await milvusClient.search({
 
     用于转换以下数据类型的自定义函数。
 
-- **rerank**（*RerankerObj* | *FunctionObject* | *FunctionScore*） -
+- **rerank**（*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*） -
 
-    一种带自定义参数的重排序策略。您可以使用 **RerankerObj**、**FunctionObject** 或 **FunctionScore**。请参见 RerankerObj 和 FunctionObject。
+    一种带有自定义参数的重排策略。您可以使用 **RerankerObj**、**FunctionObject** 或 **FunctionScore**。请参见 RerankerObj 和 [FunctionObject](./Collections-FunctionObject)。
 
 - **order_by_fields**（*OrderByFields*） -
 

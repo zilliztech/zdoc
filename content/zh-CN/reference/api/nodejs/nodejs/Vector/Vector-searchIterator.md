@@ -125,7 +125,7 @@ await milvusClient.searchIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    此操作的一致性级别。可选值为 Strong（0）、Session（1）、Bounded（2）和 Eventually（3）。该值默认为 Bounded。请参见 ConsistencyLevelEnum。
+    此操作的一致性级别。可选值为 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。该值默认为 **Bounded**。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
 
 - **ignore_growing** (*boolean*) -
 
@@ -171,7 +171,7 @@ await milvusClient.searchIterator({
 
     用于搜索结果的高亮器。
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     重新排序策略及其参数。有关支持的 reranker 类型，请参见 `search()`。
 

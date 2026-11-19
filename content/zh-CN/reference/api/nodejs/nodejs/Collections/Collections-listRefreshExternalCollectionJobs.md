@@ -73,9 +73,9 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **参数：**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
+- **jobs** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)[]*) -
 
-与所请求的 Database 和 Collection 筛选条件匹配的刷新作业列表。有关 RefreshExternalCollectionJobInfo 字段的完整参考，请参阅 `getRefreshExternalCollectionProgress()` 文档。
+与所请求的 Database 和 Collection 筛选条件匹配的刷新作业列表。有关 [RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo) 字段的完整参考，请参阅 `getRefreshExternalCollectionProgress()` 文档。
 
 - **ResStatus**
 一个 **ResStatus** 对象。

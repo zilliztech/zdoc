@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **已弃用。**
 
-此方法已弃用。请改用 dropFunctionField()。
+此方法已弃用。请改用 [dropFunctionField()](./Collections-dropFunctionField)。
 
 </Admonition>
 
