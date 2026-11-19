@@ -605,7 +605,7 @@ test('mergeTranslatedResultsIntoProgressState updates the Chinese Reference mani
 const {createHash} = require('node:crypto');
 const {loadLocaleContract} = require('./localeContract');
 const {collectCurrentUnits, pairOldSourceWithTarget} = require('./semanticSeeds');
-const {resolveSeededDraft} = require('./agenticProvider');
+const {NO_TRANSLATION_NEEDED_MARKER, resolveSeededDraft} = require('./agenticProvider');
 
 function unitHash(text) {
   return createHash('sha256').update(text).digest('hex');
@@ -697,6 +697,73 @@ test('runAgenticFile rejects a turn that leaves the seeded draft unchanged', asy
       seedReport: buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'}),
     }).catch(error => ({error: String(error.message)}));
     assert.match(result.error, /left the seeded draft .* unchanged/);
+  });
+});
+
+test('runAgenticFile accepts an unchanged seeded draft when the agent reports no translation needed', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const prompts = [];
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({prompt, workingDirectory}) => {
+        prompts.push(prompt);
+        // The pending unit is identity-translatable; the agent leaves the
+        // draft byte-identical and claims the marker.
+        writeAgentDraft(workingDirectory, seeded.draft);
+        return NO_TRANSLATION_NEEDED_MARKER;
+      },
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.equal(result.unchangedDraftAccepted, true);
+    assert.deepEqual(result.attempts, ['translate']);
+    assert.ok(result.semanticSeedUnits >= 1);
+    assert.ok(isConsistentSuccessfulReview(result.review));
+    assert.deepEqual(result.validationErrors, []);
+    // The prompt must state the identity rule and the exact marker.
+    assert.match(prompts[0], /Identity-translation rule/);
+    assert.match(prompts[0], new RegExp(NO_TRANSLATION_NEEDED_MARKER));
+    // The published draft is the untouched seeded draft: reused translations
+    // in place, the pending unit still byte-identical English.
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, seeded.draft.endsWith('\n') ? seeded.draft : `${seeded.draft}\n`);
+  });
+});
+
+test('an unchanged seeded draft with the marker still goes through repair when the gate fails', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const prompts = [];
+    let outcomeCalls = 0;
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({phase, workingDirectory}) => {
+        prompts.push(phase);
+        // First turn leaves the draft unchanged; the repair turn translates.
+        writeAgentDraft(workingDirectory, prompts.length === 1 ? seeded.draft : JA_CLEAN);
+        return prompts.length === 1 ? NO_TRANSLATION_NEEDED_MARKER : 'DONE';
+      },
+      // The stubbed validator passes the source preflight, fails the first
+      // unchanged-draft outcome, and passes after the repair turn.
+      validate: async content => {
+        if (content === EN_SOURCE) return [];
+        outcomeCalls += 1;
+        return outcomeCalls === 1 ? ['synthetic gate violation'] : [];
+      },
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.equal(result.unchangedDraftAccepted, undefined);
+    assert.deepEqual(result.attempts, ['translate', 'repair1']);
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, JA_CLEAN);
   });
 });
 
