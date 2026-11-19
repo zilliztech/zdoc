@@ -204,7 +204,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
 
   ```
   search_params = {
-      "params": {"level": 10},
+      "params": {"level": 3},
   }
 
   res = client.search(

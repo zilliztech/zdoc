@@ -903,7 +903,7 @@ res = client.search(
     output_fields=['text'], # Fields to return in search results; sparse field cannot be output
     # highlight-end
     limit=3,
-    search_params={"metric_type": "BM25", "params": {"level": 10}},
+    search_params={"metric_type": "BM25", "params": {"level": 3}},
 )
 
 print(res)
@@ -920,7 +920,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("metric_type", "BM25");
-searchParams.put("level", 10);
+searchParams.put("level", 3);
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
