@@ -6,7 +6,7 @@ These instructions apply to the repository rooted at `/Users/anthony/Documents/p
 
 - Read `README.md` before changing publication, build, or recovery behavior. It contains the operator-facing release runbook and indexes the deep-dive reference pages under `runbook/`.
 - Treat the current workflow files, publication contracts, tests, and retained-artifact tooling as the implementation source of truth. Do not infer behavior from historical run IDs or old plans without live verification.
-- Keep plans and specifications in `.claude/`; create temporary worktrees only below `.claude/worktrees/`.
+- Keep plans and specifications in `.claude/plans/` and `.claude/specs/`; `.claude/` retains only `plans/`, `specs/`, and `skills/`. Do not accumulate evidence, replay, reports, or test-residue directories there: delete them locally and never commit them (removing tracked residue goes through a reviewed PR). Create temporary worktrees only below `.claude/worktrees/`.
 
 ## Repository navigation
 
