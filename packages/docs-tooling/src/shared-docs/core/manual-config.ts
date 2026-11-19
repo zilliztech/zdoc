@@ -2,8 +2,9 @@ import type { ConfigResult, DiagnosticContext, ManualCloudChannel, ManualConfig,
 import { ConfigValidation, isRepositoryPath, parseYaml } from './yaml'
 import { validateTransforms } from './transforms/schema'
 
-/** Manual-layout page metadata; the title always comes from the H1 heading. */
-const PAGE_METADATA_FIELDS = ['beta', 'deprecate_since', 'added_since', 'description', 'last_modified', 'notebook', 'type', 'token', 'sidebar_position', 'keywords']
+/** Manual-layout page metadata; the title always comes from the H1 heading. Exported as
+ * the single allowlist source for ledger proposal drafts and the advisory decide stage. */
+export const PAGE_METADATA_FIELDS = ['beta', 'deprecate_since', 'added_since', 'description', 'last_modified', 'notebook', 'type', 'token', 'sidebar_position', 'keywords']
 /** Module entries carry only what a whole module can own: its beta gate, the sidebar
  * category label and the category order. mergedMetadata keeps `title` and the module
  * `sidebar_position` out of page front matter. */
