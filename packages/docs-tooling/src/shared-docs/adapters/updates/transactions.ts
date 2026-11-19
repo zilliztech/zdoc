@@ -258,13 +258,15 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
   }
   return {
     repository,commit,tree,blobAt,isAncestor,rawDiff,
-    async verifyConnected(commits: readonly string[], budget?: () => void) {
+    async retainBatchObject(type: 'blob' | 'tree' | 'commit', raw: Uint8Array, expected: string, budget?: () => void) {
+      GitShaSchema.parse(expected)
+      if (!input.batch || raw.length > 32 * 1024 * 1024 ||
+        createHash('sha1').update(`${type} ${raw.length}\0`).update(raw).digest('hex') !== expected) hold('GIT_OBJECT_HASH_MISMATCH')
       await validateLayout()
-      const ids = [...new Set(commits.map(id => GitShaSchema.parse(id)))]
-      if (!ids.length) hold('GIT_COMMIT_REQUIRED')
-      const output = await run(repository, ['rev-list', '--objects', '--missing=print', ...ids], undefined, {}, budget)
-      if (/^\?/m.test(output.toString())) hold('GIT_OBJECT_MISSING')
-      for (const id of ids) await commit(id, budget)
+      // The caller validates canonical raw tree entries and exact references.
+      // Git may not resolve their unchanged children in this private scratch store.
+      const actual = (await run(repository, ['hash-object', '--literally', '-t', type, '-w', '--stdin'], raw, {}, budget)).toString().trim()
+      if (actual !== expected || !Buffer.from(await object(expected, type, budget)).equals(raw)) hold('GIT_OBJECT_HASH_MISMATCH')
     },
     async retainSignedCommit(raw: Uint8Array, expected: string, budget?: () => void) {
       GitShaSchema.parse(expected)
@@ -311,6 +313,7 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       return {root,track,head,origin}
     },
     async importObjects(source:string,heads:readonly string[],budget?:()=>void) {
+      if (input.batch) hold('BATCH_SCRATCH_IMPORT_DISABLED')
       budget?.()
       await validateLayout();const root=await realpath(source);await checkedAncestors(root)
       const unique=[...new Set(heads.map(head=>GitShaSchema.parse(head)))]
@@ -325,15 +328,6 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       const missing=(await run(root,['rev-list','--objects','--missing=print',...unique],undefined,{},budget)).toString()
       if(/^\?/m.test(missing))hold('GIT_OBJECT_MISSING')
       const pack=await run(root,['pack-objects','--stdout','--revs'],Buffer.from(unique.join('\n')+'\n'),{},budget)
-      if (input.batch) {
-        if (pack.length < 32 || pack.toString('ascii', 0, 4) !== 'PACK') hold('GIT_PACK_INVALID')
-        const objectCount = pack.readUInt32BE(8)
-        // A full pack from --revs is copied as compressed bytes. Include the
-        // largest per-object SHA-1 index offsets, CRC and reverse index entries.
-        if (!objectCount || objectCount > pack.length - 32) hold('GIT_PACK_INVALID')
-        await input.batch.reserve(pack.length + 4096 + objectCount * 48, 8)
-        budget?.()
-      }
       await run(repository,['index-pack','--stdin','--strict'],pack,{},budget)
       for(const head of unique)await commit(head,budget)
       await validateLayout()
@@ -353,6 +347,7 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       return match[1]
     },
     async install(planSha256:string,candidate:string,expected:string|null) {
+      if (input.batch) hold('BATCH_SCRATCH_REF_WRITE_DISABLED')
       if(!/^[a-f0-9]{64}$/.test(planSha256))hold('PLAN_DIGEST_INVALID')
       GitShaSchema.parse(candidate);if(expected)GitShaSchema.parse(expected)
       await validateLayout()

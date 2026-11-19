@@ -18,7 +18,8 @@ import {BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollection
   batchDigest, batchRef, batchRoles, batchSha256, parseBatchCanonical, validateBatchMaterialDetail,
   type BatchBlobRef, type BatchVerifyControl} from './batch-collection-contract'
 import {writeOwnedBlob, type EvidenceStore} from './evidence'
-import {inspectNewGuidesBatchCandidate} from './remote-transaction'
+import {inspectPinnedLocalGuidesBatchCandidate, preparePinnedLocalGuidesBatchCandidate} from './remote-transaction'
+import {openLocalBatchBaseline} from './batch-source'
 import {createScratchTransaction, type ScratchTransaction} from './transactions'
 import {consumeBatchCandidateLaunch, type BatchCandidateLaunchTicket} from './batch-collection'
 import {verifyClosureBinding} from './toolset'
@@ -117,14 +118,16 @@ async function deriveBinding(store: Read, roots: Roots) {
 const materialTree = (rows: readonly {path: string; ref: BlobRef}[]): MaterialTree =>
   ({entries: rows.map(({path, ref}) => ({path, bytes: ref.bytes, sha256: ref.sha256})).sort((a, b) => compareUtf8(a.path, b.path))})
 
-async function preparePlan(readStore: Read, transaction: ScratchTransaction, binding: Binding, budget: () => void) {
+type Baseline = Awaited<ReturnType<typeof openLocalBatchBaseline>>
+async function preparePlan(readStore: Read, baseline: Baseline, binding: Binding, budget: () => void) {
   const read = reader(readStore)
   const {master, dev, source, trustedTools, toolsetSha256} = binding.base.pins
   const bindingBytes = canonicalBytes(binding)
   const bindingRef = batchRef(bindingBytes)
   const paths = binding.pages.map(p => `shared-docs/guides/pages/${p.pageId}/lock.yaml`)
-  const base = await transaction.prepare({master, donorHeads: [], lockPaths: paths, dataPaths: paths}, budget)
-  const tree = new Map((await transaction.tree(master, true, budget)).map(e => [e.path, e]))
+  await baseline.verifyPins(master, dev)
+  const [configTreeOid, inventory] = await Promise.all([baseline.masterTree(), baseline.inventory()])
+  const tree = new Map(inventory.map(entry => [entry.path, entry]))
   const localBlobs = new Map<string, {ref: BlobRef; bytes: Uint8Array}>()
   const retain = (bytes: Uint8Array) => {
     const ref = batchRef(bytes); localBlobs.set(ref.sha256, {ref, bytes}); return ref
@@ -142,8 +145,7 @@ async function preparePlan(readStore: Read, transaction: ScratchTransaction, bin
       read.value(header.imagesRef, BatchImagesSchema), read.value(row.qualifiedPinsRef, BatchQualifiedPinsSchema)
     ])
     validateBatchMaterialDetail(detail, header, configuration, projection)
-    const configEntries = [...tree.values()].filter(e => e.path.startsWith('shared-docs/guides/'))
-    check(configEntries.length === configuration.files.length &&
+    check(tree.size === configuration.files.length &&
       configuration.files.every(file => tree.get(file.path)?.oid === file.oid), 'BATCH_CANDIDATE_CONFIG_TREE')
     const inventories = await Promise.all(header.inventoryRefs.map(r => read.value(r.ref, BatchInventorySchema)))
     const rawTrees = await Promise.all(header.rawMaterialRefs.map(r => read.value(r.ref, BatchRawTreeSchema)))
@@ -187,7 +189,7 @@ async function preparePlan(readStore: Read, transaction: ScratchTransaction, bin
     const subject: Subject = {kind: 'guides-page', group: 'guides', pageId: row.pageId}
     const lockPath = paths[pageIndex], before = await read.bytes(header.lockRef)
     const lock = tree.get(lockPath)
-    check(lock && same(batchRef(await transaction.read(lock.oid, 'blob', budget)), header.lockRef), 'BATCH_CANDIDATE_LOCK')
+    check(lock && same(batchRef(await baseline.read(lock.oid, 'blob')), header.lockRef), 'BATCH_CANDIDATE_LOCK')
     const token = /^token: (.+)$/m.exec(finalizeFetchFrontMatter('---\n---\n', {pageId: row.pageId}))![1]
     const members: ContentMember[] = header.targets.map(target => {
       const output = qualified.row.outputTuples.find(o => o.manual === target.manual)
@@ -218,7 +220,7 @@ async function preparePlan(readStore: Read, transaction: ScratchTransaction, bin
       images: [...semanticImages.values()].sort((a, b) => compareUtf8(a.logicalSource, b.logicalSource)), members, registry: null,
       authority: {provider: authority.provider, state: authority.updateState, reasons: authority.reasons, policySha256},
       providerPolicySha256: policySha256, toolsetSha256}
-    const pins = {master, dev, trustedTools, configSnapshot: master, configTreeOid: base.prepared.tree, comparisonConfig: null,
+    const pins = {master, dev, trustedTools, configSnapshot: master, configTreeOid, comparisonConfig: null,
       relevantConfigSha256: batchSha256(canonicalBytes(config)), toolsetSha256, registrySha256,
       source: {repository: configuration.repository, track: configuration.track, observedTrackHead: source, current: header.current, oldNext: header.oldNext, target: source}}
     const report = validateUpdateReportEnvelope({kind: 'shared-update', schemaVersion: 1, subject, pins, authority, members, memberSetSha256: digest('members', members),
@@ -242,7 +244,7 @@ async function preparePlan(readStore: Read, transaction: ScratchTransaction, bin
   check(same(plan.subjects, contexts.map(c => c.subject)) &&
     same(sorted(plan.nextEdits.map(e => e.subject.kind === 'guides-page' ? e.subject.pageId : '')), advance) &&
     (advance.length ? plan.disposition === 'candidate' : ['noop', 'report-only'].includes(plan.disposition)), 'BATCH_CANDIDATE_PLAN')
-  return {base, contexts, plan, localBlobs}
+  return {contexts, plan, localBlobs}
 }
 
 function sealMetadata(binding: Binding, plan: UpdateUnitPlan, proof: CandidateSnapshotProof): RemoteSealV1 {
@@ -273,22 +275,22 @@ function signLocalSeal(metadata: ReturnType<typeof sealMetadata>, key: KeyObject
 /** Inspect a local signature and candidate against separately supplied exact roots and executable
  * closure binding. This diagnostic does not authenticate the underlying retained qualification
  * graph or grant authority. The live coordinator independently reruns that graph verifier. */
-export async function inspectSignedBatchCandidate(input: {roots: Roots; evidence: Read; transaction: ScratchTransaction;
+export async function inspectSignedBatchCandidate(input: {roots: Roots; evidence: Read; transaction: ScratchTransaction; baseline: Baseline;
   bindingRef: BlobRef; planRef: BlobRef; proofRef: BlobRef; sealRef: BlobRef; publicKey: KeyObject; sealOid: string;
   executableClosure: BlobRef; toolset: ToolsetMaterial; budget: () => void}) {
-  const {evidence, roots, transaction, executableClosure, budget} = input
+  const {evidence, roots, transaction, baseline, executableClosure, budget} = input
   const read = reader(evidence)
   const [claimed, binding] = await Promise.all([read.value(input.bindingRef, bindingSchema), deriveBinding(evidence, roots)])
   check(same(claimed, binding), 'BATCH_CANDIDATE_BINDING')
-  const {plan, contexts, localBlobs} = await preparePlan(evidence, transaction, binding, budget)
+  const {plan, contexts, localBlobs} = await preparePlan(evidence, baseline, binding, budget)
   check(plan.disposition === 'candidate' && same(batchRef(canonicalBytes(plan)), input.planRef), 'BATCH_CANDIDATE_PLAN')
   await read.bytes(input.planRef)
   for (const {ref, bytes} of localBlobs.values()) check(Buffer.from(bytes).equals(await read.bytes(ref)), 'BATCH_CANDIDATE_INVENTORY')
   const proof = await read.value(input.proofRef, CandidateSnapshotProofSchema)
   verifyClosureBinding(input.toolset, executableClosure, await read.bytes(executableClosure), binding.base.pins.toolsetSha256)
-  const delta = await inspectNewGuidesBatchCandidate({master: binding.base.pins.master, dev: binding.base.pins.dev,
+  const delta = await inspectPinnedLocalGuidesBatchCandidate({master: binding.base.pins.master, dev: binding.base.pins.dev,
     sourceTarget: binding.base.pins.source, contexts, plan, proof, source: transaction,
-    baseline: {read: transaction.read, verifyConnected: commits => transaction.verifyConnected(commits, budget)},
+    baseline,
     trustedToolset: {sha256: binding.base.pins.toolsetSha256, executableClosure}})
   check(delta.rawDiff.equals(await read.bytes(proof.patch)), 'BATCH_CANDIDATE_RAW_PATCH')
   const metadata = sealMetadata(binding, plan, proof), {headers, message, unsigned} = sealPreimage(metadata)
@@ -311,27 +313,30 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   const binding = await deriveBinding(evidence, roots), observation = binding.base.origin.kind
   const {master, dev, toolsetSha256} = binding.base.pins
   verifyClosureBinding(input.toolset, batchRef(input.closureBytes), input.closureBytes, toolsetSha256)
-  // Check the measured Git scratch reserve before importing explicit M/D only; no refs are installed.
-  await input.reserve()
-  const transaction = await createScratchTransaction({evidence, gitBinary: input.git, batch: {reserve: input.reserve}})
-  await transaction.importObjects(input.repository, [master, dev], budget)
-  await input.reserve()
-  const prepared = await preparePlan(evidence, transaction, binding, budget), {plan, base} = prepared
+  const baseline = await openLocalBatchBaseline({repository: input.repository, git: input.git, master, dev, checkLocalDev: observation === 'replay'})
+  const prepared = await preparePlan(evidence, baseline, binding, budget), {plan} = prepared
   const bindingRef = await writeOwnedBlob(evidence, canonicalBytes(binding)), bindingDigest = batchDigest('candidate-binding', binding)
   const planRef = await writeOwnedBlob(evidence, canonicalBytes(plan))
   for (const {bytes} of prepared.localBlobs.values()) {budget(); await writeOwnedBlob(evidence, bytes)}
-  if (plan.disposition !== 'candidate') return immutable({status: 'no-change', observation, binding: bindingRef, bindingDigest, plan: planRef})
+  if (plan.disposition !== 'candidate') {
+    await baseline.verifyPins(master, dev)
+    return immutable({status: 'no-change', observation, binding: bindingRef, bindingDigest, plan: planRef})
+  }
   const executableClosure = await writeOwnedBlob(evidence, input.closureBytes)
-  const proof = await transaction.createCandidate({base, plan, trustedTools: master, dev, toolsetSha256, executableClosure,
+  const transaction = await createScratchTransaction({evidence, gitBinary: input.git, batch: {reserve: input.reserve}})
+  const proof = await preparePinnedLocalGuidesBatchCandidate({master, dev, plan, baseline, source: transaction,
+    sourceTarget: binding.base.pins.source, contexts: prepared.contexts, trustedToolset: {sha256: toolsetSha256, executableClosure},
+    write: (type, raw, oid) => transaction.retainBatchObject(type, raw, oid, budget),
+    readBlob: ref => evidence.readBlob(ref), retainPatch: bytes => writeOwnedBlob(evidence, bytes),
     revision: {kind: 'shared-update-revision', schemaVersion: 1, unitKey: plan.unitKey, subjects: plan.subjects, parentHead: master,
       master, dev, tools: master, memberSetSha256: plan.membersSha256, planSha256: digest('plan', plan), previousBotCommit: null,
-      preservedHumanHeads: [], lockDeltas: plan.nextEdits.map(edit => ({path: edit.before.path, current: edit.before.current, oldNext: edit.before.next, next: edit.target}))}}, budget)
+      preservedHumanHeads: [], lockDeltas: plan.nextEdits.map(edit => ({path: edit.before.path, current: edit.before.current, oldNext: edit.before.next, next: edit.target}))}})
   const proofRef = await writeOwnedBlob(evidence, canonicalBytes(proof))
   const keys = generateKeyPairSync('ed25519')
   const seal = signLocalSeal(sealMetadata(binding, plan, proof), keys.privateKey), sealOid = commitOid(seal)
   await transaction.retainSignedCommit(seal, sealOid, budget)
   const sealRef = await writeOwnedBlob(evidence, seal)
-  await inspectSignedBatchCandidate({roots, evidence, transaction, bindingRef, planRef, proofRef, sealRef,
+  await inspectSignedBatchCandidate({roots, evidence, transaction, baseline, bindingRef, planRef, proofRef, sealRef,
     publicKey: keys.publicKey, sealOid, executableClosure, toolset: input.toolset, budget})
   await input.reserve()
   return immutable({status: 'candidate', observation, binding: bindingRef, bindingDigest, plan: planRef, proof: proofRef, seal: sealRef,

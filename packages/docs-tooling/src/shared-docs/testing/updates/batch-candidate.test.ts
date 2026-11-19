@@ -241,7 +241,7 @@ it('rejects noncanonical tree ordering even at a Git-authenticated candidate OID
   await expect(inspectNewGuidesBatchCandidate({ ...input, proof: { ...input.proof, candidate, candidateTree } })).rejects.toThrow('TREE_ORDER')
 }, 30_000)
 
-it('checks batch scratch pack allocation before Git indexes private output objects', async () => {
+it('reserves batch scratch initialization and rejects history imports or ref writes', async () => {
   const root = await mkdtemp(join(await realpath(tmpdir()), 'local-guides-batch-pack-'))
   roots.push(root)
   const input = join(root, 'input')
@@ -254,10 +254,52 @@ it('checks batch scratch pack allocation before Git indexes private output objec
   const allocations: {bytes: number; entries: number}[] = []
   const transaction = await createScratchTransaction({evidence, gitBinary: '/usr/bin/git', batch: {async reserve(bytes, entries) {
     allocations.push({bytes, entries})
-    if (entries === 8) throw Error('FIXTURE_PACK_ALLOCATION_DENIED')
   }}})
-  await expect(transaction.importObjects(input, [master])).rejects.toThrow('FIXTURE_PACK_ALLOCATION_DENIED')
-  expect(allocations[0]).toEqual({bytes: 4096, entries: 32})
-  expect(allocations[1].bytes).toBeGreaterThan(4096)
+  await expect(transaction.importObjects(input, [master])).rejects.toThrow('BATCH_SCRATCH_IMPORT_DISABLED')
+  await expect(transaction.install('0'.repeat(64), master, null)).rejects.toThrow('BATCH_SCRATCH_REF_WRITE_DISABLED')
+  expect(allocations).toEqual([{bytes: 4096, entries: 32}])
   expect(await readdir(join(transaction.repository, 'objects', 'pack'))).toEqual([])
+}, 30_000)
+
+it('uses a pinned local baseline and leaves unrelated missing objects outside scratch', async () => {
+  const {input, value, repository, evidence} = await guidesBatch()
+  const {openLocalBatchBaseline} = await import('../../adapters/updates/batch-source')
+  const {preparePinnedLocalGuidesBatchCandidate, inspectPinnedLocalGuidesBatchCandidate} = await import('../../adapters/updates/remote-transaction')
+  await git(repository, 'symbolic-ref', 'HEAD', 'refs/heads/master')
+  const lost = await git(repository, 'rev-parse', input.master + ':README.md')
+  const missing = (oid: string) => join(repository, '.git', 'objects', oid.slice(0, 2), oid.slice(2))
+  await rm(missing(lost))
+  const baseline = await openLocalBatchBaseline({repository, git: '/usr/bin/git', master: input.master, dev: input.dev, checkLocalDev: true})
+  const localEvidence = await initializeEvidence({root: join(evidence.root, 'bounded'), repositories: [repository], owner: 'bounded-batch-fixture'})
+  const scratch = await createScratchTransaction({evidence: localEvidence, gitBinary: '/usr/bin/git', batch: {async reserve() {}}})
+  const options = {...input, baseline, source: scratch}
+  const proof = await preparePinnedLocalGuidesBatchCandidate({...options, revision: value.revision,
+    write: (type, bytes, oid) => scratch.retainBatchObject(type, bytes, oid), readBlob: ref => evidence.readBlob(ref),
+    retainPatch: bytes => localEvidence.writeBlob(bytes)})
+  const verified = await inspectPinnedLocalGuidesBatchCandidate({...options, proof})
+  expect(proof.candidate).toBe(input.proof.candidate)
+  expect(proof.candidateTree).toBe(input.proof.candidateTree)
+  await expect(scratch.read(lost, 'blob')).rejects.toThrow()
+  await expect(scratch.read(input.master, 'commit')).rejects.toThrow()
+  expect(rawGit(scratch.repository, ['for-each-ref'])).toHaveLength(0)
+  expect(await git(repository, 'rev-parse', 'refs/heads/master', 'refs/heads/dev')).toBe(input.master + '\n' + input.dev)
+  expect(() => rawGit(repository, ['cat-file', 'commit', proof.candidate])).toThrow()
+  expect(rawGit(scratch.repository, ['cat-file', '--batch-all-objects', '--batch-check=%(objectname)']).toString().trim().split('\n').sort())
+    .toEqual(verified.objects.map(o => o.oid).sort())
+  // The untouched member is required even though its subtree and blob stay in the baseline.
+  const noop = input.contexts[2]
+  const noopOid = await git(repository, 'rev-parse', input.master + ':' + noop.lock.path)
+  await rm(missing(noopOid))
+  const incomplete = await openLocalBatchBaseline({repository, git: '/usr/bin/git', master: input.master, dev: input.dev, checkLocalDev: true})
+  await expect(inspectPinnedLocalGuidesBatchCandidate({...options, baseline: incomplete, proof})).rejects.toThrow('GIT_OBJECT_UNAVAILABLE')
+  const drifted = await openLocalBatchBaseline({repository, git: '/usr/bin/git', master: input.master, dev: input.dev, checkLocalDev: true})
+  await git(repository, 'update-ref', 'refs/heads/dev', input.master)
+  await expect(inspectPinnedLocalGuidesBatchCandidate({...options, baseline: drifted, proof})).rejects.toThrow('BATCH_PIN_CHANGED')
+  await git(repository, 'update-ref', 'refs/heads/dev', input.dev)
+  await git(repository, 'symbolic-ref', 'HEAD', 'refs/heads/dev')
+  await expect(drifted.verifyPins(input.master, input.dev)).rejects.toThrow('BATCH_PIN_CHANGED')
+  await git(repository, 'symbolic-ref', 'HEAD', 'refs/heads/master')
+  await write(repository, '.git/objects/info/alternates', join(scratch.repository, 'objects') + '\n')
+  await expect(openLocalBatchBaseline({repository, git: '/usr/bin/git', master: input.master, dev: input.dev, checkLocalDev: true}))
+    .rejects.toThrow('GIT_METADATA_INVALID')
 }, 30_000)

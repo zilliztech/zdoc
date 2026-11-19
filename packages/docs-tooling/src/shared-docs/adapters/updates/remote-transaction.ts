@@ -4,10 +4,10 @@ import { join } from 'node:path'
 import { performance } from 'node:perf_hooks'
 import { createHash } from 'node:crypto'
 import { canonicalBytes, digest, parseStrictJson } from '../../core/updates/canonical'
-import { CandidateSnapshotProofSchema, GitShaSchema, NextLockEditSchema, UpdateUnitPlanSchema, validateBlobBytes, type BlobRef, type CandidateSnapshotProof, type NextLockEdit, type UpdateUnitPlan } from '../../core/updates/envelope'
+import { CandidateSnapshotProofSchema, GitShaSchema, NextLockEditSchema, UpdateUnitPlanSchema, validateBlobBytes, type BlobRef, type BotRevision, type CandidateSnapshotProof, type NextLockEdit, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { immutable } from '../../core/updates/types'
 import { METADATA_LIMITS, parseRevisionMessage, assertRevisionBinding, encodeRevisionMessage } from '../../core/updates/metadata'
-import { assertNextOnlyDiff, type NextOnlyDelta } from '../../core/updates/transaction'
+import { assertNextOnlyDiff, verifyNextLockPatch, type NextOnlyDelta } from '../../core/updates/transaction'
 import { planUpdateUnit, type UnitMaterialContext } from '../../core/updates/unit-plan'
 import { RemoteTransactionIntentSchema, RemoteTransactionJournalSchema, githubSealMessage, parseSignedGitHubSealMessage,
   acceptExactValidation, ExactValidationReceiptV1Schema, ProducerBundleReceiptSchema, REMOTE_IO_LIMITS, type RemoteReadResult, type RemoteTransactionIntent, type RemoteSealV1, type RemotePull } from '../../core/updates/remote'
@@ -71,9 +71,12 @@ function treeEntries(object:GitObject):{name:string;mode:string;oid:string;type:
   while(at<object.bytes.length){const end=object.bytes.indexOf(0,at),[mode,name]=object.bytes.subarray(at,end).toString('utf8').split(/ (.*)/s);entries.push({mode,name,oid:object.bytes.subarray(end+1,end+21).toString('hex'),type:mode==='40000'?'tree' as const:'blob' as const});at=end+21}
   return entries
 }
+interface LocalGitBaseline extends RemoteObjects {
+  verifyPins(master: string, dev: string): Promise<void>
+}
 interface GuidesObjectReaders {
   source: RemoteObjects
-  baseline: ConnectedGitBaseline
+  baseline: RemoteObjects
 }
 interface GuidesDeltaInput extends GuidesObjectReaders {
   base: string
@@ -81,7 +84,11 @@ interface GuidesDeltaInput extends GuidesObjectReaders {
 }
 type ExpectedLock = { path: string } & ({ edit: NextLockEdit } | { unchanged: BlobRef })
 
-function deltaReader(baseline: ConnectedGitBaseline, commits: string[]) {
+function connectedDeltaReader(baseline: ConnectedGitBaseline, commits: string[]) {
+  return deltaReader(() => baseline.verifyConnected([...new Set(commits.map(oid => GitShaSchema.parse(oid)))]))
+}
+
+function deltaReader(verifyBaseline: () => Promise<void>) {
   let bytes = 0, calls = 0
   const deadline = performance.now() + REMOTE_IO_LIMITS.inspectionMilliseconds
   const objects = new Map<RemoteObjects, Map<string, GitObject>>()
@@ -101,8 +108,7 @@ function deltaReader(baseline: ConnectedGitBaseline, commits: string[]) {
   return {
     budget,
     async verify() {
-      commits.forEach(oid => GitShaSchema.parse(oid))
-      await bounded(() => baseline.verifyConnected([...new Set(commits)]), REMOTE_IO_LIMITS.inspectionMilliseconds)
+      await bounded(verifyBaseline, REMOTE_IO_LIMITS.inspectionMilliseconds)
     },
     async read(reader: RemoteObjects, oid: string, type: ObjectType) {
       budget()
@@ -180,10 +186,10 @@ async function readGuidesDelta(input: GuidesDeltaInput, locks: readonly Expected
 }
 
 /** Verifies Git bytes and the single lock edit. This read operation grants no writer authority. */
-export async function collectGuidesLockObjectDelta(input: GuidesDeltaInput & { edit: NextLockEdit }) {
+export async function collectGuidesLockObjectDelta(input: GuidesDeltaInput & { edit: NextLockEdit; baseline: ConnectedGitBaseline }) {
   const edit = NextLockEditSchema.parse(input.edit)
   check(edit.subject.kind === 'guides-page', 'SINGLE_GUIDES_REQUIRED')
-  const reader = deltaReader(input.baseline, [input.base])
+  const reader = connectedDeltaReader(input.baseline, [input.base])
   await reader.verify()
   const delta = await readGuidesDelta(input, [{ path: edit.before.path, edit }], reader.read)
   reader.budget()
@@ -199,11 +205,15 @@ function verifyRevision(candidate: GitObject, prepared: GitObject, plan: UpdateU
     planSha256:digest('plan',plan), unitKey:plan.unitKey, memberSetSha256:plan.membersSha256})
   check(revision.dev === dev && same(revision.subjects,plan.subjects) && same(revision.preservedHumanHeads,proof.preservedHumanHeads) &&
     same(revision.lockDeltas,plan.nextEdits.map(edit=>({path:edit.before.path,current:edit.before.current,oldNext:edit.before.next,next:edit.target}))), 'REVISION_BINDING')
-  const parentTime = /\ncommitter .+ (\d+) [+-]\d{4}\n/.exec(prepared.bytes.toString('utf8'))
-  const time = Number(parentTime?.[1]) + 1, identity = 'Shared update local <shared-update-local@localhost>'
-  check(Number.isSafeInteger(time) && time < 253402300799 && candidate.bytes.equals(Buffer.from(
-    `tree ${proof.candidateTree}\nparent ${proof.prepared.base}\nauthor ${identity} ${time} +0000\ncommitter ${identity} ${time} +0000\n\n${encodeRevisionMessage(revision).commitMessage}`)), 'CANDIDATE_NOT_DETERMINISTIC')
+  check(candidate.bytes.equals(guidesCandidateCommitBytes(prepared, proof.candidateTree, revision)), 'CANDIDATE_NOT_DETERMINISTIC')
   check(same(candidate.parents,[proof.prepared.base]) && candidate.tree === proof.candidateTree, 'CANDIDATE_BINDING')
+}
+
+function guidesCandidateCommitBytes(master: GitObject, tree: string, revision: BotRevision) {
+  const parentTime = /\ncommitter .+ (\d+) [+-]\d{4}\n/.exec(master.bytes.toString('utf8'))
+  const time = Number(parentTime?.[1]) + 1, identity = 'Shared update local <shared-update-local@localhost>'
+  check(Number.isSafeInteger(time) && time < 253402300799, 'CANDIDATE_NOT_DETERMINISTIC')
+  return Buffer.from(`tree ${tree}\nparent ${master.oid}\nauthor ${identity} ${time} +0000\ncommitter ${identity} ${time} +0000\n\n${encodeRevisionMessage(revision).commitMessage}`)
 }
 
 interface NewGuidesCandidateInput extends GuidesObjectReaders {
@@ -230,24 +240,36 @@ async function inspectNewGuidesCandidate(input: NewGuidesCandidateInput, plan: U
 }
 
 /** Plan the first single-page transfer after the caller verifies receiver repository and M/D refs. */
-export async function planNewGuidesObjectTransfer(input: NewGuidesCandidateInput) {
+export async function planNewGuidesObjectTransfer(input: NewGuidesCandidateInput & {baseline: ConnectedGitBaseline}) {
   const plan = UpdateUnitPlanSchema.parse(input.plan), proof = CandidateSnapshotProofSchema.parse(input.proof)
   check(plan.disposition === 'candidate' && plan.subjects.length === 1 && plan.nextEdits.length === 1 &&
     same(plan.subjects,[plan.nextEdits[0].subject]) && same(plan.nextEdits,proof.nextEdits), 'PLAN_BINDING')
   const [edit] = plan.nextEdits
   check(edit.subject.kind === 'guides-page', 'SINGLE_GUIDES_REQUIRED')
-  return inspectNewGuidesCandidate(input, plan, proof, [{ path: edit.before.path, edit }], deltaReader(input.baseline, [input.master, input.dev]))
+  return inspectNewGuidesCandidate(input, plan, proof, [{ path: edit.before.path, edit }], connectedDeltaReader(input.baseline, [input.master, input.dev]))
 }
 
 /** Inspect a new local Guides candidate against the complete group of already collected
  * material, including noop members. Callers must authenticate collection and batch
  * membership before this byte check. It grants no authority to write remotely. */
-export async function inspectNewGuidesBatchCandidate(input: NewGuidesCandidateInput & {
+interface NewGuidesBatchCandidateInput extends NewGuidesCandidateInput {
   sourceTarget: string
   trustedToolset: { sha256: string; executableClosure: BlobRef }
   contexts: readonly UnitMaterialContext[]
-}) {
-  const reader = deltaReader(input.baseline, [input.master, input.dev])
+}
+
+export async function inspectNewGuidesBatchCandidate(input: NewGuidesBatchCandidateInput & {baseline: ConnectedGitBaseline}) {
+  return inspectGuidesBatchCandidate(input, connectedDeltaReader(input.baseline, [input.master, input.dev]))
+}
+
+export async function inspectPinnedLocalGuidesBatchCandidate(input: NewGuidesBatchCandidateInput & {baseline: LocalGitBaseline}) {
+  const reader = deltaReader(() => input.baseline.verifyPins(input.master, input.dev))
+  const delta = await inspectGuidesBatchCandidate(input, reader)
+  await reader.verify()
+  return delta
+}
+
+async function inspectGuidesBatchCandidate(input: NewGuidesBatchCandidateInput, reader: ReturnType<typeof deltaReader>) {
   // A complete batch must fit the existing revision envelope. Check lengths
   // before schema parsing and comparing every report and lock.
   const planClaim = input.plan as Partial<UpdateUnitPlan> | null
@@ -271,12 +293,71 @@ export async function inspectNewGuidesBatchCandidate(input: NewGuidesCandidateIn
       pins.toolsetSha256 === input.trustedToolset.sha256 && pins.source.target === input.sourceTarget &&
       pins.source.observedTrackHead === input.sourceTarget, 'COLLECTED_PINS_CHANGED')
   }
+  return inspectNewGuidesCandidate(input, plan, proof, expectedBatchLocks(plan, input.contexts), reader)
+}
+
+function expectedBatchLocks(plan: UpdateUnitPlan, contexts: readonly UnitMaterialContext[]): ExpectedLock[] {
   const edits = new Map(plan.nextEdits.map(edit => [edit.before.path, edit]))
-  const locks = input.contexts.map(({ lock: { path, before } }): ExpectedLock => {
+  return contexts.map(({ lock: { path, before } }) => {
     const edit = edits.get(path)
     return edit ? { path, edit } : { path, unchanged: before.blob }
   })
-  return inspectNewGuidesCandidate(input, plan, proof, locks, reader)
+}
+
+/** Build only the raw objects introduced by a new local exact-M batch. The
+ * baseline's unchanged entries keep their raw mode, path and OID intact. */
+export async function preparePinnedLocalGuidesBatchCandidate(input: Omit<NewGuidesBatchCandidateInput, 'proof'> & {
+  baseline: LocalGitBaseline
+  revision: BotRevision
+  write(type: ObjectType, bytes: Uint8Array, oid: string): Promise<void>
+  readBlob(ref: BlobRef): Promise<Uint8Array>
+  retainPatch(bytes: Uint8Array): Promise<BlobRef>
+}) {
+  const plan = UpdateUnitPlanSchema.parse(input.plan)
+  check(plan.disposition === 'candidate' && plan.subjects.length <= METADATA_LIMITS.subjects &&
+    plan.nextEdits.length <= METADATA_LIMITS.lockDeltas && plan.subjects.every(subject => subject.kind === 'guides-page'), 'PLAN_BINDING')
+  const reader = deltaReader(() => input.baseline.verifyPins(input.master, input.dev))
+  await reader.verify()
+  const master = await reader.read(input.baseline, input.master, 'commit')
+  await reader.read(input.baseline, input.dev, 'commit')
+  const write = async (type: ObjectType, bytes: Uint8Array) => {
+    reader.budget()
+    const oid = hashObject(type, bytes)
+    parseObject(oid, type, bytes)
+    await input.write(type, bytes, oid)
+    return oid
+  }
+  const edits = plan.nextEdits.map(edit => ({edit, parts: edit.before.path.split('/')}))
+  async function rewrite(oid: string, changes: typeof edits, depth: number): Promise<string> {
+    const tree = treeEntries(await reader.read(input.baseline, oid, 'tree'))
+    let rewritten = 0
+    for (const entry of tree) {
+      const matches = changes.filter(change => change.parts[depth] === entry.name)
+      if (!matches.length) continue
+      rewritten += matches.length
+      if (entry.type === 'tree' && matches.every(change => change.parts.length > depth + 1)) {
+        entry.oid = await rewrite(entry.oid, matches, depth + 1)
+      } else {
+        check(matches.length === 1 && entry.type === 'blob' && matches[0].parts.length === depth + 1, 'CANDIDATE_NOT_NEXT_ONLY')
+        const {edit} = matches[0]
+        const before = await reader.read(input.baseline, entry.oid, 'blob'), after = await input.readBlob(edit.afterBlob)
+        validateBlobBytes(edit.afterBlob, after)
+        verifyNextLockPatch({subject: edit.subject, before: edit.before, bytes: before.bytes, afterBytes: after, mode: entry.mode, target: edit.target})
+        entry.oid = await write('blob', after)
+      }
+    }
+    check(rewritten === changes.length, 'CANDIDATE_NOT_NEXT_ONLY')
+    return write('tree', Buffer.concat(tree.flatMap(entry => [Buffer.from(`${entry.mode} ${entry.name}\0`), Buffer.from(entry.oid, 'hex')])))
+  }
+  const candidateTree = await rewrite(master.tree!, edits, 0)
+  const candidate = await write('commit', guidesCandidateCommitBytes(master, candidateTree, input.revision))
+  const delta = await readGuidesDelta({...input, base: input.master, candidate}, expectedBatchLocks(plan, input.contexts), reader.read)
+  const proof: CandidateSnapshotProof = CandidateSnapshotProofSchema.parse({prepared: {kind: 'new', master: input.master, base: input.master, tree: master.tree},
+    candidate, candidateTree, patch: await input.retainPatch(delta.rawDiff), preservedHumanHeads: [],
+    trustedToolsetSha256: input.trustedToolset.sha256, executableClosure: input.trustedToolset.executableClosure, nextEdits: plan.nextEdits})
+  verifyRevision(delta.candidate, master, plan, proof, input.dev, null)
+  await reader.verify()
+  return immutable(proof)
 }
 
 /** Production authority installation is deliberately absent until the trusted capture bridge is qualified.

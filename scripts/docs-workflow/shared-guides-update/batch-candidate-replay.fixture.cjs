@@ -92,8 +92,10 @@ async function main() {
     closureRef: binding.closure.ref, groupSha256: binding.closure.digest, materialRoot: binding.materials.ref, materialDigest: binding.materials.digest,
     scopeRef: binding.scope.ref, scopeDigest: binding.scope.digest, qualifierRef: binding.qualification.ref, qualifierDigest: binding.qualification.digest,
     profileDigest: binding.method.profileSha256, indexRef: binding.index.ref, indexDigest: binding.index.digest}
+  const {openLocalBatchBaseline} = load('adapters/updates/batch-source.ts')
+  const baseline = await openLocalBatchBaseline({repository: f.tools, git: describeTrustedToolset(capture).git, master: f.master, dev: f.sampledDev, checkLocalDev: true})
   const {inspectSignedBatchCandidate, prepareQualifiedBatchCandidate} = load('adapters/updates/batch-candidate.ts')
-  const options = {roots, evidence, transaction, bindingRef: candidate.binding, planRef: candidate.plan, proofRef: candidate.proof,
+  const options = {roots, evidence, transaction, baseline, bindingRef: candidate.binding, planRef: candidate.plan, proofRef: candidate.proof,
     sealRef: candidate.seal, sealOid: candidate.sealOid, publicKey: createPublicKey(candidate.publicKey),
     executableClosure: await evidence.writeBlob(capture.bytes), toolset: capture.material, budget() {}}
   const exact = await inspectSignedBatchCandidate(options)
@@ -145,10 +147,14 @@ async function main() {
     }
   } finally {await blobs.close(); await root.close()}
   const scratchRefs = git(transaction.repository, 'for-each-ref').toString()
+  const scratchObjects = git(transaction.repository, 'cat-file', '--batch-all-objects', '--batch-check=%(objectname)').toString().trim().split('\n')
+  equal(scratchObjects.includes(f.master) || scratchObjects.includes(f.sampledDev), false)
+  equal(scratchObjects.includes(candidate.candidate) && scratchObjects.includes(candidate.sealOid), true)
+  equal(git(transaction.repository, 'count-objects', '-v').toString().split('\n').includes('in-pack: 0'), true)
   deepStrictEqual(git(f.tools, 'rev-parse', 'refs/heads/master', 'refs/heads/dev').toString().trim().split('\n'), [f.master, f.sampledDev])
   equal(git(f.upstream, 'rev-parse', 'refs/heads/v3.0.x').toString().trim(), f.target)
   equal(scratchRefs, '')
-  await write('independent.json', {code, exact, negatives: negatives.map(([name]) => name), expired: true, missingGraphLeavesRejected: 3, replayCannotGrantObserved: true})
+  await write('independent.json', {code, exact, negatives: negatives.map(([name]) => name), expired: true, scratchObjects: scratchObjects.length, missingGraphLeavesRejected: 3, replayCannotGrantObserved: true})
   console.log(JSON.stringify({code, fixtureMaster: f.master, out, status: candidate.status, simulation: simulate}))
 }
 main().catch(error => {console.error(error); process.exitCode = 1})
