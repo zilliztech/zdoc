@@ -318,7 +318,51 @@ async function replayDraft({f, options, inspectSignedBatchCandidate, binding, ca
   equal(createRequests, 1)
   const journal = await fs.readFile(path.join(root, 'isolated-draft-journal.jsonl'), 'utf8')
   match(journal, /"state":"confirmed","operation":"open-draft","number":1/)
-  return {draft, draftCount: createRequests, archiveBytes: archive.length, changedPaths: actualPaths, negatives, repository}
+  // A late change can occur after this writer created its ref but during a
+  // PR-discovery response. Only the new sibling lane receives the fault.
+  const staleDestination = initializeIsolatedBatchDraft(lane, f.tools, 'draft-stale')
+  let discoveries = 0, lateCreates = 0
+  const stale = await createIsolatedBatchDraft({...common, destination: staleDestination, api: {
+    async findUpdate() {
+      if (++discoveries === 3) {
+        git(staleDestination.repository, 'update-ref', 'refs/heads/master', f.sampledDev, f.master)
+      }
+      return null
+    },
+    async createDraft() {lateCreates++; throw Error('MUTATION_AFTER_LATE_MASTER_CHANGE')},
+  }})
+  equal(stale.status, 'unknown', JSON.stringify(stale))
+  equal(stale.reason, 'BATCH_DRAFT_HEAD_CHANGED')
+  equal(lateCreates, 0)
+  const staleJournal = await fs.readFile(path.join(staleDestination.root, 'isolated-draft-journal.jsonl'), 'utf8')
+  equal(staleJournal.includes('"operation":"open-draft"'), false)
+
+  const uncertainDestination = initializeIsolatedBatchDraft(lane, f.tools, 'draft-uncertain')
+  let uncertainChecks = 0
+  const uncertainApi = {
+    async findUpdate() {return null},
+    async createDraft() {lateCreates++; throw Error('MUTATION_AFTER_UNKNOWN_RESULT')},
+  }
+  const uncertainOptions = {...common, destination: uncertainDestination, api: uncertainApi}
+  const unknown = await createIsolatedBatchDraft({...uncertainOptions, async verifyFresh(pins) {
+    if (++uncertainChecks === 3) throw Error('SIMULATED_FRESHNESS_READ_LOSS')
+    await common.verifyFresh(pins)
+  }})
+  equal(unknown.status, 'unknown', JSON.stringify(unknown))
+  equal(unknown.reason, 'SIMULATED_FRESHNESS_READ_LOSS')
+  const uncertainSnapshot = () => [
+    git(uncertainDestination.repository, 'for-each-ref', '--format=%(refname) %(objectname)').toString(),
+    git(uncertainDestination.repository, 'count-objects', '-v').toString(),
+    lateCreates,
+  ]
+  const previous = uncertainSnapshot()
+  equal(previous[0].includes('automation/wp12-guides-batch-'), false)
+  const reconcile = await createIsolatedBatchDraft(uncertainOptions)
+  deepStrictEqual(reconcile, {status: 'held', reason: 'BATCH_DRAFT_RECONCILE'})
+  deepStrictEqual(uncertainSnapshot(), previous)
+  equal(lateCreates, 0)
+  return {draft, draftCount: createRequests, archiveBytes: archive.length, changedPaths: actualPaths, negatives, repository,
+    lateHeadChange: stale, uncertainImport: unknown, retryAfterUncertainImport: reconcile}
 }
 
 main().catch(error => {console.error(error); process.exitCode = 1})

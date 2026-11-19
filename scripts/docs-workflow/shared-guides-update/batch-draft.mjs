@@ -83,12 +83,12 @@ function runGit(args, input) {
   }).toString().trim()
 }
 
-export function initializeIsolatedBatchDraft(parent, baseline) {
+export function initializeIsolatedBatchDraft(parent, baseline, name = 'draft-destination') {
   const parentStat = lstatSync(parent)
   need(realpathSync(parent) === parent && realpathSync(baseline) === baseline && parentStat.isDirectory() &&
-    parentStat.uid === process.getuid() && (parentStat.mode & 0o777) === 0o700 && baseline === join(parent, 'tools'),
+    parentStat.uid === process.getuid() && (parentStat.mode & 0o777) === 0o700 && baseline === join(parent, 'tools') && ['draft-destination', 'draft-stale', 'draft-uncertain'].includes(name),
   'BATCH_DRAFT_DESTINATION')
-  const root = join(parent, 'draft-destination')
+  const root = join(parent, name)
   const repository = join(root, 'isolated-draft.git')
   mkdirSync(root, { mode: 0o700 })
   runGit(['-C', root, 'clone', '--bare', '--quiet', '--local', baseline, repository])
@@ -151,11 +151,19 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
     need(!(await api.findUpdate()) && !git(['for-each-ref', REF_PREFIX + '*']), 'BATCH_DRAFT_EXISTING_UPDATE')
     await fresh()
     try {
-      journalFd = openSync(journal, constants.O_APPEND | constants.O_CREAT | constants.O_WRONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK, 0o600)
-      const stat = fstatSync(journalFd)
-      need(stat.isFile() && stat.nlink === 1 && stat.uid === process.getuid() && (stat.mode & 0o777) === 0o600 &&
-        sameFile(stat, lstatSync(journal)), 'BATCH_DRAFT_JOURNAL')
-    } catch { throw Error('BATCH_DRAFT_JOURNAL') }
+      journalFd = openSync(journal, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600)
+    } catch (error) {
+      need(error.code === 'EEXIST', 'BATCH_DRAFT_JOURNAL')
+      const existing = lstatSync(journal)
+      need(existing.isFile() && existing.nlink === 1 && existing.uid === process.getuid() &&
+        (existing.mode & 0o777) === 0o600, 'BATCH_DRAFT_JOURNAL')
+      // An earlier attempt can have imported objects even if no ref or PR is
+      // visible. The persistent journal deliberately requires reconciliation.
+      throw Error('BATCH_DRAFT_RECONCILE')
+    }
+    const journalStat = fstatSync(journalFd)
+    need(journalStat.isFile() && journalStat.nlink === 1 && journalStat.uid === process.getuid() &&
+      (journalStat.mode & 0o777) === 0o600 && sameFile(journalStat, lstatSync(journal)), 'BATCH_DRAFT_JOURNAL')
     record('requested', 'import-objects', { archiveSha256 })
     requested = true
     for (const object of objects) {
@@ -170,8 +178,9 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
       expectedDev + '\ncreate ' + branch + ' ' + expected.head + '\nprepare\ncommit\n')
     need(git(['rev-parse', branch]) === expected.head, 'BATCH_DRAFT_REF_READBACK')
     record('acknowledged', 'create-ref', { branch, head: expected.head })
-    await fresh()
     need(!(await api.findUpdate()), 'BATCH_DRAFT_EXISTING_UPDATE')
+    await fresh()
+    need(git(['rev-parse', branch]) === expected.head, 'BATCH_DRAFT_REF_READBACK')
     record('requested', 'open-draft', { branch, head: expected.head })
     let response
     try {
