@@ -6,9 +6,13 @@ run-name: shared-docs-manual-update ${{ inputs.mode || 'update' }} ${{ inputs.gr
 # `update` stages the whole-manual `next` candidate (next-lock.yaml applied as the
 # group lock); `promote` moves `current` to `next` with the carried one-sided
 # configuration. The scheduled dispatch runs `update` only; `promote` is a
-# deliberate human dispatch. Read-only lane: it writes only its own candidate
-# branch through a PAT and never master or dev, so it must not reacquire the
-# production queue.
+# deliberate human dispatch. Publish-surface safety (B + tiered blocking): a removed
+# page still published at the current pin blocks the run before anything is staged,
+# and every unadjudicated addition rides behind a new `exclude` entry plus a deferred
+# `ledger.json` entry — the advisory model stage only drafts proposals into those
+# entries and never decides, so adoption always needs a human-authored edit.
+# Read-only lane: it writes only its own candidate branch through a PAT and never
+# master or dev, so it must not reacquire the production queue.
 
 on:
   schedule:
@@ -194,7 +198,9 @@ jobs:
           # The command's final stdout line is a JSON contract; authenticate it before use.
           tail -n 1 "$RUNNER_TEMP/shared-docs-lane.log" | grep -q '^{' || { echo '::error::lane summary line missing'; exit 1; }
           if [ "$MODE" = update ]; then
-            if jq -e '.upToDate == true' "$out/report.json" > /dev/null; then
+            if jq -e '.blocked == true' "$out/report.json" > /dev/null; then
+              echo 'result=blocked' >> "$GITHUB_OUTPUT"
+            elif jq -e '.upToDate == true' "$out/report.json" > /dev/null; then
               echo 'result=up-to-date' >> "$GITHUB_OUTPUT"
             else
               jq -e '.kind == "shared-manual-update" and .upToDate == false and (.to | test("^[0-9a-f]{40}$"))' "$out/report.json" > /dev/null
@@ -209,6 +215,78 @@ jobs:
         env:
           CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
 
+      # Tiered blocking, tier one: a removal that would retire a live route stops the
+      # lane before anything is staged. The redirect decision has no default, so the
+      # run fails red and the summary carries the adjudication recipe instead of a PR.
+      - name: Report the blocked surface
+        if: steps.classify.outputs.result == 'blocked'
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          {
+            echo '## Update blocked: removed page(s) still published at the current pin'
+            echo ''
+            jq -r '.removedPublished[]' "$CANDIDATE_OUT/report.json" | sed 's/^/- /'
+            echo ''
+            echo 'Retiring a live route needs a human redirect decision, so no candidate was staged.'
+            echo 'Recipe: retire = add the file to the exclude list, drop its metadata key, file the redirect;'
+            echo 'keep = leave the lock as is; rename = exclude the old path, adopt the new one, move the metadata key.'
+            echo 'Commit the adjudication on master, then re-run the lane.'
+          } >> "$GITHUB_STEP_SUMMARY"
+          jq -r '.removedPublished[]' "$CANDIDATE_OUT/report.json" | sed 's/^/blocked-removal: /'
+          exit 1
+
+      # Advisory model stage (B: suggestion only, degrade-safe). The decide stage exits 0
+      # with a degraded report when the API key is missing or the gateway fails — the
+      # ledger entries simply carry no proposals and the human checklist stays the only
+      # decision surface. Model/base-url vars are wiring: missing ones fail hard here,
+      # like the REST refresh preflight. Zero pending additions skip the call entirely.
+      - name: Draft the advisory proposals
+        if: steps.classify.outputs.result == 'candidate'
+        env:
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
+          REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
+          REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          pending=$(jq -r '.counts.addedPending' "$out/report.json")
+          if [ "$pending" -eq 0 ]; then
+            echo 'No unadjudicated additions; the advisory stage is skipped.'
+            exit 0
+          fi
+          test -n "$REST_UPSTREAM_AGENT_MODEL" || { echo 'REST_UPSTREAM_AGENT_MODEL (or AGENTIC_TRANSLATION_MODEL) var is not configured' >&2; exit 1; }
+          test -n "$REST_UPSTREAM_AGENT_BASE_URL" || { echo 'REST_UPSTREAM_AGENT_BASE_URL (or AGENTIC_BASE_URL or DEEPSEEK_BASE_URL) var is not configured' >&2; exit 1; }
+          node scripts/docs-workflow/shared-docs-manual-decide.js \
+            --lane-report "$out/report.json" \
+            --shared-docs "shared-docs/$GROUP" \
+            --repo "$RUNNER_TEMP/upstream/$GROUP" \
+            --out "$out/proposals.jsonl" \
+            --report "$out/decide-report.json" \
+            --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
+            --api-key-env AGENTIC_PROVIDER_API_KEY \
+            --model "$REST_UPSTREAM_AGENT_MODEL"
+
+      # Deterministic proposal landing: fills the `proposal` field of the deferred ledger
+      # entries only; classification, existing proposals, and adopted/excluded entries are
+      # never touched, and every metadata draft is re-validated through the real parser.
+      - name: Merge the advisory proposals
+        if: steps.classify.outputs.result == 'candidate'
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          [ -f "$out/proposals.jsonl" ] || { echo 'No proposals to merge; the candidate ledger stays as the lane staged it.'; exit 0; }
+          test -f "$out/ledger.json" || { echo '::error::proposals exist without a candidate ledger; lane wiring is broken'; exit 1; }
+          node scripts/docs-workflow/shared-docs-manual-merge-proposals.js \
+            --ledger "$out/ledger.json" \
+            --proposals "$out/proposals.jsonl" \
+            --shared-docs "shared-docs/$GROUP" \
+            --out "$out/ledger.json"
+
       - name: Apply the candidate to the group
         id: apply
         if: steps.classify.outputs.result == 'candidate'
@@ -217,10 +295,23 @@ jobs:
           out="$CANDIDATE_OUT"
           if [ "$MODE" = update ]; then
             # The update contract stages a whole-manual next candidate as the group lock.
+            # The exclusion pairing and the decision ledger are atomic with the pin: when
+            # the lane staged them, they land in the same commit or not at all.
             grep -q "^schema_version: 1$" "$out/next-lock.yaml"
             grep -Eq "^next: [0-9a-f]{40}$" "$out/next-lock.yaml"
             cp "$out/next-lock.yaml" "shared-docs/$GROUP/lock.yaml"
-            git add -- "shared-docs/$GROUP/lock.yaml"
+            staged_paths=("shared-docs/$GROUP/lock.yaml")
+            if [ -f "$out/manual.yaml" ]; then
+              grep -q "^schema_version: 1$" "$out/manual.yaml"
+              cp "$out/manual.yaml" "shared-docs/$GROUP/manual.yaml"
+              staged_paths+=("shared-docs/$GROUP/manual.yaml")
+            fi
+            if [ -f "$out/ledger.json" ]; then
+              jq -e '.schema_version == 1 and (.entries | type == "array")' "$out/ledger.json" > /dev/null
+              cp "$out/ledger.json" "shared-docs/$GROUP/ledger.json"
+              staged_paths+=("shared-docs/$GROUP/ledger.json")
+            fi
+            git add -- "${staged_paths[@]}"
           else
             grep -Eq "^current: [0-9a-f]{40}$" "$out/lock.yaml"
             cp "$out/lock.yaml" "shared-docs/$GROUP/lock.yaml"
@@ -279,6 +370,23 @@ jobs:
             echo "Lane: \`$MODE\`; group: \`$GROUP\`; upstream: \`$REPOSITORY\` branch \`$TRACK\`; candidate \`${candidate:0:12}\`; base ${base_sha:0:12}."
             echo 'Validation runs the normal shared-docs PR workflows at this candidate.'
             echo ''
+            if [ -f "$CANDIDATE_OUT/ledger.json" ]; then
+              pending=$(jq -r '.counts.addedPending' "$CANDIDATE_OUT/report.json")
+              entries=$(jq -r '.entries | length' "$CANDIDATE_OUT/ledger.json")
+              echo "Zero-auto-adoption pairing: ${pending} added page(s) ride behind new \`exclude\` entries; \`ledger.json\` carries ${entries} deferred entr(ies) to adjudicate — adopting a page means deleting its \`exclude\` line (optionally copying its \`proposal.metadata_draft\`)."
+              echo ''
+            fi
+            if [ -f "$CANDIDATE_OUT/decide-report.json" ]; then
+              proposed=$(jq -r '.summary.proposed' "$CANDIDATE_OUT/decide-report.json")
+              pending=$(jq -r '.summary.pending' "$CANDIDATE_OUT/decide-report.json")
+              model=$(jq -r '.model' "$CANDIDATE_OUT/decide-report.json")
+              if [ "$(jq -r '.summary.degraded' "$CANDIDATE_OUT/decide-report.json")" = true ]; then
+                echo "> **Advisory stage degraded** (reason: $(jq -r '.summary.reason // "unavailable"' "$CANDIDATE_OUT/decide-report.json")): no proposals were drafted, so every pending page reviews with no model guidance. Human review is the only decision surface for this candidate."
+              else
+                echo "Advisory proposals: ${proposed}/${pending} drafted by \`${model}\`; see the \`proposal\` fields in \`ledger.json\` and the decide report in the run artifact."
+              fi
+              echo ''
+            fi
             cat "$CANDIDATE_OUT/report.md"
           } > "$RUNNER_TEMP/shared-docs-pr-body.md"
           GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh label create shared-docs-lane --color D4C5F9 --description 'Automated shared-docs manual lane' --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 || true
@@ -298,7 +406,9 @@ jobs:
           DELIVERED: ${{ steps.deliver.conclusion }}
         run: |
           set -euo pipefail
-          if [ "$APPLY_RESULT" = no-change ]; then
+          if [ "$CLASSIFY_RESULT" = blocked ]; then
+            echo 'Update blocked: removed page(s) are still published at the current pin, so no candidate was staged and nothing was delivered. See the blocked-surface section above for the adjudication recipe.' >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$APPLY_RESULT" = no-change ]; then
             echo "The $MODE candidate produced no diff against $BASE_REF; nothing was delivered." >> "$GITHUB_STEP_SUMMARY"
           elif [ "$CLASSIFY_RESULT" = up-to-date ]; then
             echo "The group lock is up to date with the tracking head; no candidate was staged." >> "$GITHUB_STEP_SUMMARY"
