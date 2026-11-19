@@ -8,16 +8,19 @@ import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, t
   type BatchSeedObservation } from '../../core/updates/batch-discovery'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { guidesSnapshotPath } from '../guides-snapshot'
-import { createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
+import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
 import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
-import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget } from './batch-source'
-import {batchRef, batchSha256, type BatchEdge, type BatchOrigin, type BatchBlobRef} from './batch-collection-contract'
+import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
+import {BatchCopyProofSchema, BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
+import { makeRestoreProof, mergedRestoreFacts, restoreEdgeMatches } from './batch-restore-proof'
+import { importedCopyFacts } from './batch-import-proof'
 import {immutable} from '../../core/updates/types'
 
 type Pins = BatchDiscoveryInput['pins']
 type API = ReturnType<typeof createBatchGitHub>
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 const group = 'shared-docs/guides', activePath = 'generated/en/manifests/shared-pages/guides/active.json'
+const edgeLookaheadLimit = 32
 const unique = <T>(rows: T[]) => [...new Set(rows)]
 const add = (values: string[], value: string) => { if (!values.includes(value)) values.push(value) }
 const digest = (value: unknown) => createHash('sha256').update(canonicalBytes(value)).digest('hex')
@@ -133,7 +136,8 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
 }
 
 interface PageRange { page: BatchPageObservation; members: Set<string>; fragments: Set<string>; interval: BatchInterval }
-async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[]) {
+async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[],
+  retain?: (bytes: Uint8Array) => BatchBlobRef) {
   const target = input.pins.source, history = await store.history(target)
   const ranges: PageRange[] = [], activeCommits = new Set<string>(), memberships = new Map<string, Set<string>>()
   const ordered = new Set<string>(), unresolved = new Map<BatchPageObservation, string>()
@@ -165,6 +169,12 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   }
 
   const changes = new Map<string, BatchPathChange>(), seeds = new Map<string, BatchSeedObservation>()
+  const restorations = new Map<string, {proof: BatchRestoreProof; ref: BatchBlobRef}>()
+  const potentialCopies: {row: BatchEdge; pull: NonNullable<Awaited<ReturnType<API['association']>>['pull']>;
+    observation: NonNullable<Awaited<ReturnType<API['association']>>['singlePage']>; lockRanges?: PageRange[]}[] = []
+  const intervalTouches: {range: PageRange; commit: string; path: string; row?: BatchEdge}[] = []
+  const uncertainties: {range: PageRange; key: string; oid: string; paths: string[]; rows: BatchEdge[]}[] = []
+  const lockSideUncertainties: {oid: string; parent: string; touches: typeof intervalTouches}[] = []
   const clueKeys = new Set<string>()
   function clue(pageIds: string[], seedKeys: string[], paths: string[], evidence: string[], reasons: string[]) {
     const value = { pageIds: unique(pageIds).sort(), seedKeys: unique(seedKeys).sort(), paths: unique(paths).sort(), evidence: unique(evidence).sort(), reasons }
@@ -207,61 +217,118 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       edge.relevant.push(r)
     }
   }
-  for (const { oid, parent, relevant, lockSide } of [...edges, ...extraEdges.values()]) {
+  const lockSideMerges = new Set([...extraEdges.values()].map(edge => edge.oid))
+  const knownAssociations = new Map<string, Awaited<ReturnType<API['associations']>>[number]>()
+  const firstParentLine = new Set<string>()
+  for (let oid: string | undefined = target; oid && activeCommits.has(oid); oid = history.parents(oid)[0]) firstParentLine.add(oid)
+  async function prepareEdge(edge: typeof edges[number]) {
     budget.remaining()
-    let raw
-    try { raw = await store.delta(parent, oid) }
+    let raw: RawChange[]
+    try { raw = await store.delta(edge.parent, edge.oid) }
     catch (error) {
-      const reason = safeReason(error, 'SOURCE_DELTA_UNAVAILABLE')
-      add(input.reasons, reason)
-      for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, reason) }
-      continue
+      return {...edge, failure: safeReason(error, 'SOURCE_DELTA_UNAVAILABLE'), raw: null, classified: null, affected: false}
     }
-    const ledgerRows: BatchEdge[] = []
-    const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
-    const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
     const removed = new Map<string, string[]>(), added = new Map<string, number>()
     for (const delta of raw) {
       if (delta.before && !delta.after) removed.set(delta.before, [...removed.get(delta.before) ?? [], delta.path])
       if (delta.after && !delta.before) added.set(delta.after, (added.get(delta.after) ?? 0) + 1)
     }
-    for (const delta of raw) {
+    const unresolvedPages = [...unresolved.keys()]
+    const classified = raw.map(delta => {
       const sources = delta.after && !delta.before ? removed.get(delta.after) : undefined
       const previous = sources?.length === 1 && added.get(delta.after!) === 1 ? sources[0] : null
+      const direct = edge.relevant.filter(r => r.page.sourceFile === delta.path || r.page.sourceFile === previous)
+      const unresolved = unresolvedPages.filter(page => page.sourceFile === delta.path || page.sourceFile === previous)
+      const consumers = edge.relevant.filter(r => r.fragments.has(delta.path))
+      return {delta, previous, direct, unresolved, consumers, fragment: delta.path.startsWith('site/en/fragments/')}
+    })
+    // Only these authenticated paths need PR metadata. Unrelated edits still retain raw evidence.
+    const affected = classified.some(({delta, direct, unresolved, consumers, fragment}) =>
+      direct.length || unresolved.length || consumers.length || fragment || ledger && delta.path.startsWith('site/en/') && /\.mdx?$/.test(delta.path))
+    return {...edge, raw, classified, affected, failure: null}
+  }
+  async function* observeEdges() {
+    const allEdges = [...edges, ...extraEdges.values()]
+    let offset = 0
+    while (offset < allEdges.length) {
+      const window: Awaited<ReturnType<typeof prepareEdge>>[] = [], commits: string[] = []
+      while (offset < allEdges.length && window.length < edgeLookaheadLimit && commits.length < BATCH_ASSOCIATION_WINDOW) {
+        const prepared = await prepareEdge(allEdges[offset++])
+        window.push(prepared)
+        if (prepared.affected && !prepared.lockSide) commits.push(prepared.oid)
+      }
+      const associations = await api.associations(commits)
+      let index = 0
+      for (const edge of window) yield {edge, association: edge.affected && !edge.lockSide ? associations[index++] : undefined}
+    }
+  }
+  for await (const {edge: prepared, association} of observeEdges()) {
+    budget.remaining()
+    const {oid, parent, relevant, lockSide, failure, raw, classified, affected} = prepared
+    if (!lockSide && association && lockSideMerges.has(oid)) knownAssociations.set(oid, association)
+    if (failure !== null) {
+      add(input.reasons, failure)
+      for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, failure) }
+      continue
+    }
+    const ledgerRows: BatchEdge[] = []
+    const edgeTouches: typeof intervalTouches = []
+    const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
+    const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
+    for (const {delta, previous, direct, unresolved, consumers, fragment} of classified) {
+      let row: BatchEdge | undefined
       if (ledger) {
         const prior = previous ? raw.find(d => d.path === previous && d.before && !d.after) : undefined
-        const row: BatchEdge = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
+        row = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
           oldOid: prior?.before ?? delta.before, newOid: delta.after, oldMode: (prior?.beforeMode ?? delta.beforeMode) as BatchEdge['oldMode'], newMode: delta.afterMode as BatchEdge['newMode'],
           rangeIds: relevant.map(r => r.page.pageId).sort(compareUtf8), associationResult: 'irrelevant', introductionOid: null, seedKey: null, evidenceRefs: [],
           evidence: [], reasons: []}
         ledger.push(row); ledgerRows.push(row)
       }
-      const direct = relevant.filter(r => r.page.sourceFile === delta.path || r.page.sourceFile === previous)
-      for (const page of unresolved.keys()) if (page.sourceFile === delta.path || page.sourceFile === previous) unresolvedHits.add(page)
-      const consumers = relevant.filter(r => r.fragments.has(delta.path))
+      for (const page of unresolved) unresolvedHits.add(page)
       const edge = ['edge', parent ?? 'root', oid, delta.beforeMode ?? 'absent', delta.before ?? 'absent', delta.afterMode ?? 'absent', delta.after ?? 'absent'].join(':')
       change(delta.path, previous ? 'renamed' : !delta.before ? 'added' : !delta.after ? 'removed' : 'modified', previous, edge, direct.map(r => r.page.pageId))
       if (previous) clue([], [], [previous, delta.path], [edge], [])
       for (const r of [...direct, ...consumers]) {
-        add(r.interval.commits, oid); add(r.interval.changePaths, delta.path); touched.add(r); hitPaths.add(delta.path)
+        const touch = {range: r, commit: oid, path: delta.path, row}
+        intervalTouches.push(touch)
+        if (lockSide) edgeTouches.push(touch)
+        touched.add(r); hitPaths.add(delta.path)
       }
-      if (delta.path.startsWith('site/en/fragments/')) fragmentHits.set(delta.path, consumers)
+      if (fragment) fragmentHits.set(delta.path, consumers)
     }
-    // Unrelated edits still have complete raw path/edge evidence. Only candidate source or
-    // fragment commits need PR metadata; otherwise incidental upstream traffic consumes the inspection budget.
-    if (!touched.size && !fragmentHits.size && !unresolvedHits.size && !(ledger && raw.some(d => d.path.startsWith('site/en/') && /\.mdx?$/.test(d.path)))) continue
+    if (!affected) continue
     for (const row of ledgerRows) {row.associationResult = 'unknown'; row.reasons = ['ASSOCIATION_UNVERIFIED']}
     const touchedIds = [...touched].map(r => r.page.pageId)
     if (lockSide) {
       // This edge proves a transition on the lock's lineage. First-parent/PR evidence is assessed separately.
-      for (const r of touched) { r.interval.association = 'unknown'; add(r.page.reasons, 'LOCK_SIDE_MERGE_REQUIRES_COLLECTOR') }
-      if (touched.size) clue(touchedIds, [], [...hitPaths], [gitRef(oid), 'parent:' + parent], ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR'])
       for (const row of ledgerRows) row.reasons = ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR']
+      lockSideUncertainties.push({oid, parent: parent!, touches: edgeTouches})
+      if (retain && firstParentLine.has(oid)) {
+        let verified = knownAssociations.get(oid)
+        if (!verified) {
+          const [result] = await api.associations([oid])
+          verified = result
+          knownAssociations.set(oid, verified)
+        }
+        if (verified.status === 'fulfilled') {
+          const {pull, evidence, singlePage} = verified.value
+          if (pull?.singlePageProof && singlePage && pull.identity.head === parent && pull.identity.mergeCommit === oid) {
+            const reportedPaths = new Set(pull.files.flatMap(file => file.previousPath ? [file.path, file.previousPath] : [file.path]))
+            for (const row of ledgerRows) if (row.oldPath === row.newPath && row.newPath && !reportedPaths.has(row.newPath)) {
+              row.evidence = [...new Set([...evidence, ...pull.evidence])].sort(compareUtf8)
+              potentialCopies.push({row, pull, observation: singlePage, lockRanges: relevant})
+            }
+          }
+        }
+      }
       continue
     }
     let key: string | undefined
     try {
-      const { pull, evidence } = await api.association(oid)
+      if (!association) stop('METADATA_READ_FAILED')
+      if (association.status === 'rejected') throw association.reason
+      const { pull, evidence, singlePage } = association.value
       const intro = pull?.identity.mergeCommit
       if (pull && (!intro || !history.introduces(oid, intro, pull.identity.base, pull.identity.head, pull.commits))) stop('PR_INTRODUCTION_UNVERIFIED')
       key = pull ? 'pr:' + pull.identity.number : 'commit:' + oid
@@ -303,7 +370,39 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       const importedParents = pull ? history.importedBaseParents(oid, intro!, pull.identity.base) : []
       const unverified = new Set<string>()
       for (const delta of raw.filter(d => ledger || hitPaths.has(d.path))) {
-        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) { unverified.add(delta.path); continue }
+        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) {
+          const ledgerRow = ledgerRows.find(row => row.newPath === delta.path && row.oldPath === delta.path)
+          const metadata = pull?.singlePageProof
+          if (retain && ledgerRow && pull && metadata && singlePage) {
+            const restoreKey = pull.identity.number + ':' + delta.path
+            let matching = restorations.get(restoreKey)
+            if (!matching) {
+              const facts = await mergedRestoreFacts(store, history, pull.identity, delta.path, oid, ranges)
+              if (facts) {
+                const peer = await api.association(oid === facts.first ? facts.head : facts.first)
+                if (peer.pull?.identity.mergeCommit === facts.merge && peer.pull.identity.number === facts.number &&
+                    peer.pull.singlePageProof?.files.digest === metadata.files.digest &&
+                    peer.pull.singlePageProof.detail.digest === metadata.detail.digest && peer.singlePage) {
+                  const refs = {detailRef: retain(metadata.detail.body), filesRef: retain(metadata.files.body),
+                    firstAssociationRef: retain((oid === facts.first ? singlePage : peer.singlePage).body),
+                    headAssociationRef: retain((oid === facts.head ? singlePage : peer.singlePage).body)}
+                  const bytes = makeRestoreProof(facts, refs)
+                  matching = {proof: parseBatchCanonical(bytes, BatchRestoreProofSchema), ref: retain(bytes)}
+                  restorations.set(restoreKey, matching)
+                }
+              }
+            }
+            if (matching && restoreEdgeMatches(matching.proof, ledgerRow) &&
+                batchSha256(singlePage.body) === (oid === matching.proof.first ? matching.proof.firstAssociationRef : matching.proof.headAssociationRef).sha256) {
+              ledgerRow.associationResult = 'restored'; ledgerRow.restorationRef = matching.ref
+              continue
+            }
+            if (importedParents.length === 1 && delta.beforeMode === delta.afterMode) {
+              potentialCopies.push({row: ledgerRow, pull, observation: singlePage})
+            }
+          }
+          unverified.add(delta.path); continue
+        }
         for (const baseParent of importedParents) {
           if (((await store.optionalFile(baseParent, delta.path))?.oid ?? null) === delta.after) {
             unverified.add(delta.path); break
@@ -314,8 +413,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       for (const r of touched) {
         const uncertain = [...unverified].filter(path => r.page.sourceFile === path || r.fragments.has(path))
         if (uncertain.length) {
-          r.interval.association = 'unknown'; add(r.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
-          clue([r.page.pageId], [key], uncertain, [gitRef(oid)], ['PR_CHANGED_PATH_UNVERIFIED'])
+          uncertainties.push({range: r, key, oid, paths: uncertain, rows: ledgerRows})
         }
         // Fragments use dependency clues. Direct membership requires the configured root's own transition.
         if (hitPaths.has(r.page.sourceFile) && !unverified.has(r.page.sourceFile)) add(r.page.seedKeys, key)
@@ -336,16 +434,57 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       clue([...touched].map(r => r.page.pageId), key ? [key] : [], raw.map(d => d.path), [gitRef(oid)], [])
     }
   }
+  if (ledger && retain) for (const {row, pull, observation, lockRanges} of potentialCopies) {
+    const expectedReason = lockRanges ? 'LOCK_SIDE_MERGE_REQUIRES_COLLECTOR' : 'PR_CHANGED_PATH_UNVERIFIED'
+    if (row.associationResult !== 'unknown' || row.reasons.join() !== expectedReason || !pull.singlePageProof) continue
+    const facts = await importedCopyFacts(store, history, pull.identity, row, ledger, lockRanges ?? ranges, !!lockRanges)
+    if (!facts) continue
+    const proof = BatchCopyProofSchema.parse({...facts, detailRef: retain(pull.singlePageProof.detail.body),
+      filesRef: retain(pull.singlePageProof.files.body), associationRef: retain(observation.body)})
+    row.associationResult = 'copied'; row.seedKey = null; row.introductionOid = null
+    row.copyRef = retain(canonicalBytes(proof)); row.reasons = []
+  }
+  const survivingTouches = new Map<PageRange, Set<string>>()
+  for (const {range, commit, path, row} of intervalTouches) {
+    if (row?.associationResult === 'copied') continue
+    add(range.interval.commits, commit); add(range.interval.changePaths, path)
+    const paths = survivingTouches.get(range) ?? new Set<string>()
+    paths.add(path); survivingTouches.set(range, paths)
+  }
+  for (const {range, path, row} of intervalTouches) {
+    if (row?.associationResult !== 'copied' || survivingTouches.get(range)?.has(path) || path !== range.page.sourceFile) continue
+    const change = changes.get(path)
+    if (!change) continue
+    change.pageIds = change.pageIds?.filter(id => id !== range.page.pageId)
+    if (change.kind === 'source' && !change.pageIds?.length) change.kind = 'other'
+  }
+  for (const {range, key, oid, paths, rows} of uncertainties) {
+    const unproven = paths.filter(path => !rows.some(row => row.associationResult === 'copied' && row.newPath === path && row.oldPath === path))
+    if (!unproven.length) continue
+    range.interval.association = 'unknown'; add(range.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
+    clue([range.page.pageId], [key], unproven, [gitRef(oid)], ['PR_CHANGED_PATH_UNVERIFIED'])
+  }
+  for (const {oid, parent, touches} of lockSideUncertainties) {
+    const unproven = touches.filter(touch => touch.row?.associationResult !== 'copied')
+    const affected = new Set(unproven.map(touch => touch.range))
+    if (!affected.size) continue
+    for (const r of affected) { r.interval.association = 'unknown'; add(r.page.reasons, 'LOCK_SIDE_MERGE_REQUIRES_COLLECTOR') }
+    clue([...affected].map(r => r.page.pageId), [], unproven.map(touch => touch.path), [gitRef(oid), 'parent:' + parent], ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR'])
+  }
   for (const r of ranges) if (r.page.active === false && r.interval.commits.length) {
     r.page.intervals.push(r.interval)
     if ([...r.members].some(oid => !activeCommits.has(oid))) r.interval.association = 'unknown'
+  }
+  for (const {proof, ref} of restorations.values()) {
+    const rows = ledger?.filter(row => row.restorationRef?.sha256 === ref.sha256) ?? []
+    if (rows.length !== 2 || new Set(rows.map(row => row.commit)).size !== 2 || rows.some(row => !restoreEdgeMatches(proof, row))) stop('RESTORE_LEDGER_INCOMPLETE')
   }
   return history.records()
 }
 
 /** Observe three independent fixed refs. No caller pin, network address, repository identity or mode can select an observed result. */
 export async function collectBatchDiscovery(options: BatchDiscoveryOptions, testSeam?: BatchGitHubTestSeam) {
-  const budget = batchBudget(), api = createBatchGitHub(budget, testSeam)
+  const budget = batchBudget(), api = createBatchGitHub(budget, testSeam, 'discovery')
   try {
     if (Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository') stop('BATCH_OPTIONS_INVALID')
     if (!GitShaSchema.safeParse(options.tools).success) stop('TOOLS_IDENTITY_INVALID')
@@ -372,6 +511,7 @@ export async function collectBatchDiscovery(options: BatchDiscoveryOptions, test
     } catch { add(input.reasons, 'FINAL_REFS_UNVERIFIED') }
     return discoverBatches(input)
   } catch (error) { stop(safeReason(error, 'BATCH_INVENTORY_UNAVAILABLE')) }
+  finally { api.close() }
 }
 
 
@@ -391,28 +531,37 @@ export function readBatchDiscoveryCapture(capture: BatchDiscoveryCapture): Reado
 async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOrigin, seam?: BatchGitHubTestSeam): Promise<BatchDiscoveryCapture> {
   if (Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository') stop('BATCH_OPTIONS_INVALID')
   GitShaSchema.parse(options.tools)
-  const budget = batchBudget(), api = createBatchGitHub(budget, seam), pins = await api.pins()
-  const zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
-  const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
-  const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
-  await lifecycle(zdoc, input)
-  const source = await BatchGitStore.open(options.sourceRepository, budget)
-  const introductionOrder = await observeSource(source, input, api, budget, ledger)
-  await source.verify(); await zdoc.verify()
-  const final = await api.pins()
-  if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
-  const objects = [...source.evidenceObjects(), ...zdoc.evidenceObjects()].map(object => {
-    const ref = batchRef(object.bytes); evidence.push({ref, bytes: object.bytes}); return {oid: object.oid, kind: object.kind, ref}
-  }).sort((a, b) => compareUtf8(a.oid, b.oid))
-  const proofBytes = canonicalBytes({objects: [...new Map(objects.map(o => [o.oid, o])).values()]}), proofRef = batchRef(proofBytes)
-  evidence.push({ref: proofRef, bytes: proofBytes})
-  for (const row of ledger) row.evidenceRefs = [proofRef]
-  const capture = Object.freeze({}) as BatchDiscoveryCapture
-  // Do not freeze typed arrays; only private refs/values leave this module.
-  const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
-    evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
-  ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
-  return capture
+  const budget = batchBudget(), api = createBatchGitHub(budget, seam, 'discovery')
+  try {
+    const pins = await api.pins(), zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
+    const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
+    const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
+    await lifecycle(zdoc, input)
+    const source = await BatchGitStore.open(options.sourceRepository, budget)
+    const retained = new Map<string, BatchBlobRef>()
+    const retain = (bytes: Uint8Array) => {
+      const ref = batchRef(bytes)
+      if (!retained.has(ref.sha256)) { retained.set(ref.sha256, ref); evidence.push({ref, bytes}) }
+      return ref
+    }
+    const introductionOrder = await observeSource(source, input, api, budget, ledger, retain)
+    await source.verify(); await zdoc.verify()
+    const final = await api.pins()
+    if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
+    const objects = [...source.evidenceObjects(), ...zdoc.evidenceObjects()].map(object => {
+      const ref = batchRef(object.bytes); evidence.push({ref, bytes: object.bytes}); return {oid: object.oid, kind: object.kind, ref}
+    }).sort((a, b) => compareUtf8(a.oid, b.oid))
+    const proofBytes = canonicalBytes({objects: [...new Map(objects.map(o => [o.oid, o])).values()]}), proofRef = batchRef(proofBytes)
+    evidence.push({ref: proofRef, bytes: proofBytes})
+    for (const row of ledger) row.evidenceRefs = [proofRef]
+    const capture = Object.freeze({}) as BatchDiscoveryCapture
+    // Do not freeze typed arrays; only private refs/values leave this module.
+    const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
+      evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
+    budget.remaining()
+    ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
+    return capture
+  } finally { api.close() }
 }
 /** Internal observed acquisition, with no caller pins or fixture transport. */
 export function observeBatchDiscovery(options: BatchDiscoveryOptions) {return captureDiscovery(options, {kind: 'observed'})}
