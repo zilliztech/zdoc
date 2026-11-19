@@ -6,7 +6,7 @@ import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/env
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
 export const BATCH_WIRE_LIMIT = 128 * 1024 * 1024
-export const batchTags = Object.freeze(['discovery', 'material', 'materials', 'closure', 'scope', 'qualifier', 'index', 'control'] as const)
+export const batchTags = Object.freeze(['discovery', 'material', 'materials', 'closure', 'scope', 'qualifier', 'index', 'control', 'candidate-binding'] as const)
 export function batchDigest(tag: typeof batchTags[number], value: unknown): string {
   if (!batchTags.includes(tag)) throw Error('BATCH_DIGEST_TAG_INVALID')
   return createHash('sha256').update(`zdoc/guides-batch/${tag}/v1\n`).update(canonicalBytes(value)).digest('hex')
@@ -45,7 +45,7 @@ export const BatchPageMaterialHeaderSchema = z.strictObject({kind: z.literal('gu
   pageId: BatchPageIdSchema, configRef: BatchBlobRefSchema, lockRef: BatchBlobRefSchema, targets: BatchTargetsSchema,
   current: GitShaSchema, oldNext: GitShaSchema, rawMaterialRefs: roleRefs, inventoryRefs: roleRefs, historyRef: BatchBlobRefSchema,
   renderedManualRefs: z.array(manualRef).refine(v => ordered(v, r => `${batchRoles.indexOf(r.role)}:${r.manual}:${r.path}`)),
-  imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema})
+  imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema.optional()})
 export type BatchPageMaterialHeader = z.infer<typeof BatchPageMaterialHeaderSchema>
 export const BatchMaterialWireSchema = z.strictObject({kind: z.literal('guides-batch-material-wire-v1'),
   material: BatchPageMaterialHeaderSchema, blobs: z.array(z.strictObject({ref: BatchBlobRefSchema, base64: text}))
@@ -138,6 +138,19 @@ const diagnostic = z.strictObject({code: text, message: text, file: text.optiona
 export const BatchDiagnosticsSchema = z.strictObject({errors: z.array(diagnostic), rawErrors: z.array(diagnostic), reasons: strings(text)})
 export const BatchManualSchema = z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema,
   markdown: text, output: text.nullable(), headings: z.array(BatchHeadingSchema), references: z.array(BatchReferenceSchema)})
+// Older read-only collections may lack detail. Candidate preparation requires this measured leaf.
+export const BatchMaterialDetailSchema = z.strictObject({kind: z.literal('guides-batch-material-detail-v1'),
+  pageId: BatchPageIdSchema, configPaths: strings(RepoPathSchema), targets: z.array(BatchTargetSchema).min(1),
+  observations: z.array(z.strictObject({role, commit: GitShaSchema,
+    buildLock: z.strictObject({current: GitShaSchema, next: GitShaSchema}).nullable(),
+    engine: z.strictObject({name: text.min(1), version: text.min(1)}).nullable(),
+    localInputs: z.array(z.strictObject({file: RepoPathSchema, sha256: DigestSchema})).min(1).refine(v => ordered(v, x => x.file)),
+    blocks: z.array(z.strictObject({id: text, type: z.enum(['markdown', 'code-group']), startLine: BatchCountSchema.positive(),
+      endLine: BatchCountSchema.positive(), languages: z.array(text.nullable()), summary: text}).refine(b => b.endLine >= b.startLine)),
+    diagnosticsRef: BatchBlobRefSchema
+  })).length(3).refine(v => v.every((o, i) => o.role === batchRoles[i]))})
+export type BatchMaterialDetail = z.infer<typeof BatchMaterialDetailSchema>
+
 const fileRef = z.strictObject({path: RepoPathSchema, oid: GitShaSchema, ref: BatchBlobRefSchema})
 export const BatchRawTreeSchema = z.strictObject({commit: GitShaSchema, entries: z.array(fileRef).refine(v => ordered(v, e => e.path))})
 export const BatchInventorySchema = z.strictObject({commit: GitShaSchema, treeOid: GitShaSchema,
@@ -266,8 +279,28 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
     for (const manual of observation.manuals) if (!header.renderedManualRefs.some(m => m.role === observation.role && m.manual === manual.manual && m.path === manual.path && m.ref.sha256 === manual.ref.sha256)) throw Error('BATCH_PROJECTION_BINDING_INVALID')
   }
   object(header.diagnosticsRef, BatchDiagnosticsSchema)
+  const detail = header.detailRef && object(header.detailRef, BatchMaterialDetailSchema)
+  if (detail) {
+    validateBatchMaterialDetail(detail, header, config, projection)
+    for (const observation of detail.observations) object(observation.diagnosticsRef, BatchDiagnosticsSchema)
+  }
   if (reached.size !== blobs.size) throw Error('BATCH_MATERIAL_ORPHAN_BLOB')
-  return {header, projection, trees, inventories, config, namespace, images, parsed}
+  return {header, projection, trees, inventories, config, namespace, images, detail, parsed}
+}
+
+export function validateBatchMaterialDetail(detail: BatchMaterialDetail, header: BatchPageMaterialHeader,
+  config: z.infer<typeof BatchConfigSchema>, projection: BatchProjection) {
+  const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(Buffer.from(canonicalBytes(b)))
+  const files = new Map(config.files.map(f => [f.path, f.ref.sha256]))
+  if (detail.pageId !== header.pageId || !same(batchSorted(detail.targets, t => t.manual), header.targets)
+      || !detail.configPaths.length || detail.configPaths.some(path => !files.has(path))) throw Error('BATCH_MATERIAL_DETAIL_INVALID')
+  const locks = [header.base.pins.source, header.oldNext, header.base.pins.source]
+  for (const [i, endpoint] of detail.observations.entries()) {
+    if (endpoint.commit !== projection.observations[i].commit ||
+      (projection.observations[i].outputStatus === 'observed' && (!endpoint.engine || !same(endpoint.buildLock, {current: header.current, next: locks[i]}))) ||
+      endpoint.localInputs.some(input => files.get(input.file) !== input.sha256) ||
+      detail.configPaths.some(path => !endpoint.localInputs.some(input => input.file === path))) throw Error('BATCH_MATERIAL_DETAIL_INVALID')
+  }
 }
 
 export const BatchEdgeSchema = z.strictObject({commit: GitShaSchema, parent: GitShaSchema.nullable(), oldPath: RepoPathSchema.nullable(), newPath: RepoPathSchema.nullable(),

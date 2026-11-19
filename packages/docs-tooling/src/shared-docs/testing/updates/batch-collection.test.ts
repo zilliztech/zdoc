@@ -30,6 +30,13 @@ it('denies fabricated material tickets without reading a selected run or constru
   expect(await batch.qualifyObservedBatchMaterial(JSON.parse('{}'))).toEqual({status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']})
 })
 
+it('denies public records and copied tickets at the candidate entry', async () => {
+  const {prepareQualifiedBatchCandidate} = await import('../../adapters/updates/batch-candidate')
+  for (const data of [{}, {kind: 'guides-batch-collection-index-v1', origin: 'observed'}, {kind: 'guides-batch-verify-control-v1'}]) {
+    await expect(prepareQualifiedBatchCandidate(data as never)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  }
+})
+
 it('rechecks fixed local replay master/dev refs without passing refs to the exact-SHA resolver', async () => {
   const f = await fixture(), batch = await import('../../adapters/updates/batch-collection')
   await git(f.root, 'update-ref', 'refs/heads/dev', f.devCommit)
@@ -80,6 +87,10 @@ it('collects a real one-page content frame without lifecycle or an eligible enve
   const checked = validateBatchWire(wire, request)
   expect(checked.header.pageId).toBe('build-pipeline')
   expect(checked.projection.observations).toHaveLength(3)
+  expect(checked.detail?.observations.map(o => o.engine?.name)).toEqual(Array(3).fill('@zilliz/mdtomd'))
+  expect(checked.detail?.observations.map(o => o.buildLock?.current)).toEqual(Array(3).fill(checked.header.current))
+  expect(checked.detail?.observations.every(o => o.localInputs.some(f => f.file === 'shared-docs/guides/source.yaml'))).toBe(true)
+  expect(checked.detail?.observations.every(o => o.diagnosticsRef.bytes > 0)).toBe(true)
   expect(checked.trees[1].entries.map(e => e.path)).toContain('site/en/fragments/used.md')
   expect(wire).not.toHaveProperty('pages')
   expect(wire).not.toHaveProperty('authority')

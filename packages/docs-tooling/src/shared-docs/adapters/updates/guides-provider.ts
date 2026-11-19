@@ -619,8 +619,13 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     }
     for (const inventory of inventoryRefs) inventory.ref = completeAbsence(inventory.ref)
     for (const observation of intervalObservations) observation.inventoryRef = completeAbsence(observation.inventoryRef)
+    const detailRef = object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
+      configPaths: sorted([...consumedConfigurationPaths(request.pageId, ids, loaded.configuration.sharedDocs.pages.get(request.pageId)!.contentFiles?.keys() ?? [])]),
+      targets: fixed.candidateNext.targets, observations: observations.map((o, i) => ({role: contract.batchRoles[i], commit: o.commit,
+        buildLock: o.buildLock, engine: o.engine, localInputs: contract.batchSorted(o.localInputs, f => f.file), blocks: o.blocks,
+        diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []})}))}))
     const material = contract.BatchPageMaterialHeaderSchema.parse({kind: 'guides-batch-material-v1', base: {origin: request.origin, session: request.session, pins: request.pins}, pageId: request.pageId,
-      configRef, lockRef, targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
+      configRef, lockRef, detailRef, targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
       historyRef: object({commits: commitHistory, interval: intervalObservations}), renderedManualRefs,
       imagesRef: object(images), projectionRef: object({pageId: request.pageId, observations: projected, promotionAnchors: impact.promotion.anchors, sourceAnchors: impact.sourceImpact.anchors}),
       diagnosticsRef: object({errors: impact.errors.map(normalizeDiagnostic), rawErrors: impact.rawErrors.map(normalizeDiagnostic), reasons: []})})

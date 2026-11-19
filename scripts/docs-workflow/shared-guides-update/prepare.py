@@ -817,7 +817,9 @@ def _batch_receipt_outputs(outputs):
 
 def _batch_material(reader, retained, base):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
-    header = reader.object(retained['materialRef'], 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef')
+    header = reader.blob(retained['materialRef'], parse=True)
+    fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
+    batch_exact(header, fields + (' detailRef' if 'detailRef' in header else ''))
     require(header['kind'] == 'guides-batch-material-v1' and header['base'] == base
             and header['pageId'] == retained['pageId'] and batch_digest('material', header) == retained['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     for key, maximum in (('requestBytes', 32 * 1024**2), ('responseBytes', 128 * 1024**2)):
@@ -936,6 +938,30 @@ def _batch_material(reader, retained, base):
             require(any(r['role'] == observation['role'] and all(r[k] == output[k] for k in ('manual', 'path', 'ref')) for r in header['renderedManualRefs']), 'BATCH_PROJECTION_INVALID')
     diagnostics = reader.object(header['diagnosticsRef'], 'errors rawErrors reasons')
     require(diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
+    if 'detailRef' in header:
+        detail = reader.object(header['detailRef'], 'kind pageId configPaths targets observations')
+        require(detail['kind'] == 'guides-batch-material-detail-v1' and detail['pageId'] == header['pageId']
+                and sorted(detail['targets'], key=lambda t: t['manual']) == header['targets']
+                and len(detail['observations']) == 3, 'BATCH_MATERIAL_DETAIL_INVALID')
+        files = {file['path']: file['ref']['sha256'] for file in config['files']}
+        batch_sorted(detail['configPaths'])
+        require(detail['configPaths'] and all(p in files for p in detail['configPaths']), 'BATCH_MATERIAL_DETAIL_INVALID')
+        for i, endpoint in enumerate(detail['observations']):
+            batch_exact(endpoint, 'role commit buildLock engine localInputs blocks diagnosticsRef')
+            engine = batch_exact(endpoint['engine'], 'name version')
+            require(endpoint['role'] == projection['observations'][i]['role'] and endpoint['commit'] == commits[i]
+                    and endpoint['buildLock'] == {'current': commits[0], 'next': commits[1 if i == 1 else 2]}
+                    and all(isinstance(v, str) and v for v in engine.values()), 'BATCH_MATERIAL_DETAIL_INVALID')
+            batch_sorted(endpoint['localInputs'], lambda f: f['file'])
+            inputs = {batch_exact(f, 'file sha256')['file']: f['sha256'] for f in endpoint['localInputs']}
+            require(set(detail['configPaths']) <= set(inputs) and all(files.get(p) == v for p, v in inputs.items()), 'BATCH_MATERIAL_DETAIL_INVALID')
+            for block in endpoint['blocks']:
+                batch_exact(block, 'id type startLine endLine languages summary')
+                require(block['type'] in ('markdown', 'code-group') and 0 < block['startLine'] <= block['endLine']
+                        and isinstance(block['summary'], str) and isinstance(block['languages'], list)
+                        and all(v is None or isinstance(v, str) for v in block['languages']), 'BATCH_MATERIAL_DETAIL_INVALID')
+            endpoint_diagnostics = reader.object(endpoint['diagnosticsRef'], 'errors rawErrors reasons')
+            require(endpoint_diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
     return header, [p['pageId'] for p in config['registry']]
 
 

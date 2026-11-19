@@ -240,6 +240,21 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
   }
   return {
     repository,commit,tree,blobAt,isAncestor,rawDiff,
+    async verifyConnected(commits: readonly string[], budget?: () => void) {
+      await validateLayout()
+      const ids = [...new Set(commits.map(id => GitShaSchema.parse(id)))]
+      if (!ids.length) hold('GIT_COMMIT_REQUIRED')
+      const output = await run(repository, ['rev-list', '--objects', '--missing=print', ...ids], undefined, {}, budget)
+      if (/^\?/m.test(output.toString())) hold('GIT_OBJECT_MISSING')
+      for (const id of ids) await commit(id, budget)
+    },
+    async retainSignedCommit(raw: Uint8Array, expected: string, budget?: () => void) {
+      GitShaSchema.parse(expected)
+      if (raw.length > 4 * 65536 || createHash('sha1').update(`commit ${raw.length}\0`).update(raw).digest('hex') !== expected) hold('GIT_OBJECT_HASH_MISMATCH')
+      await validateLayout()
+      const actual = (await run(repository, ['hash-object', '-t', 'commit', '-w', '--stdin'], raw, {}, budget)).toString().trim()
+      if (actual !== expected || !Buffer.from(await object(expected, 'commit', budget)).equals(raw)) hold('GIT_OBJECT_HASH_MISMATCH')
+    },
     prepare:(request:PreparationRequest,budget?:()=>void)=>prepareWithBoundary(request,budget,false),
     // Git facts only: remote provenance is checked by the caller before this boundary.
     prepareRemote:(request:PreparationRequest,budget?:()=>void)=>prepareWithBoundary(request,budget,true),

@@ -6,7 +6,7 @@ import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence
 import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
-  type TrustedToolsetCapture} from './toolset'
+  type TrustedToolsetCapture, verifyTrustedToolset} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
 import type {BatchGitHubTestSeam} from './batch-github'
 
@@ -600,6 +600,36 @@ export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string
   indexRef: BatchBlobRef; indexDigest: string; qualifierRef: BatchBlobRef; qualifierDigest: string; controlDigest: string;
   measurement: {qualifier: Omit<RetainedPage, 'pageId' | 'materialRef' | 'materialDigest'>; settlement: BatchQualifiedChild['settlement']; verifierSettlement: BatchQualifiedChild['settlement']}}
 
+declare const candidateLaunchBrand: unique symbol
+export type BatchCandidateLaunchTicket = {readonly [candidateLaunchBrand]: true}
+type LiveCandidateLaunch = {control: BatchVerifyControl; evidence: EvidenceStore; repository: string;
+  git: string; closureBytes: Uint8Array; toolset: TrustedToolsetCapture['material']; budget: () => void; reserve: () => Promise<void>}
+const verifiedCompletions = new WeakMap<object, {launch: LiveCandidateLaunch; recheck: () => Promise<void>}>()
+const candidateLaunches = new WeakMap<BatchCandidateLaunchTicket, LiveCandidateLaunch>()
+
+export function consumeBatchCandidateLaunch(ticket: BatchCandidateLaunchTicket) {
+  const launch = candidateLaunches.get(ticket)
+  if (!launch) invalid()
+  candidateLaunches.delete(ticket)
+  launch.budget()
+  return launch
+}
+
+async function buildCompletedCandidate(qualified: Extract<BatchQualifiedCollection, {status: 'verified'}>, kind: BatchOrigin['kind']) {
+  const completed = verifiedCompletions.get(qualified)
+  if (!completed || completed.launch.control.base.origin.kind !== kind) invalid()
+  verifiedCompletions.delete(qualified)
+  const {launch} = completed
+  launch.budget()
+  const ticket = Object.freeze({}) as BatchCandidateLaunchTicket
+  const {prepareQualifiedBatchCandidate} = await import('./batch-candidate')
+  candidateLaunches.set(ticket, launch)
+  const candidate = await prepareQualifiedBatchCandidate(ticket)
+  await completed.recheck()
+  launch.budget()
+  return candidate
+}
+
 async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: BatchOrigin['kind'], publish = false): Promise<BatchQualifiedCollection> {
   const map = kind === 'observed' ? observedMaterialClosures : replayMaterialClosures, sealed = map.get(ticket)
   // Retire synchronously before lease reads/capture/launch. Failure never permits retry.
@@ -739,21 +769,24 @@ async function executeQualification(operation: QualificationOperation, publish: 
       qualifierRequestSha256: measured.requestSha256, qualifierRequestBytes: measured.requestBytes, qualifierRef, qualifierDigest, profileDigest,
       receiptsRoot, indexRef, indexDigest, rootIdentity: identity(rootStat), blobsIdentity: identity(blobsStat)}))
     if (canonicalBytes(control).length > 65536) throw Error('BATCH_CONTROL_LIMIT')
+    async function verifyFresh(signal?: AbortSignal) {
+      const replay = scope.base.origin.kind === 'replay' ? parseBatchCanonical(sealed.replayFixtureBytes!, BatchReplayFixtureSchema) : undefined
+      if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
+      const {verifyBatchFinalFreshness} = await import('./batch-github')
+      await verifyBatchFinalFreshness({scanStartMs: q.scanStartMs, sourceJobId: q.rows[0].sourceJobId, run: scope.run,
+        sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, collectionClock(scope.base.origin), replay?.finalPass, signal)
+      await operation.verifyOwned()
+      if (await resolveCommit(capture.root) !== scope.base.pins.master) throw Error('BATCH_PIN_CHANGED')
+      await recheckBatchSourceHead(sealed.sourceRepository, scope.base.pins.source)
+      if (replay) await verifyBatchReplayHeads(sealed.devRepository, scope.base.pins)
+      const decisionTime = collectionClock(scope.base.origin)
+      if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+    }
     const verifierTicket = Object.freeze({}) as BatchVerifierLaunchTicket
     verifierLaunches.set(verifierTicket, {operation, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd,
       ...(publish ? {parentFd: parent.fd, rootName: basename(store.root), finalize: async (signal: AbortSignal) => {
         check(); await operation.verifyOwned(); check()
-        const replay = scope.base.origin.kind === 'replay' ? parseBatchCanonical(sealed.replayFixtureBytes!, BatchReplayFixtureSchema) : undefined
-        if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
-        const {verifyBatchFinalFreshness} = await import('./batch-github')
-        const now = collectionClock(scope.base.origin)
-        await verifyBatchFinalFreshness({scanStartMs: q.scanStartMs, sourceJobId: q.rows[0].sourceJobId, run: scope.run, sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, now, replay?.finalPass, signal)
-        check(); await operation.verifyOwned(); check()
-        if (await resolveCommit(capture.root) !== scope.base.pins.master) throw Error('BATCH_PIN_CHANGED')
-        await recheckBatchSourceHead(sealed.sourceRepository, scope.base.pins.source)
-        if (replay) await verifyBatchReplayHeads(sealed.devRepository, scope.base.pins)
-        const decisionTime = collectionClock(scope.base.origin)
-        if (decisionTime - q.scanStartMs > 36 * 3600_000 || q.scanStartMs - decisionTime > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
+        await verifyFresh(signal)
         check()
         const sampled = performance.now()
         const remaining = q.scanStartMs + 36 * 3600_000 - collectionClock(scope.base.origin)
@@ -777,8 +810,25 @@ async function executeQualification(operation: QualificationOperation, publish: 
       if (completionValidity.has(store) || await lstat(join(store.root, 'index.json')).then(() => true, () => false)) throw Error('PUBLICATION_OUTCOME_UNCONFIRMED', {cause: error})
       throw error
     }
-    return {status: 'verified', origin: scope.base.origin, indexRef, indexDigest, qualifierRef, qualifierDigest, controlDigest: batchDigest('control', control),
-      measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}}
+    const result = immutable({status: 'verified' as const, origin: scope.base.origin, indexRef, indexDigest, qualifierRef,
+      qualifierDigest, controlDigest: batchDigest('control', control),
+      measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}})
+    if (publish) {
+      const budget = () => assertCompletionValidity(store)
+      const reread = parseBatchCanonical(await store.readBlob(indexRef), BatchCollectionIndexSchema)
+      if (batchDigest('index', reread) !== indexDigest || !same(reread, index)) invalid()
+      budget()
+      const launch: LiveCandidateLaunch = {control, evidence: store, repository: sealed.devRepository,
+        git: describeTrustedToolset(capture).git, closureBytes: capture.bytes, toolset: capture.material,
+        budget, reserve: () => reserveBatchAllocation(store, 0)}
+      verifiedCompletions.set(result, {launch, async recheck() {
+        budget()
+        await verifyTrustedToolset(capture)
+        await verifyFresh(currentBatchLifetime()?.signal)
+        budget()
+      }})
+    }
+    return result
   } finally {
     try {
       const closed = await Promise.allSettled([parent.close(), blobs.close(), root.close()])
@@ -805,7 +855,8 @@ import {resolve, relative, isAbsolute} from 'node:path'
 import {Worker} from 'node:worker_threads'
 import {reserveBatchContentAllocation} from './batch-source'
 export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
-  status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null}>
+  status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null;
+  localCandidate?: import('./batch-candidate').LocalBatchCandidate}>
 /** Samples are explicitly observations, never an OS lifetime maximum. Disk walks
  * do not serialize RSS ticks; each channel records its own gaps and failures. */
 function sampleBatchOperation(root: string) {
@@ -867,7 +918,7 @@ export async function settleBatchMeasurement(store: EvidenceStore, stopSampling:
 }
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
-}): Promise<BatchCollectionResult> {
+}, candidateRequested = false): Promise<BatchCollectionResult> {
   const observation = replay ? 'replay' : 'observed'
   const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
@@ -916,7 +967,10 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       if (qualified.status === 'held') return result('held', qualified.reasons)
       try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
-      return result('collected', [], qualified.indexRef)
+      if (!candidateRequested) return result('collected', [], qualified.indexRef)
+      const localCandidate = await buildCompletedCandidate(qualified, observation)
+      assertCompletionValidity(store)
+      return immutable({...result('collected', [], qualified.indexRef), localCandidate})
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
       return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
@@ -944,6 +998,9 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
     }
   })
 }
+export function prepareObservedGuidesBatchCandidate(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
+  return collectCompleteBatch(options, undefined, true)
+}
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
 }
@@ -951,6 +1008,9 @@ export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: 
 export function collectReplayGuidesBatch(options: {sourceRepository: string; out: string; zdocRepository: string;
   capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number}): Promise<BatchCollectionResult> {
   return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)})
+}
+export function prepareReplayGuidesBatchCandidate(options: Parameters<typeof collectReplayGuidesBatch>[0]): Promise<BatchCollectionResult> {
+  return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)}, true)
 }
 
 function collectionClock(origin: BatchOrigin) {
