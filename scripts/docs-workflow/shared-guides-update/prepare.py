@@ -728,17 +728,18 @@ class _BatchReader:
         require(stat.S_ISDIR(info.st_mode), "BATCH_ROOT_IDENTITY_INVALID")
         return {"dev": str(info.st_dev), "ino": str(info.st_ino)}
 
-    def blob(self, ref, parse=False, original=False):
+    def blob(self, ref, parse=False, original=False, git_kind=None, git_oid=None, transient=False, raw_bytes=False):
         batch_ref(ref)
         digest = ref["sha256"]
         if digest in self.seen:
             require(self.seen[digest][0] == ref["bytes"], "BATCH_BLOB_BINDING_INVALID")
-            if parse:
-                require(digest in self.objects, "BATCH_TYPED_ALIAS_INVALID")
-                return self.objects[digest]
-            return self.seen[digest]
+            if git_kind is None and not transient and not raw_bytes:
+                if parse:
+                    require(digest in self.objects, "BATCH_TYPED_ALIAS_INVALID")
+                    return self.objects[digest]
+                return self.seen[digest]
         fd = os.open(digest, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=self.blobs_fd)
-        chunks = [] if parse else None
+        chunks = [] if parse or git_kind is not None or raw_bytes else None
         try:
             before = os.fstat(fd)
             require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == ref["bytes"], "BATCH_BLOB_TYPE_INVALID")
@@ -758,19 +759,28 @@ class _BatchReader:
             signature = lambda st: (st.st_dev, st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns, st.st_nlink, st.st_mode)
             require(signature(before) == signature(after) and size == ref["bytes"] and sha.hexdigest() == digest,
                     "BATCH_BLOB_BINDING_INVALID")
-            self.total += size
-            require(self.total <= 12 * 1024**3 + 192 * 1024**2, "BATCH_CAS_INPUT_LIMIT")
-            self.seen[digest] = (size, git_sha.hexdigest())
+            if digest not in self.seen:
+                self.total += size
+                require(self.total <= 12 * 1024**3 + 192 * 1024**2, "BATCH_CAS_INPUT_LIMIT")
+                self.seen[digest] = (size, git_sha.hexdigest())
+            if git_kind is not None:
+                raw = b''.join(chunks)
+                require(hashlib.sha1(f'{git_kind} {size}\0'.encode() + raw).hexdigest() == git_oid,
+                        'BATCH_SOURCE_GIT_IDENTITY_INVALID')
+                return _batch_git_commit(raw) if git_kind == 'commit' else _batch_git_tree(raw)
+            if raw_bytes:
+                return b''.join(chunks)
             if parse:
                 result = batch_parse(b''.join(chunks), canonical=not original)
-                self.objects[digest] = result
+                if not transient:
+                    self.objects[digest] = result
                 return result
             return self.seen[digest]
         finally:
             os.close(fd)
 
-    def object(self, ref, fields):
-        return batch_exact(self.blob(ref, parse=True), fields)
+    def object(self, ref, fields, transient=False):
+        return batch_exact(self.blob(ref, parse=True, transient=transient), fields)
 
     def finish(self):
         require(self.identity(self.root_fd) == self.root_identity and self.identity(self.blobs_fd) == self.blobs_identity,
@@ -813,6 +823,171 @@ def _batch_receipt_outputs(outputs):
     for output in outputs:
         batch_exact(output, 'manual path sha256')
     return sorted(outputs, key=lambda output: (output['manual'] + ':' + output['path']).encode('utf-8'))
+
+
+def _batch_git_commit(raw):
+    header, separator, _ = raw.partition(b'\n\n')
+    lines = header.split(b'\n')
+    match = re.fullmatch(rb'tree ([0-9a-f]{40})', lines[0])
+    require(separator and match, 'BATCH_SOURCE_GIT_IDENTITY_INVALID')
+    parents = []
+    for index, line in enumerate(lines[1:], 1):
+        require(not line.startswith(b'tree '), 'BATCH_SOURCE_GIT_IDENTITY_INVALID')
+        if line.startswith(b'parent '):
+            match_parent = re.fullmatch(rb'parent ([0-9a-f]{40})', line)
+            require(index == len(parents) + 1 and match_parent, 'BATCH_SOURCE_GIT_IDENTITY_INVALID')
+            parents.append(match_parent[1].decode('ascii'))
+    return match[1].decode('ascii'), parents
+
+
+def _batch_git_tree(raw):
+    values = {}
+    previous = b''
+    offset = 0
+    while offset < len(raw):
+        space = raw.find(b' ', offset)
+        end = raw.find(b'\0', space + 1)
+        require(offset < space < end - 1 and end + 21 <= len(raw), 'BATCH_SOURCE_INVENTORY_INVALID')
+        mode = raw[offset:space]
+        try:
+            name = raw[space + 1:end].decode('utf-8')
+        except UnicodeDecodeError:
+            raise Hold('BATCH_SOURCE_INVENTORY_INVALID') from None
+        require(mode in (b'40000', b'100644', b'100755', b'120000', b'160000') and '/' not in name
+                and name not in values, 'BATCH_SOURCE_INVENTORY_INVALID')
+        _batch_inventory_path(name)
+        key = raw[space + 1:end] + (b'/' if mode == b'40000' else b'')
+        require(previous < key, 'BATCH_SOURCE_INVENTORY_INVALID')
+        values[name] = mode, raw[end + 1:end + 21].hex()
+        previous = key
+        offset = end + 21
+    return values
+
+
+def _batch_inventory_path(path):
+    batch_path(path)
+    require(not re.match('^[a-zA-Z]:', path) and all(ord(c) >= 32 and not 127 <= ord(c) <= 159 for c in path),
+            'BATCH_SOURCE_INVENTORY_INVALID')
+    return path
+
+
+# Exact path classification used by the renderer's Milvus discovery.
+_BATCH_DISCOVERY_IGNORED = frozenset(('README.md', 'Variables.json', '.DS_Store', 'fragments', 'menuStructure',
+                                     '.git', 'home', 'template', '_md2md_demo', 'release_notes', 'Tips.json'))
+
+
+class _BatchGitInventory:
+    def __init__(self, reader, proof, parents):
+        self.reader, self.parents = reader, parents
+        self.refs, self.trees, self.counts, self.commits = {}, {}, {}, {}
+        self.metadata, self.reached_metadata = set(), set()
+        for row in batch_sorted(proof['trees'], lambda row: row['oid']):
+            batch_exact(row, 'oid ref')
+            require(oid(row['oid']), 'BATCH_SOURCE_INVENTORY_INVALID')
+            self.refs[row['oid']] = batch_ref(row['ref'])
+        for row in batch_sorted(proof['discovery'], lambda row: row['oid']):
+            batch_exact(row, 'oid metadata')
+            require(oid(row['oid']), 'BATCH_SOURCE_INVENTORY_INVALID')
+            if row['metadata'] is not None:
+                metadata = batch_exact(row['metadata'], 'id title')
+                require(type(metadata['id']) is str and type(metadata['title']) is str, 'BATCH_SOURCE_INVENTORY_INVALID')
+            self.metadata.add(row['oid'])
+
+    def tree(self, key):
+        if key not in self.trees:
+            require(key in self.refs, 'BATCH_INVENTORY_TREE_MISSING')
+            self.trees[key] = self.reader.blob(self.refs[key], git_kind='tree', git_oid=key)
+        return self.trees[key]
+
+    def verify_subtree(self, key, discoverable, visiting):
+        state = key, discoverable
+        if state in self.counts:
+            return self.counts[state]
+        require(key not in visiting, 'BATCH_SOURCE_INVENTORY_INVALID')
+        visiting.add(key)
+        visits = 0
+        for name, (mode, target) in self.tree(key).items():
+            visits += 1
+            eligible = discoverable and name not in _BATCH_DISCOVERY_IGNORED
+            if mode == b'40000':
+                visits += self.verify_subtree(target, eligible, visiting)
+            else:
+                require(mode in (b'100644', b'100755'), 'BATCH_SOURCE_INVENTORY_INVALID')
+                if eligible and name.endswith('.md'):
+                    require(target in self.metadata, 'BATCH_INVENTORY_DISCOVERY_MISSING')
+                    self.reached_metadata.add(target)
+            require(visits <= 50000, 'BATCH_SOURCE_INVENTORY_INVALID')
+        visiting.remove(key)
+        self.counts[state] = visits
+        return visits
+
+    def inventory(self, value, commit):
+        batch_exact(value, 'kind commit treeOid commitRef absentPaths')
+        require(value['kind'] == 'guides-batch-git-inventory-v1' and value['commit'] == commit and oid(commit)
+                and oid(value['treeOid']), 'BATCH_SOURCE_INVALID')
+        ref = batch_ref(value['commitRef'])
+        key = commit, ref['sha256'], ref['bytes']
+        if key not in self.commits:
+            self.commits[key] = self.reader.blob(ref, git_kind='commit', git_oid=commit)
+        expected_tree, parents = self.commits[key]
+        require(expected_tree == value['treeOid'] and parents == self.parents.get(commit), 'BATCH_SOURCE_GIT_IDENTITY_INVALID')
+        site = self.tree(expected_tree).get('site')
+        require(site is None or site[0] == b'40000', 'BATCH_SOURCE_INVENTORY_INVALID')
+        en = self.tree(site[1]).get('en') if site else None
+        if en:
+            require(en[0] == b'40000', 'BATCH_SOURCE_INVENTORY_INVALID')
+            self.verify_subtree(en[1], True, set())
+
+        def lookup(path):
+            if not en or not path.startswith('site/en/'):
+                return None
+            entry = en
+            for name in path[len('site/en/'):].split('/'):
+                if not entry or entry[0] != b'40000':
+                    return None
+                entry = self.tree(entry[1]).get(name)
+            return entry[1] if entry and entry[0] in (b'100644', b'100755') else None
+
+        return lookup
+
+    def finish(self):
+        require(len(self.trees) == len(self.refs) and self.reached_metadata == self.metadata, 'BATCH_INVENTORY_PROOF_ORPHAN')
+
+
+def _batch_verify_commit_proof(proof, parents):
+    offset = 0
+    for commit, declared in parents.items():
+        require(offset + 4 <= len(proof), 'BATCH_HISTORY_PROOF_INVALID')
+        size = int.from_bytes(proof[offset:offset + 4], 'big')
+        offset += 4
+        require(size <= len(proof) - offset, 'BATCH_HISTORY_PROOF_INVALID')
+        raw = proof[offset:offset + size]
+        require(hashlib.sha1(f'commit {size}\0'.encode() + raw).hexdigest() == commit
+                and _batch_git_commit(raw)[1] == declared, 'BATCH_HISTORY_PROOF_INVALID')
+        offset += size
+    require(offset == len(proof), 'BATCH_HISTORY_PROOF_INVALID')
+
+
+def _batch_render_commits(parents, current, old_next, target, legacy=False):
+    def reachable(tip):
+        pending, visited = [tip], set()
+        while pending:
+            commit = pending.pop()
+            if commit in visited:
+                continue
+            require(commit in parents, 'BATCH_HISTORY_INVALID')
+            visited.add(commit)
+            if not legacy or commit != current:
+                pending.extend(parents[commit])
+        return visited
+
+    excluded = reachable(old_next)
+    included = reachable(target)
+    if not legacy:
+        require(current in excluded and old_next in included, 'SOURCE_NOT_ANCESTOR')
+        require(len(included) == len(parents), 'SOURCE_HISTORY_INCOMPLETE')
+    interval = included - excluded
+    return sorted((interval | {parent for point in interval for parent in parents[point]}) - {current, old_next, target})
 
 
 def _batch_material(reader, retained, base):
@@ -864,17 +1039,55 @@ def _batch_material(reader, retained, base):
             require(reader.blob(entry['ref'])[1] == entry['oid'], 'BATCH_SOURCE_INVALID')
         return tree
 
+    # Histories and their tree index can be large. Keep their parsed forms only
+    # for this page and revalidate the original CAS bytes if another page needs them.
+    history = reader.blob(header['historyRef'], parse=True, transient=True)
+    compact = 'inventoryProofRef' in history
+    exact_history = 'commitProofRef' in history
+    if exact_history:
+        require(compact, 'BATCH_HISTORY_PROOF_INVALID')
+    else:
+        require(base['origin']['kind'] == 'replay', 'BATCH_HISTORY_PROOF_REQUIRED')
+    fields = 'commits interval'
+    if compact:
+        fields += ' inventoryProofRef'
+    if exact_history:
+        fields += ' commitProofRef'
+    batch_exact(history, fields)
+    require(type(history['commits']) is list and len(history['commits']) <= 50000, 'BATCH_HISTORY_INVALID')
+    parents = {}
+    for commit in batch_sorted(history['commits'], lambda c: c['oid']):
+        batch_exact(commit, 'oid parents')
+        require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
+        parents[commit['oid']] = commit['parents']
+    if exact_history:
+        _batch_verify_commit_proof(reader.blob(history['commitProofRef'], raw_bytes=True), parents)
+    git_inventory = None
+    if compact:
+        proof = reader.object(history['inventoryProofRef'], 'trees discovery', transient=True)
+        git_inventory = _BatchGitInventory(reader, proof, parents)
+        del proof
+    inventories = {}
+    consumed = {config['sourceFile']} if config['sourceFile'].startswith('site/en/') else set()
+
     def inventory(ref, commit):
-        value = reader.object(ref, 'commit treeOid entries absentPaths discoveryRef')
-        require(value['commit'] == commit and oid(value['treeOid']), 'BATCH_SOURCE_INVALID')
-        batch_sorted(value['entries'], lambda e: e['path'])
-        for entry in value['entries']:
-            batch_exact(entry, 'path oid mode')
-            require(oid(entry['oid']) and entry['mode'] in ('100644', '100755'), 'BATCH_SOURCE_INVALID')
+        if git_inventory:
+            value = reader.object(ref, 'kind commit treeOid commitRef absentPaths')
+            lookup = git_inventory.inventory(value, commit)
+        else:
+            value = reader.object(ref, 'commit treeOid entries absentPaths discoveryRef')
+            require(value['commit'] == commit and oid(value['treeOid']), 'BATCH_SOURCE_INVALID')
+            batch_sorted(value['entries'], lambda e: e['path'])
+            for entry in value['entries']:
+                batch_exact(entry, 'path oid mode')
+                require(oid(entry['oid']) and entry['mode'] in ('100644', '100755'), 'BATCH_SOURCE_INVALID')
+            lookup = {e['path']: e['oid'] for e in value['entries']}.get
+            reader.blob(value['discoveryRef'])
         batch_sorted(value['absentPaths'])
-        require(not set(value['absentPaths']) & {e['path'] for e in value['entries']}, 'BATCH_SOURCE_INVALID')
-        reader.blob(value['discoveryRef'])
-        return value
+        verify_path = _batch_inventory_path if git_inventory else batch_path
+        require(all(lookup(verify_path(path)) is None for path in value['absentPaths']), 'BATCH_SOURCE_ABSENCE_INVALID')
+        inventories[ref['sha256']] = lookup, value['absentPaths']
+        return lookup
 
     def manual(ref, expected):
         value = reader.object(ref, 'manual path markdown output headings references')
@@ -907,23 +1120,29 @@ def _batch_material(reader, retained, base):
         batch_exact(inv, 'role commit ref')
         require(edge['role'] == inv['role'] == role and edge['commit'] == inv['commit'] == commits[index], 'BATCH_SOURCE_INVALID')
         tree, listing = raw_tree(edge['ref'], commits[index]), inventory(inv['ref'], commits[index])
-        require(all(any(e['path'] == f['path'] and e['oid'] == f['oid'] for e in listing['entries']) for f in tree['entries']), 'BATCH_SOURCE_INVALID')
+        require(all(listing(f['path']) == f['oid'] for f in tree['entries']), 'BATCH_SOURCE_INVALID')
+        consumed.update(f['path'] for f in tree['entries'])
         trees.append(tree)
-    history = reader.object(header['historyRef'], 'commits interval')
-    batch_sorted(history['commits'], lambda c: c['oid'])
-    for commit in history['commits']:
-        batch_exact(commit, 'oid parents')
-        require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
     batch_sorted(history['interval'], lambda o: o['commit'])
     for observation in history['interval']:
         batch_exact(observation, 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus')
-        raw_tree(observation['rawRef'], observation['commit'])
-        inventory(observation['inventoryRef'], observation['commit'])
+        raw = raw_tree(observation['rawRef'], observation['commit'])
+        listing = inventory(observation['inventoryRef'], observation['commit'])
+        if git_inventory:
+            require(all(listing(f['path']) == f['oid'] for f in raw['entries']), 'BATCH_SOURCE_INVALID')
+            consumed.update(f['path'] for f in raw['entries'])
         for output in observation['manuals']:
             batch_exact(output, 'manual path ref')
             manual(output['ref'], output)
         images(observation['imagesRef'])
         reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
+    if git_inventory:
+        git_inventory.finish()
+        require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
+                'BATCH_HISTORY_INVALID')
+        paths = sorted(consumed, key=lambda path: path.encode('utf-8'))
+        for lookup, absent in inventories.values():
+            require(absent == [path for path in paths if lookup(path) is None], 'BATCH_SOURCE_ABSENCE_INVALID')
     for output in header['renderedManualRefs']:
         batch_exact(output, 'role manual path ref')
         manual(output['ref'], output)
@@ -965,6 +1184,192 @@ def _batch_material(reader, retained, base):
     return header, [p['pageId'] for p in config['registry']]
 
 
+def _batch_verify_restorations(reader, report, ledger, history):
+    """Validate the narrow merged feature edit/revert exception from retained raw evidence."""
+    pairs = {}
+    fields = 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons'
+    for index, edge in enumerate(ledger):
+        restored = edge.get('associationResult') == 'restored'
+        batch_exact(edge, fields + (' restorationRef' if restored else ''))
+        for ref in edge['evidenceRefs']:
+            reader.blob(ref)
+        if restored:
+            proof_ref = batch_ref(edge['restorationRef'])
+            pairs.setdefault(proof_ref['sha256'], []).append((index, edge))
+    if not pairs:
+        return {}
+
+    def checked(condition):
+        require(condition, 'BATCH_RESTORE_PROOF_INVALID')
+
+    checked(len(history) <= 50_000 and len(pairs) <= 1000)
+    graph = {}
+    for entry in batch_sorted(history, lambda row: row['oid']):
+        batch_exact(entry, 'oid parents')
+        checked(oid(entry['oid']) and type(entry['parents']) is list and all(oid(p) for p in entry['parents']))
+        graph[entry['oid']] = entry['parents']
+    git_indexes, commits, trees, ancestor_sets = {}, {}, {}, {}
+
+    def git_ref(proof_ref, key, kind):
+        digest = batch_ref(proof_ref)['sha256']
+        if digest not in git_indexes:
+            proof = reader.object(proof_ref, 'objects', transient=True)
+            index = {}
+            for item in batch_sorted(proof['objects'], lambda row: row['oid']):
+                batch_exact(item, 'oid kind ref')
+                checked(oid(item['oid']) and item['kind'] in ('tree', 'commit', 'blob'))
+                index[item['oid']] = item['kind'], batch_ref(item['ref'])
+            git_indexes[digest] = index
+        item = git_indexes[digest].get(key)
+        checked(item is not None and item[0] == kind)
+        return item[1]
+
+    def commit(git, key):
+        cache_key = git['sha256'], key
+        if cache_key not in commits:
+            ref = git_ref(git, key, 'commit')
+            value = reader.blob(ref, git_kind='commit', git_oid=key)
+            checked(value[1] == graph.get(key))
+            commits[cache_key] = value
+        return commits[cache_key]
+
+    def ancestors(git, tip):
+        key = git['sha256'], tip
+        if key not in ancestor_sets:
+            seen, pending = set(), [tip]
+            while pending:
+                child = pending.pop()
+                if child in seen:
+                    continue
+                seen.add(child)
+                pending.extend(commit(git, child)[1])
+            ancestor_sets[key] = seen
+        return ancestor_sets[key]
+
+    def file(git, c, path):
+        tree = commit(git, c)[0]
+        identity = b'40000', tree
+        for name in path.split('/'):
+            checked(identity[0] == b'40000')
+            key = git['sha256'], identity[1]
+            if key not in trees:
+                ref = git_ref(git, identity[1], 'tree')
+                trees[key] = reader.blob(ref, git_kind='tree', git_oid=identity[1])
+            identity = trees[key].get(name)
+            checked(identity is not None)
+        ref = git_ref(git, identity[1], 'blob')
+        checked(reader.blob(ref)[1] == identity[1])
+        return identity
+
+    def reply(ref, suffix, evidence):
+        ref = batch_ref(ref)
+        checked(0 < ref['bytes'] <= 2 * 1024**2)
+        request = sha256(f'GET /repos/milvus-io/milvus-docs{suffix}\n200\n'.encode())
+        checked(f"api:{request}:{ref['sha256']}" in evidence)
+        return batch_parse(reader.blob(ref, raw_bytes=True), canonical=False)
+
+    def fixed_repository(pull):
+        repo = pull['base']['repo']
+        return repo['id'] == 267273319 and repo['full_name'] == 'milvus-io/milvus-docs'
+
+    def related(pull, number, head):
+        return (type(pull['number']) is int and pull['number'] == number and pull['state'] == 'closed'
+                and type(pull['merged_at']) is str and bool(pull['merged_at']) and pull['head']['sha'] == head
+                and pull['base']['ref'] == 'v3.0.x' and fixed_repository(pull))
+
+    obligations = {}
+    for rows in pairs.values():
+        checked(len(rows) == 2)
+        _, one = rows[0]
+        ref = one['restorationRef']
+        proof = reader.object(ref, 'kind path mode original changed first prefix head base merge number rangeIds detailRef filesRef firstAssociationRef headAssociationRef')
+        checked(proof['kind'] == 'guides-merged-restore-v1' and all(oid(proof[k]) for k in ('first', 'prefix', 'head', 'base', 'merge', 'original', 'changed')))
+        path = batch_path(proof['path'])
+        checked(path.startswith('site/en/') and path.endswith(('.md', '.mdx')) and proof['mode'] in ('100644', '100755') and proof['original'] != proof['changed'])
+        checked(type(proof['number']) is int and proof['number'] > 0)
+        checked(len(one['evidenceRefs']) == 1)
+        git = one['evidenceRefs'][0]
+        first, prefix, head, base, merge = (proof[k] for k in ('first', 'prefix', 'head', 'base', 'merge'))
+        a, b = ((proof['mode'].encode(), proof[k]) for k in ('original', 'changed'))
+        checked(commit(git, merge)[1] == [base, head] and commit(git, head)[1] == [first] and commit(git, first)[1] == [prefix])
+        earlier = ancestors(git, base)
+        reachable = ancestors(git, report['pins']['source'])
+        checked(merge in reachable and first not in earlier and head not in earlier)
+        checked(file(git, first, path) == b and all(file(git, edge, path) == a for edge in (base, head, merge)))
+        point = prefix
+        while True:
+            checked(file(git, point, path) == a)
+            if point in earlier:
+                break
+            parents = commit(git, point)[1]
+            checked(len(parents) == 1)
+            point = parents[0]
+        range_ids = []
+        for page in report['pages']:
+            old = ancestors(git, page['oldNext'])
+            checked((first not in old) == (head not in old))
+            if first not in old:
+                range_ids.append(page['pageId'])
+        range_ids = sorted(range_ids)
+        checked(range_ids and proof['rangeIds'] == range_ids and len(range_ids) == len(set(range_ids)))
+        number = proof['number']
+        direct = reply(proof['detailRef'], f'/pulls/{number}', one['evidence'])
+        files = reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', one['evidence'])
+        checked(related(direct, number, head) and direct['merged'] is True and direct['merge_commit_sha'] == merge and direct['base']['sha'] in earlier)
+        checked(type(files) is list and type(direct['changed_files']) is int and len(files) == direct['changed_files'] < 100)
+        names = [batch_path(item['filename']) for item in files]
+        checked(len(set(names)) == len(names) and path not in names)
+        for item in files:
+            previous = item.get('previous_filename')
+            if previous is not None:
+                checked(batch_path(previous) != path and previous != item['filename'])
+            status = item['status']
+            checked(oid(item['sha']) and status in ('added', 'modified', 'removed', 'renamed', 'copied', 'changed', 'unchanged')
+                    and (previous is not None) == (status in ('renamed', 'copied')))
+        bindings = {first: (prefix, a[1], b[1], 'firstAssociationRef'), head: (first, b[1], a[1], 'headAssociationRef')}
+        for index, row in rows:
+            checked(row['commit'] in bindings)
+            parent, old_oid, new_oid, association_ref = bindings.pop(row['commit'])
+            checked(row['restorationRef'] == ref and row['evidenceRefs'] == [git] and row['rangeIds'] == range_ids and not row['reasons'])
+            checked(row['parent'] == parent and row['oldPath'] == row['newPath'] == path and row['oldMode'] == row['newMode'] == proof['mode'])
+            checked(row['oldOid'] == old_oid and row['newOid'] == new_oid and row['seedKey'] == f'pr:{number}' and row['introductionOid'] == merge)
+            reply(proof['detailRef'], f'/pulls/{number}', row['evidence'])
+            reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', row['evidence'])
+            found = reply(proof[association_ref], f"/commits/{row['commit']}/pulls?per_page=100&page=1", row['evidence'])
+            checked(type(found) is list and 0 < len(found) < 100)
+            checked(all(fixed_repository(p) and type(p['number']) is int for p in found) and len({p['number'] for p in found}) == len(found))
+            eligible = [p for p in found if p['base']['ref'] == 'v3.0.x' and p['state'] == 'closed' and p['merged_at']]
+            checked(len(eligible) == 1 and related(eligible[0], number, head) and eligible[0]['base']['sha'] == direct['base']['sha'])
+            label = f"{index}:{parent}:{row['commit']}:{path}"
+            for page_id in range_ids:
+                obligations[(page_id, label)] = row
+        checked(not bindings)
+    return obligations
+
+
+def _batch_verify_restored_obligation(reader, obligation, header, edge):
+    reason = 'BATCH_RESTORE_PROOF_INVALID'
+    require(obligation['range'] == {'from': header['oldNext'], 'to': header['base']['pins']['source']}
+            and obligation['seedKey'] == edge['seedKey']
+            and obligation['supportRefs'] == sorted(edge['evidenceRefs'] + [edge['restorationRef']], key=lambda r: r['sha256']), reason)
+    history = reader.blob(header['historyRef'], parse=True)
+    raw_refs = [(r['commit'], r['ref']) for r in header['rawMaterialRefs']]
+    raw_refs.extend((r['commit'], r['rawRef']) for r in history['interval'])
+    used = False
+    for commit, oid_at_path in ((edge['parent'], edge['oldOid']), (edge['commit'], edge['newOid'])):
+        matches = [ref for key, ref in raw_refs if key == commit]
+        require(matches, reason)
+        for ref in matches:
+            raw = reader.object(ref, 'commit entries', transient=True)
+            require(raw['commit'] == commit, reason)
+            consumed = [entry for entry in raw['entries'] if entry['path'] == edge['newPath']]
+            require(len(consumed) <= 1 and all(entry['oid'] == oid_at_path for entry in consumed), reason)
+            used = used or bool(consumed)
+    require(obligation['status'] == ('consumed' if used else 'irrelevant')
+            and obligation['reason'] == ('ACTUAL_CONSUMED_PATH' if used else 'COMPLETE_CONSUMPTION_ABSENCE')
+            and obligation['consumedPaths'] == ([edge['newPath']] if used else []), reason)
+
+
 def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     batch_exact(control, 'kind base run discoveryRef discoveryDigest closureRef groupSha256 materialRoot materialDigest scopeRef scopeDigest qualifierRequestSha256 qualifierRequestBytes qualifierRef qualifierDigest profileDigest receiptsRoot indexRef indexDigest rootIdentity blobsIdentity')
     require(control['kind'] == 'guides-batch-verify-control-v1', 'BATCH_CONTROL_INVALID')
@@ -989,11 +1394,10 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
             and report['pins'] == {k: pins[k] for k in ('master', 'dev', 'source')} and report['observation'] == base['origin']['kind']
             and report['writeEligible'] is False, 'BATCH_DISCOVERY_INVALID')
     ledger = reader.blob(discovery['edgeLedgerRef'], parse=True)
-    for edge in ledger:
-        batch_exact(edge, 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons')
-        for ref in edge['evidenceRefs']:
-            reader.blob(ref)
-    reader.blob(discovery['introductionOrderRef'], parse=True)
+    history = reader.blob(discovery['introductionOrderRef'], parse=True)
+    restored = _batch_verify_restorations(reader, report, ledger, history)
+    restoration_refs = {edge['restorationRef']['sha256'] for edge in restored.values()}
+    restoration_keys = set(restored)
     materials = reader.object(control['materialRoot'], 'base pages')
     require(materials['base'] == base and batch_digest('materials', materials) == control['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     batch_sorted(materials['pages'], lambda p: p['pageId'])
@@ -1014,8 +1418,16 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     for ref in closure['obligationRefs']:
         obligation = reader.object(ref, 'base pageId range edge seedKey status consumedPaths supportRefs reason')
         require(obligation['base'] == base and obligation['pageId'] in all_ids and obligation['status'] in ('consumed', 'irrelevant'), 'BATCH_CLOSURE_INVALID')
+        key = obligation['pageId'], obligation['edge']
+        restored_edge = restored.pop(key, None)
+        if restored_edge:
+            _batch_verify_restored_obligation(reader, obligation, headers[obligation['pageId']], restored_edge)
+        else:
+            require(key not in restoration_keys and not any(support['sha256'] in restoration_refs for support in obligation['supportRefs']),
+                    'BATCH_RESTORE_PROOF_INVALID')
         for support in obligation['supportRefs']:
             reader.blob(support)
+    require(not restored, 'BATCH_RESTORE_PROOF_INVALID')
     adoption = reader.object(closure['adoptionRef'], 'base dependencies')
     namespace = reader.object(closure['namespaceRef'], 'base destinations')
     require(adoption['base'] == namespace['base'] == base, 'BATCH_CLOSURE_INVALID')

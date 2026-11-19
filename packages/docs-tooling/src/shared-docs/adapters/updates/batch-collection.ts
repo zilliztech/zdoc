@@ -8,6 +8,7 @@ import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorte
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
   type TrustedToolsetCapture} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
+import {restoreEdgeMatches} from './batch-restore-proof'
 import type {BatchGitHubTestSeam} from './batch-github'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
@@ -110,9 +111,8 @@ import {validateActiveState, validateSharedSnapshotRecord} from '../../core/hand
 import {parseLock} from '../../core/lock'
 import {validateGuidesPage, validateGuidesSource, guidesVariantNames} from './guides-batch-registry'
 import {resolveManualPublication} from '../../../manuals/registry'
-import {BatchConfigSchema, BatchDiagnosticsSchema, BatchHistorySchema, BatchInventorySchema, BatchManualSchema, BatchNamespaceSchema,
-  BatchProjectionSchema, BatchRawTreeSchema, BatchImagesSchema, BatchPageMaterialHeaderSchema, BatchClosureSchema, BatchMaterialsSchema,
-  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge} from './batch-collection-contract'
+import {BatchDiagnosticsSchema, BatchManualSchema, BatchRawTreeSchema, BatchImagesSchema, BatchPageMaterialHeaderSchema, BatchClosureSchema, BatchMaterialsSchema,
+  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchRestoreProof} from './batch-collection-contract'
 import type {BatchDiscoveryReport} from '../../core/updates/batch-discovery'
 import type {AdoptionDependency, AnchorRelation, HeadingObservation, ReferenceObservation} from '../../core/updates/types'
 
@@ -130,7 +130,7 @@ export interface BatchCompactPage {
   ownershipReasons: string[]; promotionAnchors: AnchorRelation[]; history: {oid: string; parents: string[]}[]; reasons: string[];
   existing: {manual: string; path: string; route: string | null; ref: BatchBlobRef; headings: string[]; references: ReferenceObservation[]}[];
   sourceSnapshots: {commit: string; consumed: {path: string; oid: string; ref: BatchBlobRef}[]}[];
-  registryIds: string[]; supportRefs: BatchBlobRef[]
+  registryIds: string[]
 }
 function existingOutput(bytes: Uint8Array, manual: string, path: string, ref: BatchBlobRef) {
   const text = utf8(bytes), slugs = [...text.matchAll(/^slug:\s*([^\r\n]+)\s*$/gm)]
@@ -143,7 +143,7 @@ function existingOutput(bytes: Uint8Array, manual: string, path: string, ref: Ba
 }
 /** Shared projection is data only. Production calls it only after actual child settlement and CAS re-read. */
 function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): BatchCompactPage {
-  const checked = validateBatchWire(wire, request), {header, config, projection, namespace, trees, inventories} = checked
+  const checked = validateBatchWire(wire, request), {header, config, projection, namespace, trees, inventories, inventoriesByRef, history: historyBody} = checked
   const bySha = new Map(wire.blobs.map(b => [b.ref.sha256, b]))
   const read = (ref: BatchBlobRef) => {const b = bySha.get(ref.sha256); if (!b) invalid(); return decodeBatchBlob(ref, b.base64)}
   const body = <T>(ref: BatchBlobRef, schema: import('zod').z.ZodType<T>) => parseBatchCanonical(read(ref), schema)
@@ -172,7 +172,7 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   const diagnostics = body(header.diagnosticsRef, BatchDiagnosticsSchema)
   for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
   for (const reason of diagnostics.reasons) add(reason)
-  const historyBody = body(header.historyRef, BatchHistorySchema), history = historyBody.commits, commits = new Map(history.map(c => [c.oid, c.parents]))
+  const history = historyBody.commits, commits = new Map(history.map(c => [c.oid, c.parents]))
   const ancestor = (from: string, to: string) => {
     const pending = [to], seen = new Set<string>()
     while (pending.length) {
@@ -188,7 +188,7 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
     if (o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved')) add('CONTENT_OBSERVATION_INCOMPLETE')
     if (o.manuals.length !== header.targets.length || header.targets.some(t => o.manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) add('MANUAL_COVERAGE_INCOMPLETE')
     const union = sorted(trees.flatMap(tree => tree.entries.map(e => e.path)))
-    for (const path of union) if (!inventories[i].entries.some(e => e.path === path) && !inventories[i].absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
+    for (const path of union) if (!inventories[i].oidOf(path) && !inventories[i].absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
     if (!trees[i].entries.some(e => e.path === config.sourceFile)) add('SOURCE_ROOT_ABSENT')
     for (const dependency of o.dependencies.filter(d => d.kind === 'fragment')) {
       const entry = trees[i].entries.find(e => e.path === dependency.identity)
@@ -249,20 +249,25 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   const sourceSnapshots = [...new Map(trees.map(t => [t.commit, {commit: t.commit, consumed: t.entries}])).values()]
   const allTrees = [...trees], allInventories = [...inventories]
   for (const o of historyBody.interval) {
-    const tree = body(o.rawRef, BatchRawTreeSchema), inventory = body(o.inventoryRef, BatchInventorySchema), diagnostics = body(o.diagnosticsRef, BatchDiagnosticsSchema)
+    const tree = body(o.rawRef, BatchRawTreeSchema), inventory = inventoriesByRef.get(o.inventoryRef.sha256)!, diagnostics = body(o.diagnosticsRef, BatchDiagnosticsSchema)
     allTrees.push(tree); allInventories.push(inventory); sourceSnapshots.push({commit: o.commit, consumed: tree.entries})
     if (o.sourceFile !== config.sourceFile || o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved') ||
         o.manuals.length !== header.targets.length || header.targets.some(t => o.manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) add('INTERMEDIATE_OBSERVATION_INCOMPLETE')
     for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
     for (const group of body(o.imagesRef, BatchImagesSchema)) for (const image of group.images) if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256 || image.ref.bytes !== image.observed.bytes || image.ref.sha256 !== image.emitted.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
   }
-  for (const [i, inventory] of allInventories.entries()) for (const prior of allInventories.slice(0, i)) if (prior.commit === inventory.commit && (!same(prior.entries, inventory.entries) || prior.treeOid !== inventory.treeOid)) add('SOURCE_SAME_SHA_BYTES_MISMATCH')
+  const inventoriesByCommit = new Map<string, (typeof allInventories)[number]>()
+  for (const inventory of allInventories) {
+    const prior = inventoriesByCommit.get(inventory.commit)
+    if (prior && (prior.entriesDigest !== inventory.entriesDigest || prior.treeOid !== inventory.treeOid)) add('SOURCE_SAME_SHA_BYTES_MISMATCH')
+    inventoriesByCommit.set(inventory.commit, inventory)
+  }
   const fullUnion = sorted(allTrees.flatMap(t => t.entries.map(e => e.path)))
-  for (const inventory of allInventories) for (const path of fullUnion) if (!inventory.entries.some(e => e.path === path) && !inventory.absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
+  for (const inventory of allInventories) for (const path of fullUnion) if (!inventory.oidOf(path) && !inventory.absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
   if (header.oldNext === header.base.pins.source && !same(rawTrees[1].entries, rawTrees[2].entries)) add('SOURCE_SAME_SHA_BYTES_MISMATCH')
   return immutable({header, materialDigest: batchDigest('material', header), sourceFile: config.sourceFile, consumedPaths: fullUnion, sourceSnapshots,
     rawTrees, observations, ownershipReasons: sorted(ownershipReasons), promotionAnchors: projection.promotionAnchors, history, reasons: sorted(reasons), existing,
-    registryIds: config.registry.map(p => p.pageId), supportRefs: sorted(wire.blobs.map(b => b.ref.sha256)).map(sha => bySha.get(sha)!.ref)})
+    registryIds: config.registry.map(p => p.pageId)})
 }
 /** Explicitly non-authoritative projection for pure semantic fixture tests. */
 export function projectBatchMaterialFixture(wire: BatchMaterialWire, request: BatchRenderRequest) {
@@ -277,7 +282,7 @@ export interface BatchClosureAnalysis {groups: {memberIds: string[]; seedKeys: s
   obligations: BatchObligation[]; reasons: string[]; namespace: {pageId: string; manual: string; path: string; role: 'oldNext' | 'target' | 'existing'; ref: BatchBlobRef}[]}
 /** Pure semantics over compact, already observed projections; this function cannot issue execution authority. */
 export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger: readonly BatchEdge[]; history: readonly {oid: string; parents: string[]}[];
-  pages: readonly BatchCompactPage[]}): BatchClosureAnalysis {
+  pages: readonly BatchCompactPage[]; restorations?: ReadonlyMap<string, BatchRestoreProof>}): BatchClosureAnalysis {
   const {report, pages, ledger} = input, reasons = new Set<string>(), add = (reason: string) => reasons.add(reason)
   const byPage = new Map(pages.map(p => [p.header.pageId, p])), registry = report.pages.map(p => p.pageId).sort(compareUtf8)
   if (byPage.size !== pages.length || pages.some(p => !registry.includes(p.header.pageId))) add('BATCH_MATERIAL_PAGE_SET_INVALID')
@@ -290,6 +295,10 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   const parent = new Map(registry.map(id => [id, id])), root = (id: string): string => parent.get(id) === id ? id : root(parent.get(id)!)
   const union = (a: string, b: string) => {if (!parent.has(a) || !parent.has(b)) {add('UNKNOWN_CLOSURE_PAGE'); return}; const [x, y] = [root(a), root(b)].sort(compareUtf8); parent.set(y, x)}
   const membership = new Map<string, Set<string>>(registry.map(id => [id, new Set<string>()]))
+  const verifiedRestoration = (edge: BatchEdge) => {
+    const proof = edge.restorationRef && input.restorations?.get(edge.restorationRef.sha256)
+    return edge.associationResult === 'restored' && proof !== undefined && restoreEdgeMatches(proof, edge)
+  }
   // Provisional fragment hints are examined above selection; only actual consumed edge/seed evidence creates source connectivity.
   const obligations: BatchObligation[] = []
   for (const [index, edge] of ledger.entries()) {
@@ -309,13 +318,16 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         const old = before?.consumed.find(e => e.path === edge.oldPath), next = after?.consumed.find(e => e.path === edge.newPath)
         if (old && old.oid !== edge.oldOid || next && next.oid !== edge.newOid) {status = 'held'; add('SOURCE_EDGE_BYTES_MISMATCH')}
       }
-      if (edge.associationResult === 'unknown') {status = 'held'; for (const reason of edge.reasons) add(reason); add('SOURCE_ASSOCIATION_UNPROVEN')}
+      if (edge.associationResult === 'unknown' || edge.associationResult === 'restored' && !verifiedRestoration(edge)) {
+        status = 'held'; for (const reason of edge.reasons) add(reason); add('SOURCE_ASSOCIATION_UNPROVEN')
+      }
       if (status === 'consumed') {
         if (!edge.seedKey || !edge.introductionOid || !edge.evidence.length || !edge.evidenceRefs.length) {status = 'held'; add('SOURCE_ASSOCIATION_UNPROVEN')}
         else membership.get(rangeId)!.add(edge.seedKey)
       }
       obligations.push({pageId: rangeId, range: {from: configured.oldNext, to: configured.target}, edge: `${index}:${edge.parent ?? 'root'}:${edge.commit}:${sourcePath}`,
-        seedKey: edge.seedKey, status, consumedPaths: sorted(paths), supportRefs: edge.evidenceRefs,
+        seedKey: edge.seedKey, status, consumedPaths: sorted(paths),
+        supportRefs: edge.restorationRef ? batchSorted([...edge.evidenceRefs, edge.restorationRef], r => r.sha256) : edge.evidenceRefs,
         reason: status === 'held' ? 'SOURCE_OBLIGATION_UNPROVEN' : status === 'consumed' ? 'ACTUAL_CONSUMED_PATH' : 'COMPLETE_CONSUMPTION_ABSENCE'})
     }
   }
@@ -364,7 +376,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   }
   const introductions = groups.map(group => sorted(group.seedKeys.flatMap(seed => {
     const matching = ledger.filter(e => e.seedKey === seed)
-    if (!matching.length || matching.some(e => !e.introductionOid || e.associationResult !== 'complete')) add('INTRODUCTION_ORDER_UNPROVEN')
+    if (!matching.length || matching.some(e => !e.introductionOid || (e.associationResult !== 'complete' && !verifiedRestoration(e)))) add('INTRODUCTION_ORDER_UNPROVEN')
     return matching.flatMap(e => e.introductionOid ? [e.introductionOid] : [])
   })))
   const remaining = new Set(groups.map((_, i) => i)), orderedGroups: typeof groups = []
@@ -496,7 +508,14 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     }
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
-    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages})
+    const restorations = new Map<string, BatchRestoreProof>()
+    for (const edge of discovery.ledger) {
+      const ref = edge.restorationRef
+      if (!ref || restorations.has(ref.sha256)) continue
+      const proof = parseBatchCanonical(await operation.store.readBlob(ref), BatchRestoreProofSchema)
+      restorations.set(ref.sha256, proof)
+    }
+    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations})
     if (currentBatchLifetime()) {
       const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.groups[0]?.memberIds ?? [],
         waitingGroups: analysis.groups.slice(1).map(g => ({memberIds: g.memberIds, componentIds: g.componentIds, seedKeys: g.seedKeys})),

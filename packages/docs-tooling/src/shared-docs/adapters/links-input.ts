@@ -11,6 +11,9 @@ import type { FakeHistory } from './fake/milvus-docs-reader'
 import { MilvusDocsReaderError, requireCommit, requirePath } from './reader-errors'
 import type { ImageFetcher } from './images'
 import type { MilvusSeedPage } from '../core/links/seed'
+import { isMilvusPagePath } from '../core/links/milvus-page-path'
+
+export { isMilvusPagePath }
 
 /** WP5-owned capabilities; shared WP3 interfaces stay unchanged. */
 export interface LinkInputReader extends MilvusDocsReader {
@@ -130,11 +133,6 @@ export class FakeLinkInputReader implements LinkInputReader {
     return Uint8Array.from(files[path])
   }
 }
-
-// Matches IGNORE_FILES in milvus-io/milvus.io src/utils/docs.ts at 43e66d8.
-const ignored = new Set(['README.md', 'Variables.json', '.DS_Store', 'fragments', 'menuStructure', '.git', 'home', 'template', '_md2md_demo', 'release_notes', 'Tips.json'])
-export const isMilvusPagePath = (path: string, sourceRoot = 'site/en'): boolean => path.startsWith(`${sourceRoot}/`) && path.endsWith('.md')
-  && !path.split('/').some(part => ignored.has(part))
 
 /** Shared with WP5's target lookup; invalid or deprecated IDs are not public targets. */
 export function milvusPageMetadata(path: string, content: string): { id: string; title: string } | undefined {

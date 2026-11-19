@@ -43,7 +43,12 @@ function patchedLineMap(before: string[], after: string[], sources: readonly (nu
   return result
 }
 
-export async function toMdx(adapted: AdaptedPage, context: DiagnosticContext, options: { preserveFrontMatter?: boolean } = {}): Promise<{ mdx: string } | { errors: SharedDocsError[] }> {
+type MdxOptions = { preserveFrontMatter?: boolean }
+interface MdxPatchCache {
+  get(key: string): string | undefined
+  put(key: string, mdx: string): void
+}
+async function finalizeMdx(adapted: AdaptedPage, context: DiagnosticContext, options: MdxOptions, cache?: MdxPatchCache): Promise<{ mdx: string } | { errors: SharedDocsError[] }> {
   let mdx = adapted.markdown
   let sources = [...adapted.provenance.outputLines]
   const failure = (message: string, outputLine?: number): SharedDocsError => {
@@ -56,21 +61,55 @@ export async function toMdx(adapted: AdaptedPage, context: DiagnosticContext, op
   if (before.length) return { errors: before.map(message => failure(message)) }
   try {
     const front = options.preserveFrontMatter ? /^---[ \t]*\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/.exec(mdx)?.[0] || '' : ''
-    mdx = front + await applyMdxPatches(mdx.slice(front.length), { repairEndTagMismatch: true })
+    // Options for patching and compilation are fixed below. Front-matter
+    // handling is the only per-call input beyond the original exact text.
+    const key = cache ? (options.preserveFrontMatter ? '1' : '0') + mdx : ''
+    const patched = cache?.get(key)
+    mdx = patched ?? front + await applyMdxPatches(mdx.slice(front.length), { repairEndTagMismatch: true })
     sources = patchedLineMap(adapted.markdown.split('\n'), mdx.split('\n'), sources)
     const structure = validateMdxStructure(mdx) as string[]
     const errors = structure.map(message => failure(message))
-    try {
-      const { compile, remarkMath } = await compiler()
-      await compile(options.preserveFrontMatter ? mdx.slice(front.length) : mdx, { development: false, remarkPlugins: [remarkMath] })
+    if (patched === undefined) {
+      try {
+        const { compile, remarkMath } = await compiler()
+        await compile(options.preserveFrontMatter ? mdx.slice(front.length) : mdx, { development: false, remarkPlugins: [remarkMath] })
+      } catch (error) {
+        const problem = error as { message: string; line?: number; place?: { line?: number; start?: { line?: number } } }
+        const bodyLine = problem.line ?? problem.place?.line ?? problem.place?.start?.line
+        errors.push(failure(problem.message, bodyLine === undefined ? undefined : bodyLine + (front.match(/\n/g)?.length || 0)))
+      }
     }
-    catch (error) {
-      const problem = error as { message: string; line?: number; place?: { line?: number; start?: { line?: number } } }
-      const bodyLine = problem.line ?? problem.place?.line ?? problem.place?.start?.line
-      errors.push(failure(problem.message, bodyLine === undefined ? undefined : bodyLine + (front.match(/\n/g)?.length || 0)))
-    }
-    return errors.length ? { errors } : { mdx }
+    if (errors.length) return { errors }
+    if (patched === undefined) cache?.put(key, mdx)
+    return { mdx }
   } catch (error) {
     return { errors: [failure(error instanceof Error ? error.message : String(error))] }
   }
+}
+
+export function toMdx(adapted: AdaptedPage, context: DiagnosticContext, options: MdxOptions = {}) {
+  return finalizeMdx(adapted, context, options)
+}
+
+/** Own one bounded parser cache per historical worker. Context, provenance,
+ * structure checks and failures still belong to the individual invocation. */
+export function createHistoricalMdxFinalizer(): typeof toMdx {
+  const maxBytes = 4 * 1024 * 1024, maxEntries = 32
+  let used = 0
+  const entries = new Map<string, {mdx: string; bytes: number}>()
+  const cache: MdxPatchCache = {
+    get: key => entries.get(key)?.mdx,
+    put(key, mdx) {
+      const bytes = 2 * (key.length + mdx.length) + 1024
+      if (bytes > maxBytes || entries.has(key)) return
+      while (entries.size >= maxEntries || used + bytes > maxBytes) {
+        const oldest = entries.keys().next().value!
+        used -= entries.get(oldest)!.bytes
+        entries.delete(oldest)
+      }
+      entries.set(key, {mdx, bytes})
+      used += bytes
+    },
+  }
+  return (adapted, context, options = {}) => finalizeMdx(adapted, context, options, cache)
 }

@@ -12,10 +12,10 @@ import {immutable, type PageObservation} from '../../core/updates/types'
 import {finalizeFetchFrontMatter} from '../../core/site/front-matter'
 import {BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchConfigSchema,
   BatchDiagnosticsSchema, BatchDiscoveryCommitmentSchema, BatchDispositionsSchema, BatchHistorySchema, BatchImagesSchema,
-  BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema, BatchMethodSchema,
+  BATCH_WIRE_LIMIT, BatchGitInventorySchema, BatchInventoryProofSchema, BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema, BatchMethodSchema,
   BatchPageIdSchema, BatchPageMaterialHeaderSchema, BatchProjectionSchema, BatchQualificationSchema, BatchQualifiedPinsSchema,
   BatchQualifiedReportSchema, BatchRawTreeSchema, BatchRunSchema, BatchScopeSchema, BatchVerifyControlSchema,
-  batchDigest, batchRef, batchRoles, batchSha256, parseBatchCanonical, validateBatchMaterialDetail,
+  batchDigest, batchGitInventoryReader, batchRef, batchRoles, batchSha256, parseBatchCanonical, validateBatchMaterialDetail, verifyCommitProof,
   type BatchBlobRef, type BatchVerifyControl} from './batch-collection-contract'
 import {writeOwnedBlob, type EvidenceStore} from './evidence'
 import {inspectPinnedLocalGuidesBatchCandidate, preparePinnedLocalGuidesBatchCandidate} from './remote-transaction'
@@ -119,6 +119,45 @@ const materialTree = (rows: readonly {path: string; ref: BlobRef}[]): MaterialTr
   ({entries: rows.map(({path, ref}) => ({path, bytes: ref.bytes, sha256: ref.sha256})).sort((a, b) => compareUtf8(a.path, b.path))})
 
 type Baseline = Awaited<ReturnType<typeof openLocalBatchBaseline>>
+
+async function endpointInventories(read: ReturnType<typeof reader>, header: z.infer<typeof BatchPageMaterialHeaderSchema>,
+  history: z.infer<typeof BatchHistorySchema>, retain: (bytes: Uint8Array) => BlobRef, budget: () => void) {
+  if (!history.inventoryProofRef) {
+    check(!history.commitProofRef, 'BATCH_HISTORY_PROOF_INVALID')
+    return Promise.all(header.inventoryRefs.map(r => read.value(r.ref, BatchInventorySchema)))
+  }
+  if (history.commitProofRef) verifyCommitProof(Buffer.from(await read.bytes(history.commitProofRef)), history.commits)
+  const proof = await read.value(history.inventoryProofRef, BatchInventoryProofSchema)
+  const edges = [...header.inventoryRefs, ...history.interval.map(({commit, inventoryRef: ref}) => ({commit, ref}))]
+  const descriptors = []
+  for (const edge of edges) {
+    budget()
+    const descriptor = await read.value(edge.ref, BatchGitInventorySchema)
+    check(descriptor.commit === edge.commit, 'BATCH_CANDIDATE_SOURCE')
+    descriptors.push(descriptor)
+  }
+  const refs = [...proof.trees.map(tree => tree.ref), ...descriptors.map(d => d.commitRef)]
+  const unique = [...new Map(refs.map(ref => [ref.sha256, ref])).values()]
+  check(unique.reduce((total, ref) => total + ref.bytes, 0) <= BATCH_WIRE_LIMIT, 'BATCH_CANDIDATE_LIMIT')
+  const leaves = new Map<string, {ref: BlobRef; bytes: Buffer}>()
+  for (const ref of unique) {
+    budget()
+    leaves.set(ref.sha256, {ref, bytes: Buffer.from(await read.bytes(ref))})
+  }
+  const git = batchGitInventoryReader(proof, history.commits, ref => {
+    const leaf = leaves.get(ref.sha256)
+    check(leaf && same(leaf.ref, ref), 'BATCH_CANDIDATE_INVENTORY')
+    return leaf.bytes
+  })
+  const inventories = descriptors.map(descriptor => {budget(); return git.inventory(descriptor)})
+  git.finish()
+  return inventories.slice(0, header.inventoryRefs.length).map(inventory => ({
+    commit: inventory.commit, treeOid: inventory.treeOid, absentPaths: inventory.absentPaths,
+    // Preserve the original semantic leaf: path and page metadata, independent
+    // of commit identities and unrelated tree or blob changes.
+    discoveryRef: retain(canonicalBytes(inventory.discoveryRows())),
+  }))
+}
 async function preparePlan(readStore: Read, baseline: Baseline, binding: Binding, budget: () => void) {
   const read = reader(readStore)
   const {master, dev, source, trustedTools, toolsetSha256} = binding.base.pins
@@ -147,7 +186,7 @@ async function preparePlan(readStore: Read, baseline: Baseline, binding: Binding
     validateBatchMaterialDetail(detail, header, configuration, projection)
     check(tree.size === configuration.files.length &&
       configuration.files.every(file => tree.get(file.path)?.oid === file.oid), 'BATCH_CANDIDATE_CONFIG_TREE')
-    const inventories = await Promise.all(header.inventoryRefs.map(r => read.value(r.ref, BatchInventorySchema)))
+    const inventories = await endpointInventories(read, header, history, retain, budget)
     const rawTrees = await Promise.all(header.rawMaterialRefs.map(r => read.value(r.ref, BatchRawTreeSchema)))
     const observations: PageObservation[] = []
     for (const [i, endpoint] of detail.observations.entries()) {
