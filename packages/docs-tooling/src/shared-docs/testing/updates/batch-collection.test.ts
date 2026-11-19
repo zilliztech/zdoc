@@ -1,6 +1,7 @@
 // @vitest-environment node
 import {expect, it, vi} from 'vitest'
 import {createHash} from 'node:crypto'
+import {execFileSync} from 'node:child_process'
 import {canonicalBytes} from '../../core/updates/canonical'
 
 // The fixture tests below spawn real Git subprocesses and whole-collection builds;
@@ -60,13 +61,13 @@ it('binds replay images to exact normalized URLs and immutable bytes with no liv
   } finally {fetch.mockRestore()}
 })
 
-import {mkdtemp, rm} from 'node:fs/promises'
+import {mkdir, mkdtemp, rm, writeFile} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {onTestFinished} from 'vitest'
 import {batchQualificationFixture} from './fixtures/batch-qualification'
 import * as provider from '../../adapters/updates/guides-provider'
-import {validateBatchWire, BatchMaterialWireSchema, BatchProjectionSchema, decodeBatchBlob} from '../../adapters/updates/batch-collection-contract'
+import {validateBatchWire, BatchMaterialWireSchema, BatchProjectionSchema, BatchGitInventorySchema, BatchHistorySchema, BatchInventoryProofSchema, decodeBatchBlob} from '../../adapters/updates/batch-collection-contract'
 
 async function fixture() {
   const root = await mkdtemp(join(tmpdir(), 'batch-material-'))
@@ -227,7 +228,7 @@ it('checks BYOC effective anchors against its actual transformed output', async 
   expect(result.reasons).toContain('EFFECTIVE_ANCHOR_UNRESOLVED')
 }, 120000)
 
-import {batchRef, batchSha256, parseBatchCanonical, BatchPageMaterialHeaderSchema} from '../../adapters/updates/batch-collection-contract'
+import {batchDigest, batchRef, batchSha256, parseBatchCanonical, BatchPageMaterialHeaderSchema} from '../../adapters/updates/batch-collection-contract'
 it('rejects malformed canonical material frames and extra or orphan wire payloads', async () => {
   const f = await simpleFixture(), request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
   for (const raw of ['{"kind":1,"kind":1}', '{"x":-0}', '{"x":1e0}', '{"x":1.0}', '{"x":9007199254740992}', '{"x":"\\ud800"}', ' {"x":1}']) {
@@ -242,7 +243,7 @@ it('rejects malformed canonical material frames and extra or orphan wire payload
   first.base64 = first.base64.slice(0, -1) + '!'
   expect(() => validateBatchWire(invalidBase64, request)).toThrow('BATCH_BASE64_INVALID')
 }, 120000)
-it('retains an absent fragment inventory and holds missing union/absence evidence', async () => {
+it('binds compact inventory to exact Git and discovery evidence and rejects altered absences', async () => {
   const f = await simpleFixture('## Source\n{{fragments/transient.md}}\n')
   await f.sourceChange('site/en/fragments/transient.md', 'Present dependency.\n')
   const baseline = await git(f.repo, 'rev-parse', 'HEAD')
@@ -253,12 +254,111 @@ it('retains an absent fragment inventory and holds missing union/absence evidenc
   const request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
   const checked = validateBatchWire(wire, request)
   expect(checked.inventories[2].absentPaths).toContain('site/en/fragments/transient.md')
-  const broken = structuredClone(wire), old = broken.material.inventoryRefs[2].ref
-  const inventory = {...checked.inventories[2], absentPaths: []}, bytes = canonicalBytes(inventory), ref = batchRef(bytes)
-  broken.material.inventoryRefs[2].ref = ref
-  broken.blobs = broken.blobs.filter(b => b.ref.sha256 !== old.sha256)
-  broken.blobs.push({ref, base64: Buffer.from(bytes).toString('base64')}); broken.blobs.sort((a, b) => a.ref.sha256 < b.ref.sha256 ? -1 : 1)
-  expect(batch.projectBatchMaterialFixture(broken, request).reasons).toContain('SOURCE_ABSENCE_UNPROVEN')
+  const get = (ref: ReturnType<typeof batchRef>) => decodeBatchBlob(ref, wire.blobs.find(blob => blob.ref.sha256 === ref.sha256)!.base64)
+  const original = wire.material.inventoryRefs[2].ref
+  const inventory = parseBatchCanonical(get(original), BatchGitInventorySchema)
+  const history = parseBatchCanonical(get(wire.material.historyRef), BatchHistorySchema)
+  const proof = parseBatchCanonical(get(history.inventoryProofRef!), BatchInventoryProofSchema)
+  const first = parseBatchCanonical(get(wire.material.inventoryRefs[0].ref), BatchGitInventorySchema)
+  expect(inventory.treeOid).toBe(await git(f.repo, 'rev-parse', `${inventory.commit}^{tree}`))
+  expect(first.treeOid).not.toBe(inventory.treeOid)
+  const rewrite = (changed: typeof wire, value: unknown) => {
+    const bytes = canonicalBytes(value), ref = batchRef(bytes)
+    if (!changed.blobs.some(blob => blob.ref.sha256 === ref.sha256)) changed.blobs.push({ref, base64: Buffer.from(bytes).toString('base64')})
+    changed.blobs.sort((a, b) => Buffer.compare(Buffer.from(a.ref.sha256), Buffer.from(b.ref.sha256)))
+    return ref
+  }
+  // Exercise the independent descriptor-based CAS reader with the actual renderer's wire.
+  const root = await mkdtemp(join(tmpdir(), 'batch-python-inventory-')), directory = join(root, 'blobs')
+  onTestFinished(() => rm(root, {recursive: true, force: true}))
+  await mkdir(directory)
+  const runner = `
+import os
+import sys
+import json
+sys.path.insert(0, 'scripts/docs-workflow/shared-guides-update')
+import prepare as p
+root = os.open(sys.argv[1], os.O_RDONLY | os.O_DIRECTORY)
+blobs = os.open('blobs', os.O_RDONLY | os.O_DIRECTORY, dir_fd=root)
+retained, base = json.load(sys.stdin)
+reader = p._BatchReader(root, blobs, {'rootIdentity': p._BatchReader.identity(root), 'blobsIdentity': p._BatchReader.identity(blobs)})
+try:
+    p._batch_material(reader, retained, base)
+except p.Hold as error:
+    print(error)
+else:
+    print('accepted')
+`
+  const written = new Set<string>()
+  async function checkPython(changed: typeof wire, result: string) {
+    for (const blob of changed.blobs) if (!written.has(blob.ref.sha256)) {
+      await writeFile(join(directory, blob.ref.sha256), Buffer.from(blob.base64, 'base64'), {flag: 'wx'})
+      written.add(blob.ref.sha256)
+    }
+    const material = canonicalBytes(changed.material), materialRef = batchRef(material)
+    if (!written.has(materialRef.sha256)) {
+      await writeFile(join(directory, materialRef.sha256), material, {flag: 'wx'})
+      written.add(materialRef.sha256)
+    }
+    const retained = {pageId: changed.material.pageId, requestSha256: 'a'.repeat(64), requestBytes: 1,
+      responseSha256: 'b'.repeat(64), responseBytes: 1, materialRef, materialDigest: batchDigest('material', changed.material)}
+    expect(execFileSync('python3', ['-B', '-c', runner, root], {encoding: 'utf8',
+      input: JSON.stringify([retained, changed.material.base])}).trim()).toBe(result)
+  }
+  await checkPython(wire, 'accepted')
+  for (const [patch, reason, pythonReason] of [
+    [{absentPaths: []}, 'BATCH_SOURCE_ABSENCE_INVALID'],
+    [{absentPaths: [...inventory.absentPaths, 'site/en/missing.md'].sort()}, 'BATCH_SOURCE_ABSENCE_INVALID'],
+    [{treeOid: first.treeOid}, 'BATCH_SOURCE_GIT_IDENTITY_INVALID'],
+    [{commitRef: first.commitRef}, 'BATCH_SOURCE_GIT_IDENTITY_INVALID'],
+    [{commitRef: {...inventory.commitRef, bytes: inventory.commitRef.bytes + 1}}, 'BATCH_MATERIAL_GRAPH_INCOMPLETE', 'BATCH_BLOB_TYPE_INVALID'],
+  ] as const) {
+    const changed = structuredClone(wire)
+    changed.material.inventoryRefs[2].ref = rewrite(changed, {...inventory, ...patch})
+    expect(() => validateBatchWire(changed, request)).toThrow(reason)
+    await checkPython(changed, pythonReason ?? reason)
+  }
+  for (const [patch, reason] of [
+    [{trees: proof.trees.filter(row => row.oid !== inventory.treeOid)}, 'BATCH_INVENTORY_TREE_MISSING'],
+    [{discovery: proof.discovery.slice(1)}, 'BATCH_INVENTORY_DISCOVERY_MISSING'],
+  ] as const) {
+    const changed = structuredClone(wire)
+    const inventoryProofRef = rewrite(changed, {...proof, ...patch})
+    changed.material.historyRef = rewrite(changed, {...history, inventoryProofRef})
+    expect(() => validateBatchWire(changed, request)).toThrow(reason)
+    await checkPython(changed, reason)
+  }
+
+  const legacy = structuredClone(wire)
+  const {createGuidesReadSession} = await import('../../adapters/updates/guides-read-session')
+  const legacyDiscovery = new Map<string, Uint8Array>()
+  const reads = createGuidesReadSession(bytes => {
+    const ref = batchRef(bytes)
+    legacyDiscovery.set(ref.sha256, bytes)
+    return ref
+  })
+  const unused = new Set([legacy.material.historyRef.sha256, history.inventoryProofRef!.sha256, ...proof.trees.map(row => row.ref.sha256)])
+  const legacyInventory = async (ref: ReturnType<typeof batchRef>) => {
+    const state = parseBatchCanonical(get(ref), BatchGitInventorySchema)
+    unused.add(ref.sha256)
+    unused.add(state.commitRef.sha256)
+    const snapshot = await reads.sourceSnapshot(f.repo, state.commit)
+    const discoveryBytes = legacyDiscovery.get(snapshot.discovery.sha256)!
+    if (!legacy.blobs.some(blob => blob.ref.sha256 === snapshot.discovery.sha256)) {
+      legacy.blobs.push({ref: snapshot.discovery, base64: Buffer.from(discoveryBytes).toString('base64')})
+    }
+    return rewrite(legacy, {commit: state.commit, treeOid: snapshot.treeOid, entries: snapshot.entries,
+      absentPaths: state.absentPaths, discoveryRef: snapshot.discovery})
+  }
+  try {
+    for (const row of legacy.material.inventoryRefs) row.ref = await legacyInventory(row.ref)
+    const interval = []
+    for (const row of history.interval) interval.push({...row, inventoryRef: await legacyInventory(row.inventoryRef)})
+    legacy.material.historyRef = rewrite(legacy, {commits: history.commits, interval})
+    legacy.blobs = legacy.blobs.filter(blob => !unused.has(blob.ref.sha256))
+    expect(validateBatchWire(legacy, request).inventories[2].absentPaths).toEqual(inventory.absentPaths)
+    await checkPython(legacy, 'accepted')
+  } finally {reads.dispose()}
 }, 120000)
 it('adds a genuine adoption peer with noop disposition and uses its actual oldNext BYOC headings', async () => {
   const f = await simpleFixture('## Source\n[Target](public-target.md#Old)\n[Cloud](public-target.md#Only-Cloud)\n', '<!-- doc:block:start id="section" -->\n## Old\n\nUnchanged context.\n<!-- doc:block:end id="section" -->\n<!-- doc:block:start id="other" -->\n## Only Cloud\nCloud body.\n<!-- doc:block:end id="other" -->\n')

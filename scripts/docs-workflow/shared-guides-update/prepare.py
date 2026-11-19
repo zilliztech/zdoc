@@ -728,12 +728,12 @@ class _BatchReader:
         require(stat.S_ISDIR(info.st_mode), "BATCH_ROOT_IDENTITY_INVALID")
         return {"dev": str(info.st_dev), "ino": str(info.st_ino)}
 
-    def blob(self, ref, parse=False, original=False, git_kind=None, git_oid=None):
+    def blob(self, ref, parse=False, original=False, git_kind=None, git_oid=None, transient=False):
         batch_ref(ref)
         digest = ref["sha256"]
         if digest in self.seen:
             require(self.seen[digest][0] == ref["bytes"], "BATCH_BLOB_BINDING_INVALID")
-            if git_kind is None:
+            if git_kind is None and not transient:
                 if parse:
                     require(digest in self.objects, "BATCH_TYPED_ALIAS_INVALID")
                     return self.objects[digest]
@@ -770,14 +770,15 @@ class _BatchReader:
                 return _batch_git_commit(raw) if git_kind == 'commit' else _batch_git_tree(raw)
             if parse:
                 result = batch_parse(b''.join(chunks), canonical=not original)
-                self.objects[digest] = result
+                if not transient:
+                    self.objects[digest] = result
                 return result
             return self.seen[digest]
         finally:
             os.close(fd)
 
-    def object(self, ref, fields):
-        return batch_exact(self.blob(ref, parse=True), fields)
+    def object(self, ref, fields, transient=False):
+        return batch_exact(self.blob(ref, parse=True, transient=transient), fields)
 
     def finish(self):
         require(self.identity(self.root_fd) == self.root_identity and self.identity(self.blobs_fd) == self.blobs_identity,
@@ -846,17 +847,26 @@ def _batch_git_tree(raw):
         end = raw.find(b'\0', space + 1)
         require(offset < space < end - 1 and end + 21 <= len(raw), 'BATCH_SOURCE_INVENTORY_INVALID')
         mode = raw[offset:space]
-        name = raw[space + 1:end].decode('utf-8')
+        try:
+            name = raw[space + 1:end].decode('utf-8')
+        except UnicodeDecodeError:
+            raise Hold('BATCH_SOURCE_INVENTORY_INVALID') from None
         require(mode in (b'40000', b'100644', b'100755', b'120000', b'160000') and '/' not in name
-                and not re.match('^[a-zA-Z]:', name) and all(ord(c) >= 32 and not 127 <= ord(c) <= 159 for c in name)
                 and name not in values, 'BATCH_SOURCE_INVENTORY_INVALID')
-        batch_path(name)
+        _batch_inventory_path(name)
         key = raw[space + 1:end] + (b'/' if mode == b'40000' else b'')
         require(previous < key, 'BATCH_SOURCE_INVENTORY_INVALID')
         values[name] = mode, raw[end + 1:end + 21].hex()
         previous = key
         offset = end + 21
     return values
+
+
+def _batch_inventory_path(path):
+    batch_path(path)
+    require(not re.match('^[a-zA-Z]:', path) and all(ord(c) >= 32 and not 127 <= ord(c) <= 159 for c in path),
+            'BATCH_SOURCE_INVENTORY_INVALID')
+    return path
 
 
 # Exact path classification used by the renderer's Milvus discovery.
@@ -1006,7 +1016,9 @@ def _batch_material(reader, retained, base):
             require(reader.blob(entry['ref'])[1] == entry['oid'], 'BATCH_SOURCE_INVALID')
         return tree
 
-    history = reader.blob(header['historyRef'], parse=True)
+    # Histories and their tree index can be large. Keep their parsed forms only
+    # for this page and revalidate the original CAS bytes if another page needs them.
+    history = reader.blob(header['historyRef'], parse=True, transient=True)
     compact = 'inventoryProofRef' in history
     batch_exact(history, 'commits interval inventoryProofRef' if compact else 'commits interval')
     parents = {}
@@ -1014,7 +1026,11 @@ def _batch_material(reader, retained, base):
         batch_exact(commit, 'oid parents')
         require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
         parents[commit['oid']] = commit['parents']
-    git_inventory = _BatchGitInventory(reader, reader.object(history['inventoryProofRef'], 'trees discovery'), parents) if compact else None
+    git_inventory = None
+    if compact:
+        proof = reader.object(history['inventoryProofRef'], 'trees discovery', transient=True)
+        git_inventory = _BatchGitInventory(reader, proof, parents)
+        del proof
     inventories = {}
     consumed = {config['sourceFile']} if config['sourceFile'].startswith('site/en/') else set()
 
@@ -1032,7 +1048,8 @@ def _batch_material(reader, retained, base):
             lookup = {e['path']: e['oid'] for e in value['entries']}.get
             reader.blob(value['discoveryRef'])
         batch_sorted(value['absentPaths'])
-        require(all(lookup(batch_path(path)) is None for path in value['absentPaths']), 'BATCH_SOURCE_ABSENCE_INVALID')
+        verify_path = _batch_inventory_path if git_inventory else batch_path
+        require(all(lookup(verify_path(path)) is None for path in value['absentPaths']), 'BATCH_SOURCE_ABSENCE_INVALID')
         inventories[ref['sha256']] = lookup, value['absentPaths']
         return lookup
 
