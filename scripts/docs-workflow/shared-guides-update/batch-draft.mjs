@@ -160,7 +160,7 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
     objects = opened.objects
     const { master, dev, source } = pins
     expectedDev = dev
-    need([master, dev, source].every(oid) && subjectIds.length > 1 && changedIds.length >= 2 &&
+    need([master, dev, source].every(oid) && subjectIds.length > 1 && changedIds.length > 0 &&
       new Set(subjectIds).size === subjectIds.length && new Set(changedIds).size === changedIds.length &&
       changedIds.every(id => subjectIds.includes(id)) && /^[0-9a-f]{64}$/.test(identity.binding.sha256), 'BATCH_DRAFT_INVENTORY')
     branch = REF_PREFIX + identity.binding.sha256

@@ -14,7 +14,7 @@ const git = (cwd, ...args) => execFileSync('/usr/bin/git', ['-C', cwd, ...args],
 const oid = (cwd, revision) => git(cwd, 'rev-parse', revision).toString().trim()
 const sha256 = data => createHash('sha256').update(data).digest('hex')
 
-async function fixture(t) {
+async function fixture(t, changeCount = 2) {
   const root = await mkdtemp(join(await realpath(tmpdir()), 'isolated-batch-draft-')), baseline = join(root, 'tools')
   t.after(() => rm(root, { recursive: true, force: true }))
   await mkdir(baseline, { mode: 0o700 })
@@ -28,10 +28,10 @@ async function fixture(t) {
   git(baseline, 'commit', '-qm', 'sampled dev', '--allow-empty')
   const dev = oid(baseline, 'HEAD')
   const destination = initializeIsolatedBatchDraft(root, baseline)
-  const changedIds = subjectIds.slice(0, 2)
+  const changedIds = subjectIds.slice(0, changeCount)
   git(baseline, 'checkout', '-q', 'master')
   for (const id of changedIds) await writeFile(join(baseline, id + '.lock'), 'next: new\n')
-  git(baseline, 'commit', '-qam', 'candidate')
+  git(baseline, 'commit', '-qam', 'candidate', '--allow-empty')
   const candidate = oid(baseline, 'HEAD')
   git(baseline, 'commit', '-qm', 'seal fixture', '--allow-empty')
   const seal = oid(baseline, 'HEAD')
@@ -129,5 +129,27 @@ test('blocks Git common-directory and reflog redirects before reading the candid
   await symlink(join(external, 'logs'), join(repository, 'logs'), 'dir')
   deepEqual(await createIsolatedBatchDraft({ ...input, verifyEvidence }), { status: 'held', reason: 'BATCH_DRAFT_DESTINATION' })
   equal(verifications, 0)
+  equal(input.draftCalls(), 0)
+})
+
+test('admits a multi-subject batch with one lock edit and required no-ops', async t => {
+  const input = await fixture(t, 1)
+  const draft = await createIsolatedBatchDraft(input)
+  equal(draft.status, 'created', JSON.stringify(draft))
+  deepEqual(draft.subjects, ['alpha', 'beta', 'noop'])
+  deepEqual(draft.changedPages, ['alpha'])
+  equal(git(input.destination.repository, 'diff', '--name-only', draft.base, draft.head).toString().trim(), 'alpha.lock')
+  equal(input.draftCalls(), 1)
+})
+
+test('an all-no-op signed test payload cannot create objects, refs, a journal or a Draft', async t => {
+  const input = await fixture(t, 0)
+  const { root, repository } = input.destination
+  const objects = git(repository, 'count-objects', '-v')
+  const refs = git(repository, 'for-each-ref')
+  deepEqual(await createIsolatedBatchDraft(input), { status: 'held', reason: 'BATCH_DRAFT_INVENTORY' })
+  deepEqual(git(repository, 'count-objects', '-v'), objects)
+  deepEqual(git(repository, 'for-each-ref'), refs)
+  await rejects(readFile(join(root, 'isolated-draft-journal.jsonl')), { code: 'ENOENT' })
   equal(input.draftCalls(), 0)
 })
