@@ -1,4 +1,6 @@
 import { createHash } from 'node:crypto'
+import type { IncomingMessage } from 'node:http'
+import { Agent, request as httpsRequest, type RequestOptions } from 'node:https'
 import * as z from 'zod'
 import type { BatchPullIdentity, BatchPathChange } from '../../core/updates/batch-discovery'
 import { parseStrictJson } from '../../core/updates/canonical'
@@ -9,6 +11,7 @@ import { BatchReadError, stop, type BatchBudget } from './batch-source'
 import { currentBatchLifetime } from './evidence'
 
 const zdoc = 'zilliztech/zdoc', milvus = 'milvus-io/milvus-docs'
+const githubOrigin = 'https://api.github.com'
 export const BATCH_ASSOCIATION_WINDOW = 8
 const repoIds = { [zdoc]: 660446555, [milvus]: 267273319 }
 const positive = z.number().int().positive().max(Number.MAX_SAFE_INTEGER)
@@ -35,7 +38,7 @@ function hasNext(link: string | undefined, endpoint: string, current: number) {
     if (!URL.canParse(href)) stop('METADATA_PAGINATION_INVALID')
     const url = new URL(href)
     // GitHub may canonicalize owner/name to the fixed numeric repository in Link headers.
-    if (url.origin !== 'https://api.github.com' || url.username || url.password || url.hash ||
+    if (url.origin !== githubOrigin || url.username || url.password || url.hash ||
         ![endpoint, endpoint.replace('/repos/' + milvus, '/repositories/' + repoIds[milvus])].includes(url.pathname) ||
         [...url.searchParams.keys()].sort().join(',') !== 'page,per_page' || url.searchParams.get('per_page') !== '100') stop('METADATA_PAGINATION_INVALID')
     const page = url.searchParams.get('page')!
@@ -50,8 +53,17 @@ function hasNext(link: string | undefined, endpoint: string, current: number) {
 }
 
 export type BatchGitHubTestSeam = Pick<Parameters<typeof createRemoteTransport>[0], 'socketRequest' | 'token'> & { transport?: RemoteTransport }
-export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam = {}) {
-  const client = (repositoryFullName: string) => seam.transport ?? createRemoteTransport({ repositoryFullName, token: seam.token, socketRequest: seam.socketRequest })
+export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam = {}, mode?: 'discovery') {
+  // Only discovery owns this private pool. The underlying transport still owns
+  // the URL allowlist, authentication, TLS options and response decoding.
+  const agent = mode === 'discovery' && !seam.transport ? new Agent({keepAlive: true, maxSockets: BATCH_ASSOCIATION_WINDOW,
+    maxTotalSockets: BATCH_ASSOCIATION_WINDOW, maxFreeSockets: BATCH_ASSOCIATION_WINDOW}) : undefined
+  const socket = seam.socketRequest ?? httpsRequest
+  const socketRequest = agent ? ((url: URL, options: RequestOptions, callback: (message: IncomingMessage) => void) => {
+    if (url.origin !== githubOrigin || url.username || url.password || options.method !== 'GET') stop('METADATA_QUERY_INVALID')
+    return socket(url, {...options, agent}, callback)
+  }) as typeof httpsRequest : seam.socketRequest
+  const client = (repositoryFullName: string) => seam.transport ?? createRemoteTransport({ repositoryFullName, token: seam.token, socketRequest })
   const clients = { [milvus]: client(milvus), [zdoc]: client(zdoc) }
   const inFlight = new Set<Promise<void>>()
   let reserved = 0
@@ -203,8 +215,20 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     if (result.status === 'rejected') throw result.reason
     return result.value
   }
+  async function fixedReads<T>(reads: (() => Promise<T>)[]) {
+    if (mode === 'discovery') {
+      const outcomes = await Promise.allSettled(reads.map(read => read()))
+      return outcomes.map(outcome => {
+        if (outcome.status === 'rejected') throw outcome.reason
+        return outcome.value
+      })
+    }
+    const values: T[] = []
+    for (const read of reads) values.push(await read())
+    return values
+  }
   async function pins() {
-    for (const repo of [zdoc, milvus] as const) {
+    async function identify(repo: keyof typeof clients) {
       const result = repository.safeParse((await get(repo)).value)
       if (!result.success || result.data.id !== repoIds[repo] || result.data.full_name !== repo) stop('GITHUB_REPOSITORY_MISMATCH')
     }
@@ -213,9 +237,12 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
       if (!result.success || result.data.ref !== 'refs/heads/' + branch) stop('GITHUB_REF_MISMATCH')
       return result.data.object.sha
     }
-    return { master: await ref(zdoc, 'master'), dev: await ref(zdoc, 'dev'), source: await ref(milvus, 'v3.0.x') }
+    await fixedReads([() => identify(zdoc), () => identify(milvus)])
+    const [master, dev, source] = await fixedReads([() => ref(zdoc, 'master'), () => ref(zdoc, 'dev'), () => ref(milvus, 'v3.0.x')])
+    return { master, dev, source }
   }
-  return { pins, association, associations }
+  function close() { admissionClosed = true; agent?.destroy() }
+  return { pins, association, associations, close }
 }
 
 import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'

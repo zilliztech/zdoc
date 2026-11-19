@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { createServer, request as httpRequest } from 'node:http'
-import type { request as httpsRequest } from 'node:https'
+import { Agent, type request as httpsRequest } from 'node:https'
 import { afterEach, expect, it, vi } from 'vitest'
 import { createBatchGitHub } from '../../adapters/updates/batch-github'
 import { batchBudget } from '../../adapters/updates/batch-source'
@@ -38,6 +38,68 @@ it('issues only fixed authenticated GETs through the TLS socket seam and reads a
   expect((await api.association(oid)).pull?.identity).toMatchObject({ number: 5, merged: true })
   expect(calls).toContain(root + '/commits/' + oid + '/pulls?per_page=100&page=1')
   expect(calls).toContain(root + '/pulls/5/files?per_page=100&page=1')
+})
+
+it('owns one discovery TLS agent, preserves request authority, and destroys the agent on close', async () => {
+  const agents: Agent[] = []
+  const server = createServer((request, reply) => {
+    const path = request.url!, branch = path.split('/heads/')[1]
+    const item = branch ? {ref: 'refs/heads/' + branch, object: {type: 'commit', sha: oid}}
+      : path === root ? repo : {id: 660446555, full_name: 'zilliztech/zdoc'}
+    reply.end(JSON.stringify(item))
+  })
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  cleanup.push(() => new Promise(resolve => server.close(() => resolve())))
+  const {port} = server.address() as {port: number}
+  const socket = ((url: URL, options: any, callback: any) => {
+    expect(url.origin).toBe('https://api.github.com')
+    expect(options.method).toBe('GET')
+    expect(options.headers.Authorization).toBe('Bearer local-test')
+    expect(options.rejectUnauthorized).toBe(true)
+    expect(options.ca.length).toBeGreaterThan(0)
+    expect(options.agent).toBeInstanceOf(Agent)
+    agents.push(options.agent)
+    return httpRequest({host: '127.0.0.1', port, path: url.pathname, signal: options.signal}, callback)
+  }) as typeof httpsRequest
+  const api = createBatchGitHub(batchBudget(), {token: 'local-test', socketRequest: socket}, 'discovery')
+  expect(await api.pins()).toEqual({master: oid, dev: oid, source: oid})
+  expect(agents).toHaveLength(5)
+  expect(new Set(agents).size).toBe(1)
+  const [agent] = agents
+  expect(agent).toMatchObject({keepAlive: true, maxSockets: 8, maxTotalSockets: 8, maxFreeSockets: 8})
+  const destroyed = vi.spyOn(agent, 'destroy')
+  api.close()
+  expect(destroyed).toHaveBeenCalledTimes(1)
+  await expect(api.pins()).rejects.toThrow('METADATA_READ_FAILED')
+  expect(agents).toHaveLength(5)
+})
+
+it('overlaps fixed pins only after both discovery repository identities are authenticated', async () => {
+  const reads: string[] = []
+  let releaseIds!: () => void, releaseRefs!: () => void
+  const ids = new Promise<void>(resolve => { releaseIds = resolve })
+  const refs = new Promise<void>(resolve => { releaseRefs = resolve })
+  const transport: RemoteTransport = async ({path}) => {
+    reads.push(path)
+    const branch = path.split('/heads/')[1]
+    if (branch) {
+      await refs
+      return response({ref: 'refs/heads/' + branch, object: {type: 'commit', sha: oid}})
+    }
+    await ids
+    return response(path === root ? repo : {id: 660446555, full_name: 'zilliztech/zdoc'})
+  }
+  const api = createBatchGitHub(batchBudget(), {transport}, 'discovery')
+  const pending = api.pins()
+  try {
+    await vi.waitFor(() => expect(reads).toEqual(['/repos/zilliztech/zdoc', root]))
+    releaseIds()
+    await vi.waitFor(() => expect(reads.slice(2)).toEqual([
+      '/repos/zilliztech/zdoc/git/ref/heads/master', '/repos/zilliztech/zdoc/git/ref/heads/dev', root + '/git/ref/heads/v3.0.x',
+    ]))
+  } finally { releaseIds(); releaseRefs() }
+  expect(await pending).toEqual({master: oid, dev: oid, source: oid})
+  api.close()
 })
 
 it.each(['empty', 'open', 'wrong-track', 'ambiguous', 'truncated', 'wrong-count', 'duplicate', 'foreign-link', 'wrong-id', 'failed'])('distinguishes %s association evidence', async scenario => {

@@ -376,7 +376,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
 
 /** Observe three independent fixed refs. No caller pin, network address, repository identity or mode can select an observed result. */
 export async function collectBatchDiscovery(options: BatchDiscoveryOptions, testSeam?: BatchGitHubTestSeam) {
-  const budget = batchBudget(), api = createBatchGitHub(budget, testSeam)
+  const budget = batchBudget(), api = createBatchGitHub(budget, testSeam, 'discovery')
   try {
     if (Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository') stop('BATCH_OPTIONS_INVALID')
     if (!GitShaSchema.safeParse(options.tools).success) stop('TOOLS_IDENTITY_INVALID')
@@ -403,6 +403,7 @@ export async function collectBatchDiscovery(options: BatchDiscoveryOptions, test
     } catch { add(input.reasons, 'FINAL_REFS_UNVERIFIED') }
     return discoverBatches(input)
   } catch (error) { stop(safeReason(error, 'BATCH_INVENTORY_UNAVAILABLE')) }
+  finally { api.close() }
 }
 
 
@@ -422,29 +423,31 @@ export function readBatchDiscoveryCapture(capture: BatchDiscoveryCapture): Reado
 async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOrigin, seam?: BatchGitHubTestSeam): Promise<BatchDiscoveryCapture> {
   if (Object.keys(options).sort().join(',') !== 'sourceRepository,tools,zdocRepository') stop('BATCH_OPTIONS_INVALID')
   GitShaSchema.parse(options.tools)
-  const budget = batchBudget(), api = createBatchGitHub(budget, seam), pins = await api.pins()
-  const zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
-  const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
-  const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
-  await lifecycle(zdoc, input)
-  const source = await BatchGitStore.open(options.sourceRepository, budget)
-  const introductionOrder = await observeSource(source, input, api, budget, ledger)
-  await source.verify(); await zdoc.verify()
-  const final = await api.pins()
-  if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
-  const objects = [...source.evidenceObjects(), ...zdoc.evidenceObjects()].map(object => {
-    const ref = batchRef(object.bytes); evidence.push({ref, bytes: object.bytes}); return {oid: object.oid, kind: object.kind, ref}
-  }).sort((a, b) => compareUtf8(a.oid, b.oid))
-  const proofBytes = canonicalBytes({objects: [...new Map(objects.map(o => [o.oid, o])).values()]}), proofRef = batchRef(proofBytes)
-  evidence.push({ref: proofRef, bytes: proofBytes})
-  for (const row of ledger) row.evidenceRefs = [proofRef]
-  const capture = Object.freeze({}) as BatchDiscoveryCapture
-  // Do not freeze typed arrays; only private refs/values leave this module.
-  const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
-    evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
-  budget.remaining()
-  ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
-  return capture
+  const budget = batchBudget(), api = createBatchGitHub(budget, seam, 'discovery')
+  try {
+    const pins = await api.pins(), zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
+    const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
+    const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
+    await lifecycle(zdoc, input)
+    const source = await BatchGitStore.open(options.sourceRepository, budget)
+    const introductionOrder = await observeSource(source, input, api, budget, ledger)
+    await source.verify(); await zdoc.verify()
+    const final = await api.pins()
+    if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
+    const objects = [...source.evidenceObjects(), ...zdoc.evidenceObjects()].map(object => {
+      const ref = batchRef(object.bytes); evidence.push({ref, bytes: object.bytes}); return {oid: object.oid, kind: object.kind, ref}
+    }).sort((a, b) => compareUtf8(a.oid, b.oid))
+    const proofBytes = canonicalBytes({objects: [...new Map(objects.map(o => [o.oid, o])).values()]}), proofRef = batchRef(proofBytes)
+    evidence.push({ref: proofRef, bytes: proofBytes})
+    for (const row of ledger) row.evidenceRefs = [proofRef]
+    const capture = Object.freeze({}) as BatchDiscoveryCapture
+    // Do not freeze typed arrays; only private refs/values leave this module.
+    const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
+      evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
+    budget.remaining()
+    ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
+    return capture
+  } finally { api.close() }
 }
 /** Internal observed acquisition, with no caller pins or fixture transport. */
 export function observeBatchDiscovery(options: BatchDiscoveryOptions) {return captureDiscovery(options, {kind: 'observed'})}
