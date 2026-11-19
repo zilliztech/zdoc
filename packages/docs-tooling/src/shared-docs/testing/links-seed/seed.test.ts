@@ -127,6 +127,7 @@ describe('labeled links preserve WP5 occurrences', () => {
       '    [x](indented.md)', '', '<!-- [x](comment.md) -->', '<div class="multipleCode"><a href="tab.md">Tab</a></div>',
       '<code>[x](code.md)</code>', '![image](image.md)', '[yes](yes.md)', '[external](https://example.test)', '[root](/root.md)'].join('\n')
     expect(collectReferences(markdown).links).toEqual(collectLabeledLinks(markdown))
-    expect(seed([page('yes.md')], [], markdown).entries.map(row => row.target)).toEqual(['yes.md'])
+    // Indented markdown stays live under MDX, so its link seeds too.
+    expect(seed([page('yes.md'), page('indented.md')], [], markdown).entries.map(row => row.target)).toEqual(['indented.md', 'yes.md'])
   })
 })
