@@ -8,7 +8,7 @@ import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, t
   type BatchSeedObservation } from '../../core/updates/batch-discovery'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { guidesSnapshotPath } from '../guides-snapshot'
-import { createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
+import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
 import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget } from './batch-source'
 import {batchRef, batchSha256, type BatchEdge, type BatchOrigin, type BatchBlobRef} from './batch-collection-contract'
@@ -207,27 +207,55 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       edge.relevant.push(r)
     }
   }
-  for (const { oid, parent, relevant, lockSide } of [...edges, ...extraEdges.values()]) {
+  async function prepareEdge(edge: typeof edges[number]) {
     budget.remaining()
     let raw
-    try { raw = await store.delta(parent, oid) }
+    try { raw = await store.delta(edge.parent, edge.oid) }
     catch (error) {
-      const reason = safeReason(error, 'SOURCE_DELTA_UNAVAILABLE')
-      add(input.reasons, reason)
-      for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, reason) }
-      continue
+      return {...edge, failure: safeReason(error, 'SOURCE_DELTA_UNAVAILABLE')}
     }
-    const ledgerRows: BatchEdge[] = []
-    const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
-    const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
     const removed = new Map<string, string[]>(), added = new Map<string, number>()
     for (const delta of raw) {
       if (delta.before && !delta.after) removed.set(delta.before, [...removed.get(delta.before) ?? [], delta.path])
       if (delta.after && !delta.before) added.set(delta.after, (added.get(delta.after) ?? 0) + 1)
     }
-    for (const delta of raw) {
+    const unresolvedPages = [...unresolved.keys()]
+    const classified = raw.map(delta => {
       const sources = delta.after && !delta.before ? removed.get(delta.after) : undefined
       const previous = sources?.length === 1 && added.get(delta.after!) === 1 ? sources[0] : null
+      const direct = edge.relevant.filter(r => r.page.sourceFile === delta.path || r.page.sourceFile === previous)
+      const unresolved = unresolvedPages.filter(page => page.sourceFile === delta.path || page.sourceFile === previous)
+      const consumers = edge.relevant.filter(r => r.fragments.has(delta.path))
+      return {delta, previous, direct, unresolved, consumers, fragment: delta.path.startsWith('site/en/fragments/')}
+    })
+    // Only these authenticated paths need PR metadata. Unrelated edits still retain raw evidence.
+    const affected = classified.some(({delta, direct, unresolved, consumers, fragment}) =>
+      direct.length || unresolved.length || consumers.length || fragment || ledger && delta.path.startsWith('site/en/') && /\.mdx?$/.test(delta.path))
+    return {...edge, raw, classified, affected}
+  }
+  async function* observeEdges() {
+    const allEdges = [...edges, ...extraEdges.values()]
+    for (let offset = 0; offset < allEdges.length; offset += BATCH_ASSOCIATION_WINDOW) {
+      const window = []
+      for (const edge of allEdges.slice(offset, offset + BATCH_ASSOCIATION_WINDOW)) window.push(await prepareEdge(edge))
+      const commits = window.flatMap(edge => edge.affected && !edge.lockSide ? [edge.oid] : [])
+      const associations = await api.associations(commits)
+      let index = 0
+      for (const edge of window) yield {edge, association: edge.affected && !edge.lockSide ? associations[index++] : undefined}
+    }
+  }
+  for await (const {edge: prepared, association} of observeEdges()) {
+    budget.remaining()
+    const {oid, parent, relevant, lockSide, failure, raw, classified, affected} = prepared
+    if (!raw || !classified) {
+      add(input.reasons, failure)
+      for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, failure) }
+      continue
+    }
+    const ledgerRows: BatchEdge[] = []
+    const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
+    const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
+    for (const {delta, previous, direct, unresolved, consumers, fragment} of classified) {
       if (ledger) {
         const prior = previous ? raw.find(d => d.path === previous && d.before && !d.after) : undefined
         const row: BatchEdge = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
@@ -236,20 +264,16 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
           evidence: [], reasons: []}
         ledger.push(row); ledgerRows.push(row)
       }
-      const direct = relevant.filter(r => r.page.sourceFile === delta.path || r.page.sourceFile === previous)
-      for (const page of unresolved.keys()) if (page.sourceFile === delta.path || page.sourceFile === previous) unresolvedHits.add(page)
-      const consumers = relevant.filter(r => r.fragments.has(delta.path))
+      for (const page of unresolved) unresolvedHits.add(page)
       const edge = ['edge', parent ?? 'root', oid, delta.beforeMode ?? 'absent', delta.before ?? 'absent', delta.afterMode ?? 'absent', delta.after ?? 'absent'].join(':')
       change(delta.path, previous ? 'renamed' : !delta.before ? 'added' : !delta.after ? 'removed' : 'modified', previous, edge, direct.map(r => r.page.pageId))
       if (previous) clue([], [], [previous, delta.path], [edge], [])
       for (const r of [...direct, ...consumers]) {
         add(r.interval.commits, oid); add(r.interval.changePaths, delta.path); touched.add(r); hitPaths.add(delta.path)
       }
-      if (delta.path.startsWith('site/en/fragments/')) fragmentHits.set(delta.path, consumers)
+      if (fragment) fragmentHits.set(delta.path, consumers)
     }
-    // Unrelated edits still have complete raw path/edge evidence. Only candidate source or
-    // fragment commits need PR metadata; otherwise incidental upstream traffic consumes the inspection budget.
-    if (!touched.size && !fragmentHits.size && !unresolvedHits.size && !(ledger && raw.some(d => d.path.startsWith('site/en/') && /\.mdx?$/.test(d.path)))) continue
+    if (!affected) continue
     for (const row of ledgerRows) {row.associationResult = 'unknown'; row.reasons = ['ASSOCIATION_UNVERIFIED']}
     const touchedIds = [...touched].map(r => r.page.pageId)
     if (lockSide) {
@@ -261,7 +285,9 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     }
     let key: string | undefined
     try {
-      const { pull, evidence } = await api.association(oid)
+      if (!association) stop('METADATA_READ_FAILED')
+      if (association.status === 'rejected') throw association.reason
+      const { pull, evidence } = association.value
       const intro = pull?.identity.mergeCommit
       if (pull && (!intro || !history.introduces(oid, intro, pull.identity.base, pull.identity.head, pull.commits))) stop('PR_INTRODUCTION_UNVERIFIED')
       key = pull ? 'pr:' + pull.identity.number : 'commit:' + oid
@@ -411,6 +437,7 @@ async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOri
   // Do not freeze typed arrays; only private refs/values leave this module.
   const value = Object.freeze({origin: immutable(structuredClone(origin)), report: immutable(discoverBatches(input)), ledger: immutable(ledger), introductionOrder: immutable(introductionOrder),
     evidence: Object.freeze(evidence.map(e => Object.freeze({ref: immutable(e.ref), bytes: e.bytes}))) as unknown as CapturedDiscovery['evidence']})
+  budget.remaining()
   ;(origin.kind === 'observed' ? observedDiscoveries : replayDiscoveries).set(capture, value)
   return capture
 }

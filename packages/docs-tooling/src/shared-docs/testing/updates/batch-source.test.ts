@@ -6,9 +6,10 @@ import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
 import { BatchGitStore, batchBudget, batchRenderCommitSet, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
-import { collectBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import { collectBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { validateSharedSnapshotRecord } from '../../core/handoff/source-state'
+import { canonicalBytes } from '../../core/updates/canonical'
 import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
@@ -245,6 +246,42 @@ it('retains the raw lock-side edge of an ours merge even when its first parent h
   expect(report.pages[0].reasons).not.toContain('NO_DIRECT_SOURCE_CHANGE')
   expect(report.groups.map(g => g.pageIds)).toEqual([['a']])
   expect(report.status).toBe('held')
+})
+
+it('prefetches only authenticated relevant commits and keeps the report and ledger bytes in edge order', async () => {
+  const f = await inventoryFixture('direct')
+  const unrelated = await f.source.change('site/en/unrelated.json', 'unrelated')
+  const second = await f.source.change(f.sourcePath, 'another edit')
+  const newest = await f.source.change(f.sourcePath, 'last edit')
+  const captures = (transport: RemoteTransport) => replayBatchDiscovery(
+    {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('ordered-discovery'), replayClockMs: 0}, {transport}).then(readBatchDiscoveryCapture)
+  const completed: string[] = [], started: string[] = []
+  let release!: () => void
+  const wait = new Promise<void>(resolve => { release = resolve })
+  const transport = (reorder: boolean): RemoteTransport => async request => {
+    if (request.path.endsWith('/heads/v3.0.x')) return {status: 200, headers: {}, body: Buffer.from(JSON.stringify({
+      ref: 'refs/heads/v3.0.x', object: {type: 'commit', sha: newest},
+    }))}
+    const commit = /\/commits\/([a-f0-9]{40})\/pulls/.exec(request.path)?.[1]
+    if (!reorder || !commit) return f.transport(request)
+    started.push(commit)
+    if (commit === newest) await wait
+    const result = await f.transport(request)
+    completed.push(commit)
+    return result
+  }
+  const baseline = await captures(transport(false))
+  const pending = captures(transport(true))
+  try { await vi.waitFor(() => expect(completed).toContain(second)) } finally { release() }
+  const delayed = await pending
+  expect(started).toEqual([newest, second, f.t])
+  expect(started).not.toContain(unrelated)
+  expect(completed[0]).toBe(second)
+  expect(delayed.ledger.filter(row => row.newPath === f.sourcePath).map(row => row.commit)).toEqual([newest, second, f.t])
+  for (const field of ['report', 'ledger', 'introductionOrder'] as const) {
+    expect(canonicalBytes(delayed[field])).toEqual(canonicalBytes(baseline[field]))
+  }
 })
 
 it('keeps a #3707-style imported base path as a held clue without assigning the PR as a page seed', async () => {

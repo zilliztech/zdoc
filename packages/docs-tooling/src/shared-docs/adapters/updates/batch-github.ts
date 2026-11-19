@@ -6,8 +6,10 @@ import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
 import { createRemoteTransport, type RemoteTransport } from './remote-github'
 import { BatchReadError, stop, type BatchBudget } from './batch-source'
+import { currentBatchLifetime } from './evidence'
 
 const zdoc = 'zilliztech/zdoc', milvus = 'milvus-io/milvus-docs'
+export const BATCH_ASSOCIATION_WINDOW = 4
 const repoIds = { [zdoc]: 660446555, [milvus]: 267273319 }
 const positive = z.number().int().positive().max(Number.MAX_SAFE_INTEGER)
 const repository = z.object({ id: positive, full_name: z.string() })
@@ -51,30 +53,49 @@ export type BatchGitHubTestSeam = Pick<Parameters<typeof createRemoteTransport>[
 export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam = {}) {
   const client = (repositoryFullName: string) => seam.transport ?? createRemoteTransport({ repositoryFullName, token: seam.token, socketRequest: seam.socketRequest })
   const clients = { [milvus]: client(milvus), [zdoc]: client(zdoc) }
+  const inFlight = new Set<Promise<void>>()
+  let reserved = 0
   async function get(repo: keyof typeof clients, suffix = '') {
-    if (++budget.calls > IO.calls) stop('METADATA_CALL_LIMIT')
-    const maximum = Math.min(IO.jsonBytes, IO.expandedBytes - budget.apiBytes)
-    if (maximum <= 0) stop('METADATA_BYTE_LIMIT')
+    let available: number
+    for (;;) {
+      budget.remaining()
+      if (budget.calls >= IO.calls) stop('METADATA_CALL_LIMIT')
+      if (budget.apiBytes >= IO.expandedBytes) stop('METADATA_BYTE_LIMIT')
+      available = IO.expandedBytes - budget.apiBytes - reserved
+      // A partial allowance should reflect bytes already spent, not temporary reservations.
+      if (inFlight.size < BATCH_ASSOCIATION_WINDOW && (available >= IO.jsonBytes || !inFlight.size)) break
+      await Promise.race(inFlight)
+    }
+    const maximum = Math.min(IO.jsonBytes, available)
     const controller = new AbortController(), timeout = budget.remaining()
+    const lifetimeSignal = currentBatchLifetime()?.signal
+    const signal = lifetimeSignal ? AbortSignal.any([controller.signal, lifetimeSignal]) : controller.signal
+    let settle!: () => void
+    const done = new Promise<void>(resolve => { settle = resolve })
+    inFlight.add(done); reserved += maximum; budget.calls++
+    const deadline = performance.now() + timeout
     const timer = setTimeout(() => controller.abort(), timeout)
-    let received = false
+    // Failed/oversized streams may have used their whole allowance.
+    let charge = maximum
     try {
-      const response = await clients[repo]({ method: 'GET', path: '/repos/' + repo + suffix, signal: controller.signal, maximum })
-      received = true
-      budget.apiBytes += response.body.byteLength
+      const response = await clients[repo]({ method: 'GET', path: '/repos/' + repo + suffix, signal, maximum })
       if (response.body.byteLength > maximum) stop('METADATA_BYTE_LIMIT')
+      if (signal.aborted || performance.now() >= deadline) stop('METADATA_READ_FAILED')
+      charge = response.body.byteLength
       if (response.status !== 200) stop('METADATA_READ_FAILED')
       const value = parseStrictJson(response.body)
       budget.remaining()
       const requestHash = createHash('sha256').update('GET /repos/' + repo + suffix + '\n200\n' + (response.headers.link ?? '')).digest('hex')
       return { value, link: response.headers.link, digest: 'api:' + requestHash + ':' + createHash('sha256').update(response.body).digest('hex') }
     } catch (error) {
-      // An aborted/oversized response may have already streamed its entire allowance.
-      if (!received) budget.apiBytes += maximum
       if (error instanceof BatchReadError) throw error
       stop('METADATA_READ_FAILED')
     }
-    finally { clearTimeout(timer) }
+    finally {
+      clearTimeout(timer)
+      budget.apiBytes += charge; reserved -= maximum
+      inFlight.delete(done); settle()
+    }
   }
   async function pages<T>(suffix: string, schema: z.ZodType<T>, key: (entry: T) => string | number, count?: number) {
     const rows: T[] = [], seen = new Set<string | number>(), evidence: string[] = []
@@ -98,38 +119,62 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     }
     return stop('METADATA_PAGE_LIMIT')
   }
-  const pulls = new Map<number, { summary: z.infer<typeof summary>; pull: ObservedPull }>()
-  async function association(oid: string) {
+  type PullSummary = z.infer<typeof summary>
+  const pulls = new Map<number, { summary: PullSummary; pull: Promise<ObservedPull> }>()
+  async function listAssociation(oid: string) {
     if (!GitShaSchema.safeParse(oid).success) stop('METADATA_QUERY_INVALID')
     const listed = await pages('/commits/' + oid + '/pulls', summary, row => row.number)
-    if (!listed.rows.length) return { pull: null, evidence: listed.evidence }
+    if (!listed.rows.length) return { candidate: null, evidence: listed.evidence }
     if (listed.rows.some(row => row.base.repo.id !== repoIds[milvus] || row.base.repo.full_name !== milvus)) stop('PR_BASE_MISMATCH')
     const inTrack = listed.rows.filter(row => row.base.ref === 'v3.0.x')
     if (!inTrack.length) stop('PR_BASE_MISMATCH')
     const eligible = inTrack.filter(row => row.state === 'closed' && row.merged_at)
     if (!eligible.length) stop('UPSTREAM_UNMERGED')
     if (eligible.length !== 1) stop('AMBIGUOUS_COMMIT_ASSOCIATION')
-    const candidate = eligible[0]
-    const cached = pulls.get(candidate.number)
-    if (cached) {
-      if (JSON.stringify(candidate) !== JSON.stringify(cached.summary)) stop('PR_IDENTITY_CHANGED')
-      return { pull: cached.pull, evidence: listed.evidence }
-    }
+    return { candidate: eligible[0], evidence: listed.evidence }
+  }
+  async function readPull(candidate: PullSummary): Promise<ObservedPull> {
     const response = await get(milvus, '/pulls/' + candidate.number), parsed = detail.safeParse(response.value)
     if (!parsed.success) stop('METADATA_SHAPE_INVALID')
     const pr = parsed.data
     if (JSON.stringify(summary.parse(pr)) !== JSON.stringify(candidate) || !pr.merged || !pr.merge_commit_sha) stop('PR_IDENTITY_CHANGED')
     if (pr.changed_files > IO.pages * IO.pageSize) stop('METADATA_PAGE_LIMIT')
     const files = await pages('/pulls/' + pr.number + '/files', file, row => row.filename, pr.changed_files)
-    const pull: ObservedPull = { identity: { number: pr.number, repository: milvus, baseBranch: pr.base.ref, base: pr.base.sha,
+    return { identity: { number: pr.number, repository: milvus, baseBranch: pr.base.ref, base: pr.base.sha,
       head: pr.head.sha, mergeCommit: pr.merge_commit_sha, merged: true }, commits: pr.commits, evidence: [response.digest, ...files.evidence],
       files: files.rows.map(row => {
         if ((row.status === 'renamed' || row.status === 'copied') !== (row.previous_filename !== undefined) ||
             row.previous_filename === row.filename) stop('PR_FILES_INVALID')
         return { path: row.filename, previousPath: row.previous_filename ?? null, status: row.status, sha: row.sha }
       }) }
-    pulls.set(pr.number, { summary: candidate, pull })
-    return { pull, evidence: listed.evidence }
+  }
+  async function associations(oids: readonly string[]) {
+    if (oids.length > BATCH_ASSOCIATION_WINDOW || new Set(oids).size !== oids.length) stop('METADATA_QUERY_INVALID')
+    const listings = await Promise.allSettled(oids.map(listAssociation))
+    // Reserve each PR in input order before awaiting its detail or complete file list.
+    return Promise.allSettled(listings.map(async listing => {
+      if (listing.status === 'rejected') throw listing.reason
+      const {candidate, evidence} = listing.value
+      if (!candidate) return {pull: null, evidence}
+      let cached = pulls.get(candidate.number)
+      if (cached) {
+        if (JSON.stringify(candidate) !== JSON.stringify(cached.summary)) stop('PR_IDENTITY_CHANGED')
+      } else {
+        const pull = readPull(candidate).catch(error => {
+          // Current waiters share the failure. A later window may observe this PR again.
+          if (pulls.get(candidate.number)?.pull === pull) pulls.delete(candidate.number)
+          throw error
+        })
+        cached = {summary: candidate, pull}
+        pulls.set(candidate.number, cached)
+      }
+      return {pull: await cached.pull, evidence}
+    }))
+  }
+  async function association(oid: string) {
+    const [result] = await associations([oid])
+    if (result.status === 'rejected') throw result.reason
+    return result.value
   }
   async function pins() {
     for (const repo of [zdoc, milvus] as const) {
@@ -143,7 +188,7 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     }
     return { master: await ref(zdoc, 'master'), dev: await ref(zdoc, 'dev'), source: await ref(milvus, 'v3.0.x') }
   }
-  return { pins, association }
+  return { pins, association, associations }
 }
 
 import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'
