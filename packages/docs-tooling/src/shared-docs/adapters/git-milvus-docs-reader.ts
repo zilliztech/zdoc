@@ -3,6 +3,7 @@ import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import type { FragmentSnapshot, InspectionReader } from './types'
+import type { BatchGitStore } from './updates/batch-source'
 import { MilvusDocsReaderError, requireBranch, requireCommit, requirePath } from './reader-errors'
 
 /** Reads local Git objects only; never fetches or changes a checkout or ref. */
@@ -104,5 +105,41 @@ export class GitMilvusDocsReader implements InspectionReader {
     if (result.status === 0) return true
     if (result.status === 1) return false
     throw new MilvusDocsReaderError('GIT_ERROR', result.stderr.trim())
+  }
+}
+
+/** Historical batch observations bind every listing to its commit. The
+ * page-owned store can reuse bytes of verified Git objects, but every
+ * observation materializes and cleans its own fragment tree. */
+export function createHistoricalFragmentReader(source: BatchGitStore, check: () => void): Pick<InspectionReader, 'withFragments'> {
+  return {
+    async withFragments<T>(commit: string, use: (snapshot: FragmentSnapshot) => Promise<T>): Promise<T> {
+      requireCommit(commit)
+      check()
+      const entries = await source.inventory(commit, 'site/en/fragments')
+      const root = await mkdtemp(join(tmpdir(), 'shared-docs-fragments-'))
+      const files = new Map<string, string>()
+      const directories = new Set<string>()
+      try {
+        for (const entry of entries) {
+          check()
+          if (!entry.path.endsWith('.md')) continue
+          const relative = entry.path.slice('site/en/'.length)
+          const file = await source.file(commit, entry.path)
+          if (file.oid !== entry.oid) throw new MilvusDocsReaderError('GIT_ERROR', 'Fragment object changed after listing')
+          const content = file.bytes.toString('utf8'), destination = join(root, relative), parent = dirname(destination)
+          if (!directories.has(parent)) {
+            await mkdir(parent, {recursive: true})
+            directories.add(parent)
+          }
+          await writeFile(destination, content, {flag: 'wx'})
+          files.set(relative, content)
+        }
+        check()
+        return await use({root, files})
+      } finally {
+        await rm(root, {recursive: true, force: true})
+      }
+    },
   }
 }

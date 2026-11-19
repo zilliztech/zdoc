@@ -14,6 +14,7 @@ import { createGuidesSnapshot } from '../guides-snapshot'
 import { createZdocContentReader } from '../zdoc-content'
 import type { FixedVersions } from '../../core/updates/types'
 import type { toMdx } from '../mdx'
+import type { InspectionReader } from '../types'
 /** Report-only isolation over a private committed export. Production parsing/build contracts stay strict. */
 export async function readReportConfiguration(directory: string, repositoryRoot: string, pageIds: readonly string[]) {
   const complete = await readUpdateConfiguration(directory, repositoryRoot)
@@ -49,11 +50,12 @@ interface CandidateSource {
   invalidPageIds?: readonly string[]
 }
 type CandidateServices = Pick<CollectUpdateInput, 'reader' | 'md2md' | 'build'>
-async function withCandidateServices<T>(input: CandidateSource, use: (services: CandidateServices) => Promise<T>, finalizeMdx?: typeof toMdx) {
+async function withCandidateServices<T>(input: CandidateSource, use: (services: CandidateServices) => Promise<T>,
+  historical?: {finalizeMdx: typeof toMdx; fragments?: Pick<InspectionReader, 'withFragments'>}) {
   const git = new GitMilvusDocsReader(input.repo)
   const reader = createBuildReader(input.repo, { readFile: (commit, path) => git.readFile(commit, path),
     trackedHead: async () => input.target, isOnBranch: commit => git.isAncestor(commit, input.target),
-    isAncestor: (a, b) => git.isAncestor(a, b), withFragments: (commit, use) => git.withFragments(commit, use) })
+    isAncestor: (a, b) => git.isAncestor(a, b), withFragments: (commit, use) => (historical?.fragments ?? git).withFragments(commit, use) })
   const guides = createGuidesSnapshot(input.dev)
   // The cached promise must also be observed if source collection fails before build.
   const records = await guides.getRecords()
@@ -74,7 +76,7 @@ async function withCandidateServices<T>(input: CandidateSource, use: (services: 
             code: 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE', message: `Cannot authenticate shared target ${ref.url}: invalid page configuration`,
             detail: { target: ref.url, invalidPages: [...input.invalidPageIds!] } }))] }
         }
-        return buildPage({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime, finalizeMdx })
+        return buildPage({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime, finalizeMdx: historical?.finalizeMdx })
       } })
   } finally { await reader.dispose() }
 }
@@ -87,8 +89,9 @@ export async function collectCandidate(input: CandidateSource & {current: string
   }] }))
 }
 
-export async function collectHistoricalCandidate(input: Omit<CandidateSource, 'invalidPageIds'>, finalizeMdx: typeof toMdx) {
+export async function collectHistoricalCandidate(input: Omit<CandidateSource, 'invalidPageIds'>, finalizeMdx: typeof toMdx,
+  fragments?: Pick<InspectionReader, 'withFragments'>) {
   return withCandidateServices(input, services => collectHistoricalUpdateObservation({ ...services,
     pageId: input.pageId, request: { commit: input.target, configuration: input.configuration },
-  }), finalizeMdx)
+  }), {finalizeMdx, fragments})
 }

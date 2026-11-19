@@ -449,6 +449,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const {collectHistoricalCandidate, readReportConfiguration} = await import('./candidate')
   const {observeGuidesPage} = await import('./runner')
   const {createHistoricalMdxFinalizer} = await import('../mdx')
+  const {createHistoricalFragmentReader} = await import('../git-milvus-docs-reader')
   const {analyzeUpdates} = await import('../../core/updates/impact')
   const payloads = new Map<string, {ref: BlobRef; base64: string}>()
   let retainedEncodedBytes = 0
@@ -607,10 +608,11 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const commitProofRef = retain(sourceProof.commitProof(commitHistory))
     const intervalObservations = []
     const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
+    const historicalFragments = createHistoricalFragmentReader(sourceProof, rawBudget.remaining)
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
       const o = await collectHistoricalCandidate({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
-        target: commit, configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx)
+        target: commit, configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments)
       const sourceEntries = await sourceInventory(commit)
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
