@@ -728,18 +728,18 @@ class _BatchReader:
         require(stat.S_ISDIR(info.st_mode), "BATCH_ROOT_IDENTITY_INVALID")
         return {"dev": str(info.st_dev), "ino": str(info.st_ino)}
 
-    def blob(self, ref, parse=False, original=False, git_kind=None, git_oid=None, transient=False):
+    def blob(self, ref, parse=False, original=False, git_kind=None, git_oid=None, transient=False, raw_bytes=False):
         batch_ref(ref)
         digest = ref["sha256"]
         if digest in self.seen:
             require(self.seen[digest][0] == ref["bytes"], "BATCH_BLOB_BINDING_INVALID")
-            if git_kind is None and not transient:
+            if git_kind is None and not transient and not raw_bytes:
                 if parse:
                     require(digest in self.objects, "BATCH_TYPED_ALIAS_INVALID")
                     return self.objects[digest]
                 return self.seen[digest]
         fd = os.open(digest, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=self.blobs_fd)
-        chunks = [] if parse or git_kind is not None else None
+        chunks = [] if parse or git_kind is not None or raw_bytes else None
         try:
             before = os.fstat(fd)
             require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == ref["bytes"], "BATCH_BLOB_TYPE_INVALID")
@@ -768,6 +768,8 @@ class _BatchReader:
                 require(hashlib.sha1(f'{git_kind} {size}\0'.encode() + raw).hexdigest() == git_oid,
                         'BATCH_SOURCE_GIT_IDENTITY_INVALID')
                 return _batch_git_commit(raw) if git_kind == 'commit' else _batch_git_tree(raw)
+            if raw_bytes:
+                return b''.join(chunks)
             if parse:
                 result = batch_parse(b''.join(chunks), canonical=not original)
                 if not transient:
@@ -952,7 +954,21 @@ class _BatchGitInventory:
         require(len(self.trees) == len(self.refs) and self.reached_metadata == self.metadata, 'BATCH_INVENTORY_PROOF_ORPHAN')
 
 
-def _batch_render_commits(parents, current, old_next, target):
+def _batch_verify_commit_proof(proof, parents):
+    offset = 0
+    for commit, declared in parents.items():
+        require(offset + 4 <= len(proof), 'BATCH_HISTORY_PROOF_INVALID')
+        size = int.from_bytes(proof[offset:offset + 4], 'big')
+        offset += 4
+        require(size <= len(proof) - offset, 'BATCH_HISTORY_PROOF_INVALID')
+        raw = proof[offset:offset + size]
+        require(hashlib.sha1(f'commit {size}\0'.encode() + raw).hexdigest() == commit
+                and _batch_git_commit(raw)[1] == declared, 'BATCH_HISTORY_PROOF_INVALID')
+        offset += size
+    require(offset == len(proof), 'BATCH_HISTORY_PROOF_INVALID')
+
+
+def _batch_render_commits(parents, current, old_next, target, legacy=False):
     def reachable(tip):
         pending, visited = [tip], set()
         while pending:
@@ -961,11 +977,16 @@ def _batch_render_commits(parents, current, old_next, target):
                 continue
             require(commit in parents, 'BATCH_HISTORY_INVALID')
             visited.add(commit)
-            if commit != current:
+            if not legacy or commit != current:
                 pending.extend(parents[commit])
         return visited
 
-    interval = reachable(target) - reachable(old_next)
+    excluded = reachable(old_next)
+    included = reachable(target)
+    if not legacy:
+        require(current in excluded and old_next in included, 'SOURCE_NOT_ANCESTOR')
+        require(len(included) == len(parents), 'SOURCE_HISTORY_INCOMPLETE')
+    interval = included - excluded
     return sorted((interval | {parent for point in interval for parent in parents[point]}) - {current, old_next, target})
 
 
@@ -1020,12 +1041,25 @@ def _batch_material(reader, retained, base):
     # for this page and revalidate the original CAS bytes if another page needs them.
     history = reader.blob(header['historyRef'], parse=True, transient=True)
     compact = 'inventoryProofRef' in history
-    batch_exact(history, 'commits interval inventoryProofRef' if compact else 'commits interval')
+    exact_history = 'commitProofRef' in history
+    if exact_history:
+        require(compact, 'BATCH_HISTORY_PROOF_INVALID')
+    else:
+        require(base['origin']['kind'] == 'replay', 'BATCH_HISTORY_PROOF_REQUIRED')
+    fields = 'commits interval'
+    if compact:
+        fields += ' inventoryProofRef'
+    if exact_history:
+        fields += ' commitProofRef'
+    batch_exact(history, fields)
+    require(type(history['commits']) is list and len(history['commits']) <= 50000, 'BATCH_HISTORY_INVALID')
     parents = {}
     for commit in batch_sorted(history['commits'], lambda c: c['oid']):
         batch_exact(commit, 'oid parents')
         require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
         parents[commit['oid']] = commit['parents']
+    if exact_history:
+        _batch_verify_commit_proof(reader.blob(history['commitProofRef'], raw_bytes=True), parents)
     git_inventory = None
     if compact:
         proof = reader.object(history['inventoryProofRef'], 'trees discovery', transient=True)
@@ -1102,7 +1136,8 @@ def _batch_material(reader, retained, base):
         reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
     if git_inventory:
         git_inventory.finish()
-        require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits), 'BATCH_HISTORY_INVALID')
+        require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
+                'BATCH_HISTORY_INVALID')
         paths = sorted(consumed, key=lambda path: path.encode('utf-8'))
         for lookup, absent in inventories.values():
             require(absent == [path for path in paths if lookup(path) is None], 'BATCH_SOURCE_ABSENCE_INVALID')

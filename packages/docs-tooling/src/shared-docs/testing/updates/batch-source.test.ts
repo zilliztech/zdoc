@@ -79,7 +79,7 @@ it('excludes shared ancestors reached through a pre-oldNext side branch while in
   expect(history.introduces(target, target, oldNext, fork, 1)).toBe(false)
 })
 
-it('measures each stopped-history snapshot through shared authenticated fragment trees', async () => {
+it('measures the exact Git interval and all its parents through shared authenticated fragment trees', async () => {
   const r = await repository()
   const absent = await r.change('README.md', 'initial')
   const fragment = 'site/en/fragments/part.md'
@@ -94,9 +94,13 @@ it('measures each stopped-history snapshot through shared authenticated fragment
   r.git('checkout', 'main'); r.git('merge', '--no-ff', 'topic', '-m', 'merge')
   const target = r.git('rev-parse', 'HEAD')
   const history = await (await BatchGitStore.open(r.root, batchBudget())).history(target)
-  // The side branch bypasses current. Its path through ancestor and absent contributes snapshots.
+  // The side branch bypasses current, but absent is already reachable from oldNext.
+  // Keep ancestor as a direct parent of the first genuinely new side commit.
   expect(batchRenderCommitSet(history.records(), current, oldNext, target))
-    .toEqual([absent, ancestor, oldNext, ...changed, restored, target].sort())
+    .toEqual([ancestor, oldNext, ...changed, restored, target].sort())
+  expect(batchRenderCommitSet(history.records(), current, oldNext, target, true)).toContain(absent)
+  expect(() => batchRenderCommitSet(history.records().filter(row => row.oid !== absent), current, oldNext, target))
+    .toThrow('SOURCE_HISTORY_INCOMPLETE')
   expect(history.range(oldNext, target).sort()).toEqual([...changed, restored, target].sort())
 
   const log = join(r.root, 'git-calls')
@@ -108,10 +112,9 @@ it('measures each stopped-history snapshot through shared authenticated fragment
   vi.stubEnv('PATH', bin + ':' + process.env.PATH)
   try {
     expect(await measureBatchRenderFragments(r.root, [current, oldNext, target])).toEqual({
-      bytes: intermediate.length, count: 9, snapshots: 3 + 3 + changed.length,
+      bytes: intermediate.length, count: 9, snapshots: 3 + 2 + changed.length,
       endpoints: {bytes: 12, count: 9},
       sequential: [
-        {commit: absent, bytes: 0, count: 1},
         {commit: ancestor, bytes: 4, count: 3},
         {commit: restored, bytes: 4, count: 3},
         ...changed.map(commit => ({commit, bytes: intermediate.length, count: 3})),

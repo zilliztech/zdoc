@@ -48,11 +48,6 @@ export class BatchHistory {
     return [...this.ancestors(to, this.ancestors(from))]
   }
   records() {return [...this.commits].map(([oid, value]) => ({oid, parents: [...value.parents]})).sort((a, b) => a.oid < b.oid ? -1 : a.oid > b.oid ? 1 : 0)}
-  recordsUntil(tip: string, stopAt: string) {
-    const ids = this.ancestors(tip, new Set([stopAt]))
-    ids.add(stopAt)
-    return [...ids].sort().map(oid => ({oid, parents: [...this.parents(oid)]}))
-  }
   /** Additional merge edges needed to connect the lock to the target along an authenticated path.
    * Prefer first parents. The caller separately inspects every range member's first-parent delta. */
   lockSideParents(from: string, to: string, members: Set<string>) {
@@ -211,6 +206,19 @@ export class BatchGitStore {
     }
     if (reachable.size !== graph.size) stop('SOURCE_HISTORY_INCOMPLETE')
     return new BatchHistory(graph, this.budget)
+  }
+  /** Compact proof with one big-endian length and raw commit body per ordered row. */
+  commitProof(history: readonly {oid: string}[]) {
+    const parts: Buffer[] = []
+    for (const {oid} of history) {
+      this.budget.remaining()
+      const object = this.proofObjects.get(oid)
+      if (!object || object.kind !== 'commit') stop('SOURCE_HISTORY_INCOMPLETE')
+      const size = Buffer.alloc(4)
+      size.writeUInt32BE(object.bytes.length)
+      parts.push(size, object.bytes)
+    }
+    return Buffer.concat(parts)
   }
   private async readTrees(ids: string[]) {
     const bodies = await this.objects('tree', ids)

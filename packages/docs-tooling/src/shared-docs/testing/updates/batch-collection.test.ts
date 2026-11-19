@@ -189,6 +189,24 @@ it('retains a nonempty all-noop group after a real edit then restore and observe
   expect(result.groups[0].dispositions.map(d => d.disposition)).toEqual(['noop'])
   expect(pages[0].sourceSnapshots.some(s => s.commit === edited)).toBe(true)
 }, 120000)
+it('holds when a new side commit temporarily lacks the configured source root', async () => {
+  const f = await simpleFixture()
+  const source = 'site/en/build-pipeline.md'
+  const original = await (await import('node:fs/promises')).readFile(join(f.repo, source), 'utf8')
+  const track = await git(f.repo, 'branch', '--show-current')
+  await git(f.repo, 'checkout', '-qb', 'temporary-removal')
+  await git(f.repo, 'rm', source); await git(f.repo, 'commit', '-qm', 'temporarily remove the root')
+  const missing = await git(f.repo, 'rev-parse', 'HEAD')
+  await f.sourceChange(source, original)
+  await git(f.repo, 'checkout', '-q', track)
+  await git(f.repo, 'merge', '--no-ff', '-m', 'merge temporary removal and restoration', 'temporary-removal')
+  const request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const page = batch.projectBatchMaterialFixture(wire, request)
+  const snapshot = page.sourceSnapshots.find(item => item.commit === missing)
+  expect(snapshot).toBeDefined()
+  expect(snapshot!.consumed).not.toContainEqual(expect.objectContaining({path: source}))
+  expect(page.reasons).toContain('INTERMEDIATE_OBSERVATION_INCOMPLETE')
+}, 120000)
 it('finds a fragment consumed only during an intervening source edit', async () => {
   const f = await simpleFixture(), original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
   await f.sourceChange('site/en/fragments/transient.md', 'Temporary dependency.\n')
@@ -249,6 +267,7 @@ it('binds compact inventory to exact Git and discovery evidence and rejects alte
   const baseline = await git(f.repo, 'rev-parse', 'HEAD')
   for (const id of f.ids) await write(f.sharedDocs, `pages/${id}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
   await f.configChange()
+  await git(f.repo, 'commit', '--allow-empty', '-qm', 'retain intermediate observation')
   await write(f.repo, 'site/en/build-pipeline.md', '---\nid: build-pipeline.md\ntitle: Source\nsummary: Source fixture\n---\n## Source\nNo fragment.\n')
   await git(f.repo, 'rm', 'site/en/fragments/transient.md'); await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'remove consumed fragment')
   const request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
@@ -263,7 +282,7 @@ it('binds compact inventory to exact Git and discovery evidence and rejects alte
   expect(inventory.treeOid).toBe(await git(f.repo, 'rev-parse', `${inventory.commit}^{tree}`))
   expect(first.treeOid).not.toBe(inventory.treeOid)
   const rewrite = (changed: typeof wire, value: unknown) => {
-    const bytes = canonicalBytes(value), ref = batchRef(bytes)
+    const bytes = Buffer.isBuffer(value) ? value : canonicalBytes(value), ref = batchRef(bytes)
     if (!changed.blobs.some(blob => blob.ref.sha256 === ref.sha256)) changed.blobs.push({ref, base64: Buffer.from(bytes).toString('base64')})
     changed.blobs.sort((a, b) => Buffer.compare(Buffer.from(a.ref.sha256), Buffer.from(b.ref.sha256)))
     return ref
@@ -328,6 +347,41 @@ else:
     expect(() => validateBatchWire(changed, request)).toThrow(reason)
     await checkPython(changed, reason)
   }
+  const historyProof = get(history.commitProofRef!)
+  for (const mutate of [
+    (changed: typeof wire) => ({commitProofRef: rewrite(changed, historyProof.subarray(0, -1))}),
+    () => ({commits: history.commits.map((record, index) => index === 0 ? {...record, parents: ['a'.repeat(40)]} : record)}),
+  ]) {
+    const changed = structuredClone(wire)
+    changed.material.historyRef = rewrite(changed, {...history, ...mutate(changed)})
+    expect(() => validateBatchWire(changed, request)).toThrow('BATCH_HISTORY_PROOF_INVALID')
+    await checkPython(changed, 'BATCH_HISTORY_PROOF_INVALID')
+  }
+  const missingAncestor = history.commits.find(row => row.parents.length === 0)!
+  const shortened = structuredClone(wire)
+  let offset = 0
+  const frames = history.commits.flatMap(row => {
+    const start = offset
+    offset += 4 + historyProof.readUInt32BE(offset)
+    return row === missingAncestor ? [] : [historyProof.subarray(start, offset)]
+  })
+  shortened.material.historyRef = rewrite(shortened, {...history,
+    commitProofRef: rewrite(shortened, Buffer.concat(frames)), commits: history.commits.filter(row => row !== missingAncestor)})
+  expect(() => validateBatchWire(shortened, request)).toThrow('SOURCE_HISTORY_INCOMPLETE')
+  await checkPython(shortened, 'BATCH_HISTORY_INVALID')
+  const removed = structuredClone(wire)
+  expect(history.interval.length).toBeGreaterThan(0)
+  removed.material.historyRef = rewrite(removed, {...history, interval: history.interval.slice(1)})
+  expect(() => validateBatchWire(removed, request)).toThrow('BATCH_INTERVAL_OBSERVATION_INVALID')
+  await checkPython(removed, 'BATCH_HISTORY_INVALID')
+  const observed = structuredClone(wire)
+  const observedOrigin = {kind: 'observed' as const}
+  observed.material.base.origin = observedOrigin
+  expect(() => validateBatchWire(observed, {...request, origin: observedOrigin})).not.toThrow()
+  await checkPython(observed, 'accepted')
+  observed.material.historyRef = rewrite(observed, {commits: history.commits, interval: history.interval, inventoryProofRef: history.inventoryProofRef})
+  expect(() => validateBatchWire(observed, {...request, origin: observedOrigin})).toThrow('BATCH_HISTORY_PROOF_REQUIRED')
+  await checkPython(observed, 'BATCH_HISTORY_PROOF_REQUIRED')
 
   const legacy = structuredClone(wire)
   const {createGuidesReadSession} = await import('../../adapters/updates/guides-read-session')
@@ -337,7 +391,8 @@ else:
     legacyDiscovery.set(ref.sha256, bytes)
     return ref
   })
-  const unused = new Set([legacy.material.historyRef.sha256, history.inventoryProofRef!.sha256, ...proof.trees.map(row => row.ref.sha256)])
+  const unused = new Set([legacy.material.historyRef.sha256, history.inventoryProofRef!.sha256, history.commitProofRef!.sha256,
+    ...proof.trees.map(row => row.ref.sha256)])
   const legacyInventory = async (ref: ReturnType<typeof batchRef>) => {
     const state = parseBatchCanonical(get(ref), BatchGitInventorySchema)
     unused.add(ref.sha256)

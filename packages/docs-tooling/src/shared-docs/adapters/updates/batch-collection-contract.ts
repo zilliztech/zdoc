@@ -153,7 +153,8 @@ export const BatchInventoryProofSchema = z.strictObject({
   discovery: z.array(z.strictObject({oid: GitShaSchema, metadata: z.strictObject({id: text, title: text}).nullable()}))
     .refine(v => ordered(v, item => item.oid)),
 })
-export const BatchCommitHistorySchema = z.array(z.strictObject({oid: GitShaSchema, parents: z.array(GitShaSchema).refine(v => new Set(v).size === v.length)})).refine(v => ordered(v, c => c.oid))
+export const BatchCommitHistorySchema = z.array(z.strictObject({oid: GitShaSchema, parents: z.array(GitShaSchema).refine(v => new Set(v).size === v.length)}))
+  .max(BATCH_TREE_VISITS).refine(v => ordered(v, c => c.oid))
 const registryPage = z.strictObject({pageId: BatchPageIdSchema, sourceFile: RepoPathSchema, targets: BatchTargetsSchema, current: GitShaSchema, oldNext: GitShaSchema})
 export const BatchConfigSchema = z.strictObject({pageId: BatchPageIdSchema, sourceFile: RepoPathSchema,
   repository: z.literal('https://github.com/milvus-io/milvus-docs'), track: z.literal('v3.0.x'),
@@ -187,7 +188,8 @@ export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSche
   dependencies,
   outputStatus: z.enum(['observed', 'unobserved', 'error']), imageStatus: z.enum(['observed', 'unavailable'])})
 export const BatchHistorySchema = z.strictObject({commits: BatchCommitHistorySchema,
-  interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit)), inventoryProofRef: BatchBlobRefSchema.optional()})
+  interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit)), inventoryProofRef: BatchBlobRefSchema.optional(),
+  commitProofRef: BatchBlobRefSchema.optional()})
 
 export function parseBatchCanonical<T>(bytes: Uint8Array, schema: z.ZodType<T>): T {
   if (bytes.length > BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
@@ -204,6 +206,22 @@ export function decodeBatchBlob(ref: BatchBlobRef, base64: string): Buffer {
   const bytes = Buffer.from(base64, 'base64')
   if (bytes.length !== ref.bytes || bytes.toString('base64') !== base64 || batchSha256(bytes) !== ref.sha256) throw Error('BATCH_BLOB_BINDING_INVALID')
   return bytes
+}
+/** The proof frames match the ordered declaration one-for-one. Check every
+ * commit against its object ID and every declared parent against its raw body. */
+function verifyCommitProof(proof: Buffer, history: z.infer<typeof BatchCommitHistorySchema>) {
+  let offset = 0
+  for (const {oid, parents} of history) {
+    if (offset + 4 > proof.length) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    const size = proof.readUInt32BE(offset)
+    offset += 4
+    if (size > proof.length - offset) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    const raw = proof.subarray(offset, offset + size)
+    if (createHash('sha1').update(`commit ${size}\0`).update(raw).digest('hex') !== oid ||
+        JSON.stringify(parseBatchGitCommit(raw).parents) !== JSON.stringify(parents)) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    offset += size
+  }
+  if (offset !== proof.length) throw Error('BATCH_HISTORY_PROOF_INVALID')
 }
 interface SourceInventory {
   commit: string;
@@ -326,6 +344,10 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   for (const file of [...config.files, ...namespace.outputs]) bytes(file.ref)
   bytes(namespace.activeRef); bytes(namespace.snapshotRef); bytes(header.lockRef)
   const history = object(header.historyRef, BatchHistorySchema)
+  if (history.commitProofRef) {
+    if (!history.inventoryProofRef) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    verifyCommitProof(bytes(history.commitProofRef), history.commits)
+  } else if (expected.origin.kind === 'observed') throw Error('BATCH_HISTORY_PROOF_REQUIRED')
   const gitInventory = history.inventoryProofRef && batchGitInventoryReader(object(history.inventoryProofRef, BatchInventoryProofSchema), history.commits, bytes)
   const inventoriesByRef = new Map<string, SourceInventory>()
   function inventoryAt(ref: BatchBlobRef): SourceInventory {
@@ -391,7 +413,8 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   if (gitInventory) {
     gitInventory.finish()
     const endpoints = new Set([header.current, header.oldNext, base.pins.source])
-    const required = batchRenderCommitSet(history.commits, header.current, header.oldNext, base.pins.source).filter(oid => !endpoints.has(oid))
+    const required = batchRenderCommitSet(history.commits, header.current, header.oldNext, base.pins.source, !history.commitProofRef)
+      .filter(oid => !endpoints.has(oid))
     if (required.length !== history.interval.length || required.some((oid, i) => oid !== history.interval[i].commit)) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
     const paths = batchSorted([...consumed], path => path)
     for (const inventory of inventoriesByRef.values()) {

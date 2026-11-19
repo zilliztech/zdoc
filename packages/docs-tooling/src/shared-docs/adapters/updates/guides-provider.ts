@@ -598,11 +598,12 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       const {detail, ...rest} = error
       return detail === undefined ? rest : {...rest, detail: new TextDecoder().decode(canonicalBytes(detail))}
     }
-    // Read and hash commits in bounded Git batches. Keep the exact stopped history
-    // used by the page's render planner, including the boundary commit's parents.
+    // Both wire readers authenticate the full ancestry needed to rule out
+    // reintroducing commits already reachable from oldNext through a side branch.
     const sourceHistory = await sourceProof.history(request.pins.source)
-    const commitHistory = sourceHistory.recordsUntil(request.pins.source, configured.current)
+    const commitHistory = sourceHistory.records()
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
+    const commitProofRef = retain(sourceProof.commitProof(commitHistory))
     const intervalObservations = []
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
@@ -654,7 +655,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     })
     const material = contract.BatchPageMaterialHeaderSchema.parse({kind: 'guides-batch-material-v1', base: {origin: request.origin, session: request.session, pins: request.pins}, pageId: request.pageId,
       configRef, lockRef, targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
-      historyRef: object({commits: commitHistory, interval, inventoryProofRef}), renderedManualRefs,
+      historyRef: object({commits: commitHistory, interval, inventoryProofRef, commitProofRef}), renderedManualRefs,
       imagesRef: object(images), projectionRef: object({pageId: request.pageId, observations: projected, promotionAnchors: impact.promotion.anchors, sourceAnchors: impact.sourceImpact.anchors}),
       diagnosticsRef: object({errors: impact.errors.map(normalizeDiagnostic), rawErrors: impact.rawErrors.map(normalizeDiagnostic), reasons: []})})
     // Deliver only the exact material graph, including its shared Git tree objects.
@@ -667,6 +668,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         const blob = payloads.get(ref.sha256)
         if (!blob) throw Error('BATCH_MATERIAL_GRAPH_INCOMPLETE')
         reached.add(ref.sha256)
+        if (ref.sha256 === commitProofRef.sha256) return
         try {visit(JSON.parse(Buffer.from(blob.base64, 'base64').toString('utf8')))} catch { /* raw leaf */ }
       } else for (const child of Object.values(value)) visit(child)
     }

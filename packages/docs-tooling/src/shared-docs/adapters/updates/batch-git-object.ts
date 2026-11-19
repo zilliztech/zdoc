@@ -41,11 +41,9 @@ export function parseBatchGitTree(bytes: Buffer) {
   return entries
 }
 
-/** Derive the next-to-target render points and their parents from the given
- * graph. Acquisition and allocation use hash-checked history. The wire reader
- * applies the same walk to the declared graph and verifies the raw commit
- * bindings for the required observations. */
-export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string) {
+/** Resolve oldNext..target over the complete target history, then include all
+ * parents of the new commits. Only retained legacy replay uses the old cut. */
+export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string, legacy = false) {
   const graph = new Map(history.map(commit => [commit.oid, commit.parents]))
   const reachable = (tip: string) => {
     const pending = [tip], found = new Set<string>()
@@ -54,11 +52,14 @@ export function batchRenderCommitSet(history: readonly {oid: string; parents: re
       if (found.has(oid)) continue
       found.add(oid)
       const parents = graph.get(oid) ?? stop('SOURCE_HISTORY_INCOMPLETE')
-      if (oid !== current) pending.push(...parents)
+      if (!legacy || oid !== current) pending.push(...parents)
     }
     return found
   }
   const excluded = reachable(oldNext)
-  const interval = [...reachable(target)].filter(oid => !excluded.has(oid))
+  const included = reachable(target)
+  if (!legacy && (!excluded.has(current) || !included.has(oldNext))) stop('SOURCE_NOT_ANCESTOR')
+  if (!legacy && included.size !== graph.size) stop('SOURCE_HISTORY_INCOMPLETE')
+  const interval = [...included].filter(oid => !excluded.has(oid))
   return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
 }
