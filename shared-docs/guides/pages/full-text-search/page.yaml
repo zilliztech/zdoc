@@ -31,13 +31,13 @@ transforms:
     target: {block: bm25-full-text-search, language: python, lines: "    search_params={\"metric_type\": \"BM25\"},"}
     content:
       lines: |
-            search_params={"metric_type": "BM25", "params": {"level": 10}},
+            search_params={"metric_type": "BM25", "params": {"level": 3}},
   - operation: replace
     target: {block: bm25-full-text-search, language: java, lines: "searchParams.put(\"metric_type\", \"BM25\");"}
     content:
       lines: |
         searchParams.put("metric_type", "BM25");
-        searchParams.put("level", 10);
+        searchParams.put("level", 3);
   # Rust is available in the Zilliz Cloud SDK set only.
   - operation: add
     target: {block: bm25-full-text-schema, language: rust}
