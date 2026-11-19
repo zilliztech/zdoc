@@ -94,7 +94,7 @@ function ownedFile(path, isDirectory = false) {
 }
 
 function runGit(args, input) {
-  return execFileSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', ...args], {
+  return execFileSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', '-c', 'core.logAllRefUpdates=false', ...args], {
     input, stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: MAX_BYTES, timeout: 20_000, env: gitEnvironment,
   }).toString().trim()
 }
@@ -123,7 +123,8 @@ export function initializeIsolatedBatchDraft(parent, baseline, name = 'draft-des
     const currentConfig = ownedFile(config)
     need(sameFile(currentConfig, initialConfig) && currentConfig.size === initialConfig.size && sum(readFileSync(config)) === configSha,
       'BATCH_DRAFT_DESTINATION')
-    for (const path of ['objects/info/alternates', 'objects/info/http-alternates', 'info/grafts', 'refs/replace']) {
+    for (const path of ['commondir', 'gitdir', 'worktrees', 'config.worktree', 'logs', 'shallow',
+      'objects/info/alternates', 'objects/info/http-alternates', 'info/grafts', 'refs/replace']) {
       need(!getStat(join(repository, path)), 'BATCH_DRAFT_DESTINATION')
     }
     const watched = ['HEAD', 'packed-refs', 'refs/heads/master', 'refs/heads/dev', ...(branch ? [branch] : [])]

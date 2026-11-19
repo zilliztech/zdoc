@@ -115,3 +115,19 @@ test('a master move during the final PR search stops before a Draft request', as
   equal(observed.reason, 'BATCH_DRAFT_HEAD_CHANGED')
   equal(input.draftCalls(), 0)
 })
+
+test('blocks Git common-directory and reflog redirects before reading the candidate', async t => {
+  const input = await fixture(t)
+  const { repository, root } = input.destination
+  const external = join(dirname(root), 'tools', '.git')
+  let verifications = 0
+  const verifyEvidence = async () => { verifications++; return input.verifyEvidence() }
+  const commonDirectory = join(repository, 'commondir')
+  await writeFile(commonDirectory, external + '\n', { flag: 'wx' })
+  deepEqual(await createIsolatedBatchDraft({ ...input, verifyEvidence }), { status: 'held', reason: 'BATCH_DRAFT_DESTINATION' })
+  await rm(commonDirectory)
+  await symlink(join(external, 'logs'), join(repository, 'logs'), 'dir')
+  deepEqual(await createIsolatedBatchDraft({ ...input, verifyEvidence }), { status: 'held', reason: 'BATCH_DRAFT_DESTINATION' })
+  equal(verifications, 0)
+  equal(input.draftCalls(), 0)
+})
