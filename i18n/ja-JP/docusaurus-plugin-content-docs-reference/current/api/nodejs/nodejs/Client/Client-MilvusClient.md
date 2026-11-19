@@ -25,6 +25,8 @@ displayed_sidebar: nodeSidebar
 
 ---
 
+import Admonition from '@theme/Admonition';
+
 # MilvusClient
 
 **MilvusClient** インスタンスは、特定の Milvus インスタンスに接続する Node.js クライアントを表します。
@@ -131,6 +133,8 @@ new MilvusClient(config: ClientConfig)
 
         SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
 
+        Zilliz Cloud では、常に TLS 経由で接続してください。`https://` スキームのクラスターエンドポイントを渡すか（SDK が TLS を自動的に有効にします）、エンドポイントにスキームが含まれていない場合は `ssl` を `true` に設定してください。
+
     - **timeout** (*string* | *number*) -
 
         この操作のタイムアウト時間。 
@@ -199,6 +203,8 @@ new MilvusClient(config: ClientConfig)
 
     SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
 
+    Zilliz Cloud では、常に TLS 経由で接続してください。`https://` スキームのクラスターエンドポイントを渡すか（SDK が TLS を自動的に有効にします）、エンドポイントにスキームが含まれていない場合は `ssl` を `true` に設定してください。
+
 - **username** (*string*) -
 
     指定した Milvus インスタンスへの接続に使用する有効なユーザー名。
@@ -247,3 +253,8 @@ new MilvusClient(config: ClientConfig)
 new MilvusClient(config: ClientConfig)
 ```
 
+<Admonition type="info" title="Notes">
+
+- **configOrAddress** にクラスターエンドポイントを設定してください。関連情報は、Zilliz Cloud コンソールの クラスター details で確認できます。
+
+</Admonition>

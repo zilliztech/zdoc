@@ -55,8 +55,12 @@ await milvusClient.refreshExternalCollection({
 - **external_source** (*string*) -
 新しい外部ソースパスを指定するオプションです。指定した場合、コレクションはこの新しいソースからリフレッシュされます。
 
+Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け入れます。`volume://` ソースの場合、`external_source` と `external_spec` は両方を指定するか、両方を省略する必要があります。両方を省略した場合、リフレッシュは以前に永続化されたソース設定を再利用し、最新データも引き続き同期されます。`milvus://` ソースの場合も同じルールが適用されます。省略すると永続化されたソースが再利用され、リフレッシュは同期する前にソースクラスターを再スナップショットします。
+
 - **external_spec** (*string*) -
 新しい外部仕様設定を指定するオプションです。指定した場合、コレクションはこの新しい仕様を使用します。
+
+Zilliz Cloud では、`milvus://` ソースの場合、`format` は `milvus-table` である必要があります（または省略します）。その他のソースの場合、`format` が一致する仕様（`parquet`、`vortex`、`lance-table`、`iceberg-table`）を指定してください。
 
 - **db_name** (*string*) -
 データベースの名前です。任意です。

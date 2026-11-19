@@ -349,9 +349,13 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある、Milvus v3.0.x と互換性のある別のクラスター上のコレクションを指します。スキームは小文字である必要があり、3 つのセグメントはすべて必須で、末尾にスラッシュを 1 つ付けてもかまいません。外部コレクションの作成時には必須です。
+
 - **external_spec** (*string*) -
 
     外部スペックの設定です。これは外部コレクションの作成に適用されます。
+
+    Zilliz Cloud では、外部コレクションの作成時に `external_spec` は省略可能です。`milvus://` ソースの場合は、これを省略すると `format` のデフォルトが `milvus-table` になります。その他のソースの場合は、対応する `format`（`parquet`、`vortex`、`lance-table`、`iceberg-table`）を含むスペックを指定してください。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
@@ -592,9 +596,13 @@ await milvusClient.createCollection({
 
     外部ソースのパスです。これは外部コレクションの作成に適用されます。
 
+    Zilliz Cloud では、`external_source` は `volume://<volume_name>/<path>` と `milvus://<instance_id>/<db_name>/<collection_name>` の 2 つのスキームを受け付けます。`milvus://` スキームは、同じプロジェクトおよびリージョン内にある、Milvus v3.0.x と互換性のある別のクラスター上のコレクションを指します。スキームは小文字である必要があり、3 つのセグメントはすべて必須で、末尾にスラッシュを 1 つ付けてもかまいません。外部コレクションの作成時には必須です。
+
 - **external_spec** (*string*) -
 
     外部スペックの設定です。これは外部コレクションの作成に適用されます。
+
+    Zilliz Cloud では、外部コレクションの作成時に `external_spec` は省略可能です。`milvus://` ソースの場合は、これを省略すると `format` のデフォルトが `milvus-table` になります。その他のソースの場合は、対応する `format`（`parquet`、`vortex`、`lance-table`、`iceberg-table`）を含むスペックを指定してください。
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
