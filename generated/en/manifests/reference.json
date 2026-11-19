@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "09ec114becf169551d8f15a608f8fbbdba62e796",
+  "sourceCommit": "bd90c87157ef9674c74261a7b1a38ed8731f8f8b",
   "records": [
     {
       "manual": "cli",
@@ -3425,7 +3425,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md",
-      "sourceHash": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1"
+      "sourceHash": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
     },
     {
       "manual": "node",
