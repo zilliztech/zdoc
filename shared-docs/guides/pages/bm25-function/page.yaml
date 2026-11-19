@@ -26,17 +26,17 @@ transforms:
   - operation: replace
     target: {block: bm25-search, language: python, lines: '    "metric_type": "BM25",'}
     content:
-      lines: "    'params': {'level': 10},"
+      lines: "    'params': {'level': 3},"
   - operation: replace
     target: {block: bm25-search, language: java, lines: 'searchParams.put("metric_type", "BM25");'}
     content:
-      lines: "searchParams.put(\"level\", 10);"
+      lines: "searchParams.put(\"level\", 3);"
   - operation: remove
     target: {block: bm25-search, language: go, lines: 'annSearchParams.WithExtraParam("metric_type", "BM25")'}
   - operation: replace
     target: {block: bm25-search, language: javascript, lines: '    params: { metric_type: ''BM25'' },'}
     content:
-      lines: "    params: {'level': 10},"
+      lines: "    params: {'level': 3},"
   - operation: remove
     target: {block: bm25-search, language: bash, lines: '        "metric_type": "BM25",'}
   # Cloud-only console walkthrough; the source page has no Via web console section.

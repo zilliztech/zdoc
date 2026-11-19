@@ -33,7 +33,7 @@ res = client.search(
     search_params={
         "params": {
             # highlight-next-line
-            "level": 10 # The precision control
+            "level": 3 # The precision control
         }
     }
 )
@@ -46,7 +46,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 Map<String, Object> params = new HashMap<>();
-params.put("level", 10);
+params.put("level", 3);
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
         .data(Collections.singletonList(queryVector))
@@ -87,7 +87,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithConsistencyLevel(entity.ClStrong).
     WithANNSField("vector").
-    WithSearchParam("level", "10"))
+    WithSearchParam("level", "3"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -112,7 +112,7 @@ let response = client
             .vector_field("vector")
             .vectors(SearchVectors::Float(vec![query_vector]))
             .limit(3)
-            .extra_params(HashMap::from([("level".into(), "10".into())]))
+            .extra_params(HashMap::from([("level".into(), "3".into())]))
             .build()?,
     )
     .await?;
@@ -132,7 +132,7 @@ auto request = milvus::SearchRequest()
                    .WithLimit(3)
                    .WithAnnsField("vector")
                    .AddFloatVector(query_vector)
-                   .AddExtraParam("level", "10");
+                   .AddExtraParam("level", "3");
 
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
@@ -160,7 +160,7 @@ res = await client.search({
     limit: 3, // The number of results to return,
     params: {
         // highlight-next-line
-        "level": 10 // The precision control
+        "level": 3 // The precision control
     }
 })
 ```
@@ -176,7 +176,7 @@ var res = await client.SearchAsync(new SearchReq
     VectorFieldName = "vector",
     Vectors = queryVector,
     Limit = 3,
-    Parameters = new SearchParameters { ExtraParameters = { ["level"] = "10" } }
+    Parameters = new SearchParameters { ExtraParameters = { ["level"] = "3" } }
 });
 ```
 
@@ -199,7 +199,7 @@ curl --request POST \
     "limit": 3,
     "searchParams":{
         "params":{
-            "level":10
+            "level":3
         }
     }
 }'
@@ -222,7 +222,7 @@ zilliz vector search \
   ],
   "annsField": "vector",
   "searchParams": {
-    "level": 10
+    "level": 3
   },
   "limit": 3
 }' \

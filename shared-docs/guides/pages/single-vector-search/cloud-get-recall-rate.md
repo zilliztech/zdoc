@@ -31,7 +31,7 @@ res = client.search(
     search_params={
         "params": {
             # highlight-next-line
-            "level": 10, # The precision control
+            "level": 3, # The precision control
             "enable_recall_calculation": True # Ask to return recall rate
         }
     }
@@ -45,7 +45,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 Map<String, Object> params = new HashMap<>();
-params.put("level", 10);
+params.put("level", 3);
 params.put("enable_recall_calculation", true);
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
@@ -113,7 +113,7 @@ let response = client
             .vectors(SearchVectors::Float(vec![query_vector]))
             .limit(3)
             .extra_params(HashMap::from([
-                ("level".into(), "10".into()),
+                ("level".into(), "3".into()),
                 ("enable_recall_calculation".into(), "true".into()),
             ]))
             .build()?,
@@ -135,7 +135,7 @@ auto request = milvus::SearchRequest()
                    .WithLimit(3)
                    .WithAnnsField("vector")
                    .AddFloatVector(query_vector)
-                   .AddExtraParam("level", "10")
+                   .AddExtraParam("level", "3")
                    .AddExtraParam("enable_recall_calculation", "true");
 
 milvus::SearchResponse response;
@@ -164,7 +164,7 @@ res = await client.search({
     limit: 3, // The number of results to return,
     params: {
         // highlight-next-line
-        "level": 10, // The precision control
+        "level": 3, // The precision control
         "enable_recall_calculation": true // Ask to return recall rate
     }
 })
@@ -183,7 +183,7 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters
     {
-        ExtraParameters = { ["level"] = "10", ["enable_recall_calculation"] = "true" }
+        ExtraParameters = { ["level"] = "3", ["enable_recall_calculation"] = "true" }
     }
 });
 ```
@@ -207,7 +207,7 @@ curl --request POST \
     "limit": 3,
     "searchParams":{
         "params":{
-            "level":10,
+            "level":3,
             "enable_recall_calculation": true
         }
     }
