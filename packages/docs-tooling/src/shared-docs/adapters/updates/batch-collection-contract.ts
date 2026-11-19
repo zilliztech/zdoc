@@ -3,9 +3,8 @@ import {isAbsolute} from 'node:path'
 import * as z from 'zod'
 import {canonicalBytes, compareUtf8, isValidUnicode, parseStrictJson} from '../../core/updates/canonical'
 import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/envelope'
-import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-source'
+import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-git-object'
 import {isMilvusIgnoredPathComponent} from '../../core/links/milvus-page-path'
-
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
 export const BATCH_WIRE_LIMIT = 128 * 1024 * 1024

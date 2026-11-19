@@ -6,8 +6,9 @@ import {currentBatchLifetime} from './evidence'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
 
-export class BatchReadError extends Error {}
-export function stop(reason: string): never { throw new BatchReadError(reason) }
+import {BatchReadError, BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree, stop, type Commit, type TreeEntry} from './batch-git-object'
+export {BatchReadError, batchRenderCommitSet, stop} from './batch-git-object'
+
 export function safeReason(error: unknown, fallback: string) {
   return error instanceof BatchReadError ? error.message : fallback
 }
@@ -21,47 +22,11 @@ export function batchBudget() {
     } }
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
-export const BATCH_TREE_VISITS = 50_000
 const traversalLimit = BATCH_TREE_VISITS
 const gitCommandBytes = 16 * 1024 * 1024
 const fragmentRoot = 'site/en/fragments'
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
-interface TreeEntry { mode: string; oid: string }
-interface Commit { tree: string; parents: string[] }
 export interface RawChange { path: string; before: string | null; after: string | null; beforeMode: string | null; afterMode: string | null }
-
-export function parseBatchGitCommit(bytes: Buffer): Commit {
-  const end = bytes.indexOf('\n\n')
-  if (end < 0) stop('GIT_COMMIT_INVALID')
-  const lines = bytes.subarray(0, end).toString('latin1').split('\n')
-  const tree = /^tree ([a-f0-9]{40})$/.exec(lines[0])?.[1] ?? stop('GIT_COMMIT_INVALID')
-  const parents: string[] = []
-  for (let n = 1; n < lines.length; n++) {
-    if (lines[n].startsWith('tree ')) stop('GIT_COMMIT_INVALID')
-    if (lines[n].startsWith('parent ')) {
-      if (n !== parents.length + 1) stop('GIT_COMMIT_INVALID')
-      parents.push(GitShaSchema.parse(lines[n].slice(7)))
-    }
-  }
-  return {tree, parents}
-}
-
-export function parseBatchGitTree(bytes: Buffer) {
-  const entries = new Map<string, TreeEntry>()
-  let previous: Buffer | undefined
-  for (let at = 0; at < bytes.length;) {
-    const sp = bytes.indexOf(32, at), end = bytes.indexOf(0, sp + 1)
-    if (sp <= at || end <= sp + 1 || end + 21 > bytes.length) stop('GIT_TREE_INVALID')
-    const mode = bytes.subarray(at, sp).toString('latin1'), name = utf8.decode(bytes.subarray(sp + 1, end))
-    if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') ||
-        !RepoPathSchema.safeParse(name).success || entries.has(name)) stop('GIT_TREE_INVALID')
-    const sortKey = Buffer.from(name + (mode === '40000' ? '/' : ''))
-    if (previous && Buffer.compare(previous, sortKey) >= 0) stop('GIT_TREE_INVALID')
-    previous = sortKey
-    entries.set(name, { mode, oid: bytes.subarray(end + 1, end + 21).toString('hex') }); at = end + 21
-  }
-  return entries
-}
 
 export class BatchHistory {
   constructor(private readonly commits: Map<string, Commit>, private readonly budget: BatchBudget) {}
@@ -455,27 +420,7 @@ export async function measureBatchExport(repository: string, commit: string, roo
   for (const entry of entries) for (let p = dirname(entry.path); p !== '.'; p = dirname(p)) directories.add(p)
   return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
 }
-/** Both the worker and parent use this exact stopped-history walk. The parent
- * supplies hash-checked history; no caller-provided commit list grants a budget. */
-export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string) {
-  const graph = new Map(history.map(commit => [commit.oid, commit.parents]))
-  const reachable = (tip: string) => {
-    const pending = [tip], found = new Set<string>()
-    while (pending.length) {
-      const oid = pending.pop()!
-      if (found.has(oid)) continue
-      found.add(oid)
-      const parents = graph.get(oid) ?? stop('SOURCE_HISTORY_INCOMPLETE')
-      if (oid !== current) pending.push(...parents)
-    }
-    return found
-  }
-  const excluded = reachable(oldNext)
-  const interval = [...reachable(target)].filter(oid => !excluded.has(oid))
-  return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
-}
 
-/** Endpoint observations retain one snapshot per distinct commit concurrently. */
 export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
   const store = await BatchGitStore.open(repository, batchBudget())
   let bytes = 0, count = 0
