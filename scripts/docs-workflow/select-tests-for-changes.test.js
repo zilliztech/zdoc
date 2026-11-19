@@ -327,7 +327,7 @@ test('workflow and replay infrastructure changes select structural and aggregate
 
 test('selector maps publication workflow design specifications to replay infrastructure checks', () => {
   const selected = selectTests(['.claude/specs/2026-09-07-guides-requested-fetch-workflow-design.md'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['replay-infrastructure'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['replay-infrastructure', 'claude-local-workspace'])
   assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
