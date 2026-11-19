@@ -191,7 +191,7 @@ import Admonition from '@theme/Admonition';
 
   ```
   search_params = {
-      "params": {"level": 10},
+      "params": {"level": 3},
   }
 
   res = client.search(

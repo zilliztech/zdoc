@@ -42,7 +42,7 @@ Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服�
 
 <Admonition type="info" title="说明">
 
-如需 BYOC 部署，请[联系我们](http://zilliz.com.cn/contact-sales)。
+如需 BYOC 部署，请[联系我们](https://zilliz.com.cn/contact-sales)。
 
 </Admonition>
 

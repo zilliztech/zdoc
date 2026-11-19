@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-17T12:33:25.254Z",
+  "generated_at": "2026-11-19T02:31:10.164Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -14841,7 +14841,7 @@
       "doc_token": "PINDwgtlliTeaqkEQTXcZD7EnGg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PINDwgtlliTeaqkEQTXcZD7EnGg",
       "source_file": "PINDwgtlliTeaqkEQTXcZD7EnGg.json",
-      "source_hash": "645ae7b00a73fa3049444f99091bf9ea8d958de164ba84c1efb6b3b44316c430",
+      "source_hash": "58c158d8d4b41953251443d757a7ea5b87d9ef4efdea20df4a45c393029e683c",
       "node_metadata": {
         "requested_token": "PINDwgtlliTeaqkEQTXcZD7EnGg",
         "requested_node_token": "PINDwgtlliTeaqkEQTXcZD7EnGg",
@@ -15090,7 +15090,7 @@
       "doc_token": "HDsXwl4KcijEsWkU3C3cBrxSnVb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/HDsXwl4KcijEsWkU3C3cBrxSnVb",
       "source_file": "HDsXwl4KcijEsWkU3C3cBrxSnVb.json",
-      "source_hash": "401157dcfa8a60220474dcedb398986eafed7ab0834801c4b9437c67376b3855",
+      "source_hash": "1f7155111ad49684adaba23c74de528b607856921853c21d7be8eb9e023c4865",
       "node_metadata": {
         "requested_token": "HDsXwl4KcijEsWkU3C3cBrxSnVb",
         "requested_node_token": "HDsXwl4KcijEsWkU3C3cBrxSnVb",
@@ -15104,15 +15104,15 @@
         "parent_node_token": "PINDwgtlliTeaqkEQTXcZD7EnGg",
         "node_create_time": "1781779348",
         "obj_create_time": "1781779348",
-        "obj_edit_time": "1781779350",
-        "revision_id": "3"
+        "obj_edit_time": "1795050538",
+        "revision_id": "4"
       },
       "node_token": "HDsXwl4KcijEsWkU3C3cBrxSnVb",
       "origin_node_token": "HDsXwl4KcijEsWkU3C3cBrxSnVb",
       "obj_token": "GbSYd6q3FoQVHwxtXawcblnHnVb",
       "obj_type": "docx",
-      "obj_edit_time": "1781779350",
-      "revision_id": "3",
+      "obj_edit_time": "1795050538",
+      "revision_id": "4",
       "publish_targets": [
         "Zilliz.PaaS",
         "Zilliz.SaaS"

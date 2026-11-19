@@ -52,7 +52,7 @@ import Grid from '@site/src/components/Grid';
 
         有关使用详情，请参阅[审计日志用户指南](./audit-logs)。
 
-        如需定价信息，请参阅[定价指南](http://zilliz.com.cn/pricing/pricing-guide)。
+        如需定价信息，请参阅[定价指南](https://zilliz.com.cn/pricing/pricing-guide)。
 
         ## 功能增强\{#enhancements}
 
