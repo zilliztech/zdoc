@@ -512,7 +512,7 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
   }
   const deliverStep = step('lane', 'Deliver the candidate as a PR')
   const deliver = run('lane', 'Deliver the candidate as a PR')
-  if (deliverStep?.env?.SHARED_DOCS_UPDATE_PAT !== '${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT }}') {
+  if (deliverStep?.env?.SHARED_DOCS_UPDATE_PAT !== '${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT || secrets.REST_UPSTREAM_REFRESH_PAT }}') {
     fail('delivery credentials must flow only through the delivery step env')
   }
   if (!deliver.includes('if [ -z "$SHARED_DOCS_UPDATE_PAT" ]') || !deliver.includes('exit 1') ||

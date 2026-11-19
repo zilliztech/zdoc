@@ -250,7 +250,7 @@ jobs:
         id: deliver
         if: steps.apply.outputs.result == 'staged'
         env:
-          SHARED_DOCS_UPDATE_PAT: ${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT }}
+          SHARED_DOCS_UPDATE_PAT: ${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT || secrets.REST_UPSTREAM_REFRESH_PAT }}
           DRAFT: ${{ inputs.draft_pr || 'true' }}
           CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
           REPOSITORY: ${{ steps.source.outputs.repository }}
