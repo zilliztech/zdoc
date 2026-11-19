@@ -1,7 +1,8 @@
-import { constants, type BigIntStats } from 'node:fs'
+import { constants, lstatSync, readdirSync, type BigIntStats } from 'node:fs'
 import { lstat, mkdir, open, readdir, realpath, rename } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { createHash, randomUUID } from 'node:crypto'
+import { setImmediate as yieldToEventLoop } from 'node:timers/promises'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { BlobRefSchema, RepoPathSchema, validateBlobBytes, type BlobRef } from '../../core/updates/envelope'
 
@@ -290,19 +291,31 @@ export function checkBatchAllocation(state: {available: number; blockSize: numbe
 }
 export async function batchAllocatedTree(root: string, excludeBlobs = false): Promise<number> {
   let total = 0, count = 0
-  async function visit(path: string) {
-    currentBatchLifetime()?.check()
+  const lifetime = currentBatchLifetime()
+  const parents: {path: string; names: Iterator<string>}[] = []
+  let path: string | undefined = root
+  while (path !== undefined) {
+    lifetime?.check()
     if (++count > 100_000) throw Error('BATCH_TRANSIENT_ENTRY_LIMIT')
-    const st = await lstat(path, {bigint: true})
+    const st = lstatSync(path, {bigint: true})
     const allocation = Number(st.blocks * 512n) + 4096
     if (!Number.isSafeInteger(allocation)) throw Error('BATCH_FILESYSTEM_UNSUPPORTED')
     total += allocation
-    if (st.isDirectory()) for (const name of await readdir(path)) {
-      if (excludeBlobs && path === root && name === 'blobs') continue
-      await visit(join(path, name))
+    if (st.isDirectory()) parents.push({path, names: readdirSync(path)[Symbol.iterator]()})
+    path = undefined
+    while (path === undefined && parents.length) {
+      const parent = parents.at(-1)!
+      const next = parent.names.next()
+      if (next.done) parents.pop()
+      else if (!(excludeBlobs && parent.path === root && next.value === 'blobs')) path = join(parent.path, next.value)
+    }
+    // Avoid a libuv round trip per entry while still servicing cancellation.
+    if (count % 256 === 0) {
+      await yieldToEventLoop()
+      lifetime?.check()
     }
   }
-  await visit(root); return total
+  return total
 }
 interface BatchResources {pages: number; category: 'page' | 'qualifier' | 'other'; totals: Record<'page' | 'qualifier' | 'other', number>; seen: Map<string, number>; peak: number}
 const batchResources = new WeakMap<EvidenceStore, BatchResources>()

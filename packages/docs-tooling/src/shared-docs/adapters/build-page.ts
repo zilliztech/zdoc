@@ -300,6 +300,7 @@ export interface BuildPageObservation {
 }
 export interface BuildPageInput {
   pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md; runtime: BuildRuntime
+  finalizeMdx?: typeof toMdx
   /** Detached actual adaptation evidence. Observer exceptions cannot change generation. */
   observe?: (observation: BuildPageObservation) => void
 }
@@ -314,7 +315,7 @@ export async function buildPage(input: BuildPageInput): Promise<BuildPageResult>
 }
 
 async function generatePage(input: BuildPageInput, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
-  const { pageId, sharedDocs: shared, reader, runtime } = input
+  const { pageId, sharedDocs: shared, reader, runtime, finalizeMdx = toMdx } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
   const file = groupFile(shared.sharedDocsPath, `pages/${pageId}/page.yaml`)
@@ -468,7 +469,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
         }
         // Finalize the actual complete channel through the same MDX adapter. This
         // optional detached pass neither rewrites merged output nor reads images.
-        const finalized = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
+        const finalized = await finalizeMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
         observationErrors.push(...('errors' in finalized ? finalized.errors.flatMap(error => {
           const attributed = error.line === undefined ? [] : observedOrigins[error.line - 1] ?? []
           const { line: _line, ...unlocated } = error
@@ -566,7 +567,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       }
       return aliases.get(key)!
     })
-    const mdx = await toMdx({ markdown: merged.markdown, components: merged.components, provenance: { inputLines, outputLines } },
+    const mdx = await finalizeMdx({ markdown: merged.markdown, components: merged.components, provenance: { inputLines, outputLines } },
       location, { preserveFrontMatter: !!runtime.fetchContext })
     if ('errors' in mdx) {
       for (const error of mdx.errors) {
