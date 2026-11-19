@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { posix } from 'node:path'
 import type { DiagnosticContext } from '../core/types'
 import { diagnostic, parseYaml } from '../core/yaml'
@@ -20,18 +21,37 @@ export interface LinkInputReader extends MilvusDocsReader {
   listFiles(commit: string, directory: string): Promise<string[]>
   readBytes(commit: string, path: string): Promise<Uint8Array>
 }
+const gitOutputLimit = 32 * 1024 * 1024
+const historicalLinkCacheBytes = 24 * 1024 * 1024
+const historicalLinkCacheEntries = 4096
+interface ReadBlob {text: string; wireBytes: number}
+interface CachedBlob extends ReadBlob {charge: number}
+interface HistoricalLinks {
+  remaining(): number
+  expectedOid(commit: string, path: string): string | undefined
+  cache: Map<string, CachedBlob>
+  used: number
+}
 export class GitLinkInputReader implements LinkInputReader {
   private readonly reader: MilvusDocsReader
+  private historical?: HistoricalLinks
   constructor(private readonly repository: string) { this.reader = new GitMilvusDocsReader(repository) }
+  /** One worker, with literal path identity supplied by its verified Git inventory. */
+  static historical(repository: string, remaining: () => number, expectedOid: HistoricalLinks['expectedOid']) {
+    const reader = new GitLinkInputReader(repository)
+    reader.historical = {remaining, expectedOid, cache: new Map(), used: 0}
+    return reader
+  }
   readFile(commit: string, path: string) { return this.reader.readFile(commit, path) }
   isOnBranch(commit: string, branch: string) { return this.reader.isOnBranch(commit, branch) }
   isAncestor(ancestor: string, descendant: string) { return this.reader.isAncestor(ancestor, descendant) }
   private async run(args: string[], input?: string): Promise<Buffer> {
     const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
     Object.assign(env, { GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0' })
+    const timeout = this.historical?.remaining() ?? 30_000
     return new Promise((resolve, reject) => {
       const child = execFile('git', ['--no-replace-objects', '-C', this.repository, ...args],
-        { encoding: 'buffer', env, maxBuffer: 32 * 1024 * 1024, timeout: 30_000 }, (error, stdout, stderr) => {
+        { encoding: 'buffer', env, maxBuffer: gitOutputLimit, timeout }, (error, stdout, stderr) => {
           if (error) reject(new MilvusDocsReaderError('GIT_ERROR', stderr.toString().trim() || error.message))
           else resolve(stdout)
         })
@@ -83,13 +103,21 @@ export class GitLinkInputReader implements LinkInputReader {
     for (const path of unique) if (!objects.has(path)) {
       throw new MilvusDocsReaderError('MISSING_FILE', `Regular file not found: ${commit}:${path}`)
     }
-    const output = await this.run(['cat-file', '--batch'], unique.map(path => objects.get(path)).join('\n') + '\n')
+    const requested = unique.map(path => ({path, oid: objects.get(path)!}))
+    if (this.historical) return this.readHistoricalFiles(this.historical, commit, requested)
+    const batch = await this.readBlobBatch(requested)
+    return new Map(requested.map(({path}, index) => [path, batch[index].text]))
+  }
+  private async readBlobBatch(requested: readonly {path: string; oid: string}[]): Promise<ReadBlob[]> {
+    if (!requested.length) return []
+    const output = await this.run(['cat-file', '--batch'], requested.map(({oid}) => oid).join('\n') + '\n')
+    const blobs: ReadBlob[] = []
     let offset = 0
-    for (const path of unique) {
+    for (const {path, oid} of requested) {
       const end = output.indexOf(10, offset)
       const header = output.subarray(offset, end).toString()
       const match = /^([a-f0-9]{40}) blob (\d+)$/.exec(header)
-      if (end < offset || !match || match[1] !== objects.get(path)) {
+      if (end < offset || !match || match[1] !== oid) {
         throw new MilvusDocsReaderError('GIT_ERROR', `Cannot read local blob for ${path}: ${header}`)
       }
       const size = Number(match[2])
@@ -97,11 +125,46 @@ export class GitLinkInputReader implements LinkInputReader {
       if (!Number.isSafeInteger(size) || next >= output.length || output[next] !== 10) {
         throw new MilvusDocsReaderError('GIT_ERROR', 'Invalid Git batch framing')
       }
-      files.set(path, output.subarray(end + 1, next).toString('utf8'))
+      const bytes = output.subarray(end + 1, next)
+      if (this.historical && createHash('sha1').update(`blob ${size}\0`).update(bytes).digest('hex') !== oid) {
+        throw new MilvusDocsReaderError('GIT_ERROR', `Unexpected Git blob identity for ${path}`)
+      }
+      blobs.push({text: bytes.toString('utf8'), wireBytes: next + 1 - offset})
       offset = next + 1
     }
     if (offset !== output.length) throw new MilvusDocsReaderError('GIT_ERROR', 'Unexpected trailing Git batch output')
-    return files
+    return blobs
+  }
+  private async readHistoricalFiles(history: HistoricalLinks, commit: string, requested: readonly {path: string; oid: string}[]) {
+    const selected = new Map<string, ReadBlob>(), missing = new Map<string, string>()
+    for (const {path, oid} of requested) {
+      if (history.expectedOid(commit, path) !== oid) throw new MilvusDocsReaderError('GIT_ERROR', `Unexpected historical Git path identity for ${path}`)
+      const cached = history.cache.get(oid)
+      if (!cached) missing.set(oid, path)
+      else {
+        history.cache.delete(oid)
+        history.cache.set(oid, cached)
+        selected.set(oid, cached)
+      }
+    }
+    const pending = [...missing].map(([oid, path]) => ({oid, path}))
+    const batch = await this.readBlobBatch(pending)
+    history.remaining()
+    for (const [index, {oid}] of pending.entries()) selected.set(oid, batch[index])
+    const wireBytes = requested.reduce((total, {oid}) => total + selected.get(oid)!.wireBytes, 0)
+    if (wireBytes > gitOutputLimit) throw new MilvusDocsReaderError('GIT_ERROR', 'Historical Git batch exceeds the regular output bound')
+    for (const [index, {oid}] of pending.entries()) {
+      const blob = batch[index], charge = 2 * blob.text.length + 1024
+      if (charge > historicalLinkCacheBytes || history.cache.has(oid)) continue
+      while (history.cache.size >= historicalLinkCacheEntries || history.used + charge > historicalLinkCacheBytes) {
+        const oldest = history.cache.keys().next().value!
+        history.used -= history.cache.get(oldest)!.charge
+        history.cache.delete(oldest)
+      }
+      history.cache.set(oid, {...blob, charge})
+      history.used += charge
+    }
+    return new Map(requested.map(({path, oid}) => [path, selected.get(oid)!.text]))
   }
 }
 export class FakeLinkInputReader implements LinkInputReader {

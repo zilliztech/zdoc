@@ -9,6 +9,7 @@ import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, t
   type TrustedToolsetCapture} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
 import {restoreEdgeMatches} from './batch-restore-proof'
+import {copyEdgeMatches} from './batch-import-proof'
 import type {BatchGitHubTestSeam} from './batch-github'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
@@ -112,7 +113,7 @@ import {parseLock} from '../../core/lock'
 import {validateGuidesPage, validateGuidesSource, guidesVariantNames} from './guides-batch-registry'
 import {resolveManualPublication} from '../../../manuals/registry'
 import {BatchDiagnosticsSchema, BatchManualSchema, BatchRawTreeSchema, BatchImagesSchema, BatchPageMaterialHeaderSchema, BatchClosureSchema, BatchMaterialsSchema,
-  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchRestoreProof} from './batch-collection-contract'
+  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchCopyProofSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchRestoreProof, type BatchCopyProof} from './batch-collection-contract'
 import type {BatchDiscoveryReport} from '../../core/updates/batch-discovery'
 import type {AdoptionDependency, AnchorRelation, HeadingObservation, ReferenceObservation} from '../../core/updates/types'
 
@@ -282,7 +283,7 @@ export interface BatchClosureAnalysis {groups: {memberIds: string[]; seedKeys: s
   obligations: BatchObligation[]; reasons: string[]; namespace: {pageId: string; manual: string; path: string; role: 'oldNext' | 'target' | 'existing'; ref: BatchBlobRef}[]}
 /** Pure semantics over compact, already observed projections; this function cannot issue execution authority. */
 export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger: readonly BatchEdge[]; history: readonly {oid: string; parents: string[]}[];
-  pages: readonly BatchCompactPage[]; restorations?: ReadonlyMap<string, BatchRestoreProof>}): BatchClosureAnalysis {
+  pages: readonly BatchCompactPage[]; restorations?: ReadonlyMap<string, BatchRestoreProof>; copies?: ReadonlyMap<string, BatchCopyProof>}): BatchClosureAnalysis {
   const {report, pages, ledger} = input, reasons = new Set<string>(), add = (reason: string) => reasons.add(reason)
   const byPage = new Map(pages.map(p => [p.header.pageId, p])), registry = report.pages.map(p => p.pageId).sort(compareUtf8)
   if (byPage.size !== pages.length || pages.some(p => !registry.includes(p.header.pageId))) add('BATCH_MATERIAL_PAGE_SET_INVALID')
@@ -304,6 +305,8 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   for (const [index, edge] of ledger.entries()) {
     const sourcePath = edge.newPath ?? edge.oldPath!
     if (![edge.oldPath, edge.newPath].some(path => path?.startsWith('site/en/') && (/\.mdx?$/.test(path) || path.startsWith('site/en/fragments/') || report.pages.some(p => p.sourceFile === path)))) continue
+    const copy = edge.copyRef && input.copies?.get(edge.copyRef.sha256)
+    const verifiedCopy = edge.associationResult === 'copied' && copy !== undefined && copyEdgeMatches(copy, edge)
     for (const rangeId of edge.rangeIds) {
       const configured = report.pages.find(p => p.pageId === rangeId)
       if (!configured) {add('UNKNOWN_EDGE_INTERVAL'); continue}
@@ -318,17 +321,21 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         const old = before?.consumed.find(e => e.path === edge.oldPath), next = after?.consumed.find(e => e.path === edge.newPath)
         if (old && old.oid !== edge.oldOid || next && next.oid !== edge.newOid) {status = 'held'; add('SOURCE_EDGE_BYTES_MISMATCH')}
       }
-      if (edge.associationResult === 'unknown' || edge.associationResult === 'restored' && !verifiedRestoration(edge)) {
+      if (edge.associationResult === 'unknown' || edge.associationResult === 'restored' && !verifiedRestoration(edge) ||
+          edge.associationResult === 'copied' && !verifiedCopy) {
         status = 'held'; for (const reason of edge.reasons) add(reason); add('SOURCE_ASSOCIATION_UNPROVEN')
       }
+      if (status !== 'held' && verifiedCopy) status = 'irrelevant'
       if (status === 'consumed') {
         if (!edge.seedKey || !edge.introductionOid || !edge.evidence.length || !edge.evidenceRefs.length) {status = 'held'; add('SOURCE_ASSOCIATION_UNPROVEN')}
         else membership.get(rangeId)!.add(edge.seedKey)
       }
+      const subtype = edge.restorationRef ?? edge.copyRef
       obligations.push({pageId: rangeId, range: {from: configured.oldNext, to: configured.target}, edge: `${index}:${edge.parent ?? 'root'}:${edge.commit}:${sourcePath}`,
         seedKey: edge.seedKey, status, consumedPaths: sorted(paths),
-        supportRefs: edge.restorationRef ? batchSorted([...edge.evidenceRefs, edge.restorationRef], r => r.sha256) : edge.evidenceRefs,
-        reason: status === 'held' ? 'SOURCE_OBLIGATION_UNPROVEN' : status === 'consumed' ? 'ACTUAL_CONSUMED_PATH' : 'COMPLETE_CONSUMPTION_ABSENCE'})
+        supportRefs: subtype ? batchSorted([...edge.evidenceRefs, subtype], r => r.sha256) : edge.evidenceRefs,
+        reason: status === 'held' ? 'SOURCE_OBLIGATION_UNPROVEN' : verifiedCopy ? 'EXACT_UPSTREAM_COPY' :
+          status === 'consumed' ? 'ACTUAL_CONSUMED_PATH' : 'COMPLETE_CONSUMPTION_ABSENCE'})
     }
   }
   const seedPeers = new Map<string, string[]>()
@@ -509,13 +516,16 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const restorations = new Map<string, BatchRestoreProof>()
+    const copies = new Map<string, BatchCopyProof>()
     for (const edge of discovery.ledger) {
       const ref = edge.restorationRef
-      if (!ref || restorations.has(ref.sha256)) continue
-      const proof = parseBatchCanonical(await operation.store.readBlob(ref), BatchRestoreProofSchema)
-      restorations.set(ref.sha256, proof)
+      if (ref && !restorations.has(ref.sha256)) restorations.set(ref.sha256,
+        parseBatchCanonical(await operation.store.readBlob(ref), BatchRestoreProofSchema))
+      const copy = edge.copyRef
+      if (copy && !copies.has(copy.sha256)) copies.set(copy.sha256,
+        parseBatchCanonical(await operation.store.readBlob(copy), BatchCopyProofSchema))
     }
-    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations})
+    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations, copies})
     if (currentBatchLifetime()) {
       const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.groups[0]?.memberIds ?? [],
         waitingGroups: analysis.groups.slice(1).map(g => ({memberIds: g.memberIds, componentIds: g.componentIds, seedKeys: g.seedKeys})),
