@@ -407,6 +407,16 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
     const location = { page: pageId, channel, file: source }
     const output = new Map<number, PreparedVersion>()
     versions.set(channel, output)
+    // Guides whole-page release channels live on the Base records, not in a
+    // manual.yaml cloud_pages map, so the channel-absent link strip needs the
+    // same basenames derived here: a target whose release channel excludes
+    // this channel loses inbound links, keeping its visible text.
+    const channelAbsent = new Set(records
+      .filter(record => {
+        const release = record.release_channel?.toLowerCase()
+        return release === 'next' && channel !== 'next' || release === 'retire-in-next' && channel !== 'current'
+      })
+      .map(record => `${record.slug}.md`))
     for (const [index, target] of config.publish.entries()) {
       const dev = targets.get(index)
       if (!dev) continue
@@ -416,7 +426,8 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       const sources = await productSources(version, source, shared, reader)
       const mappedErrors = (items: SharedDocsError[]) => items.map(error => version.provenance ? remapError(error, version.provenance, source) : error)
       const rewritten = rewriteLinksAndImages({ ...prepared, markdown: version.content, sourceFile: source, sharedPages,
-        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location, pathLinks: !!layout })
+        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location,
+        pathLinks: !!layout, ...(channelAbsent.size ? { channelAbsent } : {}) })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
       const adaptation = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
