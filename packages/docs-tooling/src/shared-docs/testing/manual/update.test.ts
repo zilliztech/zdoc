@@ -35,10 +35,25 @@ it('reports no changes when the tracking head equals the locked next', async () 
   await expect(readdir(out)).resolves.not.toContain('next-lock.yaml')
 })
 
+const UPDATE_MANUAL = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+exclude:
+  - Collections/DataType.md
+metadata:
+  Client/:
+    beta: ON REQUEST
+`
+
 it('produces the candidate next lock and the whole-manual impact report', async () => {
   const demo = await createManualDemo(await temp('manual-upd-'), {
+    manual: UPDATE_MANUAL,
     later: { 'Client/MilvusClientV2.md': '# MilvusClientV2\n\nChanged upstream after the pin.\n' } })
   // lock pins next at the first update; a second upstream commit then lands on master.
+  // DataType is pre-excluded, so its upstream removal only annotates; an unexcluded
+  // removal of a published page blocks the lane (see the blocked-surface test below).
   expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
   await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
   await write(demo.repo, `${sourceDir}/Client/MilvusClientV2.md`, '# MilvusClientV2\n\nChanged again upstream.\n')
@@ -55,15 +70,157 @@ it('produces the candidate next lock and the whole-manual impact report', async 
   expect(report.to).toBe(head)
   expect(report.added).toEqual(['Extras/pointer.md'])
   expect(report.removed).toEqual(['Collections/DataType.md'])
+  expect(report.removedExcluded).toEqual(['Collections/DataType.md'])
+  expect(report.removedPublished).toEqual([])
+  expect(report.addedPending).toEqual(['Extras/pointer.md'])
   expect(report.changed).toEqual(['Client/MilvusClientV2.md'])
   expect(await readFile(join(out, 'next-lock.yaml'), 'utf8'))
     .toBe(`schema_version: 1\ncurrent: ${demo.nextCommit}\nnext: ${head}\n`)
   const markdown = await readFile(join(out, 'report.md'), 'utf8')
   expect(markdown).toContain('`shared-docs: update node to master')
-  expect(markdown).toContain('Added (whole-page `next` candidates): `Extras/pointer.md`')
+  expect(markdown).toContain('Added pending adjudication (each paired with a new `exclude` entry): `Extras/pointer.md`')
+  expect(markdown).toContain('Removed but already excluded (annotation only): `Collections/DataType.md`')
   // A second run cannot reuse the output directory.
   expect(await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
     () => {})).toBe(2)
+})
+
+it('blocks the lane before staging when a removed page is still published', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-blocked-'))
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await git(demo.repo, 'rm', '-q', `${sourceDir}/Collections/DataType.md`)
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream removes a live page')
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  // Tiered blocking: retiring a live route needs a human redirect decision, so the run
+  // fails red and stages nothing — no lock, no manual.yaml, no ledger.
+  expect(code).toBe(3)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report).toMatchObject({ blocked: true, removedPublished: ['Collections/DataType.md'], removedExcluded: [], addedPending: [] })
+  expect(output).toContain('"exitCode":3')
+  expect(output).toContain('"blocked":true')
+  await expect(readdir(out)).resolves.not.toContain('next-lock.yaml')
+  await expect(readdir(out)).resolves.not.toContain('manual.yaml')
+  await expect(readdir(out)).resolves.not.toContain('ledger.json')
+  const markdown = await readFile(join(out, 'report.md'), 'utf8')
+  expect(markdown).toContain('blocked at')
+  expect(markdown).toContain('`Collections/DataType.md`')
+})
+
+it('pairs unadjudicated additions with exclude entries and deferred ledger entries', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-pair-'))
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const head = await git(demo.repo, 'rev-parse', 'HEAD')
+  const out = join(demo.root, 'report')
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out }, () => {})
+  expect(code).toBe(0)
+  // The default demo manual has no exclude section: the pairing appends a deterministic
+  // block at the end instead of re-dumping the document.
+  const originalManual = await readFile(join(demo.sharedDocs, 'manual.yaml'), 'utf8')
+  expect(await readFile(join(out, 'manual.yaml'), 'utf8'))
+    .toBe(`${originalManual.replace(/\n$/, '')}\nexclude:\n  - Extras/pointer.md\n`)
+  const ledger = JSON.parse(await readFile(join(out, 'ledger.json'), 'utf8'))
+  expect(ledger).toEqual({ schema_version: 1, entries: [{ file: 'Extras/pointer.md', first_seen_pin: head,
+    first_seen_at: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/), classification: 'deferred',
+    reason: expect.any(String), owner: 'shared-docs-manual-lane', decided_at: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/) }] })
+  // Restaging over an already-recorded ledger is idempotent: applying the candidate
+  // manual (with its exclude line) makes the next run stage the bare lock bump only.
+  const applied = await temp('manual-upd-pair-applied-')
+  const group = join(applied, 'shared-docs/node')
+  await cp(demo.sharedDocs, group, { recursive: true })
+  await cp(join(out, 'manual.yaml'), join(group, 'manual.yaml'))
+  await cp(join(out, 'ledger.json'), join(group, 'ledger.json'))
+  const out2 = join(applied, 'report')
+  const code2 = await runUpdate({ sharedDocs: group, repo: demo.repo, dev: join(applied, 'dev'), out: out2 }, () => {})
+  expect(code2).toBe(0)
+  await expect(readdir(out2)).resolves.not.toContain('ledger.json')
+  await expect(readdir(out2)).resolves.not.toContain('manual.yaml')
+  // Applying the candidate lock too leaves the lane up to date.
+  await cp(join(out, 'next-lock.yaml'), join(group, 'lock.yaml'))
+  const out3 = join(applied, 'report3')
+  let output3 = ''
+  const code3 = await runUpdate({ sharedDocs: group, repo: demo.repo, dev: join(applied, 'dev'), out: out3 },
+    text => { output3 += text })
+  expect(code3).toBe(0)
+  expect(output3).toContain('"upToDate":true')
+})
+
+it('appends under an existing exclude list, mirroring its indentation', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-pair-indent-'), { manual: UPDATE_MANUAL })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const out = join(demo.root, 'report')
+  expect(await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out }, () => {})).toBe(0)
+  // UPDATE_MANUAL places `exclude:` before `metadata:`, so the new item must splice into
+  // the existing list, not append at the end of the document.
+  const originalManual = await readFile(join(demo.sharedDocs, 'manual.yaml'), 'utf8')
+  expect(await readFile(join(out, 'manual.yaml'), 'utf8'))
+    .toBe(originalManual.replace('exclude:\n  - Collections/DataType.md\n', 'exclude:\n  - Collections/DataType.md\n  - Extras/pointer.md\n'))
+})
+
+it('publishes nothing for paired additions at the candidate build', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-pair-build-'))
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const out = join(demo.root, 'report')
+  expect(await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out }, () => {})).toBe(0)
+  // Land the candidate as the PR would: lock bump plus the paired manual in one commit.
+  const applied = await temp('manual-upd-pair-build-applied-')
+  const group = join(applied, 'shared-docs/node')
+  await cp(demo.sharedDocs, group, { recursive: true })
+  await cp(join(out, 'next-lock.yaml'), join(group, 'lock.yaml'))
+  await cp(join(out, 'manual.yaml'), join(group, 'manual.yaml'))
+  await cp(join(out, 'ledger.json'), join(group, 'ledger.json'))
+  let buildOutput = ''
+  const build = await runBuild({ sharedDocs: group, repo: demo.repo, dev: join(applied, 'dev'), out: join(applied, 'out') },
+    text => { buildOutput += text }, { toolingCommit: TOOLING, repositoryRoot: applied })
+  expect(build).toBe(0)
+  const created = await readFile(join(applied, 'out', 'node/Collections/Collections-createCollection.md'), 'utf8')
+  expect(created).toBeTruthy()
+  await expect(readFile(join(applied, 'out', 'node/Extras/Extras-pointer.md'), 'utf8')).rejects.toThrow()
+})
+
+it('fails closed on an inline exclude list instead of appending a duplicate key', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-inline-'), {
+    manual: UPDATE_MANUAL.replace('exclude:\n  - Collections/DataType.md\n', 'exclude: [Collections/DataType.md]\n') })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  expect(code).toBe(2)
+  expect(output).toContain('exclude must be a block list')
+  // The command fails before writing anything: no candidate directory at all.
+  await expect(readdir(out)).rejects.toThrow()
+})
+
+it('carries the paired excludes through promotion', async () => {
+  const demo = await createPromotionDemo('manual-promote-paired-')
+  // The lane would have paired the next-only pointer page behind an exclude entry; the
+  // promotion must keep it (the page survives at next) while cleaning the vanished one.
+  await write(demo.sharedDocs, 'manual.yaml', PROMOTE_MANUAL().replace(
+    'exclude:\n  - Collections/DataType.md\n',
+    'exclude:\n  - Collections/DataType.md\n  - Extras/pointer.md\n'))
+  const out = join(demo.root, 'promotion')
+  const code = await manualPromote({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    () => {}, demo.root)
+  expect(code).toBe(0)
+  const promotedManual = await readFile(join(out, 'manual.yaml'), 'utf8')
+  expect(promotedManual).toContain('  - Extras/pointer.md')
+  expect(promotedManual).not.toContain('Collections/DataType.md')
 })
 
 it('refuses to adopt a next that is not a descendant of the locked next', async () => {
