@@ -863,6 +863,142 @@ metadata:
       - cloud
       - createAlias()
       - nodejs30
+  Collections/addFunctionField.md:
+    beta: PUBLIC
+    description: This operation adds a field to the collection schema along with a function.
+    sidebar_position: 29
+    type: docx
+    token: BjKLdh2SFouRSbxELaqc9b4tnts
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - add field
+      - bm25
+      - function
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addFunctionField()
+      - nodejs30
+  Collections/alterCollectionSchema.md:
+    beta: PUBLIC
+    description: This operation alters the schema of an existing collection.
+    sidebar_position: 30
+    type: docx
+    token: VD1AddhBlo14dnxad79cWBEinMe
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - alter schema
+      - function
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterCollectionSchema()
+      - nodejs30
+  Collections/dropCollectionField.md:
+    beta: PUBLIC
+    description: This operation drops a field from the collection schema.
+    sidebar_position: 31
+    type: docx
+    token: ANWZdmEMkocWK3xo2ZxcnqtLnUh
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - drop field
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropCollectionField()
+      - nodejs30
+  Collections/dropFunctionField.md:
+    beta: PUBLIC
+    description: This operation drops a function from the collection schema.
+    sidebar_position: 32
+    type: docx
+    token: MmABd2rdooxiLZxYzwEciyTanOg
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - drop function
+      - function
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropFunctionField()
+      - nodejs30
+  Collections/ConsistencyLevelEnum.md:
+    description: This operation describes the consistency levels supported by the target collection.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - consistency level
+      - bounded
+      - session
+      - eventually
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/FieldType.md:
+    description: This operation describes the field types supported in a collection schema.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - field type
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/FunctionObject.md:
+    beta: PUBLIC
+    description: This operation describes the function object used in a collection schema.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - function object
+      - bm25
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/RefreshExternalCollectionJobInfo.md:
+    beta: PUBLIC
+    description: This operation describes the job information returned by external collection refresh operations.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - external collection
+      - refresh job
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Collections/createCollection.md:
     beta: false
     description: This operation creates a collection either with default or customized settings.
@@ -2861,14 +2997,6 @@ exclude:
   - Authentication/grantPrivilege.md
   - Authentication/restoreRBAC.md
   - Authentication/revokePrivilege.md
-  - Collections/ConsistencyLevelEnum.md
-  - Collections/FieldType.md
-  - Collections/FunctionObject.md
-  - Collections/RefreshExternalCollectionJobInfo.md
-  - Collections/addFunctionField.md
-  - Collections/alterCollectionSchema.md
-  - Collections/dropCollectionField.md
-  - Collections/dropFunctionField.md
   - DataImport/ImportState.md
   - Management/CompactionState.md
   - Management/IndexDescription.md
