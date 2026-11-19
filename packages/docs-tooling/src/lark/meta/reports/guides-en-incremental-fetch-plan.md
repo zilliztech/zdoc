@@ -1,15 +1,15 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-18T18:33:39.393Z
+Generated: 2026-11-19T02:36:55.716Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-18T18:33:39.393Z
+Previous snapshot: 2026-11-19T02:36:55.716Z
 
 ## Summary
 
-- Changed docs: 96 (1 with Feishu tokens)
-- Expanded docs: 59
+- Changed docs: 95 (0 with Feishu tokens)
+- Expanded docs: 58
 - Removed docs: 0
 - Warnings: 0
 
@@ -109,14 +109,12 @@ Previous snapshot: 2026-11-18T18:33:39.393Z
 - Remove Punct (shared:recvlPvJP0pbh9): shared inputs changed
 - Regex (shared:recvlPvLU6eZIJ): shared inputs changed
 - Snapshots (shared:recvlPnHgnRg7i): shared inputs changed
-- Search (ANK0wJQ8DibXxIkpYDEcScMHnYe): wiki node revision changed
 - Implement Multi-tenancy (shared:recvm2lliV1DA6): shared inputs changed
 
 ## Expanded Tokens
 
 - A4jhweVMMigHOpkwDlLcKo0SnFe: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - AIb1wNAE3iiKVSk8MHAcVA4QnJb: incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe
-- ANK0wJQ8DibXxIkpYDEcScMHnYe: wiki node revision changed
 - B7SFwbn76iUM06kkYzBcffE8nYf: incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic
 - BClgwKlHaiushBkPPssclTkYnef: incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd
 - BJCjwpj8JizP0nkI11uci1pPndh: incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf
