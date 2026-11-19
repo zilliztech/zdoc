@@ -18,7 +18,7 @@ keywords:
   - 信息检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getRefreshExternalCollectionProgress()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -45,17 +45,17 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **参数：**
 
-- **job_id** (*number | string*) -
+- **job_id** （*number | string*） -
 **[必需]**
 refreshExternalCollection() 返回的作业 ID。
 
-- **timeout** (*number*) -
+- **timeout** （*number*） -
 可选，用于指定 RPC 的持续时间，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
 
-- **client_request_id** (*string*) -
+- **client_request_id** （*string*） -
 用于请求跟踪的追踪 ID。可选。
 
-**返回类型：**
+**返回：**
 
 *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
@@ -70,54 +70,54 @@ refreshExternalCollection() 返回的作业 ID。
 
 **参数：**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -
+- **job_info** （*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)*） -
 
 刷新作业的当前状态。
 
-    - **job_id** (*string*) -
+    - **job_id** （*string*） -
 
         作业标识符。
 
-    - **collection_name** (*string*) -
+    - **collection_name** （*string*） -
 
         正在刷新的外部 Collection。
 
-    - **state** (*RefreshExternalCollectionState*) -
+    - **state** （*RefreshExternalCollectionState*） -
 
         当前作业状态。可选值为 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。
 
-    - **progress** (*string*) -
+    - **progress** （*string*） -
 
         完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。
 
-    - **reason** (*string*) -
+    - **reason** （*string*） -
 
         当 **state** 为 **RefreshFailed** 时的失败原因；否则为空字符串。
 
-    - **external_source** (*string*) -
+    - **external_source** （*string*） -
 
         作业捕获的外部源路径。
 
-    - **start_time** (*string*) -
+    - **start_time** （*string*） -
 
         作业开始的时间。
 
-    - **end_time** (*string*) -
+    - **end_time** （*string*） -
 
         作业结束的时间；如果作业仍在运行，则为空字符串。
 
 - **ResStatus**
 一个 **ResStatus** 对象。
 
-    - **code** (*number*) -
+    - **code** （*number*） -
 
         表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
-    - **error_code** (*string* | *number*) -
+    - **error_code** （*string* | *number*） -
 
         表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) -
+    - **reason** （*string*） -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
