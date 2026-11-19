@@ -11,8 +11,9 @@ import { guidesSnapshotPath } from '../guides-snapshot'
 import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
 import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
-import {BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
+import {BatchCopyProofSchema, BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
 import { makeRestoreProof, mergedRestoreFacts, restoreEdgeMatches } from './batch-restore-proof'
+import { importedCopyFacts } from './batch-import-proof'
 import {immutable} from '../../core/updates/types'
 
 type Pins = BatchDiscoveryInput['pins']
@@ -169,6 +170,10 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
 
   const changes = new Map<string, BatchPathChange>(), seeds = new Map<string, BatchSeedObservation>()
   const restorations = new Map<string, {proof: BatchRestoreProof; ref: BatchBlobRef}>()
+  const potentialCopies: {row: BatchEdge; pull: NonNullable<Awaited<ReturnType<API['association']>>['pull']>;
+    observation: NonNullable<Awaited<ReturnType<API['association']>>['singlePage']>}[] = []
+  const intervalTouches: {range: PageRange; commit: string; path: string; row?: BatchEdge}[] = []
+  const uncertainties: {range: PageRange; key: string; oid: string; paths: string[]; rows: BatchEdge[]}[] = []
   const clueKeys = new Set<string>()
   function clue(pageIds: string[], seedKeys: string[], paths: string[], evidence: string[], reasons: string[]) {
     const value = { pageIds: unique(pageIds).sort(), seedKeys: unique(seedKeys).sort(), paths: unique(paths).sort(), evidence: unique(evidence).sort(), reasons }
@@ -264,9 +269,10 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     const touched = new Set<PageRange>(), fragmentHits = new Map<string, PageRange[]>()
     const unresolvedHits = new Set<BatchPageObservation>(), hitPaths = new Set<string>()
     for (const {delta, previous, direct, unresolved, consumers, fragment} of classified) {
+      let row: BatchEdge | undefined
       if (ledger) {
         const prior = previous ? raw.find(d => d.path === previous && d.before && !d.after) : undefined
-        const row: BatchEdge = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
+        row = {commit: oid, parent, oldPath: previous ?? (delta.before ? delta.path : null), newPath: delta.after ? delta.path : null,
           oldOid: prior?.before ?? delta.before, newOid: delta.after, oldMode: (prior?.beforeMode ?? delta.beforeMode) as BatchEdge['oldMode'], newMode: delta.afterMode as BatchEdge['newMode'],
           rangeIds: relevant.map(r => r.page.pageId).sort(compareUtf8), associationResult: 'irrelevant', introductionOid: null, seedKey: null, evidenceRefs: [],
           evidence: [], reasons: []}
@@ -277,7 +283,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       change(delta.path, previous ? 'renamed' : !delta.before ? 'added' : !delta.after ? 'removed' : 'modified', previous, edge, direct.map(r => r.page.pageId))
       if (previous) clue([], [], [previous, delta.path], [edge], [])
       for (const r of [...direct, ...consumers]) {
-        add(r.interval.commits, oid); add(r.interval.changePaths, delta.path); touched.add(r); hitPaths.add(delta.path)
+        intervalTouches.push({range: r, commit: oid, path: delta.path, row}); touched.add(r); hitPaths.add(delta.path)
       }
       if (fragment) fragmentHits.set(delta.path, consumers)
     }
@@ -364,6 +370,9 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
               ledgerRow.associationResult = 'restored'; ledgerRow.restorationRef = matching.ref
               continue
             }
+            if (importedParents.length === 1 && delta.beforeMode === delta.afterMode) {
+              potentialCopies.push({row: ledgerRow, pull, observation: singlePage})
+            }
           }
           unverified.add(delta.path); continue
         }
@@ -377,8 +386,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       for (const r of touched) {
         const uncertain = [...unverified].filter(path => r.page.sourceFile === path || r.fragments.has(path))
         if (uncertain.length) {
-          r.interval.association = 'unknown'; add(r.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
-          clue([r.page.pageId], [key], uncertain, [gitRef(oid)], ['PR_CHANGED_PATH_UNVERIFIED'])
+          uncertainties.push({range: r, key, oid, paths: uncertain, rows: ledgerRows})
         }
         // Fragments use dependency clues. Direct membership requires the configured root's own transition.
         if (hitPaths.has(r.page.sourceFile) && !unverified.has(r.page.sourceFile)) add(r.page.seedKeys, key)
@@ -398,6 +406,35 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     if ([...touched].some(r => r.page.active !== false) && [...touched].some(r => r.page.active === false)) {
       clue([...touched].map(r => r.page.pageId), key ? [key] : [], raw.map(d => d.path), [gitRef(oid)], [])
     }
+  }
+  if (ledger && retain) for (const {row, pull, observation} of potentialCopies) {
+    if (row.associationResult !== 'unknown' || row.reasons.join() !== 'PR_CHANGED_PATH_UNVERIFIED' || !pull.singlePageProof) continue
+    const facts = await importedCopyFacts(store, history, pull.identity, row, ledger, ranges)
+    if (!facts) continue
+    const proof = BatchCopyProofSchema.parse({...facts, detailRef: retain(pull.singlePageProof.detail.body),
+      filesRef: retain(pull.singlePageProof.files.body), associationRef: retain(observation.body)})
+    row.associationResult = 'copied'; row.seedKey = null; row.introductionOid = null
+    row.copyRef = retain(canonicalBytes(proof)); row.reasons = []
+  }
+  const survivingTouches = new Map<PageRange, Set<string>>()
+  for (const {range, commit, path, row} of intervalTouches) {
+    if (row?.associationResult === 'copied') continue
+    add(range.interval.commits, commit); add(range.interval.changePaths, path)
+    const paths = survivingTouches.get(range) ?? new Set<string>()
+    paths.add(path); survivingTouches.set(range, paths)
+  }
+  for (const {range, path, row} of intervalTouches) {
+    if (row?.associationResult !== 'copied' || survivingTouches.get(range)?.has(path) || path !== range.page.sourceFile) continue
+    const change = changes.get(path)
+    if (!change) continue
+    change.pageIds = change.pageIds?.filter(id => id !== range.page.pageId)
+    if (change.kind === 'source' && !change.pageIds?.length) change.kind = 'other'
+  }
+  for (const {range, key, oid, paths, rows} of uncertainties) {
+    const unproven = paths.filter(path => !rows.some(row => row.associationResult === 'copied' && row.newPath === path && row.oldPath === path))
+    if (!unproven.length) continue
+    range.interval.association = 'unknown'; add(range.page.reasons, 'PR_CHANGED_PATH_UNVERIFIED')
+    clue([range.page.pageId], [key], unproven, [gitRef(oid)], ['PR_CHANGED_PATH_UNVERIFIED'])
   }
   for (const r of ranges) if (r.page.active === false && r.interval.commits.length) {
     r.page.intervals.push(r.interval)

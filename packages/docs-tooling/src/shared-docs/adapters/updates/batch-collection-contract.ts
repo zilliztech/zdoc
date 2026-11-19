@@ -434,12 +434,24 @@ export const BatchRestoreProofSchema = z.strictObject({kind: z.literal('guides-m
 })
 export type BatchRestoreProof = z.infer<typeof BatchRestoreProofSchema>
 
+export const BatchCopyProofSchema = z.strictObject({kind: z.literal('guides-pr-internal-copy-v1'),
+  path: RepoPathSchema, mode: z.enum(['100644', '100755']), before: GitShaSchema, after: GitShaSchema,
+  commit: GitShaSchema, parent: GitShaSchema, copiedParent: GitShaSchema,
+  origin: GitShaSchema, originParent: GitShaSchema, originBefore: GitShaSchema,
+  base: GitShaSchema, head: GitShaSchema, merge: GitShaSchema, number: BatchCountSchema.min(1),
+  coverage: z.array(z.strictObject({pageId: BatchPageIdSchema, oldNext: GitShaSchema, kind: z.enum(['ordinary-edge', 'at-lock'])}))
+    .min(1).refine(v => ordered(v, entry => entry.pageId)),
+  detailRef: BatchBlobRefSchema, filesRef: BatchBlobRefSchema, associationRef: BatchBlobRefSchema,
+})
+export type BatchCopyProof = z.infer<typeof BatchCopyProofSchema>
+
 export const BatchEdgeSchema = z.strictObject({commit: GitShaSchema, parent: GitShaSchema.nullable(), oldPath: RepoPathSchema.nullable(), newPath: RepoPathSchema.nullable(),
   oldOid: GitShaSchema.nullable(), newOid: GitShaSchema.nullable(), oldMode: z.enum(['100644', '100755']).nullable(), newMode: z.enum(['100644', '100755']).nullable(),
-  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant', 'restored']), introductionOid: GitShaSchema.nullable(),
+  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant', 'restored', 'copied']), introductionOid: GitShaSchema.nullable(),
   seedKey: text.nullable(), evidenceRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), evidence: strings(text), reasons: strings(text),
-  restorationRef: BatchBlobRefSchema.optional(),
-}).refine(edge => (edge.associationResult === 'restored') === (edge.restorationRef !== undefined))
+  restorationRef: BatchBlobRefSchema.optional(), copyRef: BatchBlobRefSchema.optional(),
+}).refine(edge => (edge.associationResult === 'restored') === (edge.restorationRef !== undefined) &&
+  (edge.associationResult === 'copied') === (edge.copyRef !== undefined))
 export type BatchEdge = z.infer<typeof BatchEdgeSchema>
 
 const identity = z.strictObject({pageId: BatchPageIdSchema, manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema})

@@ -159,10 +159,11 @@ async function inventoryFixture(scenario: string) {
   if (scenario === 'api-failed') await stageSecondRoot('old b')
   let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
-  let t: string, topic = '', syncCommit = '', firstRestore = ''
+  let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = ''
   if (sync) {
     source.git('checkout', '-b', 'topic'); await source.change(prPath, 'topic edit')
-    source.git('checkout', 'main'); old = await source.change(sourcePath, 'base version')
+    source.git('checkout', 'main'); syncedBase = await source.change(sourcePath, 'base version')
+    if (scenario !== '3707-copy-origin') old = syncedBase
     source.git('checkout', 'topic'); source.git('merge', '--no-ff', 'main', '-m', 'import base')
     syncCommit = source.git('rev-parse', 'HEAD')
     topic = scenario === '3707-later-edit' ? await source.change(sourcePath, 'later topic edit') : syncCommit
@@ -195,7 +196,9 @@ async function inventoryFixture(scenario: string) {
     const prefix = grouped + 'pages/' + id + '/'
     await put(prefix + 'page.yaml', { schema_version: 1, source: { file: scenario === 'api-failed' && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
     if (id === 'a' && scenario.startsWith('variant-')) await put(prefix + scenario, 'unsupported')
-    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: old, next: id === 'b' && !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old })
+    const next = id === 'b' && scenario === '3707-copy-origin' ? syncedBase : id === 'b' &&
+      !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
+    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: old, next })
   }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'registry'); const m = zdoc.git('rev-parse', 'HEAD')
   const active = ids.map(page => ({ page, record: 'rec-' + page, feishu_token: null, anchors: {}, activated_in: '123' }))
@@ -228,7 +231,7 @@ async function inventoryFixture(scenario: string) {
     if (path === '/repos/zilliztech/zdoc') rounds++
     const branch = path.split('/heads/')[1]
     const pr = { number: sync ? 3707 : 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
-      base: { repo, ref: 'v3.0.x', sha: restore ? unrelated : old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
+      base: { repo, ref: 'v3.0.x', sha: restore ? unrelated : syncedBase || old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
       merge_commit_sha: t, commits: restore ? 2 : 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
     let data: unknown
     if (branch) data = { ref: 'refs/heads/' + branch, object: { type: 'commit', sha: branch === 'master' ? m : branch === 'dev'
@@ -247,7 +250,7 @@ async function inventoryFixture(scenario: string) {
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, syncedBase, rounds: () => rounds }
 }
 
 it('retains both edges of a verified merged-branch edit and revert and rejects edited retained proofs', async () => {
@@ -260,7 +263,10 @@ it('retains both edges of a verified merged-branch edit and revert and rejects e
   expect(restored.every(e => e.restorationRef && e.seedKey === 'pr:5' && e.rangeIds.join(',') === 'a')).toBe(true)
   expect(view.ledger.find(e => e.newPath === 'site/en/owned.md' && e.commit === f.t)?.associationResult).toBe('complete')
   expect(view.report.pages.find(p => p.pageId === 'a')?.intervals[0].association).toBe('complete')
+  await verifyRetainedCertificates(view, 'restored')
+}, 30_000)
 
+async function verifyRetainedCertificates(view: ReturnType<typeof readBatchDiscoveryCapture>, kind: 'copied' | 'restored') {
   const dir = await mkdtemp(join(tmpdir(), 'batch-retained-restore-'))
   roots.push(dir)
   await mkdir(join(dir, 'blobs'))
@@ -272,26 +278,52 @@ import copy, json, os, sys
 import prepare as p
 root = sys.argv[1]
 data = json.load(open(sys.argv[2]))
+kind = sys.argv[3]
 fd, blobs = (os.open(path, os.O_RDONLY) for path in (root, os.path.join(root,'blobs')))
 def verify(ledger):
     reader = p._BatchReader(fd, blobs, {'rootIdentity': p._BatchReader.identity(fd), 'blobsIdentity': p._BatchReader.identity(blobs)})
-    return p._batch_verify_restorations(reader, data['report'], ledger, data['history'])
+    return p._batch_verify_source_edge_proofs(reader, data['report'], ledger, data['history'])
 assert len(verify(data['ledger'])) == 2
 for mutation in ('drop-peer', 'wrong-mode', 'rename', 'wrong-range'):
     ledger = copy.deepcopy(data['ledger'])
-    indexes = [i for i,e in enumerate(ledger) if e['associationResult'] == 'restored']
+    indexes = [i for i,e in enumerate(ledger) if e['associationResult'] == kind]
     row = ledger[indexes[0]]
-    if mutation == 'drop-peer': ledger.pop(indexes[1])
+    if mutation == 'drop-peer':
+        if kind == 'restored': ledger.pop(indexes[1])
+        else:
+            origin = next(edge for edge in ledger if edge['newPath'] == row['newPath'] and edge['associationResult'] == 'complete')
+            ledger.remove(origin)
     if mutation == 'wrong-mode': row['newMode'] = '100755'
     if mutation == 'rename': row['oldPath'] = 'site/en/old-a.md'
     if mutation == 'wrong-range': row['rangeIds'] = []
     try: verify(ledger)
-    except p.Hold as e: assert str(e) == 'BATCH_RESTORE_PROOF_INVALID'
+    except p.Hold as e: assert str(e) == 'BATCH_SOURCE_EDGE_PROOF_INVALID'
     else: raise AssertionError(mutation)
 `
-  expect(() => execFileSync('python3', ['-B', '-c', python, dir, spec], {
+  expect(() => execFileSync('python3', ['-B', '-c', python, dir, spec, kind], {
     cwd: join(process.cwd(), 'scripts/docs-workflow/shared-guides-update'), timeout: 15_000,
   })).not.toThrow()
+}
+
+it('keeps an imported physical edge but assigns only its proven earlier origin to the affected interval', async () => {
+  const f = await inventoryFixture('3707-copy-origin'), options = {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old}
+  const replay = {fixtureBytes: Buffer.from('authored-origin'), replayClockMs: 0}
+  const view = readBatchDiscoveryCapture(await replayBatchDiscovery(options, replay, {transport: f.transport}))
+  const copy = view.ledger.find(row => row.commit === f.syncCommit && row.newPath === f.sourcePath)!
+  expect(copy).toMatchObject({associationResult: 'copied', seedKey: null, introductionOid: null, rangeIds: ['a', 'b']})
+  expect(copy.copyRef).toBeDefined()
+  const a = view.report.pages.find(p => p.pageId === 'a')!, b = view.report.pages.find(p => p.pageId === 'b')!
+  expect(a.seedKeys).toEqual(['commit:' + f.syncedBase])
+  expect(a.intervals[0]).toMatchObject({association: 'complete', commits: [f.syncedBase]})
+  expect(b.seedKeys).toEqual([])
+  expect(b.intervals[0]).toMatchObject({association: 'complete', commits: []})
+  await verifyRetainedCertificates(view, 'copied')
+
+  const missingOrigin: RemoteTransport = async request => request.path.includes('/commits/' + f.syncedBase)
+    ? {status: 503, headers: {}, body: Buffer.from('missing-origin')} : f.transport(request)
+  const blocked = readBatchDiscoveryCapture(await replayBatchDiscovery(options, replay, {transport: missingOrigin}))
+  expect(blocked.ledger.find(row => row.commit === f.syncCommit && row.newPath === f.sourcePath))
+    .toMatchObject({associationResult: 'unknown', seedKey: 'pr:3707'})
 }, 30_000)
 
 it('retains the raw lock-side edge of an ours merge even when its first parent has the target bytes', async () => {
