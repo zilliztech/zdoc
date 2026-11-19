@@ -41,8 +41,10 @@ export function parseBatchGitTree(bytes: Buffer) {
   return entries
 }
 
-/** Both the worker and parent use this exact stopped-history walk. The parent
- * supplies hash-checked history; no caller-provided commit list grants a budget. */
+/** Derive the next-to-target render points and their parents from the given
+ * graph. Acquisition and allocation use hash-checked history. The wire reader
+ * applies the same walk to the declared graph and verifies the raw commit
+ * bindings for the required observations. */
 export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string) {
   const graph = new Map(history.map(commit => [commit.oid, commit.parents]))
   const reachable = (tip: string) => {
@@ -60,5 +62,3 @@ export function batchRenderCommitSet(history: readonly {oid: string; parents: re
   const interval = [...reachable(target)].filter(oid => !excluded.has(oid))
   return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
 }
-
-/** Endpoint observations retain one snapshot per distinct commit concurrently. */

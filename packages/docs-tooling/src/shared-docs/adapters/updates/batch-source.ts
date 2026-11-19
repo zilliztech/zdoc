@@ -5,8 +5,8 @@ import { join } from 'node:path'
 import {currentBatchLifetime} from './evidence'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
-
 import {BatchReadError, BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree, stop, type Commit, type TreeEntry} from './batch-git-object'
+
 export {BatchReadError, batchRenderCommitSet, stop} from './batch-git-object'
 
 export function safeReason(error: unknown, fallback: string) {
@@ -421,6 +421,7 @@ export async function measureBatchExport(repository: string, commit: string, roo
   return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
 }
 
+/** Endpoint observations retain one snapshot per distinct commit concurrently. */
 export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
   const store = await BatchGitStore.open(repository, batchBudget())
   let bytes = 0, count = 0
