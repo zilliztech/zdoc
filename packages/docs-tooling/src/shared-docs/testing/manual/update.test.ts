@@ -190,6 +190,23 @@ it('publishes nothing for paired additions at the candidate build', async () => 
   await expect(readFile(join(applied, 'out', 'node/Extras/Extras-pointer.md'), 'utf8')).rejects.toThrow()
 })
 
+it('fails closed on an inline exclude list instead of appending a duplicate key', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-inline-'), {
+    manual: UPDATE_MANUAL.replace('exclude:\n  - Collections/DataType.md\n', 'exclude: [Collections/DataType.md]\n') })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  expect(code).toBe(2)
+  expect(output).toContain('exclude must be a block list')
+  // The command fails before writing anything: no candidate directory at all.
+  await expect(readdir(out)).rejects.toThrow()
+})
+
 it('carries the paired excludes through promotion', async () => {
   const demo = await createPromotionDemo('manual-promote-paired-')
   // The lane would have paired the next-only pointer page behind an exclude entry; the

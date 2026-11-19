@@ -160,23 +160,32 @@ async function decideManualAdditions({ laneReportPath, sharedDocsPath, repoPath,
     const files = pending.map(file => ({ file, content: readUpstreamHead(repoPath, sourceDir, laneReport.to, file) ?? '' }))
     const missingContent = files.filter(entry => !entry.content).length
     const callable = files.filter(entry => entry.content)
+    if (callable.length === 0) {
+        // Nothing readable to ground proposals on: degrade up front instead of calling
+        // the gateway with empty page blocks and reporting a misleading reason.
+        const summary = { pending: pending.length, proposed: 0, rejectedLines: 0, missingContent,
+            degraded: true, reason: 'no readable upstream content for any pending page (see the lane log)' }
+        writeReport(summary)
+        console.log(`degraded: ${summary.reason} -> ${outPath}`)
+        return { summary, batches: [] }
+    }
     const batches = []
     const accepted = []
-    const rejected = []
     const seen = new Set()
-    let lastError = null
     for (let start = 0; start < callable.length; start += MAX_FILES_PER_CALL) {
         const batch = callable.slice(start, start + MAX_FILES_PER_CALL)
         const batchFiles = new Set(batch.map(entry => entry.file))
         let attempts = 0
         let proposals = null
+        let batchRejected = []
+        let batchError = null
         while (attempts < retries) {
             attempts += 1
             let content
             try {
                 content = await callModel({ files: batch, baseUrl, apiKey, model, timeoutMs, fetchImpl, metadataExample: laneReport.metadataExample })
             } catch (error) {
-                lastError = `call failed: ${error.message}`
+                batchError = `call failed: ${error.message}`
                 continue
             }
             let parsed
@@ -184,15 +193,15 @@ async function decideManualAdditions({ laneReportPath, sharedDocsPath, repoPath,
                 parsed = parseModelContent(content)
                 if (!parsed || !Array.isArray(parsed.proposals)) throw new Error('response has no proposals array')
             } catch (error) {
-                lastError = error.message
+                batchError = error.message
                 continue
             }
+            batchRejected = []
             proposals = []
-            rejected.length = 0
             for (const line of parsed.proposals) {
                 const verdict = acceptProposalLine(line, batchFiles, context, sourceDir, laneReport.manual)
-                if (verdict.rejected) rejected.push({ line, reason: verdict.rejected })
-                else if (seen.has(verdict.proposal.file)) rejected.push({ line, reason: 'duplicate file in one response' })
+                if (verdict.rejected) batchRejected.push({ line, reason: verdict.rejected })
+                else if (seen.has(verdict.proposal.file)) batchRejected.push({ line, reason: 'duplicate file in one response' })
                 else { seen.add(verdict.proposal.file); proposals.push(verdict.proposal) }
             }
             break
@@ -200,14 +209,15 @@ async function decideManualAdditions({ laneReportPath, sharedDocsPath, repoPath,
         if (proposals === null) {
             // Advisory: exhausted retries degrade this batch; the missing files keep their
             // ledger entries and the human checklist stays the decision surface.
-            batches.push({ files: batch.length, proposed: 0, attempts, rejected: [], degraded: true, reason: lastError })
+            batches.push({ files: batch.length, proposed: 0, attempts, rejected: [], degraded: true, reason: batchError })
             continue
         }
         accepted.push(...proposals)
-        batches.push({ files: batch.length, proposed: proposals.length, attempts, rejected })
+        batches.push({ files: batch.length, proposed: proposals.length, attempts, rejected: batchRejected })
     }
-    const summary = { pending: pending.length, proposed: accepted.length, rejectedLines: rejected.length,
-        missingContent, degraded: accepted.length === 0, reason: accepted.length === 0 ? (lastError ?? 'no proposal accepted') : undefined }
+    const rejectedLines = batches.reduce((total, batch) => total + batch.rejected.length, 0)
+    const summary = { pending: pending.length, proposed: accepted.length, rejectedLines,
+        missingContent, degraded: accepted.length === 0, reason: accepted.length === 0 ? 'no proposal accepted' : undefined }
     if (accepted.length > 0) {
         fs.mkdirSync(path.dirname(path.resolve(outPath)), { recursive: true })
         fs.writeFileSync(outPath, `${accepted.map(proposal => JSON.stringify(proposal)).join('\n')}\n`)

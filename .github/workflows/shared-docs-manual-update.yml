@@ -184,11 +184,13 @@ jobs:
           pnpm docs-tooling shared-docs "$MODE" --shared-docs "shared-docs/$GROUP" --repo "$RUNNER_TEMP/upstream/$GROUP" \
             --dev .shared-docs-dev --out "$out" > "$log" 2>&1 || status=$?
           cat "$log"
-          if [ "$status" != 0 ]; then
+          # The output directory is always emitted, so a blocked run keeps its report
+          # for the classify step, the blocked-surface report and the run artifact.
+          printf '%s\n' "candidate_out=$out" >> "$GITHUB_OUTPUT"
+          if [ "$status" != 0 ] && [ "$status" != 3 ]; then
             echo "::error::shared-docs $MODE failed with exit $status; the candidate output is retained as the run artifact."
             exit "$status"
           fi
-          printf '%s\n' "candidate_out=$out" >> "$GITHUB_OUTPUT"
 
       - name: Classify the lane result
         id: classify
@@ -384,6 +386,10 @@ jobs:
                 echo "> **Advisory stage degraded** (reason: $(jq -r '.summary.reason // "unavailable"' "$CANDIDATE_OUT/decide-report.json")): no proposals were drafted, so every pending page reviews with no model guidance. Human review is the only decision surface for this candidate."
               else
                 echo "Advisory proposals: ${proposed}/${pending} drafted by \`${model}\`; see the \`proposal\` fields in \`ledger.json\` and the decide report in the run artifact."
+              fi
+              missing=$(jq -r '.summary.missingContent // 0' "$CANDIDATE_OUT/decide-report.json")
+              if [ "$missing" != 0 ]; then
+                echo "> **${missing} pending page(s) had no readable upstream content head** and were never sent to the advisory stage; they review with no model guidance (listed in the decide report artifact)."
               fi
               echo ''
             fi

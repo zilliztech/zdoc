@@ -64,6 +64,8 @@ const isExcludedLogical = (exclude: readonly string[] | undefined, logical: stri
  * be a block list; anything else (inline flow value, duplicate key from a misfire) fails the
  * parse guard after the splice rather than corrupting the group file. */
 export function appendExclusions(manualYaml: string, files: readonly string[]): string {
+  const inline = manualYaml.match(/^exclude:[ \t]+\S.*$/m)
+  if (inline) fail(`exclude must be a block list so pairing entries can be appended; rewrite the inline value (${inline[0].trim()}) as a block list first`)
   const lines = manualYaml.split('\n')
   const keyAt = lines.findIndex(line => /^exclude:\s*$/.test(line))
   if (keyAt < 0) {
@@ -164,7 +166,7 @@ export async function manualUpdate(options: ManualUpdateOptions, write: (text: s
         fail('The exclude-paired candidate manual.yaml does not parse; refusing to stage it')
       }
       let ledgerText: string | undefined
-      try { ledgerText = await readFile(join(options.sharedDocs, 'ledger.json'), 'utf8') } catch { ledgerText = undefined }
+      try { ledgerText = await readFile(join(resolve(repositoryRoot, options.sharedDocs), 'ledger.json'), 'utf8') } catch { ledgerText = undefined }
       const existing = parseManualLedger(ledgerText)
       if ('errors' in existing) {
         for (const error of existing.errors) write(`${error.file}:${error.page ? ` ${error.page}` : ''} ${error.code}: ${error.message}\n`)

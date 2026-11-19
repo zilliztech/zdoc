@@ -178,13 +178,15 @@ test('mergeProposals fills deferred proposals only and skips invalid lines', asy
         const proposalsPath = path.join(root, 'proposals.jsonl')
         await writeFile(proposalsPath, [
             JSON.stringify({ file: 'Extras/pointer.md', action: 'adopt', reason: 'public API', metadata_draft: { description: 'Adds a pointer.' } }),
-            JSON.stringify({ file: 'Client/session.md', action: 'adopt', reason: 'already decided by a human' }),
+            JSON.stringify({ file: 'Client/session.md', action: 'adopt', reason: 'already decided by a human', metadata_draft: { description: 'x' } }),
             JSON.stringify({ file: 'Extras/pointer.md', action: 'explode', reason: 'invalid action' }),
+            JSON.stringify({ file: 'Extras/pointer.md', action: 'adopt', reason: 'undrafted adopt' }),
         ].join('\n'))
         const summary = await mergeProposals({ ledgerPath, proposalsPath, sharedDocsPath: sharedDocs, outPath: ledgerPath })
         assert.equal(summary.merged, 1)
         assert.equal(summary.unmatched, 0)
         assert.equal(summary.rejected, 1)
+        assert.equal(summary.skipped, 2)
         const merged = JSON.parse(await readFile(ledgerPath, 'utf8'))
         assert.equal(merged.entries[0].proposal.metadata_draft.description, 'Adds a pointer.')
         assert.equal(merged.entries[0].classification, 'deferred')

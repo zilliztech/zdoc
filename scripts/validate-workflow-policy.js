@@ -508,6 +508,10 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
       !candidate.includes('--dev .shared-docs-dev --out "$out"')) {
     fail('the lane must run the dual-layout update/promote command against the audited clone')
   }
+  if (!candidate.includes('printf \'%s\\n\' "candidate_out=$out" >> "$GITHUB_OUTPUT"') ||
+      !candidate.includes('[ "$status" != 0 ] && [ "$status" != 3 ]')) {
+    fail('the candidate step must always emit the output directory and pass the blocked exit code through to classify')
+  }
   const classify = run('lane', 'Classify the lane result')
   if (!classify.includes("jq -e '.blocked == true'") || !classify.includes("echo 'result=blocked'") ||
       !classify.includes("echo 'result=up-to-date'") || !classify.includes("echo 'result=candidate'")) {

@@ -46,6 +46,7 @@ async function mergeProposals({ ledgerPath, proposalsPath, sharedDocsPath, outPa
         if (typeof proposal.file !== 'string' || !proposal.file.trim()) return { file: '(unreadable)', skipped: true, reason: 'file must be a nonempty string' }
         if (!ACTIONS.includes(proposal.action)) return { file: proposal.file, skipped: true, reason: `action must be one of ${ACTIONS.join(', ')}` }
         if (typeof proposal.reason !== 'string' || !proposal.reason.trim()) return { file: proposal.file, skipped: true, reason: 'reason must be a nonempty string' }
+        if (proposal.action === 'adopt' && proposal.metadata_draft === undefined) return { file: proposal.file, skipped: true, reason: 'adopt proposals must carry a metadata draft' }
         if (proposal.metadata_draft !== undefined) {
             const draftError = validateMetadataDraft(proposal.file, proposal.metadata_draft, context, sourceDir, manual)
             if (draftError) return { file: proposal.file, skipped: true, reason: draftError }
@@ -53,11 +54,14 @@ async function mergeProposals({ ledgerPath, proposalsPath, sharedDocsPath, outPa
         return proposal
     })
 
+    const skipped = proposals.filter(proposal => proposal.skipped)
     const result = attachProposals(existing.ledger, proposals.filter(proposal => !proposal.skipped))
     fs.mkdirSync(path.dirname(path.resolve(outPath)), { recursive: true })
     fs.writeFileSync(outPath, `${JSON.stringify(result.ledger, null, 2)}\n`)
-    const summary = { merged: result.merged.length, unmatched: result.unmatched.length, rejected: result.rejected.length }
-    console.log(`merged ${summary.merged} proposal(s) into the candidate ledger; ${summary.unmatched} unmatched; ${summary.rejected} rejected -> ${outPath}`)
+    const summary = { merged: result.merged.length, unmatched: result.unmatched.length,
+        rejected: result.rejected.length, skipped: skipped.length,
+        skippedReasons: skipped.map(item => ({ file: item.file, reason: item.reason })) }
+    console.log(`merged ${summary.merged} proposal(s) into the candidate ledger; ${summary.unmatched} unmatched; ${summary.rejected} rejected; ${summary.skipped} skipped -> ${outPath}`)
     return summary
 }
 

@@ -3535,6 +3535,7 @@ test('shared-docs manual update lane policy rejects trigger, permission, gate an
     [objectMutation(w => { step(w, 'lane', 'Check out read-only upstream dev snapshot').with.repository = '${{ github.repository }}' }), 'read-only and sparse'],
     [objectMutation(w => { step(w, 'lane', 'Check out read-only upstream dev snapshot').with['sparse-checkout'] = '/' }), 'read-only and sparse'],
     [source => source.replace('--dev .shared-docs-dev --out "$out"', '--out "$out"'), 'dual-layout update/promote command'],
+    [source => source.replace('[ "$status" != 0 ] && [ "$status" != 3 ]', '[ "$status" != 0 ]'), 'pass the blocked exit code through to classify'],
     [source => source.replace('grep -Eq "^next: [0-9a-f]{40}$"', 'true'), 'authenticate the lock identity'],
     [source => source.replace('grep -Eq "^current: [0-9a-f]{40}$"', 'true'), 'authenticate the lock identity'],
     [source => source.replace('git add -- ', 'git add -A # '), 'stage explicit paths'],
