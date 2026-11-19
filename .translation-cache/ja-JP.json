@@ -6106,9 +6106,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md": {
-      "sourceHash": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1",
+      "sourceHash": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-19T19:42:41.058Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md": {
       "sourceHash": "80e951320c87272b082cd9bf85d96c39a826637b012a739a5dc95bee3fdc6838",

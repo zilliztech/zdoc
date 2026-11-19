@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての privilege group を一覧表示します。 | Node.js"
+description: "この操作では、すべての特権グループを一覧表示します。 | Node.js"
 type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 19
 keywords: 
-  - 動画重複排除
-  - 動画類似検索
+  - 動画の重複排除
+  - 動画の類似検索
   - ベクトル検索
-  - 音声類似検索
+  - 音声の類似検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listPrivilegeGroups()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -27,13 +27,13 @@ displayed_sidebar: nodeSidebar
 
 # listPrivilegeGroups()
 
-この操作はすべての privilege group を一覧表示します。
+この操作では、すべての特権グループを一覧表示します。
 
 ```javascript
 await milvusClient.listPrivilegeGroups(data?)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
  milvusClient.listPrivilegeGroups({
@@ -45,15 +45,15 @@ await milvusClient.listPrivilegeGroups(data?)
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、応答が到着するかエラーが発生したときに、この操作がタイムアウトすることを示します。
 
 **戻り値:**
 
 *Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
-このメソッドは、**ListPrivilegeGroupsResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**ListPrivilegeGroupsResponse** オブジェクトに解決される Promise を返します。
 
 ```javascript
 {
@@ -66,40 +66,41 @@ await milvusClient.listPrivilegeGroups(data?)
 
 - **privilege_groups** (*PrivelegeGroup[]*) -
 
-現在の Milvus インスタンスで定義されている privilege group のリストです。
+現在の Milvus インスタンスで定義されている特権グループのリストです。
 
     - **group_name** (*string*) -
 
-        privilege group の名前。
+        特権グループの名前です。
 
-    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -
+    - **privileges** (*PrivilegeEntity[]*) -
 
-        グループに含まれる権限。
+        グループに含まれる特権です。
 
 - **ResStatus**
-**ResStatus** オブジェクト。
+**ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合、空の文字列のままです。
 
 
 **例外:**
 
 - **Error**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中にエラーが発生すると、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 await milvusClient.listPrivilegeGroups();
 ```
+
