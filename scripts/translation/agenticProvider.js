@@ -53,12 +53,15 @@ const MAX_FAILURE_ERROR_LENGTH = 2000
 // zh/ja text is byte-identical to the English, so "the agent changed nothing"
 // is not automatically a failure. The seeded prompt states the identity
 // rule and this marker; the provider only trusts the marker after the same
-// deterministic gate any translated draft must pass. An unchanged draft
-// WITHOUT the marker still fails hard, so a lazy no-op cannot slip prose
-// through — the residual risk is a degraded model invoking the marker on
-// translatable prose, which the two independent locale runs and the
-// deterministic gate bound but do not eliminate.
+// deterministic gate any translated draft must pass. Matching is line-anchored
+// so a reply that merely quotes the rule inside running prose does not
+// qualify. An unchanged draft WITHOUT the marker still fails hard, so a lazy
+// no-op cannot slip prose through — the residual risk is a degraded model
+// claiming the marker on translatable prose, which the two independent
+// locale runs and the deterministic gate bound but do not eliminate; the
+// unchanged-drafts summary counter keeps that route observable.
 const NO_TRANSLATION_NEEDED_MARKER = 'NO_TRANSLATION_NEEDED'
+const NO_TRANSLATION_NEEDED_LINE = new RegExp('^\\s*NO_TRANSLATION_NEEDED\\s*$', 'm')
 
 // Reasoning efforts accepted by both codex and the DeepSeek native API
 // (responses gateways translate the Responses `reasoning` object into
@@ -427,7 +430,7 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
     const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
     let outcome
     if (seededDraftBytes !== null && fs.readFileSync(draftPath, 'utf8') === seededDraftBytes) {
-      if (!String(reply || '').includes(NO_TRANSLATION_NEEDED_MARKER)) {
+      if (!NO_TRANSLATION_NEEDED_LINE.test(String(reply || ''))) {
         throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
       }
       // The agent claims every pending unit is an identity translation; hold
@@ -575,7 +578,8 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
   const agentFiles = results.filter(result => Array.isArray(result?.attempts) && result.attempts.some(attempt => attempt === 'translate' || String(attempt).startsWith('repair'))).length
   const repairTurns = results.reduce((total, result) => total + (Array.isArray(result?.attempts) ? result.attempts.filter(attempt => String(attempt).startsWith('repair')).length : 0), 0)
   const sourcePreflightFailed = results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
-  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed}`)
+  const unchangedDrafts = results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
+  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} unchanged-drafts=${unchangedDrafts} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed}`)
   if (usageTracker) {
     const usage = usageTracker.snapshot()
     log.log(`[agentic-provider] tokens turns=${usage.turns} input=${usage.inputTokens} cached=${usage.cachedInputTokens} cache-write=${usage.cacheWriteInputTokens} output=${usage.outputTokens} reasoning=${usage.reasoningOutputTokens}`)
@@ -765,6 +769,7 @@ async function main() {
   const seededFull = report.results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
   const verifiedCurrent = report.results.filter(result => result?.status === 'translated' && Array.isArray(result.attempts) && result.attempts.length === 1 && result.attempts[0] === 'verified-current').length
   const sourcePreflightFailed = report.results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
+  const unchangedDrafts = report.results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
@@ -779,7 +784,7 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
       '### Agentic translation cost', '',
-      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
+      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; unchanged drafts accepted: ${unchangedDrafts}; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
       `- Agent turns: ${usage.turns} (cached input: ${Math.round(usage.cachedInputTokens / 1000)}K tokens)`,
       `- Input tokens: **${usage.inputTokens.toLocaleString('en-US')}**`,
       `- Output tokens: **${usage.outputTokens.toLocaleString('en-US')}** (reasoning: ${usage.reasoningOutputTokens.toLocaleString('en-US')})`,
