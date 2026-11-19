@@ -446,7 +446,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const request = contract.BatchRenderRequestSchema.parse(data)
   if (replay && request.origin.kind !== 'replay') throw Error('BATCH_REPLAY_ORIGIN_REQUIRED')
   const repositoryRoot = replay?.repositoryRoot ?? (request.origin.kind === 'replay' ? request.devRepository : toolingRoot)
-  const {collectHistoricalCandidate, readReportConfiguration} = await import('./candidate')
+  const {createHistoricalCandidateCollector, readReportConfiguration} = await import('./candidate')
   const {observeGuidesPage} = await import('./runner')
   const {createHistoricalMdxFinalizer} = await import('../mdx')
   const {createHistoricalFragmentReader} = await import('../git-milvus-docs-reader')
@@ -613,12 +613,13 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     let historicalInventory: {commit: string; paths: ReadonlyMap<string, string>} | undefined
     const historicalLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) =>
       historicalInventory?.commit === commit ? historicalInventory.paths.get(path) : undefined)
+    const collectHistoricalCandidate = createHistoricalCandidateCollector({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
+      configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
       const sourceEntries = await sourceInventory(commit)
       historicalInventory = {commit, paths: new Map(sourceEntries.map(entry => [entry.path, entry.oid]))}
-      const o = await collectHistoricalCandidate({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
-        target: commit, configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
+      const o = await collectHistoricalCandidate(commit)
       historicalInventory = undefined
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
