@@ -58,6 +58,12 @@ function jaFixture() {
 const EN_SOURCE = `---\ntitle: Limits\nslug: /limits\n---\n\n# Limits\n\nThe collection limits apply per cluster. See [docs](./other).\n`;
 const JA_CLEAN = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\nコレクションの制限はクラスターごとに適用されます。[docs](./other) を参照してください。\n`;
 const JA_TRANSLATED_LINK = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\nコレクションの制限はクラスターごとに適用されます。[ドキュメント](./その他) を参照してください。\n`;
+// Identity-translation fixture mirroring the production loop on
+// Authentication-listPrivilegeGroups: the pending paragraph is a pure
+// identifier list row whose correct ja text is the English itself, while the
+// title and heading do carry real translations.
+const EN_IDENTITY_SOURCE = `---\ntitle: Limits\nslug: /limits\n---\n\n# Limits\n\n- **privileges** (*PrivilegeEntity[]*) -\n`;
+const JA_IDENTITY_PUBLISHED = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\n- **privileges** (*PrivilegeEntity[]*) -\n`;
 
 test('stylePromptPathFor resolves per target without hardcoding ja', () => {
   assert.equal(stylePromptPathFor('ja-JP'), 'codex-style-guide.ja-JP.md');
@@ -605,7 +611,7 @@ test('mergeTranslatedResultsIntoProgressState updates the Chinese Reference mani
 const {createHash} = require('node:crypto');
 const {loadLocaleContract} = require('./localeContract');
 const {collectCurrentUnits, pairOldSourceWithTarget} = require('./semanticSeeds');
-const {resolveSeededDraft} = require('./agenticProvider');
+const {NO_TRANSLATION_NEEDED_MARKER, resolveSeededDraft} = require('./agenticProvider');
 
 function unitHash(text) {
   return createHash('sha256').update(text).digest('hex');
@@ -697,6 +703,98 @@ test('runAgenticFile rejects a turn that leaves the seeded draft unchanged', asy
       seedReport: buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'}),
     }).catch(error => ({error: String(error.message)}));
     assert.match(result.error, /left the seeded draft .* unchanged/);
+  });
+});
+
+test('runAgenticFile accepts an unchanged seeded draft when the agent reports no translation needed', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_IDENTITY_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_IDENTITY_SOURCE, published: JA_IDENTITY_PUBLISHED, keep: unit => unit.kind !== 'paragraph'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    assert.equal(seeded.pendingUnits.length, 1);
+    assert.match(seeded.pendingUnits[0].source, /\*\*privileges\*\*/);
+    const prompts = [];
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({prompt, workingDirectory}) => {
+        prompts.push(prompt);
+        // The pending unit is the identifier-only privileges row; the agent
+        // correctly leaves the draft byte-identical and claims the marker on
+        // its own reply line.
+        writeAgentDraft(workingDirectory, seeded.draft);
+        return `Checked the pending unit: nothing to translate.\n${NO_TRANSLATION_NEEDED_MARKER}`;
+      },
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.equal(result.unchangedDraftAccepted, true);
+    assert.deepEqual(result.attempts, ['translate']);
+    assert.ok(result.semanticSeedUnits >= 1);
+    assert.ok(isConsistentSuccessfulReview(result.review));
+    assert.deepEqual(result.validationErrors, []);
+    // The prompt must state the identity rule and the exact marker.
+    assert.match(prompts[0], /Identity-translation rule/);
+    assert.match(prompts[0], new RegExp(NO_TRANSLATION_NEEDED_MARKER));
+    // The published draft is the untouched seeded draft: reused translations
+    // in place, the pending identifier row still byte-identical English.
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, seeded.draft.endsWith('\n') ? seeded.draft : `${seeded.draft}\n`);
+    assert.match(draft, /title: 制限/);
+    assert.match(draft, /\*\*privileges\*\*/);
+  });
+});
+
+test('a reply that only quotes the marker inside prose still fails an unchanged draft', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_IDENTITY_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_IDENTITY_SOURCE, published: JA_IDENTITY_PUBLISHED, keep: unit => unit.kind !== 'paragraph'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({workingDirectory}) => {
+        writeAgentDraft(workingDirectory, seeded.draft);
+        return 'I reviewed the pending unit and considered the identity rule (NO_TRANSLATION_NEEDED), but left the draft as it was.';
+      },
+      seedReport,
+    }).catch(error => ({error: String(error.message)}));
+    assert.match(result.error, /left the seeded draft .* unchanged/);
+  });
+});
+
+test('an unchanged seeded draft with the marker still goes through repair when the gate fails', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_IDENTITY_SOURCE);
+    // Leave both the heading and the identifier row pending so the repair
+    // turn's draft (JA_IDENTITY_PUBLISHED) differs from the seeded draft.
+    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_IDENTITY_SOURCE, published: JA_IDENTITY_PUBLISHED, keep: unit => unit.kind !== 'paragraph' && unit.kind !== 'heading'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const prompts = [];
+    let outcomeCalls = 0;
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({phase, workingDirectory}) => {
+        prompts.push(phase);
+        // First turn leaves the draft unchanged; the repair turn translates.
+        writeAgentDraft(workingDirectory, prompts.length === 1 ? seeded.draft : JA_IDENTITY_PUBLISHED);
+        return prompts.length === 1 ? NO_TRANSLATION_NEEDED_MARKER : 'DONE';
+      },
+      // The stubbed validator passes the source preflight, fails the first
+      // unchanged-draft outcome, and passes after the repair turn.
+      validate: async content => {
+        if (content === EN_IDENTITY_SOURCE) return [];
+        outcomeCalls += 1;
+        return outcomeCalls === 1 ? ['synthetic gate violation'] : [];
+      },
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.equal(result.unchangedDraftAccepted, undefined);
+    assert.deepEqual(result.attempts, ['translate', 'repair1']);
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, JA_IDENTITY_PUBLISHED);
   });
 });
 
@@ -822,7 +920,7 @@ test('runAgenticTranslation logs a batch overview and a cost summary with token 
     assert.match(batchLine, /english=\d+KB/);
     assert.ok(lines.findIndex(line => line.includes('[agentic-provider] batch ')) < lines.findIndex(line => line.includes('turn translate')));
     const summaryLine = lines.find(line => line.includes('[agentic-provider] summary '));
-    assert.match(summaryLine, /translated=2 failed=0 seeded-full=0 verified-current=0 agent-files=2 repair-turns=0/);
+    assert.match(summaryLine, /translated=2 failed=0 seeded-full=0 verified-current=0 unchanged-drafts=0 agent-files=2 repair-turns=0/);
     const tokenLine = lines.find(line => line.includes('[agentic-provider] tokens '));
     assert.match(tokenLine, /turns=2 input=9000 cached=1000 cache-write=0 output=800 reasoning=0/);
   });
@@ -866,7 +964,7 @@ test('runAgenticTranslation counts fully seeded files and recovery reuse in the 
     assert.equal(report.checkpoint.translated, 2);
     assert.equal(report.checkpoint.failed, 0);
     const summaryLine = lines.find(line => line.includes('[agentic-provider] summary '));
-    assert.match(summaryLine, /translated=2 failed=0 seeded-full=1 verified-current=0 agent-files=0 repair-turns=0/);
+    assert.match(summaryLine, /translated=2 failed=0 seeded-full=1 verified-current=0 unchanged-drafts=0 agent-files=0 repair-turns=0/);
     const batchLine = lines.find(line => line.includes('[agentic-provider] batch '));
     assert.match(batchLine, /restored=1 /);
     assert.match(batchLine, /model-files=1 /);
