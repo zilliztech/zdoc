@@ -19,15 +19,29 @@ it('rewrites used reference definitions exactly once, including collapsed and sh
     images: new Map([['image.png', { bytes: new Uint8Array(), sha256: 'a'.repeat(64) }]]) }))
   expect(result).toHaveProperty('markdown', markdown.replace('<boolean.md>', '<./filtering-overview>').replace('[pic]: image.png', `[pic]: shared/${'a'.repeat(64)}.png`))
 })
-it('excludes code, comments, front matter and language switches without hiding ordinary anchors', () => {
+it('excludes fenced code, comments, front matter and language switches without hiding ordinary anchors', () => {
   const markdown = ['---', 'description: "[metadata](missing.md)"', '---',
     '`[inline](missing.md)`', '```md', '[fence](missing.md)', '```', '',
     '    [indented](missing.md)', '', '<!-- [comment](missing.md) -->',
     '<pre><a href="missing.md">code</a></pre>', '<code>[code](missing.md)</code>',
-    '<div class="other multipleCode"><div><a href="#python">Py</a></div></div>',
+    '<div class="other multipleCode"><div><a href="#py">Py</a></div></div>',
     '[real](#python)', '<a href="boolean.md">real</a>',
     '- list', '', '    ```md', '    [nested](missing.md)', '    ```'].join('\n')
-  expect(collectReferences(markdown).links.map(ref => ref.url)).toEqual(['#python', 'boolean.md'])
+  // Indented markdown stays live: the site compiles MDX, which has no indented
+  // code, so the indented link renders and must be collected like any other.
+  expect(collectReferences(markdown).links.map(ref => ref.url)).toEqual(['missing.md', '#python', 'boolean.md'])
+})
+it('collects links inside indented nested-list continuations the renderer keeps live', () => {
+  // markdown-it classifies this shape as an indented code block after the
+  // blank-separated paragraph, while the MDX compile keeps it a nested list
+  // (upstream listPrivilegeGroups carried an excluded-page link here that the
+  // strip silently missed).
+  const markdown = '- **privilege_groups** (*[PrivelegeGroup](PrivelegeGroup.md)[]*) -\n\n' +
+    'A list of privilege groups defined in the current Milvus instance.\n\n' +
+    '    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -\n'
+  const refs = collectReferences(markdown).links
+  expect(refs.map(ref => ref.url)).toEqual(['PrivelegeGroup.md', 'PrivilegeEntity.md'])
+  expect(refs.every(ref => ref.full && ref.text)).toBe(true)
 })
 it('decodes HTML entities and preserves escaped Markdown destination offsets', () => {
   const markdown = '[escaped](file\\(one\\).md) <a href="https://example.test/?a=1&amp;b=2">site</a>'

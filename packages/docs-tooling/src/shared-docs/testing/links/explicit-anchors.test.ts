@@ -28,7 +28,9 @@ it('ignores apparent anchors in metadata, code, comments, escaped HTML and attri
     '<a title=\'id="Attribute"\' data-id="Data" id="Real"></a>',
     '<NextChannel id="Component">', '</NextChannel>', '<A id="UppercaseComponent"></A>',
   ].join('\n')
-  expect(collectExplicitAnchors(markdown).map(anchor => anchor.id)).toEqual(['Real'])
+  // Indented content stays live under MDX (no indented code), so its anchor
+  // is collected alongside the real one.
+  expect(collectExplicitAnchors(markdown).map(anchor => anchor.id)).toEqual(['Indented', 'Real'])
 })
 it('decodes static HTML IDs and encodes their URL fragments', () => {
   const markdown = '<a id="Notes&amp;Tips"></a>\n\n[notes](#Notes%26Tips)'
