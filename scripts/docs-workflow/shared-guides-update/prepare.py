@@ -1015,7 +1015,8 @@ def _batch_material(reader, retained, base):
         require(oid(commit['oid']) and len(set(commit['parents'])) == len(commit['parents']) and all(oid(v) for v in commit['parents']), 'BATCH_HISTORY_INVALID')
         parents[commit['oid']] = commit['parents']
     git_inventory = _BatchGitInventory(reader, reader.object(history['inventoryProofRef'], 'trees discovery'), parents) if compact else None
-    inventories, consumed = {}, {config['sourceFile']}
+    inventories = {}
+    consumed = {config['sourceFile']} if config['sourceFile'].startswith('site/en/') else set()
 
     def inventory(ref, commit):
         if git_inventory:

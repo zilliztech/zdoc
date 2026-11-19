@@ -344,7 +344,7 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   }
   const trees = header.rawMaterialRefs.map(r => object(r.ref, BatchRawTreeSchema))
   const inventories = header.inventoryRefs.map(r => inventoryAt(r.ref))
-  const consumed = new Set([config.sourceFile])
+  const consumed = new Set([config.sourceFile].filter(path => path.startsWith('site/en/')))
   for (const [i, tree] of trees.entries()) {
     const inventory = inventories[i]
     if (tree.commit !== header.rawMaterialRefs[i].commit || inventory.commit !== tree.commit) throw Error('BATCH_MATERIAL_IDENTITY_INVALID')

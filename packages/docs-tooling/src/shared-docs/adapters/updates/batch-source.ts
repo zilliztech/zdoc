@@ -83,6 +83,11 @@ export class BatchHistory {
     return [...this.ancestors(to, this.ancestors(from))]
   }
   records() {return [...this.commits].map(([oid, value]) => ({oid, parents: [...value.parents]})).sort((a, b) => a.oid < b.oid ? -1 : a.oid > b.oid ? 1 : 0)}
+  recordsUntil(tip: string, stopAt: string) {
+    const ids = this.ancestors(tip, new Set([stopAt]))
+    ids.add(stopAt)
+    return [...ids].sort().map(oid => ({oid, parents: [...this.parents(oid)]}))
+  }
   /** Additional merge edges needed to connect the lock to the target along an authenticated path.
    * Prefer first parents. The caller separately inspects every range member's first-parent delta. */
   lockSideParents(from: string, to: string, members: Set<string>) {

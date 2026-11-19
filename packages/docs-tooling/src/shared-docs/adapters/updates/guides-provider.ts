@@ -509,7 +509,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const inventoryTrees = new Map<string, BlobRef>()
     const discovery = new Map<string, ReturnType<typeof milvusPageMetadata> | null>()
     const inventoryDescriptors = new Map<string, {treeOid: string; commitRef: BlobRef}>()
-    const consumedPaths = new Set([configured.sourceFile])
+    const consumedPaths = new Set([configured.sourceFile].filter(path => path.startsWith('site/en/')))
     async function sourceInventory(commit: string) {
       const snapshot = await sourceProof.sourceInventory(commit, (oid, bytes) => {
         if (!inventoryTrees.has(oid)) inventoryTrees.set(oid, retain(bytes))
@@ -598,7 +598,10 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       const {detail, ...rest} = error
       return detail === undefined ? rest : {...rest, detail: new TextDecoder().decode(canonicalBytes(detail))}
     }
-    const commitHistory = await reads.history(request.sourceRepository, request.pins.source, [configured.current])
+    // Read and hash commits in bounded Git batches. Keep the exact stopped history
+    // used by the page's render planner, including the boundary commit's parents.
+    const sourceHistory = await sourceProof.history(request.pins.source)
+    const commitHistory = sourceHistory.recordsUntil(request.pins.source, configured.current)
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
     const intervalObservations = []
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
