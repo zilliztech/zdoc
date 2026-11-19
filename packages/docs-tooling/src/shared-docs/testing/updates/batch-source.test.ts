@@ -148,9 +148,9 @@ async function inventoryFixture(scenario: string) {
   const fragment = 'site/en/fragments/shared.md'
   // #3707's topic merge 37f5505d imported primary-field.md from v3.0.x. Its PR files
   // include prepare-source-data.md, while primary-field.md has identical lock/target bytes.
-  const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock'
+  const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock', restore = scenario === 'merged-restoration'
   const sourcePath = sync ? 'site/en/userGuide/schema/primary-field.md' : 'site/en/a.md'
-  const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : sourcePath
+  const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : restore ? 'site/en/owned.md' : sourcePath
   async function stageSecondRoot(bytes: string) {
     await mkdir(join(source.root, 'site/en'), { recursive: true })
     await writeFile(join(source.root, 'site/en/b.md'), bytes)
@@ -159,7 +159,7 @@ async function inventoryFixture(scenario: string) {
   if (scenario === 'api-failed') await stageSecondRoot('old b')
   let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
-  let t: string, topic = '', syncCommit = ''
+  let t: string, topic = '', syncCommit = '', firstRestore = ''
   if (sync) {
     source.git('checkout', '-b', 'topic'); await source.change(prPath, 'topic edit')
     source.git('checkout', 'main'); old = await source.change(sourcePath, 'base version')
@@ -167,6 +167,14 @@ async function inventoryFixture(scenario: string) {
     syncCommit = source.git('rev-parse', 'HEAD')
     topic = scenario === '3707-later-edit' ? await source.change(sourcePath, 'later topic edit') : syncCommit
     source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'merge topic')
+    t = source.git('rev-parse', 'HEAD')
+  } else if (restore) {
+    source.git('checkout', '-b', 'topic', old)
+    await writeFile(join(source.root, prPath), 'A genuine PR change.\n')
+    source.git('add', prPath)
+    firstRestore = await source.change(sourcePath, 'An intermediate change.\n')
+    topic = await source.change(sourcePath, 'hello\n')
+    source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'Merge an edit and revert')
     t = source.git('rev-parse', 'HEAD')
   } else if (secondParent) {
     source.git('checkout', '-b', 'side'); old = await source.change(sourcePath, 'lock version')
@@ -220,13 +228,15 @@ async function inventoryFixture(scenario: string) {
     if (path === '/repos/zilliztech/zdoc') rounds++
     const branch = path.split('/heads/')[1]
     const pr = { number: sync ? 3707 : 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
-      base: { repo, ref: 'v3.0.x', sha: old }, head: { repo: null, sha: topic || 'f'.repeat(40) }, merge_commit_sha: t, commits: 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
+      base: { repo, ref: 'v3.0.x', sha: restore ? unrelated : old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
+      merge_commit_sha: t, commits: restore ? 2 : 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
     let data: unknown
     if (branch) data = { ref: 'refs/heads/' + branch, object: { type: 'commit', sha: branch === 'master' ? m : branch === 'dev'
       ? scenario === 'missing-dev' ? 'd'.repeat(40) : d : scenario === 'ref-moved' && rounds > 1 ? unrelated : t } }
     else if (path.includes('/commits/')) {
       if (scenario === 'api-failed' && path.includes(t)) return { status: 500, headers: {}, body: Buffer.from('private-token') }
-      data = scenario === 'merged' && path.includes(t) || sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ? [pr] : []
+      data = scenario === 'merged' && path.includes(t) || sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ||
+        restore && (path.includes(firstRestore) || path.includes(topic) || path.includes(t)) ? [pr] : []
     } else if (path.endsWith('/pulls/' + pr.number)) data = pr
     else if (path.includes('/files?')) {
       const filenames = scenario === '3707-later-edit' ? [prPath, sourcePath] : [prPath]
@@ -237,8 +247,52 @@ async function inventoryFixture(scenario: string) {
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, rounds: () => rounds }
 }
+
+it('retains both edges of a verified merged-branch edit and revert and rejects edited retained proofs', async () => {
+  const f = await inventoryFixture('merged-restoration')
+  const captured = await replayBatchDiscovery({zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('merged-restoration'), replayClockMs: 0}, {transport: f.transport})
+  const view = readBatchDiscoveryCapture(captured)
+  const restored = view.ledger.filter(edge => edge.associationResult === 'restored')
+  expect(restored.map(e => e.commit).sort()).toEqual([f.firstRestore, f.topic].sort())
+  expect(restored.every(e => e.restorationRef && e.seedKey === 'pr:5' && e.rangeIds.join(',') === 'a')).toBe(true)
+  expect(view.ledger.find(e => e.newPath === 'site/en/owned.md' && e.commit === f.t)?.associationResult).toBe('complete')
+  expect(view.report.pages.find(p => p.pageId === 'a')?.intervals[0].association).toBe('complete')
+
+  const dir = await mkdtemp(join(tmpdir(), 'batch-retained-restore-'))
+  roots.push(dir)
+  await mkdir(join(dir, 'blobs'))
+  for (const {ref, bytes} of view.evidence) await writeFile(join(dir, ref.path), bytes)
+  const spec = join(dir, 'captured.json')
+  await writeFile(spec, JSON.stringify({report: view.report, ledger: view.ledger, history: view.introductionOrder}))
+  const python = `
+import copy, json, os, sys
+import prepare as p
+root = sys.argv[1]
+data = json.load(open(sys.argv[2]))
+fd, blobs = (os.open(path, os.O_RDONLY) for path in (root, os.path.join(root,'blobs')))
+def verify(ledger):
+    reader = p._BatchReader(fd, blobs, {'rootIdentity': p._BatchReader.identity(fd), 'blobsIdentity': p._BatchReader.identity(blobs)})
+    return p._batch_verify_restorations(reader, data['report'], ledger, data['history'])
+assert len(verify(data['ledger'])) == 2
+for mutation in ('drop-peer', 'wrong-mode', 'rename', 'wrong-range'):
+    ledger = copy.deepcopy(data['ledger'])
+    indexes = [i for i,e in enumerate(ledger) if e['associationResult'] == 'restored']
+    row = ledger[indexes[0]]
+    if mutation == 'drop-peer': ledger.pop(indexes[1])
+    if mutation == 'wrong-mode': row['newMode'] = '100755'
+    if mutation == 'rename': row['oldPath'] = 'site/en/old-a.md'
+    if mutation == 'wrong-range': row['rangeIds'] = []
+    try: verify(ledger)
+    except p.Hold as e: assert str(e) == 'BATCH_RESTORE_PROOF_INVALID'
+    else: raise AssertionError(mutation)
+`
+  expect(() => execFileSync('python3', ['-B', '-c', python, dir, spec], {
+    cwd: join(process.cwd(), 'scripts/docs-workflow/shared-guides-update'), timeout: 15_000,
+  })).not.toThrow()
+}, 30_000)
 
 it('retains the raw lock-side edge of an ours merge even when its first parent has the target bytes', async () => {
   const f = await inventoryFixture('second-parent-lock'), report = await f.run()

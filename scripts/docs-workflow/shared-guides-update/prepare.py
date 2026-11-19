@@ -1158,6 +1158,192 @@ def _batch_material(reader, retained, base):
     return header, [p['pageId'] for p in config['registry']]
 
 
+def _batch_verify_restorations(reader, report, ledger, history):
+    """Validate the narrow merged feature edit/revert exception from retained raw evidence."""
+    pairs = {}
+    fields = 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons'
+    for index, edge in enumerate(ledger):
+        restored = edge.get('associationResult') == 'restored'
+        batch_exact(edge, fields + (' restorationRef' if restored else ''))
+        for ref in edge['evidenceRefs']:
+            reader.blob(ref)
+        if restored:
+            proof_ref = batch_ref(edge['restorationRef'])
+            pairs.setdefault(proof_ref['sha256'], []).append((index, edge))
+    if not pairs:
+        return {}
+
+    def checked(condition):
+        require(condition, 'BATCH_RESTORE_PROOF_INVALID')
+
+    checked(len(history) <= 50_000 and len(pairs) <= 1000)
+    graph = {}
+    for entry in batch_sorted(history, lambda row: row['oid']):
+        batch_exact(entry, 'oid parents')
+        checked(oid(entry['oid']) and type(entry['parents']) is list and all(oid(p) for p in entry['parents']))
+        graph[entry['oid']] = entry['parents']
+    git_indexes, commits, trees, ancestor_sets = {}, {}, {}, {}
+
+    def git_ref(proof_ref, key, kind):
+        digest = batch_ref(proof_ref)['sha256']
+        if digest not in git_indexes:
+            proof = reader.object(proof_ref, 'objects', transient=True)
+            index = {}
+            for item in batch_sorted(proof['objects'], lambda row: row['oid']):
+                batch_exact(item, 'oid kind ref')
+                checked(oid(item['oid']) and item['kind'] in ('tree', 'commit', 'blob'))
+                index[item['oid']] = item['kind'], batch_ref(item['ref'])
+            git_indexes[digest] = index
+        item = git_indexes[digest].get(key)
+        checked(item is not None and item[0] == kind)
+        return item[1]
+
+    def commit(git, key):
+        cache_key = git['sha256'], key
+        if cache_key not in commits:
+            ref = git_ref(git, key, 'commit')
+            value = reader.blob(ref, git_kind='commit', git_oid=key)
+            checked(value[1] == graph.get(key))
+            commits[cache_key] = value
+        return commits[cache_key]
+
+    def ancestors(git, tip):
+        key = git['sha256'], tip
+        if key not in ancestor_sets:
+            seen, pending = set(), [tip]
+            while pending:
+                child = pending.pop()
+                if child in seen:
+                    continue
+                seen.add(child)
+                pending.extend(commit(git, child)[1])
+            ancestor_sets[key] = seen
+        return ancestor_sets[key]
+
+    def file(git, c, path):
+        tree = commit(git, c)[0]
+        identity = b'40000', tree
+        for name in path.split('/'):
+            checked(identity[0] == b'40000')
+            key = git['sha256'], identity[1]
+            if key not in trees:
+                ref = git_ref(git, identity[1], 'tree')
+                trees[key] = reader.blob(ref, git_kind='tree', git_oid=identity[1])
+            identity = trees[key].get(name)
+            checked(identity is not None)
+        ref = git_ref(git, identity[1], 'blob')
+        checked(reader.blob(ref)[1] == identity[1])
+        return identity
+
+    def reply(ref, suffix, evidence):
+        ref = batch_ref(ref)
+        checked(0 < ref['bytes'] <= 2 * 1024**2)
+        request = sha256(f'GET /repos/milvus-io/milvus-docs{suffix}\n200\n'.encode())
+        checked(f"api:{request}:{ref['sha256']}" in evidence)
+        return batch_parse(reader.blob(ref, raw_bytes=True), canonical=False)
+
+    def fixed_repository(pull):
+        repo = pull['base']['repo']
+        return repo['id'] == 267273319 and repo['full_name'] == 'milvus-io/milvus-docs'
+
+    def related(pull, number, head):
+        return (type(pull['number']) is int and pull['number'] == number and pull['state'] == 'closed'
+                and type(pull['merged_at']) is str and bool(pull['merged_at']) and pull['head']['sha'] == head
+                and pull['base']['ref'] == 'v3.0.x' and fixed_repository(pull))
+
+    obligations = {}
+    for rows in pairs.values():
+        checked(len(rows) == 2)
+        _, one = rows[0]
+        ref = one['restorationRef']
+        proof = reader.object(ref, 'kind path mode original changed first prefix head base merge number rangeIds detailRef filesRef firstAssociationRef headAssociationRef')
+        checked(proof['kind'] == 'guides-merged-restore-v1' and all(oid(proof[k]) for k in ('first', 'prefix', 'head', 'base', 'merge', 'original', 'changed')))
+        path = batch_path(proof['path'])
+        checked(path.startswith('site/en/') and path.endswith(('.md', '.mdx')) and proof['mode'] in ('100644', '100755') and proof['original'] != proof['changed'])
+        checked(type(proof['number']) is int and proof['number'] > 0)
+        checked(len(one['evidenceRefs']) == 1)
+        git = one['evidenceRefs'][0]
+        first, prefix, head, base, merge = (proof[k] for k in ('first', 'prefix', 'head', 'base', 'merge'))
+        a, b = ((proof['mode'].encode(), proof[k]) for k in ('original', 'changed'))
+        checked(commit(git, merge)[1] == [base, head] and commit(git, head)[1] == [first] and commit(git, first)[1] == [prefix])
+        earlier = ancestors(git, base)
+        reachable = ancestors(git, report['pins']['source'])
+        checked(merge in reachable and first not in earlier and head not in earlier)
+        checked(file(git, first, path) == b and all(file(git, edge, path) == a for edge in (base, head, merge)))
+        point = prefix
+        while True:
+            checked(file(git, point, path) == a)
+            if point in earlier:
+                break
+            parents = commit(git, point)[1]
+            checked(len(parents) == 1)
+            point = parents[0]
+        range_ids = []
+        for page in report['pages']:
+            old = ancestors(git, page['oldNext'])
+            checked((first not in old) == (head not in old))
+            if first not in old:
+                range_ids.append(page['pageId'])
+        range_ids = sorted(range_ids)
+        checked(range_ids and proof['rangeIds'] == range_ids and len(range_ids) == len(set(range_ids)))
+        number = proof['number']
+        direct = reply(proof['detailRef'], f'/pulls/{number}', one['evidence'])
+        files = reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', one['evidence'])
+        checked(related(direct, number, head) and direct['merged'] is True and direct['merge_commit_sha'] == merge and direct['base']['sha'] in earlier)
+        checked(type(files) is list and type(direct['changed_files']) is int and len(files) == direct['changed_files'] < 100)
+        names = [batch_path(item['filename']) for item in files]
+        checked(len(set(names)) == len(names) and path not in names)
+        for item in files:
+            previous = item.get('previous_filename')
+            if previous is not None:
+                checked(batch_path(previous) != path and previous != item['filename'])
+            status = item['status']
+            checked(oid(item['sha']) and status in ('added', 'modified', 'removed', 'renamed', 'copied', 'changed', 'unchanged')
+                    and (previous is not None) == (status in ('renamed', 'copied')))
+        bindings = {first: (prefix, a[1], b[1], 'firstAssociationRef'), head: (first, b[1], a[1], 'headAssociationRef')}
+        for index, row in rows:
+            checked(row['commit'] in bindings)
+            parent, old_oid, new_oid, association_ref = bindings.pop(row['commit'])
+            checked(row['restorationRef'] == ref and row['evidenceRefs'] == [git] and row['rangeIds'] == range_ids and not row['reasons'])
+            checked(row['parent'] == parent and row['oldPath'] == row['newPath'] == path and row['oldMode'] == row['newMode'] == proof['mode'])
+            checked(row['oldOid'] == old_oid and row['newOid'] == new_oid and row['seedKey'] == f'pr:{number}' and row['introductionOid'] == merge)
+            reply(proof['detailRef'], f'/pulls/{number}', row['evidence'])
+            reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', row['evidence'])
+            found = reply(proof[association_ref], f"/commits/{row['commit']}/pulls?per_page=100&page=1", row['evidence'])
+            checked(type(found) is list and 0 < len(found) < 100)
+            checked(all(fixed_repository(p) and type(p['number']) is int for p in found) and len({p['number'] for p in found}) == len(found))
+            eligible = [p for p in found if p['base']['ref'] == 'v3.0.x' and p['state'] == 'closed' and p['merged_at']]
+            checked(len(eligible) == 1 and related(eligible[0], number, head) and eligible[0]['base']['sha'] == direct['base']['sha'])
+            label = f"{index}:{parent}:{row['commit']}:{path}"
+            for page_id in range_ids:
+                obligations[(page_id, label)] = row
+        checked(not bindings)
+    return obligations
+
+
+def _batch_verify_restored_obligation(reader, obligation, header, edge):
+    reason = 'BATCH_RESTORE_PROOF_INVALID'
+    require(obligation['range'] == {'from': header['oldNext'], 'to': header['base']['pins']['source']}
+            and obligation['seedKey'] == edge['seedKey']
+            and obligation['supportRefs'] == sorted(edge['evidenceRefs'] + [edge['restorationRef']], key=lambda r: r['sha256']), reason)
+    history = reader.blob(header['historyRef'], parse=True)
+    raw_refs = [(r['commit'], r['ref']) for r in header['rawMaterialRefs']]
+    raw_refs.extend((r['commit'], r['rawRef']) for r in history['interval'])
+    used = False
+    for commit, oid_at_path in ((edge['parent'], edge['oldOid']), (edge['commit'], edge['newOid'])):
+        matches = [ref for key, ref in raw_refs if key == commit]
+        require(matches, reason)
+        for ref in matches:
+            raw = reader.object(ref, 'commit entries', transient=True)
+            require(raw['commit'] == commit, reason)
+            consumed = [entry for entry in raw['entries'] if entry['path'] == edge['newPath']]
+            require(len(consumed) <= 1 and all(entry['oid'] == oid_at_path for entry in consumed), reason)
+            used = used or bool(consumed)
+    require(obligation['status'] == ('consumed' if used else 'irrelevant')
+            and obligation['reason'] == ('ACTUAL_CONSUMED_PATH' if used else 'COMPLETE_CONSUMPTION_ABSENCE')
+            and obligation['consumedPaths'] == ([edge['newPath']] if used else []), reason)
+
+
 def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     batch_exact(control, 'kind base run discoveryRef discoveryDigest closureRef groupSha256 materialRoot materialDigest scopeRef scopeDigest qualifierRequestSha256 qualifierRequestBytes qualifierRef qualifierDigest profileDigest receiptsRoot indexRef indexDigest rootIdentity blobsIdentity')
     require(control['kind'] == 'guides-batch-verify-control-v1', 'BATCH_CONTROL_INVALID')
@@ -1182,11 +1368,10 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
             and report['pins'] == {k: pins[k] for k in ('master', 'dev', 'source')} and report['observation'] == base['origin']['kind']
             and report['writeEligible'] is False, 'BATCH_DISCOVERY_INVALID')
     ledger = reader.blob(discovery['edgeLedgerRef'], parse=True)
-    for edge in ledger:
-        batch_exact(edge, 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons')
-        for ref in edge['evidenceRefs']:
-            reader.blob(ref)
-    reader.blob(discovery['introductionOrderRef'], parse=True)
+    history = reader.blob(discovery['introductionOrderRef'], parse=True)
+    restored = _batch_verify_restorations(reader, report, ledger, history)
+    restoration_refs = {edge['restorationRef']['sha256'] for edge in restored.values()}
+    restoration_keys = set(restored)
     materials = reader.object(control['materialRoot'], 'base pages')
     require(materials['base'] == base and batch_digest('materials', materials) == control['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     batch_sorted(materials['pages'], lambda p: p['pageId'])
@@ -1207,8 +1392,16 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     for ref in closure['obligationRefs']:
         obligation = reader.object(ref, 'base pageId range edge seedKey status consumedPaths supportRefs reason')
         require(obligation['base'] == base and obligation['pageId'] in all_ids and obligation['status'] in ('consumed', 'irrelevant'), 'BATCH_CLOSURE_INVALID')
+        key = obligation['pageId'], obligation['edge']
+        restored_edge = restored.pop(key, None)
+        if restored_edge:
+            _batch_verify_restored_obligation(reader, obligation, headers[obligation['pageId']], restored_edge)
+        else:
+            require(key not in restoration_keys and not any(support['sha256'] in restoration_refs for support in obligation['supportRefs']),
+                    'BATCH_RESTORE_PROOF_INVALID')
         for support in obligation['supportRefs']:
             reader.blob(support)
+    require(not restored, 'BATCH_RESTORE_PROOF_INVALID')
     adoption = reader.object(closure['adoptionRef'], 'base dependencies')
     namespace = reader.object(closure['namespaceRef'], 'base destinations')
     require(adoption['base'] == namespace['base'] == base, 'BATCH_CLOSURE_INVALID')

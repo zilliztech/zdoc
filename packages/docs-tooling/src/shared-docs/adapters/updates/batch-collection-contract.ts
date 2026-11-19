@@ -426,10 +426,20 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   return {header, projection, trees, inventories, inventoriesByRef, history, config, namespace, images}
 }
 
+export const BatchRestoreProofSchema = z.strictObject({kind: z.literal('guides-merged-restore-v1'),
+  path: RepoPathSchema, mode: z.enum(['100644', '100755']), original: GitShaSchema, changed: GitShaSchema,
+  first: GitShaSchema, prefix: GitShaSchema, head: GitShaSchema, base: GitShaSchema, merge: GitShaSchema,
+  number: BatchCountSchema.min(1), rangeIds: strings(BatchPageIdSchema),
+  detailRef: BatchBlobRefSchema, filesRef: BatchBlobRefSchema, firstAssociationRef: BatchBlobRefSchema, headAssociationRef: BatchBlobRefSchema,
+})
+export type BatchRestoreProof = z.infer<typeof BatchRestoreProofSchema>
+
 export const BatchEdgeSchema = z.strictObject({commit: GitShaSchema, parent: GitShaSchema.nullable(), oldPath: RepoPathSchema.nullable(), newPath: RepoPathSchema.nullable(),
   oldOid: GitShaSchema.nullable(), newOid: GitShaSchema.nullable(), oldMode: z.enum(['100644', '100755']).nullable(), newMode: z.enum(['100644', '100755']).nullable(),
-  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant']), introductionOid: GitShaSchema.nullable(),
-  seedKey: text.nullable(), evidenceRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), evidence: strings(text), reasons: strings(text)})
+  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant', 'restored']), introductionOid: GitShaSchema.nullable(),
+  seedKey: text.nullable(), evidenceRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), evidence: strings(text), reasons: strings(text),
+  restorationRef: BatchBlobRefSchema.optional(),
+}).refine(edge => (edge.associationResult === 'restored') === (edge.restorationRef !== undefined))
 export type BatchEdge = z.infer<typeof BatchEdgeSchema>
 
 const identity = z.strictObject({pageId: BatchPageIdSchema, manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema})

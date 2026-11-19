@@ -11,7 +11,8 @@ import { guidesSnapshotPath } from '../guides-snapshot'
 import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
 import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
-import {batchRef, batchSha256, type BatchEdge, type BatchOrigin, type BatchBlobRef} from './batch-collection-contract'
+import {BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
+import { makeRestoreProof, mergedRestoreFacts, restoreEdgeMatches } from './batch-restore-proof'
 import {immutable} from '../../core/updates/types'
 
 type Pins = BatchDiscoveryInput['pins']
@@ -134,7 +135,8 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
 }
 
 interface PageRange { page: BatchPageObservation; members: Set<string>; fragments: Set<string>; interval: BatchInterval }
-async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[]) {
+async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[],
+  retain?: (bytes: Uint8Array) => BatchBlobRef) {
   const target = input.pins.source, history = await store.history(target)
   const ranges: PageRange[] = [], activeCommits = new Set<string>(), memberships = new Map<string, Set<string>>()
   const ordered = new Set<string>(), unresolved = new Map<BatchPageObservation, string>()
@@ -166,6 +168,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   }
 
   const changes = new Map<string, BatchPathChange>(), seeds = new Map<string, BatchSeedObservation>()
+  const restorations = new Map<string, {proof: BatchRestoreProof; ref: BatchBlobRef}>()
   const clueKeys = new Set<string>()
   function clue(pageIds: string[], seedKeys: string[], paths: string[], evidence: string[], reasons: string[]) {
     const value = { pageIds: unique(pageIds).sort(), seedKeys: unique(seedKeys).sort(), paths: unique(paths).sort(), evidence: unique(evidence).sort(), reasons }
@@ -292,7 +295,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     try {
       if (!association) stop('METADATA_READ_FAILED')
       if (association.status === 'rejected') throw association.reason
-      const { pull, evidence } = association.value
+      const { pull, evidence, singlePage } = association.value
       const intro = pull?.identity.mergeCommit
       if (pull && (!intro || !history.introduces(oid, intro, pull.identity.base, pull.identity.head, pull.commits))) stop('PR_INTRODUCTION_UNVERIFIED')
       key = pull ? 'pr:' + pull.identity.number : 'commit:' + oid
@@ -334,7 +337,36 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       const importedParents = pull ? history.importedBaseParents(oid, intro!, pull.identity.base) : []
       const unverified = new Set<string>()
       for (const delta of raw.filter(d => ledger || hitPaths.has(d.path))) {
-        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) { unverified.add(delta.path); continue }
+        if (prPaths && !prPaths.has(delta.path) && (!netPaths || netPaths.has(delta.path))) {
+          const ledgerRow = ledgerRows.find(row => row.newPath === delta.path && row.oldPath === delta.path)
+          const metadata = pull?.singlePageProof
+          if (retain && ledgerRow && pull && metadata && singlePage) {
+            const restoreKey = pull.identity.number + ':' + delta.path
+            let matching = restorations.get(restoreKey)
+            if (!matching) {
+              const facts = await mergedRestoreFacts(store, history, pull.identity, delta.path, oid, ranges)
+              if (facts) {
+                const peer = await api.association(oid === facts.first ? facts.head : facts.first)
+                if (peer.pull?.identity.mergeCommit === facts.merge && peer.pull.identity.number === facts.number &&
+                    peer.pull.singlePageProof?.files.digest === metadata.files.digest &&
+                    peer.pull.singlePageProof.detail.digest === metadata.detail.digest && peer.singlePage) {
+                  const refs = {detailRef: retain(metadata.detail.body), filesRef: retain(metadata.files.body),
+                    firstAssociationRef: retain((oid === facts.first ? singlePage : peer.singlePage).body),
+                    headAssociationRef: retain((oid === facts.head ? singlePage : peer.singlePage).body)}
+                  const bytes = makeRestoreProof(facts, refs)
+                  matching = {proof: parseBatchCanonical(bytes, BatchRestoreProofSchema), ref: retain(bytes)}
+                  restorations.set(restoreKey, matching)
+                }
+              }
+            }
+            if (matching && restoreEdgeMatches(matching.proof, ledgerRow) &&
+                batchSha256(singlePage.body) === (oid === matching.proof.first ? matching.proof.firstAssociationRef : matching.proof.headAssociationRef).sha256) {
+              ledgerRow.associationResult = 'restored'; ledgerRow.restorationRef = matching.ref
+              continue
+            }
+          }
+          unverified.add(delta.path); continue
+        }
         for (const baseParent of importedParents) {
           if (((await store.optionalFile(baseParent, delta.path))?.oid ?? null) === delta.after) {
             unverified.add(delta.path); break
@@ -370,6 +402,10 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   for (const r of ranges) if (r.page.active === false && r.interval.commits.length) {
     r.page.intervals.push(r.interval)
     if ([...r.members].some(oid => !activeCommits.has(oid))) r.interval.association = 'unknown'
+  }
+  for (const {proof, ref} of restorations.values()) {
+    const rows = ledger?.filter(row => row.restorationRef?.sha256 === ref.sha256) ?? []
+    if (rows.length !== 2 || new Set(rows.map(row => row.commit)).size !== 2 || rows.some(row => !restoreEdgeMatches(proof, row))) stop('RESTORE_LEDGER_INCOMPLETE')
   }
   return history.records()
 }
@@ -430,7 +466,13 @@ async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOri
     const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
     await lifecycle(zdoc, input)
     const source = await BatchGitStore.open(options.sourceRepository, budget)
-    const introductionOrder = await observeSource(source, input, api, budget, ledger)
+    const retained = new Map<string, BatchBlobRef>()
+    const retain = (bytes: Uint8Array) => {
+      const ref = batchRef(bytes)
+      if (!retained.has(ref.sha256)) { retained.set(ref.sha256, ref); evidence.push({ref, bytes}) }
+      return ref
+    }
+    const introductionOrder = await observeSource(source, input, api, budget, ledger, retain)
     await source.verify(); await zdoc.verify()
     const final = await api.pins()
     if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')

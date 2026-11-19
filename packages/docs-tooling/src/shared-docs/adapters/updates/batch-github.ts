@@ -24,7 +24,11 @@ const detail = summary.extend({ merged: z.boolean(), merge_commit_sha: GitShaSch
 const file = z.object({ filename: RepoPathSchema, previous_filename: RepoPathSchema.optional(), sha: GitShaSchema,
   status: z.enum(['added', 'modified', 'removed', 'renamed', 'copied', 'changed', 'unchanged']) })
 export interface BatchPullFile { path: string; previousPath: string | null; status: BatchPathChange['status']; sha: string }
-interface ObservedPull { identity: BatchPullIdentity; commits: number; files: BatchPullFile[]; evidence: string[] }
+export interface BatchGitHubReply {body: Uint8Array; link: string | undefined; digest: string}
+interface ObservedPull {
+  identity: BatchPullIdentity; commits: number; files: BatchPullFile[]; evidence: string[];
+  singlePageProof: {detail: BatchGitHubReply; files: BatchGitHubReply} | null;
+}
 
 function hasNext(link: string | undefined, endpoint: string, current: number) {
   if (link === undefined) return false
@@ -118,7 +122,8 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
       const value = parseStrictJson(response.body)
       budget.remaining()
       const requestHash = createHash('sha256').update('GET /repos/' + repo + suffix + '\n200\n' + (response.headers.link ?? '')).digest('hex')
-      return { value, link: response.headers.link, digest: 'api:' + requestHash + ':' + createHash('sha256').update(response.body).digest('hex') }
+      return { value, body: response.body, link: response.headers.link,
+        digest: 'api:' + requestHash + ':' + createHash('sha256').update(response.body).digest('hex') }
     } catch (error) {
       if (error instanceof BatchReadError) throw error
       stop('METADATA_READ_FAILED')
@@ -145,7 +150,7 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
       if (count !== undefined && rows.length > count) stop('PR_FILES_INCOMPLETE')
       if (!next) {
         if (count !== undefined ? rows.length !== count : entries.data.length === IO.pageSize) stop('METADATA_TRUNCATED')
-        return { rows, evidence }
+        return { rows, evidence, singlePage: page === 1 && response.link === undefined ? response as BatchGitHubReply : null }
       }
       if (entries.data.length !== IO.pageSize || count !== undefined && rows.length >= count) stop('METADATA_TRUNCATED')
     }
@@ -156,14 +161,14 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
   async function listAssociation(oid: string) {
     if (!GitShaSchema.safeParse(oid).success) stop('METADATA_QUERY_INVALID')
     const listed = await pages('/commits/' + oid + '/pulls', summary, row => row.number)
-    if (!listed.rows.length) return { candidate: null, evidence: listed.evidence }
+    if (!listed.rows.length) return { candidate: null, evidence: listed.evidence, singlePage: null }
     if (listed.rows.some(row => row.base.repo.id !== repoIds[milvus] || row.base.repo.full_name !== milvus)) stop('PR_BASE_MISMATCH')
     const inTrack = listed.rows.filter(row => row.base.ref === 'v3.0.x')
     if (!inTrack.length) stop('PR_BASE_MISMATCH')
     const eligible = inTrack.filter(row => row.state === 'closed' && row.merged_at)
     if (!eligible.length) stop('UPSTREAM_UNMERGED')
     if (eligible.length !== 1) stop('AMBIGUOUS_COMMIT_ASSOCIATION')
-    return { candidate: eligible[0], evidence: listed.evidence }
+    return { candidate: eligible[0], evidence: listed.evidence, singlePage: listed.singlePage }
   }
   async function readPull(candidate: PullSummary): Promise<ObservedPull> {
     const response = await get(milvus, '/pulls/' + candidate.number), parsed = detail.safeParse(response.value)
@@ -174,6 +179,8 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     const files = await pages('/pulls/' + pr.number + '/files', file, row => row.filename, pr.changed_files)
     return { identity: { number: pr.number, repository: milvus, baseBranch: pr.base.ref, base: pr.base.sha,
       head: pr.head.sha, mergeCommit: pr.merge_commit_sha, merged: true }, commits: pr.commits, evidence: [response.digest, ...files.evidence],
+      singlePageProof: response.link === undefined && files.singlePage && files.rows.length < IO.pageSize
+        ? {detail: response, files: files.singlePage} : null,
       files: files.rows.map(row => {
         if ((row.status === 'renamed' || row.status === 'copied') !== (row.previous_filename !== undefined) ||
             row.previous_filename === row.filename) stop('PR_FILES_INVALID')
@@ -189,8 +196,8 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
       // Observe a rejection while the earlier listings are still being registered.
       void listing.catch(() => {})
       const registered = previous.then(async () => {
-        const {candidate, evidence} = await listing
-        if (!candidate) return {pull: null, evidence}
+        const {candidate, evidence, singlePage} = await listing
+        if (!candidate) return {pull: null, evidence, singlePage}
         let cached = pulls.get(candidate.number)
         if (cached) {
           if (JSON.stringify(candidate) !== JSON.stringify(cached.summary)) stop('PR_IDENTITY_CHANGED')
@@ -199,11 +206,11 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
           cached = {summary: candidate, pull}
           pulls.set(candidate.number, cached)
         }
-        return {pull: cached.pull, evidence}
+        return {pull: cached.pull, evidence, singlePage}
       })
       // Input order owns the PR reservation. Its detail/files can finish independently.
       previous = registered.then(() => {}, () => {})
-      return registered.then(async ({pull, evidence}) => ({pull: await pull, evidence}))
+      return registered.then(async ({pull, evidence, singlePage}) => ({pull: await pull, evidence, singlePage}))
     })
     const settled = await Promise.allSettled(pending)
     // This window shares each PR failure. Only a later window can re-observe it.

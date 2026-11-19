@@ -340,6 +340,12 @@ export class BatchGitStore {
     const entry = await this.entry(commit, path)
     return entry ? this.blob(entry) : null
   }
+  async regularIdentity(commit: string, path: string) {
+    const entry = await this.entry(commit, path)
+    if (!entry || (entry.mode !== '100644' && entry.mode !== '100755')) return null
+    await this.blob(entry)
+    return {mode: entry.mode, oid: entry.oid}
+  }
   async file(commit: string, path: string) { return await this.optionalFile(commit, path) ?? stop('GIT_PATH_MISSING') }
 
   async measureFragmentSnapshots(commits: readonly string[]) {
