@@ -949,7 +949,7 @@ curl --request POST \
 
 ```python
 search_params = {
-    'params': {'level': 10},
+    'params': {'level': 3},
 }
 
 res = client.search(
@@ -976,7 +976,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("level", 10);
+searchParams.put("level", 3);
 
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
@@ -1063,7 +1063,7 @@ await client.search({
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     output_fields: ['text'],
-    params: {'level': 10},
+    params: {'level': 3},
     limit: 3,
 });
 ```

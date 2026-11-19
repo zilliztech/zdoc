@@ -204,7 +204,7 @@ Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し�
 
   ```
   search_params = {
-      "params": {"level": 10},
+      "params": {"level": 3},
   }
 
   res = client.search(

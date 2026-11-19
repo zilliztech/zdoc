@@ -436,9 +436,9 @@
       "translatedAt": "2026-09-19T13:48:36.176Z"
     },
     "content/en/byoc/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "bf1d9bed24ade6e46aecff375dcbb2f25683166e3109222ac16724a4097711c9",
+      "sourceHash": "c881809c1aa4a8413323de92be367f84508ab00070f8b11451d4d1d67c5a337b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-11-10T12:54:37.831Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/byoc/tutorials/development/function/minhash-function.md": {
       "sourceHash": "e84b76e99e6be1d3f83c319a5dca15a0ce91a7e17b570f80397e37b28c99b3fc",
@@ -751,9 +751,9 @@
       "translatedAt": "2026-11-11T11:54:34.015Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/full-text-search.md": {
-      "sourceHash": "5dad8119b85b98912b397a3a63edf163805ac4a55ef887690d16bf0a3207490b",
+      "sourceHash": "d95fcfa7d5262c3246a34f824884a48806cf6a3c19701ed9e06bdc7102505aad",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/full-text-search.md",
-      "translatedAt": "2026-11-09T12:51:17.825Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/get-and-scalar-query.md": {
       "sourceHash": "64b96e4a5ab1a1a0739882e380d0920f715b5e6169fdaf34b30777e9b147061e",
@@ -796,9 +796,9 @@
       "translatedAt": "2026-09-19T13:54:29.135Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/single-vector-search.md": {
-      "sourceHash": "ea758eb301bc2e30a88ff7f590c9e3690d9a513b53e7bc9c59bff4b3e8c3fade",
+      "sourceHash": "da9a63233d032ff52a13bb838e5361197d4ba6966ebaf88a9d0b292466e25890",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/single-vector-search.md",
-      "translatedAt": "2026-11-09T12:51:17.825Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
       "sourceHash": "eaaec7d2add9fafd173bcf128127f862b900ad1bff7ebcbd6e246e8f57a316b8",
@@ -1430,6 +1430,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
+    "content/en/byoc/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md": {
+      "sourceHash": "7a2e9af8dcf1e6eaac53c973759ac96f2b133db2576e38fd4a93dee7776b9290",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md",
+      "translatedAt": "2026-11-19T03:42:23.854Z"
+    },
     "content/en/byoc/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md": {
       "sourceHash": "3be1b82eafc09eabc141235117bf5aeacf60cd1f7d4b7a67c8dc75d15a7f3aef",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md",
@@ -1826,9 +1831,9 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/function/bm25-function.md": {
-      "sourceHash": "836955bedcbd973d62d09ef36dc463adcfa5779bd544d2c1e36a342915b74928",
+      "sourceHash": "16b2fd926baa417c94121142c771adffa9121d06b89c9dc24dbb00ac4fdbb46d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/bm25-function.md",
-      "translatedAt": "2026-11-10T13:19:53.736Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/guides/tutorials/development/function/minhash-function.md": {
       "sourceHash": "60b6ddfde42c9cf7479594932fe617f682756a44a9794e4c50b23e8f8b1410b8",
@@ -2176,9 +2181,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/development/search-and-query/full-text-search.md": {
-      "sourceHash": "7eec927ce5e0798bf8e65c2a4d3de100c6f27c48f3e9028e7a8676de14f4489a",
+      "sourceHash": "ff085032606554965c4e9b12bea67754b1b82d1e6e6351b47e9e4ea147c697d6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/full-text-search.md",
-      "translatedAt": "2026-11-09T13:47:51.369Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/guides/tutorials/development/search-and-query/get-and-scalar-query.md": {
       "sourceHash": "9a57de9674ba122688176601f3577a9ba671da7a369abd9637e47fcc53e31f30",
@@ -2221,9 +2226,9 @@
       "translatedAt": "2026-09-19T14:10:49.557Z"
     },
     "content/en/guides/tutorials/development/search-and-query/single-vector-search.md": {
-      "sourceHash": "d970ce1f242b445d6dc4fe7a5c27ff134bc39c191851f30ecbc67496cc004cb1",
+      "sourceHash": "5f94a76569a268890ade8a73e0781426c38ce8d2dbba422331b77065504a331f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/single-vector-search.md",
-      "translatedAt": "2026-11-09T13:49:19.042Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/guides/tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays.md": {
       "sourceHash": "28c3df8930386cb6e13f89eae948e4787542b7e24d4878b26c422018d9982941",
@@ -3311,9 +3316,9 @@
       "translatedAt": "2026-08-04T05:11:13.558Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md": {
-      "sourceHash": "ba704a1345b3ba4fa242f6586f487985b1ef4f760d90f8f2402f28dca4e058e3",
+      "sourceHash": "632be2fdc40d367dd0e4df519e0b228900bd18e6f98722edf29a75de56ef1594",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md",
-      "translatedAt": "2026-08-04T05:11:14.615Z"
+      "translatedAt": "2026-11-19T03:42:23.854Z"
     },
     "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md": {
       "sourceHash": "5b25e77a2d2befb04a2e0831b35fac1bfcdab8b415ea1ffd2b07d665e58afa8d",
