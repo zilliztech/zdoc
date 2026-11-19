@@ -21,13 +21,47 @@ export function batchBudget() {
     } }
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
-const traversalLimit = 50_000
+export const BATCH_TREE_VISITS = 50_000
+const traversalLimit = BATCH_TREE_VISITS
 const gitCommandBytes = 16 * 1024 * 1024
 const fragmentRoot = 'site/en/fragments'
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 interface TreeEntry { mode: string; oid: string }
 interface Commit { tree: string; parents: string[] }
 export interface RawChange { path: string; before: string | null; after: string | null; beforeMode: string | null; afterMode: string | null }
+
+export function parseBatchGitCommit(bytes: Buffer): Commit {
+  const end = bytes.indexOf('\n\n')
+  if (end < 0) stop('GIT_COMMIT_INVALID')
+  const lines = bytes.subarray(0, end).toString('latin1').split('\n')
+  const tree = /^tree ([a-f0-9]{40})$/.exec(lines[0])?.[1] ?? stop('GIT_COMMIT_INVALID')
+  const parents: string[] = []
+  for (let n = 1; n < lines.length; n++) {
+    if (lines[n].startsWith('tree ')) stop('GIT_COMMIT_INVALID')
+    if (lines[n].startsWith('parent ')) {
+      if (n !== parents.length + 1) stop('GIT_COMMIT_INVALID')
+      parents.push(GitShaSchema.parse(lines[n].slice(7)))
+    }
+  }
+  return {tree, parents}
+}
+
+export function parseBatchGitTree(bytes: Buffer) {
+  const entries = new Map<string, TreeEntry>()
+  let previous: Buffer | undefined
+  for (let at = 0; at < bytes.length;) {
+    const sp = bytes.indexOf(32, at), end = bytes.indexOf(0, sp + 1)
+    if (sp <= at || end <= sp + 1 || end + 21 > bytes.length) stop('GIT_TREE_INVALID')
+    const mode = bytes.subarray(at, sp).toString('latin1'), name = utf8.decode(bytes.subarray(sp + 1, end))
+    if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') ||
+        !RepoPathSchema.safeParse(name).success || entries.has(name)) stop('GIT_TREE_INVALID')
+    const sortKey = Buffer.from(name + (mode === '40000' ? '/' : ''))
+    if (previous && Buffer.compare(previous, sortKey) >= 0) stop('GIT_TREE_INVALID')
+    previous = sortKey
+    entries.set(name, { mode, oid: bytes.subarray(end + 1, end + 21).toString('hex') }); at = end + 21
+  }
+  return entries
+}
 
 export class BatchHistory {
   constructor(private readonly commits: Map<string, Commit>, private readonly budget: BatchBudget) {}
@@ -185,19 +219,7 @@ export class BatchGitStore {
     if (!missing.length) return
     const bodies = await this.objects('commit', missing)
     bodies.forEach((bytes, i) => {
-      const end = bytes.indexOf('\n\n')
-      if (end < 0) stop('GIT_COMMIT_INVALID')
-      const lines = bytes.subarray(0, end).toString('latin1').split('\n')
-      const tree = /^tree ([a-f0-9]{40})$/.exec(lines[0])?.[1] ?? stop('GIT_COMMIT_INVALID')
-      const parents: string[] = []
-      for (let n = 1; n < lines.length; n++) {
-        if (lines[n].startsWith('tree ')) stop('GIT_COMMIT_INVALID')
-        if (lines[n].startsWith('parent ')) {
-          if (n !== parents.length + 1) stop('GIT_COMMIT_INVALID')
-          parents.push(GitShaSchema.parse(lines[n].slice(7)))
-        }
-      }
-      this.commits.set(missing[i], { tree, parents })
+      this.commits.set(missing[i], parseBatchGitCommit(bytes))
     })
   }
   async history(target: string) {
@@ -220,25 +242,9 @@ export class BatchGitStore {
     if (reachable.size !== graph.size) stop('SOURCE_HISTORY_INCOMPLETE')
     return new BatchHistory(graph, this.budget)
   }
-  private rememberTree(oid: string, bytes: Buffer) {
-    const entries = new Map<string, TreeEntry>()
-    let previous: Buffer | undefined
-    for (let at = 0; at < bytes.length;) {
-      const sp = bytes.indexOf(32, at), end = bytes.indexOf(0, sp + 1)
-      if (sp <= at || end <= sp + 1 || end + 21 > bytes.length) stop('GIT_TREE_INVALID')
-      const mode = bytes.subarray(at, sp).toString('ascii'), name = utf8.decode(bytes.subarray(sp + 1, end))
-      if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') ||
-          !RepoPathSchema.safeParse(name).success || entries.has(name)) stop('GIT_TREE_INVALID')
-      const sortKey = Buffer.from(name + (mode === '40000' ? '/' : ''))
-      if (previous && Buffer.compare(previous, sortKey) >= 0) stop('GIT_TREE_INVALID')
-      previous = sortKey
-      entries.set(name, { mode, oid: bytes.subarray(end + 1, end + 21).toString('hex') }); at = end + 21
-    }
-    this.trees.set(oid, entries)
-  }
   private async readTrees(ids: string[]) {
     const bodies = await this.objects('tree', ids)
-    bodies.forEach((bytes, i) => this.rememberTree(ids[i], bytes))
+    bodies.forEach((bytes, i) => this.trees.set(ids[i], parseBatchGitTree(bytes)))
   }
   private async loadTrees(ids: Set<string>) {
     const missing = [...ids].filter(oid => !this.trees.has(oid))
@@ -272,7 +278,7 @@ export class BatchGitStore {
     if (!this.trees.has(oid)) await this.readTrees([oid])
     return this.trees.get(oid)!
   }
-  private async entriesAt(commits: readonly string[], path: string) {
+  private async entriesAt(commits: readonly string[], path: string, recordTree?: (oid: string, bytes: Buffer) => void) {
     RepoPathSchema.parse(path)
     for (let at = 0; at < commits.length; at += 256) await this.loadCommits(commits.slice(at, at + 256))
     let entries: (TreeEntry | undefined)[] = commits.map(commit => ({ mode: '40000', oid: this.commits.get(commit)!.tree }))
@@ -283,6 +289,7 @@ export class BatchGitStore {
         trees.add(entry.oid)
       }
       await this.loadTrees(trees)
+      if (recordTree) for (const oid of trees) recordTree(oid, this.proofObjects.get(oid)!.bytes)
       entries = entries.map(entry => entry && this.trees.get(entry.oid)!.get(part))
     }
     return entries
@@ -303,11 +310,28 @@ export class BatchGitStore {
     if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
     return this.inventoryTree(root, entry.oid)
   }
-  private async inventoryTree(root: string, oid: string) {
+  async sourceInventory(commit: string, recordTree: (oid: string, bytes: Buffer) => void) {
+    const [entry] = await this.entriesAt([commit], 'site/en', recordTree)
+    if (entry && entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+    const treeOid = this.commits.get(commit)!.tree
+    return {treeOid, commitBytes: this.proofObjects.get(commit)!.bytes,
+      entries: entry ? await this.inventoryTree('site/en', entry.oid, recordTree) : []}
+  }
+  async sourceInventoryHas(commit: string, path: string) {
+    let entry: TreeEntry = {mode: '40000', oid: this.commits.get(commit)!.tree}
+    for (const component of path.split('/')) {
+      if (entry?.mode !== '40000') return false
+      entry = (await this.tree(entry.oid)).get(component)
+    }
+    return entry?.mode === '100644' || entry?.mode === '100755'
+  }
+  private async inventoryTree(root: string, oid: string, recordTree?: (oid: string, bytes: Buffer) => void) {
     const entries: {path: string; oid: string; mode: '100644' | '100755'}[] = []
     let visits = 0
     const walk = async (path: string, oid: string) => {
-      for (const [name, value] of await this.tree(oid)) {
+      const tree = await this.tree(oid)
+      recordTree?.(oid, this.proofObjects.get(oid)!.bytes)
+      for (const [name, value] of tree) {
         this.budget.remaining()
         if (++visits > traversalLimit) stop('SOURCE_TREE_LIMIT')
         const child = path + '/' + name
