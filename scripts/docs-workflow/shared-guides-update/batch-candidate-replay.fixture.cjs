@@ -2,6 +2,7 @@
 const fs = require('node:fs/promises')
 const {constants} = require('node:fs')
 const path = require('node:path')
+const {pathToFileURL} = require('node:url')
 const {createHash, createPublicKey, generateKeyPairSync, sign} = require('node:crypto')
 const {deepStrictEqual, equal, match, rejects} = require('node:assert/strict')
 const {execFileSync, spawnSync} = require('node:child_process')
@@ -169,7 +170,8 @@ async function main() {
 
 async function replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,
   verifyBatchFinalFreshness, graphProbe, missingRef}) {
-  const {createIsolatedBatchDraft, initializeIsolatedBatchDraft, sealIsolatedBatchTransport} = await import('./batch-draft.mjs')
+  const writerPath = path.join(f.tools, 'scripts/docs-workflow/shared-guides-update/batch-draft.mjs')
+  const {createIsolatedBatchDraft, initializeIsolatedBatchDraft, sealIsolatedBatchTransport} = await import(pathToFileURL(writerPath).href)
   const {privateKey, publicKey} = generateKeyPairSync('ed25519')
   const destination = initializeIsolatedBatchDraft(lane, f.tools)
   const {root, repository} = destination

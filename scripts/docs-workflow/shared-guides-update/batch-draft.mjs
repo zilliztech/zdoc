@@ -2,7 +2,7 @@
 // and Draft creation goes through a stateful local fake. There is no hosted transport.
 import { execFileSync } from 'node:child_process'
 import { createHash, sign, verify } from 'node:crypto'
-import { appendFileSync, closeSync, constants, fstatSync, lstatSync, mkdirSync, openSync, realpathSync, unlinkSync } from 'node:fs'
+import { appendFileSync, closeSync, constants, fstatSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, unlinkSync } from 'node:fs'
 import { join } from 'node:path'
 
 const MAX_BYTES = 2 * 1024 * 1024
@@ -27,7 +27,9 @@ function objectRecord(type, gitOid, raw) {
 function payloadFor(evidence) {
   const { binding, plan, proof, index, qualification, candidate, seal, sealKeySha256, ...rest } = evidence.identity
   need(Object.keys(rest).length === 0 && [candidate, seal].every(oid) && /^[0-9a-f]{64}$/.test(sealKeySha256), 'BATCH_TRANSPORT_IDENTITY')
-  need(evidence.documents.length + evidence.objects.length <= MAX_MEMBERS, 'BATCH_TRANSPORT_LIMIT')
+  need(evidence.documents.length + evidence.objects.length <= MAX_MEMBERS &&
+    [...evidence.documents, ...evidence.objects].reduce((total, item) => total + item.bytes.length, 0) <= MAX_BYTES * 3 / 4,
+  'BATCH_TRANSPORT_LIMIT')
   const documents = evidence.documents.map(({ ref, bytes }) => {
     const raw = Buffer.from(bytes)
     need(ref.path === 'blobs/' + ref.sha256 && raw.length === ref.bytes && sum(raw) === ref.sha256, 'BATCH_TRANSPORT_DOCUMENT')
@@ -77,6 +79,20 @@ const gitEnvironment = { PATH: '/usr/bin:/bin', LC_ALL: 'C', GIT_CONFIG_NOSYSTEM
   GIT_NO_LAZY_FETCH: '1', GIT_ALLOW_PROTOCOL: 'file' }
 const sameFile = (first, second) => first.ino === second.ino && first.dev === second.dev
 
+function getStat(path) {
+  try { return lstatSync(path) } catch (error) {
+    if (error.code === 'ENOENT') return null
+    throw error
+  }
+}
+
+function ownedFile(path, isDirectory = false) {
+  const stat = lstatSync(path)
+  need((isDirectory ? stat.isDirectory() : stat.isFile()) && !stat.isSymbolicLink() &&
+    stat.uid === process.getuid() && (stat.mode & 0o022) === 0 && realpathSync(path) === path, 'BATCH_DRAFT_DESTINATION')
+  return stat
+}
+
 function runGit(args, input) {
   return execFileSync('/usr/bin/git', ['-c', 'core.hooksPath=/dev/null', ...args], {
     input, stdio: ['pipe', 'pipe', 'pipe'], maxBuffer: MAX_BYTES, timeout: 20_000, env: gitEnvironment,
@@ -94,11 +110,34 @@ export function initializeIsolatedBatchDraft(parent, baseline, name = 'draft-des
   runGit(['-C', root, 'clone', '--bare', '--quiet', '--local', baseline, repository])
   const git = (args, input) => runGit(['--git-dir', repository, ...args], input)
   git(['remote', 'remove', 'origin'])
-  const initialRoot = lstatSync(root), initialRepo = lstatSync(repository)
-  const checkOwned = () => {
-    need(sameFile(initialRoot, lstatSync(root)) && sameFile(initialRepo, lstatSync(repository)) &&
-      realpathSync(root) === root && realpathSync(repository) === repository && git(['rev-parse', '--is-bare-repository']) === 'true' &&
-      git(['remote']) === '' && git(['for-each-ref', 'refs/replace']) === '', 'BATCH_DRAFT_DESTINATION')
+  mkdirSync(join(repository, 'refs', 'heads', 'automation'), { mode: 0o700 })
+  const directoryPaths = [root, repository, ...['objects', 'objects/pack', 'objects/info', 'refs', 'refs/heads', 'refs/heads/automation']
+    .map(path => join(repository, path))]
+  const pins = directoryPaths.map(path => [path, ownedFile(path, true)])
+  const config = join(repository, 'config'), initialConfig = ownedFile(config)
+  need(initialConfig.size <= 16 * 1024, 'BATCH_DRAFT_DESTINATION')
+  const configSha = sum(readFileSync(config))
+  need(git(['rev-parse', '--is-bare-repository']) === 'true' && git(['remote']) === '', 'BATCH_DRAFT_DESTINATION')
+  const checkOwned = (objects = [], branch) => {
+    need(pins.every(([path, pinned]) => sameFile(ownedFile(path, true), pinned)), 'BATCH_DRAFT_DESTINATION')
+    const currentConfig = ownedFile(config)
+    need(sameFile(currentConfig, initialConfig) && currentConfig.size === initialConfig.size && sum(readFileSync(config)) === configSha,
+      'BATCH_DRAFT_DESTINATION')
+    for (const path of ['objects/info/alternates', 'objects/info/http-alternates', 'info/grafts', 'refs/replace']) {
+      need(!getStat(join(repository, path)), 'BATCH_DRAFT_DESTINATION')
+    }
+    const watched = ['HEAD', 'packed-refs', 'refs/heads/master', 'refs/heads/dev', ...(branch ? [branch] : [])]
+    for (const relative of watched) {
+      const path = join(repository, relative)
+      if (getStat(path)) ownedFile(path)
+    }
+    for (const object of objects) {
+      const prefix = join(repository, 'objects', object.oid.slice(0, 2))
+      const path = join(prefix, object.oid.slice(2))
+      if (getStat(prefix)) ownedFile(prefix, true)
+      if (getStat(path)) ownedFile(path)
+    }
+    need(git(['for-each-ref', 'refs/replace']) === '', 'BATCH_DRAFT_DESTINATION')
   }
   checkOwned()
   const destination = Object.freeze({ root, repository })
@@ -111,9 +150,9 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
   need(local, 'BATCH_DRAFT_DESTINATION')
   const { git, checkOwned } = local
   const { root } = destination
-  checkOwned()
   let fresh, expected, branch, objects, archiveSha256, expectedDev
   try {
+    checkOwned()
     const opened = await openTransport(archive, publicKey, verifyEvidence)
     const { identity, pins, subjectIds, changedIds } = opened.evidence
     archiveSha256 = opened.archiveSha256
@@ -129,7 +168,7 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
       subjects: subjectIds, changedPages: changedIds }
     fresh = async () => {
       await verifyFresh(pins)
-      checkOwned()
+      checkOwned(objects, branch)
       need(git(['rev-parse', 'refs/heads/master', 'refs/heads/dev']) === master + '\n' + dev, 'BATCH_DRAFT_HEAD_CHANGED')
     }
     await fresh()
@@ -139,6 +178,7 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
   }
 
   const lock = join(root, 'isolated-draft.lock'), journal = join(root, 'isolated-draft-journal.jsonl')
+  checkOwned(objects, branch)
   let fd
   try { fd = openSync(lock, 'wx', 0o600) } catch (error) {
     if (error.code === 'EEXIST') return { status: 'held', reason: 'BATCH_DRAFT_BUSY' }
@@ -199,6 +239,7 @@ export async function createIsolatedBatchDraft({ destination, archive, publicKey
     need(number === existing.number && stable(draft).equals(stable(expected)) &&
       git(['rev-parse', branch]) === expected.head, 'BATCH_DRAFT_READBACK')
     await fresh()
+    need(git(['rev-parse', branch]) === expected.head, 'BATCH_DRAFT_REF_READBACK')
     record('confirmed', 'open-draft', { number, head: expected.head })
     return { status: 'created', archiveSha256, number, ...expected, responseLost: !response }
   } catch (error) {
