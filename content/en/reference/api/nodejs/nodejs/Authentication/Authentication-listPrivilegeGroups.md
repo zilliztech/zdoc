@@ -72,7 +72,7 @@ A list of privilege groups defined in the current Milvus instance.
 
         The name of the privilege group.
 
-    - **privileges** (*[PrivilegeEntity](PrivilegeEntity.md)[]*) -
+    - **privileges** (*PrivilegeEntity[]*) -
 
         The privileges contained in the group.
 

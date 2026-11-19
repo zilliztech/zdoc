@@ -12,7 +12,7 @@
       "next": "a0fa765e1fccfadc52d1edf7d59d766d9074b7f7"
     },
     "tools": {
-      "zdoc": "ffac798643f0f014241072f18847aa1c67165b85"
+      "zdoc": "da80eb037fb7b5393def5326233c900bc93d98fb"
     },
     "config": {
       "files": [
@@ -284,7 +284,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
-        "sha256": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1"
+        "sha256": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
       }
     },
     {
@@ -2264,7 +2264,7 @@
     },
     {
       "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
-      "sha256": "8f324a941309ec9515451ae6b3acdd4f9c9efa694e8a4f13d2a001d74ac977a1"
+      "sha256": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
     },
     {
       "path": "node/Authentication/Authentication-listRoles.md",
