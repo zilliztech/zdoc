@@ -25,7 +25,11 @@
 // materializes them into a pre-seeded draft before the agent session — a file
 // whose every unit is seeded skips the model entirely (the deterministic gate
 // still runs), and a partially seeded file is handed to the agent with
-// instructions to translate only the units that are still English.
+// instructions to translate only the units that are still English. A pending
+// unit can itself be an identity translation (pure identifier/code text), so
+// the seeded prompt lets the agent keep such a draft unchanged by replying
+// NO_TRANSLATION_NEEDED; the unchanged bytes must then pass the same
+// deterministic gate as any translated draft.
 
 const fs = require('node:fs')
 const os = require('node:os')
@@ -43,6 +47,21 @@ const {buildRecoveryIdentity, loadChunkLimits, loadRecoveryAnalysis, loadProgres
 
 const DEFAULT_MAX_REPAIR_TURNS = 4
 const MAX_FAILURE_ERROR_LENGTH = 2000
+
+// Reply marker exempting an unchanged seeded draft: pending "new" units can be
+// pure identifier/code lines (a parameter list row, a type alias) whose correct
+// zh/ja text is byte-identical to the English, so "the agent changed nothing"
+// is not automatically a failure. The seeded prompt states the identity
+// rule and this marker; the provider only trusts the marker after the same
+// deterministic gate any translated draft must pass. Matching is line-anchored
+// so a reply that merely quotes the rule inside running prose does not
+// qualify. An unchanged draft WITHOUT the marker still fails hard, so a lazy
+// no-op cannot slip prose through — the residual risk is a degraded model
+// claiming the marker on translatable prose, which the two independent
+// locale runs and the deterministic gate bound but do not eliminate; the
+// unchanged-drafts summary counter keeps that route observable.
+const NO_TRANSLATION_NEEDED_MARKER = 'NO_TRANSLATION_NEEDED'
+const NO_TRANSLATION_NEEDED_LINE = new RegExp('^\\s*NO_TRANSLATION_NEEDED\\s*$', 'm')
 
 // Reasoning efforts accepted by both codex and the DeepSeek native API
 // (responses gateways translate the Responses `reasoning` object into
@@ -173,6 +192,8 @@ Finish translating one ${target} documentation page from a pre-seeded draft.
 
 Units still to translate (id, kind, opening excerpt):
 ${boundedUnits}${overflow}
+
+Identity-translation rule: a remaining unit whose text is only identifiers, parameter or type names, code, paths, or markup (for example \`**privileges** (*PrivilegeEntity[]*) -\`) must stay byte-identical; there is nothing to translate in it. If EVERY remaining unit is of that kind, leave draft.md exactly as you received it and reply with exactly: ${NO_TRANSLATION_NEEDED_MARKER}. This is the only case in which an unchanged draft.md is correct.
 
 Rules:
 ${protectedBytesRules()}
@@ -403,14 +424,29 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
     const taskPrompt = seeded
       ? buildSeededTaskPrompt({item, target, validatorCommand, pendingUnits: seeded.pendingUnits, seededUnits: seeded.usableCount, styleStaged: styleContent !== null})
       : buildAgenticTaskPrompt({item, target, validatorCommand, styleStaged: styleContent !== null})
-    await runTurn('translate', taskPrompt)
+    const reply = await runTurn('translate', taskPrompt)
     attempts.push('translate')
     log.log(`[agentic-provider] turn translate ${item.sourcePath}${seeded ? ` seeded=${seeded.usableCount}/${seeded.totalUnits}` : ''}`)
+    const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
+    let outcome
     if (seededDraftBytes !== null && fs.readFileSync(draftPath, 'utf8') === seededDraftBytes) {
-      throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
+      if (!NO_TRANSLATION_NEEDED_LINE.test(String(reply || ''))) {
+        throw new Error(`agentic translate turn left the seeded draft of ${item.targetPath} unchanged; ${seeded.pendingUnits.length} unit(s) remain untranslated`)
+      }
+      // The agent claims every pending unit is an identity translation; hold
+      // the unchanged draft to the same deterministic gate as a translated
+      // one. Gate failures keep the normal repair loop below — the seed draft
+      // itself can drift out of validity.
+      outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+      if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
+      if (!outcome.errors.length) {
+        log.log(`[agentic-provider] unchanged seeded draft accepted ${item.sourcePath} (${seeded.usableCount}/${seeded.totalUnits} seeded, ${seeded.pendingUnits.length} pending unit(s) identical in ${target})`)
+        return {...base, status: 'translated', review: successfulReview(), validationErrors: [], unchangedDraftAccepted: true}
+      }
+    } else {
+      outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
+      if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
     }
-    let outcome = await validateWithRuntimeChecks({sourceContent, draftContent: fs.readFileSync(draftPath, 'utf8'), relPath: item.sourcePath, target, validate})
-    if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
     let violations = outcome.errors
     while (violations.length && attempts.length <= maxRepairTurns) {
       await runTurn(`repair${attempts.length}`, buildRepairPrompt({item, target, violations, validatorCommand}))
@@ -420,7 +456,6 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
       if (outcome.repaired !== fs.readFileSync(draftPath, 'utf8')) fs.writeFileSync(draftPath, outcome.repaired)
       violations = outcome.errors
     }
-    const base = {...item, target, attempts, ...(model ? {model} : {}), ...(seeded ? {semanticSeedUnits: seeded.usableCount} : {})}
     if (!violations.length) {
       log.log(`[agentic-provider] translated ${item.sourcePath} attempts=${attempts.join(',')}`)
       return {...base, status: 'translated', review: successfulReview(), validationErrors: []}
@@ -543,7 +578,8 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
   const agentFiles = results.filter(result => Array.isArray(result?.attempts) && result.attempts.some(attempt => attempt === 'translate' || String(attempt).startsWith('repair'))).length
   const repairTurns = results.reduce((total, result) => total + (Array.isArray(result?.attempts) ? result.attempts.filter(attempt => String(attempt).startsWith('repair')).length : 0), 0)
   const sourcePreflightFailed = results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
-  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed}`)
+  const unchangedDrafts = results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
+  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} unchanged-drafts=${unchangedDrafts} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed}`)
   if (usageTracker) {
     const usage = usageTracker.snapshot()
     log.log(`[agentic-provider] tokens turns=${usage.turns} input=${usage.inputTokens} cached=${usage.cachedInputTokens} cache-write=${usage.cacheWriteInputTokens} output=${usage.outputTokens} reasoning=${usage.reasoningOutputTokens}`)
@@ -733,6 +769,7 @@ async function main() {
   const seededFull = report.results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
   const verifiedCurrent = report.results.filter(result => result?.status === 'translated' && Array.isArray(result.attempts) && result.attempts.length === 1 && result.attempts[0] === 'verified-current').length
   const sourcePreflightFailed = report.results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
+  const unchangedDrafts = report.results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
   if (process.env.GITHUB_OUTPUT) {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, [
       `translated_count=${report.checkpoint.translated}`,
@@ -747,7 +784,7 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
       '### Agentic translation cost', '',
-      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
+      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; unchanged drafts accepted: ${unchangedDrafts}; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
       `- Agent turns: ${usage.turns} (cached input: ${Math.round(usage.cachedInputTokens / 1000)}K tokens)`,
       `- Input tokens: **${usage.inputTokens.toLocaleString('en-US')}**`,
       `- Output tokens: **${usage.outputTokens.toLocaleString('en-US')}** (reasoning: ${usage.reasoningOutputTokens.toLocaleString('en-US')})`,
@@ -762,6 +799,7 @@ module.exports = {
   DEFAULT_MAX_REPAIR_TURNS,
   AGENTIC_REASONING_EFFORTS,
   DEFAULT_REASONING_EFFORT,
+  NO_TRANSLATION_NEEDED_MARKER,
   codexThreadConfig,
   createUsageTracker,
   mergeTranslatedResultsIntoProgressState,
