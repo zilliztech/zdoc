@@ -442,7 +442,10 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
 }
 
 /** Manual-layout update/promote lane (design 10 WP12/WP13): one candidate PR per
- *  group and mode, delivered only through a PAT, never touching master or dev. */
+ *  group and mode, delivered only through a PAT, never touching master or dev.
+ *  Publish-surface safety: a removal that would retire a live route blocks the lane
+ *  before staging, additions ride behind exclude entries plus deferred ledger entries,
+ *  and the model stage drafts advisory proposals only — humans decide. */
 function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) {
   const fail = message => errors.push(`${file}: shared-docs manual lane ${message}`)
   const jobs = workflow.jobs || {}
@@ -505,10 +508,55 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
       !candidate.includes('--dev .shared-docs-dev --out "$out"')) {
     fail('the lane must run the dual-layout update/promote command against the audited clone')
   }
+  if (!candidate.includes('printf \'%s\\n\' "candidate_out=$out" >> "$GITHUB_OUTPUT"') ||
+      !candidate.includes('[ "$status" != 0 ] && [ "$status" != 3 ]')) {
+    fail('the candidate step must always emit the output directory and pass the blocked exit code through to classify')
+  }
+  const classify = run('lane', 'Classify the lane result')
+  if (!classify.includes("jq -e '.blocked == true'") || !classify.includes("echo 'result=blocked'") ||
+      !classify.includes("echo 'result=up-to-date'") || !classify.includes("echo 'result=candidate'")) {
+    fail('the lane must classify blocked, up-to-date and candidate outcomes from the authenticated report')
+  }
+  const blocked = run('lane', 'Report the blocked surface')
+  if (step('lane', 'Report the blocked surface')?.if !== "steps.classify.outputs.result == 'blocked'" ||
+      !blocked.includes("jq -r '.removedPublished[]'") || !blocked.includes('exit 1')) {
+    fail('a blocked surface must fail the lane without staging anything and list the retired-live-route removals')
+  }
+  const decideStep = step('lane', 'Draft the advisory proposals')
+  const decide = run('lane', 'Draft the advisory proposals')
+  if (decideStep?.if !== "steps.classify.outputs.result == 'candidate' && env.MODE == 'update'") {
+    fail('the advisory stage must run only for update-mode candidates: the promote report carries no surface counts')
+  }
+  const decideEnv = decideStep?.env || {}
+  if (decideEnv.AGENTIC_PROVIDER_API_KEY !== '${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}' ||
+      decideEnv.REST_UPSTREAM_AGENT_MODEL !== '${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}' ||
+      decideEnv.REST_UPSTREAM_AGENT_BASE_URL !== '${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}') {
+    fail('the advisory stage must use the same provisioned gateway chain as the REST refresh')
+  }
+  if (!decide.includes("jq -r '.counts.addedPending'") || !decide.includes('shared-docs-manual-decide.js') ||
+      !decide.includes('--api-key-env AGENTIC_PROVIDER_API_KEY') ||
+      !decide.includes('test -n "$REST_UPSTREAM_AGENT_MODEL"') || !decide.includes('test -n "$REST_UPSTREAM_AGENT_BASE_URL"')) {
+    fail('the advisory stage must skip zero-pending runs, preflight the wiring vars and run the gated decide script')
+  }
+  const merge = run('lane', 'Merge the advisory proposals')
+  if (step('lane', 'Merge the advisory proposals')?.if !== "steps.classify.outputs.result == 'candidate'" ||
+      !merge.includes('shared-docs-manual-merge-proposals.js') || !merge.includes('[ -f "$out/proposals.jsonl" ]')) {
+    fail('proposal landing must be deterministic and absent when the advisory stage drafted nothing')
+  }
+  const laneStepNames = stepsOf('lane').map(item => item.name)
+  const position = name => laneStepNames.indexOf(name)
+  if (position('Draft the advisory proposals') > position('Merge the advisory proposals') ||
+      position('Merge the advisory proposals') > position('Apply the candidate to the group')) {
+    fail('proposals must be drafted and merged before the candidate is applied')
+  }
   const apply = run('lane', 'Apply the candidate to the group')
   if (!apply.includes('grep -Eq "^next: [0-9a-f]{40}$"') || !apply.includes('grep -Eq "^current: [0-9a-f]{40}$"') ||
       !apply.includes('git add -- ') || /git add -A|git add \./.test(apply)) {
     fail('candidate application must authenticate the lock identity and stage explicit paths only')
+  }
+  if (!apply.includes('if [ -f "$out/manual.yaml" ]') || !apply.includes('if [ -f "$out/ledger.json" ]') ||
+      !apply.includes('staged_paths=') || !apply.includes('git add -- "${staged_paths[@]}"')) {
+    fail('the update candidate must land the exclusion pairing and the decision ledger atomically with the lock')
   }
   const deliverStep = step('lane', 'Deliver the candidate as a PR')
   const deliver = run('lane', 'Deliver the candidate as a PR')
@@ -526,6 +574,13 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
       !deliver.includes("--repo \"$GITHUB_REPOSITORY\" --base \"$BASE_REF\" --head \"$branch\"") ||
       !deliver.includes('--body-file')) {
     fail('delivery must push one candidate branch non-forcefully and open its PR through the PAT')
+  }
+  if (!deliver.includes('Zero-auto-adoption pairing') || !deliver.includes('Advisory stage degraded') ||
+      !deliver.includes("jq -r '.summary.degraded'")) {
+    fail('the candidate PR body must surface the pairing and any advisory degradation loudly')
+  }
+  if (!run('lane', 'Summarize the lane outcome').includes('[ "$CLASSIFY_RESULT" = blocked ]')) {
+    fail('the lane summary must report the blocked outcome and point at the adjudication recipe')
   }
   if (step('lane', 'Retain the lane evidence')?.if !== 'always()') {
     fail('lane evidence must be retained even when the lane fails')
