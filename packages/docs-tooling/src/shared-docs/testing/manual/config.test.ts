@@ -26,9 +26,16 @@ describe('parseManualConfig', () => {
     expect(result).toEqual({ config: { schema_version: 1, source: { dir: 'API_Reference/milvus-sdk-node/v3.0.x' }, publish: { manual: 'node' } } satisfies ManualConfig })
   })
 
-  it('rejects transform semantics until the channel package lands', () => {
-    const result = parse(`${base}transforms:\n  anything: 1\n`)
-    expect(errorsOf(result).map(error => error.message).join('\n')).toContain('Unknown field: transforms')
+  it('validates transforms keys as source.dir-relative upstream pages', () => {
+    const accepted = parse(`${base}transforms:\n  Collections/createCollection.md:\n    - operation: add\n      position: after\n      target:\n        block: demo-anchor\n      content:\n        file: schemes.md\n`)
+    expect('config' in accepted && accepted.config.transforms).toEqual({
+      'Collections/createCollection.md': [{ operation: 'add', position: 'after', target: { block: 'demo-anchor' }, content: { file: 'schemes.md' } }] })
+    const nonPage = parse(`${base}transforms:\n  Collections/: 1\n`)
+    expect(errorsOf(nonPage).map(error => error.message).join('\n')).toContain('transforms keys must be .md page paths relative to source.dir')
+    const cloudOverlap = parse(`${base}cloud_pages:\n  Client/Overview.md:\n    file: overview.md\ntransforms:\n  Client/Overview.md:\n    - operation: add\n      position: after\n      target:\n        block: demo-anchor\n      content:\n        file: schemes.md\n`)
+    expect(errorsOf(cloudOverlap).map(error => error.message).join('\n')).toContain('transforms cannot target a cloud_pages page')
+    const emptyRules = parse(`${base}transforms:\n  Collections/createCollection.md: []\n`)
+    expect(errorsOf(emptyRules).map(error => error.message).join('\n')).toContain('transforms must be a nonempty list of rules')
   })
 
   it('validates exclude entries as repository-relative paths', () => {

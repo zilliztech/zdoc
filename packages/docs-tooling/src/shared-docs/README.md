@@ -139,9 +139,21 @@ A group whose root contains `manual.yaml` instead of `pages/` uses the manual
 layout: one `manual.yaml` (`source.dir`, `publish.manual`, per-module and
 per-page `metadata`), one group-level `lock.yaml`, optional `Variables.json`,
 and the required `product-names.yaml`. A group cannot combine both layouts.
-The difference keys are `exclude`, `milvus_values`, and `cloud_pages`;
-`transforms` is still rejected until its semantics land in a follow-up
-package.
+The difference keys are `exclude`, `milvus_values`, `cloud_pages`, and
+`transforms`. `transforms` carries per-page transform rules keyed by an
+upstream page path relative to `source.dir` — the same rule schema the
+pages layout uses in `page.yaml` (`operation`, `target.block`, optional
+`channel`, `content.file`/`content.lines`). A key must name an upstream
+page: unknown keys fail the expansion, keys naming excluded pages are
+consumed but inert (mirroring excluded-page metadata), and keys naming
+`cloud_pages` pages are rejected at parse (a cloud page is
+content-owned; edit its `content/` file instead). Transform content
+files live in the group `content/` directory (same path safety as
+`cloud_pages`). Rules run through the same fail-closed pipeline as the
+pages layout — an upstream deletion of a referenced marker fails the
+build (`TRANSFORM_TARGET_NOT_FOUND`) and the pin-drift watchdog asserts
+declared markers at the upstream head. Promotion sweeps transform keys
+naming vanishing pages alongside metadata and exclude.
 
 ```sh
 pnpm docs-tooling shared-docs lock --shared-docs shared-docs/node --repo /path/to/web-content

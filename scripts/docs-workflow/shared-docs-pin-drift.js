@@ -176,6 +176,34 @@ async function manualScan({sharedDocsRoot, upstreamRepo, headSha}) {
     const log = git(upstreamRepo, 'log', '--format=%H %s', `${loaded.lock.next}..${headSha}`, '--', sourceDir)
     report.drifted = (log || '').trim().split('\n').filter(Boolean)
   }
+  // WP-3b third layer, manual layout: every transform target declared in manual.yaml must
+  // still be a named block at the upstream head, mirroring the pages-layout audit. The
+  // manual has no per-page entries, so each transformed page's bytes are read at the head.
+  const declaredTargets = new Map()
+  for (const [key, rules] of Object.entries(loaded.manualConfig.transforms ?? {})) {
+    for (const rule of rules) {
+      const block = rule?.target?.block
+      if (block && !declaredTargets.get(key)?.includes(block)) {
+        if (!declaredTargets.has(key)) declaredTargets.set(key, [])
+        declaredTargets.get(key).push(block)
+      }
+    }
+  }
+  if (declaredTargets.size && !report.issues.some(issue => issue.severity === 'unhealthy')) {
+    for (const [key, blocks] of [...declaredTargets.entries()].sort()) {
+      const bytes = git(upstreamRepo, 'show', `${headSha}:${sourceDir}/${key}`)
+      if (bytes === null) {
+        report.issues.push({code: 'TRANSFORM_TARGET_UNVERIFIED', severity: 'info',
+          message: `Cannot read upstream file ${key} at the head (lazy clone); transform targets stay unverified`})
+        continue
+      }
+      const missing = blocks.filter(block => !bytes.includes(`doc:block:start id="${block}"`))
+      if (missing.length) {
+        report.issues.push({code: 'TRANSFORM_TARGET_MISSING', severity: 'unhealthy',
+          message: `Transform target(s) ${missing.join(', ')} missing from ${key} at the upstream head`})
+      }
+    }
+  }
   return report
 }
 

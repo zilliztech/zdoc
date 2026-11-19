@@ -93,6 +93,9 @@ export interface ManualConfig {
   milvus_values?: Record<string, string>
   /** Manual-local pages: logical path (relative to source.dir) → a file in the group's content/ directory. */
   cloud_pages?: Record<string, { file: string; channel?: ManualCloudChannel }>
+  /** Upstream-page transforms: logical page path (relative to source.dir) → transform rules.
+   * Keys must name published upstream pages; cloud_pages pages are content-owned and reject keys. */
+  transforms?: Record<string, Transform[]>
 }
 export interface PageConfigContext extends DiagnosticContext {
   manuals: readonly string[]
