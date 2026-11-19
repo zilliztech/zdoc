@@ -11,20 +11,36 @@ export function withoutFrontMatter(markdown: string): string {
 /** Mask code and opaque HTML without changing source offsets or line numbers. */
 export function analysisMarkdown(markdown: string): string {
   let source = withoutFrontMatter(markdown.replace(/\r(?!\n)/g, '\n'))
-  const lines = [0, ...[...source.matchAll(/\n/g)].map(match => match.index! + 1)]
   const ranges: [number, number][] = []
-  for (const html of [true, false]) {
-    const md = new MarkdownIt({ html })
-    const tokens = []
-    md.block.parse(source, md, {}, tokens)
-    for (const token of tokens) {
-      // The second pass finds fences inside HTML wrappers. Indented HTML inside
-      // those wrappers is body content, not an indented Markdown code block.
-      if ((token.type === 'fence' || (html && token.type === 'code_block')) && token.map) {
-        ranges.push([lines[token.map[0]], lines[token.map[1]] ?? source.length])
+  // Only FENCED code is masked. The site compiles every doc through MDX, and
+  // MDX has no indented code: a 4-space-indented block renders as ordinary
+  // markdown, so its links and headings are just as live as unindented ones.
+  // The old markdown-it block pass masked indented code, which hid rendered
+  // links from the reference scan — an excluded-page link inside an indented
+  // nested list (listPrivilegeGroups) escaped its strip and shipped broken.
+  // Fences pair by run length; an unterminated fence masks to the end.
+  const lines = source.split('\n')
+  const fence = /^[ \t]{0,3}(`{3,}|~{3,})/
+  let open = -1
+  let marker = ''
+  let start = -1
+  let offset = 0
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index]!
+    const match = fence.exec(line)
+    if (open < 0) {
+      if (match) {
+        open = index
+        marker = match[1]!
+        start = offset
       }
+    } else if (match && match[1]![0] === marker[0] && match[1]!.length >= marker.length) {
+      ranges.push([start, offset + line.length + 1])
+      open = -1
     }
+    offset += line.length + 1
   }
+  if (open >= 0) ranges.push([start, source.length + 1])
   const mask = (start: number, end: number) => {
     source = source.slice(0, start) + source.slice(start, end).replace(/[^\r\n]/g, ' ') + source.slice(end)
   }

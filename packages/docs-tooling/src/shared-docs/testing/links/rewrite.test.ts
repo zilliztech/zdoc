@@ -101,3 +101,10 @@ it('uses the target page title metadata for suggestions without resolving by tit
     targets: new Map([['x.md', '---\nid: x.md\ntitle: Target Page\n---\n## First section']]) }))
   expect(result).toMatchObject({ errors: [{ code: 'LINK_UNRESOLVED', detail: { candidates: [{ slug: 'different', title: 'Target Page' }] } }] })
 })
+
+it('strips links to channel-absent targets before they resolve to their shared destination', () => {
+  const markdown = 'See [Scalar Index](scalar-index-overview.md#autoindex-behavior) for selections.'
+  const result = rewriteLinksAndImages(input(markdown, { channelAbsent: new Set(['scalar-index-overview.md']) }))
+  expect(result).toHaveProperty('markdown', 'See Scalar Index for selections.')
+  expect(result.notices?.map(notice => notice.code)).toEqual(['LINK_TARGET_EXCLUDED'])
+})
