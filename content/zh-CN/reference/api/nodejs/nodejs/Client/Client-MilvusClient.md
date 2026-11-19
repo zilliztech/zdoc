@@ -25,6 +25,8 @@ displayed_sidebar: nodeSidebar
 
 ---
 
+import Admonition from '@theme/Admonition';
+
 # MilvusClient
 
 一个 **MilvusClient** 实例表示一个连接到特定 Milvus 实例的 Node.js 客户端。
@@ -131,6 +133,8 @@ new MilvusClient(config: ClientConfig)
 
         指示是否使用 SSL 的布尔值。如果您已将 Milvus 配置为在 TLS Endpoint 上工作，请将其设置为 `true`。详细信息请参见 [传输加密](https://milvus.io/docs/tls.md)。
 
+        在 Zilliz Cloud 上，始终通过 TLS 连接：传入带 `https://` 的集群 Endpoint（SDK 会自动启用 TLS），或者当 Endpoint 不包含协议方案时，将 `ssl` 设置为 `true`。
+
     - **timeout** （*string* | *number*） -
 
         此操作的超时持续时间。
@@ -199,6 +203,8 @@ new MilvusClient(config: ClientConfig)
 
     指示是否使用 SSL 的布尔值。如果您已将 Milvus 配置为在 TLS Endpoint 上工作，请将其设置为 `true`。详细信息请参见 [传输加密](https://milvus.io/docs/tls.md)。
 
+    在 Zilliz Cloud 上，始终通过 TLS 连接：传入带 `https://` 的集群 Endpoint（SDK 会自动启用 TLS），或者当 Endpoint 不包含协议方案时，将 `ssl` 设置为 `true`。
+
 - **username** （*string*） -
 
     用于连接指定 Milvus 实例的有效用户名。
@@ -246,3 +252,9 @@ new MilvusClient(config: ClientConfig)
 ```javascript
 new MilvusClient(config: ClientConfig)
 ```
+
+<Admonition type="info" title="Notes">
+
+- 将 **configOrAddress** 设置为您的集群 Endpoint。您可以在 Zilliz Cloud 控制台的 Cluster details 中找到相关信息。
+
+</Admonition>

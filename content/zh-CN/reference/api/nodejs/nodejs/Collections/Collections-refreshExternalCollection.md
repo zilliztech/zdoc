@@ -55,8 +55,12 @@ await milvusClient.refreshExternalCollection({
 - **external_source** (*string*) -
 可选的新外部数据源路径。如果提供，则将从该新数据源刷新 Collection。
 
+在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。对于 `volume://` 数据源，`external_source` 和 `external_spec` 必须同时提供或同时省略；如果同时省略，刷新会复用之前持久化的数据源配置，并且仍会同步最新数据。对于 `milvus://` 数据源，适用同样的规则——省略它会复用已持久化的数据源，并且刷新会在同步前重新为源集群创建快照。
+
 - **external_spec** (*string*) -
 可选的新外部规范配置。如果提供，则 Collection 将使用此新规范。
+
+在 Zilliz Cloud 上，对于 `milvus://` 数据源，`format` 必须为 `milvus-table`（或省略）；对于其他数据源，请提供包含匹配 `format` 的规范（`parquet`、`vortex`、`lance-table`、`iceberg-table`）。
 
 - **db_name** (*string*) -
 Database 的名称。可选。

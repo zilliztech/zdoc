@@ -349,9 +349,13 @@ await milvusClient.createCollection({
 
     外部源路径。此参数适用于创建外部 Collection。
 
+    在 Zilliz Cloud 上，`external_source` 接受两种协议：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 协议指向同一项目和区域中与 Milvus v3.0.x 兼容的另一个集群上的 Collection；协议必须为小写，三个 Segment 均为必填项，且允许存在一个末尾斜杠。创建外部 Collection 时，此参数为必填项。
+
 - **external_spec**（*string*） -
 
     外部规范配置。此参数适用于创建外部 Collection。
+
+    在 Zilliz Cloud 上，创建外部 Collection 时，`external_spec` 为可选参数：对于 `milvus://` 源，省略该参数会将 `format` 默认为 `milvus-table`；对于其他源，请提供包含匹配 `format` 的规范（`parquet`、`vortex`、`lance-table`、`iceberg-table`）。
 
 - **file_resource_ids**（*Array&lt;number | string&gt;*） -
 
@@ -592,9 +596,13 @@ await milvusClient.createCollection({
 
     外部源路径。此参数适用于创建外部 Collection。
 
+    在 Zilliz Cloud 上，`external_source` 接受两种协议：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 协议指向同一项目和区域中与 Milvus v3.0.x 兼容的另一个集群上的 Collection；协议必须为小写，三个 Segment 均为必填项，且允许存在一个末尾斜杠。创建外部 Collection 时，此参数为必填项。
+
 - **external_spec**（*string*） -
 
     外部规范配置。此参数适用于创建外部 Collection。
+
+    在 Zilliz Cloud 上，创建外部 Collection 时，`external_spec` 为可选参数：对于 `milvus://` 源，省略该参数会将 `format` 默认为 `milvus-table`；对于其他源，请提供包含匹配 `format` 的规范（`parquet`、`vortex`、`lance-table`、`iceberg-table`）。
 
 - **file_resource_ids**（*Array&lt;number | string&gt;*） -
 

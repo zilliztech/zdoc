@@ -62,6 +62,18 @@ module.exports = [
         "id": "api/nodejs/nodejs/Client/Client-use",
         "label": "use()",
         "key": "doc:api/nodejs/nodejs/Client/client-use"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-getTelemetry",
+        "label": "getTelemetry()",
+        "key": "doc:api/nodejs/nodejs/Client/client-gettelemetry"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-reconnectToPrimary",
+        "label": "reconnectToPrimary()",
+        "key": "doc:api/nodejs/nodejs/Client/client-reconnecttoprimary"
       }
     ]
   },
@@ -358,6 +370,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/DataImport/DataImport-getImportState",
         "label": "getImportState()",
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-getImportJobProgress",
+        "label": "getImportJobProgress()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportjobprogress"
       }
     ]
   },
@@ -521,6 +539,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Management/Management-loadCollectionAsync",
         "label": "loadCollectionAsync()",
         "key": "doc:api/nodejs/nodejs/Management/management-loadcollectionasync"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getIndexStatistics",
+        "label": "getIndexStatistics()",
+        "key": "doc:api/nodejs/nodejs/Management/management-getindexstatistics"
       }
     ]
   },
@@ -788,6 +812,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Authentication/Authentication-hasRole",
         "label": "hasRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-selectGrant",
+        "label": "selectGrant()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-selectgrant"
       }
     ]
   },
@@ -898,6 +928,19 @@ module.exports = [
         "id": "api/nodejs/nodejs/Partitions/Partitions-releasePartitions",
         "label": "releasePartitions()",
         "key": "doc:api/nodejs/nodejs/Partitions/partitions-releasepartitions"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Volume",
+    "key": "category:api/nodejs/nodejs/volume",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Volume/Volume-VolumeManager",
+        "label": "VolumeManager",
+        "key": "doc:api/nodejs/nodejs/Volume/volume-volumemanager"
       }
     ]
   }
