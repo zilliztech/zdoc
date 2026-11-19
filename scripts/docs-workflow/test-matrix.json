@@ -1784,6 +1784,23 @@
         "git diff --check"
       ],
       "reason": "The pin drift watchdog stays read-only: drift is informational while unhealthy pins and unavailable variant state fail the report card, because degraded pins silently become production Fetch per-page fallbacks."
+    },
+    {
+      "id": "claude-local-workspace",
+      "paths": [
+        ".claude/plans/**",
+        ".claude/specs/**",
+        ".claude/skills/**"
+      ],
+      "focusedTests": [
+        "node --test scripts/architecture/verify-retired-layout.test.mjs"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The .claude local workspace retains only plans/, specs/, and skills/ per the working-tree policy; moved or added workspace documents carry no runtime behavior, so the guard is the retired-layout repository sweep (which treats all of .claude as non-production) plus matrix and whitespace gates. Tracked residue outside those three directories is removed through reviewed PRs, never accumulated."
     }
   ]
 }
