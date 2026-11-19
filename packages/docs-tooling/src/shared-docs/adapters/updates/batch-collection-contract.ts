@@ -46,6 +46,7 @@ export const BatchPageMaterialHeaderSchema = z.strictObject({kind: z.literal('gu
   current: GitShaSchema, oldNext: GitShaSchema, rawMaterialRefs: roleRefs, inventoryRefs: roleRefs, historyRef: BatchBlobRefSchema,
   renderedManualRefs: z.array(manualRef).refine(v => ordered(v, r => `${batchRoles.indexOf(r.role)}:${r.manual}:${r.path}`)),
   imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema.optional()})
+  .refine(header => header.base.origin.kind === 'replay' || header.detailRef === undefined, 'Replay-only material detail')
 export type BatchPageMaterialHeader = z.infer<typeof BatchPageMaterialHeaderSchema>
 export const BatchMaterialWireSchema = z.strictObject({kind: z.literal('guides-batch-material-wire-v1'),
   material: BatchPageMaterialHeaderSchema, blobs: z.array(z.strictObject({ref: BatchBlobRefSchema, base64: text}))

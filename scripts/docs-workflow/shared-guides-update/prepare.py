@@ -819,7 +819,7 @@ def _batch_material(reader, retained, base):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
-    batch_exact(header, fields + (' detailRef' if 'detailRef' in header else ''))
+    batch_exact(header, fields + (' detailRef' if base['origin']['kind'] == 'replay' and 'detailRef' in header else ''))
     require(header['kind'] == 'guides-batch-material-v1' and header['base'] == base
             and header['pageId'] == retained['pageId'] and batch_digest('material', header) == retained['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     for key, maximum in (('requestBytes', 32 * 1024**2), ('responseBytes', 128 * 1024**2)):

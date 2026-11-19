@@ -2,8 +2,8 @@
 const fs = require('node:fs/promises')
 const {constants} = require('node:fs')
 const path = require('node:path')
-const {createPublicKey, generateKeyPairSync} = require('node:crypto')
-const {deepStrictEqual, equal, rejects} = require('node:assert/strict')
+const {createHash, createPublicKey, generateKeyPairSync, sign} = require('node:crypto')
+const {deepStrictEqual, equal, match, rejects} = require('node:assert/strict')
 const {execFileSync, spawnSync} = require('node:child_process')
 // Run against a clean committed checkout with the already-installed workspace dependencies.
 const cwd = path.resolve(__dirname, '../../..')
@@ -118,34 +118,43 @@ async function main() {
     sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins: binding.base.pins},
   qualification.scanStartMs + 37 * 3600_000, f.fixture.finalPass), /BATCH_FRESHNESS_EXPIRED/)
   const index = await value(binding.index.ref), closure = await value(binding.closure.ref)
-  const root = await fs.open(out, constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW)
-  const blobs = await fs.open(path.join(out, 'blobs'), constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW)
-  try {
-    const identity = async fd => {
-      const stat = await fd.stat({bigint: true})
-      return {dev: String(stat.dev), ino: String(stat.ino)}
-    }
-    // The standalone graph probe reconstructs locator fields for the retained
-    // evidence. It cannot recreate the original active process acknowledgements.
-    const graphInput = canonicalBytes({kind: 'guides-batch-verify-control-v1', ...roots, receiptsRoot: index.receiptsRoot,
-      qualifierRequestSha256: '0'.repeat(64), qualifierRequestBytes: 1, rootIdentity: await identity(root), blobsIdentity: await identity(blobs)})
-    const verifyGraph = () => spawnSync('/usr/bin/python3', ['-I', '-S', '-B',
-      path.join(f.tools, 'scripts/docs-workflow/shared-guides-update/prepare.py'), 'verify-batch-collection'], {
-      input: graphInput, stdio: ['pipe', 'pipe', 'pipe', 'pipe', root.fd, blobs.fd], encoding: 'utf8',
-    })
-    const verified = verifyGraph()
-    equal(verified.status, 0, verified.stderr)
-    const leaves = [index.receiptsRoot.pages[0].receiptRef, index.receiptsRoot.pages[0].outputs[0].ref, closure.obligationRefs[0]]
-    for (const ref of leaves) {
-      const original = path.join(out, ref.path), held = path.join(lane, 'held-' + ref.sha256)
-      await fs.rename(original, held)
+  // The standalone graph probe reconstructs locator fields for the retained
+  // evidence. It cannot recreate the original active process acknowledgements.
+  async function probeGraph() {
+    const root = await fs.open(out, constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW)
+    try {
+      const blobs = await fs.open(path.join(out, 'blobs'), constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NOFOLLOW)
       try {
-        const failed = verifyGraph()
-        equal(failed.status, 1, failed.stderr)
-        equal(failed.output[3], '')
-      } finally {await fs.rename(held, original)}
-    }
-  } finally {await blobs.close(); await root.close()}
+        const identity = async fd => {
+          const stat = await fd.stat({bigint: true})
+          return {dev: String(stat.dev), ino: String(stat.ino)}
+        }
+        const graphInput = canonicalBytes({kind: 'guides-batch-verify-control-v1', ...roots, receiptsRoot: index.receiptsRoot,
+          qualifierRequestSha256: '0'.repeat(64), qualifierRequestBytes: 1, rootIdentity: await identity(root), blobsIdentity: await identity(blobs)})
+        return spawnSync('/usr/bin/python3', ['-I', '-S', '-B',
+          path.join(f.tools, 'scripts/docs-workflow/shared-guides-update/prepare.py'), 'verify-batch-collection'], {
+          input: graphInput, stdio: ['pipe', 'pipe', 'pipe', 'pipe', root.fd, blobs.fd], encoding: 'utf8',
+        })
+      } finally {await blobs.close()}
+    } finally {await root.close()}
+  }
+  const verified = await probeGraph()
+  equal(verified.status, 0, verified.stderr)
+  const leaves = [index.receiptsRoot.pages[0].receiptRef, index.receiptsRoot.pages[0].outputs[0].ref, closure.obligationRefs[0]]
+  for (const ref of leaves) {
+    const original = path.join(out, ref.path), held = path.join(lane, 'held-' + ref.sha256)
+    await fs.rename(original, held)
+    try {
+      const failed = await probeGraph()
+      equal(failed.status, 1, failed.stderr)
+      equal(failed.output[3], '')
+    } finally {await fs.rename(held, original)}
+  }
+  const replay = await replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,
+    verifyBatchFinalFreshness, graphProbe: async () => {
+      if ((await probeGraph()).status !== 0) throw Error('BATCH_DRAFT_GRAPH_REJECTED')
+    }, missingRef: index.receiptsRoot.pages[2].receiptRef})
+  await write('draft-replay.json', replay)
   const scratchRefs = git(transaction.repository, 'for-each-ref').toString()
   const scratchObjects = git(transaction.repository, 'cat-file', '--batch-all-objects', '--batch-check=%(objectname)').toString().trim().split('\n')
   equal(scratchObjects.includes(f.master) || scratchObjects.includes(f.sampledDev), false)
@@ -154,7 +163,162 @@ async function main() {
   deepStrictEqual(git(f.tools, 'rev-parse', 'refs/heads/master', 'refs/heads/dev').toString().trim().split('\n'), [f.master, f.sampledDev])
   equal(git(f.upstream, 'rev-parse', 'refs/heads/v3.0.x').toString().trim(), f.target)
   equal(scratchRefs, '')
-  await write('independent.json', {code, exact, negatives: negatives.map(([name]) => name), expired: true, scratchObjects: scratchObjects.length, missingGraphLeavesRejected: 3, replayCannotGrantObserved: true})
-  console.log(JSON.stringify({code, fixtureMaster: f.master, out, status: candidate.status, simulation: simulate}))
+  await write('independent.json', {code, exact: {status: exact.status, candidate: exact.candidate, seal: exact.seal}, negatives: negatives.map(([name]) => name), expired: true, scratchObjects: scratchObjects.length, missingGraphLeavesRejected: 3, replayCannotGrantObserved: true})
+  console.log(JSON.stringify({code, fixtureMaster: f.master, out, status: replay.draft.status, drafts: replay.draftCount, simulation: simulate}))
 }
+
+async function replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,
+  verifyBatchFinalFreshness, graphProbe, missingRef}) {
+  const {createIsolatedBatchDraft, initializeIsolatedBatchDraft, sealIsolatedBatchTransport} = await import('./batch-draft.mjs')
+  const {privateKey, publicKey} = generateKeyPairSync('ed25519')
+  const destination = initializeIsolatedBatchDraft(lane, f.tools)
+  const {root, repository} = destination
+  const publicVerificationKey = publicKey.export({type: 'spki', format: 'pem'})
+  await fs.writeFile(path.join(lane, 'transport-public-key.pem'), publicVerificationKey)
+  const key = createPublicKey(publicVerificationKey)
+  const identity = {binding: candidate.binding, plan: candidate.plan, proof: candidate.proof, index: binding.index.ref,
+    qualification: binding.qualification.ref, candidate: candidate.candidate, seal: candidate.sealOid,
+    sealKeySha256: createHash('sha256').update(candidate.publicKey).digest('hex')}
+  const changedIds = plan.nextEdits.map(edit => edit.subject.pageId)
+  const subjectIds = plan.subjects.map(subject => subject.pageId)
+  const refs = [identity.binding, identity.plan, identity.proof, identity.index, identity.qualification,
+    ...binding.pages.flatMap(row => [row.qualifiedReportRef, row.qualifiedPinsRef]), ...plan.reports]
+  const verifyEvidence = async () => {
+    await graphProbe()
+    const verified = await inspectSignedBatchCandidate(options)
+    const seal = {type: 'commit', oid: candidate.sealOid, bytes: await evidence.readBlob(candidate.seal)}
+    const documents = await Promise.all(refs.map(async ref => ({ref, bytes: await evidence.readBlob(ref)})))
+    return {identity, objects: [...verified.objects, seal], documents, pins: binding.base.pins, changedIds, subjectIds}
+  }
+  const archive = sealIsolatedBatchTransport(await verifyEvidence(), privateKey)
+  await fs.writeFile(path.join(lane, 'signed-transport.json'), archive, {mode: 0o600})
+  const verifyFreshAt = async (pins, time) => {
+    const target = git(f.upstream, 'rev-parse', 'refs/heads/v3.0.x').toString().trim()
+    if (target !== pins.source) throw Error('BATCH_DRAFT_TRACK_CHANGED')
+    await verifyBatchFinalFreshness({scanStartMs: qualification.scanStartMs, sourceJobId: qualification.rows[0].sourceJobId,
+      run: qualification.run, sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins},
+    time, f.fixture.finalPass)
+  }
+
+  // The fake retains one PR row across fresh client instances and models a
+  // creation whose response can disappear after the write is committed.
+  const prPath = path.join(root, 'pull-requests.json')
+  let createRequests = 0
+  function api({loseResponse = false} = {}) {
+    const findUpdate = async () => {
+      try {return JSON.parse(await fs.readFile(prPath, 'utf8'))}
+      catch (error) {if (error.code === 'ENOENT') return null; throw error}
+    }
+    return {
+      findUpdate,
+      async createDraft(request) {
+        createRequests++
+        const record = {number: 1, ...request}
+        await fs.writeFile(prPath, JSON.stringify(record) + '\n', {flag: 'wx', mode: 0o600, flush: true})
+        if (loseResponse) throw Error('SIMULATED_ACK_LOSS')
+        return record
+      },
+      async readDraft(number) {
+        const record = await findUpdate()
+        if (record?.number !== number) throw Error('Readback identity missing')
+        return record
+      },
+    }
+  }
+  const common = {destination, archive, publicKey: key, verifyEvidence,
+    verifyFresh: pins => verifyFreshAt(pins, f.replayClockMs)}
+  const state = () => [
+    git(repository, 'for-each-ref', '--format=%(refname) %(objectname)').toString(),
+    git(repository, 'count-objects', '-v').toString(),
+    createRequests,
+  ]
+  const negatives = {}
+  async function holds(label, overrides, reason) {
+    const before = state()
+    const result = await createIsolatedBatchDraft({...common, api: api(), ...overrides})
+    equal(result.status, 'held', JSON.stringify(result))
+    equal(result.reason, reason)
+    deepStrictEqual(state(), before)
+    negatives[label] = result.reason
+  }
+
+  await holds('expired evidence', {verifyFresh: pins => verifyFreshAt(pins, qualification.scanStartMs + 37 * 3600_000)}, 'BATCH_FRESHNESS_EXPIRED')
+  await holds('untrusted signature key', {publicKey: generateKeyPairSync('ed25519').publicKey}, 'BATCH_TRANSPORT_SIGNATURE')
+  await holds('oversized archive', {archive: Buffer.alloc(2 * 1024 * 1024 + 1)}, 'BATCH_TRANSPORT_LIMIT')
+  const payload = JSON.parse(archive.toString()).payload
+  const forged = structuredClone(payload)
+  forged.qualification = forged.index
+  const resign = value => Buffer.from(JSON.stringify({payload: value,
+    signature: sign(null, Buffer.concat([Buffer.from('zdoc:isolated-guides-batch-transport:v1\0'), Buffer.from(JSON.stringify(value))]), privateKey).toString('base64')}))
+  await holds('substituted qualification with valid transport signature', {archive: resign(forged)}, 'BATCH_TRANSPORT_EVIDENCE')
+  const partial = structuredClone(payload)
+  partial.documents.splice(9, 1)
+  await holds('missing retained no-op document', {archive: resign(partial)}, 'BATCH_TRANSPORT_EVIDENCE')
+  const original = path.join(out, missingRef.path), absent = path.join(lane, 'held-draft-receipt')
+  await fs.rename(original, absent)
+  try {await holds('missing receipt in the retained graph', {}, 'BATCH_DRAFT_GRAPH_REJECTED')}
+  finally {await fs.rename(absent, original)}
+  git(repository, 'update-ref', 'refs/heads/dev', f.master, f.sampledDev)
+  try {await holds('destination dev moved', {}, 'BATCH_DRAFT_HEAD_CHANGED')}
+  finally {git(repository, 'update-ref', 'refs/heads/dev', f.sampledDev, f.master)}
+  git(repository, 'update-ref', 'refs/heads/master', f.sampledDev, f.master)
+  try {await holds('destination master moved', {}, 'BATCH_DRAFT_HEAD_CHANGED')}
+  finally {git(repository, 'update-ref', 'refs/heads/master', f.master, f.sampledDev)}
+  git(f.upstream, 'update-ref', 'refs/heads/v3.0.x', f.current, f.target)
+  try {await holds('source track moved', {}, 'BATCH_DRAFT_TRACK_CHANGED')}
+  finally {git(f.upstream, 'update-ref', 'refs/heads/v3.0.x', f.target, f.current)}
+
+  const existing = api()
+  await fs.writeFile(prPath, JSON.stringify({number: 12, state: 'open', draft: true}) + '\n', {mode: 0o600, flag: 'wx'})
+  try {await holds('pre-existing update PR', {api: existing}, 'BATCH_DRAFT_EXISTING_UPDATE')}
+  finally {await fs.unlink(prPath)}
+  await fs.writeFile(path.join(root, 'isolated-draft.lock'), '', {mode: 0o600, flag: 'wx'})
+  try {await holds('concurrent writer reservation', {}, 'BATCH_DRAFT_BUSY')}
+  finally {await fs.unlink(path.join(root, 'isolated-draft.lock'))}
+
+  const journalPath = path.join(root, 'isolated-draft-journal.jsonl')
+  const sentinel = path.join(lane, 'journal-outside-destination.txt')
+  await fs.writeFile(sentinel, 'untouched fixture witness\n', {flag: 'wx', mode: 0o600})
+  await fs.symlink(sentinel, journalPath)
+  try {
+    await holds('journal symlink', {}, 'BATCH_DRAFT_JOURNAL')
+    equal(await fs.readFile(sentinel, 'utf8'), 'untouched fixture witness\n')
+  } finally {await fs.unlink(journalPath)}
+  await rejects(createIsolatedBatchDraft({...common, destination: {...destination}, api: api()}), /BATCH_DRAFT_DESTINATION/)
+
+  const acquired = Promise.withResolvers(), resume = Promise.withResolvers()
+  let freshnessReads = 0
+  const candidateWriter = createIsolatedBatchDraft({...common, api: api({loseResponse: true}), async verifyFresh(pins) {
+    if (++freshnessReads === 2) {
+      acquired.resolve()
+      await resume.promise
+    }
+    await common.verifyFresh(pins)
+  }})
+  await Promise.race([acquired.promise, candidateWriter.then(result => {throw Error(JSON.stringify(result))})])
+  try {await holds('competing invocation', {}, 'BATCH_DRAFT_BUSY')}
+  finally {resume.resolve()}
+  const draft = await candidateWriter
+  equal(draft.status, 'created', JSON.stringify(draft))
+  equal(draft.responseLost, true)
+  equal(draft.draft, true)
+  equal(draft.head, candidate.sealOid)
+  equal(draft.base, f.master)
+  deepStrictEqual(draft.changedPages, f.pages.slice(0, 2))
+  deepStrictEqual(draft.subjects, f.pages)
+  equal(createRequests, 1)
+  const expectedPaths = changedIds.map(id => 'shared-docs/guides/pages/' + id + '/lock.yaml')
+  const actualPaths = git(repository, 'diff', '--name-only', f.master, draft.head).toString().trim().split('\n')
+  deepStrictEqual(actualPaths, expectedPaths)
+  equal(git(repository, 'rev-parse', draft.head + '^').toString().trim(), candidate.candidate)
+  const patch = git(repository, 'diff', '--unified=0', f.master, draft.head).toString()
+  deepStrictEqual(patch.split('\n').filter(line => /^[+-](?![+-])/.test(line)).map(line => line.slice(1).split(':')[0]), ['next', 'next', 'next', 'next'])
+  await fs.writeFile(path.join(lane, 'verified-lock.patch'), patch)
+  await holds('repeat', {}, 'BATCH_DRAFT_EXISTING_UPDATE')
+  equal(createRequests, 1)
+  const journal = await fs.readFile(path.join(root, 'isolated-draft-journal.jsonl'), 'utf8')
+  match(journal, /"state":"confirmed","operation":"open-draft","number":1/)
+  return {draft, draftCount: createRequests, archiveBytes: archive.length, changedPaths: actualPaths, negatives, repository}
+}
+
 main().catch(error => {console.error(error); process.exitCode = 1})

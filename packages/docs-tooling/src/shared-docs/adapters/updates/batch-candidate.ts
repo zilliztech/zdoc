@@ -304,7 +304,7 @@ export async function inspectSignedBatchCandidate(input: {roots: Roots; evidence
   check(input.publicKey.asymmetricKeyType === 'ed25519' && decoded.length === 64 && decoded.toString('base64') === signature &&
     parsed && same(parsed, metadata) && verify(null, unsigned, input.publicKey, decoded), 'BATCH_CANDIDATE_SIGNATURE')
   budget()
-  return immutable({status: 'exact-local-candidate' as const, candidate: proof.candidate, seal: input.sealOid})
+  return {status: 'exact-local-candidate' as const, candidate: proof.candidate, seal: input.sealOid, objects: delta.objects}
 }
 
 export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunchTicket): Promise<LocalBatchCandidate> {

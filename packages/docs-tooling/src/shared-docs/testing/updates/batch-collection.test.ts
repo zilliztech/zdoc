@@ -244,6 +244,11 @@ it('rejects malformed canonical material frames and extra or orphan wire payload
   for (const raw of ['{"kind":1,"kind":1}', '{"x":-0}', '{"x":1e0}', '{"x":1.0}', '{"x":9007199254740992}', '{"x":"\\ud800"}', ' {"x":1}']) {
     expect(() => parseBatchCanonical(Buffer.from(raw), BatchPageMaterialHeaderSchema)).toThrow()
   }
+  const observed = structuredClone(wire)
+  observed.material.base.origin = {kind: 'observed'}
+  const observedRequest = {...request, origin: observed.material.base.origin}
+  expect(observed.material.detailRef).toBeDefined()
+  expect(() => validateBatchWire(observed, observedRequest)).toThrow('Replay-only material detail')
   const extra = structuredClone(wire), bytes = Buffer.from('orphan delivered bytes'), ref = batchRef(bytes)
   extra.blobs.push({ref, base64: bytes.toString('base64')}); extra.blobs.sort((a, b) => a.ref.sha256 < b.ref.sha256 ? -1 : 1)
   expect(() => validateBatchWire(extra, request)).toThrow('BATCH_MATERIAL_ORPHAN_BLOB')
