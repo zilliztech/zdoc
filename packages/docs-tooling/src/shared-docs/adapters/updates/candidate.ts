@@ -6,13 +6,16 @@ import { classifyLink, collectReferences } from '../../core/links'
 import type { SharedDocsError } from '../../core/types'
 import { groupFile } from '../group-context'
 import { buildPage, createBuildReader, createBuildRuntime } from '../build-page'
-import { collectUpdateInputs, readUpdateConfiguration, type UpdateConfiguration } from '../update-inputs'
+import { collectHistoricalUpdateObservation, collectUpdateInputs, readUpdateConfiguration, type CollectUpdateInput, type UpdateConfiguration } from '../update-inputs'
 import { GitMilvusDocsReader } from '../git-milvus-docs-reader'
 import { RealMd2md } from '../md2md'
 import { HttpImageFetcher, type ImageFetcher } from '../images'
 import { createGuidesSnapshot } from '../guides-snapshot'
 import { createZdocContentReader } from '../zdoc-content'
 import type { FixedVersions } from '../../core/updates/types'
+import type { toMdx } from '../mdx'
+import type { InspectionReader } from '../types'
+import type { GitLinkInputReader } from '../links-input'
 /** Report-only isolation over a private committed export. Production parsing/build contracts stay strict. */
 export async function readReportConfiguration(directory: string, repositoryRoot: string, pageIds: readonly string[]) {
   const complete = await readUpdateConfiguration(directory, repositoryRoot)
@@ -43,21 +46,32 @@ export async function readReportConfiguration(directory: string, repositoryRoot:
   return { configuration: { sharedDocs: { ...global, pages }, files }, pageErrors }
 }
 
-export async function collectCandidate(input: { repo: string; dev: string; pageId: string; current: string; oldNext: string; target: string;
-  configuration: UpdateConfiguration; previousConfiguration: UpdateConfiguration; versions: FixedVersions; fetcher?: ImageFetcher; invalidPageIds?: readonly string[] }) {
+interface CandidateSource {
+  repo: string; dev: string; pageId: string; target: string; configuration: UpdateConfiguration; fetcher?: ImageFetcher
+  invalidPageIds?: readonly string[]
+}
+type CandidateServices = Pick<CollectUpdateInput, 'reader' | 'md2md' | 'build'>
+function createCandidateDevInputs(dev: string) {
+  const guides = createGuidesSnapshot(dev)
+  const zdoc = new Map(['guides', 'guides-byoc'].map(manual => [manual,
+    createZdocContentReader({ checkout: dev, manualDirectory: `content/en/${manual === 'guides' ? 'guides' : 'byoc'}` })]))
+  return { guides, zdoc }
+}
+
+async function withCandidateServices<T>(input: CandidateSource, use: (services: CandidateServices) => Promise<T>,
+  historical?: {devInputs: ReturnType<typeof createCandidateDevInputs>; finalizeMdx: typeof toMdx;
+    fragments?: Pick<InspectionReader, 'withFragments'>; links?: GitLinkInputReader}) {
   const git = new GitMilvusDocsReader(input.repo)
-  const reader = createBuildReader(input.repo, { readFile: (commit, path) => git.readFile(commit, path),
+  const reader = createBuildReader(input.repo, {
+    readFile: (commit, path) => git.readFile(commit, path),
     trackedHead: async () => input.target, isOnBranch: commit => git.isAncestor(commit, input.target),
-    isAncestor: (a, b) => git.isAncestor(a, b), withFragments: (commit, use) => git.withFragments(commit, use) })
-  const guides = createGuidesSnapshot(input.dev)
+    isAncestor: (a, b) => git.isAncestor(a, b), withFragments: (commit, use) => (historical?.fragments ?? git).withFragments(commit, use),
+  }, historical?.links)
+  const {guides, zdoc} = historical?.devInputs ?? createCandidateDevInputs(input.dev)
   // The cached promise must also be observed if source collection fails before build.
   const records = await guides.getRecords()
-  const zdoc = new Map(['guides', 'guides-byoc'].map(manual => [manual,
-    createZdocContentReader({ checkout: input.dev, manualDirectory: `content/en/${manual === 'guides' ? 'guides' : 'byoc'}` })]))
   try {
-    return await collectUpdateInputs({ versions: input.versions, reader, md2md: new RealMd2md(), pages: [{ pageId: input.pageId,
-      oldNext: { commit: input.oldNext, configuration: input.previousConfiguration },
-      current: { commit: input.current, configuration: input.configuration }, candidateNext: { commit: input.target, configuration: input.configuration } }],
+    return await use({ reader, md2md: new RealMd2md(),
       build: async ({ pageId, sharedDocs, observe }) => {
         const runtime = createBuildRuntime({ sharedDocs, reader, zdoc, guides: { async getRecords() { return structuredClone(records) } },
           fetcher: input.fetcher ?? new HttpImageFetcher(120_000) })
@@ -71,7 +85,34 @@ export async function collectCandidate(input: { repo: string; dev: string; pageI
             code: 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE', message: `Cannot authenticate shared target ${ref.url}: invalid page configuration`,
             detail: { target: ref.url, invalidPages: [...input.invalidPageIds!] } }))] }
         }
-        return buildPage({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime })
+        return buildPage({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime, finalizeMdx: historical?.finalizeMdx })
       } })
   } finally { await reader.dispose() }
+}
+
+export async function collectCandidate(input: CandidateSource & {current: string; oldNext: string; previousConfiguration: UpdateConfiguration; versions: FixedVersions}) {
+  return withCandidateServices(input, services => collectUpdateInputs({ ...services, versions: input.versions, pages: [{ pageId: input.pageId,
+    oldNext: { commit: input.oldNext, configuration: input.previousConfiguration },
+    current: { commit: input.current, configuration: input.configuration },
+    candidateNext: { commit: input.target, configuration: input.configuration },
+  }] }))
+}
+
+/** One batch page owns one bounded, private Dev export. Share its validated
+ * namespace and front matter; each commit still gets fresh source/build state. */
+export function createHistoricalCandidateCollector(input: Omit<CandidateSource, 'invalidPageIds' | 'target'>, finalizeMdx: typeof toMdx,
+  fragments?: Pick<InspectionReader, 'withFragments'>, links?: GitLinkInputReader) {
+  let devInputs: ReturnType<typeof createCandidateDevInputs> | undefined
+  return (target: string) => {
+    if (!devInputs) {
+      devInputs = createCandidateDevInputs(input.dev)
+      for (const [manual, reader] of devInputs.zdoc) {
+        let pages: ReturnType<typeof reader.listPages> | undefined
+        devInputs.zdoc.set(manual, { ...reader, listPages: () => pages ??= reader.listPages() })
+      }
+    }
+    return withCandidateServices({ ...input, target }, services => collectHistoricalUpdateObservation({ ...services,
+      pageId: input.pageId, request: { commit: target, configuration: input.configuration },
+    }), {devInputs, finalizeMdx, fragments, links})
+  }
 }
