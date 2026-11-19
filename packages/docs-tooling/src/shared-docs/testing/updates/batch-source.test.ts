@@ -250,8 +250,8 @@ it('retains the raw lock-side edge of an ours merge even when its first parent h
 
 it('prefetches only authenticated relevant commits and keeps the report and ledger bytes in edge order', async () => {
   const f = await inventoryFixture('direct')
-  const unrelated = await f.source.change('site/en/unrelated.json', 'unrelated')
   const second = await f.source.change(f.sourcePath, 'another edit')
+  for (let i = 0; i < 5; i++) await f.source.change('site/en/unrelated.json', String(i))
   const newest = await f.source.change(f.sourcePath, 'last edit')
   const captures = (transport: RemoteTransport) => replayBatchDiscovery(
     {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
@@ -273,16 +273,15 @@ it('prefetches only authenticated relevant commits and keeps the report and ledg
   }
   const baseline = await captures(transport(false))
   const pending = captures(transport(true))
-  try { await vi.waitFor(() => expect(completed).toContain(second)) } finally { release() }
+  try { await vi.waitFor(() => expect(completed).toContain(second), {timeout: 5_000}) } finally { release() }
   const delayed = await pending
   expect(started).toEqual([newest, second, f.t])
-  expect(started).not.toContain(unrelated)
   expect(completed[0]).toBe(second)
   expect(delayed.ledger.filter(row => row.newPath === f.sourcePath).map(row => row.commit)).toEqual([newest, second, f.t])
   for (const field of ['report', 'ledger', 'introductionOrder'] as const) {
     expect(canonicalBytes(delayed[field])).toEqual(canonicalBytes(baseline[field]))
   }
-})
+}, 20_000)
 
 it('keeps a #3707-style imported base path as a held clue without assigning the PR as a page seed', async () => {
   const f = await inventoryFixture('3707-base-import'), report = await f.run()

@@ -10,7 +10,7 @@ import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { guidesSnapshotPath } from '../guides-snapshot'
 import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
 import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
-import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget } from './batch-source'
+import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
 import {batchRef, batchSha256, type BatchEdge, type BatchOrigin, type BatchBlobRef} from './batch-collection-contract'
 import {immutable} from '../../core/updates/types'
 
@@ -18,6 +18,7 @@ type Pins = BatchDiscoveryInput['pins']
 type API = ReturnType<typeof createBatchGitHub>
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
 const group = 'shared-docs/guides', activePath = 'generated/en/manifests/shared-pages/guides/active.json'
+const edgeLookaheadLimit = 32
 const unique = <T>(rows: T[]) => [...new Set(rows)]
 const add = (values: string[], value: string) => { if (!values.includes(value)) values.push(value) }
 const digest = (value: unknown) => createHash('sha256').update(canonicalBytes(value)).digest('hex')
@@ -209,10 +210,10 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   }
   async function prepareEdge(edge: typeof edges[number]) {
     budget.remaining()
-    let raw
+    let raw: RawChange[]
     try { raw = await store.delta(edge.parent, edge.oid) }
     catch (error) {
-      return {...edge, failure: safeReason(error, 'SOURCE_DELTA_UNAVAILABLE')}
+      return {...edge, failure: safeReason(error, 'SOURCE_DELTA_UNAVAILABLE'), raw: null, classified: null, affected: false}
     }
     const removed = new Map<string, string[]>(), added = new Map<string, number>()
     for (const delta of raw) {
@@ -231,14 +232,18 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
     // Only these authenticated paths need PR metadata. Unrelated edits still retain raw evidence.
     const affected = classified.some(({delta, direct, unresolved, consumers, fragment}) =>
       direct.length || unresolved.length || consumers.length || fragment || ledger && delta.path.startsWith('site/en/') && /\.mdx?$/.test(delta.path))
-    return {...edge, raw, classified, affected}
+    return {...edge, raw, classified, affected, failure: null}
   }
   async function* observeEdges() {
     const allEdges = [...edges, ...extraEdges.values()]
-    for (let offset = 0; offset < allEdges.length; offset += BATCH_ASSOCIATION_WINDOW) {
-      const window = []
-      for (const edge of allEdges.slice(offset, offset + BATCH_ASSOCIATION_WINDOW)) window.push(await prepareEdge(edge))
-      const commits = window.flatMap(edge => edge.affected && !edge.lockSide ? [edge.oid] : [])
+    let offset = 0
+    while (offset < allEdges.length) {
+      const window: Awaited<ReturnType<typeof prepareEdge>>[] = [], commits: string[] = []
+      while (offset < allEdges.length && window.length < edgeLookaheadLimit && commits.length < BATCH_ASSOCIATION_WINDOW) {
+        const prepared = await prepareEdge(allEdges[offset++])
+        window.push(prepared)
+        if (prepared.affected && !prepared.lockSide) commits.push(prepared.oid)
+      }
       const associations = await api.associations(commits)
       let index = 0
       for (const edge of window) yield {edge, association: edge.affected && !edge.lockSide ? associations[index++] : undefined}
@@ -247,7 +252,7 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   for await (const {edge: prepared, association} of observeEdges()) {
     budget.remaining()
     const {oid, parent, relevant, lockSide, failure, raw, classified, affected} = prepared
-    if (!raw || !classified) {
+    if (failure !== null) {
       add(input.reasons, failure)
       for (const r of relevant) { r.interval.association = 'unknown'; if (r.page.active !== false) add(r.page.reasons, failure) }
       continue

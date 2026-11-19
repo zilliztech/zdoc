@@ -9,7 +9,7 @@ import { BatchReadError, stop, type BatchBudget } from './batch-source'
 import { currentBatchLifetime } from './evidence'
 
 const zdoc = 'zilliztech/zdoc', milvus = 'milvus-io/milvus-docs'
-export const BATCH_ASSOCIATION_WINDOW = 4
+export const BATCH_ASSOCIATION_WINDOW = 8
 const repoIds = { [zdoc]: 660446555, [milvus]: 267273319 }
 const positive = z.number().int().positive().max(Number.MAX_SAFE_INTEGER)
 const repository = z.object({ id: positive, full_name: z.string() })
@@ -55,10 +55,14 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
   const clients = { [milvus]: client(milvus), [zdoc]: client(zdoc) }
   const inFlight = new Set<Promise<void>>()
   let reserved = 0
+  let admissionClosed = false
+  // Dispatch shares the same limits as pins and pagination. Near a limit a concurrent
+  // read can spend the last allowance, leaving another edge unresolved.
   async function get(repo: keyof typeof clients, suffix = '') {
     let available: number
     for (;;) {
       budget.remaining()
+      if (admissionClosed) stop('METADATA_READ_FAILED')
       if (budget.calls >= IO.calls) stop('METADATA_CALL_LIMIT')
       if (budget.apiBytes >= IO.expandedBytes) stop('METADATA_BYTE_LIMIT')
       available = IO.expandedBytes - budget.apiBytes - reserved
@@ -70,17 +74,33 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     const controller = new AbortController(), timeout = budget.remaining()
     const lifetimeSignal = currentBatchLifetime()?.signal
     const signal = lifetimeSignal ? AbortSignal.any([controller.signal, lifetimeSignal]) : controller.signal
+    if (signal.aborted) {
+      admissionClosed = true
+      stop('METADATA_READ_FAILED')
+    }
     let settle!: () => void
     const done = new Promise<void>(resolve => { settle = resolve })
     inFlight.add(done); reserved += maximum; budget.calls++
     const deadline = performance.now() + timeout
     const timer = setTimeout(() => controller.abort(), timeout)
+    let onAbort!: () => void
+    const aborted = new Promise<never>((_, reject) => {
+      onAbort = () => {
+        // A timed-out transport may not have released its physical slot yet.
+        admissionClosed = true
+        reject(new BatchReadError('METADATA_READ_FAILED'))
+      }
+    })
+    signal.addEventListener('abort', onAbort, {once: true})
     // Failed/oversized streams may have used their whole allowance.
     let charge = maximum
     try {
-      const response = await clients[repo]({ method: 'GET', path: '/repos/' + repo + suffix, signal, maximum })
+      const response = await Promise.race([aborted, clients[repo]({ method: 'GET', path: '/repos/' + repo + suffix, signal, maximum })])
+      if (signal.aborted || performance.now() >= deadline) {
+        admissionClosed = true
+        stop('METADATA_READ_FAILED')
+      }
       if (response.body.byteLength > maximum) stop('METADATA_BYTE_LIMIT')
-      if (signal.aborted || performance.now() >= deadline) stop('METADATA_READ_FAILED')
       charge = response.body.byteLength
       if (response.status !== 200) stop('METADATA_READ_FAILED')
       const value = parseStrictJson(response.body)
@@ -92,7 +112,7 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
       stop('METADATA_READ_FAILED')
     }
     finally {
-      clearTimeout(timer)
+      clearTimeout(timer); signal.removeEventListener('abort', onAbort)
       budget.apiBytes += charge; reserved -= maximum
       inFlight.delete(done); settle()
     }
@@ -150,26 +170,33 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
   }
   async function associations(oids: readonly string[]) {
     if (oids.length > BATCH_ASSOCIATION_WINDOW || new Set(oids).size !== oids.length) stop('METADATA_QUERY_INVALID')
-    const listings = await Promise.allSettled(oids.map(listAssociation))
-    // Reserve each PR in input order before awaiting its detail or complete file list.
-    return Promise.allSettled(listings.map(async listing => {
-      if (listing.status === 'rejected') throw listing.reason
-      const {candidate, evidence} = listing.value
-      if (!candidate) return {pull: null, evidence}
-      let cached = pulls.get(candidate.number)
-      if (cached) {
-        if (JSON.stringify(candidate) !== JSON.stringify(cached.summary)) stop('PR_IDENTITY_CHANGED')
-      } else {
-        const pull = readPull(candidate).catch(error => {
-          // Current waiters share the failure. A later window may observe this PR again.
-          if (pulls.get(candidate.number)?.pull === pull) pulls.delete(candidate.number)
-          throw error
-        })
-        cached = {summary: candidate, pull}
-        pulls.set(candidate.number, cached)
-      }
-      return {pull: await cached.pull, evidence}
-    }))
+    const failures = new Map<number, Promise<ObservedPull>>()
+    let previous = Promise.resolve()
+    const pending = oids.map(oid => {
+      const listing = listAssociation(oid)
+      // Observe a rejection while the earlier listings are still being registered.
+      void listing.catch(() => {})
+      const registered = previous.then(async () => {
+        const {candidate, evidence} = await listing
+        if (!candidate) return {pull: null, evidence}
+        let cached = pulls.get(candidate.number)
+        if (cached) {
+          if (JSON.stringify(candidate) !== JSON.stringify(cached.summary)) stop('PR_IDENTITY_CHANGED')
+        } else {
+          const pull = readPull(candidate).catch(error => { failures.set(candidate.number, pull); throw error })
+          cached = {summary: candidate, pull}
+          pulls.set(candidate.number, cached)
+        }
+        return {pull: cached.pull, evidence}
+      })
+      // Input order owns the PR reservation. Its detail/files can finish independently.
+      previous = registered.then(() => {}, () => {})
+      return registered.then(async ({pull, evidence}) => ({pull: await pull, evidence}))
+    })
+    const settled = await Promise.allSettled(pending)
+    // This window shares each PR failure. Only a later window can re-observe it.
+    for (const [number, pull] of failures) if (pulls.get(number)?.pull === pull) pulls.delete(number)
+    return settled
   }
   async function association(oid: string) {
     const [result] = await associations([oid])

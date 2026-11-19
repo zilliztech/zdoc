@@ -122,13 +122,15 @@ it('coalesces in-flight PR details and applies their identity in commit order', 
   const conflicting = { ...pr, head: { sha: 'f'.repeat(40) } }
   const detailCalls: string[] = []
   const finished: string[] = []
-  let releaseFirst!: () => void, releaseDetail!: () => void
+  let releaseFirst!: () => void, releaseLast!: () => void, releaseDetail!: () => void
   const first = new Promise<void>(resolve => { releaseFirst = resolve })
+  const last = new Promise<void>(resolve => { releaseLast = resolve })
   const details = new Promise<void>(resolve => { releaseDetail = resolve })
   const transport: RemoteTransport = async ({path}) => {
     if (path.includes('/commits/')) {
       const sha = path.split('/')[5]
       if (sha === commits[0]) await first
+      if (sha === commits[3]) await last
       finished.push(sha)
       return response(sha === commits[3] ? [] : sha === commits[1] ? [conflicting] : [pr])
     }
@@ -139,12 +141,13 @@ it('coalesces in-flight PR details and applies their identity in commit order', 
   const api = createBatchGitHub(batchBudget(), {transport})
   const pending = api.associations(commits)
   try {
-    await vi.waitFor(() => expect(finished).toEqual(commits.slice(1)))
+    await vi.waitFor(() => expect(finished).toEqual(commits.slice(1, 3)))
     expect(detailCalls).toEqual([])
     releaseFirst()
     await vi.waitFor(() => expect(detailCalls).toEqual([root + '/pulls/5']))
+    expect(finished).not.toContain(commits[3])
   } finally {
-    releaseFirst(); releaseDetail()
+    releaseFirst(); releaseLast(); releaseDetail()
   }
   const results = await pending
   expect(results.map(result => result.status)).toEqual(['fulfilled', 'rejected', 'fulfilled', 'fulfilled'])
@@ -194,8 +197,8 @@ it('holds a partial aggregate byte allowance until an overlapping reservation se
   expect(budget.apiBytes).toBe(IO.expandedBytes - IO.jsonBytes + 2)
 })
 
-it('never starts calls beyond the aggregate allowance and caps overlapping reads at four', async () => {
-  const commits = ['a', 'b', 'c', 'd'].map(c => c.repeat(40))
+it('never starts calls beyond the aggregate allowance and admits windows of up to eight', async () => {
+  const commits = [...'abcdef01'].map(c => c.repeat(40))
   const budget = batchBudget()
   budget.calls = IO.calls - 2
   let release!: () => void
@@ -209,25 +212,50 @@ it('never starts calls beyond the aggregate allowance and caps overlapping reads
   const pending = api.associations(commits)
   try { await vi.waitFor(() => expect(calls).toBe(2)) } finally { release() }
   const results = await pending
-  expect(results.map(item => item.status)).toEqual(['fulfilled', 'fulfilled', 'rejected', 'rejected'])
-  expect(results.slice(2)).toEqual(Array(2).fill(expect.objectContaining({reason: expect.objectContaining({message: 'METADATA_CALL_LIMIT'})})))
+  expect(results.map(item => item.status)).toEqual(['fulfilled', 'fulfilled', ...Array(6).fill('rejected')])
+  expect(results.slice(2)).toEqual(Array(6).fill(expect.objectContaining({reason: expect.objectContaining({message: 'METADATA_CALL_LIMIT'})})))
   expect(budget.calls).toBe(IO.calls)
   expect(calls).toBe(2)
-  await expect(api.associations([...commits, 'e'.repeat(40)])).rejects.toThrow('METADATA_QUERY_INVALID')
+  await expect(api.associations([...commits, '2'.repeat(40)])).rejects.toThrow('METADATA_QUERY_INVALID')
 })
 
-it('rejects a delayed response after its request abort even when the transport resolves', async () => {
+it('caps simultaneous transport requests at eight across overlapping callers', async () => {
+  const commits = [...'abcdef01'].map(c => c.repeat(40))
+  let release!: () => void, active = 0, peak = 0, starts = 0
+  const held = new Promise<void>(resolve => { release = resolve })
+  const api = createBatchGitHub(batchBudget(), {transport: async () => {
+    starts++
+    peak = Math.max(peak, ++active)
+    await held
+    active--
+    return response([])
+  }})
+  const pending = [api.associations(commits), api.association('2'.repeat(40))]
+  try {
+    await vi.waitFor(() => expect(starts).toBe(8))
+    expect(peak).toBe(8)
+  } finally { release() }
+  await Promise.all(pending)
+  expect(starts).toBe(9)
+  expect(peak).toBe(8)
+})
+
+it('settles an uncooperative timed-out transport and refuses to reuse its slot', async () => {
   vi.useFakeTimers()
   try {
     const budget = batchBudget()
     budget.remaining = () => 10
-    let signal: AbortSignal | undefined, release!: () => void
+    let signal: AbortSignal | undefined, release!: () => void, calls = 0
     const first = new Promise<void>(resolve => { release = resolve })
-    const api = createBatchGitHub(budget, {transport: async request => { signal = request.signal; await first; return response([]) }})
+    const api = createBatchGitHub(budget, {transport: async request => { calls++; signal = request.signal; await first; return response([]) }})
     const pending = expect(api.association(oid)).rejects.toThrow('METADATA_READ_FAILED')
     await vi.advanceTimersByTimeAsync(11)
     expect(signal?.aborted).toBe(true)
-    release()
-    await pending
+    try {
+      await pending
+      await expect(api.association('b'.repeat(40))).rejects.toThrow('METADATA_READ_FAILED')
+      expect(calls).toBe(1)
+      expect(budget.apiBytes).toBe(IO.jsonBytes)
+    } finally { release() }
   } finally { vi.useRealTimers() }
 })
