@@ -520,8 +520,8 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
   }
   const decideStep = step('lane', 'Draft the advisory proposals')
   const decide = run('lane', 'Draft the advisory proposals')
-  if (decideStep?.if !== "steps.classify.outputs.result == 'candidate'") {
-    fail('the advisory stage must run only for classified candidates')
+  if (decideStep?.if !== "steps.classify.outputs.result == 'candidate' && env.MODE == 'update'") {
+    fail('the advisory stage must run only for update-mode candidates: the promote report carries no surface counts')
   }
   const decideEnv = decideStep?.env || {}
   if (decideEnv.AGENTIC_PROVIDER_API_KEY !== '${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}' ||

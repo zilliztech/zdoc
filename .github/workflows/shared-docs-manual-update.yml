@@ -243,7 +243,7 @@ jobs:
       # decision surface. Model/base-url vars are wiring: missing ones fail hard here,
       # like the REST refresh preflight. Zero pending additions skip the call entirely.
       - name: Draft the advisory proposals
-        if: steps.classify.outputs.result == 'candidate'
+        if: steps.classify.outputs.result == 'candidate' && env.MODE == 'update'
         env:
           AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
           REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
