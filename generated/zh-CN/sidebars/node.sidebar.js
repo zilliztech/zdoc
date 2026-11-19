@@ -252,9 +252,21 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-addFunctionField",
+        "label": "addFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-addfunctionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress",
         "label": "getRefreshExternalCollectionProgress()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-getrefreshexternalcollectionprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-alterCollectionSchema",
+        "label": "alterCollectionSchema()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-altercollectionschema"
       },
       {
         "type": "doc",
@@ -264,9 +276,45 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropCollectionField",
+        "label": "dropCollectionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropcollectionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-refreshExternalCollection",
         "label": "refreshExternalCollection()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-refreshexternalcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropFunctionField",
+        "label": "dropFunctionField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-ConsistencyLevelEnum",
+        "label": "ConsistencyLevelEnum",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-consistencylevelenum"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-FieldType",
+        "label": "FieldType",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-fieldtype"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-FunctionObject",
+        "label": "FunctionObject",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-functionobject"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-RefreshExternalCollectionJobInfo",
+        "label": "RefreshExternalCollectionJobInfo",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-refreshexternalcollectionjobinfo"
       }
     ]
   },
