@@ -1,5 +1,6 @@
 import type { ConfigResult, DiagnosticContext, ManualCloudChannel, ManualConfig, Variables } from './types'
 import { ConfigValidation, isRepositoryPath, parseYaml } from './yaml'
+import { validateTransforms } from './transforms/schema'
 
 /** Manual-layout page metadata; the title always comes from the H1 heading. */
 const PAGE_METADATA_FIELDS = ['beta', 'deprecate_since', 'added_since', 'description', 'last_modified', 'notebook', 'type', 'token', 'sidebar_position', 'keywords']
@@ -42,8 +43,7 @@ export function parseManualConfig(text: string, context: DiagnosticContext & {
   if ('errors' in parsed) return parsed
   const check = new ConfigValidation(parsed.document, location)
   const value = parsed.document.value
-  // transforms joins with the R1c channel package; the manual layout gains one semantic per follow-up.
-  if (check.object(value, [], ['schema_version', 'source', 'publish', 'metadata', 'exclude', 'milvus_values', 'cloud_pages'], ['schema_version', 'source', 'publish'])) {
+  if (check.object(value, [], ['schema_version', 'source', 'publish', 'metadata', 'exclude', 'milvus_values', 'cloud_pages', 'transforms'], ['schema_version', 'source', 'publish'])) {
     if ('schema_version' in value && value.schema_version !== 1) check.error(['schema_version'], 'Unsupported schema_version; expected 1')
     if ('source' in value && check.object(value.source, ['source'], ['dir'], ['dir'])) {
       if ('dir' in value.source && check.string(value.source.dir, ['source', 'dir']) && !isRepositoryPath(value.source.dir)) {
@@ -93,6 +93,22 @@ export function parseManualConfig(text: string, context: DiagnosticContext & {
             check.error(['cloud_pages', logical, 'channel'], `channel must be one of ${CLOUD_CHANNEL_VALUES.join(', ')}`, 'CONFIG_CHANNEL_UNSUPPORTED')
           }
         }
+      }
+    }
+    if ('transforms' in value && check.object(value.transforms, ['transforms'],
+      Object.keys((value.transforms as Record<string, unknown>) ?? {}), [])) {
+      for (const [key, rules] of Object.entries(value.transforms as Record<string, unknown>)) {
+        if (!key.endsWith('.md') || !isRepositoryPath(key)) {
+          check.error(['transforms', key, '$key'], 'transforms keys must be .md page paths relative to source.dir')
+          continue
+        }
+        if (value.cloud_pages && key in (value.cloud_pages as Record<string, unknown>)) {
+          check.error(['transforms', key, '$key'], 'transforms cannot target a cloud_pages page; edit its content/ file instead',
+            'CONFIG_TRANSFORM_CLOUD_PAGE')
+          continue
+        }
+        if (!Array.isArray(rules) || !rules.length) check.error(['transforms', key], 'transforms must be a nonempty list of rules')
+        else validateTransforms(rules as unknown[], check, ['transforms', key])
       }
     }
     if ('metadata' in value && check.object(value.metadata, ['metadata'],

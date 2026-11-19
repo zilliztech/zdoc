@@ -157,6 +157,41 @@ async function manualFixture() {
 
 const manualOptions = setup => ({sharedDocsRoot: setup.group, upstreamRepo: setup.repo, headSha: setup.tip})
 
+test('manual layout audits declared transform targets against the upstream head', async () => {
+  const setup = await manualFixture()
+  put(setup.group, 'manual.yaml', fs.readFileSync(path.join(setup.group, 'manual.yaml'), 'utf8')
+    .replace('milvus_values:', [
+      'transforms:',
+      '  Client/createClient.md:',
+      '    - operation: add',
+      '      position: after',
+      '      target:',
+      '        block: client-anchor',
+      '      content:',
+      '        file: client-note.md',
+      'milvus_values:',
+    ].join('\n')))
+  put(setup.group, 'content/client-note.md', 'On Zilliz Cloud, the client anchors.\n')
+  put(setup.repo, `${setup.sourceDir}/Client/createClient.md`, '# createClient\n\n<!-- doc:block:start id="client-anchor" -->\nUpstream client.\n<!-- doc:block:end id="client-anchor" -->\n')
+  git(setup.repo, 'add', '--all'); git(setup.repo, 'commit', '--quiet', '-m', 'Add marker')
+  const marked = git(setup.repo, 'rev-parse', 'HEAD')
+  put(setup.group, 'lock.yaml', `schema_version: 1\ncurrent: ${setup.base}\nnext: ${marked}\n`)
+
+  // Marker present at the head: the audit stays healthy.
+  const healthy = await scan({...manualOptions(setup), headSha: marked})
+  assert.equal(healthy.summary.unhealthyCount, 0)
+  assert.ok(!healthy.issues.some(issue => issue.code.startsWith('TRANSFORM_TARGET')))
+
+  // Marker deleted at the head: the audit turns unhealthy.
+  put(setup.repo, `${setup.sourceDir}/Client/createClient.md`, '# createClient\n\nMarker removed by an upstream cleanup.\n')
+  git(setup.repo, 'add', '--all'); git(setup.repo, 'commit', '--quiet', '-m', 'Delete marker')
+  const stripped = git(setup.repo, 'rev-parse', 'HEAD')
+  const missing = await scan({...manualOptions(setup), headSha: stripped})
+  assert.equal(missing.summary.unhealthyCount, 1)
+  assert.ok(missing.issues.some(issue => issue.code === 'TRANSFORM_TARGET_MISSING' && issue.message.includes('client-anchor')))
+  assert.equal(watchdogCardStatus(missing), 'fail')
+})
+
 test('manual layout audits pins, drift and cloud content as one healthy entry', async () => {
   const setup = await manualFixture()
   const report = await scan(manualOptions(setup))
