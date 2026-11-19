@@ -1,0 +1,1 @@
+On Zilliz Cloud, for a `milvus://` source, `format` must be `milvus-table` (or omitted); for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).

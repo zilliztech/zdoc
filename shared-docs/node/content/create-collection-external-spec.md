@@ -1,0 +1,1 @@
+On Zilliz Cloud, `external_spec` is optional when creating an external collection: for a `milvus://` source, omitting it defaults `format` to `milvus-table`; for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
