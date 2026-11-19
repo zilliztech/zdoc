@@ -88,6 +88,9 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
     {from: '/docs/metrics-and-alerts', to: '/docs/metrics-alerts-reference'},
     {from: '/docs/setup-a-private-link', to: '/docs/setup-a-private-link-aws'},
     {from: '/docs/on-zilliz-cloud-console', to: '/docs/quick-start'},
+    // audit-logs links the guides-only cost page with a relative link; the
+    // byoc copy must reach it through the guides route (see en site rules).
+    {from: '/docs/byoc/audit-log-cost', to: '/docs/audit-log-cost'},
     {from: '/docs/data-import', to: '/docs/data-import-zero-to-hero'},
   ]},
   robots: {index: true},

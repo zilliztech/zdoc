@@ -109,6 +109,12 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
     {from: '/docs/setup-a-private-link', to: '/docs/setup-a-private-link-aws'},
     {from: '/ja-JP/docs/setup-a-private-link', to: '/ja-JP/docs/setup-a-private-link-aws'},
     {from: '/ja-JP/docs/metrics-and-alerts', to: '/ja-JP/docs/metrics-alerts-reference'},
+    // The audit-logs page publishes to both trees from one Feishu source; its
+    // relative link to the guides-only cost page resolves flat in guides but
+    // lands on a nonexistent byoc route, so both namespaces redirect to the
+    // guides page.
+    {from: '/docs/byoc/audit-log-cost', to: '/docs/audit-log-cost'},
+    {from: '/ja-JP/docs/byoc/audit-log-cost', to: '/ja-JP/docs/audit-log-cost'},
   ]},
   robots: {index: true},
 }));
