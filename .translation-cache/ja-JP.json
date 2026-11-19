@@ -6236,14 +6236,14 @@
       "translatedAt": "2026-11-19T03:46:33.018Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md": {
-      "sourceHash": "520ab2b7a53c99a981c723b6b45b977e8f42f89e6d03d62d31720e1d0c7f9e33",
+      "sourceHash": "dd808da7bd308e5b91c2dfd4c9e19058062dca4753c80af6a99093495d745012",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-19T11:44:14.191Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md": {
-      "sourceHash": "16c36a6283520ab27426c38e41324f42bfa73cd17c553a677cfed62c14ccb97a",
+      "sourceHash": "2e4177c25b3fe1deaae9bfe16c5c72d09dd277a4adb291d3debae1c3579f8b45",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-19T11:44:14.191Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md": {
       "sourceHash": "3dbe8446e4c75d760113428123f9dabc5453b9c59721471e148b26670b64b145",
@@ -6291,9 +6291,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md": {
-      "sourceHash": "77506920488ffd87e294bbbe0951352cc71e0e7614a0270d6022168144cbefaa",
+      "sourceHash": "f0a8eb53639a2dba90b486541958ba5530d458c368bab0e91eeff69ee08df5f3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "translatedAt": "2026-11-19T02:44:12.607Z"
+      "translatedAt": "2026-11-19T11:44:14.191Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md": {
       "sourceHash": "327359ed15e0dd55623994572ab53b9caa6ddbdf5fb0c4a4a61a9aa2f5f095e4",
@@ -6356,9 +6356,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md": {
-      "sourceHash": "caaa8fa73c765bbb7797146af38d883465661b16980ae412be452103dc0786d2",
+      "sourceHash": "438c10a038191ed943ccc8d690746970f43ea6a8b8979e33c664e7bb5c32b3d8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-19T11:44:14.191Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md": {
       "sourceHash": "223af1d61427ed5405ada148a96e0e78e28b73e841ac9edcc37d5fb1b5be9e0a",

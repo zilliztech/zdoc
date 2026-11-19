@@ -70,7 +70,7 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 **パラメーター:**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -
+- **job_info** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)*) -
 
 リフレッシュジョブの現在の状態です。
 
