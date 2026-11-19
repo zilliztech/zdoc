@@ -225,28 +225,44 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
   if (errors.length) return { errors }
   if (!source || 'errors' in source || !manual || 'errors' in manual || !lock || 'errors' in lock
     || !variables || 'errors' in variables || !product || 'errors' in product) throw new Error('Missing manual build input')
-  // cloud_pages read from the group's content/ directory with the same path safety as
-  // transform content: no traversal, no symbolic links, regular files inside content/ only.
+  // cloud_pages and transform content read from the group's content/ directory with the
+  // same path safety: no traversal, no symbolic links, regular files inside content/ only.
   const cloudFiles = new Map<string, ContentFile>()
-  if (manual.config.cloud_pages) {
+  const transformContentFiles = new Map<string, ContentFile>()
+  const transformNames = new Set<string>()
+  for (const rules of Object.values(manual.config.transforms ?? {})) for (const rule of rules) {
+    const name = rule?.content?.file
+    if (typeof name === 'string') transformNames.add(name)
+  }
+  if (manual.config.cloud_pages || transformNames.size) {
     let contentRoot: string | undefined
     try { contentRoot = await realpath(join(root, 'content')) }
     catch {
-      errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: 'cloud_pages requires a content directory in the group',
+      errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: 'cloud_pages and transforms require a content directory in the group',
         file: file('manual.yaml'), line: 1, channel: 'both' })
     }
-    if (contentRoot) for (const [logical, entry] of Object.entries(manual.config.cloud_pages)) {
-      const name = entry.file
+    const readContent = async (name: string, pathSpec: (string | number)[]): Promise<ContentFile | undefined> => {
       try {
         if (isAbsolute(name) || /[\\/\x00]/.test(name) || name === '.' || name === '..') throw new Error('Expected a file in the content directory')
-        const path = join(contentRoot, name)
+        const path = join(contentRoot!, name)
         if ((await lstat(path)).isSymbolicLink()) throw new Error('Content must not be a symbolic link')
         const resolved = await realpath(path)
         if (dirname(resolved) !== contentRoot || !(await lstat(resolved)).isFile()) throw new Error('Content must resolve to a regular file in the content directory')
-        cloudFiles.set(logical, { file: file(`content/${name}`), text: await readFile(resolved, 'utf8') })
+        return { file: file(`content/${name}`), text: await readFile(resolved, 'utf8') }
       } catch (error) {
         errors.push({ code: 'TRANSFORM_CONTENT_NOT_FOUND', message: `Cannot read Cloud content ${name}: ${error instanceof Error ? error.message : String(error)}`,
-          file: file('manual.yaml'), line: yamlLine(manualYaml, ['cloud_pages', logical, 'file']), page: logical, channel: 'both' })
+          file: file('manual.yaml'), line: yamlLine(manualYaml, pathSpec), page: String(pathSpec[1] ?? pathSpec[0]), channel: 'both' })
+        return undefined
+      }
+    }
+    if (contentRoot) {
+      for (const [logical, entry] of Object.entries(manual.config.cloud_pages ?? {})) {
+        const content = await readContent(entry.file, ['cloud_pages', logical, 'file'])
+        if (content) cloudFiles.set(logical, content)
+      }
+      for (const name of [...transformNames].sort()) {
+        const content = await readContent(name, ['transforms'])
+        if (content) transformContentFiles.set(name, content)
       }
     }
   }
@@ -258,7 +274,8 @@ export async function readManualSharedDocs(directory: string, repositoryRoot = p
   if (errors.length) return { errors }
   return { sharedDocsPath: group.path, sourceYaml: sourceYaml!, sourceConfig: source.config,
     manualYaml: manualYaml!, manualConfig: manual.config, lockYaml: lockYaml!, lock: lock.lock,
-    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, productNamesYaml, cloudFiles, context }
+    variablesJson: variablesText ?? '{}', variables: variables.variables, productNames: product.rules, productNamesYaml, cloudFiles,
+    transformContentFiles, context }
 }
 
 export function buildImageManifest(pages: readonly BuiltPage[]): ImageRecord[] {
