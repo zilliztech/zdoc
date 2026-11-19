@@ -3,7 +3,7 @@ from hashlib import sha256
 import json
 import io
 from contextlib import redirect_stdout
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 import os
 from pathlib import Path
 import subprocess
@@ -60,6 +60,15 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_observed_batch_material_rejects_replay_detail_field(self):
+        reader = Mock()
+        reader.blob.return_value = dict.fromkeys(
+            ('kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef '
+             'renderedManualRefs imagesRef projectionRef diagnosticsRef detailRef').split())
+        retained = dict.fromkeys('pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest'.split())
+        with self.assertRaisesRegex(p.Hold, 'BATCH_SCHEMA_INVALID'):
+            p._batch_material(reader, retained, {'origin': {'kind': 'observed'}})
+
     def test_batch_canonical_matches_utf8_and_control_vectors(self):
         value = {"\ue000": 2, "\U00010000": 1, "text": "\0\n\t\r\b\f\x1f\\\"😀"}
         expected = '{"text":"\\u0000\\u000a\\u0009\\u000d\\u0008\\u000c\\u001f\\\\\\"😀","\ue000":2,"\U00010000":1}'.encode()

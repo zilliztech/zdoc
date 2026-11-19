@@ -4,7 +4,7 @@ import { createRequire } from 'node:module'
 import { compile } from '@mdx-js/mdx'
 import { load } from 'js-yaml'
 import { expect, it, vi } from 'vitest'
-import { toMdx } from '../../adapters/mdx'
+import { createHistoricalMdxFinalizer, toMdx } from '../../adapters/mdx'
 import { parseTabsRules } from '../../core/site'
 import { adapt, adapted, context, group, page, rules, rulesText } from './helpers'
 
@@ -91,6 +91,25 @@ it('detects authored component tags and emits their imports once', async () => {
   expect(result.markdown.match(/^import (Admonition|Tabs|TabItem|Supademo) from/gm)).toHaveLength(4)
   expect(result.markdown).toContain("import Supademo from '@site/src/components/Supademo';")
   expect(await toMdx(result, context)).toHaveProperty('mdx')
+})
+
+it('caches only exact historical parser input and preserves individual diagnostic context', async () => {
+  const finalize = createHistoricalMdxFinalizer()
+  const sample = adapted(page('A value {name} is <10.'), {metadata: {title: 'Title {name}'}})
+  const normalized = await toMdx(sample, context)
+  const preserved = await toMdx(sample, context, {preserveFrontMatter: true})
+  expect(normalized).toHaveProperty('mdx')
+  expect(preserved).toHaveProperty('mdx')
+  expect(normalized).not.toEqual(preserved)
+  expect(await finalize(sample, context)).toEqual(normalized)
+  expect(await finalize(sample, context, {preserveFrontMatter: true})).toEqual(preserved)
+  expect(await finalize(sample, context)).toEqual(normalized)
+  const invalid = adapted(page('export const value ='))
+  expect(await finalize(invalid, context)).toHaveProperty('errors')
+  const nextContext = {...context, file: 'site/en/another-page.md', channel: 'next' as const}
+  const result = await finalize(invalid, nextContext)
+  expect(result).toEqual(await toMdx(invalid, nextContext))
+  expect(result).toMatchObject({errors: [expect.objectContaining(nextContext)]})
 })
 
 it('does not count authored component tags inside fenced or inline code', () => {

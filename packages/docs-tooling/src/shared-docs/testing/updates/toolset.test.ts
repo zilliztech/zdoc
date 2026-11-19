@@ -1148,7 +1148,7 @@ it('passes the measured bootstrap capability on supported hosts and refuses Linu
     }
   }
   await put(a.root, 'pnpm-lock.yaml', dumpYaml(lock))
-  for (const path of ['adapters/updates/trusted-fetch-producer.ts', 'adapters/updates/fetch-producer-profile.ts', 'adapters/updates/guides-batch-registry.ts', 'adapters/updates/batch-collection-contract.ts', 'core/config.ts', 'core/transforms/schema.ts', 'core/variants.ts', 'core/lock.ts', 'core/yaml.ts', 'core/updates/envelope.ts', 'core/updates/canonical.ts']) {
+  for (const path of ['adapters/updates/trusted-fetch-producer.ts', 'adapters/updates/fetch-producer-profile.ts', 'adapters/updates/guides-batch-registry.ts', 'adapters/updates/batch-collection-contract.ts', 'adapters/updates/batch-git-object.ts', 'core/links/milvus-page-path.ts', 'core/config.ts', 'core/transforms/schema.ts', 'core/variants.ts', 'core/lock.ts', 'core/yaml.ts', 'core/updates/envelope.ts', 'core/updates/canonical.ts']) {
     const full = 'packages/docs-tooling/src/shared-docs/' + path
     await put(a.root, full, await readFile(join(process.cwd(), full), 'utf8'))
   }
