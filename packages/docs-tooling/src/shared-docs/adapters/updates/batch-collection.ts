@@ -6,7 +6,7 @@ import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence
 import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
-  type TrustedToolsetCapture, verifyTrustedToolset} from './toolset'
+  type TrustedToolsetCapture} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
 import type {BatchGitHubTestSeam} from './batch-github'
 
@@ -603,7 +603,7 @@ export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string
 declare const candidateLaunchBrand: unique symbol
 export type BatchCandidateLaunchTicket = {readonly [candidateLaunchBrand]: true}
 type LiveCandidateLaunch = {control: BatchVerifyControl; evidence: EvidenceStore; repository: string;
-  git: string; closureBytes: Uint8Array; toolset: TrustedToolsetCapture['material']; budget: () => void; reserve: () => Promise<void>}
+  git: string; closureBytes: Uint8Array; toolset: TrustedToolsetCapture['material']; budget: () => void; reserve: (bytes?: number, entries?: number) => Promise<void>}
 const verifiedCompletions = new WeakMap<object, {launch: LiveCandidateLaunch; recheck: () => Promise<void>}>()
 const candidateLaunches = new WeakMap<BatchCandidateLaunchTicket, LiveCandidateLaunch>()
 
@@ -820,11 +820,28 @@ async function executeQualification(operation: QualificationOperation, publish: 
       budget()
       const launch: LiveCandidateLaunch = {control, evidence: store, repository: sealed.devRepository,
         git: describeTrustedToolset(capture).git, closureBytes: capture.bytes, toolset: capture.material,
-        budget, reserve: () => reserveBatchAllocation(store, 0)}
+        budget, reserve: (bytes = 0, entries) => reserveBatchAllocation(store, bytes, entries)}
       verifiedCompletions.set(result, {launch, async recheck() {
         budget()
-        await verifyTrustedToolset(capture)
-        await verifyFresh(currentBatchLifetime()?.signal)
+        const signal = currentBatchLifetime()?.signal
+        const root = await open(store.root, fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
+        try {
+          const blobs = await open(join(store.root, 'blobs'), fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
+          try {
+            const operationForReadback = {...operation, active: true}
+            const ticket = Object.freeze({}) as BatchVerifierLaunchTicket
+            verifierLaunches.set(ticket, {operation: operationForReadback, claimed: false, control, rootFd: root.fd, blobsFd: blobs.fd})
+            try {
+              // Re-authenticate the complete retained graph, including unselected material,
+              // receipt/output bytes and discovery/closure leaves, after the local work.
+              await launcher.runBatchVerifier(ticket, signal)
+            } finally {
+              operationForReadback.active = false
+              verifierLaunches.delete(ticket)
+            }
+          } finally {await blobs.close()}
+        } finally {await root.close()}
+        await verifyFresh(signal)
         budget()
       }})
     }
@@ -924,6 +941,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
   return withBatchLifetime(async () => {
     let store: EvidenceStore | undefined, stopSampling: ReturnType<typeof sampleBatchOperation> | undefined, publicationConfirmed = false
+    let collectedIndex: BatchBlobRef | null = null
     try {
       if (Object.keys(options).sort().join(',') !== 'out,sourceRepository' || typeof options.sourceRepository !== 'string' || typeof options.out !== 'string') invalid()
       const repository = replay?.zdocRepository ?? toolingRoot, source = await realpath(options.sourceRepository), out = resolve(options.out)
@@ -967,13 +985,14 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       if (qualified.status === 'held') return result('held', qualified.reasons)
       try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
+      collectedIndex = qualified.indexRef
       if (!candidateRequested) return result('collected', [], qualified.indexRef)
       const localCandidate = await buildCompletedCandidate(qualified, observation)
       assertCompletionValidity(store)
       return immutable({...result('collected', [], qualified.indexRef), localCandidate})
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
-      return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'])
+      return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'], collectedIndex)
     } finally {
       if (stopSampling && store) {
         const validate = () => {
@@ -992,7 +1011,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
           let failure = error
           try {validate(); if (completionValidity.has(store)) assertCompletionValidity(store)} catch (late) {failure = late}
           const message = failure instanceof Error ? failure.message : ''
-          return result('held', [mayExist ? 'PUBLICATION_OUTCOME_UNCONFIRMED' : /^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_MEASUREMENT_FAILED'])
+          return result('held', [mayExist ? 'PUBLICATION_OUTCOME_UNCONFIRMED' : /^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_MEASUREMENT_FAILED'], collectedIndex)
         }
       }
     }

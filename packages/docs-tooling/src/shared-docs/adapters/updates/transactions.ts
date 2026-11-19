@@ -292,7 +292,8 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       const origin=(await run(root,['remote','get-url','origin'])).toString().trim()
       return {root,track,head,origin}
     },
-    async importObjects(source:string,heads:readonly string[],budget?:()=>void) {
+    async importObjects(source:string,heads:readonly string[],budget?:()=>void,
+      admitPack?: (allocation: {bytes: number; entries: number}) => Promise<void>) {
       budget?.()
       await validateLayout();const root=await realpath(source);await checkedAncestors(root)
       const unique=[...new Set(heads.map(head=>GitShaSchema.parse(head)))]
@@ -307,6 +308,15 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       const missing=(await run(root,['rev-list','--objects','--missing=print',...unique],undefined,{},budget)).toString()
       if(/^\?/m.test(missing))hold('GIT_OBJECT_MISSING')
       const pack=await run(root,['pack-objects','--stdout','--revs'],Buffer.from(unique.join('\n')+'\n'),{},budget)
+      if (admitPack) {
+        if (pack.length < 32 || pack.toString('ascii', 0, 4) !== 'PACK') hold('GIT_PACK_INVALID')
+        const objectCount = pack.readUInt32BE(8)
+        // A full pack from --revs is copied as compressed bytes. Include the
+        // largest per-object SHA-1 index offsets, CRC and reverse index entries.
+        if (!objectCount || objectCount > pack.length - 32) hold('GIT_PACK_INVALID')
+        await admitPack({bytes: pack.length + 4096 + objectCount * 48, entries: 8})
+        budget?.()
+      }
       await run(repository,['index-pack','--stdin','--strict'],pack,{},budget)
       for(const head of unique)await commit(head,budget)
       await validateLayout()

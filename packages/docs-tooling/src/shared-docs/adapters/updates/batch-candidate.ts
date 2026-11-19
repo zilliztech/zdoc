@@ -2,7 +2,7 @@ import {createHash, generateKeyPairSync, sign, verify, type KeyObject} from 'nod
 import * as z from 'zod'
 import {canonicalBytes, compareUtf8, digest} from '../../core/updates/canonical'
 import {CandidateSnapshotProofSchema, DigestSchema, validateUpdateReportEnvelope, type BlobRef, type CandidateSnapshotProof,
-  type ContentMember, type MaterialTree, type SemanticInput, type Subject, type UpdateUnitPlan} from '../../core/updates/envelope'
+  type ContentMember, type MaterialTree, type SemanticInput, type Subject, type ToolsetMaterial, type UpdateUnitPlan} from '../../core/updates/envelope'
 import {analyzeUpdates} from '../../core/updates/impact'
 import {METADATA_LIMITS} from '../../core/updates/metadata'
 import {RemoteSealV1Schema, githubSealMessage, parseSignedGitHubSealMessage, REMOTE_LIMITS, type RemoteSealV1} from '../../core/updates/remote'
@@ -232,7 +232,9 @@ async function preparePlan(readStore: Read, transaction: ScratchTransaction, bin
       history: history.commits, sourceInventories: inventories.map((v, i) => ({commit: v.commit, treeOid: v.treeOid,
         inventory: header.inventoryRefs[i].ref, absentPaths: v.absentPaths})),
       relevantSource: {current: raw[0], oldNext: raw[1], target: raw[2]},
-      reportingChanges: sorted(page.sourceImpact.changes.filter(change => change.kind === 'image' || change.kind === 'variable').map(change => `${change.kind}:${change.identity}`)),
+      reportingChanges: sorted([...page.sourceImpact.changes.filter(change => change.kind === 'image' || change.kind === 'variable')
+        .map(change => `${change.kind}:${change.identity}`),
+        ...(same(raw[1], raw[2]) && !same(upstream[1], upstream[2]) ? ['source-discovery'] : [])]),
       holdReasons: []}))
   }
   const reports = contexts.map(context => context.collectedReport), plan = planUpdateUnit(reports, contexts)
@@ -268,11 +270,12 @@ function signLocalSeal(metadata: ReturnType<typeof sealMetadata>, key: KeyObject
   return Buffer.from(headers + 'gpgsig local-ed25519 ' + signature + '\n' + message)
 }
 
-/** The key and raw roots come from separate trusted inputs. Candidate or signer metadata cannot
- * authorize observed writes, synthesize a verified collection, or select the pilot path. */
-export async function verifyQualifiedBatchCandidate(input: {roots: Roots; evidence: Read; transaction: ScratchTransaction;
+/** Inspect a local signature and candidate against separately supplied exact roots and executable
+ * closure binding. This diagnostic does not authenticate the underlying retained qualification
+ * graph or grant authority. The live coordinator independently reruns that graph verifier. */
+export async function inspectSignedBatchCandidate(input: {roots: Roots; evidence: Read; transaction: ScratchTransaction;
   bindingRef: BlobRef; planRef: BlobRef; proofRef: BlobRef; sealRef: BlobRef; publicKey: KeyObject; sealOid: string;
-  executableClosure: BlobRef; budget: () => void}) {
+  executableClosure: BlobRef; toolset: ToolsetMaterial; budget: () => void}) {
   const {evidence, roots, transaction, executableClosure, budget} = input
   const read = reader(evidence)
   const [claimed, binding] = await Promise.all([read.value(input.bindingRef, bindingSchema), deriveBinding(evidence, roots)])
@@ -282,7 +285,7 @@ export async function verifyQualifiedBatchCandidate(input: {roots: Roots; eviden
   await read.bytes(input.planRef)
   for (const {ref, bytes} of localBlobs.values()) check(Buffer.from(bytes).equals(await read.bytes(ref)), 'BATCH_CANDIDATE_INVENTORY')
   const proof = await read.value(input.proofRef, CandidateSnapshotProofSchema)
-  await read.bytes(executableClosure)
+  verifyClosureBinding(input.toolset, executableClosure, await read.bytes(executableClosure), binding.base.pins.toolsetSha256)
   const delta = await inspectNewGuidesBatchCandidate({master: binding.base.pins.master, dev: binding.base.pins.dev,
     sourceTarget: binding.base.pins.source, contexts, plan, proof, source: transaction,
     baseline: {read: transaction.read, verifyConnected: commits => transaction.verifyConnected(commits, budget)},
@@ -299,7 +302,7 @@ export async function verifyQualifiedBatchCandidate(input: {roots: Roots; eviden
   check(input.publicKey.asymmetricKeyType === 'ed25519' && decoded.length === 64 && decoded.toString('base64') === signature &&
     parsed && same(parsed, metadata) && verify(null, unsigned, input.publicKey, decoded), 'BATCH_CANDIDATE_SIGNATURE')
   budget()
-  return immutable({status: 'verified-local' as const, candidate: proof.candidate, seal: input.sealOid})
+  return immutable({status: 'exact-local-candidate' as const, candidate: proof.candidate, seal: input.sealOid})
 }
 
 export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunchTicket): Promise<LocalBatchCandidate> {
@@ -311,7 +314,7 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   // Check the measured Git scratch reserve before importing explicit M/D only; no refs are installed.
   await input.reserve()
   const transaction = await createScratchTransaction({evidence, gitBinary: input.git})
-  await transaction.importObjects(input.repository, [master, dev], budget)
+  await transaction.importObjects(input.repository, [master, dev], budget, allocation => input.reserve(allocation.bytes, allocation.entries))
   await input.reserve()
   const prepared = await preparePlan(evidence, transaction, binding, budget), {plan, base} = prepared
   const bindingRef = await writeOwnedBlob(evidence, canonicalBytes(binding)), bindingDigest = batchDigest('candidate-binding', binding)
@@ -328,8 +331,8 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   const seal = signLocalSeal(sealMetadata(binding, plan, proof), keys.privateKey), sealOid = commitOid(seal)
   await transaction.retainSignedCommit(seal, sealOid, budget)
   const sealRef = await writeOwnedBlob(evidence, seal)
-  await verifyQualifiedBatchCandidate({roots, evidence, transaction, bindingRef, planRef, proofRef, sealRef,
-    publicKey: keys.publicKey, sealOid, executableClosure, budget})
+  await inspectSignedBatchCandidate({roots, evidence, transaction, bindingRef, planRef, proofRef, sealRef,
+    publicKey: keys.publicKey, sealOid, executableClosure, toolset: input.toolset, budget})
   await input.reserve()
   return immutable({status: 'candidate', observation, binding: bindingRef, bindingDigest, plan: planRef, proof: proofRef, seal: sealRef,
     candidate: proof.candidate, sealOid, publicKey: keys.publicKey.export({type: 'spki', format: 'pem'}).toString()})
