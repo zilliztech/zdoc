@@ -49,4 +49,3 @@ export function makeRestoreProof(facts: NonNullable<Awaited<ReturnType<typeof me
   refs: Pick<BatchRestoreProof, 'detailRef' | 'filesRef' | 'firstAssociationRef' | 'headAssociationRef'>): Uint8Array {
   return canonicalBytes(BatchRestoreProofSchema.parse({...facts, ...refs}))
 }
-
