@@ -1053,9 +1053,6 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
     }
   })
 }
-export function prepareObservedGuidesBatchCandidate(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
-  return collectCompleteBatch(options, undefined, true)
-}
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
 }

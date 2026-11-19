@@ -2,8 +2,6 @@
 import {createRequire} from 'node:module'
 import {fileURLToPath} from 'node:url'
 const args = process.argv.slice(2), options = {}
-const candidate = args[0] === '--local-candidate'
-if (candidate) args.shift()
 let valid = args.length === 4
 for (let i = 0; i < args.length && valid; i += 2) {
   const key = args[i] === '--source-repo' ? 'sourceRepository' : args[i] === '--out' ? 'out' : null
@@ -11,14 +9,14 @@ for (let i = 0; i < args.length && valid; i += 2) {
   else options[key] = args[i + 1]
 }
 if (!valid || Object.keys(options).length !== 2) {
-  process.stderr.write('Usage: node batch-collect.mjs [--local-candidate] --source-repo <existing-Git-store> --out <fresh-owned-dir>\n')
+  process.stderr.write('Usage: node batch-collect.mjs --source-repo <existing-Git-store> --out <fresh-owned-dir>\n')
   process.exitCode = 2
 } else {
   try {
     const require = createRequire(import.meta.url)
     const {loadTypeScript} = require('../../lib/load-typescript.js')
-    const {collectObservedGuidesBatch, prepareObservedGuidesBatchCandidate} = loadTypeScript(fileURLToPath(new URL('../../../packages/docs-tooling/src/shared-docs/adapters/updates/batch-collection.ts', import.meta.url)))
-    const result = await (candidate ? prepareObservedGuidesBatchCandidate : collectObservedGuidesBatch)(options)
+    const {collectObservedGuidesBatch} = loadTypeScript(fileURLToPath(new URL('../../../packages/docs-tooling/src/shared-docs/adapters/updates/batch-collection.ts', import.meta.url)))
+    const result = await collectObservedGuidesBatch(options)
     const bytes = JSON.stringify(result)
     if (Buffer.byteLength(bytes) > 65536) throw Error('BATCH_SUMMARY_LIMIT')
     process.stdout.write(bytes + '\n')
