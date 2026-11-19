@@ -66,6 +66,10 @@ skills-lock.json
 .claude/archives/
 .claude/evidence/
 
+# Local-only working artifacts (.claude retains only plans/, specs/, skills/)
+.claude/settings.local.json
+.claude/wp12-guides-batch-qualification/
+
 # Vercel
 .vercel
 
