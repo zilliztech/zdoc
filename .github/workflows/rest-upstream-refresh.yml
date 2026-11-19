@@ -358,9 +358,10 @@ jobs:
       # Gate 9a: land the verified outputs on the refresh branch. Only files
       # the applier changed move; unaddressed diff entries ride the PR body.
       # Design §3.1/§5: adoption is atomic — the same commit lands the fragment
-      # and titles deltas AND bumps the lock pin, so the watchdog goes quiet
-      # exactly when the refresh PR merges (no hand-edited lock follow-up).
-      - name: Land applied fragments, titles, and the lock pin bump on the refresh branch
+      # and titles deltas, both fragment-derived inventories, AND bumps the
+      # lock pin, so the watchdog goes quiet exactly when the refresh PR
+      # merges (no hand-edited lock follow-up).
+      - name: Land applied fragments, titles, inventories, and the lock pin bump on the refresh branch
         env:
           SOURCE: ${{ inputs.source }}
           UPSTREAM_COMMIT: ${{ steps.upstream.outputs.commit }}
@@ -373,6 +374,25 @@ jobs:
           const restMeta = 'packages/docs-tooling/src/reference/rest/meta'
           for (const file of applied.changedFiles) {
             fs.copyFileSync(path.join(process.env.RUNNER_TEMP, process.env.APPLIED, file), path.join(restMeta, 'openapi', file))
+          }
+          // The schema-attribution inventory (conformance/inventory/schema-
+          // inventory.json) derives from the fragment bytes — its sha256 table
+          // pins every fragment — and the change-scoped union below runs its
+          // hermetic drift gate, which demands the committed file equal a
+          // byte-identical regeneration. Regenerate with the very command the
+          // gate runs so a fragment refresh can never strand the inventory
+          // outside the atomic commit (the 11-17/11-19 dispatches failed
+          // exactly there: fragments moved, inventory trailed, PR never
+          // opened). Fragment bytes always move the table (per-fragment
+          // sha256), so a zero-diff regeneration is impossible here.
+          if (applied.changedFiles.length > 0) {
+            const {status, stderr} = require('node:child_process').spawnSync(
+              process.execPath,
+              ['packages/docs-tooling/src/reference/rest/conformance/inventory/generate-inventory.mjs'],
+              {encoding: 'utf8'},
+            )
+            if (status !== 0) throw new Error(`schema-inventory regeneration failed: ${stderr}`)
+            console.log('schema-attribution inventory regenerated from the landed fragments')
           }
           if (applied.titleLog.length > 0) {
             fs.copyFileSync(path.join(process.env.RUNNER_TEMP, process.env.APPLIED, 'titles.json'), path.join(restMeta, 'titles.json'))
@@ -454,7 +474,8 @@ jobs:
           }
           console.log(`landed ${applied.changedFiles.length} fragment(s); ${applied.titleLog.length} title entr(ies); ${applied.overrides.length} override(s); ${applied.ledgerDrafts.length} ledger draft(s); ${(applied.inheritedLifecycle ?? []).length} inherited lifecycle triple(s); pin -> ${process.env.UPSTREAM_COMMIT}`)
           NODE
-          git add packages/docs-tooling/src/reference/rest/meta
+          git add packages/docs-tooling/src/reference/rest/meta \
+            packages/docs-tooling/src/reference/rest/conformance/inventory/schema-inventory.json
           test -n "$(git status --porcelain -- packages/docs-tooling/src/reference/rest/meta)" || {
             echo 'The change set produced no fragment, titles, or lock delta on this base; nothing to refresh' >&2
             exit 1
