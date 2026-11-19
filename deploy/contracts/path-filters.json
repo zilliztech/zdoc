@@ -148,6 +148,8 @@
         ".github/workflows/shared-docs-manual-update.yml",
         "scripts/docs-workflow/shared-guides-update/**",
         "scripts/docs-workflow/shared-docs-pin-drift.js",
+        "scripts/docs-workflow/shared-docs-manual-decide*",
+        "scripts/docs-workflow/shared-docs-manual-merge-proposals*",
         "packages/docs-tooling/src/lark/sharedPageFetch*",
         "packages/docs-tooling/src/lark/sharedPageRenderIdentity*",
         "packages/docs-tooling/src/lark/sharedGroups*",
