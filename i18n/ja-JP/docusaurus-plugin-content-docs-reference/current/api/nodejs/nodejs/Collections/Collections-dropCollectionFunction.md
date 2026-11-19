@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **非推奨。**
 
-このメソッドは非推奨です。代わりに dropFunctionField() を使用してください。
+このメソッドは非推奨です。代わりに [dropFunctionField()](./Collections-dropFunctionField) を使用してください。
 
 </Admonition>
 

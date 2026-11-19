@@ -116,7 +116,7 @@ await milvusClient.queryIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    この操作の整合性レベルです。オプション: Strong（0）、Session（1）、Bounded（2）、Eventually（3）。デフォルトは、コレクションの作成時に設定された整合性レベルです。ConsistencyLevelEnum を参照してください。
+    この操作の一貫性レベルです。オプションは、Strong（0）、Session（1）、Bounded（2）、Eventually（3）です。デフォルトは、コレクションの作成時に設定された一貫性レベルです。詳細については、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **db_name** (*string*) -
 

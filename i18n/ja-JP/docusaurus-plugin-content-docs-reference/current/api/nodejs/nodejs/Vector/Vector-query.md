@@ -114,7 +114,7 @@ await milvusClient.query(data)
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象のコレクションの整合性レベルです。ConsistencyLevelEnum を参照してください。
+    対象のコレクションの整合性レベルです。詳細は、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
     デフォルト値は、現在のコレクションを作成したときに指定した値です。オプションは、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。
 

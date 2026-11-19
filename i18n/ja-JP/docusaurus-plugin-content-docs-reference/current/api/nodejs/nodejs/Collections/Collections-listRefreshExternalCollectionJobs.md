@@ -73,9 +73,9 @@ RPC の実行を許可する時間をミリ秒単位で指定するオプショ�
 
 **パラメーター:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
+- **jobs** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)[]*) -
 
-要求されたデータベースおよびコレクションのフィルターに一致するリフレッシュジョブのリストです。RefreshExternalCollectionJobInfo のフィールドの完全なリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+要求されたデータベースとコレクションのフィルターに一致するリフレッシュジョブのリストです。[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo) のフィールドリファレンス全体については、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
 
 - **ResStatus**
 **ResStatus** オブジェクトです。

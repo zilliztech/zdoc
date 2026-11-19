@@ -122,9 +122,9 @@ await milvusClient.describeCollection({
 
         コレクション上で宣言されているすべてのスカラーフィールドとベクトルフィールド。**FieldSchema** の完全なフィールドリファレンスについては、`FieldSchema` クラスのドキュメントを参照してください。
 
-    - **functions** (*FunctionObject[]*) -
+    - **functions** (*[FunctionObject](./Collections-FunctionObject)[]*) -
 
-        Doc-in / doc-out functions attached to the コレクション (for example, the BM25 sparse-ベクトル function).
+        コレクションにアタッチされた doc-in / doc-out 関数（例: BM25 スパースベクトル関数）。
 
     - **struct_array_fields** (*FieldSchema[]*) -
 
@@ -181,7 +181,7 @@ Milvus によって割り当てられたコレクションの内部 ID。
 - **db_name** (*string*) -
 このコレクションを所有するデータベース。
 
-- **functions** (*FunctionObject[]*) -
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*) -
 
 コレクションにアタッチされた doc-in / doc-out 関数をフラット化したリスト。
 

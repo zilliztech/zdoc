@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **非推奨です。**
 
-このメソッドは非推奨です。代わりに addFunctionField() を使用してください。
+このメソッドは非推奨です。代わりに [addFunctionField()](./Collections-addFunctionField) を使用してください。
 
 </Admonition>
 
@@ -62,11 +62,11 @@ await milvusClient.addCollectionFunction({
 
     関数を追加するコレクションの名前です。
 
-- **function** (*FunctionObject*) -
+- **function** (*[FunctionObject](./Collections-FunctionObject)*) -
 
     **[必須]**
 
-    コレクションに追加する関数です。FunctionObject を参照してください。
+    コレクションに追加する関数です。詳細は、[FunctionObject](./Collections-FunctionObject) を参照してください。
 
 - **db_name** (*string*) -
 
@@ -110,3 +110,4 @@ const resStatus = await milvusClient.addCollectionFunction({
     },
 });
 ```
+

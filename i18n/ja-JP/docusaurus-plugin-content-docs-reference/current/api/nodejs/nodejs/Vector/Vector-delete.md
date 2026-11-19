@@ -80,7 +80,7 @@ await milvusClient.delete({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象コレクションの整合性レベルです。デフォルト値は **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+    対象コレクションの整合性レベルです。値のデフォルトは **Bounded**（**2**）で、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）を選択できます。詳しくは、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **exprValues** (*keyValueObj*) -
 
@@ -130,7 +130,7 @@ await milvusClient.delete({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象コレクションの整合性レベルです。デフォルト値は **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+    対象コレクションの整合性レベルです。値のデフォルトは **Bounded**（**2**）で、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）を選択できます。詳しくは、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **exprValues** (*keyValueObj*) -
 

@@ -163,7 +163,7 @@ await milvusClient.search({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象のコレクションの整合性レベルです。値のデフォルトは **Bounded**（**2**）で、オプションは **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）です。ConsistencyLevelEnum を参照してください。
+    対象コレクションの整合性レベルです。値のデフォルトは **Bounded**（**2**）で、**Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）、**Eventually**（**3**）を選択できます。詳しくは、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **metric_type** (*string*) -
 
@@ -197,9 +197,9 @@ await milvusClient.search({
 
     次のデータ型のデータを変換するためのカスタム関数です。
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
-    カスタムパラメーターを備えた再ランキング戦略です。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。RerankerObj および FunctionObject を参照してください。
+    再ランキング戦略とそのカスタムパラメーターです。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。RerankerObj と [FunctionObject](./Collections-FunctionObject) を参照してください。
 
 - **order_by_fields** (*OrderByFields*) -
 

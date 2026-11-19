@@ -125,7 +125,7 @@ await milvusClient.searchIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    この操作の整合性レベルです。オプションは Strong（0）、Session（1）、Bounded（2）、Eventually（3）です。デフォルトは Bounded です。ConsistencyLevelEnum を参照してください。
+    この操作の一貫性レベルです。オプションは Strong（0）、Session（1）、Bounded（2）、Eventually（3）です。デフォルトは Bounded です。詳細は [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **ignore_growing** (*boolean*) -
 
@@ -171,7 +171,7 @@ await milvusClient.searchIterator({
 
     検索結果のハイライターです。
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     再ランキング戦略とそのパラメーターです。サポートされている再ランカー種別の詳細は、`search()` を参照してください。
 

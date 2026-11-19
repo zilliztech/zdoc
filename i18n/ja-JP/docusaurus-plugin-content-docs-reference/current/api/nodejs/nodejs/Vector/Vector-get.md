@@ -71,7 +71,7 @@ await milvusClient.get({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象のコレクションの整合性レベルです。ConsistencyLevelEnum を参照してください。
+    対象コレクションの整合性レベルです。詳細は [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **limit** (*number*) -
 

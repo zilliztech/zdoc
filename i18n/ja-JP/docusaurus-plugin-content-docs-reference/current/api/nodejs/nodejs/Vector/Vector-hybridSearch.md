@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     ベクトル間の類似度を測定するために使用するメトリックタイプです。
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     複数のサブ検索の結果を統合するための再ランキング戦略です。再ランキングパラメーターの完全なスキーマについては、`search()` を参照してください。
 
@@ -116,7 +116,7 @@ await milvusClient.hybridSearch({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象コレクションの整合性レベルです。オプションは `Strong`（0）、`Session`（1）、`Bounded`（2）、`Eventually`（3）です。デフォルトは `Bounded` です。ConsistencyLevelEnum を参照してください。
+    対象コレクションの整合性レベルです。オプションは、`Strong`（0）、`Session`（1）、`Bounded`（2）、`Eventually`（3）です。デフォルトは `Bounded` です。詳細については、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
 
 - **ignore_growing** (*boolean*) -
 

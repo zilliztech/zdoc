@@ -59,11 +59,11 @@ await milvusClient.alterCollectionFunction({
 
     変更する関数の名前です。
 
-- **function** (*FunctionObject*) -
+- **function** (*[FunctionObject](./Collections-FunctionObject)*) -
 
     **[必須]**
 
-    更新後の関数スキーマです。FunctionObject を参照してください。
+    更新された関数スキーマです。[FunctionObject](./Collections-FunctionObject) を参照してください。
 
 - **db_name** (*string*) -
 
