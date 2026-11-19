@@ -59,11 +59,11 @@ await milvusClient.alterCollectionFunction({
 
     The name of the function to alter.
 
-- **function** (*FunctionObject*) -
+- **function** (*[FunctionObject](./Collections-FunctionObject)*) -
 
     **[REQUIRED]**
 
-    The updated function schema. See FunctionObject.
+    The updated function schema. See [FunctionObject](./Collections-FunctionObject).
 
 - **db_name** (*string*) -
 

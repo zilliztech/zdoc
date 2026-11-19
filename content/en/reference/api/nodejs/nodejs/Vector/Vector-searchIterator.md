@@ -125,7 +125,7 @@ await milvusClient.searchIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to Bounded. See ConsistencyLevelEnum.
+    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to Bounded. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **ignore_growing** (*boolean*) -
 
@@ -171,7 +171,7 @@ await milvusClient.searchIterator({
 
     A highlighter for the search results.
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     A reranking strategy and its parameters. See `search()` for details on supported reranker types.
 

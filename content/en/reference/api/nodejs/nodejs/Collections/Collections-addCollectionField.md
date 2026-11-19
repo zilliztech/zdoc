@@ -62,7 +62,7 @@ await milvusClient.addCollectionField({
 
     The name of the target database.
 
-- **field** (*FieldType*) -
+- **field** (*[FieldType](./Collections-FieldType)*) -
 
     The configurations of the field to add, which is a **FieldType** object that has the following fields.
 

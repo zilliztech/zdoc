@@ -73,9 +73,9 @@ This method returns a promise that resolves to a **ListRefreshExternalCollection
 
 **PARAMETERS:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
+- **jobs** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)[]*) -
 
-A list of refresh jobs that match the requested database and collection filters. For the full RefreshExternalCollectionJobInfo field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
+A list of refresh jobs that match the requested database and collection filters. For the full [RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo) field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
 
 - **ResStatus**
 A **ResStatus** object.

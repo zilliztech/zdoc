@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **Deprecated.**
 
-This method is deprecated. Use dropFunctionField() instead.
+This method is deprecated. Use [dropFunctionField()](./Collections-dropFunctionField) instead.
 
 </Admonition>
 

@@ -116,7 +116,7 @@ await milvusClient.queryIterator({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to the consistency level set when the collection was created. See ConsistencyLevelEnum.
+    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to the consistency level set when the collection was created. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **db_name** (*string*) -
 

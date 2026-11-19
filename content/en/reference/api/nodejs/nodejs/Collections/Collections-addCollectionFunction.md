@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 **Deprecated.**
 
-This method is deprecated. Use addFunctionField() instead.
+This method is deprecated. Use [addFunctionField()](./Collections-addFunctionField) instead.
 
 </Admonition>
 
@@ -62,11 +62,11 @@ await milvusClient.addCollectionFunction({
 
     The name of the collection to add the function to.
 
-- **function** (*FunctionObject*) -
+- **function** (*[FunctionObject](./Collections-FunctionObject)*) -
 
     **[REQUIRED]**
 
-    The function to add to the collection. See FunctionObject.
+    The function to add to the collection. See [FunctionObject](./Collections-FunctionObject).
 
 - **db_name** (*string*) -
 

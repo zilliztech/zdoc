@@ -80,7 +80,7 @@ await milvusClient.count({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See ConsistencyLevelEnum.
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **timeout** (*number*)  
 

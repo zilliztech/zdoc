@@ -163,7 +163,7 @@ await milvusClient.search({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See ConsistencyLevelEnum.
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **metric_type** (*string*) -
 
@@ -197,9 +197,9 @@ await milvusClient.search({
 
     A custom function to convert data for the following data types.
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
-    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**. See RerankerObj and FunctionObject.
+    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**. See RerankerObj and [FunctionObject](./Collections-FunctionObject).
 
 - **order_by_fields** (*OrderByFields*) -
 

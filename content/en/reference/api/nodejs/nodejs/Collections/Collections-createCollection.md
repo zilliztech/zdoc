@@ -239,15 +239,15 @@ await milvusClient.createCollection({
 
     The value defaults to **True**, indicating that the meta field is used.
 
-- **schema** (*FieldType[]*) -
+- **schema** (*[FieldType](./Collections-FieldType)[]*) -
 
     The schema of the collection as a list of field definitions.
 
-- **fields** (*FieldType[]*) -
+- **fields** (*[FieldType](./Collections-FieldType)[]*) -
 
     An alternative to **schema** that lists the fields of the collection as a list of field definitions.
 
-- **functions** (*FunctionObject[]*)
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*)
 
     Converts data into vector embeddings. This function will be added to the schema of a collection.
 
@@ -462,15 +462,15 @@ await milvusClient.createCollection({
 
     The value defaults to **True**, indicating that the meta field is used.
 
-- **schema** (*FieldType[]*) -
+- **schema** (*[FieldType](./Collections-FieldType)[]*) -
 
     The schema of the collection as a list of field definitions.
 
-- **fields** (*FieldType[]*) -
+- **fields** (*[FieldType](./Collections-FieldType)[]*) -
 
     An alternative to **schema** that lists the fields of the collection as a list of field definitions.
 
-- **functions** (*FunctionObject[]*)
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*)
 
     Converts data into vector embeddings. This function will be added to the schema of a collection.
 

@@ -1,0 +1,126 @@
+---
+title: "FieldType | Node.js"
+slug: /node/node/Collections-FieldType
+sidebar_label: "FieldType"
+beta: FALSE
+added_since: v3.0.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "This operation describes the field types supported in a collection schema. | Node.js"
+type: origin
+token: shared-Collections-FieldType
+keywords: 
+  - field type
+  - schema
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - nodejs30
+displayed_sidebar: nodeSidebar
+
+---
+
+# FieldType
+
+Describes one field of a collection schema.
+
+```typescript
+export type FieldType = {
+  name: string;
+  description?: string;
+  data_type: DataType | keyof typeof DataTypeMap;
+  element_type?: DataType | keyof typeof DataTypeMap;
+  is_primary_key?: boolean;
+  is_partition_key?: boolean;
+  is_function_output?: boolean;
+  is_clustering_key?: boolean;
+  type_params?: Partial<Record<TypeParamKey, TypeParam>>;
+  autoID?: boolean;
+  default_value?: number | string;
+  nullable?: boolean;
+  external_field?: string;
+  fields?: FieldType[];
+} & Partial<Record<TypeParamKey, TypeParam>>;
+```
+
+**FIELDS:**
+
+- **name** (*string*) -
+
+    The field name.
+
+- **description** (*string*) -
+
+    Optional description of the field.
+
+- **data_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    The field data type.
+
+- **element_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    The element type, for array fields.
+
+- **is_primary_key** (*boolean*) -
+
+    Whether the field is the primary key.
+
+- **is_partition_key** (*boolean*) -
+
+    Whether the field is the partition key.
+
+- **is_function_output** (*boolean*) -
+
+    Whether the field is populated by a function (e.g. a text-embedding output).
+
+- **is_clustering_key** (*boolean*) -
+
+    Whether the field is the clustering key.
+
+- **type_params** (*Partial&lt;Record&lt;TypeParamKey, TypeParam&gt;&gt;*) -
+
+    Type parameters such as dimension or max length.
+
+- **autoID** (*boolean*) -
+
+    Whether the primary key values are auto-generated.
+
+- **default_value** (*number | string*) -
+
+    The default value of the field.
+
+- **nullable** (*boolean*) -
+
+    Whether the field accepts null values.
+
+- **external_field** (*string*) -
+
+    The external field mapping name.
+
+- **fields** (*FieldType[]*) -
+
+    Nested fields, for struct fields.
+
+## Example\{#example}
+
+```javascript
+import { MilvusClient, DataType, FieldType } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const fields = [
+    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: true },
+    { name: 'text', data_type: DataType.VarChar, type_params: { max_length: 512 } },
+    { name: 'vector', data_type: DataType.FloatVector, type_params: { dim: 8 } },
+];
+
+await milvusClient.createCollection({
+    collection_name: 'my_collection',
+    fields,
+});
+```
+

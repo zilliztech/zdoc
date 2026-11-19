@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     The metric type used to measure similarity between vectors.
 
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
+- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
 
     A reranking strategy for combining results from multiple sub-searches. See `search()` for the full rerank parameter schema.
 
@@ -116,7 +116,7 @@ await milvusClient.hybridSearch({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. Options: `Strong` (0), `Session` (1), `Bounded` (2), `Eventually` (3). Defaults to `Bounded`. See ConsistencyLevelEnum.
+    The consistency level of the target collection. Options: `Strong` (0), `Session` (1), `Bounded` (2), `Eventually` (3). Defaults to `Bounded`. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **ignore_growing** (*boolean*) -
 

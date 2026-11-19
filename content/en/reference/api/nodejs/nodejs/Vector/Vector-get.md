@@ -71,7 +71,7 @@ await milvusClient.get({
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The consistency level of the target collection. See ConsistencyLevelEnum.
+    The consistency level of the target collection. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
 
 - **limit** (*number*) -
 
