@@ -313,8 +313,8 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   verifyClosureBinding(input.toolset, batchRef(input.closureBytes), input.closureBytes, toolsetSha256)
   // Check the measured Git scratch reserve before importing explicit M/D only; no refs are installed.
   await input.reserve()
-  const transaction = await createScratchTransaction({evidence, gitBinary: input.git})
-  await transaction.importObjects(input.repository, [master, dev], budget, allocation => input.reserve(allocation.bytes, allocation.entries))
+  const transaction = await createScratchTransaction({evidence, gitBinary: input.git, batch: {reserve: input.reserve}})
+  await transaction.importObjects(input.repository, [master, dev], budget)
   await input.reserve()
   const prepared = await preparePlan(evidence, transaction, binding, budget), {plan, base} = prepared
   const bindingRef = await writeOwnedBlob(evidence, canonicalBytes(binding)), bindingDigest = batchDigest('candidate-binding', binding)

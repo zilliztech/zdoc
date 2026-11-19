@@ -108,6 +108,11 @@ export const BatchCollectionIndexSchema = z.strictObject({kind: z.literal('guide
     reportRef: BatchBlobRefSchema, pinsRef: BatchBlobRefSchema})).min(1).refine(v => ordered(v, p => p.pageId)),
   obligationsRef: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), writeEligible: z.literal(false), operations: z.tuple([])})
 export type BatchCollectionIndex = z.infer<typeof BatchCollectionIndexSchema>
+export const BatchCollectionPointerSchema = z.strictObject({kind: z.literal('guides-batch-collection-pointer-v1'),
+  origin: BatchOriginSchema, controlDigest: DigestSchema, indexRef: BatchBlobRefSchema, indexDigest: DigestSchema,
+  archive: z.strictObject({path: z.literal('collection.zip'), sha256: DigestSchema, bytes: BatchCountSchema.positive().max(16 * 1024 * 1024),
+    expandedBytes: BatchCountSchema.positive().max(16 * 1024 * 1024), members: z.array(RepoPathSchema).min(2).max(64)}),
+  writeEligible: z.literal(false), operations: z.tuple([])})
 const directoryIdentity = z.strictObject({dev: text.regex(/^(0|[1-9][0-9]*)$/), ino: text.regex(/^(0|[1-9][0-9]*)$/)})
 export const BatchVerifyControlSchema = z.strictObject({kind: z.literal('guides-batch-verify-control-v1'), base: BatchBaseSchema,
   run: BatchRunSchema, discoveryRef: BatchBlobRefSchema, discoveryDigest: DigestSchema, closureRef: BatchBlobRefSchema,

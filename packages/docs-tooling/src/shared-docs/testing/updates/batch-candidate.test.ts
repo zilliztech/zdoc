@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
-import { mkdtemp, realpath, rm } from 'node:fs/promises'
+import { mkdtemp, readdir, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
@@ -239,4 +239,25 @@ it('rejects noncanonical tree ordering even at a Git-authenticated candidate OID
     Buffer.concat([raw.subarray(end), raw.subarray(0, end)])).toString().trim()
   const candidate = await commitWithTree(candidateTree)
   await expect(inspectNewGuidesBatchCandidate({ ...input, proof: { ...input.proof, candidate, candidateTree } })).rejects.toThrow('TREE_ORDER')
+}, 30_000)
+
+it('checks batch scratch pack allocation before Git indexes private output objects', async () => {
+  const root = await mkdtemp(join(await realpath(tmpdir()), 'local-guides-batch-pack-'))
+  roots.push(root)
+  const input = join(root, 'input')
+  await write(input, 'README.md', 'A pack that needs explicit admission.\n')
+  await git(input, 'init', '-q', '-b', 'master', '--template=')
+  await git(input, 'add', '.')
+  await git(input, 'commit', '-qm', 'master')
+  const master = await git(input, 'rev-parse', 'HEAD')
+  const evidence = await initializeEvidence({root: join(root, 'evidence'), repositories: [input], owner: 'batch-pack-fixture'})
+  const allocations: {bytes: number; entries: number}[] = []
+  const transaction = await createScratchTransaction({evidence, gitBinary: '/usr/bin/git', batch: {async reserve(bytes, entries) {
+    allocations.push({bytes, entries})
+    if (entries === 8) throw Error('FIXTURE_PACK_ALLOCATION_DENIED')
+  }}})
+  await expect(transaction.importObjects(input, [master])).rejects.toThrow('FIXTURE_PACK_ALLOCATION_DENIED')
+  expect(allocations[0]).toEqual({bytes: 4096, entries: 32})
+  expect(allocations[1].bytes).toBeGreaterThan(4096)
+  expect(await readdir(join(transaction.repository, 'objects', 'pack'))).toEqual([])
 }, 30_000)

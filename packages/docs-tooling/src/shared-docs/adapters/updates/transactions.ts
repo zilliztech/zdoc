@@ -8,6 +8,7 @@ import { canonicalBytes, compareUtf8, digest } from '../../core/updates/canonica
 import { GitShaSchema, RepoPathSchema, UpdateUnitPlanSchema, CandidateSnapshotProofSchema, validateBlobBytes,
   type BlobRef, type BotRevision, type CandidateSnapshotProof, type PreparedBase, type UpdateUnitPlan } from '../../core/updates/envelope'
 import { assertRevisionBinding, encodeRevisionMessage, parseRevisionMessage } from '../../core/updates/metadata'
+import { REMOTE_IO_LIMITS } from '../../core/updates/remote'
 import { assertNextOnlyDiff, verifyNextLockPatch } from '../../core/updates/transaction'
 import { immutable } from '../../core/updates/types'
 import { checkedAncestors, readRegularBytes, writeOwnedBlob, type EvidenceStore } from './evidence'
@@ -32,9 +33,12 @@ export interface CandidateInput {base:PreparedTransaction;plan:UpdateUnitPlan;re
 
 /** Internal adapter only. Every writer targets a capability-owned bare database;
  * request JSON cannot choose its executable, configuration, index or object store. */
-export async function createScratchTransaction(input:{evidence:EvidenceStore;gitBinary:string;resume?:boolean}) {
+export async function createScratchTransaction(input:{evidence:EvidenceStore;gitBinary:string;resume?:boolean;
+  batch?: {reserve(bytes: number, entries: number): Promise<void>}}) {
   if(!isAbsolute(input.gitBinary)) throw new Error('Absolute trusted Git required')
   const store=input.evidence,repository=join(store.root,'scratch.git')
+  let batchOutputBytes = 0
+  if (!input.resume) await input.batch?.reserve(4096, 32)
   await writeOwnedBlob(store,canonicalBytes({kind:'scratch-owner',schemaVersion:1}))
   if(input.resume) {
     const stat=await lstat(repository)
@@ -46,14 +50,28 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
     for(const pin of pins) {const now=await lstat(pin.path,{bigint:true});if(now.isSymbolicLink()||!now.isDirectory()||now.dev!==pin.dev||now.ino!==pin.ino) hold('SCRATCH_IDENTITY_CHANGED')}
   }
   async function run(root:string,args:string[],stdin?:Uint8Array,extra:Record<string,string>={},budget?:()=>void):Promise<Buffer> {
-    budget?.();const started=performance.now(),maximum=256*1024*1024
+    budget?.()
+    if (input.batch && (args[0] === 'mktree' || args[0] === 'hash-object' && args.includes('-w'))) {
+      // Git writes a compressed loose object smaller than this conservative
+      // bound over the supplied object or mktree representation.
+      await input.batch.reserve((stdin?.byteLength ?? 0) * 2 + 4096, 4)
+      budget?.()
+    }
+    const started=performance.now()
+    const maximum = input.batch ? Math.min(32 * 1024 * 1024, REMOTE_IO_LIMITS.objectBytes - batchOutputBytes) : 256 * 1024 * 1024
+    if (maximum < 1) hold('GIT_OUTPUT_LIMIT')
     return new Promise((resolve,reject)=>{
       const child=spawn(input.gitBinary,[...options,'-C',root,...args],{env:{...environment(),...extra},stdio:['pipe','pipe','pipe']})
       const out:Buffer[]=[],err:Buffer[]=[];let size=0,errorBytes=0,failed:Error|null=null
       const stop=(error:Error)=>{failed??=error;child.kill()}
       const timer=setTimeout(()=>stop(new LocalTransactionHold('GIT_OPERATION_LIMIT')),60_000)
       const poll=budget?setInterval(()=>{try{budget()}catch(error){stop(error as Error)}},25):null
-      child.stdout.on('data',(chunk:Buffer)=>{size+=chunk.length;if(size>maximum)stop(new LocalTransactionHold('GIT_OUTPUT_LIMIT'));else out.push(chunk)})
+      child.stdout.on('data',(chunk:Buffer)=>{
+        size += chunk.length
+        if (input.batch) batchOutputBytes += chunk.length
+        if (size > maximum || input.batch && batchOutputBytes > REMOTE_IO_LIMITS.objectBytes) stop(new LocalTransactionHold('GIT_OUTPUT_LIMIT'))
+        else out.push(chunk)
+      })
       child.stderr.on('data',(chunk:Buffer)=>{errorBytes+=chunk.length;if(errorBytes<=65536)err.push(chunk)})
       child.on('error',error=>{clearTimeout(timer);if(poll)clearInterval(poll);reject(error)})
       child.on('close',code=>{
@@ -292,8 +310,7 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       const origin=(await run(root,['remote','get-url','origin'])).toString().trim()
       return {root,track,head,origin}
     },
-    async importObjects(source:string,heads:readonly string[],budget?:()=>void,
-      admitPack?: (allocation: {bytes: number; entries: number}) => Promise<void>) {
+    async importObjects(source:string,heads:readonly string[],budget?:()=>void) {
       budget?.()
       await validateLayout();const root=await realpath(source);await checkedAncestors(root)
       const unique=[...new Set(heads.map(head=>GitShaSchema.parse(head)))]
@@ -308,13 +325,13 @@ export async function createScratchTransaction(input:{evidence:EvidenceStore;git
       const missing=(await run(root,['rev-list','--objects','--missing=print',...unique],undefined,{},budget)).toString()
       if(/^\?/m.test(missing))hold('GIT_OBJECT_MISSING')
       const pack=await run(root,['pack-objects','--stdout','--revs'],Buffer.from(unique.join('\n')+'\n'),{},budget)
-      if (admitPack) {
+      if (input.batch) {
         if (pack.length < 32 || pack.toString('ascii', 0, 4) !== 'PACK') hold('GIT_PACK_INVALID')
         const objectCount = pack.readUInt32BE(8)
         // A full pack from --revs is copied as compressed bytes. Include the
         // largest per-object SHA-1 index offsets, CRC and reverse index entries.
         if (!objectCount || objectCount > pack.length - 32) hold('GIT_PACK_INVALID')
-        await admitPack({bytes: pack.length + 4096 + objectCount * 48, entries: 8})
+        await input.batch.reserve(pack.length + 4096 + objectCount * 48, 8)
         budget?.()
       }
       await run(repository,['index-pack','--stdin','--strict'],pack,{},budget)

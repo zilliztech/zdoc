@@ -78,7 +78,7 @@ async function main() {
   const evidence = await initializeEvidence({root: out, repositories: [f.tools, f.upstream], owner: 'guides-batch-replay', resume: true, maxBytes: 64 * 1024 * 1024})
   const {createScratchTransaction} = load('adapters/updates/transactions.ts')
   const transaction = await createScratchTransaction({evidence, gitBinary: describeTrustedToolset(capture).git, resume: true})
-  const value = async ref => JSON.parse(await evidence.readBlob(ref))
+  const value = async ref => JSON.parse(Buffer.from(await evidence.readBlob(ref)).toString('utf8'))
   const {canonicalBytes} = load('core/updates/canonical.ts')
   const put = value => evidence.writeBlob(canonicalBytes(value))
   const [binding, plan, proof] = await Promise.all([candidate.binding, candidate.plan, candidate.proof].map(value))
