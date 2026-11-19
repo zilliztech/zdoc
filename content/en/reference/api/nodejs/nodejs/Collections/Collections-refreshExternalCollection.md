@@ -55,8 +55,12 @@ The name of the external collection to refresh.
 - **external_source** (*string*) -
 Optional new external source path. If provided, the collection will be refreshed from this new source.
 
+On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. For a `volume://` source, `external_source` and `external_spec` must be both provided or both omitted; when both are omitted, the refresh reuses the previously persisted source configuration and still syncs the latest data. For a `milvus://` source, the same rule applies — omitting it reuses the persisted source, and the refresh re-snapshots the source cluster before syncing.
+
 - **external_spec** (*string*) -
 Optional new external spec configuration. If provided, the collection will use this new spec.
+
+On Zilliz Cloud, for a `milvus://` source, `format` must be `milvus-table` (or omitted); for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
 
 - **db_name** (*string*) -
 The name of the database. Optional.

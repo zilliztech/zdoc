@@ -1,0 +1,121 @@
+---
+title: "getImportJobProgress() | Node.js"
+slug: /node/node/DataImport-getImportJobProgress
+sidebar_label: "getImportJobProgress()"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "This operation gets progress for an HTTP import job. Use it to poll job state, imported row count, file details, and failure reason. | Node.js"
+type: origin
+token: shared-DataImport-getImportJobProgress
+displayed_sidebar: nodeSidebar
+
+---
+
+# getImportJobProgress()
+
+This operation gets progress for an HTTP import job. Use it to poll job state, imported row count, file details, and failure reason.
+
+```javascript
+await milvusClient.getImportJobProgress(params: HttpImportProgressReq)
+```
+
+## Request Syntax\{#request-syntax}
+
+```javascript
+await milvusClient.getImportJobProgress({
+    jobId: string,
+    dbName?: string,
+    projectId?: string,
+    regionId?: string,
+})
+```
+
+**PARAMETERS:**
+
+- **jobId** (*string*) -
+
+    **[REQUIRED]**
+
+    Specifies the import job ID returned by `createImportJobs()`.
+
+- **dbName** (*string*) -
+
+    Specifies the database name.
+
+- **projectId** (*string*) -
+
+    The ID of the Zilliz Cloud project. Optional.
+
+- **regionId** (*string*) -
+
+    The ID of the Zilliz Cloud region. Optional.
+
+**RETURNS:**
+
+*Promise&lt;HttpImportProgressResponse&gt;*
+
+This method returns a promise that resolves to a **HttpImportProgressResponse** object.
+
+**PARAMETERS:**
+
+- **code** (*number*) -
+
+    Specifies the HTTP API response code.
+
+- **data.jobId** (*string*) -
+
+    Specifies the import job ID.
+
+- **data.progress** (*number*) -
+
+    Specifies the job progress.
+
+- **data.state** (*string*) -
+
+    Specifies the current job state.
+
+- **data.totalRows** (*number*) -
+
+    Specifies the total row count when available.
+
+- **data.importedRows** (*number*) -
+
+    Specifies the imported row count when available.
+
+- **data.fileSize** (*number*) -
+
+    Specifies the total file size in bytes when available.
+
+- **data.completeTime** (*string*) -
+
+    Specifies the completion time when the job is finished.
+
+- **data.collectionName** (*string*) -
+
+    Specifies the target collection name.
+
+- **data.details** (*ImportJobDetailType[]*) -
+
+    Lists per-file import progress details when available.
+
+- **data.reason** (*string*) -
+
+    Specifies the failure reason when the job fails.
+
+
+**EXCEPTIONS:**
+
+- **Error**
+
+    This exception is raised when any error occurs during this operation.
+
+## Example\{#example}
+
+```javascript
+const progress = await milvusClient.getImportJobProgress({
+    jobId: 'job-1234567890',
+});
+```

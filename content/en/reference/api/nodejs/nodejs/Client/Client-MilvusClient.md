@@ -25,6 +25,8 @@ displayed_sidebar: nodeSidebar
 
 ---
 
+import Admonition from '@theme/Admonition';
+
 # MilvusClient
 
 A **MilvusClient** instance represents a Node.js client that connects to a specific Milvus instance.
@@ -131,6 +133,8 @@ new MilvusClient(config: ClientConfig)
 
         A boolean value indicating whether to use SSL or not. Set this to `true` if you have configured Milvus to work at a TLS endpoint. For details, refer to [Encryption in Transit](https://milvus.io/docs/tls.md).
 
+        On Zilliz Cloud, always connect over TLS: pass the `https://` cluster endpoint (the SDK enables TLS automatically), or set `ssl` to `true` when the endpoint does not include a scheme.
+
     - **timeout** (*string* | *number*) -
 
         The timeout duration for this operation. 
@@ -199,6 +203,8 @@ new MilvusClient(config: ClientConfig)
 
     A boolean value indicating whether to use SSL or not. Set this to `true` if you have configured Milvus to work at a TLS endpoint. For details, refer to [Encryption in Transit](https://milvus.io/docs/tls.md).
 
+    On Zilliz Cloud, always connect over TLS: pass the `https://` cluster endpoint (the SDK enables TLS automatically), or set `ssl` to `true` when the endpoint does not include a scheme.
+
 - **username** (*string*) -
 
     A valid username used to connect to the specified Milvus instance.
@@ -247,3 +253,8 @@ This method returns a Milvus Client instance that extends GRPC Client and handle
 new MilvusClient(config: ClientConfig)
 ```
 
+<Admonition type="info" title="Notes">
+
+- Set **configOrAddress** to your cluster endpoint. You can find the relevant information in Cluster details on the Zilliz Cloud console.
+
+</Admonition>

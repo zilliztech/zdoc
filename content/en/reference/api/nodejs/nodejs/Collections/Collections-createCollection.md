@@ -349,9 +349,13 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another cluster compatible with Milvus v3.0.x in the same project and region; the scheme must be lowercase, all three segments are required, and a single trailing slash is tolerated. It is required when creating an external collection.
+
 - **external_spec** (*string*) -
 
     The external spec configuration. This applies to the creation of external collections.
+
+    On Zilliz Cloud, `external_spec` is optional when creating an external collection: for a `milvus://` source, omitting it defaults `format` to `milvus-table`; for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
@@ -592,9 +596,13 @@ await milvusClient.createCollection({
 
     The external source path. This applies to the creation of external collections.
 
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another cluster compatible with Milvus v3.0.x in the same project and region; the scheme must be lowercase, all three segments are required, and a single trailing slash is tolerated. It is required when creating an external collection.
+
 - **external_spec** (*string*) -
 
     The external spec configuration. This applies to the creation of external collections.
+
+    On Zilliz Cloud, `external_spec` is optional when creating an external collection: for a `milvus://` source, omitting it defaults `format` to `milvus-table`; for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
 
 - **file_resource_ids** (*Array&lt;number | string&gt;*) -
 
