@@ -434,7 +434,7 @@ export const BatchRestoreProofSchema = z.strictObject({kind: z.literal('guides-m
 })
 export type BatchRestoreProof = z.infer<typeof BatchRestoreProofSchema>
 
-export const BatchCopyProofSchema = z.strictObject({kind: z.literal('guides-pr-internal-copy-v1'),
+export const BatchCopyProofSchema = z.strictObject({kind: z.enum(['guides-pr-internal-copy-v1', 'guides-pr-lock-side-copy-v1']),
   path: RepoPathSchema, mode: z.enum(['100644', '100755']), before: GitShaSchema, after: GitShaSchema,
   commit: GitShaSchema, parent: GitShaSchema, copiedParent: GitShaSchema,
   origin: GitShaSchema, originParent: GitShaSchema, originBefore: GitShaSchema,

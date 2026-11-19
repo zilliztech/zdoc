@@ -12,20 +12,29 @@ export function copyEdgeMatches(proof: BatchCopyProof, edge: BatchEdge) {
     && edge.rangeIds.every((id, n) => id === proof.coverage[n].pageId)
 }
 
-/** Prove a same-path feature-branch sync copy without attaching its enclosing PR as owner. */
+/** Prove a physical copy without attaching its enclosing PR as owner. */
 export async function importedCopyFacts(store: Pick<BatchGitStore, 'regularIdentity'>,
-  history: Pick<BatchHistory, 'parents' | 'range' | 'importedBaseParents'>, pull: BatchPullIdentity, row: BatchEdge,
-  ledger: readonly BatchEdge[], ranges: readonly ApplicableRange[]) {
+  history: Pick<BatchHistory, 'parents' | 'range' | 'importedBaseParents' | 'introduces'>, pull: BatchPullIdentity, row: BatchEdge,
+  ledger: readonly BatchEdge[], ranges: readonly ApplicableRange[], lockSide: boolean) {
   const {commit, parent, oldPath: path, oldOid: before, newOid: after, oldMode: mode} = row
   if (!parent || !path?.startsWith('site/en/') || path.startsWith('site/en/fragments/') || !/\.mdx?$/.test(path) || path !== row.newPath ||
       !before || !after || before === after || !mode || mode !== row.newMode) return null
-  const {head, mergeCommit: merge, number} = pull, parents = history.parents(merge), featureParents = history.parents(commit)
-  if (commit === merge || parents.length !== 2 || parents[1] !== head || featureParents.length !== 2 || featureParents[0] !== parent) return null
-  const [base] = parents, copiedParent = featureParents[1]
-  if (!history.importedBaseParents(commit, merge, pull.base).includes(copiedParent) || !history.range(base, merge).includes(commit)) return null
+  const {head, mergeCommit: merge, number} = pull, parents = history.parents(merge)
+  if (parents.length !== 2 || parents[1] !== head) return null
+  const [base] = parents
+  let copiedParent: string
+  if (lockSide) {
+    if (commit !== merge || parent !== head || pull.base !== base) return null
+    copiedParent = base
+  } else {
+    const featureParents = history.parents(commit)
+    if (commit === merge || featureParents.length !== 2 || featureParents[0] !== parent) return null
+    copiedParent = featureParents[1]
+    if (!history.importedBaseParents(commit, merge, pull.base).includes(copiedParent) || !history.introduces(commit, merge, pull.base, head, 1)) return null
+  }
   const matches = (entry: Awaited<ReturnType<BatchGitStore['regularIdentity']>>, oid: string) => entry?.mode === mode && entry.oid === oid
   const original = await store.regularIdentity(base, path)
-  if (!original || original.mode !== mode || !matches(await store.regularIdentity(head, path), original.oid) ||
+  if (!original || original.mode !== mode || !matches(await store.regularIdentity(head, path), lockSide ? before : original.oid) ||
       !matches(await store.regularIdentity(merge, path), original.oid) || !matches(await store.regularIdentity(copiedParent, path), after) ||
       !matches(await store.regularIdentity(parent, path), before) || !matches(await store.regularIdentity(commit, path), after)) return null
 
@@ -59,6 +68,7 @@ export async function importedCopyFacts(store: Pick<BatchGitStore, 'regularIdent
   }
   coverage.sort((a, b) => compareUtf8(a.pageId, b.pageId))
   if (coverage.length === 0 || row.rangeIds.length !== coverage.length || row.rangeIds.some((id, i) => id !== coverage[i].pageId)) return null
-  return {kind: 'guides-pr-internal-copy-v1' as const, path, mode, before, after, commit, parent, copiedParent, base, head, merge, number,
+  const kind = lockSide ? 'guides-pr-lock-side-copy-v1' : 'guides-pr-internal-copy-v1'
+  return {kind, path, mode, before, after, commit, parent, copiedParent, base, head, merge, number,
     origin, originParent, originBefore, coverage}
 }

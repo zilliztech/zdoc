@@ -1330,6 +1330,34 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
                 obligations[(page_id, label)] = row
         checked(not bindings)
 
+    preferred_sides = {}
+    first_parent_line = None
+    target = report['pins']['source']
+
+    def selected_sides(git, lock, old, ancestry):
+        if lock not in preferred_sides:
+            next_child = {}
+            pending = [(target, target)]
+            while pending:
+                parent, child = pending.pop()
+                if parent in next_child:
+                    continue
+                next_child[parent] = child
+                if parent == lock:
+                    break
+                parents = commit(git, parent)[1]
+                pending.extend((p, parent) for p in reversed(parents) if p == lock or p in ancestry and p not in old)
+            sides = {}
+            point = lock
+            while point != target:
+                child = next_child.get(point)
+                checked(child is not None and child != point)
+                if commit(git, child)[1][0] != point:
+                    sides[child] = point
+                point = child
+            preferred_sides[lock] = sides
+        return preferred_sides[lock]
+
     claimed_copies = set()
     seeds = {seed['key']: seed for seed in report['seeds']}
     checked(len(seeds) == len(report['seeds']))
@@ -1338,7 +1366,8 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
         checked(ref['sha256'] not in claimed_copies)
         claimed_copies.add(ref['sha256'])
         proof = reader.object(ref, 'kind path mode before after commit parent copiedParent origin originParent originBefore base head merge number coverage detailRef filesRef associationRef')
-        checked(proof['kind'] == 'guides-pr-internal-copy-v1' and all(oid(proof[k]) for k in ('before', 'after', 'commit', 'parent', 'copiedParent',
+        lock_side = proof['kind'] == 'guides-pr-lock-side-copy-v1'
+        checked(proof['kind'] in ('guides-pr-internal-copy-v1', 'guides-pr-lock-side-copy-v1') and all(oid(proof[k]) for k in ('before', 'after', 'commit', 'parent', 'copiedParent',
                     'origin', 'originParent', 'originBefore', 'base', 'head', 'merge')))
         path = batch_path(proof['path'])
         checked(path.startswith('site/en/') and not path.startswith('site/en/fragments/') and path.endswith(('.md', '.mdx')))
@@ -1349,15 +1378,31 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
                 and edge['oldOid'] == proof['before'] and edge['newOid'] == proof['after'] and edge['commit'] == proof['commit'] and edge['parent'] == proof['parent'])
         git = edge['evidenceRefs'][0]
         base, head, merge, imported = (proof[k] for k in ('base', 'head', 'merge', 'copiedParent'))
-        checked(commit(git, merge)[1] == [base, head] and commit(git, edge['commit'])[1] == [edge['parent'], imported])
+        checked(commit(git, merge)[1] == [base, head])
         earlier = ancestors(git, base)
-        checked(merge in ancestors(git, report['pins']['source']) and edge['commit'] in ancestors(git, head) and edge['commit'] not in earlier and imported in earlier)
+        ancestry = ancestors(git, target)
+        checked(merge in ancestry)
+        if lock_side:
+            if first_parent_line is None:
+                first_parent_line = set()
+                point = target
+                while point:
+                    first_parent_line.add(point)
+                    parents = commit(git, point)[1]
+                    point = parents[0] if parents else None
+            checked(merge in first_parent_line and edge['commit'] == merge and edge['parent'] == head and imported == base)
+        else:
+            checked(commit(git, edge['commit'])[1] == [edge['parent'], imported]
+                    and edge['commit'] in ancestors(git, head) and edge['commit'] not in earlier and imported in earlier)
         mode = proof['mode'].encode()
         carried = mode, proof['after']
         checked(file(git, edge['parent'], path) == (mode, proof['before']) and file(git, edge['commit'], path) == file(git, imported, path) == carried)
         outer = file(git, base, path)
-        checked(outer[0] == mode and file(git, head, path) == file(git, merge, path) == outer)
+        checked(outer[0] == mode and file(git, merge, path) == outer
+                and file(git, head, path) == ((mode, proof['before']) if lock_side else outer))
         direct = pull_observation(proof, path, merge, head, earlier, edge)
+        if lock_side:
+            checked(direct['base']['sha'] == base)
         check_association(proof['associationRef'], edge, direct, head)
         origin = imported
         while True:
@@ -1377,6 +1422,8 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
         for page in report['pages']:
             old = ancestors(git, page['oldNext'])
             if edge['commit'] in old:
+                continue
+            if lock_side and selected_sides(git, page['oldNext'], old, ancestry).get(merge) != head:
                 continue
             if origin in old:
                 checked(file(git, page['oldNext'], path) == carried)
