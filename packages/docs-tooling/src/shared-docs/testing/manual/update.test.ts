@@ -108,6 +108,14 @@ cloud_pages:
   MilvusCloud/Legacy.md:
     file: legacy.md
     channel: retire-in-next
+transforms:
+  Collections/DataType.md:
+    - operation: add
+      position: after
+      target:
+        block: datatype-anchor
+      content:
+        file: datatype-note.md
 `
 
 async function createPromotionDemo(prefix: string, options: { breakUpstreamLink?: boolean } = {}) {
@@ -145,6 +153,7 @@ See [MilvusClientV2](../Client/MilvusClientV2.md).
   await write(demo.sharedDocs, 'lock.yaml', `schema_version: 1\ncurrent: ${demo.commit}\nnext: ${nextCommit}\n`)
   await write(demo.sharedDocs, 'content/overview.md', '# Overview\n\nManual-local page linking [pointer](Extras/pointer.md).\n')
   await write(demo.sharedDocs, 'content/legacy.md', '# Legacy\n\nA page being retired.\n')
+  await write(demo.sharedDocs, 'content/datatype-note.md', 'A transform note for the vanishing page.\n')
   return { ...demo, nextCommit }
 }
 
@@ -160,7 +169,8 @@ it('promotes the whole manual and carries the one-sided configuration across', a
     lock: { from: { current: demo.commit, next: demo.nextCommit }, to: { current: demo.nextCommit, next: demo.nextCommit } },
     cloudPagesPromoted: ['Overview.md'], cloudPagesRetired: ['MilvusCloud/Legacy.md'],
     upstreamPagesRetired: ['Collections/DataType.md'],
-    metadataRemoved: ['Collections/DataType.md'], excludeRemoved: ['Collections/DataType.md'] })
+    metadataRemoved: ['Collections/DataType.md'], excludeRemoved: ['Collections/DataType.md'],
+    transformsRemoved: ['Collections/DataType.md'] })
   expect(await readFile(join(out, 'lock.yaml'), 'utf8'))
     .toBe(`schema_version: 1\ncurrent: ${demo.nextCommit}\nnext: ${demo.nextCommit}\n`)
   const promotedManual = await readFile(join(out, 'manual.yaml'), 'utf8')
@@ -168,6 +178,7 @@ it('promotes the whole manual and carries the one-sided configuration across', a
   expect(promotedManual).not.toContain('channel: next')
   expect(promotedManual).not.toContain('Legacy')
   expect(promotedManual).not.toContain('Collections/DataType.md')
+  expect(promotedManual).not.toContain('datatype-note.md')
   expect(promotedManual).toContain('beta: ON REQUEST')
   // The physical content file of the retired page stays in place.
   await expect(readFile(join(demo.sharedDocs, 'content', 'legacy.md'), 'utf8')).resolves.toBeTruthy()

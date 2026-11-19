@@ -2,9 +2,9 @@ import type { ConfigValidation } from '../yaml'
 
 /** YAML block scalars contribute a terminal newline, not an empty code line. */
 export const codeLines = (text: string): string[] => text.replace(/(?:\r\n|\r|\n)$/, '').split(/\r\n|\r|\n/)
-export function validateTransforms(values: unknown[], check: ConfigValidation) {
+export function validateTransforms(values: unknown[], check: ConfigValidation, basePath: (string | number)[] = ['transforms']) {
   values.forEach((value, index) => {
-    const path = ['transforms', index]
+    const path = [...basePath, index]
     if (!check.object(value, path, ['operation', 'target', 'position', 'content', 'channel'], ['operation', 'target'])) return
     if (!['add', 'replace', 'remove'].includes(value.operation as string)) check.error([...path, 'operation'], 'Expected add, replace, or remove')
     if (value.channel !== undefined && !['current', 'next'].includes(value.channel as string)) check.error([...path, 'channel'], 'Expected current or next', 'TRANSFORM_CHANNEL_INVALID')
