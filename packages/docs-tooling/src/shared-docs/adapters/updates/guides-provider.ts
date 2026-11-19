@@ -446,8 +446,9 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const request = contract.BatchRenderRequestSchema.parse(data)
   if (replay && request.origin.kind !== 'replay') throw Error('BATCH_REPLAY_ORIGIN_REQUIRED')
   const repositoryRoot = replay?.repositoryRoot ?? (request.origin.kind === 'replay' ? request.devRepository : toolingRoot)
-  const {readReportConfiguration} = await import('./candidate')
+  const {collectHistoricalCandidate, readReportConfiguration} = await import('./candidate')
   const {observeGuidesPage} = await import('./runner')
+  const {createHistoricalMdxFinalizer} = await import('../mdx')
   const {analyzeUpdates} = await import('../../core/updates/impact')
   const payloads = new Map<string, {ref: BlobRef; base64: string}>()
   let retainedEncodedBytes = 0
@@ -605,12 +606,12 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
     const commitProofRef = retain(sourceProof.commitProof(commitHistory))
     const intervalObservations = []
+    const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
-      const observed = await observeGuidesPage({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
-        current: commit, oldNext: commit, target: commit, configuration: loaded.configuration, previousConfiguration: loaded.configuration,
-        versions: {master: request.pins.master, dev: request.pins.dev, tools: {zdoc: request.pins.trustedTools}}, fetcher})
-      const o = observed.pages[0].candidateNext, sourceEntries = await sourceInventory(commit)
+      const o = await collectHistoricalCandidate({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
+        target: commit, configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx)
+      const sourceEntries = await sourceInventory(commit)
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
         const raw = await reads.readCommitted(request.sourceRepository, sourceEntries, path), declared = o.files.find(f => f.file === path)

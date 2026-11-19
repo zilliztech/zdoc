@@ -70,13 +70,9 @@ export interface CollectUpdateInput {
   readonly build?: (input: { pageId: string; sharedDocs: SharedDocsInputs; observe: (observation: BuildPageObservation) => void }) => Promise<BuildPageResult>
 }
 
-/** No branch-head lookup, lock writes, lifecycle reads or rendered-view reconstruction. */
-export async function collectUpdateInputs(input: CollectUpdateInput): Promise<UpdateInput> {
-  const versions = structuredClone(input.versions)
-  const requests = structuredClone(input.pages)
-  const pages: UpdateInput['pages'][number][] = []
-  for (const page of requests) {
-    const observe = async (request: FixedObservationRequest, role: 'oldNext' | 'current' | 'candidateNext'): Promise<PageObservation> => {
+type ObservationServices = Pick<CollectUpdateInput, 'reader' | 'md2md' | 'build'>
+function createPageObserver(input: ObservationServices, page: Pick<UpdatePageRequest, 'pageId' | 'current' | 'candidateNext'>) {
+  return async (request: FixedObservationRequest, role: 'oldNext' | 'current' | 'candidateNext'): Promise<PageObservation> => {
       const { commit, configuration } = request
       if (!/^[0-9a-f]{40}$/.test(commit)) throw new Error(`Invalid ${role} source commit`)
       const { sharedDocs: shared } = configuration
@@ -188,8 +184,25 @@ export async function collectUpdateInputs(input: CollectUpdateInput): Promise<Up
         localInputs: configuration.files.map(({ file, sha256 }) => ({ file, sha256 })), blocks,
         dependencies: [...new Map(dependencies.map(dependency => [JSON.stringify([dependency.kind, dependency.identity]), dependency])).values()].sort((a, b) => a.kind.localeCompare(b.kind) || a.identity.localeCompare(b.identity)),
         targets: pageInput.config.publish.map(target => ({ ...target })), manuals, rawErrors, images, imageStatus, errors, outputStatus, hasChannelRules: !!pageInput.config.transforms?.some(transform => transform.channel !== undefined) }
-    }
+  }
+}
+
+/** No branch-head lookup, lock writes, lifecycle reads or rendered-view reconstruction. */
+export async function collectUpdateInputs(input: CollectUpdateInput): Promise<UpdateInput> {
+  const versions = structuredClone(input.versions)
+  const requests = structuredClone(input.pages)
+  const pages: UpdateInput['pages'][number][] = []
+  for (const page of requests) {
+    const observe = createPageObserver(input, page)
     pages.push({ pageId: page.pageId, oldNext: await observe(page.oldNext, 'oldNext'), current: await observe(page.current, 'current'), candidateNext: await observe(page.candidateNext, 'candidateNext') })
   }
   return immutable({ schema_version: 1 as const, versions, pages })
+}
+
+/** Historic material retains the candidate view at one fixed commit. The
+ * normal builder still validates both channels and observes both manuals. */
+export async function collectHistoricalUpdateObservation(input: ObservationServices & {pageId: string; request: FixedObservationRequest}): Promise<PageObservation> {
+  const request = structuredClone(input.request)
+  const observe = createPageObserver(input, {pageId: input.pageId, current: request, candidateNext: request})
+  return immutable(await observe(request, 'candidateNext'))
 }

@@ -207,6 +207,28 @@ it('holds when a new side commit temporarily lacks the configured source root', 
   expect(snapshot!.consumed).not.toContainEqual(expect.objectContaining({path: source}))
   expect(page.reasons).toContain('INTERMEDIATE_OBSERVATION_INCOMPLETE')
 }, 120000)
+it('observes identical candidate evidence from one historical build, including both manuals', async () => {
+  const f = await simpleFixture('## Source\n{{fragments/transient.md}}')
+  const commit = await f.sourceChange('site/en/fragments/transient.md', 'Evidence from this exact commit.\n')
+  const {collectCandidate, collectHistoricalCandidate, readReportConfiguration} = await import('../../adapters/updates/candidate')
+  const {createHistoricalMdxFinalizer, toMdx} = await import('../../adapters/mdx')
+  const pageId = 'build-pipeline', loaded = await readReportConfiguration(f.sharedDocs, f.root, f.ids)
+  if ('errors' in loaded) throw Error('Invalid fixture configuration')
+  const request = await f.request(pageId), configuration = loaded.configuration
+  const source = {repo: f.repo, dev: f.dev, pageId, target: commit, configuration, fetcher: f.fetcher}
+  const ordinary = await collectCandidate({...source, current: commit, oldNext: commit, previousConfiguration: configuration,
+    versions: {master: request.pins.master, dev: request.pins.dev, tools: {zdoc: request.pins.trustedTools}}})
+  const finalize = vi.fn(toMdx)
+  const once = await collectHistoricalCandidate(source, finalize)
+  expect(once).toEqual(ordinary.pages[0].candidateNext)
+  expect(once.outputStatus).toBe('observed')
+  expect(once.manuals.map(manual => manual.manual)).toEqual(['guides', 'guides-byoc'])
+  expect(once.dependencies).toContainEqual(expect.objectContaining({identity: 'site/en/fragments/transient.md'}))
+  // One production build finalizes current and next for the two manuals, and
+  // their merged outputs. The shaped candidate only uses the two next views.
+  expect(finalize).toHaveBeenCalledTimes(6)
+  expect(await collectHistoricalCandidate(source, createHistoricalMdxFinalizer())).toEqual(once)
+}, 120000)
 it('finds a fragment consumed only during an intervening source edit', async () => {
   const f = await simpleFixture(), original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
   await f.sourceChange('site/en/fragments/transient.md', 'Temporary dependency.\n')
