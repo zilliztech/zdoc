@@ -4,7 +4,7 @@ import * as z from 'zod'
 import {canonicalBytes, compareUtf8, isValidUnicode, parseStrictJson} from '../../core/updates/canonical'
 import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/envelope'
 import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-source'
-import {isMilvusPagePath} from '../links-input'
+import {isMilvusIgnoredPathComponent} from '../../core/links/milvus-page-path'
 
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
@@ -250,11 +250,12 @@ export function batchGitInventoryReader(
     let visits = 0
     for (const [name, item] of tree(oid)) {
       visits++
+      const eligible = discoverable && !isMilvusIgnoredPathComponent(name)
       if (item.mode === '40000') {
-        visits += verifySubtree(item.oid, discoverable && isMilvusPagePath(`site/en/${name}/probe.md`), visiting)
+        visits += verifySubtree(item.oid, eligible, visiting)
       } else {
         if (item.mode !== '100644' && item.mode !== '100755') throw Error('BATCH_SOURCE_INVENTORY_INVALID')
-        if (discoverable && isMilvusPagePath(`site/en/${name}`)) {
+        if (eligible && name.endsWith('.md')) {
           if (!metadata.has(item.oid)) throw Error('BATCH_INVENTORY_DISCOVERY_MISSING')
           reachedMetadata.add(item.oid)
         }
