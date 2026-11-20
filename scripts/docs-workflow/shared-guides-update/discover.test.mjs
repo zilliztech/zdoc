@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import test from 'node:test'
-import { discover, targetRef } from './discover.mjs'
+import { discover, inspectBatchWriterScope, targetRef } from './discover.mjs'
 
 const repo = 'zilliztech/zdoc'
 const source = 'milvus-io/milvus-docs'
@@ -160,6 +160,40 @@ test('readbacks require exact owned refs and the exact same-repo bot draft and s
   delete f.ownedPull
   f.ownedHead.sha = dev
   await assert.rejects(discover(f), /OWNED_REF_CHANGED/)
+})
+
+test('checks the whole batch against open PRs and verifies precisely the changed locks on the owned Draft', async () => {
+  const f = inventory()
+  const target = 'shared-update/' + 'b'.repeat(64)
+  const pageIds = ['member-a','member-b','member-noop']
+  const changedPageIds = ['member-a','member-b']
+  const args = {expected:{master,dev,source:head},pageIds,changedPageIds,target,stage:stageRef}
+  const inspect = () => inspectBatchWriterScope({...f,...args})
+  const lock = id => 'shared-docs/guides/pages/' + id + '/lock.yaml'
+  f.pulls = [pull(1,[file('shared-docs/node/lock.yaml')],'shared-docs-update/node-30bdd85bd4cc')]
+  assert.deepEqual(await inspect(),{status:'clear',historyVerified:true,reasons:[]})
+  f.pulls.push(pull(2,[{filename:'archive.json',status:'renamed',previous_filename:lock('member-noop')}]))
+  assert.deepEqual((await inspect()).reasons,['OPEN_UPDATE_PR_2'])
+
+  f.pulls = [pull(3,changedPageIds.map(id => file(lock(id))),target)]
+  f.ownedHead = {ref:target,sha:writerOid}
+  f.ownedStage = {ref:stageRef,sha:head}
+  f.ownedPull = {number:3,ref:target,sha:writerOid}
+  f.branches.push(branch(target,writerOid),branch(stageRef,head))
+  assert.equal((await inspect()).status,'clear')
+  f.pulls[0].files[1] = file(lock('member-noop'))
+  await assert.rejects(inspect,/OWNED_PR_FILES_CHANGED/)
+  f.pulls[0].files[1] = file(lock('member-b'))
+
+  f.ownedStage.ref = 'shared-update-staging/' + 'c'.repeat(64)
+  await assert.rejects(inspect,/OWNED_REF_EXCEPTION/)
+  f.ownedStage.ref = stageRef
+  let refReads = 0
+  f.adjust = (_repo,route,result) => {
+    if (route === '/git/ref/heads/v3.0.x' && ++refReads === 2) result.object.sha = dev
+    return result
+  }
+  await assert.rejects(inspect,/BATCH_WRITER_PINS_CHANGED/)
 })
 
 test('rejects incomplete, capped, duplicate or moved PR observations', async () => {

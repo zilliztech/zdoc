@@ -33,8 +33,22 @@ it('denies fabricated material tickets without reading a selected run or constru
 
 it('denies public records and copied tickets at the candidate entry', async () => {
   const {prepareQualifiedBatchCandidate} = await import('../../adapters/updates/batch-candidate')
-  for (const data of [{}, {kind: 'guides-batch-collection-index-v1', origin: 'observed'}, {kind: 'guides-batch-verify-control-v1'}]) {
+  const origin = {kind: 'observed', purpose: 'isolated-candidate'}
+  for (const data of [{}, {kind: 'guides-batch-collection-index-v1', base: {origin}}, {kind: 'guides-batch-verify-control-v1', base: {origin}}]) {
     await expect(prepareQualifiedBatchCandidate(data as never)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  }
+})
+
+it('keeps observed candidate preparation separate from the read-only entry and rejects replay inputs', async () => {
+  const batch = await import('../../adapters/updates/batch-collection')
+  const f = await fixture()
+  const input = {sourceRepository: f.repo, out: f.repo}
+  for (const entry of [batch.collectObservedGuidesBatch, batch.prepareObservedIsolatedBatchCandidate]) {
+    await expect(entry(input)).resolves.toMatchObject({observation: 'observed', status: 'held',
+      reasons: ['BATCH_OUTPUT_OVERLAP'], index: null, operations: [], writeEligible: false})
+    const replayOptions = {...input, zdocRepository: f.root, capture: {}, fixtureBytes: Buffer.from('{}'), replayClockMs: 0}
+    await expect(entry(replayOptions)).resolves.toMatchObject({observation: 'observed', status: 'held',
+      reasons: ['BATCH_LAUNCH_BINDING_INVALID'], index: null, operations: [], writeEligible: false})
   }
 })
 
@@ -294,7 +308,7 @@ it('rejects malformed canonical material frames and extra or orphan wire payload
   observed.material.base.origin = {kind: 'observed'}
   const observedRequest = {...request, origin: observed.material.base.origin}
   expect(observed.material.detailRef).toBeDefined()
-  expect(() => validateBatchWire(observed, observedRequest)).toThrow('Replay-only material detail')
+  expect(() => validateBatchWire(observed, observedRequest)).toThrow('Read-only observed material cannot contain candidate detail')
   const extra = structuredClone(wire), bytes = Buffer.from('orphan delivered bytes'), ref = batchRef(bytes)
   extra.blobs.push({ref, base64: bytes.toString('base64')}); extra.blobs.sort((a, b) => a.ref.sha256 < b.ref.sha256 ? -1 : 1)
   expect(() => validateBatchWire(extra, request)).toThrow('BATCH_MATERIAL_ORPHAN_BLOB')
@@ -313,7 +327,9 @@ it('binds compact inventory to exact Git and discovery evidence and rejects alte
   await git(f.repo, 'commit', '--allow-empty', '-qm', 'retain intermediate observation')
   await write(f.repo, 'site/en/build-pipeline.md', '---\nid: build-pipeline.md\ntitle: Source\nsummary: Source fixture\n---\n## Source\nNo fragment.\n')
   await git(f.repo, 'rm', 'site/en/fragments/transient.md'); await git(f.repo, 'add', '.'); await git(f.repo, 'commit', '-qm', 'remove consumed fragment')
-  const request = await f.request(), wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const fixtureRequest = await f.request()
+  const request = {...fixtureRequest, pins: {...fixtureRequest.pins, trustedTools: fixtureRequest.pins.master}}
+  const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
   const checked = validateBatchWire(wire, request)
   expect(checked.inventories[2].absentPaths).toContain('site/en/fragments/transient.md')
   const get = (ref: ReturnType<typeof batchRef>) => decodeBatchBlob(ref, wire.blobs.find(blob => blob.ref.sha256 === ref.sha256)!.base64)
@@ -345,6 +361,7 @@ blobs = os.open('blobs', os.O_RDONLY | os.O_DIRECTORY, dir_fd=root)
 retained, base = json.load(sys.stdin)
 reader = p._BatchReader(root, blobs, {'rootIdentity': p._BatchReader.identity(root), 'blobsIdentity': p._BatchReader.identity(blobs)})
 try:
+    p._batch_base(base)
     p._batch_material(reader, retained, base)
 except p.Hold as error:
     print(error)
@@ -352,7 +369,7 @@ else:
     print('accepted')
 `
   const written = new Set<string>()
-  async function checkPython(changed: typeof wire, result: string) {
+  async function checkPython(changed: typeof wire, result: string, base = changed.material.base) {
     for (const blob of changed.blobs) if (!written.has(blob.ref.sha256)) {
       await writeFile(join(directory, blob.ref.sha256), Buffer.from(blob.base64, 'base64'), {flag: 'wx'})
       written.add(blob.ref.sha256)
@@ -365,7 +382,7 @@ else:
     const retained = {pageId: changed.material.pageId, requestSha256: 'a'.repeat(64), requestBytes: 1,
       responseSha256: 'b'.repeat(64), responseBytes: 1, materialRef, materialDigest: batchDigest('material', changed.material)}
     expect(execFileSync('python3', ['-B', '-c', runner, root], {encoding: 'utf8',
-      input: JSON.stringify([retained, changed.material.base])}).trim()).toBe(result)
+      input: JSON.stringify([retained, base])}).trim()).toBe(result)
   }
   await checkPython(wire, 'accepted')
   for (const [patch, reason, pythonReason] of [
@@ -419,7 +436,30 @@ else:
   await checkPython(removed, 'BATCH_HISTORY_INVALID')
   const observed = structuredClone(wire)
   const observedOrigin = {kind: 'observed' as const}
+  const candidateOrigin = {...observedOrigin, purpose: 'isolated-candidate' as const}
+  const candidate = structuredClone(wire)
+  candidate.material.base.origin = candidateOrigin
+  const candidateRequest = {...request, origin: candidateOrigin}
+  expect(validateBatchWire(candidate, candidateRequest).detail?.pageId).toBe(request.pageId)
+  await checkPython(candidate, 'accepted')
+  expect(() => validateBatchWire(candidate, {...request, origin: observedOrigin})).toThrow('BATCH_LAUNCH_BINDING_INVALID')
+  await checkPython(candidate, 'BATCH_SCHEMA_INVALID', {...candidate.material.base, origin: observedOrigin})
+  await expect(provider.collectBatchPageMaterial(candidateRequest, {repositoryRoot: f.root, fetcher: f.fetcher}))
+    .rejects.toThrow('BATCH_REPLAY_ORIGIN_REQUIRED')
+
+  const missingDetail = structuredClone(candidate)
+  delete missingDetail.material.detailRef
+  expect(() => validateBatchWire(missingDetail, candidateRequest)).toThrow('Isolated candidate material requires detail')
+  await checkPython(missingDetail, 'BATCH_SCHEMA_INVALID')
+  const substitutedDetail = structuredClone(candidate)
+  const detail = JSON.parse(Buffer.from(get(substitutedDetail.material.detailRef!)).toString('utf8'))
+  substitutedDetail.material.detailRef = rewrite(substitutedDetail, {...detail, pageId: 'another-page'})
+  expect(() => validateBatchWire(substitutedDetail, candidateRequest)).toThrow('BATCH_MATERIAL_DETAIL_INVALID')
+  await checkPython(substitutedDetail, 'BATCH_MATERIAL_DETAIL_INVALID')
+
   observed.material.base.origin = observedOrigin
+  expect(() => validateBatchWire(observed, {...request, origin: observedOrigin})).toThrow('Read-only observed material cannot contain candidate detail')
+  await checkPython(observed, 'BATCH_SCHEMA_INVALID')
   const replayDetail = observed.material.detailRef
   delete observed.material.detailRef
   observed.blobs = observed.blobs.filter(blob => blob.ref.sha256 !== replayDetail?.sha256)

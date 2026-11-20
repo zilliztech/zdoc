@@ -1540,6 +1540,7 @@
       "id": "shared-guides-upstream-update",
       "paths": [
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-batch-qualify.yml",
         ".github/workflows/shared-guides-validate.yml",
         ".github/workflows/shared-guides-finalize.yml",
         "scripts/docs-workflow/shared-guides-update/**"
@@ -1555,7 +1556,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The scheduled single-page update must verify fresh production inputs, skip existing updates, accept only the prepared lock.next edit, and create at most one Draft PR."
+      "reason": "The scheduled single-page update and the manual batch update share one writer and create at most one signed Draft PR. Manual batch qualification independently verifies observed evidence using read-only permissions."
     },
     {
       "id": "shared-docs-pr-workflows",

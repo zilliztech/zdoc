@@ -93,11 +93,21 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
 
 /** Bounded supported ZIP subset. No extraction, shell, URL, or candidate code. */
 export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Array> {
-  if (input.length > LIMIT.archiveBytes || input.length < 22) fail('ZIP_LIMIT')
+  return parseZip(input, LIMIT.archiveBytes, LIMIT.members, LIMIT.outputBytes)
+}
+
+/** A compact handoff is one bounded JSON member, separate from v1 archives. */
+export function parseBatchHandoffZip(input: Uint8Array): ReadonlyMap<string, Uint8Array> {
+  const handoffLimit = 2 * 1024 ** 2
+  return parseZip(input, handoffLimit, 1, handoffLimit, 'handoff.json')
+}
+
+function parseZip(input: Uint8Array, archiveLimit: number, memberLimit: number, entryLimit: number, expectedName?: string) {
+  if (input.length > archiveLimit || input.length < 22) fail('ZIP_LIMIT')
   const bytes = Buffer.from(input), end = bytes.length - 22
   if (bytes.readUInt32LE(end) !== 0x06054b50 || bytes.readUInt16LE(end+20) || bytes.readUInt16LE(end+4) || bytes.readUInt16LE(end+6)) fail('ZIP_FORMAT')
   const count = bytes.readUInt16LE(end+10), countDisk=bytes.readUInt16LE(end+8), length=bytes.readUInt32LE(end+12), offset=bytes.readUInt32LE(end+16)
-  if (!count || count>LIMIT.members || count!==countDisk || offset+length!==end) fail('ZIP_DIRECTORY')
+  if (!count || count>memberLimit || count!==countDisk || offset+length!==end) fail('ZIP_DIRECTORY')
   const result=new Map<string,Uint8Array>(), folded=new Set<string>(), ranges:{start:number;end:number}[]=[]
   let at=offset, expanded=0
   const crc32=(data:Uint8Array)=>{let crc=0xffffffff;for(const byte of data){crc^=byte;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}return (crc^0xffffffff)>>>0}
@@ -105,10 +115,10 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
     if(at+46>end||bytes.readUInt32LE(at)!==0x02014b50)fail('ZIP_DIRECTORY')
     const flags=bytes.readUInt16LE(at+8), method=bytes.readUInt16LE(at+10), crc=bytes.readUInt32LE(at+16), compressed=bytes.readUInt32LE(at+20), size=bytes.readUInt32LE(at+24)
     const names=bytes.readUInt16LE(at+28), extra=bytes.readUInt16LE(at+30), comments=bytes.readUInt16LE(at+32), disk=bytes.readUInt16LE(at+34), attributes=bytes.readUInt32LE(at+38), local=bytes.readUInt32LE(at+42)
-    if(flags&~0x808||![0,8].includes(method)||disk||extra||comments||compressed===0xffffffff||size>LIMIT.outputBytes||at+46+names>end||local+30>offset)fail('ZIP_UNSUPPORTED')
+    if(flags&~0x808||![0,8].includes(method)||disk||extra||comments||compressed===0xffffffff||size>entryLimit||at+46+names>end||local+30>offset)fail('ZIP_UNSUPPORTED')
     const nameBytes=bytes.subarray(at+46,at+46+names), name=new TextDecoder('utf8',{fatal:true}).decode(nameBytes)
     RepoPathSchema.parse(name)
-    if(folded.has(name.toLowerCase())||name.endsWith('/')||![0,0x8000].includes((attributes>>>16)&0xf000)||(attributes&0x10)!==0)fail('ZIP_MEMBER')
+    if(expectedName!==undefined&&name!==expectedName||folded.has(name.toLowerCase())||name.endsWith('/')||![0,0x8000].includes((attributes>>>16)&0xf000)||(attributes&0x10)!==0)fail('ZIP_MEMBER')
     folded.add(name.toLowerCase())
     if(bytes.readUInt32LE(local)!==0x04034b50||bytes.readUInt16LE(local+6)!==flags||bytes.readUInt16LE(local+8)!==method)fail('ZIP_LOCAL')
     const localNames=bytes.readUInt16LE(local+26),localExtra=bytes.readUInt16LE(local+28),start=local+30+localNames+localExtra, stop=start+compressed
@@ -124,7 +134,7 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
     if(ranges.some(range=>local<range.end&&rangeEnd>range.start))fail('ZIP_OVERLAP')
     ranges.push({start:local,end:rangeEnd})
     expanded+=size;if(expanded>IO.expandedBytes)fail('ZIP_LIMIT')
-    const inflated=method===8?(inflateRawSync(bytes.subarray(start,stop),{maxOutputLength:LIMIT.outputBytes,info:true}) as unknown as {buffer:Buffer;engine:{bytesWritten:number}}):null
+    const inflated=method===8?(inflateRawSync(bytes.subarray(start,stop),{maxOutputLength:entryLimit,info:true}) as unknown as {buffer:Buffer;engine:{bytesWritten:number}}):null
     if(inflated&&inflated.engine.bytesWritten!==compressed)fail('ZIP_COMPRESSED_TRAILING')
     const data=inflated?inflated.buffer:bytes.subarray(start,stop)
     if(data.length!==size||crc32(data)!==crc)fail('ZIP_CRC')

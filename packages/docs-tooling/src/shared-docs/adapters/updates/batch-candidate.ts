@@ -1,7 +1,7 @@
 import {createHash, generateKeyPairSync, sign, verify, type KeyObject} from 'node:crypto'
 import * as z from 'zod'
 import {canonicalBytes, compareUtf8, digest} from '../../core/updates/canonical'
-import {CandidateSnapshotProofSchema, DigestSchema, validateUpdateReportEnvelope, type BlobRef, type CandidateSnapshotProof,
+import {CandidateSnapshotProofSchema, validateUpdateReportEnvelope, type BlobRef, type CandidateSnapshotProof,
   type ContentMember, type MaterialTree, type SemanticInput, type Subject, type ToolsetMaterial, type UpdateUnitPlan} from '../../core/updates/envelope'
 import {analyzeUpdates} from '../../core/updates/impact'
 import {METADATA_LIMITS} from '../../core/updates/metadata'
@@ -10,11 +10,11 @@ import {patchNextLock} from '../../core/updates/transaction'
 import {captureUnitMaterial, planUpdateUnit} from '../../core/updates/unit-plan'
 import {immutable, type PageObservation} from '../../core/updates/types'
 import {finalizeFetchFrontMatter} from '../../core/site/front-matter'
-import {BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchConfigSchema,
+import {BatchClosureSchema, BatchCollectionIndexSchema, BatchConfigSchema,
   BatchDiagnosticsSchema, BatchDiscoveryCommitmentSchema, BatchDispositionsSchema, BatchHistorySchema, BatchImagesSchema,
-  BATCH_WIRE_LIMIT, BatchGitInventorySchema, BatchInventoryProofSchema, BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema, BatchMethodSchema,
-  BatchPageIdSchema, BatchPageMaterialHeaderSchema, BatchProjectionSchema, BatchQualificationSchema, BatchQualifiedPinsSchema,
-  BatchQualifiedReportSchema, BatchRawTreeSchema, BatchRunSchema, BatchScopeSchema, BatchVerifyControlSchema,
+  BATCH_WIRE_LIMIT, BatchGitInventorySchema, BatchInventoryProofSchema, BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema,
+  BatchPageMaterialHeaderSchema, BatchProjectionSchema, BatchQualificationSchema, BatchQualifiedPinsSchema,
+  BatchQualifiedReportSchema, BatchRawTreeSchema, BatchScopeSchema, BatchVerifyControlSchema,
   batchDigest, batchGitInventoryReader, batchRef, batchRoles, batchSha256, parseBatchCanonical, validateBatchMaterialDetail, verifyCommitProof,
   type BatchBlobRef, type BatchVerifyControl} from './batch-collection-contract'
 import {writeOwnedBlob, type EvidenceStore} from './evidence'
@@ -23,19 +23,13 @@ import {openLocalBatchBaseline} from './batch-source'
 import {createScratchTransaction, type ScratchTransaction} from './transactions'
 import {consumeBatchCandidateLaunch, type BatchCandidateLaunchTicket} from './batch-collection'
 import {verifyClosureBinding} from './toolset'
+import {BATCH_HANDOFF_LIMITS, BatchCandidateBindingSchema as bindingSchema, createBatchHandoffInventory} from './batch-handoff'
 
 const check: (condition: unknown, reason: string) => asserts condition = (condition, reason) => {if (!condition) throw Error(reason)}
 const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(Buffer.from(canonicalBytes(b)))
 const utf8 = (bytes: Uint8Array) => new TextDecoder('utf8', {fatal: true}).decode(bytes)
 const sorted = (values: string[]) => [...new Set(values)].sort(compareUtf8)
 
-const commitment = z.strictObject({ref: BatchBlobRefSchema, digest: DigestSchema})
-const bindingSchema = z.strictObject({
-  kind: z.literal('guides-batch-candidate-binding-v1'), base: BatchBaseSchema, run: BatchRunSchema, method: BatchMethodSchema,
-  scope: commitment, discovery: commitment, closure: commitment, materials: commitment, qualification: commitment, index: commitment,
-  pages: z.array(z.strictObject({pageId: BatchPageIdSchema, disposition: z.enum(['advance', 'noop']), material: commitment,
-    qualifiedReportRef: BatchBlobRefSchema, qualifiedPinsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema})).min(1).max(METADATA_LIMITS.subjects)
-})
 type Binding = z.infer<typeof bindingSchema>
 type Roots = Readonly<Pick<BatchVerifyControl, 'base' | 'run' | 'discoveryRef' | 'discoveryDigest' | 'closureRef' | 'groupSha256' |
   'materialRoot' | 'materialDigest' | 'scopeRef' | 'scopeDigest' | 'qualifierRef' | 'qualifierDigest' | 'profileDigest' | 'indexRef' | 'indexDigest'>>
@@ -346,8 +340,67 @@ export async function inspectSignedBatchCandidate(input: {roots: Roots; evidence
   return {status: 'exact-local-candidate' as const, candidate: proof.candidate, seal: input.sealOid, objects: delta.objects}
 }
 
+type CandidateLaunch = ReturnType<typeof consumeBatchCandidateLaunch>
+type VerifiedObjects = Awaited<ReturnType<typeof inspectSignedBatchCandidate>>['objects']
+
+async function buildCompactHandoff(input: CandidateLaunch, binding: Binding, candidate: Extract<LocalBatchCandidate, {status: 'candidate'}>,
+  proof: CandidateSnapshotProof, contexts: Awaited<ReturnType<typeof preparePlan>>['contexts'], objects: VerifiedObjects) {
+  const {handoffCollection: collection, evidence, control, budget} = input
+  check(collection && same(collection.origin, binding.base.origin) && same(collection.indexRef, binding.index.ref) &&
+    collection.indexDigest === binding.index.digest && collection.controlDigest === batchDigest('control', control), 'BATCH_HANDOFF_COLLECTION')
+  const inventory = createBatchHandoffInventory()
+  for (const object of objects) inventory.object(object)
+  const read = reader(evidence)
+  async function retainRef(ref: BlobRef) {
+    budget()
+    check(ref.bytes <= BATCH_HANDOFF_LIMITS.entryBytes, 'BATCH_HANDOFF_LIMIT')
+    inventory.document(ref, await read.bytes(ref))
+  }
+  function retainValue(value: unknown) {
+    const raw = canonicalBytes(value), ref = batchRef(raw)
+    inventory.document(ref, raw)
+    return ref
+  }
+  for (const ref of [candidate.binding, binding.index.ref, binding.qualification.ref, candidate.plan, candidate.proof, proof.patch]) await retainRef(ref)
+  const qualification = await read.value(binding.qualification.ref, BatchQualificationSchema)
+  const members = []
+  for (const [i, {collectedReport, history, ...facts}] of contexts.entries()) {
+    budget()
+    const row = binding.pages[i]
+    check(facts.subject.kind === 'guides-page' && facts.subject.pageId === row.pageId, 'BATCH_HANDOFF_MEMBERS')
+    inventory.document(facts.reportBlob, canonicalBytes(collectedReport))
+    const context = retainValue({...facts, historyRef: retainValue(history)})
+    members.push({pageId: row.pageId, disposition: row.disposition, report: facts.reportBlob, context})
+  }
+  const bytes = inventory.encode({
+    kind: 'guides-batch-compact-handoff-v2',
+    // The outer official Actions artifact identity must be authenticated by
+    // any future consumer. This frame is a measured witness, not a write grant.
+    base: binding.base, collection, method: binding.method, groupSha256: binding.closure.digest,
+    fetch: {run: qualification.run, sourceJobId: qualification.rows[0].sourceJobId, scanStartMs: qualification.scanStartMs,
+      sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact},
+    binding: {ref: candidate.binding, digest: candidate.bindingDigest}, qualification: binding.qualification, members,
+    plan: candidate.plan, proof: candidate.proof, patch: proof.patch, candidate: proof.candidate, candidateTree: proof.candidateTree,
+    toolset: {sha256: proof.trustedToolsetSha256, executableClosure: proof.executableClosure},
+  })
+  await input.reserve(bytes.length, 1)
+  budget()
+  return writeOwnedBlob(evidence, bytes)
+}
+
 export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunchTicket): Promise<LocalBatchCandidate> {
   const input = consumeBatchCandidateLaunch(ticket)
+  check(!input.handoffCollection, 'BATCH_LAUNCH_BINDING_INVALID')
+  return (await prepareCandidate(input)).candidate
+}
+
+export async function prepareQualifiedBatchCandidateHandoff(ticket: BatchCandidateLaunchTicket) {
+  const input = consumeBatchCandidateLaunch(ticket)
+  check(input.handoffCollection, 'BATCH_LAUNCH_BINDING_INVALID')
+  return prepareCandidate(input)
+}
+
+async function prepareCandidate(input: CandidateLaunch): Promise<{candidate: LocalBatchCandidate; handoff?: BatchBlobRef}> {
   const {evidence, budget} = input, roots = BatchVerifyControlSchema.parse(input.control)
   const binding = await deriveBinding(evidence, roots), observation = binding.base.origin.kind
   const {master, dev, toolsetSha256} = binding.base.pins
@@ -359,7 +412,7 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   for (const {bytes} of prepared.localBlobs.values()) {budget(); await writeOwnedBlob(evidence, bytes)}
   if (plan.disposition !== 'candidate') {
     await baseline.verifyPins(master, dev)
-    return immutable({status: 'no-change', observation, binding: bindingRef, bindingDigest, plan: planRef})
+    return {candidate: immutable({status: 'no-change', observation, binding: bindingRef, bindingDigest, plan: planRef})}
   }
   const executableClosure = await writeOwnedBlob(evidence, input.closureBytes)
   const transaction = await createScratchTransaction({evidence, gitBinary: input.git, batch: {reserve: input.reserve}})
@@ -375,9 +428,11 @@ export async function prepareQualifiedBatchCandidate(ticket: BatchCandidateLaunc
   const seal = signLocalSeal(sealMetadata(binding, plan, proof), keys.privateKey), sealOid = commitOid(seal)
   await transaction.retainSignedCommit(seal, sealOid, budget)
   const sealRef = await writeOwnedBlob(evidence, seal)
-  await inspectSignedBatchCandidate({roots, evidence, transaction, baseline, bindingRef, planRef, proofRef, sealRef,
+  const verified = await inspectSignedBatchCandidate({roots, evidence, transaction, baseline, bindingRef, planRef, proofRef, sealRef,
     publicKey: keys.publicKey, sealOid, executableClosure, toolset: input.toolset, budget})
   await input.reserve()
-  return immutable({status: 'candidate', observation, binding: bindingRef, bindingDigest, plan: planRef, proof: proofRef, seal: sealRef,
+  const candidate = immutable({status: 'candidate' as const, observation, binding: bindingRef, bindingDigest, plan: planRef, proof: proofRef, seal: sealRef,
     candidate: proof.candidate, sealOid, publicKey: keys.publicKey.export({type: 'spki', format: 'pem'}).toString()})
+  const handoff = input.handoffCollection && await buildCompactHandoff(input, binding, candidate, proof, prepared.contexts, verified.objects)
+  return {candidate, ...(handoff ? {handoff} : {})}
 }

@@ -7,15 +7,22 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, verifySignature } from './write.mjs'
+import { authenticateBatchPrepare, authenticatePrepare, batchDraftMaterial, batchWriterContext, context, createBatchDraft,
+  createDraft, gitReader, inspectPreparedBatch, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
-const unit = {nextEdits:[{before:{current:master,next:master},target:dev}]}
+const lockPath = id => 'shared-docs/guides/pages/' + id + '/lock.yaml'
+function overlay(path, bytes = Buffer.from(`schema_version: 1\ncurrent: ${master}\nnext: ${dev}\n`)) {
+  return {path,bytes,sha256:createHash('sha256').update(bytes).digest('hex')}
+}
+const pilotOverlay = overlay(lockPath('json-field-overview'))
+const unit = {nextEdits:[{before:{current:master,next:master},target:dev,afterBlob:{sha256:pilotOverlay.sha256}}]}
 const seal = {candidate:k,candidateTree:tree,master,runId:15}
 const axes = ['old-next-to-target','current-to-candidate-next'].map(axis =>
   ({axis,sourceChanged:true,outputChanged:true,contentStatus:'valid',added:[],removed:[],renameCandidates:[]}))
-const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,prep:{dev,fetchRun:11},baseTree:'f'.repeat(40),after:'new lock',commit:{tree,parents:[master]}}
+const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,prep:{dev,fetchRun:11},baseTree:'f'.repeat(40),
+  after:pilotOverlay.bytes.toString('utf8'),commit:{tree,parents:[master]}}
 const env = {GITHUB_ACTIONS:'true',GITHUB_SERVER_URL:'https://github.com',GITHUB_API_URL:'https://api.github.com',
   GITHUB_REPOSITORY:'zilliztech/zdoc',GITHUB_REPOSITORY_ID:'660446555',GITHUB_REF:'refs/heads/master',GITHUB_SHA:master,
   GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/shared-guides-update.yml@refs/heads/master',GITHUB_WORKFLOW_SHA:master,
@@ -28,6 +35,16 @@ test('writer accepts only the original run on the fixed production workflow and 
     GITHUB_JOB:'discover',GITHUB_WORKFLOW_SHA:k,GITHUB_REF:'refs/heads/dev',GITHUB_REPOSITORY_ID:'22',
     GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/fork.yml@refs/heads/master',PREPARE_ARTIFACT_ID:'013'}))
     assert.throws(() => context({...env,[key]:value}))
+})
+
+test('batch writer requires an explicit first dispatch plus both staging digests on protected master',() => {
+  const batch = {...env,GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_PROTECTED:'true',BATCH_ARTIFACT_ID:'31',
+    BATCH_ARTIFACT_DIGEST:'6'.repeat(64),BATCH_HANDOFF_DIGEST:'5'.repeat(64)}
+  assert.equal(batchWriterContext(batch).handoffDigest,batch.BATCH_HANDOFF_DIGEST)
+  for (const [key,value] of Object.entries({GITHUB_EVENT_NAME:'schedule',GITHUB_REF_PROTECTED:'false',GITHUB_RUN_ATTEMPT:'2',
+    BATCH_ARTIFACT_ID:'031',BATCH_ARTIFACT_DIGEST:'0'.repeat(65),BATCH_HANDOFF_DIGEST:''})) {
+    assert.throws(() => batchWriterContext({...batch,[key]:value}))
+  }
 })
 
 function prepareEvidence() {
@@ -69,9 +86,137 @@ test('authenticate the prepare job and exact current-run archive, including ever
   }
 })
 
-function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = () => {}) {
-  const calls = [], checks = [], journal = [], verified = [], receipts = []
-  const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:1,
+function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
+  const bytes = Buffer.from('batch ZIP')
+  const digest = createHash('sha256').update(bytes).digest('hex')
+  const ctx = {master,run:15,attempt:1,event:'schedule',artifact:31,digest}
+  const origin = {id:15,head_sha:master,head_branch:'master',repository_id:660446555,head_repository_id:660446555}
+  const run = {...origin,run_attempt:1,event:'schedule',status:'in_progress',conclusion:null,path:'.github/workflows/shared-guides-update.yml',
+    repository:{id:660446555},head_repository:{id:660446555}}
+  const step = {name:'Upload verified batch handoff',status:'completed',conclusion:'success',
+    started_at:'2026-11-20T13:03:00Z',completed_at:'2026-11-20T13:03:06Z'}
+  const job = {name:'prepare_batch',run_id:15,run_attempt:1,head_sha:master,status:'completed',conclusion:'success',
+    started_at:'2026-11-20T13:00:00Z',completed_at:'2026-11-20T13:03:09Z',steps:[step]}
+  const artifact = {id:31,name:'shared-guides-batch-handoff-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,
+    created_at:'2026-11-20T13:03:01Z',workflow_run:origin}
+  const after = structuredClone(artifact)
+  const members = new Map([['handoff.json',payload]])
+  const jobs = {total_count:1,jobs:[job]}
+  const artifacts = {total_count:1,artifacts:[artifact]}
+  const responses = new Map([
+    ['/actions/runs/15/attempts/1',run], ['/actions/runs/15/attempts/1/jobs?per_page=100',jobs],
+    ['/actions/runs/15/artifacts?per_page=100',artifacts], ['/actions/artifacts/31/zip',bytes],
+    ['/actions/artifacts/31',after]
+  ])
+  const calls = []
+  const contract = {parseStrictJson:JSON.parse,parseBatchHandoffZip:() => members}
+  const transport = async ({method,path,maximum}) => {
+    assert.equal(method,'GET')
+    assert.ok(path.startsWith('/repos/zilliztech/zdoc/'))
+    const suffix = path.slice('/repos/zilliztech/zdoc'.length)
+    calls.push(suffix)
+    if (suffix.endsWith('/zip')) assert.equal(maximum,artifact.size_in_bytes)
+    const response = responses.get(suffix)
+    return {status:200,body:Buffer.isBuffer(response) ? response : Buffer.from(JSON.stringify(response))}
+  }
+  const authenticate = () => authenticateBatchPrepare(contract,transport,ctx)
+  return {run,job,step,artifact,after,payload,members,artifacts,responses,authenticate,calls,contract,transport,ctx}
+}
+
+test('batch writer verifies provenance of the handoff upload and rereads metadata after downloading',async () => {
+  const fixture = batchPrepareEvidence()
+  assert.deepEqual(await fixture.authenticate(),fixture.payload)
+  assert.deepEqual(fixture.calls.slice(-2),['/actions/artifacts/31/zip','/actions/artifacts/31'])
+  for (const [change,error] of [
+    [f => { f.run.path = '.github/workflows/shared-guides-batch-qualify.yml' }, /run identity/],
+    [f => { f.job.name = 'prepare' }, /job not authenticated/],
+    [f => { f.step.conclusion = 'skipped' }, /upload not authenticated/],
+    [f => { f.artifact.created_at = '2026-11-20T13:01:00Z' }, /artifact binding/],
+    [f => { f.artifact.workflow_run.head_repository_id = 1 }, /artifact binding/],
+    [f => { f.artifacts.artifacts.push({...f.artifact,id:32}); f.artifacts.total_count++ }, /ambiguous/],
+    [f => { f.after.expired = true }, /artifact binding/],
+    [f => { f.after.created_at = '2026-11-20T13:03:02Z' }, /changed after download/],
+    [f => { f.responses.set('/actions/artifacts/31/zip',Buffer.alloc(f.artifact.size_in_bytes)) }, /digest changed/],
+    [f => { f.members.set('extra.json',Buffer.from('{}')) }, /archive members/]
+  ]) {
+    const invalid = batchPrepareEvidence()
+    change(invalid)
+    await assert.rejects(invalid.authenticate,error)
+  }
+})
+
+test('joins hosted artifact provenance, independent Git inspection and live Fetch authority before admission',async () => {
+  const pins = {master,dev,source:k,trustedTools:master,toolsetSha256:'1'.repeat(64)}
+  const executableClosure = {path:'blobs/' + '2'.repeat(64),sha256:'2'.repeat(64),bytes:51}
+  const fetch = {run:{id:4,attempt:1,head:master}}
+  const manifest = {base:{pins},toolset:{executableClosure},fetch}
+  const payload = Buffer.from(JSON.stringify({manifest}))
+  const fixture = batchPrepareEvidence(payload)
+  const ctx = {...fixture.ctx,handoffDigest:createHash('sha256').update(payload).digest('hex')}
+  const baseline = {}
+  const stages = []
+  const verified = {status:'verified-witness',observation:'observed',manifest}
+  const contract = {...fixture.contract,
+    inspectObservedBatchHandoff(input) {
+      stages.push('reader')
+      assert.deepEqual(input,{bytes:payload,baseline,expected:{pins,executableClosure,
+        ref:{path:'blobs/' + ctx.handoffDigest,sha256:ctx.handoffDigest,bytes:payload.length}}})
+      return verified
+    },
+    verifyBatchFinalFreshness(input,now,replay,signal) {
+      stages.push('fresh')
+      assert.deepEqual(input,{...fetch,pins})
+      assert.ok(Number.isSafeInteger(now) && replay === undefined && !signal.aborted)
+    },
+  }
+  const inspect = (request = ctx, git = {head:master,baseline}) => inspectPreparedBatch(contract,fixture.transport,request,git)
+  await assert.rejects(inspect(ctx,{head:dev,baseline}), /checkout/)
+  assert.equal(fixture.calls.length,0)
+  await assert.rejects(inspect({...ctx,handoffDigest:'f'.repeat(64)}), /raw witness digest/)
+  assert.deepEqual(stages,[])
+  assert.deepEqual(await inspect(),verified)
+  assert.deepEqual(stages,['reader','fresh'])
+  contract.verifyBatchFinalFreshness = () => { throw Error('BATCH_FINAL_RUN_CHANGED') }
+  await assert.rejects(inspect(), /BATCH_FINAL_RUN_CHANGED/)
+})
+
+test('batch writer sends one signed Draft with two changed locks and one unchanged member',async () => {
+  const overlays = [overlay(lockPath('page-a')),overlay(lockPath('page-b'))]
+  const members = ['page-a','page-b','page-c'].map((pageId,i) => ({pageId,disposition:i === 2 ? 'noop' : 'advance'}))
+  const ctx = {master,run:15,attempt:1,artifact:31,digest:'1'.repeat(64),handoffDigest:'2'.repeat(64)}
+  const manifest = {members,base:{pins:{master,dev,source:k}},groupSha256:'3'.repeat(64),binding:{digest:'4'.repeat(64)}}
+  const proof = {candidate:k,candidateTree:tree,prepared:{base:master}}
+  const bytes = Buffer.from('tree ' + tree + '\nparent ' + master +
+    '\nauthor Shared update local <shared-update-local@localhost> 1 +0000' +
+    '\ncommitter Shared update local <shared-update-local@localhost> 1 +0000\n\nbatch revision\n')
+  const witness = {status:'verified-witness',observation:'observed',writeEligible:false,manifest,proof,baseTree:candidate.baseTree,
+    objects:[{type:'commit',oid:k,bytes},...overlays.map(({bytes}) => ({type:'blob',bytes}))],
+    plan:{disposition:'candidate',unitKey:'guides:batch',nextEdits:overlays.map(item => ({
+      before:{path:item.path},afterBlob:{sha256:item.sha256},
+    }))}}
+  const contract = {canonicalBytes:value => Buffer.from(JSON.stringify(value)),digest:() => '5'.repeat(64)}
+  const material = batchDraftMaterial(contract,ctx,witness)
+  assert.deepEqual(material.overlays,overlays)
+  assert.equal(material.commit.message,'batch revision\n')
+  assert.equal(material.seal.runId,ctx.run)
+  assert.equal(material.seal.candidate,k)
+  assert.notEqual(batchDraftMaterial(contract,{...ctx,artifact:32},witness).seal.transactionId,material.seal.transactionId)
+  assert.throws(() => batchDraftMaterial(contract,ctx,{...witness,observation:'replay'}),/observed verified witness/)
+
+  const fixture = scenario({batch:true,expectedOverlays:overlays})
+  const run = hooks => createBatchDraft({...hooks,candidate:{...material,stage,targetRef}})
+  const result = await run(fixture.hooks)
+  assert.equal(result.status,'created')
+  assert.equal(result.groupSha256,manifest.groupSha256)
+  assert.deepEqual(fixture.calls,['tree','candidate','stage','sign','target','draft'])
+  const blocked = scenario({batch:true,expectedOverlays:overlays,stopAt:1})
+  await assert.rejects(run(blocked.hooks),/stale inputs/)
+  assert.deepEqual(blocked.calls,[])
+})
+
+function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,batch,expectedOverlays = [pilotOverlay]} = {}, record = () => {}) {
+  const calls = [], checks = [], journal = [], verified = [], receipts = [], readbacks = []
+  const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:expectedOverlays.length,
     head:{ref:targetRef,sha:s,repo:{id:660446555}},base:{ref:'master',sha:master,repo:{id:660446555}}}
   const mutation = (name,response) => {
     calls.push(name)
@@ -86,12 +231,12 @@ function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = (
       return mutation('sign',{createCommitOnBranch:{commit:{oid:s}}})
     },
     async rest(path,method,body) {
-      if (path === '/pulls/8') return {...pr,changed_files:brokenDraft ? 2 : 1}
+      if (path === '/pulls/8') return {...pr,changed_files:brokenDraft ? expectedOverlays.length + 1 : expectedOverlays.length}
       assert.equal(method,'POST')
       if (path === '/git/trees') {
-        assert.deepEqual(body,{base_tree:candidate.baseTree,tree:[{path:'shared-docs/guides/pages/json-field-overview/lock.yaml',
-          mode:'100644',type:'blob',content:'new lock'}]})
-        return mutation('tree',{sha:tree})
+        assert.deepEqual(body,{base_tree:candidate.baseTree,tree:expectedOverlays.map(({path,bytes}) =>
+          ({path,mode:'100644',type:'blob',content:bytes.toString('utf8')}))})
+        return mutation('tree',{sha:wrongTree ? s : tree})
       }
       if (path === '/git/commits') return mutation('candidate',{sha:wrongK ? s : k,tree:{sha:tree},parents:[{sha:master}]})
       if (path === '/git/refs') {
@@ -104,16 +249,68 @@ function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = (
       assert.equal(body.base,'master')
       assert.equal(body.head,targetRef)
       assert.equal(body.draft,true)
-      assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
-      assert.match(body.body,/runs\/15\/artifacts\/32/)
+      if (batch) {
+        assert.match(body.body,/page-a.*advance next/)
+        assert.match(body.body,/page-b.*advance next/)
+        assert.match(body.body,/page-c.*unchanged/)
+      } else {
+        assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
+        assert.match(body.body,/runs\/15\/artifacts\/32/)
+      }
       return mutation('draft',pr)
     }}
-  return {calls,checks,journal,verified,receipts,run:() => createDraft({candidate,api,
+  const hooks = {candidate,api,
     form:() => ({status:'encoded',githubMessage:{headline:'seal',body:'body'}}),
     fresh:async owned => { checks.push(structuredClone(owned)); if (checks.length === stopAt) throw new Error('Existing PR or stale inputs') },
     verify:async (_,oid) => { verified.push(oid); if (badSeal) throw new Error('Wrong signature') },
-    journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),waitRef:async () => {}})}
+    journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),
+    waitRef:async (_, branch, exact, previous) => { readbacks.push([branch,exact,previous]) }}
+  return {calls,checks,journal,verified,receipts,readbacks,hooks,run:() => createDraft(hooks),
+    stageSigned: overlays => stageSignedCandidate({...hooks,overlays})}
 }
+
+test('stages and verifies one signed candidate for the exact ordered lock overlays', async () => {
+  const overlays = [overlay(lockPath('first-page')), overlay(lockPath('second-page'),
+    Buffer.from(`# Retain framing\r\nschema_version: 1\r\ncurrent: '${master}'\r\nnext: "${dev}"\r\n`))]
+  const f = scenario({expectedOverlays:overlays})
+  const result = await f.stageSigned(overlays)
+  assert.deepEqual(f.calls,['tree','candidate','stage','sign'])
+  assert.deepEqual(f.readbacks,[[stage,k,undefined],[stage,s,k]])
+  assert.deepEqual(f.verified,[s])
+  assert.deepEqual(f.checks,[{},{},{},{ownedStage:{ref:stage,sha:k}}])
+  assert.deepEqual(f.receipts,[])
+  assert.equal(result.candidate,k)
+  assert.equal(result.seal,s)
+  assert.deepEqual(result.ownedStage,{ref:stage,sha:s})
+})
+
+test('rejects a duplicate, unsorted, foreign, unsafe or changed overlay before any outbound mutation', async () => {
+  const first = overlay(lockPath('first-page')), second = overlay(lockPath('second-page'))
+  for (const overlays of [
+    [first,first],
+    [second,first],
+    [first,overlay('shared-docs/node/lock.yaml')],
+    [first,overlay('shared-docs/guides/pages/../lock.yaml')],
+    [first,overlay(lockPath('second-page') + '\n')],
+    [first,{...second,bytes:Buffer.from('unverified after bytes')}],
+    [first,overlay(lockPath('second-page'),Buffer.from([0xff]))],
+    Array.from({length:65},(_,i) => overlay(lockPath('page-' + String(i).padStart(3,'0')))),
+  ]) {
+    const f = scenario()
+    await assert.rejects(() => f.stageSigned(overlays),/overlay/i)
+    assert.deepEqual(f.calls,[])
+    assert.deepEqual(f.journal,[])
+  }
+})
+
+test('stops before K, staging and signing when GitHub returns an unexpected root tree', async () => {
+  const overlays = [overlay(lockPath('first-page')),overlay(lockPath('second-page'))]
+  const f = scenario({wrongTree:true,expectedOverlays:overlays})
+  await assert.rejects(() => f.stageSigned(overlays),/GitHub created another tree/)
+  assert.deepEqual(f.calls,['tree'])
+  assert.deepEqual(f.readbacks,[])
+  assert.deepEqual(f.verified,[])
+})
 
 test('create only the exact candidate, signed stage, new target and Draft; check each boundary',async () => {
   const f = scenario(), result = await f.run()
