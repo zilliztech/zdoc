@@ -5,7 +5,7 @@ import { mkdtemp, readdir, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { createBatchHandoffInventory, BATCH_HANDOFF_LIMITS } from '../../adapters/updates/batch-handoff'
+import { createBatchHandoffInventory, inspectObservedBatchHandoff, BATCH_HANDOFF_LIMITS } from '../../adapters/updates/batch-handoff'
 import { initializeEvidence } from '../../adapters/updates/evidence'
 import { inspectNewGuidesBatchCandidate, planNewGuidesObjectTransfer } from '../../adapters/updates/remote-transaction'
 import { createScratchTransaction, type CandidateInput } from '../../adapters/updates/transactions'
@@ -337,4 +337,18 @@ it('bounds the compact candidate inventory by decoded entries, bytes and the fin
   expect(() => byteLimit.encode({ padding: 'p'.repeat(BATCH_HANDOFF_LIMITS.entryBytes) })).toThrow('BATCH_HANDOFF_LIMIT')
   const other = Buffer.alloc(BATCH_HANDOFF_LIMITS.entryBytes, 1)
   expect(() => byteLimit.document(fixtureBlob(other), other)).toThrow('BATCH_HANDOFF_LIMIT')
+})
+
+it('rejects oversized, unauthenticated and noncanonical compact frames before reading Git', async () => {
+  const baseline = {read: vi.fn(), verifyConnected: vi.fn()}
+  const master = '1'.repeat(40), empty = fixtureBlob(Buffer.from('{}'))
+  const expected = {pins: {master, dev: '2'.repeat(40), source: '3'.repeat(40), trustedTools: master, toolsetSha256: empty.sha256},
+    executableClosure: empty, ref: empty}
+  await expect(inspectObservedBatchHandoff({bytes: Buffer.alloc(BATCH_HANDOFF_LIMITS.encodedBytes + 1), baseline, expected}))
+    .rejects.toThrow('BATCH_HANDOFF_LIMIT')
+  await expect(inspectObservedBatchHandoff({bytes: Buffer.from('[]'), baseline, expected})).rejects.toThrow('BATCH_HANDOFF_BINDING')
+  const noncanonical = Buffer.from(' {}')
+  await expect(inspectObservedBatchHandoff({bytes: noncanonical, baseline, expected: {...expected, ref: fixtureBlob(noncanonical)}}))
+    .rejects.toThrow('BATCH_CANONICAL_INVALID')
+  expect(baseline.verifyConnected).not.toHaveBeenCalled()
 })

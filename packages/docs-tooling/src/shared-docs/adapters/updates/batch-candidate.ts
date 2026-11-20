@@ -1,7 +1,7 @@
 import {createHash, generateKeyPairSync, sign, verify, type KeyObject} from 'node:crypto'
 import * as z from 'zod'
 import {canonicalBytes, compareUtf8, digest} from '../../core/updates/canonical'
-import {CandidateSnapshotProofSchema, DigestSchema, validateUpdateReportEnvelope, type BlobRef, type CandidateSnapshotProof,
+import {CandidateSnapshotProofSchema, validateUpdateReportEnvelope, type BlobRef, type CandidateSnapshotProof,
   type ContentMember, type MaterialTree, type SemanticInput, type Subject, type ToolsetMaterial, type UpdateUnitPlan} from '../../core/updates/envelope'
 import {analyzeUpdates} from '../../core/updates/impact'
 import {METADATA_LIMITS} from '../../core/updates/metadata'
@@ -10,11 +10,11 @@ import {patchNextLock} from '../../core/updates/transaction'
 import {captureUnitMaterial, planUpdateUnit} from '../../core/updates/unit-plan'
 import {immutable, type PageObservation} from '../../core/updates/types'
 import {finalizeFetchFrontMatter} from '../../core/site/front-matter'
-import {BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchConfigSchema,
+import {BatchClosureSchema, BatchCollectionIndexSchema, BatchConfigSchema,
   BatchDiagnosticsSchema, BatchDiscoveryCommitmentSchema, BatchDispositionsSchema, BatchHistorySchema, BatchImagesSchema,
-  BATCH_WIRE_LIMIT, BatchGitInventorySchema, BatchInventoryProofSchema, BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema, BatchMethodSchema,
-  BatchPageIdSchema, BatchPageMaterialHeaderSchema, BatchProjectionSchema, BatchQualificationSchema, BatchQualifiedPinsSchema,
-  BatchQualifiedReportSchema, BatchRawTreeSchema, BatchRunSchema, BatchScopeSchema, BatchVerifyControlSchema,
+  BATCH_WIRE_LIMIT, BatchGitInventorySchema, BatchInventoryProofSchema, BatchInventorySchema, BatchManualSchema, BatchMaterialDetailSchema, BatchMaterialsSchema,
+  BatchPageMaterialHeaderSchema, BatchProjectionSchema, BatchQualificationSchema, BatchQualifiedPinsSchema,
+  BatchQualifiedReportSchema, BatchRawTreeSchema, BatchScopeSchema, BatchVerifyControlSchema,
   batchDigest, batchGitInventoryReader, batchRef, batchRoles, batchSha256, parseBatchCanonical, validateBatchMaterialDetail, verifyCommitProof,
   type BatchBlobRef, type BatchVerifyControl} from './batch-collection-contract'
 import {writeOwnedBlob, type EvidenceStore} from './evidence'
@@ -23,20 +23,13 @@ import {openLocalBatchBaseline} from './batch-source'
 import {createScratchTransaction, type ScratchTransaction} from './transactions'
 import {consumeBatchCandidateLaunch, type BatchCandidateLaunchTicket} from './batch-collection'
 import {verifyClosureBinding} from './toolset'
-import {BATCH_HANDOFF_LIMITS, createBatchHandoffInventory} from './batch-handoff'
+import {BATCH_HANDOFF_LIMITS, BatchCandidateBindingSchema as bindingSchema, createBatchHandoffInventory} from './batch-handoff'
 
 const check: (condition: unknown, reason: string) => asserts condition = (condition, reason) => {if (!condition) throw Error(reason)}
 const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(Buffer.from(canonicalBytes(b)))
 const utf8 = (bytes: Uint8Array) => new TextDecoder('utf8', {fatal: true}).decode(bytes)
 const sorted = (values: string[]) => [...new Set(values)].sort(compareUtf8)
 
-const commitment = z.strictObject({ref: BatchBlobRefSchema, digest: DigestSchema})
-const bindingSchema = z.strictObject({
-  kind: z.literal('guides-batch-candidate-binding-v1'), base: BatchBaseSchema, run: BatchRunSchema, method: BatchMethodSchema,
-  scope: commitment, discovery: commitment, closure: commitment, materials: commitment, qualification: commitment, index: commitment,
-  pages: z.array(z.strictObject({pageId: BatchPageIdSchema, disposition: z.enum(['advance', 'noop']), material: commitment,
-    qualifiedReportRef: BatchBlobRefSchema, qualifiedPinsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema})).min(1).max(METADATA_LIMITS.subjects)
-})
 type Binding = z.infer<typeof bindingSchema>
 type Roots = Readonly<Pick<BatchVerifyControl, 'base' | 'run' | 'discoveryRef' | 'discoveryDigest' | 'closureRef' | 'groupSha256' |
   'materialRoot' | 'materialDigest' | 'scopeRef' | 'scopeDigest' | 'qualifierRef' | 'qualifierDigest' | 'profileDigest' | 'indexRef' | 'indexDigest'>>
