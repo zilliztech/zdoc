@@ -1,7 +1,7 @@
 // Live nginx verification for the cloud-data SSI chain, wired into the
 // site-validation workflow's cloud_data_nginx job (it skips itself when
 // Docker is unavailable; the static contract lives in container.test.mjs).
-// This harness proves the real nginx:1.28-alpine behavior with the real
+// This harness proves the real nginx:1.31.9-alpine behavior with the real
 // deploy/runtime/nginx.main.conf, the real deploy/en/nginx.conf (CMS origin
 // substituted to a stub) and the real deploy/njs renderer modules.
 //
@@ -224,7 +224,7 @@ server {
       '-v', `${workdir}/html:/usr/share/nginx/html:ro`,
       '-v', `${path.join(workdir, 'snapshots')}:/etc/nginx/njs/snapshots:ro`,
       ...njsMounts,
-      'nginx:1.28-alpine',
+      'nginx:1.31.9-alpine',
     ]);
     containers.push(name);
     return httpPort;
@@ -343,7 +343,7 @@ server {
     '-p', `127.0.0.1:${portBase}:8901`,
     '-v', `${path.join(workdir, 'stub.conf')}:/etc/nginx/conf.d/default.conf:ro`,
     '-v', `${stubData}:/data:rw`,
-    'nginx:1.28-alpine',
+    'nginx:1.31.9-alpine',
   ]);
   containers.push('cloudstub');
   waitFor(`${portBase}|/api/cloud-regions`, (response) => response.head.includes('200'));
