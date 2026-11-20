@@ -185,7 +185,7 @@ for (const site of ['en', 'zh-CN']) {
 
   test(`${site} runtime stage contains only nginx, site output, and required runtime configuration`, () => {
     const runtime = finalDockerStage(dockerfile(site));
-    assert.equal(runtime[0], 'FROM nginx:1.28-alpine');
+    assert.equal(runtime[0], 'FROM nginx:1.31.9-alpine');
     assert.equal(runtime.filter(instruction => instruction.startsWith('FROM ')).length, 1);
     assert.equal(runtime.filter(instruction => instruction.startsWith('COPY --from=build ')).length, 1);
     assert.ok(runtime.includes(`COPY --from=build /app/build/${site}/ /usr/share/nginx/html/`));
