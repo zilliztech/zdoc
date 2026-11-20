@@ -609,7 +609,7 @@
   "records": [
     {
       "path": "content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md",
-      "sha256": "5b68379756a72fdae29a9a5e7574020aad6f84ba8300e6a9c2129864c78a2517",
+      "sha256": "bc3b2f6f8d03621288ef1fb3c421cbcbbab55ef3f5b888a5ca7eae175681b341",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
@@ -1449,7 +1449,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "59d3bc1ad86235c09ce01f6453d5c71d4d032d8404732346bfc29b30a86d4070",
+      "sha256": "b68a51978a2e4393e11652eafa5ccce60ba0a5676e34221b2263f10be95d4fec",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -1689,9 +1689,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "e93a82dba0312ca0dc6c29d227be37b59ba55591430cb187422e103b4e954812",
+      "sha256": "5f7a0496bc4641b0f6ff1a3d84e37813c4f3ab72fd6a8a55f33223f5a0c05251",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
-      "revisionId": "554"
+      "revisionId": "624"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
@@ -1761,9 +1761,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "b187b374ed5949c2764108176400b76053dea7076b39140e665d15f1ac22cbbe",
+      "sha256": "b5496bd5d73e0e81ef24436bce3e14fe7fcc42542358518790a83db4f56858cd",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
-      "revisionId": "2063"
+      "revisionId": "2067"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",
@@ -2103,7 +2103,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/client-libraries/install-sdks.md",
-      "sha256": "dc0f80494583199409a304eb42a191dcc7e3dde29a7129a8a9348616299b6671",
+      "sha256": "1577b2e53d33bf867f617bf123e37b8c1c91debe5183a3d8b7eb0a5e29f3799a",
       "docToken": "Jo4bwNi6zi4zlHkN2bWcewFYnDc",
       "revisionId": "722"
     },
@@ -3057,7 +3057,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "584d7bdbe8558a004efdb8cab38f5b4a906256a54762faf822534062a04d4793",
+      "sha256": "3770698b7e81f4c6a63efa3033eb403ab973756657a3636112d5a43149e1423c",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3537,9 +3537,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "sha256": "f3470e9777219ab53f3b5e69cd70ee07e7af409ef68ccd808d8e4d6afab2e17c",
+      "sha256": "2b801d1b14bf445fef76deea02b07c970f64d3fcb111b9e75d96d6aee82776cf",
       "docToken": "NtkswF6UEi3kB0k8XSEcOKkhnld",
-      "revisionId": "554"
+      "revisionId": "624"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
@@ -3645,9 +3645,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster.md",
-      "sha256": "adaf1aad19b593e00738368026caebc96ae00e4d4191dbd8350b0de095157d85",
+      "sha256": "ee5045da77a6a3bd3daca852e1e2c8cfaeac1dcdbb65ee36eb0d292204585a95",
       "docToken": "MAFcwBTqqiR5YZkdkd4cADg0nub",
-      "revisionId": "2063"
+      "revisionId": "2067"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md",

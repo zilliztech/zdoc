@@ -50,6 +50,16 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
 
 - 设置恢复后新集群的 Milvus 版本：
 
+    <NextChannel action="include">
+
+    - 可选版本取决于备份文件、源集群所在地域，以及备份和功能的兼容性。可选项可能包括稳定版（GA）、公测版，以及备份记录的原始版本。
+
+    - 仅当备份处于支持的原版本恢复时间窗口内，且满足兼容性要求时，才支持恢复到原始版本。
+
+    </NextChannel>
+
+    <NextChannel action="exclude">
+
     - 对于最近 30 天内创建的备份文件，如果原集群的 Milvus GA 版本早于当前可用的最新 GA 版本，您可以选择恢复后的新集群 Milvus 版本。默认情况下，Zilliz Cloud 会将集群恢复到最新 GA Milvus 版本。
 
     - 对于 30 天前创建的备份文件，或已经使用最新 Milvus GA 版本的备份文件，目标 Milvus 版本不可更改。
@@ -61,6 +71,8 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
     - 如果您使用 30 天前创建的 2.5.x 备份文件进行恢复，Zilliz Cloud 默认会将新集群恢复到 2.6.x，且不能更改目标 Milvus 版本。
 
     - 如果您使用 2.6.x 备份文件进行恢复，Zilliz Cloud 会将新集群恢复到 2.6.x，且不能更改目标 Milvus 版本。
+
+    </NextChannel>
 
 恢复完成后，系统会为默认用户 `db_admin` 生成一个**新密码**，您需使用新密码连接至新集群。
 
@@ -76,7 +88,7 @@ Zilliz Cloud 提供的恢复功能可用于在发生意外删除、数据损坏�
 
 1. 找到需要恢复的集群备份，在 **操作** 栏中点击 **...**，选择 **恢复** > **整个集群**。
 
-1. 在弹出的对话框中，配置恢复后的新集群参数，然后点击 **恢复**。
+1. 在弹出的对话框中，配置恢复后的新集群参数，包括 Milvus 版本，然后点击 **恢复**。可选版本取决于备份文件及兼容性要求。
 
 1. 下载并妥善保存新集群的用户名和密码。
 
@@ -100,7 +112,7 @@ curl --request POST \
      --header "Accept: application/json" \
      --header "Content-type: application/json" \
      --data-raw '{
-        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
+        "projectId": "proj-20e13e974c7d659a83xxxx",
         "clusterName": "Dedicated-01-backup",
         "cuSize": 1,
         "collectionStatus": "KEEP",
@@ -116,7 +128,7 @@ curl --request POST \
      <th><p><strong>说明</strong></p></th>
    </tr>
    <tr>
-     <td><p><code>targetProjectId</code></p></td>
+     <td><p><code>projectId</code></p></td>
      <td><p>恢复后集群所属的项目的 ID。</p></td>
    </tr>
    <tr>
@@ -133,7 +145,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>restoreVersionPolicy</code></p></td>
-     <td><p>恢复后集群兼容的 Milvus 版本。可选值包括：</p><ul><li><p><code>ORIGINAL</code>: 将集群恢复到原始的 Milvus 版本。</p></li><li><p><code>LATEST</code>: 将集群恢复到当前最新的 GA Milvus 版本。</p></li></ul></td>
+     <td><p>恢复后集群兼容的 Milvus 版本。可选值包括：</p><ul><li><p><code>ORIGINAL</code>: 将集群恢复到原始的 Milvus 版本。</p></li><li><p><code>LATEST</code>: 将集群恢复到当前最新的 GA Milvus 版本。</p></li></ul> <NextChannel action="include"><p>与 <code>version</code> 互斥。如需指定 Milvus 版本，请参见<a href="./restore-from-backup-files#restore-with-a-specific-milvus-version">使用指定的 Milvus 版本恢复集群</a>。</p> </NextChannel></td>
    </tr>
 </table>
 
@@ -150,6 +162,51 @@ curl --request POST \
   }
 }
 ```
+
+<NextChannel action="include">
+
+#### 使用指定的 Milvus 版本恢复集群\{#restore-with-a-specific-milvus-version}
+
+如需使用指定的 Milvus 版本恢复集群，请先查询该备份可用的版本选项。
+
+```bash
+curl --request GET \
+     --url "${BASE_URL}/v2/clusters/versions?backupId=${BACKUP_ID}" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json"
+```
+
+从返回的 `versions` 列表中选择一个选项，并将其作为 `version` 对象传入恢复请求。例如，如果返回结果包含：
+
+```json
+{
+  "majorVersion": "2.6",
+  "channel": "ORIGIN"
+}
+```
+
+请将前述恢复请求中的 `restoreVersionPolicy` 替换为：
+
+```bash
+"version": {
+  "majorVersion": "2.6",
+  "channel": "ORIGIN"
+}
+```
+
+`ORIGIN` 表示恢复到备份记录的完整 Milvus 版本。其他可选通道包括 `GA` 和 `PUBLIC_PREVIEW`，具体以该备份的查询结果为准。
+
+<Admonition type="info" title="说明">
+
+- `version` 与 `restoreVersionPolicy` 互斥，不可同时传入。
+
+- 不传入 `version` 时，沿用现有恢复策略。
+
+- 请使用与恢复后集群的 Milvus 版本兼容的 SDK。具体兼容关系，请参见 [SDK 兼容性](/docs/install-sdks#sdk-compatibility)。
+
+</Admonition>
+
+</NextChannel>
 
 ## 恢复部分集群数据\{#restore-a-partial-cluster}
 
@@ -219,6 +276,14 @@ curl --request POST \
 
 **恢复备份后的集群是哪个 Milvus 版本？**
 
+<NextChannel action="include">
+
+恢复后集群的 Milvus 版本取决于恢复策略或您显式指定的版本。如需通过 API 指定版本，请先查询该备份的可用版本选项，再将所选版本传入恢复请求。具体操作，请参见[恢复整个集群](./restore-from-backup-files#restore-a-full-cluster)。
+
+</NextChannel>
+
+<NextChannel action="exclude">
+
 - 对于最近 30 天内创建的备份文件，如果原集群的 Milvus GA 版本早于当前可用的最新 GA 版本，您可以选择恢复后的新集群 Milvus 版本。默认情况下，Zilliz Cloud 会将集群恢复到最新 GA Milvus 版本。
 
 - 对于 30 天前创建的备份文件，或已经使用最新 Milvus GA 版本的备份文件，目标 Milvus 版本不可更改。
@@ -231,3 +296,4 @@ curl --request POST \
 
 - 如果您使用 2.6.x 备份文件进行恢复，Zilliz Cloud 会将新集群恢复到 2.6.x，且不能更改目标 Milvus 版本。
 
+</NextChannel>

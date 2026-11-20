@@ -56,7 +56,7 @@ PyMilvus 是 Milvus 的 Python SDK。您可以在 [GitHub](https://github.com/mi
 
 ```bash
 # Install or update PyMilvus to the latest v3.0.x
-pip install --upgrade pymilvus==v3.0.1
+pip install --upgrade pymilvus==3.0.3
 
 # Install the Model library for embedding operations (optional)
 pip install pymilvus[model]
@@ -114,13 +114,13 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
     <dependency>
         <groupId>io.milvus</groupId>
         <artifactId>milvus-sdk-java</artifactId>
-        <version>3.0.10</version>
+        <version>3.0.12</version>
     </dependency>
     <!-- Optional: to use BulkWriter, also add -->
     <dependency>
         <groupId>io.milvus</groupId>
         <artifactId>milvus-sdk-java-bulkwriter</artifactId>
-        <version>3.0.10</version>
+        <version>3.0.12</version>
     </dependency>
     ```
 
@@ -130,9 +130,9 @@ import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 
     ```bash
     # Install the Java SDK compatible with Milvus v3.0.x
-    implementation 'io.milvus:milvus-sdk-java:3.0.10'
+    implementation 'io.milvus:milvus-sdk-java:3.0.12'
     # Optional: to use BulkWriter, also add
-    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.10' 
+    implementation 'io.milvus:milvus-sdk-java-bulkwriter:3.0.12' 
     ```
 
 如果您的集群兼容 **Milvus v3.0.x** 的公测版本，请将上述版本号由 `2.6.24` 修改为 `3.0.8`。

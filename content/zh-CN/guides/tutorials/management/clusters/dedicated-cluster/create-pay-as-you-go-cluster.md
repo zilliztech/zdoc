@@ -293,7 +293,7 @@ curl --request POST \
 
 - `regionId`：需要创建的集群所部署的云服务地域 ID。如需查看所有 Zilliz Cloud 支持的云服务地域 ID，请使用[查看云服务区域](/reference/restful/list-cloud-regions-v2)。
 
-- `clusterType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）和 **Capacity-optimized**（容量型）。
+- `cuType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）和 **Capacity-optimized**（容量型）。
 
 - `cuSize`：集群的 Query CU 数量。参数值为 1-2,048 之间的整数。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。
 
@@ -340,7 +340,7 @@ curl --request POST \
 
     - `regionId`：需要创建的集群所部署的云服务地域 ID。如需查看所有 Zilliz Cloud 支持的云服务地域 ID，请使用[查看云服务区域](/reference/restful/list-cloud-regions-v2)。
 
-    - `clusterType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）和 **Capacity-optimized**（容量型）。
+    - `cuType`：集群的类型。可选的参数值包含：**Performance-optimized**（性能型）和 **Capacity-optimized**（容量型）。
 
     - `cuSize`：集群的 Query CU 数量。参数值为 1-2,048 之间的整数。对于使用个人邮箱创建的组织，即使已配置支付方式，Dedicated 集群的 Query CU 最大也只能设置为 32。
 
@@ -417,11 +417,11 @@ curl --request POST \
 
 **能否在创建 Dedicated 集群时指定 Milvus 版本？**
 
-支持。当有多个可用的 Milvus 版本时，您可以在创建 Dedicated 集群时选择版本。默认选择稳定版（GA）。Milvus 3.0 公测期间，您可以选择 Milvus 2.6（稳定版）或 Milvus 3.0（公测版）。
+支持。当有多个可用的 Milvus 版本时，您可以在创建 Dedicated 集群时选择版本。默认选择稳定版（GA）。
 
 Free 和 Serverless 集群不支持选择 Milvus 版本。
 
-如需升级已有 Dedicated 集群以体验公测功能，请参见[管理集群](./manage-cluster#upgrade-cluster-for-preview-features)。
+如需升级已有 Dedicated 集群以体验公测功能，请参见[管理集群](./manage-cluster)。
 
 </NextChannel>
 
