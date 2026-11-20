@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
+import { authenticateBatchPrepare, authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
@@ -72,6 +72,64 @@ test('authenticate the prepare job and exact current-run archive, including ever
     const f = prepareEvidence()
     tamper(f)
     await assert.rejects(f.authenticate)
+  }
+})
+
+function batchPrepareEvidence() {
+  const bytes = Buffer.from('batch ZIP')
+  const digest = createHash('sha256').update(bytes).digest('hex')
+  const ctx = {master,run:15,attempt:1,event:'schedule',artifact:31,digest}
+  const origin = {id:15,head_sha:master,head_branch:'master',repository_id:660446555,head_repository_id:660446555}
+  const run = {...origin,run_attempt:1,event:'schedule',status:'in_progress',conclusion:null,path:'.github/workflows/shared-guides-update.yml',
+    repository:{id:660446555},head_repository:{id:660446555}}
+  const step = {name:'Upload verified batch handoff',status:'completed',conclusion:'success',
+    started_at:'2026-11-20T13:03:00Z',completed_at:'2026-11-20T13:03:06Z'}
+  const job = {name:'prepare_batch',run_id:15,run_attempt:1,head_sha:master,status:'completed',conclusion:'success',
+    started_at:'2026-11-20T13:00:00Z',completed_at:'2026-11-20T13:03:09Z',steps:[step]}
+  const artifact = {id:31,name:'shared-guides-batch-handoff-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,
+    created_at:'2026-11-20T13:03:01Z',workflow_run:origin}
+  const after = structuredClone(artifact)
+  const payload = Buffer.from('bound handoff')
+  const members = new Map([['handoff.json',payload]])
+  const jobs = {total_count:1,jobs:[job]}
+  const artifacts = {total_count:1,artifacts:[artifact]}
+  const responses = new Map([
+    ['/actions/runs/15/attempts/1',run], ['/actions/runs/15/attempts/1/jobs?per_page=100',jobs],
+    ['/actions/runs/15/artifacts?per_page=100',artifacts], ['/actions/artifacts/31/zip',bytes],
+    ['/actions/artifacts/31',after]
+  ])
+  const calls = []
+  const authenticate = () => authenticateBatchPrepare({parseStrictJson:JSON.parse,parseRemoteZip:() => members},async ({method,path,maximum}) => {
+    assert.equal(method,'GET')
+    assert.ok(path.startsWith('/repos/zilliztech/zdoc/'))
+    const suffix = path.slice('/repos/zilliztech/zdoc'.length)
+    calls.push(suffix)
+    if (suffix.endsWith('/zip')) assert.equal(maximum,artifact.size_in_bytes)
+    const response = responses.get(suffix)
+    return {status:200,body:Buffer.isBuffer(response) ? response : Buffer.from(JSON.stringify(response))}
+  },ctx)
+  return {run,job,step,artifact,after,payload,members,artifacts,responses,authenticate,calls}
+}
+
+test('batch writer verifies provenance of the handoff upload and rereads metadata after downloading',async () => {
+  const fixture = batchPrepareEvidence()
+  assert.deepEqual(await fixture.authenticate(),fixture.payload)
+  assert.deepEqual(fixture.calls.slice(-2),['/actions/artifacts/31/zip','/actions/artifacts/31'])
+  for (const [change,error] of [
+    [f => { f.run.path = '.github/workflows/shared-guides-batch-qualify.yml' }, /run identity/],
+    [f => { f.job.name = 'prepare' }, /job not authenticated/],
+    [f => { f.step.conclusion = 'skipped' }, /upload not authenticated/],
+    [f => { f.artifact.created_at = '2026-11-20T13:01:00Z' }, /artifact binding/],
+    [f => { f.artifact.workflow_run.head_repository_id = 1 }, /artifact binding/],
+    [f => { f.artifacts.artifacts.push({...f.artifact,id:32}); f.artifacts.total_count++ }, /ambiguous/],
+    [f => { f.after.expired = true }, /artifact binding/],
+    [f => { f.after.created_at = '2026-11-20T13:03:02Z' }, /changed after download/],
+    [f => { f.responses.set('/actions/artifacts/31/zip',Buffer.alloc(f.artifact.size_in_bytes)) }, /digest changed/],
+    [f => { f.members.set('extra.json',Buffer.from('{}')) }, /archive members/]
+  ]) {
+    const invalid = batchPrepareEvidence()
+    change(invalid)
+    await assert.rejects(invalid.authenticate,error)
   }
 })
 

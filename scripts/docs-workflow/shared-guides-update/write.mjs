@@ -122,6 +122,70 @@ export async function authenticatePrepare(contract, transport, ctx) {
   return new Map([...files].map(([key, value]) => [key,Buffer.from(value)]))
 }
 
+// The batch writer uses the same production write job and only accepts its
+// own successful batch-preparation job on the first attempt.
+export async function authenticateBatchPrepare(contract, transport, ctx) {
+  const jobName = 'prepare_batch'
+  const uploadName = 'Upload verified batch handoff'
+  const name = 'shared-guides-batch-handoff-' + number(ctx.run) + '-1'
+  const artifactId = number(ctx.artifact)
+  const limit = 2 * 1024 * 1024
+  need(ctx.attempt === 1 && oid(ctx.master) && ['schedule','workflow_dispatch'].includes(ctx.event) &&
+    /^[0-9a-f]{64}$/.test(ctx.digest ?? ''), 'Invalid batch prepare context')
+
+  async function get(suffix, maximum = limit, zip = false) {
+    const response = await transport({method:'GET',path:'/repos/' + repo + suffix,maximum,signal:AbortSignal.timeout(30000)})
+    need(response.status === 200 && response.body.length <= maximum && !response.headers?.link, 'Batch prepare evidence unavailable')
+    return zip ? Buffer.from(response.body) : contract.parseStrictJson(response.body)
+  }
+  const runPath = '/actions/runs/' + ctx.run
+  const attemptPath = runPath + '/attempts/1'
+  const artifactPath = '/actions/artifacts/' + artifactId
+  const [run, jobList, artifactList] = await Promise.all([
+    get(attemptPath),
+    get(attemptPath + '/jobs?per_page=100'),
+    get(runPath + '/artifacts?per_page=100')
+  ])
+  need(run.id === ctx.run && run.run_attempt === 1 && run.head_sha === ctx.master && run.head_branch === 'master' &&
+    run.event === ctx.event && run.status === 'in_progress' && run.conclusion === null && run.path === workflow &&
+    run.repository?.id === repoId && run.head_repository?.id === repoId, 'Batch prepare run identity changed')
+  function completeList(value, key) {
+    need(Array.isArray(value[key]) && value.total_count === value[key].length && value.total_count < 100,
+      'Incomplete batch prepare inventory')
+    return value[key]
+  }
+  const jobs = completeList(jobList,'jobs').filter(job => job.name === jobName)
+  const job = jobs[0]
+  need(jobs.length === 1 && job.run_id === ctx.run && job.run_attempt === 1 && job.head_sha === ctx.master &&
+    job.status === 'completed' && job.conclusion === 'success' && Array.isArray(job.steps), 'Batch prepare job not authenticated')
+  const uploads = job.steps.filter(step => step.name === uploadName)
+  const upload = uploads[0]
+  need(uploads.length === 1 && upload.status === 'completed' && upload.conclusion === 'success', 'Batch handoff upload not authenticated')
+  const [jobStart, jobEnd, uploadStart, uploadEnd] = [job.started_at,job.completed_at,upload.started_at,upload.completed_at].map(value => Date.parse(value))
+  need(jobStart <= uploadStart && uploadStart <= uploadEnd && uploadEnd <= jobEnd, 'Batch handoff upload window unknown')
+
+  function bindArtifact(artifact) {
+    const created = Date.parse(artifact.created_at)
+    const origin = artifact.workflow_run
+    need(artifact.id === artifactId && artifact.name === name && artifact.expired === false &&
+      Number.isSafeInteger(artifact.size_in_bytes) && artifact.size_in_bytes > 0 && artifact.size_in_bytes <= limit &&
+      artifact.digest === 'sha256:' + ctx.digest && created >= uploadStart && created <= uploadEnd &&
+      origin?.id === ctx.run && origin.head_sha === ctx.master && origin.head_branch === 'master' &&
+      origin.repository_id === repoId && origin.head_repository_id === repoId, 'Batch handoff artifact binding changed')
+    return artifact
+  }
+  const matches = completeList(artifactList,'artifacts').filter(artifact => artifact.name === name)
+  need(matches.length === 1, 'Missing or ambiguous batch handoff artifact')
+  const artifact = bindArtifact(matches[0])
+  const bytes = await get(artifactPath + '/zip',artifact.size_in_bytes,true)
+  need(bytes.length === artifact.size_in_bytes && hash(bytes) === ctx.digest, 'Downloaded batch handoff digest changed')
+  const after = bindArtifact(await get(artifactPath))
+  need(after.size_in_bytes === artifact.size_in_bytes && after.created_at === artifact.created_at, 'Batch handoff artifact changed after download')
+  const files = contract.parseRemoteZip(bytes)
+  need(files.size === 1 && files.has('handoff.json'), 'Unexpected batch handoff archive members')
+  return Buffer.from(files.get('handoff.json'))
+}
+
 export async function material(contract, ctx, files, git) {
   const json = name => contract.parseStrictJson(files.get(name))
   const prep = json('preparation.json'), unit = json('unit-plan.json'), proof = json('proof.json')
