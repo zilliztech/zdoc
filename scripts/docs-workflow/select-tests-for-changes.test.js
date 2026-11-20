@@ -370,8 +370,8 @@ test('selector explicitly maps shared aliases and independent regeneration to ex
 })
 
 
-test('each manual target Check YAML selects the dedicated shared Guides contracts alone', () => {
-  for (const input of ['.github/workflows/shared-guides-validate.yml', '.github/workflows/shared-guides-finalize.yml']) {
+test('each manual Guides qualification or target Check YAML selects the dedicated shared Guides contracts', () => {
+  for (const input of ['.github/workflows/shared-guides-batch-qualify.yml', '.github/workflows/shared-guides-validate.yml', '.github/workflows/shared-guides-finalize.yml']) {
     const selected = selectTests([input])
     assert.equal(selected.areas.some(entry => entry.id === 'shared-guides-upstream-update'), true, input)
     assert.equal(selected.commands.includes('pnpm test:shared-guides-update'), true, input)
