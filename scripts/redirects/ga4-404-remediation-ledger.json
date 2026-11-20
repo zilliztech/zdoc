@@ -166,6 +166,13 @@
       "status": "denylist",
       "note": "template-variable artifact, not a real page; permanent noise that would resurface every window",
       "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/go/v2-Client-ClientConfig",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Client-ClientConfig",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-20T03:25:02.702Z"
     }
   ]
 }
