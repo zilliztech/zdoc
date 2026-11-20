@@ -186,13 +186,16 @@ jobs:
   # GITHUB_TOKEN holds no push scope, the push PAT never enters the job, and
   # the comment is authored by github-actions[bot] — an identity the reply
   # executor's allowlist rejects, on top of the proposal body never carrying
-  # live reply markers (triage-agent.js strips them).
+  # live reply markers (triage-agent.js strips them). Posting the comment
+  # needs pull-requests: write: gh pr comment lands a GraphQL addComment on
+  # the pull request subject, which issues: write alone does not cover.
   triage_proposal:
     needs: remediation
     if: needs.remediation.outputs.pr_number != '' && needs.remediation.outputs.triage_count != '' && needs.remediation.outputs.triage_count != '0'
     permissions:
       contents: read
       issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -265,11 +268,14 @@ jobs:
   apply_reply:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request != null
     # The interpreter's notices and rejections post as github-actions[bot]
-    # under this token (issues: write, no push scope); the push PAT stays
-    # confined to the apply step.
+    # under this token (issues: write, pull-requests: write, no push scope);
+    # the push PAT stays confined to the apply step. pull-requests: write is
+    # what gh pr comment needs: PR comments are GraphQL addComment on the
+    # pull request subject, outside issues: write's scope.
     permissions:
       contents: read
       issues: write
+      pull-requests: write
     runs-on: ubuntu-latest
     # The interpreter adds a codex turn plus a dependency install on top of
     # the structured path; 20 minutes covers the worst turn without letting a
