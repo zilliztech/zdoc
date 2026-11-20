@@ -28,7 +28,7 @@ ENV ZDOC_PROVENANCE_COMMIT=${ZDOC_SHA} \
     ZDOC_PROVENANCE_TRACKED_INPUTS=deploy/contracts/localization-inputs.inventory.json
 RUN pnpm run build:en
 
-FROM nginx:1.28-alpine
+FROM nginx:1.31.9-alpine
 
 ARG ZDOC_SHA
 ARG ZDOC_SITE=en
