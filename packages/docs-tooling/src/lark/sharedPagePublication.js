@@ -168,16 +168,17 @@ function finalizePublication({workspace, handoff, candidate}) {
   }
   validateActiveState(bundle.effective_active)
   aliases.authenticate({workspace, devCommit: bundle.dev_commit, evidence: bundle.preparation.alias_evidence, git})
-  // Pure replay round: the composed state equals the published state, so the
-  // pinned authority bytes are republished verbatim. Regenerating them here
-  // would rebind dev_commit/alias evidence to this round's tip — a metadata
-  // churn no future round could ever converge out of.
+  // A pure replay retains the pinned publication evidence. The effective
+  // snapshot is validated before promotion restores the publication parameters.
   const replayAuthority = bundle.outcomes.length && bundle.outcomes.every(row => row.status === 'reused')
     && files.has('baseline/publication.json')
     && typeof bundle.preparation.previous_snapshot?.generated_at === 'string'
     && equal(stripPublicationVolatile(snapshot), stripPublicationVolatile(bundle.preparation.previous_snapshot))
     && equal(bundle.effective_active, bundle.baseline_active)
     ? files.get('baseline/publication.json') : null
+  const replayPublication = replayAuthority && JSON.parse(replayAuthority)
+  if (replayAuthority) check(replayPublication?.schema_version === 1
+    && replayPublication.effective_sha256 === hashSnapshot(bundle.preparation.previous_snapshot), 'reused baseline authority mismatch')
   const publication = {schema_version: 1, dev_commit: bundle.dev_commit, observed_sha256: hashSnapshot(candidate),
     effective_sha256: hashSnapshot(snapshot), active: bundle.effective_active, cache_eligible: bundle.outcomes.every(row => row.status === 'success' || row.status === 'reused'),
     baseline_snapshot: bundle.previous_snapshot_file ? files.get(bundle.previous_snapshot_file).toString('utf8') : null,
@@ -190,10 +191,16 @@ function finalizePublication({workspace, handoff, candidate}) {
   }
   for (const [file, receipt] of receipts) put(workspace, file, receipt)
   if (bundle.effective_active.pages.length) put(workspace, `${manifestDir}/active.json`, bundle.effective_active)
-  if (replayAuthority) {
+  if (replayAuthority && replayPublication.effective_sha256 === publication.effective_sha256) {
     const destination = path.join(workspace, `${manifestDir}/_publication.json`)
     fs.mkdirSync(path.dirname(destination), {recursive: true}); fs.writeFileSync(destination, replayAuthority)
-  } else put(workspace, `${manifestDir}/_publication.json`, publication)
+  } else {
+    // Only the snapshot binding changes between finalize and promote.
+    const effectiveAuthority = replayPublication
+      ? {...replayPublication, effective_sha256: publication.effective_sha256}
+      : publication
+    put(workspace, `${manifestDir}/_publication.json`, effectiveAuthority)
+  }
   put(workspace, effectiveFor(groupConfig.group), snapshot)
   put(workspace, `packages/docs-tooling/src/lark/meta/reports/${groupConfig.group}-shared-publication.json`, {schema_version: 1, generated_at: new Date().toISOString(), failures: bundle.outcomes.filter(row => row.status === 'fallback').map(({record_id, code, message, detail}) => ({record_id, code, message, detail})), notices: bundle.notices || [], information: bundle.information || [],
     // Observability only: how far each published page's pins trail upstream. No
