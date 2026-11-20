@@ -1,0 +1,3564 @@
+{
+ "generated_at": "2026-11-16",
+ "base_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
+ "table_id": "tblT65LG94H2vobA",
+ "upstream_note": "web-content master @ scan commit 01ea1bb3397c34b6ddac7381cd41c7e4acd895d9 (sparse clone tmp/nodesdk-scan/web-content); divergence 数值基于该 commit",
+ "sdk_repo_version": "3.0.7",
+ "groups": [
+  "Authentication",
+  "Client",
+  "Collections",
+  "DataImport",
+  "Database",
+  "FileResources",
+  "Management",
+  "Partitions",
+  "ResourceGroup",
+  "Snapshot",
+  "Vector"
+ ],
+ "buckets": {
+  "A": 139,
+  "B": 22,
+  "C": 9,
+  "D": 5,
+  "E": 26
+ },
+ "pages": [
+  {
+   "slug": "Authentication-addPrivilegesToGroup",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IEqAdO0Pto6rgbxebo5cIXp0nMX",
+   "record_id": "recu4NWPjOGjXI",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/addPrivilegesToGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/addPrivilegesToGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-addPrivilegesToGroup.md"
+  },
+  {
+   "slug": "Authentication-addUserToRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Qc72dTKgroNdHjxIG2xcwNdmnHb",
+   "record_id": "recu4NX7nscyby",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/addUserToRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/addUserToRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-addUserToRole.md"
+  },
+  {
+   "slug": "Authentication-alterRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Fvw0dyRalo2ceVxdY4Fcf9uTnBg",
+   "record_id": "reczz28MUm5T1FNK",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/alterRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/alterRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-alterRole.md"
+  },
+  {
+   "slug": "Authentication-backupRBAC",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HD5DdMIkAo9NnVxFW4gcAwjcn5e",
+   "record_id": "recu4NXabIDrn8",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/backupRBAC.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/backupRBAC.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-backupRBAC.md"
+  },
+  {
+   "slug": "Authentication-createPrivilegeGroup",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/M1awdkh0eosjgqxTl5LcrDD2nwP",
+   "record_id": "recv1sbDMKTKbx",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createPrivilegeGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/createPrivilegeGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-createPrivilegeGroup.md"
+  },
+  {
+   "slug": "Authentication-createRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TR8xdMnzEo85sLxAtizcJWZdn6b",
+   "record_id": "recu4NXcA3NP7l",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/createRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-createRole.md"
+  },
+  {
+   "slug": "Authentication-createUser",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/MtHHdvQ36oZcM8xEDpwcCUBynmb",
+   "record_id": "recu4NXew1micl",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createUser.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/createUser.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-createUser.md"
+  },
+  {
+   "slug": "Authentication-deleteUser",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Cl5PdhU5jouHnrxyYXLcOQAZneb",
+   "record_id": "recu4NXgXRsUkX",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/deleteUser.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/deleteUser.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-deleteUser.md"
+  },
+  {
+   "slug": "Authentication-describeRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/ItZPd1o4uoodqtx1sxIcq38hn7e",
+   "record_id": "recu4NXiHTByeg",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/describeRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/describeRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-describeRole.md"
+  },
+  {
+   "slug": "Authentication-describeUser",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Da9KdvvWroKX9cxOwsmcLRBxnVb",
+   "record_id": "recu4NXkqkNp1l",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/describeUser.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/describeUser.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-describeUser.md"
+  },
+  {
+   "slug": "Authentication-dropAllRoles",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/E5rYdw3EWo2WKZxEyGac049an3e",
+   "record_id": "recufrVCJwuuJ9",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropAllRoles.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/dropAllRoles.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-dropAllRoles.md"
+  },
+  {
+   "slug": "Authentication-dropPrivilegeGroup",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/I63tdWAY2ok8V1xrK4tcrkwjncd",
+   "record_id": "recueSJkNJ8KqE",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropPrivilegeGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/dropPrivilegeGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-dropPrivilegeGroup.md"
+  },
+  {
+   "slug": "Authentication-dropRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/AnkUdEHXmob3Vwx9GIWcDOQanng",
+   "record_id": "recu4NXm4JwVik",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/dropRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/dropRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-dropRole.md"
+  },
+  {
+   "slug": "Authentication-grantPrivilege",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/AqXNdlJA4ow0VxxI8QHcictdnQh",
+   "record_id": "recu4NXnKgWG4P",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/grantPrivilege.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/grantPrivilege.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-grantPrivilege.md"
+  },
+  {
+   "slug": "Authentication-grantPrivilegeV2",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/R618dfeMYo9GdmxMwe9cQLclncs",
+   "record_id": "recu4NXpt1ibeg",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/grantPrivilegeV2.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/grantPrivilegeV2.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-grantPrivilegeV2.md"
+  },
+  {
+   "slug": "Authentication-grantRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LPJsdEnvwo6apcxjhZgc3rpDnuc",
+   "record_id": "recu4NXrwdA7AB",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/grantRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/grantRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-grantRole.md"
+  },
+  {
+   "slug": "Authentication-hasRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Beq1d1hDUoTzIsxJ6WTcVtlpnah",
+   "record_id": "recvaTzFDYMh0d",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/hasRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/hasRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-hasRole.md"
+  },
+  {
+   "slug": "Authentication-listGrant",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HSIDdxQGEoPdyaxkMDjcAWGQnpd",
+   "record_id": "recu4NXtX4K4FG",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listGrant.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/listGrant.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-listGrant.md"
+  },
+  {
+   "slug": "Authentication-listGrants",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/CJ9DdmU1ooquOnxcK5AciA3sn3g",
+   "record_id": "recuF2bsS7ymHl",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listGrants.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/listGrants.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-listGrants.md"
+  },
+  {
+   "slug": "Authentication-listPrivilegeGroups",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HGpSdc7AOo7AV3xKCmOcWaIEnrd",
+   "record_id": "recuF2bsZAigsE",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listPrivilegeGroups.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/listPrivilegeGroups.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-listPrivilegeGroups.md"
+  },
+  {
+   "slug": "Authentication-listRoles",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/GIeMdvjlMoLwGrxUOu3cFw7bnWc",
+   "record_id": "recuF2buvKuXSx",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listRoles.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/listRoles.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-listRoles.md"
+  },
+  {
+   "slug": "Authentication-listUsers",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Z0EOd1PXooNeowx4SQgcq3synBc",
+   "record_id": "recuF2bve01Ojm",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/listUsers.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/listUsers.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-listUsers.md"
+  },
+  {
+   "slug": "Authentication-removePrivilegesFromGroup",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/EeAfdukBNoIIgCxX248c6VULnOb",
+   "record_id": "recuF2bvFaOzQD",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/removePrivilegesFromGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/removePrivilegesFromGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-removePrivilegesFromGroup.md"
+  },
+  {
+   "slug": "Authentication-removeUserFromRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/XmyMdqvDLosr6oxzvhWcw8H2ntg",
+   "record_id": "recuF2bwrwwkzx",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/removeUserFromRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/removeUserFromRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-removeUserFromRole.md"
+  },
+  {
+   "slug": "Authentication-restoreRBAC",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/RIS2dU8uXojudgxLbJWcG54CnOb",
+   "record_id": "recuF2bwZaJ0m0",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/restoreRBAC.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/restoreRBAC.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-restoreRBAC.md"
+  },
+  {
+   "slug": "Authentication-revokePrivilege",
+   "bucket": "B",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/QXmsdHFTsooJNYxHTsocplFCns1",
+   "record_id": "recuF2bxuyiX6g",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/revokePrivilege.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/revokePrivilege.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-revokePrivilege.md"
+  },
+  {
+   "slug": "Authentication-revokePrivilegeV2",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/UlAUdLNkCo1Mp8xFZYWclSL9n6b",
+   "record_id": "recuF2bxYWhWb4",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/revokePrivilegeV2.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/revokePrivilegeV2.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-revokePrivilegeV2.md"
+  },
+  {
+   "slug": "Authentication-revokeRole",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/W7XJdZDHnoFECDxCYoMcrZqrnnd",
+   "record_id": "recuF2byNPUiUg",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/revokeRole.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/revokeRole.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-revokeRole.md"
+  },
+  {
+   "slug": "Authentication-updateUser",
+   "bucket": "A",
+   "group": "Authentication",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/L4tGd5KqLoLtp2xQRyhcaXjsnL5",
+   "record_id": "recuF2bzfJHVxz",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/updateUser.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/updateUser.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Authentication-updateUser.md"
+  },
+  {
+   "slug": "Client-MilvusClient",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DsyLdmJr0o7FAfxwPcNct1Bqnth",
+   "record_id": "recu4NXzBQXSge",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/MilvusClient.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/MilvusClient.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-MilvusClient.md"
+  },
+  {
+   "slug": "Client-checkCompatibility",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Tq1Md4GuIoNbfuxK03ncIa7onMc",
+   "record_id": "recv1n4R1sLHCu",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/checkCompatibility.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/checkCompatibility.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-checkCompatibility.md"
+  },
+  {
+   "slug": "Client-checkHealth",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DDvudeY20o6tV5xwwo4cKovjnHf",
+   "record_id": "recv1n4QUXuWkU",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/checkHealth.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/checkHealth.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-checkHealth.md"
+  },
+  {
+   "slug": "Client-close",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Xwg8dMovYoRP94xNDjOc1TSNnsg",
+   "record_id": "recvj8dyKIxTOY",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/close.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/close.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-close.md"
+  },
+  {
+   "slug": "Client-closeConnection",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HtOGdjTpOoG0RcxpGv1cCBcEnAh",
+   "record_id": "recv1n4R7CZ9NB",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/closeConnection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/closeConnection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-closeConnection.md"
+  },
+  {
+   "slug": "Client-connect",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/SkLsdMpB7oiZLMx8T04cCd9Knqf",
+   "record_id": "recu4NXxPVZUcQ",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/connect.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/connect.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-connect.md"
+  },
+  {
+   "slug": "Client-getTelemetry",
+   "bucket": "C",
+   "group": "Client",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LMSCdLflPoeX27xgsbocsSsHn2d",
+   "record_id": "reczz28MVWM6vVnL",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-getTelemetry.md"
+  },
+  {
+   "slug": "Client-getVersion",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/WA81dokeYotwt9xAiKKcaaIpnxc",
+   "record_id": "recvaTzCluHQJP",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/getVersion.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/getVersion.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-getVersion.md"
+  },
+  {
+   "slug": "Client-session",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LPfrdnntOogNMRxwqvCccBgnnve",
+   "record_id": "recvj8dxJKGQXK",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/session.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/session.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-session.md"
+  },
+  {
+   "slug": "Client-use",
+   "bucket": "A",
+   "group": "Client",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Dc3JdXF5dogLOLxqUPGclM6jn6f",
+   "record_id": "recvaTzB7yvRdy",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/use.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/use.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Client-use.md"
+  },
+  {
+   "slug": "Collections-DataType",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Enum",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/AtLEdt0ZWoUbHoxkfvHcq1ZunUg",
+   "record_id": "recu4NXIzHmJQP",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/DataType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/DataType.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-DataType.md"
+  },
+  {
+   "slug": "Collections-FunctionType",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Vq2VdsWJaoufsGx5stJcTuyPnDb",
+   "record_id": "recuw8JHpjLvvp",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/FunctionType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/FunctionType.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-FunctionType.md"
+  },
+  {
+   "slug": "Collections-addCollectionField",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/BKqIdIm0cop2s0xYjtQcSZL5nth",
+   "record_id": "recuOygMZghYX7",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionField.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/addCollectionField.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-addCollectionField.md"
+  },
+  {
+   "slug": "Collections-addCollectionFields",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/FmG6dw3O1ouzgbxnl4jc5T7cnXf",
+   "record_id": "recuOygOrmkvTK",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionFields.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/addCollectionFields.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-addCollectionFields.md"
+  },
+  {
+   "slug": "Collections-addCollectionFunction",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/VyADdglU4ohvGTxHuwTc6yBRnTe",
+   "record_id": "recvcLXER2TlWt",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addCollectionFunction.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/addCollectionFunction.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-addCollectionFunction.md"
+  },
+  {
+   "slug": "Collections-addFunctionField",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/BjKLdh2SFouRSbxELaqc9b4tnts",
+   "record_id": "reczz28MVoMHd5hr",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/addFunctionField.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/addFunctionField.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-addFunctionField.md"
+  },
+  {
+   "slug": "Collections-alterAlias",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DXTLdtFCso7fo6xJHShc7XLpngh",
+   "record_id": "recu4NXDjp9RgU",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterAlias.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/alterAlias.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-alterAlias.md"
+  },
+  {
+   "slug": "Collections-alterCollectionFieldProperties",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/RQH5dhSenoDGjYxyBb2c3n1rnie",
+   "record_id": "recuF2bRlWLHmf",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionFieldProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/alterCollectionFieldProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-alterCollectionFieldProperties.md"
+  },
+  {
+   "slug": "Collections-alterCollectionFunction",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/McjWdWlspoubE4x3atYc4Fn9n3c",
+   "record_id": "recvcLXGNnFuf7",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionFunction.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/alterCollectionFunction.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-alterCollectionFunction.md"
+  },
+  {
+   "slug": "Collections-alterCollectionProperties",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/EHPGdbCP5o7UzCxlDnRc6y5Pn1c",
+   "record_id": "recuF2bRXdeRuR",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/alterCollectionProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-alterCollectionProperties.md"
+  },
+  {
+   "slug": "Collections-alterCollectionSchema",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/VD1AddhBlo14dnxad79cWBEinMe",
+   "record_id": "reczz28MVpvBCAXj",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/alterCollectionSchema.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/alterCollectionSchema.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-alterCollectionSchema.md"
+  },
+  {
+   "slug": "Collections-batchDescribeCollections",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/ByKKdHVcAojjyZxKK3PciOTVnQg",
+   "record_id": "recvirtK3OOJRM",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/batchDescribeCollections.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/batchDescribeCollections.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-batchDescribeCollections.md"
+  },
+  {
+   "slug": "Collections-createAlias",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/MPuIdwujBoXM6rx7Okfc3lhZnUd",
+   "record_id": "recu4NXF4yAqqB",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/createAlias.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/createAlias.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-createAlias.md"
+  },
+  {
+   "slug": "Collections-createCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KPZZd2TiAodSeWxUdlJciHGcnbg",
+   "record_id": "recu4NXGK3hXLU",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/createCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/createCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-createCollection.md"
+  },
+  {
+   "slug": "Collections-describeAlias",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/YCzNdg5yWoeZVrxj7jGcb1UXnBd",
+   "record_id": "recu4NXKmvGCZX",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/describeAlias.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/describeAlias.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-describeAlias.md"
+  },
+  {
+   "slug": "Collections-describeCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IuTYdjSHHoznXNx5f7jcKqvYnhr",
+   "record_id": "recu4NXMBgD2NV",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/describeCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/describeCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-describeCollection.md"
+  },
+  {
+   "slug": "Collections-dropAlias",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/FubcdxJ0LoyQiJxmUMjcZnbjnbc",
+   "record_id": "recu4NXOywv5CO",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropAlias.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropAlias.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropAlias.md"
+  },
+  {
+   "slug": "Collections-dropCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KLknda2VtocQSBx7PKVc6F9Nnug",
+   "record_id": "recu4NXQnW2prn",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropCollection.md"
+  },
+  {
+   "slug": "Collections-dropCollectionField",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/ANWZdmEMkocWK3xo2ZxcnqtLnUh",
+   "record_id": "reczz28MVqRsskFs",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollectionField.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropCollectionField.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropCollectionField.md"
+  },
+  {
+   "slug": "Collections-dropCollectionFunction",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/T6xNdPPtsotGiYxL1WActF3qnxb",
+   "record_id": "recvcLXIwqzDtX",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollectionFunction.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropCollectionFunction.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropCollectionFunction.md"
+  },
+  {
+   "slug": "Collections-dropCollectionProperties",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/EjFMdRFz0ofehXxxCPqc6raSnAg",
+   "record_id": "recuF2bSrmLMX5",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropCollectionProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropCollectionProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropCollectionProperties.md"
+  },
+  {
+   "slug": "Collections-dropFunctionField",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/MmABd2rdooxiLZxYzwEciyTanOg",
+   "record_id": "reczz28MVqygR1Dz",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/dropFunctionField.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/dropFunctionField.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-dropFunctionField.md"
+  },
+  {
+   "slug": "Collections-getCollectionStatistics",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LQMGdRHjKogdeMxekCtcdBLqnNf",
+   "record_id": "recu4NXSBVb2bt",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getCollectionStatistics.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/getCollectionStatistics.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-getCollectionStatistics.md"
+  },
+  {
+   "slug": "Collections-getPkField",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LmnudtyV5owY2zx5D9WcENcsnFg",
+   "record_id": "recvaTA1YCaek1",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkField.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/getPkField.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-getPkField.md"
+  },
+  {
+   "slug": "Collections-getPkFieldName",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/WiVnd8VXooFQ9PxVgiyc7FkqnAg",
+   "record_id": "recvaTzZxIcIyE",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkFieldName.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/getPkFieldName.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-getPkFieldName.md"
+  },
+  {
+   "slug": "Collections-getPkFieldType",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/AKpldMJPTo6MfuxxrpicBKRInCh",
+   "record_id": "recvaTA0Mk1qKd",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getPkFieldType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/getPkFieldType.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-getPkFieldType.md"
+  },
+  {
+   "slug": "Collections-getRefreshExternalCollectionProgress",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/E7pZd2Yfzolgiyxcvz8cSFfKnoc",
+   "record_id": "recvirrVOeyGxj",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/getRefreshExternalCollectionProgress.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/getRefreshExternalCollectionProgress.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-getRefreshExternalCollectionProgress.md"
+  },
+  {
+   "slug": "Collections-hasCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/FhbbdNrlNouBXJxHIdKctXVKnmf",
+   "record_id": "recu4NXV00QV2B",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/hasCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/hasCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-hasCollection.md"
+  },
+  {
+   "slug": "Collections-listAliases",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KeoKdlitaog6n1xpX8McIIIrnWb",
+   "record_id": "recu4NY44w3lmP",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listAliases.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/listAliases.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-listAliases.md"
+  },
+  {
+   "slug": "Collections-listCollections",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Djg7dlb5NoINz9xOAs1cyY67nsh",
+   "record_id": "recu4NY6stNlON",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listCollections.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/listCollections.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-listCollections.md"
+  },
+  {
+   "slug": "Collections-listRefreshExternalCollectionJobs",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/AG5zdQCpXoy11MxWgD0ciYBRnJb",
+   "record_id": "recvirrX76HzX4",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/listRefreshExternalCollectionJobs.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/listRefreshExternalCollectionJobs.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-listRefreshExternalCollectionJobs.md"
+  },
+  {
+   "slug": "Collections-refreshExternalCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/JoiWdRIFcojRI4xVXnCclEoVnh2",
+   "record_id": "recvirrUpNzveF",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/refreshExternalCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/refreshExternalCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-refreshExternalCollection.md"
+  },
+  {
+   "slug": "Collections-renameCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LSwVdMg4SorzZ5xSHHVcQeVDnfh",
+   "record_id": "recu4NY8kAl9h5",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/renameCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/renameCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-renameCollection.md"
+  },
+  {
+   "slug": "Collections-runAnalyzer",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LsMldPd8GodoVqxCAZUcWYjdnwh",
+   "record_id": "recuOygM7d73vl",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/runAnalyzer.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/runAnalyzer.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-runAnalyzer.md"
+  },
+  {
+   "slug": "Collections-truncateCollection",
+   "bucket": "A",
+   "group": "Collections",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/J0IBdbw3Voyqw9xnInUcn9EonTe",
+   "record_id": "recvfCfwGc19a3",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/truncateCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/truncateCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Collections-truncateCollection.md"
+  },
+  {
+   "slug": "DataImport-BulkWriter",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/XTa5d642Aotj7GxLmwSc66xOnUc",
+   "record_id": "recvmMH9oEEh6G",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/BulkWriter.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/BulkWriter.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-BulkWriter.md"
+  },
+  {
+   "slug": "DataImport-BulkWriterOptions",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Q9UUdw8VWojtDtx2h00chPvRnqh",
+   "record_id": "recvmMHcW7Clc1",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-BulkWriterOptions.md"
+  },
+  {
+   "slug": "DataImport-BulkWriterSchema",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/U7w6d4gUioGzw2xmYqvcFz1Jnub",
+   "record_id": "recvmMHftpP2Us",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/BulkWriterSchema.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/BulkWriterSchema.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-BulkWriterSchema.md"
+  },
+  {
+   "slug": "DataImport-FlushEvent",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/RC5YdaKIhoRU0ZxU48OcJxn7nS2",
+   "record_id": "recvmMHnenkYcx",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-FlushEvent.md"
+  },
+  {
+   "slug": "DataImport-Formatter",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/BTfudvz2jojKXKx8KZ4c9LwpnUd",
+   "record_id": "recvmMHi16SJR8",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-Formatter.md"
+  },
+  {
+   "slug": "DataImport-HttpImportCreateReq",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/MUzJdvT3LoZz65xpAPMcnvo2nbb",
+   "record_id": "recvmMHBU20AxR",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-HttpImportCreateReq.md"
+  },
+  {
+   "slug": "DataImport-HttpImportCreateResponse",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/CZ3DduFXkoyoX9xJs9ic2HkRnqc",
+   "record_id": "recvmMHFSPkWEG",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-HttpImportCreateResponse.md"
+  },
+  {
+   "slug": "DataImport-HttpImportListResponse",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/L709dd1mWo6CFjxi2ygczQmpn9e",
+   "record_id": "recvmMHJIiwJXX",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-HttpImportListResponse.md"
+  },
+  {
+   "slug": "DataImport-HttpImportProgressReq",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Yb27dGNgwoXKmHx0yyZc4n45nr9",
+   "record_id": "recvmMHNn01K14",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-HttpImportProgressReq.md"
+  },
+  {
+   "slug": "DataImport-HttpImportProgressResponse",
+   "bucket": "C",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/WadbddIBYoC4GcxDzORcjMQYnmW",
+   "record_id": "recvmMHRSDmdmH",
+   "upstream_file": null,
+   "upstream_url": null,
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-HttpImportProgressResponse.md"
+  },
+  {
+   "slug": "DataImport-Storage",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Class",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DsLHde5AWomjFhxD3K7c4Yklnlh",
+   "record_id": "recvmMHkkYw77c",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/Storage.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/Storage.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-Storage.md"
+  },
+  {
+   "slug": "DataImport-bulkInsert",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "inherit",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/V65MdZWnsoMwpfxkt0sc5qQPnbb",
+   "record_id": "recv1s9k1ln8Ez",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/bulkInsert.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/bulkInsert.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-bulkInsert.md"
+  },
+  {
+   "slug": "DataImport-createImportJobs",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PGmQdpQ8roiLJVxJSZrcbnAVn1e",
+   "record_id": "recvmMHy6dzJ49",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/createImportJobs.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/createImportJobs.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-createImportJobs.md",
+   "dedupe_record_ids": [
+    "recvmMHuE5Iat6",
+    "recvmMHy6dzJ49"
+   ]
+  },
+  {
+   "slug": "DataImport-getImportState",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.12",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DJ4NdIIQ4oeA7gx4bDQcxT3gn0c",
+   "record_id": "recvis5IEBJWCk",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/getImportState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/getImportState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-getImportState.md"
+  },
+  {
+   "slug": "DataImport-listImportJobs",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/CdK7dr8pyo36PZxpGFKcrZsjnEf",
+   "record_id": "recvmMHqHFTm37",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/listImportJobs.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/listImportJobs.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-listImportJobs.md"
+  },
+  {
+   "slug": "DataImport-listImportTasks",
+   "bucket": "A",
+   "group": "DataImport",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "inherit",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KX8pd5PnGoo8UAx8QhhcI5YpnHg",
+   "record_id": "recvaTzOpKRsVL",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/listImportTasks.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/listImportTasks.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/DataImport-listImportTasks.md"
+  },
+  {
+   "slug": "Database-alterDatabase",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HTGgd3icQo2ssuxywUocz02Enhe",
+   "record_id": "recvaTA50IHhJb",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/alterDatabase.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/alterDatabase.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-alterDatabase.md"
+  },
+  {
+   "slug": "Database-alterDatabaseProperties",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/NNWed9Vd1o7vDkxY4pncM4wYnaf",
+   "record_id": "recuA25dhEHPzT",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/alterDatabaseProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/alterDatabaseProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-alterDatabaseProperties.md"
+  },
+  {
+   "slug": "Database-createDatabase",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/UouKd4h01oL9Rqx73jjcHM3enSh",
+   "record_id": "recudXwk9NBTCe",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/createDatabase.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/createDatabase.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-createDatabase.md"
+  },
+  {
+   "slug": "Database-describeDatabase",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PzXldcfljoU9rOx9TFUcIoNknt6",
+   "record_id": "recvaTA3ntyRyP",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/describeDatabase.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/describeDatabase.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-describeDatabase.md"
+  },
+  {
+   "slug": "Database-dropDatabase",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.5.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Ja99dnnaOoncwbx2zIPc4PjunXx",
+   "record_id": "recudXwmhiFdgy",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/dropDatabase.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/dropDatabase.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-dropDatabase.md"
+  },
+  {
+   "slug": "Database-dropDatabaseProperties",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/GulFdOWMboEK9bxnzMSc8Uf8n8b",
+   "record_id": "recuA25gLWuIuy",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/dropDatabaseProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/dropDatabaseProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-dropDatabaseProperties.md"
+  },
+  {
+   "slug": "Database-listDatabases",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DZMUdKbtfoT1HbxaXEDcgFkJnsh",
+   "record_id": "recudXwp5bkZaV",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/listDatabases.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/listDatabases.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-listDatabases.md"
+  },
+  {
+   "slug": "Database-useDatabase",
+   "bucket": "A",
+   "group": "Database",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.5.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/NDcldy9OLo62DLxw1a9cFSLsnYb",
+   "record_id": "recudXwqNfjoMY",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Database/useDatabase.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Database/useDatabase.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Database-useDatabase.md"
+  },
+  {
+   "slug": "FileResources-addFileResource",
+   "bucket": "A",
+   "group": "FileResources",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/RnyUdtGbFoIC7AxyhmNcbudYnhb",
+   "record_id": "reczz28MVu0SAZ1N",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/addFileResource.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/FileResources/addFileResource.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/FileResources-addFileResource.md"
+  },
+  {
+   "slug": "FileResources-listFileResources",
+   "bucket": "A",
+   "group": "FileResources",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/GK8hdiDs8olcOtxu0BKc89Vxn0b",
+   "record_id": "reczz28MVudWAs5O",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/listFileResources.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/FileResources/listFileResources.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/FileResources-listFileResources.md"
+  },
+  {
+   "slug": "FileResources-removeFileResource",
+   "bucket": "A",
+   "group": "FileResources",
+   "type": "method",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TfFQdwR7borsLfxiwdCcXoKvnth",
+   "record_id": "reczz28MmhLvsS1P",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/removeFileResource.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/FileResources/removeFileResource.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/FileResources-removeFileResource.md"
+  },
+  {
+   "slug": "Management-IndexType",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Enum",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/SI3Td00AroRtx8xXQcUce8i2nrb",
+   "record_id": "recu4NY27kFkN5",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/IndexType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/IndexType.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-IndexType.md"
+  },
+  {
+   "slug": "Management-MetricType",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Enum",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.6.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KQDEdcccXozuKpxDg78cSmxYnQg",
+   "record_id": "recv1sYeN5gAPK",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/MetricType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/MetricType.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-MetricType.md"
+  },
+  {
+   "slug": "Management-alterIndexProperties",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PcQcdDwthoSEZaxI6GncpUpGnBh",
+   "record_id": "recuF2cA1GtPfA",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/alterIndexProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/alterIndexProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-alterIndexProperties.md"
+  },
+  {
+   "slug": "Management-compact",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DCK5d56UZop0kGxpQu8cLqlvndg",
+   "record_id": "recuVYAgNqYdm9",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/compact.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/compact.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-compact.md"
+  },
+  {
+   "slug": "Management-createIndex",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v2.5.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Nu0Id3wzGoJIFyxkC7IcmjAznNf",
+   "record_id": "recu4NYbtry3Yz",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/createIndex.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/createIndex.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-createIndex.md"
+  },
+  {
+   "slug": "Management-describeIndex",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PePIdiq9po6cplxAoF6ca5C2ntb",
+   "record_id": "recu4NYdlk8any",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/describeIndex.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/describeIndex.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-describeIndex.md"
+  },
+  {
+   "slug": "Management-dropIndex",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/UBbndftiQo2HdOxUNtocIISnnVh",
+   "record_id": "recu4NYf4Gft5e",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/dropIndex.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/dropIndex.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-dropIndex.md"
+  },
+  {
+   "slug": "Management-dropIndexProperties",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Acvxd7t9poXj6nxb0vMco0wsngh",
+   "record_id": "recuF2cAedMzE6",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/dropIndexProperties.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/dropIndexProperties.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-dropIndexProperties.md"
+  },
+  {
+   "slug": "Management-flush",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/E2XJd4ZHvoc7QlxyrEJcrOJOn9f",
+   "record_id": "recuF2cAqywhbq",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flush.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/flush.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-flush.md"
+  },
+  {
+   "slug": "Management-flushAll",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Zyi9dGUnQodt7MxIq17cyN54nOd",
+   "record_id": "recvirtKY7lVcX",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushAll.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/flushAll.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-flushAll.md"
+  },
+  {
+   "slug": "Management-flushAllSync",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HoRIdZtHjosja7xOdNPc8CConrb",
+   "record_id": "recvirtLZDmX7M",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushAllSync.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/flushAllSync.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-flushAllSync.md"
+  },
+  {
+   "slug": "Management-flushSync",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/QsTwdUbgyoZPV1xzCBxchX8Fnid",
+   "record_id": "recuF2cBgX5F0l",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/flushSync.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/flushSync.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-flushSync.md"
+  },
+  {
+   "slug": "Management-getCompactionState",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/CRFLdvgkhoeRikxMcMAcJk3qnIc",
+   "record_id": "recuF2ccQ4M00H",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getCompactionState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getCompactionState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getCompactionState.md"
+  },
+  {
+   "slug": "Management-getCompactionStateWithPlans",
+   "bucket": "B",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/WqUEduD4qololkxyH62cR71Qnvc",
+   "record_id": "recvaTzWPO2cpn",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getCompactionStateWithPlans.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getCompactionStateWithPlans.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getCompactionStateWithPlans.md"
+  },
+  {
+   "slug": "Management-getFlushAllState",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "http://zilliverse.feishu.cn/docx/WgfTdXbMmoFhO9xBpencxLRRnbb",
+   "record_id": "recvirtMUkXO0I",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getFlushAllState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getFlushAllState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getFlushAllState.md"
+  },
+  {
+   "slug": "Management-getFlushState",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/X8qWdMHg5oQQK6xZdBYcGNOnn3c",
+   "record_id": "recuF2cBwhanAo",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getFlushState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getFlushState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getFlushState.md"
+  },
+  {
+   "slug": "Management-getIndexBuildProgress",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/G6CGdbM4QoNgr5xS1ZAc94lhnFd",
+   "record_id": "recuF2cBIjcMOC",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getIndexBuildProgress.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getIndexBuildProgress.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getIndexBuildProgress.md"
+  },
+  {
+   "slug": "Management-getIndexState",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HqE5d2jOroEuObxIjkZcHkX4nWX",
+   "record_id": "recuF2cC5JYv0z",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getIndexState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getIndexState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getIndexState.md"
+  },
+  {
+   "slug": "Management-getLoadState",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/J17ZdPNwqo4nt3x5b8pc0H5Nnph",
+   "record_id": "recu4NYgLezZum",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getLoadState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getLoadState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getLoadState.md"
+  },
+  {
+   "slug": "Management-getLoadingProgress",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DkImdRkJwoUmdqxzqn1cpQr9nhy",
+   "record_id": "recuF2cCjdIVqJ",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getLoadingProgress.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getLoadingProgress.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getLoadingProgress.md"
+  },
+  {
+   "slug": "Management-getPersistentSegmentInfo",
+   "bucket": "B",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Yz6wdRa4ioo7kpxqGzJcCHupnIe",
+   "record_id": "recvaTzThvdHcZ",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getPersistentSegmentInfo.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getPersistentSegmentInfo.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getPersistentSegmentInfo.md"
+  },
+  {
+   "slug": "Management-getQuerySegmentInfo",
+   "bucket": "B",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/FzoQdCtWIoOKb4x2hiJcEavXnUb",
+   "record_id": "recvaTzRKKWnjU",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getQuerySegmentInfo.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getQuerySegmentInfo.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getQuerySegmentInfo.md"
+  },
+  {
+   "slug": "Management-getReplicas",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/XKRWdKvQVolmduxrtrDc0dhjnzc",
+   "record_id": "recvaTzYjUVkHy",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getReplicas.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getReplicas.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-getReplicas.md"
+  },
+  {
+   "slug": "Management-listIndexes",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/N1fldMqhtoWBJPxh8VccivqxnZd",
+   "record_id": "recuF2cCvMQBtg",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/listIndexes.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/listIndexes.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-listIndexes.md"
+  },
+  {
+   "slug": "Management-loadBalance",
+   "bucket": "B",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/FBStdM2abo4ZhFxCwJRcP2Xen2c",
+   "record_id": "recvaTzQ8V13hR",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadBalance.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/loadBalance.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-loadBalance.md"
+  },
+  {
+   "slug": "Management-loadCollection",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LoNvdRK80oWllFxV0H6co0HrnBe",
+   "record_id": "recu4NYkIVHZ5R",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/loadCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-loadCollection.md"
+  },
+  {
+   "slug": "Management-loadCollectionAsync",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/SqSZdmSoVoBuiSxe1a1cdOuZnDd",
+   "record_id": "recvaTzVvGEICl",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollectionAsync.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/loadCollectionAsync.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-loadCollectionAsync.md"
+  },
+  {
+   "slug": "Management-loadCollectionSync",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/XXUAdI8T2oOmw2x7iITc8vJgnjm",
+   "record_id": "recuF2cCQexz3K",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/loadCollectionSync.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/loadCollectionSync.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-loadCollectionSync.md"
+  },
+  {
+   "slug": "Management-refreshLoad",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Jc43d397doxCRkxal2XcQ1Wyn2g",
+   "record_id": "recuF2cD7rxLh1",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/refreshLoad.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/refreshLoad.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-refreshLoad.md"
+  },
+  {
+   "slug": "Management-releaseCollection",
+   "bucket": "A",
+   "group": "Management",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/UxOXdeKF1oOIBuxTjPhcKBtPnRb",
+   "record_id": "recu4NYmlcJbds",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/releaseCollection.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/releaseCollection.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Management-releaseCollection.md"
+  },
+  {
+   "slug": "Partitions-createPartition",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PPLtdSbtfomgF1x5MHncKPgPnSf",
+   "record_id": "recu4NYpn56OJ7",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/createPartition.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/createPartition.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-createPartition.md"
+  },
+  {
+   "slug": "Partitions-dropPartition",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/BBmsddqZEozxWyxkoADcFfzpncW",
+   "record_id": "recu4NYr2jwhts",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/dropPartition.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/dropPartition.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-dropPartition.md"
+  },
+  {
+   "slug": "Partitions-getPartitionStatistics",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/XDXid6aZ8oCHnVxxFpPcKAB9n0c",
+   "record_id": "recu4NYteM1i8B",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/getPartitionStatistics.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/getPartitionStatistics.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-getPartitionStatistics.md"
+  },
+  {
+   "slug": "Partitions-hasPartition",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TVWPdTw2WoPAJYxsbGMc7MX6nEf",
+   "record_id": "recu4NYuZSt8J9",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/hasPartition.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/hasPartition.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-hasPartition.md"
+  },
+  {
+   "slug": "Partitions-listPartitions",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IvnLd6nXooRR6NxM9jdcDxCHnhh",
+   "record_id": "recu4NYwBiGH7N",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/listPartitions.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/listPartitions.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-listPartitions.md"
+  },
+  {
+   "slug": "Partitions-loadPartitions",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Pyh3dttWKoBqcBx8FGhcArhAnqg",
+   "record_id": "recu4NYyAaSocx",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/loadPartitions.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/loadPartitions.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-loadPartitions.md"
+  },
+  {
+   "slug": "Partitions-loadPartitionsSync",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/VGofdSRi0o6EagxNkokc9Iinndf",
+   "record_id": "recuF2edGaw5Lr",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/loadPartitionsSync.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/loadPartitionsSync.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-loadPartitionsSync.md"
+  },
+  {
+   "slug": "Partitions-releasePartitions",
+   "bucket": "A",
+   "group": "Partitions",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Sqoed1lkwo8umixJJO1cvKIxnZc",
+   "record_id": "recu4NYABoZhId",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Partitions/releasePartitions.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Partitions/releasePartitions.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Partitions-releasePartitions.md"
+  },
+  {
+   "slug": "ResourceGroup-ResourceGroupConfig",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Q0aNdOtyYoQHFhxCdEacj2kdnah",
+   "record_id": "recuA2DbCLkB0W",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/ResourceGroupConfig.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/ResourceGroupConfig.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-ResourceGroupConfig.md"
+  },
+  {
+   "slug": "ResourceGroup-createResourceGroup",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/BE3jdHU18ojgZyxEzixcINZXnYe",
+   "record_id": "recuA2D0Ralmiq",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/createResourceGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/createResourceGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-createResourceGroup.md"
+  },
+  {
+   "slug": "ResourceGroup-describeResourceGroup",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/OMModTBi8o93lwx9l50c9or6nJg",
+   "record_id": "recuA2D2SAjAC6",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/describeResourceGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/describeResourceGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-describeResourceGroup.md"
+  },
+  {
+   "slug": "ResourceGroup-dropAllResourceGroups",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DY5LdV3ufoVOkDxYIlScZN4DnUk",
+   "record_id": "recvaTzIBjo6dw",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/dropAllResourceGroups.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/dropAllResourceGroups.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-dropAllResourceGroups.md"
+  },
+  {
+   "slug": "ResourceGroup-dropResourceGroup",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/CpQndB70LowyUgxKxUzcxGc0nxf",
+   "record_id": "recuA2D4XLEMo9",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/dropResourceGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/dropResourceGroup.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-dropResourceGroup.md"
+  },
+  {
+   "slug": "ResourceGroup-getReplicateConfiguration",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IaLtd4We3opikFxFBIPcXB94n8d",
+   "record_id": "recvj8dtRvhflr",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/getReplicateConfiguration.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/getReplicateConfiguration.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-getReplicateConfiguration.md"
+  },
+  {
+   "slug": "ResourceGroup-listResourceGroups",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TKPydN5CRokhoTxI2DJcD4xYnHe",
+   "record_id": "recuA2D7MBRE59",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/listResourceGroups.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/listResourceGroups.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-listResourceGroups.md"
+  },
+  {
+   "slug": "ResourceGroup-transferNode",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/O8X0dou6NoKiSDxe5M2cHiN7ndd",
+   "record_id": "recvaTzHjiD7P5",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/transferNode.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/transferNode.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-transferNode.md"
+  },
+  {
+   "slug": "ResourceGroup-transferReplica",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Wce0dR6m5oATHRxn1X7c4y8Xnph",
+   "record_id": "recuA2Ddfu0EgK",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/transferReplica.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/transferReplica.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-transferReplica.md"
+  },
+  {
+   "slug": "ResourceGroup-updateReplicateConfiguration",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HCLOdUs85ovREKxoXDockCVRnVb",
+   "record_id": "recvj8dsFSOUUw",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/updateReplicateConfiguration.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/updateReplicateConfiguration.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-updateReplicateConfiguration.md"
+  },
+  {
+   "slug": "ResourceGroup-updateResourceGroups",
+   "bucket": "B",
+   "group": "ResourceGroup",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/JsQqdoEUNoWFCCxAMcUc0mtjncf",
+   "record_id": "recuA2Df39KNMJ",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/ResourceGroup/updateResourceGroups.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/ResourceGroup/updateResourceGroups.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/ResourceGroup-updateResourceGroups.md"
+  },
+  {
+   "slug": "Snapshot-createSnapshot",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/NeUFdr0OXo90RExodnccqc3OnYU",
+   "record_id": "recvirrYpm16Qq",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/createSnapshot.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/createSnapshot.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-createSnapshot.md"
+  },
+  {
+   "slug": "Snapshot-describeSnapshot",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KNOwdbcYXoVwGEx8ysScLO1CnUd",
+   "record_id": "recvirs2pJpLKN",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/describeSnapshot.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/describeSnapshot.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-describeSnapshot.md"
+  },
+  {
+   "slug": "Snapshot-dropSnapshot",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/DgiOdVOuLoKWFPxzKyucGV8Tnfb",
+   "record_id": "recvirrZJsNjX9",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/dropSnapshot.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/dropSnapshot.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-dropSnapshot.md"
+  },
+  {
+   "slug": "Snapshot-getRestoreSnapshotState",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IHY0di5uzooBe8xOCJqci9vinNh",
+   "record_id": "recvirs525FO2U",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/getRestoreSnapshotState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/getRestoreSnapshotState.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-getRestoreSnapshotState.md"
+  },
+  {
+   "slug": "Snapshot-listRestoreSnapshotJobs",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TIXDdW1BmoPA3FxX0ONczHFqnKf",
+   "record_id": "recvirs6n12T3U",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/listRestoreSnapshotJobs.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/listRestoreSnapshotJobs.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-listRestoreSnapshotJobs.md"
+  },
+  {
+   "slug": "Snapshot-listSnapshots",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/VjhTds7NPoyPjBxk4PNc5pe0nw6",
+   "record_id": "recvirs11KjRYt",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/listSnapshots.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/listSnapshots.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-listSnapshots.md"
+  },
+  {
+   "slug": "Snapshot-pinSnapshotData",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Bx6FdwVlUoqZjVxZwSFcnUr2nDe",
+   "record_id": "recvirs7EMikA6",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/pinSnapshotData.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/pinSnapshotData.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-pinSnapshotData.md"
+  },
+  {
+   "slug": "Snapshot-restoreSnapshot",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/PpuUdB9bLoL1UUxfIH4cxXkXnSb",
+   "record_id": "recvirs3ItqxlN",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/restoreSnapshot.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/restoreSnapshot.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-restoreSnapshot.md"
+  },
+  {
+   "slug": "Snapshot-unpinSnapshotData",
+   "bucket": "A",
+   "group": "Snapshot",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [
+    "ON REQUEST"
+   ],
+   "added_since": "v3.0.x",
+   "last_modified": [],
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IjXedJe6poxhmAx6hFpcpNyJnsb",
+   "record_id": "recvirs8WchHgE",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/unpinSnapshotData.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/unpinSnapshotData.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Snapshot-unpinSnapshotData.md"
+  },
+  {
+   "slug": "Vector-count",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/NaOadUNSpo1EsIxPMSfc0R4Hnfb",
+   "record_id": "recv1n4n2dviOr",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/count.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/count.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-count.md"
+  },
+  {
+   "slug": "Vector-delete",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/KOZHdyeQvo4htOxhO8BcbEudnNd",
+   "record_id": "recu4NWQJLbt9u",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/delete.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/delete.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-delete.md"
+  },
+  {
+   "slug": "Vector-get",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/IbxXdvdZlonJk9xnlk2cZlIinCh",
+   "record_id": "recu4NWTQVjC0i",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/get.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/get.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-get.md"
+  },
+  {
+   "slug": "Vector-getMetric",
+   "bucket": "B",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus"
+   ],
+   "tag": [],
+   "added_since": "v2.6.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/TpledB9Ljo3BC2x2fJYcKd34nNh",
+   "record_id": "recvaTzMSqaL78",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/getMetric.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/getMetric.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-getMetric.md"
+  },
+  {
+   "slug": "Vector-hybridSearch",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Ph9ldBswooKwebxKI9EcqSu4nlc",
+   "record_id": "recuF2epyTbGWv",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/hybridSearch.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/hybridSearch.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-hybridSearch.md"
+  },
+  {
+   "slug": "Vector-insert",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/SZNQds74zoKniRxtJwdcfdz1nCh",
+   "record_id": "recu4NWXlFVTDA",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/insert.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/insert.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-insert.md"
+  },
+  {
+   "slug": "Vector-query",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/Nle5dNFMuoy3MgxGIFGcJDWtnpg",
+   "record_id": "recu4NWZSVy49a",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/query.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/query.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-query.md"
+  },
+  {
+   "slug": "Vector-queryIterator",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.4.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/YZ3GdmklAolLnux8LRhcw7hxnvd",
+   "record_id": "recuF2nZ2LE0oj",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/queryIterator.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/queryIterator.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-queryIterator.md"
+  },
+  {
+   "slug": "Vector-search",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/HYv3d0NiRoc09Bx4rz0cIhqknb5",
+   "record_id": "recu4NX1YflTzw",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/search.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/search.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-search.md"
+  },
+  {
+   "slug": "Vector-searchIterator",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.5.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/K5APdBqphoQG7vxU4P2ccr5Wnig",
+   "record_id": "recuF2nZA2wTMf",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/searchIterator.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/searchIterator.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-searchIterator.md"
+  },
+  {
+   "slug": "Vector-upsert",
+   "bucket": "A",
+   "group": "Vector",
+   "type": "Function",
+   "targets": [
+    "Milvus",
+    "Zilliz"
+   ],
+   "tag": [],
+   "added_since": "v2.3.x",
+   "last_modified": "v3.0.x",
+   "feishu_url": "https://zilliverse.feishu.cn/docx/LEptdqqfcoqdtCx0LO1c3yxvnBo",
+   "record_id": "recu4NX3TVG1Bl",
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/upsert.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/upsert.md",
+   "cloud_path": "content/en/reference/api/nodejs/nodejs/Vector-upsert.md"
+  },
+  {
+   "slug": "About",
+   "bucket": "E",
+   "group": "About",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/About.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/About.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-GrantEntity",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/GrantEntity.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/GrantEntity.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-PrivelegeGroup",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/PrivelegeGroup.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/PrivelegeGroup.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-PrivilegeEntity",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/PrivilegeEntity.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/PrivilegeEntity.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-RBACMeta",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/RBACMeta.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/RBACMeta.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-RoleEntity",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/RoleEntity.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/RoleEntity.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-User",
+   "bucket": "E",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/User.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/User.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Authentication-selectGrant",
+   "bucket": "D",
+   "group": "Authentication",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/selectGrant.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Authentication/selectGrant.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Client-reconnectToPrimary",
+   "bucket": "D",
+   "group": "Client",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Client/reconnectToPrimary.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Client/reconnectToPrimary.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Collections-ConsistencyLevelEnum",
+   "bucket": "E",
+   "group": "Collections",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/ConsistencyLevelEnum.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/ConsistencyLevelEnum.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Collections-FieldType",
+   "bucket": "E",
+   "group": "Collections",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/FieldType.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/FieldType.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Collections-FunctionObject",
+   "bucket": "E",
+   "group": "Collections",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/FunctionObject.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/FunctionObject.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Collections-RefreshExternalCollectionJobInfo",
+   "bucket": "E",
+   "group": "Collections",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Collections/RefreshExternalCollectionJobInfo.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Collections/RefreshExternalCollectionJobInfo.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "DataImport-ImportState",
+   "bucket": "E",
+   "group": "DataImport",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/ImportState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/ImportState.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "DataImport-getImportJobProgress",
+   "bucket": "D",
+   "group": "DataImport",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/getImportJobProgress.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/DataImport/getImportJobProgress.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Management-CompactionState",
+   "bucket": "E",
+   "group": "Management",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/CompactionState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/CompactionState.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Management-IndexDescription",
+   "bucket": "E",
+   "group": "Management",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/IndexDescription.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/IndexDescription.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Management-SegmentLevel",
+   "bucket": "E",
+   "group": "Management",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/SegmentLevel.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/SegmentLevel.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Management-SegmentState",
+   "bucket": "E",
+   "group": "Management",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/SegmentState.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/SegmentState.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Management-getIndexStatistics",
+   "bucket": "D",
+   "group": "Management",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getIndexStatistics.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Management/getIndexStatistics.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Snapshot-RestoreSnapshotJobInfo",
+   "bucket": "E",
+   "group": "Snapshot",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/RestoreSnapshotJobInfo.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Snapshot/RestoreSnapshotJobInfo.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-FunctionScore",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/FunctionScore.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/FunctionScore.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-NumberArrayId",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/NumberArrayId.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/NumberArrayId.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-OrderByFields",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/OrderByFields.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/OrderByFields.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-OutputTransformers",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/OutputTransformers.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/OutputTransformers.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-RerankerObj",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/RerankerObj.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/RerankerObj.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-RowData",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/RowData.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/RowData.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-SearchAggregation",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/SearchAggregation.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/SearchAggregation.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-SearchData",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/SearchData.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/SearchData.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-StringArrayId",
+   "bucket": "E",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/StringArrayId.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/StringArrayId.md",
+   "cloud_path": null
+  },
+  {
+   "slug": "Vector-deleteEntities",
+   "bucket": "D",
+   "group": "Vector",
+   "type": null,
+   "targets": null,
+   "tag": [],
+   "added_since": null,
+   "last_modified": null,
+   "feishu_url": null,
+   "record_id": null,
+   "upstream_file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/deleteEntities.md",
+   "upstream_url": "https://milvus.io/api-reference/node/v3.0.x/Vector/deleteEntities.md",
+   "cloud_path": null
+  }
+ ],
+ "bucket_counts": {
+  "A": 139,
+  "B": 22,
+  "C": 9,
+  "D": 5,
+  "E": 26
+ },
+ "known_issues": [
+  "Base 重复行: DataImport-createImportJobs 存在 2 行(recvmMHuE5Iat6, recvmMHy6dzJ49), 同 slug/同 docx/同 Targets; 本清单按唯一 slug 仅保留 recvmMHy6dzJ49, WP-5 编辑前必须去重(评审 P0-1)"
+ ]
+}
