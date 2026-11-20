@@ -260,36 +260,82 @@ export async function verifySignature(api, git, contract, seal, s) {
   return {rawSha256:hash(raw),signatureSha256:hash(signature.signature),authorId:signature.authorActorId,signerId:signature.signerActorId}
 }
 
-export async function createDraft({api, candidate, fresh, form, verify, journal, provenance, waitRef = awaitRef}) {
-  const {seal, prep, unit, targetRef, stage, commit} = candidate
-  const owned = {}
-  const stageRef = sha => ({ref:stage,sha})
-  const viewer = (await api.graph('query{viewer{databaseId login}}')).viewer
-  need(viewer.databaseId === bot && viewer.login === 'github-actions[bot]', 'Wrong job token identity')
-  async function mutate(name, operation) {
+function writerMutation(fresh, journal, stage, targetRef, owned) {
+  return async (name, operation) => {
     await fresh(owned)
     journal({operation:name,state:'requested',stage,targetRef})
     const response = await operation()
     journal({operation:name,state:'acknowledged',responseDigest:hash(JSON.stringify(response))})
     return response
   }
-  // base_tree inherits all existing objects. Supplying the one fixed path materializes
-  // precisely the verified changed blob and directory spine without traversing history.
-  const tree = await mutate('create-tree',() => api.rest('/git/trees','POST',{base_tree:candidate.baseTree,
-    tree:[{path:lock,mode:'100644',type:'blob',content:candidate.after}]},201))
+}
+
+async function createRef(api, waitRef, mutate, operation, branch, sha) {
+  const ref = 'refs/heads/' + branch
+  const response = await mutate(operation,() => api.rest('/git/refs','POST',{ref,sha},201))
+  need(response.ref === ref && response.object.type === 'commit' && response.object.sha === sha, 'Unexpected new ref')
+  await waitRef(api,branch,sha)
+}
+
+/** @typedef {Readonly<{path: string, bytes: Uint8Array, sha256: string}>} VerifiedGuidesLockOverlay */
+
+/**
+ * The caller proves the next-only diff against the exact master and candidate trees.
+ * @param {string} baseTree
+ * @param {readonly VerifiedGuidesLockOverlay[]} overlays
+ */
+function lockTreeRequest(baseTree, overlays) {
+  // Reuse the revision envelope's 64 lock deltas and 128-byte subject identifier
+  // bounds. The aggregate tree request stays within the existing archive limit.
+  const requestLimit = 2 * 1024 * 1024
+  need(Array.isArray(overlays) && overlays.length > 0 && overlays.length <= 64, 'Invalid lock overlay count')
+  let previous = '', total = 0
+  const tree = []
+  for (const entry of overlays) {
+    need(entry && Object.keys(entry).length === 3 && ['path','bytes','sha256'].every(key => Object.hasOwn(entry,key)), 'Invalid lock overlay entry')
+    const {path,bytes,sha256} = entry
+    const match = typeof path === 'string' && /^shared-docs\/guides\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)\/lock\.yaml$/.exec(path)
+    need(match && match[0] === path && match[1].length <= 128 && previous < path, 'Invalid or noncanonical lock overlay path')
+    need(bytes instanceof Uint8Array && bytes.length > 0 && bytes.length <= 1024 * 1024, 'Invalid lock overlay byte count')
+    total += bytes.length
+    need(total <= requestLimit, 'Lock overlay byte limit exceeded')
+    const copy = Buffer.from(bytes), content = copy.toString('utf8')
+    need(hash(copy) === sha256 && Buffer.from(content,'utf8').equals(copy), 'Lock overlay bytes or digest changed')
+    tree.push({path,mode:'100644',type:'blob',content})
+    previous = path
+  }
+  const body = {base_tree:baseTree,tree}
+  need(Buffer.byteLength(JSON.stringify(body)) <= requestLimit, 'Lock overlay tree request exceeds limit')
+  return body
+}
+
+/**
+ * Stage and verify the exact K/S pair after the caller authenticates all candidate evidence.
+ * @param {object} options
+ * @param {readonly VerifiedGuidesLockOverlay[]} options.overlays
+ */
+export async function stageSignedCandidate({api, candidate, overlays, fresh, form, verify, journal, waitRef = awaitRef}) {
+  const {baseTree,stage,targetRef} = candidate
+  const seal = structuredClone(candidate.seal), commit = structuredClone(candidate.commit)
+  const stagingMatch = typeof stage === 'string' && /^shared-update-staging\/[a-f0-9]{64}$/.exec(stage)
+  need([baseTree,seal.master,seal.candidate,seal.candidateTree].every(oid) && commit.tree === seal.candidateTree &&
+    Array.isArray(commit.parents) && commit.parents.length === 1 && commit.parents[0] === seal.master &&
+    stagingMatch && stagingMatch[0] === stage,
+  'Invalid candidate tree, parent or staging identity')
+  const body = lockTreeRequest(baseTree,overlays)
+  const owned = {}
+  const mutate = writerMutation(fresh,journal,stage,targetRef,owned)
+  const viewer = (await api.graph('query{viewer{databaseId login}}')).viewer
+  need(viewer.databaseId === bot && viewer.login === 'github-actions[bot]', 'Wrong job token identity')
+  // base_tree inherits all other objects. Its resulting root must match the full
+  // independently verified candidate tree before creating any commit or ref.
+  const tree = await mutate('create-tree',() => api.rest('/git/trees','POST',body,201))
   need(tree.sha === seal.candidateTree, 'GitHub created another tree')
   const k = await mutate('create-candidate',() => api.rest('/git/commits','POST',commit,201))
   need(k.sha === seal.candidate && k.tree.sha === tree.sha && k.parents.length === 1 &&
     k.parents[0].sha === seal.master, 'GitHub created another candidate')
-  async function createRef(branch, sha) {
-    const ref = 'refs/heads/' + branch
-    const response = await mutate('create-' + (branch === stage ? 'staging' : 'target'),
-      () => api.rest('/git/refs','POST',{ref,sha},201))
-    need(response.ref === ref && response.object.type === 'commit' && response.object.sha === sha, 'Unexpected new ref')
-    await waitRef(api,branch,sha)
-  }
-  await createRef(stage,k.sha)
-  owned.ownedStage = stageRef(k.sha)
+  await createRef(api,waitRef,mutate,'create-staging',stage,k.sha)
+  owned.ownedStage = {ref:stage,sha:k.sha}
   const message = form({op:'seal',seal})
   need(message.status === 'encoded', 'Seal encoding failed')
   const result = await mutate('sign',() => api.graph(signMutation,{input:{branch:{repositoryNameWithOwner:repo,branchName:stage},
@@ -297,12 +343,21 @@ export async function createDraft({api, candidate, fresh, form, verify, journal,
   const s = result.createCommitOnBranch.commit.oid
   need(oid(s) && s !== k.sha, 'Unexpected signed commit identity')
   await waitRef(api,stage,s,k.sha)
-  owned.ownedStage = stageRef(s)
+  owned.ownedStage = {ref:stage,sha:s}
   const signed = await verify(seal,s)
-  provenance(s)
-  await createRef(targetRef,s)
-  owned.ownedHead = {ref:targetRef,sha:s}
+  return {candidate:k.sha,seal:s,signed,ownedStage:owned.ownedStage}
+}
+
+export async function createDraft({api, candidate, fresh, form, verify, journal, provenance, waitRef = awaitRef}) {
+  const {seal, prep, unit, targetRef, stage} = candidate
   const edit = unit.nextEdits[0]
+  const overlays = [{path:lock,bytes:Buffer.from(candidate.after,'utf8'),sha256:edit.afterBlob.sha256}]
+  const {candidate:k,seal:s,signed,ownedStage} = await stageSignedCandidate({api,candidate,overlays,fresh,form,verify,journal,waitRef})
+  const owned = {ownedStage}
+  const mutate = writerMutation(fresh,journal,stage,targetRef,owned)
+  provenance(s)
+  await createRef(api,waitRef,mutate,'create-target',targetRef,s)
+  owned.ownedHead = {ref:targetRef,sha:s}
   const created = await mutate('open-draft',() => api.rest('/pulls','POST',{
     head:targetRef,base:'master',draft:true,title:'Update the json-field-overview next lock',
     body:'Advance the Milvus source used by the next channel of the JSON Field Overview guide.\n\n' +
@@ -319,7 +374,7 @@ export async function createDraft({api, candidate, fresh, form, verify, journal,
     'Draft PR readback differs')
   await fresh({...owned,ownedPull:{number:prNumber,...owned.ownedHead}})
   return {status:'created',repository:repo,prNumber,url:'https://github.com/' + repo + '/pull/' + prNumber,master:seal.master,
-    dev:prep.dev,target:edit.target,candidate:k.sha,seal:s,...signed,stage,targetRef}
+    dev:prep.dev,target:edit.target,candidate:k,seal:s,...signed,stage,targetRef}
 }
 
 // A successful hold is possible only while every outbound operation was read-only.
