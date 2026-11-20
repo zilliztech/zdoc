@@ -35,7 +35,11 @@ jobs:
 
   qualify:
     needs: preview
-    if: needs.preview.outputs.status == 'check'
+    if: >-
+      needs.preview.outputs.status == 'check' &&
+      github.event_name == 'workflow_dispatch' &&
+      github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
+      github.ref == 'refs/heads/master' && github.run_attempt == 1
     runs-on: macos-15
     timeout-minutes: 90
     permissions:

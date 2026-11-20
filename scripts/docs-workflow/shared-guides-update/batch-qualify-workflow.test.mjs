@@ -90,10 +90,11 @@ test('production batch qualification is dispatch-only, gated and grants exclusiv
   for (const selector of ["github.event_name == 'workflow_dispatch'", "github.repository_id == '660446555'",
     "github.repository == 'zilliztech/zdoc'", "github.ref == 'refs/heads/master'", 'github.run_attempt == 1']) {
     assert.ok(preview.if.includes(selector), selector)
+    assert.ok(qualify.if.includes(selector), selector)
   }
   assert.deepEqual(preview.permissions, {contents: 'read', actions: 'read'})
   assert.equal(qualify.needs, 'preview')
-  assert.equal(qualify.if, "needs.preview.outputs.status == 'check'")
+  assert.ok(qualify.if.startsWith("needs.preview.outputs.status == 'check' &&"))
   assert.deepEqual(qualify.permissions, {contents: 'read', actions: 'read', 'pull-requests': 'read'})
   assert.equal(qualify['runs-on'], 'macos-15')
   assert.equal(qualify.steps.find(step => step.uses?.startsWith('actions/checkout@')).with['fetch-depth'], 0)
