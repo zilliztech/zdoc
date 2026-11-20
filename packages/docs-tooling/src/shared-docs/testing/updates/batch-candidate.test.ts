@@ -1,9 +1,11 @@
 // @vitest-environment node
+import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { mkdtemp, readdir, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
+import { createBatchHandoffInventory, BATCH_HANDOFF_LIMITS } from '../../adapters/updates/batch-handoff'
 import { initializeEvidence } from '../../adapters/updates/evidence'
 import { inspectNewGuidesBatchCandidate, planNewGuidesObjectTransfer } from '../../adapters/updates/remote-transaction'
 import { createScratchTransaction, type CandidateInput } from '../../adapters/updates/transactions'
@@ -303,3 +305,36 @@ it('uses a pinned local baseline and leaves unrelated missing objects outside sc
   await expect(openLocalBatchBaseline({repository, git: '/usr/bin/git', master: input.master, dev: input.dev, checkLocalDev: true}))
     .rejects.toThrow('GIT_METADATA_INVALID')
 }, 30_000)
+
+
+it('bounds the compact candidate inventory by decoded entries, bytes and the final encoded frame', () => {
+  const inventory = createBatchHandoffInventory()
+  const raw = Buffer.from('raw Git blob, not JSON')
+  const oid = createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex')
+  const ref = fixtureBlob(Buffer.from('witness document'))
+  inventory.document(ref, Buffer.from('witness document'))
+  inventory.document(ref, Buffer.from('witness document'))
+  expect(() => inventory.document(ref, Buffer.from('wrong document'))).toThrow('BATCH_HANDOFF_BLOB_BINDING')
+  expect(() => inventory.object({ oid, type: 'tree', bytes: raw })).toThrow('BATCH_HANDOFF_GIT_BINDING')
+  inventory.object({ oid, type: 'blob', bytes: raw })
+  const frames = inventory.frames()
+  expect(frames.documents.map(item => item.ref)).toEqual([ref])
+  expect(frames.objects).toEqual([{ oid, type: 'blob', base64: raw.toString('base64') }])
+  expect(() => inventory.object({ oid, type: 'blob', bytes: raw })).toThrow('BATCH_HANDOFF_GIT_BINDING')
+
+  const memberLimit = createBatchHandoffInventory()
+  for (let i = 0; i < BATCH_HANDOFF_LIMITS.members - 1; i++) {
+    const bytes = Buffer.from(String(i))
+    memberLimit.document(fixtureBlob(bytes), bytes)
+  }
+  expect(() => memberLimit.document(ref, Buffer.from('witness document'))).toThrow('BATCH_HANDOFF_LIMIT')
+  const entryLimit = createBatchHandoffInventory()
+  const tooLarge = Buffer.alloc(BATCH_HANDOFF_LIMITS.entryBytes + 1)
+  expect(() => entryLimit.document(fixtureBlob(tooLarge), tooLarge)).toThrow('BATCH_HANDOFF_LIMIT')
+  const byteLimit = createBatchHandoffInventory()
+  const half = Buffer.alloc(BATCH_HANDOFF_LIMITS.entryBytes)
+  byteLimit.document(fixtureBlob(half), half)
+  expect(() => byteLimit.encode({ padding: 'p'.repeat(BATCH_HANDOFF_LIMITS.entryBytes) })).toThrow('BATCH_HANDOFF_LIMIT')
+  const other = Buffer.alloc(BATCH_HANDOFF_LIMITS.entryBytes, 1)
+  expect(() => byteLimit.document(fixtureBlob(other), other)).toThrow('BATCH_HANDOFF_LIMIT')
+})
