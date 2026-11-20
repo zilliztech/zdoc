@@ -8,3 +8,5 @@ export { ProducerBundleReceiptSchema, ApprovedProducerDefinitionSchema, RemotePo
 export { createRemoteReads, remoteReadContext, createCheckWriter } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-github'
 export { initializeEvidence, rawSha256 } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/evidence'
 export { loadTargetCheckRegistration } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/remote-finalize'
+export { inspectObservedBatchHandoff } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/batch-handoff'
+export { verifyBatchFinalFreshness } from '../../../packages/docs-tooling/src/shared-docs/adapters/updates/batch-github'

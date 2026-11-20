@@ -11,7 +11,11 @@ import {BatchArtifactSchema, BatchBaseSchema, BatchBlobRefSchema, BatchCollectio
   batchDigest, batchRef, decodeBatchBlob, parseBatchCanonical, type BatchBlobRef} from './batch-collection-contract'
 import {inspectNewGuidesBatchCandidate} from './remote-transaction'
 
-export const BATCH_HANDOFF_LIMITS = Object.freeze({encodedBytes: 2 * 1024 ** 2, entryBytes: 1024 ** 2, members: 64})
+// The ZIP contains one file. Inside it, count one manifest, six shared
+// documents, up to three documents per page, four common Git directories
+// and one commit, and a directory plus lock blob per changed page.
+export const BATCH_HANDOFF_LIMITS = Object.freeze({encodedBytes: 2 * 1024 ** 2, entryBytes: 1024 ** 2,
+  members: 12 + 3 * METADATA_LIMITS.subjects + 2 * METADATA_LIMITS.lockDeltas})
 
 type RawObject = {oid: string; type: 'blob' | 'tree' | 'commit'; bytes: Uint8Array}
 const gitObjectOid = (type: RawObject['type'], bytes: Uint8Array) => createHash('sha1').update(`${type} ${bytes.length}\0`).update(bytes).digest('hex')

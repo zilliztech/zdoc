@@ -7,7 +7,8 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticateBatchPrepare, authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
+import { authenticateBatchPrepare, authenticatePrepare, batchDraftMaterial, batchWriterContext, context, createBatchDraft,
+  createDraft, gitReader, inspectPreparedBatch, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
@@ -34,6 +35,16 @@ test('writer accepts only the original run on the fixed production workflow and 
     GITHUB_JOB:'discover',GITHUB_WORKFLOW_SHA:k,GITHUB_REF:'refs/heads/dev',GITHUB_REPOSITORY_ID:'22',
     GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/fork.yml@refs/heads/master',PREPARE_ARTIFACT_ID:'013'}))
     assert.throws(() => context({...env,[key]:value}))
+})
+
+test('batch writer requires an explicit first dispatch plus both staging digests on protected master',() => {
+  const batch = {...env,GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_PROTECTED:'true',BATCH_ARTIFACT_ID:'31',
+    BATCH_ARTIFACT_DIGEST:'6'.repeat(64),BATCH_HANDOFF_DIGEST:'5'.repeat(64)}
+  assert.equal(batchWriterContext(batch).handoffDigest,batch.BATCH_HANDOFF_DIGEST)
+  for (const [key,value] of Object.entries({GITHUB_EVENT_NAME:'schedule',GITHUB_REF_PROTECTED:'false',GITHUB_RUN_ATTEMPT:'2',
+    BATCH_ARTIFACT_ID:'031',BATCH_ARTIFACT_DIGEST:'0'.repeat(65),BATCH_HANDOFF_DIGEST:''})) {
+    assert.throws(() => batchWriterContext({...batch,[key]:value}))
+  }
 })
 
 function prepareEvidence() {
@@ -75,7 +86,7 @@ test('authenticate the prepare job and exact current-run archive, including ever
   }
 })
 
-function batchPrepareEvidence() {
+function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
   const bytes = Buffer.from('batch ZIP')
   const digest = createHash('sha256').update(bytes).digest('hex')
   const ctx = {master,run:15,attempt:1,event:'schedule',artifact:31,digest}
@@ -89,7 +100,6 @@ function batchPrepareEvidence() {
   const artifact = {id:31,name:'shared-guides-batch-handoff-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,
     created_at:'2026-11-20T13:03:01Z',workflow_run:origin}
   const after = structuredClone(artifact)
-  const payload = Buffer.from('bound handoff')
   const members = new Map([['handoff.json',payload]])
   const jobs = {total_count:1,jobs:[job]}
   const artifacts = {total_count:1,artifacts:[artifact]}
@@ -99,7 +109,8 @@ function batchPrepareEvidence() {
     ['/actions/artifacts/31',after]
   ])
   const calls = []
-  const authenticate = () => authenticateBatchPrepare({parseStrictJson:JSON.parse,parseRemoteZip:() => members},async ({method,path,maximum}) => {
+  const contract = {parseStrictJson:JSON.parse,parseRemoteZip:() => members}
+  const transport = async ({method,path,maximum}) => {
     assert.equal(method,'GET')
     assert.ok(path.startsWith('/repos/zilliztech/zdoc/'))
     const suffix = path.slice('/repos/zilliztech/zdoc'.length)
@@ -107,8 +118,9 @@ function batchPrepareEvidence() {
     if (suffix.endsWith('/zip')) assert.equal(maximum,artifact.size_in_bytes)
     const response = responses.get(suffix)
     return {status:200,body:Buffer.isBuffer(response) ? response : Buffer.from(JSON.stringify(response))}
-  },ctx)
-  return {run,job,step,artifact,after,payload,members,artifacts,responses,authenticate,calls}
+  }
+  const authenticate = () => authenticateBatchPrepare(contract,transport,ctx)
+  return {run,job,step,artifact,after,payload,members,artifacts,responses,authenticate,calls,contract,transport,ctx}
 }
 
 test('batch writer verifies provenance of the handoff upload and rereads metadata after downloading',async () => {
@@ -133,9 +145,78 @@ test('batch writer verifies provenance of the handoff upload and rereads metadat
   }
 })
 
-function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,expectedOverlays = [pilotOverlay]} = {}, record = () => {}) {
+test('joins hosted artifact provenance, independent Git inspection and live Fetch authority before admission',async () => {
+  const pins = {master,dev,source:k,trustedTools:master,toolsetSha256:'1'.repeat(64)}
+  const executableClosure = {path:'blobs/' + '2'.repeat(64),sha256:'2'.repeat(64),bytes:51}
+  const fetch = {run:{id:4,attempt:1,head:master}}
+  const manifest = {base:{pins},toolset:{executableClosure},fetch}
+  const payload = Buffer.from(JSON.stringify({manifest}))
+  const fixture = batchPrepareEvidence(payload)
+  const ctx = {...fixture.ctx,handoffDigest:createHash('sha256').update(payload).digest('hex')}
+  const baseline = {}
+  const stages = []
+  const verified = {status:'verified-witness',observation:'observed',manifest}
+  const contract = {...fixture.contract,
+    inspectObservedBatchHandoff(input) {
+      stages.push('reader')
+      assert.deepEqual(input,{bytes:payload,baseline,expected:{pins,executableClosure,
+        ref:{path:'blobs/' + ctx.handoffDigest,sha256:ctx.handoffDigest,bytes:payload.length}}})
+      return verified
+    },
+    verifyBatchFinalFreshness(input,now,replay,signal) {
+      stages.push('fresh')
+      assert.deepEqual(input,{...fetch,pins})
+      assert.ok(Number.isSafeInteger(now) && replay === undefined && !signal.aborted)
+    },
+  }
+  const inspect = (request = ctx, git = {head:master,baseline}) => inspectPreparedBatch(contract,fixture.transport,request,git)
+  await assert.rejects(inspect(ctx,{head:dev,baseline}), /checkout/)
+  assert.equal(fixture.calls.length,0)
+  await assert.rejects(inspect({...ctx,handoffDigest:'f'.repeat(64)}), /raw witness digest/)
+  assert.deepEqual(stages,[])
+  assert.deepEqual(await inspect(),verified)
+  assert.deepEqual(stages,['reader','fresh'])
+  contract.verifyBatchFinalFreshness = () => { throw Error('BATCH_FINAL_RUN_CHANGED') }
+  await assert.rejects(inspect(), /BATCH_FINAL_RUN_CHANGED/)
+})
+
+test('batch writer sends one signed Draft with two changed locks and one unchanged member',async () => {
+  const overlays = [overlay(lockPath('page-a')),overlay(lockPath('page-b'))]
+  const members = ['page-a','page-b','page-c'].map((pageId,i) => ({pageId,disposition:i === 2 ? 'noop' : 'advance'}))
+  const ctx = {master,run:15,attempt:1,artifact:31,digest:'1'.repeat(64),handoffDigest:'2'.repeat(64)}
+  const manifest = {members,base:{pins:{master,dev,source:k}},groupSha256:'3'.repeat(64),binding:{digest:'4'.repeat(64)}}
+  const proof = {candidate:k,candidateTree:tree,prepared:{base:master}}
+  const bytes = Buffer.from('tree ' + tree + '\nparent ' + master +
+    '\nauthor Shared update local <shared-update-local@localhost> 1 +0000' +
+    '\ncommitter Shared update local <shared-update-local@localhost> 1 +0000\n\nbatch revision\n')
+  const witness = {status:'verified-witness',observation:'observed',writeEligible:false,manifest,proof,baseTree:candidate.baseTree,
+    objects:[{type:'commit',oid:k,bytes},...overlays.map(({bytes}) => ({type:'blob',bytes}))],
+    plan:{disposition:'candidate',unitKey:'guides:batch',nextEdits:overlays.map(item => ({
+      before:{path:item.path},afterBlob:{sha256:item.sha256},
+    }))}}
+  const contract = {canonicalBytes:value => Buffer.from(JSON.stringify(value)),digest:() => '5'.repeat(64)}
+  const material = batchDraftMaterial(contract,ctx,witness)
+  assert.deepEqual(material.overlays,overlays)
+  assert.equal(material.commit.message,'batch revision\n')
+  assert.equal(material.seal.runId,ctx.run)
+  assert.equal(material.seal.candidate,k)
+  assert.notEqual(batchDraftMaterial(contract,{...ctx,artifact:32},witness).seal.transactionId,material.seal.transactionId)
+  assert.throws(() => batchDraftMaterial(contract,ctx,{...witness,observation:'replay'}),/observed verified witness/)
+
+  const fixture = scenario({batch:true,expectedOverlays:overlays})
+  const run = hooks => createBatchDraft({...hooks,candidate:{...material,stage,targetRef}})
+  const result = await run(fixture.hooks)
+  assert.equal(result.status,'created')
+  assert.equal(result.groupSha256,manifest.groupSha256)
+  assert.deepEqual(fixture.calls,['tree','candidate','stage','sign','target','draft'])
+  const blocked = scenario({batch:true,expectedOverlays:overlays,stopAt:1})
+  await assert.rejects(run(blocked.hooks),/stale inputs/)
+  assert.deepEqual(blocked.calls,[])
+})
+
+function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,batch,expectedOverlays = [pilotOverlay]} = {}, record = () => {}) {
   const calls = [], checks = [], journal = [], verified = [], receipts = [], readbacks = []
-  const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:1,
+  const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:expectedOverlays.length,
     head:{ref:targetRef,sha:s,repo:{id:660446555}},base:{ref:'master',sha:master,repo:{id:660446555}}}
   const mutation = (name,response) => {
     calls.push(name)
@@ -150,7 +231,7 @@ function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,expecte
       return mutation('sign',{createCommitOnBranch:{commit:{oid:s}}})
     },
     async rest(path,method,body) {
-      if (path === '/pulls/8') return {...pr,changed_files:brokenDraft ? 2 : 1}
+      if (path === '/pulls/8') return {...pr,changed_files:brokenDraft ? expectedOverlays.length + 1 : expectedOverlays.length}
       assert.equal(method,'POST')
       if (path === '/git/trees') {
         assert.deepEqual(body,{base_tree:candidate.baseTree,tree:expectedOverlays.map(({path,bytes}) =>
@@ -168,8 +249,14 @@ function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,expecte
       assert.equal(body.base,'master')
       assert.equal(body.head,targetRef)
       assert.equal(body.draft,true)
-      assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
-      assert.match(body.body,/runs\/15\/artifacts\/32/)
+      if (batch) {
+        assert.match(body.body,/page-a.*advance next/)
+        assert.match(body.body,/page-b.*advance next/)
+        assert.match(body.body,/page-c.*unchanged/)
+      } else {
+        assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
+        assert.match(body.body,/runs\/15\/artifacts\/32/)
+      }
       return mutation('draft',pr)
     }}
   const hooks = {candidate,api,
@@ -178,7 +265,7 @@ function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,expecte
     verify:async (_,oid) => { verified.push(oid); if (badSeal) throw new Error('Wrong signature') },
     journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),
     waitRef:async (_, branch, exact, previous) => { readbacks.push([branch,exact,previous]) }}
-  return {calls,checks,journal,verified,receipts,readbacks,run:() => createDraft(hooks),
+  return {calls,checks,journal,verified,receipts,readbacks,hooks,run:() => createDraft(hooks),
     stageSigned: overlays => stageSignedCandidate({...hooks,overlays})}
 }
 

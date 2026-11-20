@@ -322,6 +322,13 @@ it('bounds the compact candidate inventory by decoded entries, bytes and the fin
   expect(frames.objects).toEqual([{ oid, type: 'blob', base64: raw.toString('base64') }])
   expect(() => inventory.object({ oid, type: 'blob', bytes: raw })).toThrow('BATCH_HANDOFF_GIT_BINDING')
 
+  const twelvePages = createBatchHandoffInventory()
+  for (let i = 0; i < 11 + 5 * 12; i++) {
+    const bytes = Buffer.from(String(i))
+    twelvePages.document(fixtureBlob(bytes), bytes)
+  }
+  expect(twelvePages.encode({}).length).toBeLessThan(BATCH_HANDOFF_LIMITS.encodedBytes)
+
   const memberLimit = createBatchHandoffInventory()
   for (let i = 0; i < BATCH_HANDOFF_LIMITS.members - 1; i++) {
     const bytes = Buffer.from(String(i))
