@@ -109,7 +109,7 @@ function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
     ['/actions/artifacts/31',after]
   ])
   const calls = []
-  const contract = {parseStrictJson:JSON.parse,parseRemoteZip:() => members}
+  const contract = {parseStrictJson:JSON.parse,parseBatchHandoffZip:() => members}
   const transport = async ({method,path,maximum}) => {
     assert.equal(method,'GET')
     assert.ok(path.startsWith('/repos/zilliztech/zdoc/'))

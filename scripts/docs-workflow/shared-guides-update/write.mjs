@@ -194,7 +194,7 @@ export async function authenticateBatchPrepare(contract, transport, ctx) {
   need(bytes.length === artifact.size_in_bytes && hash(bytes) === ctx.digest, 'Downloaded batch handoff digest changed')
   const after = bindArtifact(await get(artifactPath))
   need(after.size_in_bytes === artifact.size_in_bytes && after.created_at === artifact.created_at, 'Batch handoff artifact changed after download')
-  const files = contract.parseRemoteZip(bytes)
+  const files = contract.parseBatchHandoffZip(bytes)
   need(files.size === 1 && files.has('handoff.json'), 'Unexpected batch handoff archive members')
   return Buffer.from(files.get('handoff.json'))
 }
