@@ -110,7 +110,7 @@ async function main() {
   const exact = await inspectSignedBatchCandidate(options)
   if (compact) {
     await rejects(prepareQualifiedBatchCandidateHandoff(binding), /BATCH_LAUNCH_BINDING_INVALID/)
-    await verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes})
+    await verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes, tools: f.tools, executableClosure: options.executableClosure})
   } else equal(result.handoff, undefined)
   const negatives = [
     ['missing noop', {bindingRef: await put({...binding, pages: binding.pages.slice(0, -1)})}, /BATCH_CANDIDATE_BINDING/],
@@ -180,77 +180,81 @@ async function main() {
   console.log(JSON.stringify({code, fixtureMaster: f.master, out, status: replay.draft.status, drafts: replay.draftCount, simulation: simulate}))
 }
 
-async function verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes}) {
+async function verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes, tools, executableClosure}) {
   const {batchRef} = load('adapters/updates/batch-collection-contract.ts')
-  const {inspectPinnedLocalGuidesBatchCandidate} = load('adapters/updates/remote-transaction.ts')
+  const {inspectObservedBatchHandoff, inspectReplayBatchHandoff} = load('adapters/updates/batch-handoff.ts')
+  const {compareUtf8} = load('core/updates/canonical.ts')
   const bytes = Buffer.from(await evidence.readBlob(result.handoff))
-  const {manifest, documents, objects} = JSON.parse(bytes)
-  deepStrictEqual(batchRef(bytes), result.handoff)
-  deepStrictEqual(Buffer.from(canonicalBytes({manifest, documents, objects})), bytes)
-  equal(bytes.length <= 2 * 1024 ** 2, true)
-  equal(1 + documents.length + objects.length <= 64, true)
-  equal(manifest.kind, 'guides-batch-compact-handoff-v2')
+  const frame = JSON.parse(bytes)
+  const {pins} = binding.base
+  const expected = {ref: result.handoff, pins, executableClosure}
+  const input = {bytes, expected, baseline: {
+    read: (oid, type) => baseline.read(oid, type),
+    async verifyConnected(commits) {
+      deepStrictEqual(commits, [pins.master, pins.dev])
+      await baseline.verifyPins(pins.master, pins.dev)
+      git(tools, 'fsck', '--connectivity-only', '--no-dangling', ...commits)
+    },
+  }}
+  const verified = await inspectReplayBatchHandoff(input)
+  const {manifest} = verified
+  equal(verified.status, 'verified-witness')
+  equal(verified.observation, 'replay')
+  equal(verified.writeEligible, false)
+  deepStrictEqual(verified.operations, [])
+  deepStrictEqual(verified.proof, proof)
+  deepStrictEqual(verified.plan, plan)
   deepStrictEqual(manifest.base, binding.base)
-  equal(manifest.base.origin.kind, 'replay')
   equal(manifest.groupSha256, binding.closure.digest)
   deepStrictEqual(manifest.binding, {ref: candidate.binding, digest: candidate.bindingDigest})
-  deepStrictEqual(manifest.qualification, binding.qualification)
-  deepStrictEqual(manifest.plan, candidate.plan)
-  deepStrictEqual(manifest.proof, candidate.proof)
-  deepStrictEqual(manifest.patch, proof.patch)
-  deepStrictEqual(manifest.toolset, {sha256: proof.trustedToolsetSha256, executableClosure: proof.executableClosure})
-  equal(manifest.candidate, candidate.candidate)
-  equal(manifest.candidateTree, proof.candidateTree)
+  deepStrictEqual(manifest.members.map(row => [row.pageId, row.disposition]), binding.pages.map(row => [row.pageId, row.disposition]))
+  deepStrictEqual(verified.objects.map(o => o.oid).sort(), exact.objects.map(o => o.oid).sort())
+  equal(verified.objects.some(o => o.oid === candidate.sealOid), false)
+  equal(frame.documents.some(d => d.ref.sha256 === proof.executableClosure.sha256), false)
   const pointer = JSON.parse(await fs.readFile(path.join(out, 'index.json')))
   deepStrictEqual(manifest.collection, pointer)
   equal(createHash('sha256').update(await fs.readFile(path.join(out, pointer.archive.path))).digest('hex'), pointer.archive.sha256)
   equal(JSON.parse(await fs.readFile(path.join(out, 'measurement.json'))).observation, 'replay')
-  const documentsBySha = new Map(documents.map(entry => {
-    const raw = Buffer.from(entry.base64, 'base64')
-    equal(raw.toString('base64'), entry.base64)
-    deepStrictEqual(batchRef(raw), entry.ref)
-    return [entry.ref.sha256, raw]
-  }))
-  equal(documentsBySha.size, documents.length)
-  const used = new Set()
-  const rawDoc = ref => {
-    const raw = documentsBySha.get(ref.sha256)
-    deepStrictEqual(batchRef(raw), ref)
-    used.add(ref.sha256)
-    return raw
+  await rejects(() => inspectObservedBatchHandoff(input), /BATCH_HANDOFF_ORIGIN/)
+  await rejects(() => inspectReplayBatchHandoff({...input, expected: {...expected, pins: {...pins, dev: pins.master}}}),
+    /BATCH_HANDOFF_PINS/)
+
+  const negatives = []
+  async function tamper(name, mutate, reason) {
+    const changed = structuredClone(frame)
+    mutate(changed)
+    const changedBytes = canonicalBytes(changed)
+    await rejects(() => inspectReplayBatchHandoff({...input, bytes: changedBytes, expected: {...expected, ref: batchRef(changedBytes)}}), reason)
+    negatives.push(name)
   }
-  const read = ref => JSON.parse(rawDoc(ref))
-  deepStrictEqual(read(manifest.binding.ref), binding)
-  deepStrictEqual(read(manifest.plan), plan)
-  deepStrictEqual(read(manifest.proof), proof)
-  const q = read(manifest.qualification.ref)
-  deepStrictEqual(manifest.fetch, {run: q.run, sourceJobId: q.rows[0].sourceJobId, scanStartMs: q.scanStartMs,
-    sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact})
-  deepStrictEqual(read(pointer.indexRef).pages.map(row => [row.pageId, row.disposition]), binding.pages.map(row => [row.pageId, row.disposition]))
-  deepStrictEqual(manifest.members.map(row => [row.pageId, row.disposition]), binding.pages.map(row => [row.pageId, row.disposition]))
-  deepStrictEqual(manifest.members.map(row => row.report), plan.reports)
-  const contexts = manifest.members.map(({pageId, report, context}) => {
-    const {historyRef, ...facts} = read(context)
-    equal(facts.subject.pageId, pageId)
-    deepStrictEqual(facts.reportBlob, report)
-    return {...facts, history: read(historyRef), collectedReport: read(report)}
-  })
-  const objectsByOid = new Map(objects.map(object => [object.oid, object]))
-  const source = {async read(oid, type) {
-    const object = objectsByOid.get(oid)
-    equal(object.type, type)
-    return Buffer.from(object.base64, 'base64')
-  }}
-  const delta = await inspectPinnedLocalGuidesBatchCandidate({master: binding.base.pins.master, dev: binding.base.pins.dev,
-    sourceTarget: binding.base.pins.source, contexts, plan, proof, source, baseline, trustedToolset: manifest.toolset})
-  deepStrictEqual(delta.rawDiff, rawDoc(proof.patch))
-  deepStrictEqual(used, new Set(documentsBySha.keys()))
-  deepStrictEqual(objects.map(o => o.oid).sort(), exact.objects.map(o => o.oid).sort())
-  equal(objectsByOid.has(candidate.sealOid), false)
-  equal(documentsBySha.has(proof.executableClosure.sha256), false)
-  await write('compact-handoff-verification.json', {ref: result.handoff, candidate: delta.candidate.oid, tree: delta.candidateTree,
-    group: manifest.groupSha256, documents: documents.length, objects: objects.length, members: manifest.members.map(row => [row.pageId, row.disposition]),
-    bytes: bytes.length, rawPatchBytes: delta.rawDiff.length, observation: manifest.base.origin.kind})
+  await tamper('missing noop', changed => changed.manifest.members.pop(), /BATCH_HANDOFF_MEMBERS/)
+  await tamper('missing report', changed => {
+    changed.documents = changed.documents.filter(item => item.ref.sha256 !== changed.manifest.members[0].report.sha256)
+  }, /BATCH_HANDOFF_DOCUMENT/)
+  await tamper('substituted report', changed => {
+    changed.manifest.members[0].report = changed.manifest.members[1].report
+  }, /BATCH_HANDOFF_MEMBERS/)
+  await tamper('extra document', changed => {
+    const raw = Buffer.from('null')
+    changed.documents.push({ref: batchRef(raw), base64: raw.toString('base64')})
+    changed.documents.sort((a, b) => compareUtf8(a.ref.sha256, b.ref.sha256))
+  }, /BATCH_HANDOFF_INVENTORY/)
+  await tamper('changed Git bytes', changed => {
+    changed.objects[0].base64 = Buffer.from('wrong object').toString('base64')
+  }, /BATCH_HANDOFF_GIT_BINDING/)
+  await tamper('changed root tree', changed => {
+    changed.manifest.candidateTree = changed.manifest.candidate
+  }, /BATCH_HANDOFF_PROOF/)
+  await tamper('extra Git object', changed => {
+    const raw = Buffer.from('unrequested object')
+    const oid = createHash('sha1').update('blob ' + raw.length + '\0').update(raw).digest('hex')
+    changed.objects.push({oid, type: 'blob', base64: raw.toString('base64')})
+    changed.objects.sort((a, b) => compareUtf8(a.oid, b.oid))
+  }, /BATCH_HANDOFF_GIT_INVENTORY/)
+  await write('compact-handoff-verification.json', {ref: result.handoff, candidate: verified.proof.candidate, tree: verified.proof.candidateTree,
+    group: manifest.groupSha256, documents: frame.documents.length, objects: verified.objects.length,
+    members: manifest.members.map(row => [row.pageId, row.disposition]), bytes: bytes.length,
+    rawPatchBytes: verified.rawPatch.length, observation: verified.observation, negatives})
 }
 
 async function replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,
