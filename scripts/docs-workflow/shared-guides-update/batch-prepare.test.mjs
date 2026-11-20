@@ -35,7 +35,7 @@ function stage(t) {
   return {workspace, temp, batchRoot, env: {...validEnv, GITHUB_WORKSPACE: workspace, RUNNER_TEMP: temp}}
 }
 
-function fixture(t, {change = true} = {}) {
+function fixture(t, {change = true, batchPages} = {}) {
   const s = stage(t), paths = preparePaths(s.env, ctx, s.workspace, s.workspace)
   mkdirSync(join(paths.evidence, 'blobs'), {recursive: true, mode: 0o700})
   const retain = value => {
@@ -58,10 +58,11 @@ function fixture(t, {change = true} = {}) {
     return {oid, type, base64: raw.toString('base64')}
   }
   const commit = object('commit', 'commit bytes'), tree = object('tree', 'tree bytes')
-  const reportRef = doc('qualified report'), qualifierRef = doc('qualification'), disposition = change ? 'advance' : 'noop'
+  const reportRef = ref(Buffer.from('qualified report')), qualifierRef = doc('qualification'), disposition = change ? 'advance' : 'noop'
+  const pages = batchPages?.map(pageId => ({pageId, disposition, reportRef})) ??
+    [{pageId: 'example-a', disposition, reportRef}, {pageId: 'example-b', disposition: 'noop', reportRef}]
   const index = {kind: 'guides-batch-collection-index-v1', base, run: {id: run - 100, attempt: 1, head: producer},
-    groupSha256: '7'.repeat(64), qualifierRef, pages: [{pageId: 'example-a', disposition, reportRef},
-      {pageId: 'example-b', disposition: 'noop', reportRef}], writeEligible: false, operations: []}
+    groupSha256: '7'.repeat(64), qualifierRef, pages, writeEligible: false, operations: []}
   const {reference: indexRef, raw: indexRaw} = retain(index)
   document(indexRaw)
   const indexDigest = hash(Buffer.concat([Buffer.from('zdoc/guides-batch/index/v1\n'), indexRaw]))
@@ -83,6 +84,14 @@ function fixture(t, {change = true} = {}) {
     })},
     documents, objects: [commit, tree]}
   const result = {...held('collected', []), index: indexRef, localCandidate}
+  if (batchPages) {
+    for (const pageId of batchPages) {
+      doc('history for ' + pageId)
+      frame.objects.push(object('blob','lock for ' + pageId),object('tree','tree for ' + pageId))
+    }
+    // Four shared changed directories include the root tree already in the frame.
+    frame.objects.push(...['shared-docs','guides','pages'].map(path => object('tree',path)))
+  }
   return {paths, frame, retain, result}
 }
 
@@ -137,6 +146,17 @@ test('retains only the positively bound handoff and exposes only counts', t => {
     handoffPath: join(paths.upload, 'handoff.json'), handoffSha256: reference.sha256})
   assert.deepEqual(readdirSync(paths.upload), ['handoff.json'])
   assert.deepEqual(readFileSync(settled.handoffPath), raw)
+})
+
+test('a 12-page candidate fits the same bounded transport with its full inventory', t => {
+  const batchPages = Array.from({length:12},(_,i) => 'page-' + String(i).padStart(2,'0'))
+  const {paths,result,frame,retain} = fixture(t,{batchPages})
+  assert.equal(1 + frame.documents.length + frame.objects.length,72)
+  const tooMany = structuredClone(frame)
+  tooMany.objects.push({oid:'1'.repeat(40),type:'tree',base64:'eA=='})
+  assert.throws(() => settleBatchPrepare({...result,handoff:retain(tooMany).reference},paths,ctx), /BATCH_PREPARE_HANDOFF/)
+  const {reference} = retain(frame)
+  assert.equal(settleBatchPrepare({...result,handoff:reference},paths,ctx).pageCount,12)
 })
 
 test('keeps holds, no group, and a no-op out of the upload directory', t => {

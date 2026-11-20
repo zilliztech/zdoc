@@ -140,7 +140,7 @@ function validateIndex(index, master) {
     oid(index.base.pins?.dev) && oid(index.base.pins?.source) && digest(index.base.pins?.toolsetSha256) &&
     digest(index.groupSha256) && noWrites(index) && positive(index.run?.id) &&
     index.run.attempt === 1 && oid(index.run.head) && Array.isArray(index.pages) &&
-    index.pages.length > 0 && index.pages.length <= 63, 'BATCH_PREPARE_INDEX')
+    index.pages.length > 0 && index.pages.length <= 64, 'BATCH_PREPARE_INDEX')
   let changed = 0
   for (const [i, page] of index.pages.entries()) {
     check(typeof page?.pageId === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(page.pageId) &&
@@ -153,7 +153,9 @@ function validateIndex(index, master) {
 
 function validateFrame(frame, index, indexRaw, indexRef, candidate) {
   check(shape(frame, ['manifest', 'documents', 'objects']) && Array.isArray(frame.documents) && Array.isArray(frame.objects) &&
-    frame.documents.length > 0 && frame.objects.length > 0 && frame.documents.length + frame.objects.length < 64, 'BATCH_PREPARE_HANDOFF')
+    frame.documents.length > 0 && frame.objects.length > 0 &&
+    frame.documents.length <= 6 + 3 * index.pages.length &&
+    frame.objects.length <= 5 + 2 * index.pages.filter(page => page.disposition === 'advance').length, 'BATCH_PREPARE_HANDOFF')
   const m = frame.manifest
   const p = index.base.pins
   check(m?.kind === 'guides-batch-compact-handoff-v2' && origin(m.base?.origin) &&
