@@ -7,15 +7,21 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { test } from 'node:test'
-import { authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, verifySignature } from './write.mjs'
+import { authenticatePrepare, context, createDraft, gitReader, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
 
 const master = 'a'.repeat(40), dev = 'b'.repeat(40), k = 'c'.repeat(40), tree = 'd'.repeat(40), s = 'e'.repeat(40)
 const targetRef = 'shared-update/' + 'a'.repeat(64), stage = 'shared-update-staging/' + 'd'.repeat(64)
-const unit = {nextEdits:[{before:{current:master,next:master},target:dev}]}
+const lockPath = id => 'shared-docs/guides/pages/' + id + '/lock.yaml'
+function overlay(path, bytes = Buffer.from(`schema_version: 1\ncurrent: ${master}\nnext: ${dev}\n`)) {
+  return {path,bytes,sha256:createHash('sha256').update(bytes).digest('hex')}
+}
+const pilotOverlay = overlay(lockPath('json-field-overview'))
+const unit = {nextEdits:[{before:{current:master,next:master},target:dev,afterBlob:{sha256:pilotOverlay.sha256}}]}
 const seal = {candidate:k,candidateTree:tree,master,runId:15}
 const axes = ['old-next-to-target','current-to-candidate-next'].map(axis =>
   ({axis,sourceChanged:true,outputChanged:true,contentStatus:'valid',added:[],removed:[],renameCandidates:[]}))
-const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,prep:{dev,fetchRun:11},baseTree:'f'.repeat(40),after:'new lock',commit:{tree,parents:[master]}}
+const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,prep:{dev,fetchRun:11},baseTree:'f'.repeat(40),
+  after:pilotOverlay.bytes.toString('utf8'),commit:{tree,parents:[master]}}
 const env = {GITHUB_ACTIONS:'true',GITHUB_SERVER_URL:'https://github.com',GITHUB_API_URL:'https://api.github.com',
   GITHUB_REPOSITORY:'zilliztech/zdoc',GITHUB_REPOSITORY_ID:'660446555',GITHUB_REF:'refs/heads/master',GITHUB_SHA:master,
   GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/shared-guides-update.yml@refs/heads/master',GITHUB_WORKFLOW_SHA:master,
@@ -69,8 +75,8 @@ test('authenticate the prepare job and exact current-run archive, including ever
   }
 })
 
-function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = () => {}) {
-  const calls = [], checks = [], journal = [], verified = [], receipts = []
+function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,expectedOverlays = [pilotOverlay]} = {}, record = () => {}) {
+  const calls = [], checks = [], journal = [], verified = [], receipts = [], readbacks = []
   const pr = {id:9,number:8,state:'open',draft:true,merged:false,user:{id:41898282},changed_files:1,
     head:{ref:targetRef,sha:s,repo:{id:660446555}},base:{ref:'master',sha:master,repo:{id:660446555}}}
   const mutation = (name,response) => {
@@ -89,9 +95,9 @@ function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = (
       if (path === '/pulls/8') return {...pr,changed_files:brokenDraft ? 2 : 1}
       assert.equal(method,'POST')
       if (path === '/git/trees') {
-        assert.deepEqual(body,{base_tree:candidate.baseTree,tree:[{path:'shared-docs/guides/pages/json-field-overview/lock.yaml',
-          mode:'100644',type:'blob',content:'new lock'}]})
-        return mutation('tree',{sha:tree})
+        assert.deepEqual(body,{base_tree:candidate.baseTree,tree:expectedOverlays.map(({path,bytes}) =>
+          ({path,mode:'100644',type:'blob',content:bytes.toString('utf8')}))})
+        return mutation('tree',{sha:wrongTree ? s : tree})
       }
       if (path === '/git/commits') return mutation('candidate',{sha:wrongK ? s : k,tree:{sha:tree},parents:[{sha:master}]})
       if (path === '/git/refs') {
@@ -108,12 +114,58 @@ function scenario({stopAt,wrongK,badSeal,failAfter,brokenDraft} = {}, record = (
       assert.match(body.body,/runs\/15\/artifacts\/32/)
       return mutation('draft',pr)
     }}
-  return {calls,checks,journal,verified,receipts,run:() => createDraft({candidate,api,
+  const hooks = {candidate,api,
     form:() => ({status:'encoded',githubMessage:{headline:'seal',body:'body'}}),
     fresh:async owned => { checks.push(structuredClone(owned)); if (checks.length === stopAt) throw new Error('Existing PR or stale inputs') },
     verify:async (_,oid) => { verified.push(oid); if (badSeal) throw new Error('Wrong signature') },
-    journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),waitRef:async () => {}})}
+    journal:item => { journal.push(item); record(item) },provenance:oid => receipts.push(oid),
+    waitRef:async (_, branch, exact, previous) => { readbacks.push([branch,exact,previous]) }}
+  return {calls,checks,journal,verified,receipts,readbacks,run:() => createDraft(hooks),
+    stageSigned: overlays => stageSignedCandidate({...hooks,overlays})}
 }
+
+test('stages and verifies one signed candidate for the exact ordered lock overlays', async () => {
+  const overlays = [overlay(lockPath('first-page')), overlay(lockPath('second-page'),
+    Buffer.from(`# Retain framing\r\nschema_version: 1\r\ncurrent: '${master}'\r\nnext: "${dev}"\r\n`))]
+  const f = scenario({expectedOverlays:overlays})
+  const result = await f.stageSigned(overlays)
+  assert.deepEqual(f.calls,['tree','candidate','stage','sign'])
+  assert.deepEqual(f.readbacks,[[stage,k,undefined],[stage,s,k]])
+  assert.deepEqual(f.verified,[s])
+  assert.deepEqual(f.checks,[{},{},{},{ownedStage:{ref:stage,sha:k}}])
+  assert.deepEqual(f.receipts,[])
+  assert.equal(result.candidate,k)
+  assert.equal(result.seal,s)
+  assert.deepEqual(result.ownedStage,{ref:stage,sha:s})
+})
+
+test('rejects a duplicate, unsorted, foreign, unsafe or changed overlay before any outbound mutation', async () => {
+  const first = overlay(lockPath('first-page')), second = overlay(lockPath('second-page'))
+  for (const overlays of [
+    [first,first],
+    [second,first],
+    [first,overlay('shared-docs/node/lock.yaml')],
+    [first,overlay('shared-docs/guides/pages/../lock.yaml')],
+    [first,overlay(lockPath('second-page') + '\n')],
+    [first,{...second,bytes:Buffer.from('unverified after bytes')}],
+    [first,overlay(lockPath('second-page'),Buffer.from([0xff]))],
+    Array.from({length:65},(_,i) => overlay(lockPath('page-' + String(i).padStart(3,'0')))),
+  ]) {
+    const f = scenario()
+    await assert.rejects(() => f.stageSigned(overlays),/overlay/i)
+    assert.deepEqual(f.calls,[])
+    assert.deepEqual(f.journal,[])
+  }
+})
+
+test('stops before K, staging and signing when GitHub returns an unexpected root tree', async () => {
+  const overlays = [overlay(lockPath('first-page')),overlay(lockPath('second-page'))]
+  const f = scenario({wrongTree:true,expectedOverlays:overlays})
+  await assert.rejects(() => f.stageSigned(overlays),/GitHub created another tree/)
+  assert.deepEqual(f.calls,['tree'])
+  assert.deepEqual(f.readbacks,[])
+  assert.deepEqual(f.verified,[])
+})
 
 test('create only the exact candidate, signed stage, new target and Draft; check each boundary',async () => {
   const f = scenario(), result = await f.run()
