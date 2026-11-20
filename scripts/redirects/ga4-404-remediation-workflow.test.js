@@ -108,9 +108,15 @@ test('the triage proposal job stays a read-only advisory poster with isolated ag
     triageProposal.if,
     "needs.remediation.outputs.pr_number != '' && needs.remediation.outputs.triage_count != '' && needs.remediation.outputs.triage_count != '0'",
   )
-  // The workflow token may comment (issues: write) but never push: the IAM
-  // layer, not a prompt, enforces "codex never commits".
-  assert.deepEqual(triageProposal.permissions, {contents: 'read', issues: 'write'})
+  // The workflow token may comment (issues: write for issue comments,
+  // pull-requests: write because gh pr comment lands a GraphQL addComment on
+  // the pull request subject) but never push: the IAM layer, not a prompt,
+  // enforces "codex never commits".
+  assert.deepEqual(triageProposal.permissions, {
+    contents: 'read',
+    issues: 'write',
+    'pull-requests': 'write',
+  })
   const proposalSource = triageProposal.steps.map(step => step.run || '').join('\n')
   assert.doesNotMatch(proposalSource, /REST_UPSTREAM_REFRESH_PAT/)
   assert.doesNotMatch(proposalSource, /GA4_SERVICE_ACCOUNT_JSON/)
@@ -146,9 +152,15 @@ test('the triage proposal job stays a read-only advisory poster with isolated ag
 
 test('the reply executor gates on allowlist, bot output prefixes, and the remediation PR, then picks a reply mode', () => {
   // The interpreter's notices and rejections post as github-actions[bot]; the
-  // job needs the comment scope for that, but never a push scope (the PR2
-  // lesson: pin the capability a token must actually have, not just the env).
-  assert.deepEqual(applyReply.permissions, {contents: 'read', issues: 'write'})
+  // job needs the comment scopes for that (issues: write, plus
+  // pull-requests: write for the gh pr comment GraphQL addComment), but never
+  // a push scope (the PR2 lesson: pin the capability a token must actually
+  // have, not just the env).
+  assert.deepEqual(applyReply.permissions, {
+    contents: 'read',
+    issues: 'write',
+    'pull-requests': 'write',
+  })
   const gate = stepNamed(applyReply, 'Gate the reply')
   assert.equal(gate.env.ALLOWLIST, '${{ vars.GA4_404_REMEDIATION_ALLOWLIST }}')
   assert.equal(gate.env.COMMENT_AUTHOR, '${{ github.event.comment.user.login }}')
