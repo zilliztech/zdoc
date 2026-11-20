@@ -135,10 +135,14 @@ it('decodes the bounded single batch handoff without widening the ordinary ZIP c
   const payload = Buffer.alloc(2 * 1024 ** 2, 'x')
   const archive = zip({'handoff.json': payload})
   expect(() => parseRemoteZip(archive)).toThrow('ZIP_UNSUPPORTED')
-  expect(Buffer.from(parseBatchHandoffZip(archive).get('handoff.json')!)).toEqual(payload)
+  const extracted = parseBatchHandoffZip(archive).get('handoff.json')!
+  expect(Buffer.from(extracted).equals(payload)).toBe(true)
   expect(() => parseBatchHandoffZip(zip({'other.json': Buffer.from('{}')}))).toThrow('ZIP_MEMBER')
   expect(() => parseBatchHandoffZip(zip({'handoff.json': Buffer.from('{}'), 'extra.json': Buffer.from('{}')}))).toThrow('ZIP_DIRECTORY')
-  expect(() => parseBatchHandoffZip(zip({'handoff.json': Buffer.concat([payload, Buffer.from('x')])}))).toThrow('ZIP_UNSUPPORTED')
+  const oversized = Buffer.from(archive)
+  const centralDirectory = oversized.readUInt32LE(oversized.length - 6)
+  oversized.writeUInt32LE(payload.length + 1, centralDirectory + 24)
+  expect(() => parseBatchHandoffZip(oversized)).toThrow('ZIP_UNSUPPORTED')
 })
 it.each(['crc','descriptor-size','missing-descriptor','truncated','alias','traversal','zip64','encrypted','overlap','bomb'])('rejects ZIP %s before evidence acceptance',kind=>{
   let archive=zip(kind==='alias'?{'A':Buffer.from('a'),'a':Buffer.from('b')}:kind==='traversal'?{'../bad':Buffer.from('a')}:{'x':Buffer.from('bytes')})
