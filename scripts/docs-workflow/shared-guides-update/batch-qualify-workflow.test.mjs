@@ -84,7 +84,7 @@ test('successful artifact binds its capacity projection to the local index bytes
 test('production batch qualification is dispatch-only, gated and grants exclusively read permissions', () => {
   const workflow = yaml.load(readFileSync(new URL('../../../.github/workflows/shared-guides-batch-qualify.yml', import.meta.url), 'utf8'))
   assert.deepEqual(workflow.on, {workflow_dispatch: null})
-  assert.deepEqual(workflow.permissions, {})
+  assert.deepEqual(workflow.permissions, {contents: 'read'})
   assert.deepEqual(Object.keys(workflow.jobs), ['preview', 'qualify'])
   const {preview, qualify} = workflow.jobs
   for (const selector of ["github.event_name == 'workflow_dispatch'", "github.repository_id == '660446555'",

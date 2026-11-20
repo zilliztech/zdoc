@@ -3,7 +3,8 @@ name: Shared Guides batch qualification
 on:
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
   group: shared-guides-batch-qualify
