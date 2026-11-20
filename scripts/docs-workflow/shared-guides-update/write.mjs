@@ -483,8 +483,8 @@ export function batchDraftMaterial(contract, ctx, witness) {
     'Batch writer requires an observed verified witness')
   const {manifest, plan, proof, objects, baseTree} = witness
   const {master,dev,source} = manifest.base.pins
-  need(master === ctx.master && ctx.attempt === 1 && manifest.members.length >= 2 &&
-    plan.disposition === 'candidate', 'Batch writer requires a complete multi-page candidate')
+  need(master === ctx.master && ctx.attempt === 1 && manifest.members.length > 0 &&
+    plan.disposition === 'candidate', 'Batch writer requires a complete candidate group')
   const blobs = new Map(objects.filter(item => item.type === 'blob').map(item => [hash(item.bytes),item.bytes]))
   const rawCommit = Buffer.from(objects.find(item => item.type === 'commit' && item.oid === proof.candidate).bytes)
   const clock = /^committer Shared update local <shared-update-local@localhost> (\d+) \+0000$/m.exec(rawCommit.toString())

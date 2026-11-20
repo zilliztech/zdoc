@@ -1556,7 +1556,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The scheduled single-page update verifies fresh inputs and creates at most one Draft PR for a prepared lock.next edit. Manual batch qualification independently verifies observed evidence using read-only permissions."
+      "reason": "The scheduled single-page update and the manual batch update share one writer and create at most one signed Draft PR. Manual batch qualification independently verifies observed evidence using read-only permissions."
     },
     {
       "id": "shared-docs-pr-workflows",
