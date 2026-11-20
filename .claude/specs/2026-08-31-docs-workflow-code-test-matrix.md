@@ -104,9 +104,10 @@ Computed module paths and general package-exports resolution are not inferred.
 This is the living development map for Fetch, Translation, publication, recovery, and replay changes. Its machine-readable source is [`scripts/docs-workflow/test-matrix.json`](../../scripts/docs-workflow/test-matrix.json). Keep both representations aligned in the same change.
 
 The `shared-guides-upstream-update` entry covers the scheduled
-`shared-guides-update.yml`, manual `shared-guides-validate.yml` and
-`shared-guides-finalize.yml` workflows, and their scripts. A change to either
-manual YAML alone selects the dedicated workflow and CLI contracts. It selects
+`shared-guides-update.yml`, manual `shared-guides-batch-qualify.yml`,
+`shared-guides-validate.yml` and `shared-guides-finalize.yml` workflows, and
+their scripts. A change to any of these YAML files selects the dedicated
+workflow and CLI contracts, including
 `pnpm test:shared-guides-update` and `pnpm test:shared-docs`, plus typecheck,
 workflow policy and the matrix. The first command exercises the single-page
 discovery, candidate and writer boundaries, including the stop for an open PR.

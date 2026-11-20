@@ -3,7 +3,7 @@ import {fileURLToPath} from 'node:url'
 import {canonicalBytes} from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
 import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
-import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, validateBatchWire,
+import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, isIsolatedBatchCandidateOrigin, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
   type TrustedToolsetCapture} from './toolset'
@@ -87,10 +87,11 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
 }
 
 /** Unexported constructors keep replay captures in a separate nominal family. */
-function observedOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>): Operation {
+function observedOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>, candidateRequested = false): Operation {
   const discovery = readBatchDiscoveryCapture(input.discovery)
   if (discovery.origin.kind !== 'observed') invalid()
-  return operation(input, discovery.origin)
+  // Candidate intent comes from the coordinator entry, not discovery or public input.
+  return operation(input, candidateRequested ? {kind: 'observed', purpose: 'isolated-candidate'} : {kind: 'observed'})
 }
 function replayOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>): Operation {
   const discovery = readBatchDiscoveryCapture(input.discovery)
@@ -668,6 +669,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
   try {
     const {base, capture, store} = sealed, provenance = describeTrustedToolset(capture)
     if (base.origin.kind !== kind || provenance.commit !== base.pins.master || base.pins.trustedTools !== base.pins.master || provenance.root !== capture.root) invalid()
+    if (kind === 'observed' && candidateRequested !== isIsolatedBatchCandidateOrigin(base.origin)) invalid()
     let replay: BatchReplayFixture | undefined
     if (kind === 'replay') {
       if (!sealed.replayFixtureBytes || base.origin.kind !== 'replay' || batchSha256(sealed.replayFixtureBytes) !== base.origin.fixtureSha256) invalid()
@@ -1040,7 +1042,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
-      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput))
+      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, candidateRequested))
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true, candidateRequested)
@@ -1084,6 +1086,10 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
 }
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
+}
+/** Internal entry prepares only a local candidate within the live measured collection. */
+export function prepareObservedIsolatedBatchCandidate(options: Parameters<typeof collectObservedGuidesBatch>[0]): Promise<BatchCollectionResult> {
+  return collectCompleteBatch(options, undefined, true)
 }
 /** Test-only raw immutable replay. There is no mode/ref/run option on the observed entry. */
 export function collectReplayGuidesBatch(options: {sourceRepository: string; out: string; zdocRepository: string;
