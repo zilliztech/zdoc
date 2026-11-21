@@ -367,6 +367,13 @@
       "status": "denylist",
       "note": "Literal wildcard request artifact, not a valid route.",
       "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/reference/go/v2-Collection-Alias",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-Alias",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-21T03:24:13.757Z"
     }
   ]
 }
