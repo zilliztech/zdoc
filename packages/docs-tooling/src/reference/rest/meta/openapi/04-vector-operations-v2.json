@@ -619,6 +619,68 @@
                         "description": "書き込むエンティティに適用するフィールドレベルの操作。各エントリはフィールドを選択し、その値の更新方法を指定します。"
                       }
                     }
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the field that the condition applies to.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "条件所应用到的字段的名称。"
+                          },
+                          "ja-JP": {
+                            "description": "条件が適用されるフィールドの名前。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "Specifies the behavior when the target field is missing.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "指定目标字段缺失时的行为。"
+                          },
+                          "ja-JP": {
+                            "description": "ターゲットフィールドが存在しない場合の動作を指定します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The update operation to apply: `REPLACE` replaces the field value, `ARRAY_APPEND` appends array elements, and `ARRAY_REMOVE` removes matching array elements.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "要应用的更新操作：`REPLACE` 替换字段值，`ARRAY_APPEND` 追加数组元素，`ARRAY_REMOVE` 移除匹配的数组元素。"
+                          },
+                          "ja-JP": {
+                            "description": "適用する更新操作：`REPLACE` はフィールド値を置換し、`ARRAY_APPEND` は配列要素を追加し、`ARRAY_REMOVE` は一致する配列要素を削除します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "An object that defines a condition controlling whether the insert write is applied.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "定义一个条件的对象，用于控制是否应用插入写入。"
+                      },
+                      "ja-JP": {
+                        "description": "挿入書き込みを適用するかどうかを制御する条件を定義するオブジェクト。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1261,6 +1323,68 @@
                         "ja-JP": {
                           "description": "部分更新時に適用されるフィールドレベルの操作。1 つのフィールドを選択し、その値の更新方法を指定します。各エントリには `fieldName` と `op` が必要です。"
                         }
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the target field for the operation.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "操作的目标字段的名称。"
+                          },
+                          "ja-JP": {
+                            "description": "操作の対象フィールドの名前。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "Specifies the behavior to apply when the target field is missing.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "指定当目标字段缺失时要应用的行为。"
+                          },
+                          "ja-JP": {
+                            "description": "対象フィールドが存在しない場合に適用する動作を指定します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The update operation to apply: `REPLACE` replaces the field value, `ARRAY_APPEND` appends array elements, and `ARRAY_REMOVE` removes matching array elements.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "要应用的更新操作：`REPLACE` 替换字段值，`ARRAY_APPEND` 追加数组元素，`ARRAY_REMOVE` 移除匹配的数组元素。"
+                          },
+                          "ja-JP": {
+                            "description": "適用する更新操作: `REPLACE` はフィールド値を置き換え、`ARRAY_APPEND` は配列要素を追加し、`ARRAY_REMOVE` は一致する配列要素を削除します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "An object that specifies the conditions that govern whether the write is applied.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "一个对象，用于指定控制是否应用写入的条件。"
+                      },
+                      "ja-JP": {
+                        "description": "書き込みを適用するかどうかを制御する条件を指定するオブジェクト。"
                       }
                     },
                     "x-added-at": "2.6.x",

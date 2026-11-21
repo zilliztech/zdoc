@@ -28,12 +28,12 @@
         ]
       },
       "pin": {
-        "commit": "22341c46c91a3a573b794dd853c5739c62ba71cc"
+        "commit": "377633280086e18f088f20fdadfb30d724ece60d"
       },
       "trackedRef": "master",
       "apiSurface": "data-plane",
       "publicationTarget": "milvus",
-      "lastVerifiedAt": "2026-11-13T05:59:39.060Z"
+      "lastVerifiedAt": "2026-11-21T04:22:22.881Z"
     }
   ]
 }
