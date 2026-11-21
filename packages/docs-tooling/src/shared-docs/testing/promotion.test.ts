@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
@@ -20,6 +20,7 @@ const manifests = 'generated/en/manifests/shared-pages/guides'
 const sha256 = (data: string | Buffer) => createHash('sha256').update(data).digest('hex')
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n'
 const scratch: string[] = []
+const readOnlyEvidence: string[] = []
 vi.setConfig({ testTimeout: 60_000 })
 const imageBytes = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==', 'base64')
 const imageObject = `shared/${sha256(imageBytes)}.png`
@@ -27,6 +28,10 @@ const imageBase = 'https://images.example.invalid'
 const images = [{ source: './diagram.png', sha256: sha256(imageBytes), object: imageObject }]
 
 afterEach(() => {
+  for (const root of readOnlyEvidence.splice(0)) {
+    chmodSync(root, 0o755)
+    chmodSync(join(root, 'evidence'), 0o755)
+  }
   for (const root of scratch.splice(0)) rmSync(root, { recursive: true, force: true })
 })
 
@@ -206,6 +211,27 @@ async function fixture(options: { secondEligible?: boolean; missingTarget?: bool
 
 type Fixture = Awaited<ReturnType<typeof fixture>>
 
+function deploymentFixture(f: Fixture, root = join(f.root, 'trusted')) {
+  const { release } = JSON.parse(readFileSync(f.recordPath, 'utf8'))
+  const uat = 'evidence/uat-records.json'
+  put(root, uat, json([release]))
+  put(root, 'evidence/resolved-images.json', json({}))
+  put(root, 'evidence/prod-records.json', json([]))
+  for (const file of readdirSync(join(root, 'evidence'))) chmodSync(join(root, 'evidence', file), 0o444)
+  chmodSync(join(root, 'evidence'), 0o555)
+  chmodSync(root, 0o555)
+  readOnlyEvidence.push(root)
+  return { release, root, env: { ...process.env, VDC_JENKINS_EVIDENCE_ROOT: root,
+    VDC_JENKINS_EVIDENCE_PROTECTION: 'kernel-read-only-mount' } }
+}
+
+function deploymentPreview(f: Fixture, evidence: ReturnType<typeof deploymentFixture>, out: string, page = 'first') {
+  return spawnSync(process.execPath, [launcher, 'shared-docs', 'promote-guides',
+    '--mode', 'preview', '--repo', f.upstream, '--dev', f.dev,
+    '--uat-build', evidence.release.jenkinsBuildIdentity, '--page', page, '--out', out],
+  { cwd: f.master, encoding: 'utf8', env: evidence.env })
+}
+
 function cli(f: Fixture, args: string[], nodeArgs: string[] = []) {
   return spawnSync(process.execPath, [...nodeArgs, launcher, 'shared-docs', 'promote-guides',
     '--repo', f.upstream, '--dev', f.dev, '--uat-record', f.recordPath, ...args], { cwd: f.master, encoding: 'utf8' })
@@ -249,6 +275,453 @@ function prepare(f: Fixture, selection: string, name = 'prepare', nodeArgs: stri
   const patch = join(out, 'promotion.patch')
   return { out, command, report, patch }
 }
+
+const jenkinsOrigin = 'https://jenkins.example.invalid'
+const jenkinsJob = 'documentation/release-fixture'
+const jenkinsNumber = '150'
+const jenkinsBuildUrl = `${jenkinsOrigin}/job/documentation/job/release-fixture/${jenkinsNumber}/`
+const jenkinsDigest = `sha256:${'1'.repeat(64)}`
+const jenkinsCredentials = { user: 'test-reader', token: 'fake-read-token' }
+
+function jenkinsResponses(deployed: string) {
+  return {
+    metadata: {
+      number: Number(jenkinsNumber), building: false, result: 'SUCCESS', url: jenkinsBuildUrl,
+      artifacts: [{ fileName: 'output.json', relativePath: 'output.json' }],
+    },
+    stages: { id: jenkinsNumber, name: `#${jenkinsNumber}`, status: 'SUCCESS', stages: [
+      { id: '131', name: 'uat-en', status: 'SUCCESS', _links: { self: { href: new URL('execution/node/131/wfapi/describe', jenkinsBuildUrl).pathname } } },
+      { id: '132', name: 'uat-cn', status: 'SUCCESS' },
+      { id: '133', name: 'prod-en', status: 'SUCCESS' },
+    ] },
+    archive: {
+      status: 'SUCCESS', job_name: jenkinsJob, build_number: jenkinsNumber, build_url: jenkinsBuildUrl,
+      jenkins_build_id: `jenkins-documentation-release-fixture-${jenkinsNumber}`, zdoc_sha: deployed,
+      build_from_branch: 'true', release_source: `branch:dev@${deployed.slice(0, 9)}`, image_tag: 'fixture-150',
+      targets: { environments: ['uat'], sites: ['oversea', 'cn'] }, images: { oversea: {
+        selected: true, source_image: 'registry.example.invalid/site-en:fixture-150', source_digest: jenkinsDigest, revision: deployed,
+        deployments: {
+          uat: { selected: true, deployment_image: 'registry.example.invalid/uat-en:fixture-150', deployment_digest: jenkinsDigest },
+          prod: { selected: false, deployment_image: null, deployment_digest: null as string | null },
+        },
+      } },
+    },
+  }
+}
+
+type JenkinsResponses = ReturnType<typeof jenkinsResponses>
+type JenkinsReply = {
+  body?: string; status?: number; headers?: Record<string, string>; size?: number; stall?: boolean; close?: boolean; upgrade?: boolean;
+  moveRef?: { repo: string; commit: string };
+}
+
+function jenkinsReplies(data: JenkinsResponses): JenkinsReply[] {
+  return [data.metadata, data.stages, data.archive].map(body => ({ body: json(body) }))
+}
+
+function jenkinsCli(f: Fixture, name: string, replies: JenkinsReply[], options: {
+  number?: string; args?: string[]; env?: NodeJS.ProcessEnv; traceGit?: boolean; mode?: 'preview' | 'prepare'; nodeTlsDebug?: string;
+} = {}) {
+  const preload = join(f.root, options.nodeTlsDebug ? 'block-jenkins-tls.cjs' : 'fake-jenkins-https.cjs')
+  const out = join(f.root, name)
+  const log = join(f.root, `${name}-requests.log`)
+  const gitLog = join(f.root, `${name}-git.log`)
+  if (options.nodeTlsDebug) writeFileSync(preload, `
+require('node:tls').connect = () => {
+  process.stderr.write('Offline Jenkins TLS connection intercepted\\n')
+  throw new Error('Offline Jenkins TLS connection intercepted')
+}
+`)
+  else writeFileSync(preload, `
+const { EventEmitter } = require('node:events')
+const { Readable } = require('node:stream')
+const { appendFileSync } = require('node:fs')
+const { execFileSync } = require('node:child_process')
+const https = require('node:https')
+const replies = JSON.parse(process.env.WP13_TEST_REPLIES)
+let capturedDeadline
+const realTimeout = AbortSignal.timeout
+AbortSignal.timeout = time => {
+  capturedDeadline = time
+  return realTimeout(replies[0]?.stall ? 40 : time)
+}
+https.request = (url, options, respond) => {
+  const reply = replies.shift()
+  const request = new EventEmitter()
+  request.destroy = () => {}
+  const requestHeaders = {}
+  request.setHeader = (name, value) => { requestHeaders[name] = value }
+  request.end = (...body) => {
+    const { method, headers, agent, rejectUnauthorized, signal, maxHeaderSize } = options
+    appendFileSync(process.env.WP13_TEST_REQUEST_LOG, JSON.stringify({ url: url.href, method, headers, agent,
+      rejectUnauthorized, maxHeaderSize, bounded: signal instanceof AbortSignal, deadline: capturedDeadline, body, requestHeaders }) + '\\n')
+    if (!reply) return setImmediate(() => request.emit('error', new Error('Unexpected HTTPS request')))
+    if (reply.stall) {
+      const keepalive = setTimeout(() => request.emit('error', new Error('Missing abort signal')), 2000)
+      signal.addEventListener('abort', () => {
+        clearTimeout(keepalive)
+        request.emit('error', new Error('Test abort'))
+      }, { once: true })
+      return
+    }
+    setImmediate(() => {
+      if (reply.close) return request.emit('close')
+      if (reply.upgrade) {
+        const socket = { destroy() { request.emit('close') } }
+        return request.emit('upgrade', { statusCode: 101 }, socket, Buffer.alloc(0))
+      }
+      if (reply.moveRef) execFileSync('git', ['-C', reply.moveRef.repo, 'update-ref', 'HEAD', reply.moveRef.commit])
+      const response = Readable.from(reply.size ? [Buffer.alloc(reply.size)] : [Buffer.from(reply.body || '')])
+      response.statusCode = reply.status ?? 200
+      response.headers = reply.headers ?? {}
+      response.complete = true
+      response.once('end', () => setImmediate(() => request.emit('close')))
+      respond(response)
+    })
+  }
+  return request
+}
+require('node:module').syncBuiltinESMExports()
+`)
+  const env: NodeJS.ProcessEnv = { ...process.env, VDC_JENKINS_PREVIEW_ORIGIN: jenkinsOrigin, VDC_JENKINS_PREVIEW_JOB: jenkinsJob,
+    VDC_JENKINS_PREVIEW_USER: jenkinsCredentials.user, VDC_JENKINS_PREVIEW_API_TOKEN: jenkinsCredentials.token,
+    WP13_TEST_REPLIES: JSON.stringify(replies), WP13_TEST_REQUEST_LOG: log, ...options.env,
+    ...(options.nodeTlsDebug ? { NODE_DEBUG: options.nodeTlsDebug } : {}) }
+  if (options.traceGit) {
+    const gitBin = execFileSync('/bin/sh', ['-c', 'command -v git'], { encoding: 'utf8' }).trim()
+    const bin = join(f.root, 'bin')
+    put(bin, 'git', '#!/bin/sh\nif [ "${VDC_JENKINS_PREVIEW_API_TOKEN+present}" ]; then echo present; else echo absent; fi >> "$WP13_TEST_GIT_LOG"\nexec "$WP13_TEST_GIT_BIN" "$@"\n')
+    chmodSync(join(bin, 'git'), 0o755)
+    Object.assign(env, { PATH: `${bin}:${process.env.PATH}`, WP13_TEST_GIT_BIN: gitBin, WP13_TEST_GIT_LOG: gitLog })
+  }
+  const command = spawnSync(process.execPath, ['--require', preload, launcher, 'shared-docs', 'promote-guides',
+    '--mode', options.mode ?? 'preview', '--repo', f.upstream, '--dev', f.dev, '--jenkins-build', options.number ?? jenkinsNumber,
+    '--page', 'first', '--out', out, ...options.args ?? []], { cwd: f.master, encoding: 'utf8', env, timeout: 15_000 })
+  const reportPath = join(out, 'promotion-preview.json')
+  const report = existsSync(reportPath) ? JSON.parse(readFileSync(reportPath, 'utf8')) : undefined
+  const requests = existsSync(log) ? readFileSync(log, 'utf8').trim().split('\n').map(line => JSON.parse(line)) : []
+  return { command, report, reportPath, requests, out, gitLog }
+}
+
+function assertJenkinsPaused(run: ReturnType<typeof jenkinsCli>, reason: RegExp, calls: number) {
+  expect(run.command.status, run.command.stderr || run.command.stdout).toBe(1)
+  expect(run.report).toMatchObject({ observation: 'jenkins-direct', status: 'paused', deployment: { reason: expect.stringMatching(reason) } })
+  expect(run.requests).toHaveLength(calls)
+  expect(run.command.stdout + run.command.stderr + JSON.stringify(run.report)).not.toContain(jenkinsCredentials.token)
+}
+
+it('previews the two Guides views by rereading one numbered Jenkins build with a read-only credential', async () => {
+  const f = await fixture()
+  const evidence = jenkinsResponses(f.deployed)
+  const replies = jenkinsReplies(evidence)
+  git(f.dev, 'commit', '--allow-empty', '-qm', 'Advance dev without republishing the page')
+  const devHead = git(f.dev, 'rev-parse', 'HEAD').trim()
+  const run = jenkinsCli(f, 'jenkins-preview', [...replies, ...replies], { traceGit: true })
+  expect(run.command.status, run.command.stderr || run.command.stdout).toBe(0)
+  expect(run.report).toMatchObject({
+    observation: 'jenkins-direct', status: 'preview', page: 'first', build: jenkinsNumber,
+    baseline: { master: f.currentMaster, dev: devHead, upstream: f.c },
+    deployment: { status: 'build-validated', job: jenkinsJob, number: jenkinsNumber, buildId: evidence.archive.jenkins_build_id,
+      stage: { id: '131', name: 'uat-en', status: 'SUCCESS' }, archivePath: 'output.json', archiveSha256: sha256(replies[2].body!),
+      buildMetadataSha256: sha256(replies[0].body!), stagesSha256: sha256(replies[1].body!),
+      sourceSha: f.deployed, finalDeployedDigest: jenkinsDigest },
+    comparison: { status: 'matched', deployedNext: f.b, views: [{ manual: 'guides' }, { manual: 'guides-byoc' }] },
+    imageLabels: { status: 'pending' }, operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  })
+  expect(run.report.deployment).not.toHaveProperty('jenkinsBuildIdentity')
+  expect(JSON.stringify(run.report) + run.command.stdout + run.command.stderr).not.toContain('registry.example.invalid')
+  expect(run.command.stdout).toContain('Guides Jenkins UAT evidence preview written')
+  for (const view of run.report.comparison.views) expect(view.uatViewSha256).toBe(view.candidateProdViewSha256)
+  expect(readdirSync(run.out)).toEqual(['promotion-preview.json'])
+  expect(git(f.master, 'status', '--porcelain')).toBe('')
+  expect(git(f.dev, 'status', '--porcelain')).toBe('')
+  expect(new Set(readFileSync(run.gitLog, 'utf8').trim().split('\n'))).toEqual(new Set(['absent']))
+  const metadata = new URL('api/json', jenkinsBuildUrl)
+  metadata.searchParams.set('tree', 'number,building,result,url,artifacts[fileName,relativePath]')
+  const urls = [metadata.href, jenkinsBuildUrl + 'wfapi/describe', jenkinsBuildUrl + 'artifact/output.json']
+  expect(run.requests.map(request => request.url)).toEqual([...urls, ...urls])
+  for (const request of run.requests) expect(request).toMatchObject({ method: 'GET', body: [], agent: false,
+    rejectUnauthorized: true, bounded: true, deadline: 10_000, maxHeaderSize: 16 * 1024,
+    headers: { Accept: 'application/json', 'Accept-Encoding': 'identity' },
+    requestHeaders: { Authorization: 'Basic ' + Buffer.from(`${jenkinsCredentials.user}:${jenkinsCredentials.token}`).toString('base64') },
+  })
+  for (const request of run.requests) expect(request.headers).not.toHaveProperty('Authorization')
+  const out = join(f.root, 'jenkins-prepare')
+  // A nonexistent replay record proves prepare rejects the Jenkins report before loading replay evidence.
+  rmSync(f.recordPath)
+  const prepare = cli(f, ['--mode', 'prepare', '--preview', run.reportPath, '--pages', 'first', '--out', out])
+  expect(prepare.status, prepare.stderr || prepare.stdout).toBe(1)
+  expect(prepare.stdout).toContain('Prepare requires a replay preview')
+  expect(readdirSync(out)).toEqual(['promotion-result.json'])
+})
+
+it('pauses an otherwise verified historical Jenkins deployment when its dev publication receipt changed', async () => {
+  const f = await fixture()
+  const replies = jenkinsReplies(jenkinsResponses(f.deployed))
+  const relative = `${manifests}/first.json`
+  const receipt: SharedReceipt = JSON.parse(readFileSync(join(f.dev, relative), 'utf8'))
+  put(f.dev, relative, json({ ...receipt, notes: ['Receipt republished after the deployment'] }))
+  const currentDev = commit(f.dev, 'Republish first Guides receipt after UAT')
+  const run = jenkinsCli(f, 'jenkins-stale', [...replies, ...replies])
+  expect(run.command.status, run.command.stderr || run.command.stdout).toBe(1)
+  expect(run.report).toMatchObject({ observation: 'jenkins-direct', status: 'paused', baseline: { dev: currentDev },
+    deployment: { status: 'build-validated', sourceSha: f.deployed },
+    comparison: { status: 'blocked', reason: 'Published page evidence changed after UAT' } })
+  expect(run.requests).toHaveLength(6)
+})
+
+it('rejects failed, ambiguous or cross-target Jenkins evidence before comparison', async () => {
+  const f = await fixture()
+  const cases: [string, (data: JenkinsResponses) => void, RegExp, number][] = [
+    ['building', v => { v.metadata.building = true }, /completed successfully/, 1],
+    ['failed-build', v => { v.metadata.result = 'FAILURE' }, /completed successfully/, 1],
+    ['cross-build-metadata', v => { v.metadata.number++ }, /metadata identity/, 1],
+    ['cross-origin-metadata', v => { v.metadata.url = 'https://untrusted.example.invalid' }, /metadata identity/, 1],
+    ['alternate-artifact', v => { v.metadata.artifacts[0].relativePath = 'elsewhere/output.json' }, /fixed archive path/, 1],
+    ['duplicate-archive', v => { v.metadata.artifacts.push({ fileName: 'output.json', relativePath: 'elsewhere/output.json' }) }, /one output.json/, 1],
+    ['cross-build-stages', v => { v.stages.id = '149' }, /same successful build/, 2],
+    ['failed-uat', v => { v.stages.stages[0].status = 'FAILED' }, /successful uat-en/, 2],
+    ['ambiguous-stage', v => { v.stages.stages.push({ id: '517', name: 'uat-en', status: 'SUCCESS' }) }, /one successful uat-en/, 2],
+    ['ambiguous-id', v => { v.stages.stages[1].id = v.stages.stages[0].id }, /unique stage ID/, 2],
+    ['cross-job-archive', v => { v.archive.job_name = 'ambiguous/release-fixture' }, /output.json identity/, 3],
+    ['numeric-archive-build', v => { Object.assign(v.archive, { build_number: 150 }) }, /output.json identity/, 3],
+    ['cross-build-id', v => { v.archive.jenkins_build_id = `vdc-jenkins/english-uat/${jenkinsNumber}` }, /Jenkins build ID/, 3],
+    ['cross-build-url', v => { v.archive.build_url = jenkinsBuildUrl.replace('/150/', '/149/') }, /output.json identity/, 3],
+    ['prod-only', v => { v.archive.targets.environments = ['prod']; v.archive.images.oversea.deployments.prod.selected = true;
+      v.archive.images.oversea.deployments.prod.deployment_digest = jenkinsDigest }, /select English UAT/, 3],
+    ['cn-only', v => { v.archive.targets.sites = ['cn'] }, /select English UAT/, 3],
+    ['image-not-selected', v => { v.archive.images.oversea.selected = false }, /must select the English image/, 3],
+    ['uat-not-selected', v => { v.archive.images.oversea.deployments.uat.selected = false }, /its UAT deployment/, 3],
+    ['not-a-dev-rebuild', v => { v.archive.release_source = `branch:master@${f.deployed.slice(0, 9)}` }, /successful dev rebuild/, 3],
+    ['short-sha', v => { v.archive.zdoc_sha = f.deployed.slice(0, 9) }, /full zdoc SHA/, 3],
+    ['wrong-revision', v => { v.archive.images.oversea.revision = f.devBaseline }, /image revision/, 3],
+    ['tag-only', v => { v.archive.images.oversea.source_digest = 'fixture-150' }, /same immutable digest/, 3],
+    ['wrong-deploy-digest', v => { v.archive.images.oversea.deployments.uat.deployment_digest = `sha256:${'2'.repeat(64)}` }, /same immutable digest/, 3],
+  ]
+  for (const [name, change, reason, count] of cases) {
+    const data = jenkinsResponses(f.deployed)
+    change(data)
+    const run = jenkinsCli(f, name, jenkinsReplies(data))
+    assertJenkinsPaused(run, reason, count)
+    expect(run.report.comparison.status).toBe('not-run')
+  }
+})
+
+it('pauses when Jenkins facts drift and rechecks Git after the final archive read', async () => {
+  const f = await fixture()
+  const evidence = jenkinsResponses(f.deployed)
+  const replies = jenkinsReplies(evidence)
+  const newMetadata = { ...evidence.metadata, artifacts: [...evidence.metadata.artifacts, { fileName: 'other.txt', relativePath: 'other.txt' }] }
+  const newStages = { ...evidence.stages, stages: [{ ...evidence.stages.stages[0], id: '211' }, ...evidence.stages.stages.slice(1)] }
+  for (const [name, second, reason] of [
+    ['metadata-drift', [{ body: json(newMetadata) }, replies[1], replies[2]], /build metadata changed/],
+    ['stage-drift', [replies[0], { body: json(newStages) }, replies[2]], /stage evidence changed/],
+    ['archive-drift', [replies[0], replies[1], { body: replies[2].body + '\n' }], /output.json changed/],
+  ] as const) {
+    const run = jenkinsCli(f, name, [...replies, ...second])
+    assertJenkinsPaused(run, reason, 6)
+    expect(run.report).toMatchObject({ deployment: { status: 'changed' }, comparison: { status: 'blocked' } })
+  }
+  const refDrift = jenkinsCli(f, 'git-drift', [...replies, replies[0], replies[1],
+    { ...replies[2], moveRef: { repo: f.dev, commit: f.devBaseline } }])
+  expect(refDrift.command.status, refDrift.command.stderr || refDrift.command.stdout).toBe(1)
+  expect(refDrift.report).toMatchObject({ status: 'paused', baseline: { dev: f.deployed },
+    deployment: { status: 'build-validated' }, comparison: { status: 'blocked', reason: 'Pinned repositories changed during UAT preview' } })
+  expect(refDrift.requests).toHaveLength(6)
+})
+
+it('blocks Jenkins transport errors without retrying or falling through to an archive URL', async () => {
+  const f = await fixture()
+  const evidence = jenkinsResponses(f.deployed)
+  const replies = jenkinsReplies(evidence)
+  for (const [name, response, reason] of [
+    ['unauthorized', { status: 401 }, /HTTP 401/],
+    ['forbidden', { status: 403 }, /HTTP 403/],
+    ['missing', { status: 404 }, /HTTP 404/],
+    ['redirected', { status: 302, headers: { location: 'https://untrusted.example.invalid/download' } }, /redirect was rejected/],
+    ['declared-oversize', { headers: { 'content-length': '524289' } }, /byte limit/],
+    ['stream-oversize', { size: 524_289 }, /byte limit/],
+    ['compressed', { headers: { 'content-encoding': 'gzip' } }, /encoding is unsupported/],
+    ['premature-close', { close: true }, /closed before a complete response/],
+    ['unexpected-upgrade', { upgrade: true }, /HTTP upgrade was rejected/],
+    ['deadline', { stall: true }, /timed out/],
+  ] as const) assertJenkinsPaused(jenkinsCli(f, name, [response, ...replies]), reason, 1)
+  const duplicate = { body: replies[2].body!.replace('"status": "SUCCESS"', '"status": "SUCCESS", "status": "SUCCESS"') }
+  assertJenkinsPaused(jenkinsCli(f, 'duplicate-json-key', [replies[0], replies[1], duplicate]), /strict JSON/, 3)
+})
+
+it('keeps Jenkins credentials out of native Node HTTPS diagnostics', async () => {
+  const f = await fixture()
+  const encoded = Buffer.from(`${jenkinsCredentials.user}:${jenkinsCredentials.token}`).toString('base64')
+  for (const [name, nodeTlsDebug] of [['names', 'http,https'], ['wildcard', 'htt*']]) {
+    const run = jenkinsCli(f, `node-debug-${name}`, [], { nodeTlsDebug })
+    assertJenkinsPaused(run, /build metadata read failed/, 0)
+    expect(run.command.stderr).toMatch(/HTTPS \d+: createConnection/)
+    expect(run.command.stderr).toContain('Offline Jenkins TLS connection intercepted')
+    expect(run.command.stderr).not.toContain(encoded)
+  }
+})
+
+it('requires runner configuration and rejects caller-controlled Jenkins selectors', async () => {
+  const f = await fixture()
+  put(f.master, '.env', ['VDC_JENKINS_PREVIEW_ORIGIN=https://untrusted.example.invalid',
+    'VDC_JENKINS_PREVIEW_JOB=untrusted/job', 'VDC_JENKINS_PREVIEW_USER=untrusted',
+    'VDC_JENKINS_PREVIEW_API_TOKEN=untrusted-token'].join('\n'))
+  const noRunnerOrigin = jenkinsCli(f, 'dotenv-origin', [], { env: { VDC_JENKINS_PREVIEW_ORIGIN: undefined }, traceGit: true })
+  assertJenkinsPaused(noRunnerOrigin, /must be an HTTPS origin/, 0)
+  expect(new Set(readFileSync(noRunnerOrigin.gitLog, 'utf8').trim().split('\n'))).toEqual(new Set(['absent']))
+  for (const [name, env, reason] of [
+    ['http', { VDC_JENKINS_PREVIEW_ORIGIN: 'http://jenkins.example.invalid' }, /must be an HTTPS origin/],
+    ['origin-path', { VDC_JENKINS_PREVIEW_ORIGIN: jenkinsOrigin + '/job/some-job' }, /must be an HTTPS origin/],
+    ['origin-userinfo', { VDC_JENKINS_PREVIEW_ORIGIN: 'https://user@jenkins.example.invalid' }, /must be an HTTPS origin/],
+    ['job-traversal', { VDC_JENKINS_PREVIEW_JOB: 'documentation/../other' }, /job full name/],
+    ['missing-token', { VDC_JENKINS_PREVIEW_API_TOKEN: undefined }, /read-only user and API token/],
+  ] as const) assertJenkinsPaused(jenkinsCli(f, name, [], { env }), reason, 0)
+
+  const prepareMode = jenkinsCli(f, 'direct-prepare-mode', [], { mode: 'prepare' })
+  expect(prepareMode.command.status).toBe(2)
+  expect(prepareMode.command.stdout).toMatch(/--jenkins-build is preview only/)
+  expect(prepareMode.requests).toHaveLength(0)
+  expect(existsSync(prepareMode.out)).toBe(false)
+
+  for (const [name, number, args, reason] of [
+    ['caller-url', 'https://untrusted.example.invalid/build/150', [], /exact positive build number/],
+    ['caller-build-path', '../150', [], /exact positive build number/],
+    ['zero-build', '0', [], /exact positive build number/],
+    ['leading-zero-build', '0150', [], /exact positive build number/],
+    ['caller-origin', jenkinsNumber, ['--jenkins-origin', jenkinsOrigin], /unknown or repeated option/i],
+    ['caller-job', jenkinsNumber, ['--jenkins-job', jenkinsJob], /unknown or repeated option/i],
+    ['mixed-mount', jenkinsNumber, ['--uat-build', 'vdc-jenkins/english-uat/150'], /mutually exclusive/],
+    ['mixed-replay', jenkinsNumber, ['--uat-record', f.recordPath], /mutually exclusive/],
+    ['prepare-flags', jenkinsNumber, ['--pages', 'first'], /preview only/],
+  ] as [string, string, string[], RegExp][]) {
+    const run = jenkinsCli(f, name, [], { number, args })
+    expect(run.command.status, run.command.stderr || run.command.stdout).toBe(2)
+    expect(run.command.stdout).toMatch(reason)
+    expect(run.requests).toHaveLength(0)
+    expect(existsSync(run.out)).toBe(false)
+  }
+})
+
+it('compares both target views through the mounted-deployment preview CLI', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f)
+  const out = join(f.root, 'preview')
+  const command = deploymentPreview(f, evidence, out)
+  expect(command.status, command.stderr || command.stdout).toBe(0)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({
+    observation: 'uat-evidence', status: 'preview', page: 'first',
+    deployment: { status: 'record-validated', record: evidence.release, recordSha256: expect.stringMatching(/^[0-9a-f]{64}$/) },
+    comparison: { status: 'matched', deployedNext: f.b, views: [{ manual: 'guides' }, { manual: 'guides-byoc' }] },
+    imageLabels: { status: 'pending' }, operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  })
+  for (const view of report.comparison.views) expect(view.uatViewSha256).toBe(view.candidateProdViewSha256)
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+  const nested = join(evidence.root, '..output')
+  const invalid = deploymentPreview(f, evidence, nested)
+  expect(invalid.status).toBe(2)
+  expect(invalid.stdout).toContain('overlaps input data')
+  expect(existsSync(nested)).toBe(false)
+  expect(git(f.master, 'status', '--porcelain')).toBe('')
+  expect(git(f.dev, 'status', '--porcelain')).toBe('')
+  const replay = prepare(f, 'first')
+  expect(replay.command.status).toBe(1)
+  expect(existsSync(replay.patch)).toBe(false)
+})
+
+it('holds a deployment preview for a page whose next pin advanced after deployment', async () => {
+  const f = await fixture()
+  const out = join(f.root, 'stale')
+  const command = deploymentPreview(f, deploymentFixture(f), out, 'third')
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ observation: 'uat-evidence', status: 'paused', page: 'third',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/locked next changed/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('holds a deployment preview when BYOC evidence is missing', async () => {
+  const f = await fixture({ omittedTarget: true })
+  const out = join(f.root, 'missing-target')
+  const command = deploymentPreview(f, deploymentFixture(f), out)
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ observation: 'uat-evidence', status: 'paused',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/cover every configured/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('keeps repositories and output paths separate from the mounted deployment evidence', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f, join(f.master, 'trusted'))
+  const out = join(f.root, 'overlapping-root')
+  expect(deploymentPreview(f, evidence, out).status).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused', deployment: { status: 'unavailable', reason: expect.stringMatching(/must not overlap/i) } })
+  expect(readdirSync(join(evidence.root, 'evidence')).sort()).toEqual(['prod-records.json', 'resolved-images.json', 'uat-records.json'])
+})
+
+it('protects the whole Git worktree when the request names a subdirectory', async () => {
+  const f = await fixture()
+  const evidence = deploymentFixture(f, join(f.dev, 'trusted'))
+  const devSubdirectory = { ...f, dev: join(f.dev, 'content') }
+
+  const insideWorktree = join(f.dev, 'preview')
+  const outputOverlap = deploymentPreview(devSubdirectory, evidence, insideWorktree)
+  expect(outputOverlap.status).toBe(2)
+  expect(outputOverlap.stdout).toContain('overlaps input data')
+  expect(existsSync(insideWorktree)).toBe(false)
+
+  const outsideWorktree = join(f.root, 'preview')
+  const evidenceOverlap = deploymentPreview(devSubdirectory, evidence, outsideWorktree)
+  expect(evidenceOverlap.status).toBe(1)
+  const report = JSON.parse(readFileSync(join(outsideWorktree, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused', deployment: { status: 'unavailable', reason: expect.stringMatching(/must not overlap/i) } })
+})
+
+it('holds a deployment preview before using a local Git history overlay', async () => {
+  const f = await fixture()
+  put(f.dev, '.git/info/grafts', '')
+  const out = join(f.root, 'grafted')
+  const command = deploymentPreview(f, deploymentFixture(f), out)
+  expect(command.status, command.stderr || command.stdout).toBe(1)
+  const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+  expect(report).toMatchObject({ status: 'paused',
+    deployment: { status: 'record-validated' }, comparison: { status: 'blocked', reason: expect.stringMatching(/Git grafts/i) } })
+  expect(readdirSync(out)).toEqual(['promotion-preview.json'])
+})
+
+it('protects a worktree with a trailing space in its canonical path', async () => {
+  const f = await fixture()
+  const dev = f.dev + ' '
+  renameSync(f.dev, dev)
+  mkdirSync(f.dev)
+  const evidence = deploymentFixture(f)
+  const out = join(dev, 'preview')
+  const command = deploymentPreview({ ...f, dev: join(dev, 'content') }, evidence, out)
+  expect(command.status).toBe(2)
+  expect(command.stdout).toContain('overlaps input data')
+  expect(existsSync(out)).toBe(false)
+})
+
+it('checks grafts in spaced Git and common directories even when a lookalike exists', async () => {
+  const f = await fixture()
+  const gitDir = join(f.root, 'metadata ')
+  git(f.dev, 'init', '--separate-git-dir', gitDir)
+  mkdirSync(gitDir.trimEnd())
+  const linked = join(f.root, 'linked')
+  git(f.dev, 'worktree', 'add', '--detach', linked)
+  put(gitDir, 'info/grafts', '')
+  const evidence = deploymentFixture(f)
+  for (const [name, dev] of [['separate', f.dev], ['linked', linked]]) {
+    const out = join(f.root, `${name}-preview`)
+    const command = deploymentPreview({ ...f, dev }, evidence, out)
+    expect(command.status, command.stderr || command.stdout).toBe(1)
+    const report = JSON.parse(readFileSync(join(out, 'promotion-preview.json'), 'utf8'))
+    expect(report).toMatchObject({ status: 'paused', comparison: { status: 'blocked', reason: expect.stringMatching(/Git grafts/i) } })
+  }
+})
 
 it('prepares one selected page and the fixed eligible group as exact patches', async () => {
   const f = await fixture({ secondEligible: true })

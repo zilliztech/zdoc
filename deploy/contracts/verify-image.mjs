@@ -8,6 +8,7 @@ import {pathToFileURL} from 'node:url';
 const SOURCE_SHA = /^[0-9a-f]{40}$/;
 const REGISTRY_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const IMAGE_REFERENCE = /^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$/;
+const ENGLISH_UAT_BUILD = /^vdc-jenkins\/english-uat\/[1-9][0-9]*$/;
 const COMMON_FIELDS = [
   'site',
   'environment',
@@ -393,7 +394,7 @@ async function inspectTrustedEvidenceTree(root) {
 function rootsOverlap(left, right) {
   const relation = path.relative(left, right);
   const reverse = path.relative(right, left);
-  const inside = (value) => value === '' || (!value.startsWith('..') && !path.isAbsolute(value));
+  const inside = (value) => value !== '..' && !value.startsWith(`..${path.sep}`) && !path.isAbsolute(value);
   return inside(relation) || inside(reverse);
 }
 
@@ -446,26 +447,46 @@ function filesystemTrustedEvidenceProvider(root, identities) {
   };
 }
 
-async function cliRoots(options, dependencies, requireTrust) {
-  if (!options.root) fail('--root is required');
-  const requestRoot = await pinRoot(options.root, 'request root');
-  if (!requireTrust) return {requestRoot};
-  const env = dependencies.env ?? process.env;
+async function openTrustedEvidence(requestRoots, env) {
   const evidenceDirectory = env.VDC_JENKINS_EVIDENCE_ROOT;
   if (!evidenceDirectory) {
     fail('VDC_JENKINS_EVIDENCE_ROOT is required for approval verification');
   }
   const evidenceRoot = await pinRoot(evidenceDirectory, 'trusted evidence root');
-  if (rootsOverlap(requestRoot.path, evidenceRoot.path)) {
+  if (requestRoots.some(root => rootsOverlap(root.path, evidenceRoot.path))) {
     fail('request root and trusted evidence root must not overlap');
   }
   if (env.VDC_JENKINS_EVIDENCE_PROTECTION !== 'kernel-read-only-mount') {
     fail('VDC_JENKINS_EVIDENCE_PROTECTION must equal kernel-read-only-mount');
   }
   const identities = await inspectTrustedEvidenceTree(evidenceRoot);
-  return {
-    requestRoot,
-    provider: filesystemTrustedEvidenceProvider(evidenceRoot, identities),
+  return filesystemTrustedEvidenceProvider(evidenceRoot, identities);
+}
+
+async function cliRoots(options, dependencies, requireTrust) {
+  if (!options.root) fail('--root is required');
+  const requestRoot = await pinRoot(options.root, 'request root');
+  if (!requireTrust) return {requestRoot};
+  const provider = await openTrustedEvidence([requestRoot], dependencies.env ?? process.env);
+  return {requestRoot, provider};
+}
+
+export function isEnglishUatBuildIdentity(value) {
+  return typeof value === 'string' && ENGLISH_UAT_BUILD.test(value) && value === value.trim();
+}
+
+/** Opens the release environment's evidence once so later reads check the same pinned file. */
+export async function openEnglishUatEvidence(buildIdentity, requestDirectories) {
+  if (!isEnglishUatBuildIdentity(buildIdentity)) fail('Expected an exact English UAT build identity');
+  const requestRoots = await Promise.all(requestDirectories.map(directory => pinRoot(directory, 'request root')));
+  const provider = await openTrustedEvidence(requestRoots, process.env);
+  return async () => {
+    const records = validateEvidenceRecords(await provider.getAuthenticatedUatRecords(), 'authenticated UAT records');
+    const record = records.find(candidate => candidate.jenkinsBuildIdentity === buildIdentity
+      && candidate.site === 'en' && candidate.environment === 'uat' && candidate.mode === 'rebuild'
+      && candidate.sourceRepository === 'zdoc' && candidate.status === 'succeeded');
+    if (!record) fail('No successful English UAT record matches the selected build');
+    return record;
   };
 }
 
