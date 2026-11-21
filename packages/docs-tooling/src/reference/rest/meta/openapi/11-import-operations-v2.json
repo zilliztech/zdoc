@@ -1948,7 +1948,7 @@
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress Alias",
-        "deprecated": true,
+        "deprecated": false,
         "description": "Alias route of `/v2/vectordb/jobs/import/describe`. Both routes resolve to the same operation.",
         "x-i18n": {
           "zh-CN": {
@@ -2033,6 +2033,51 @@
                       },
                       "ja-JP": {
                         "description": "対象の一括インポートジョブの ID。\n[Create Import Jobs](/reference/restful/create-import-jobs-v2) 操作は通常、ジョブ ID を返します。[List Import Jobs](/reference/restful/list-import-jobs-v2) を呼び出して、特定のクラスターに関連するすべての一括インポートジョブの ID を取得することもできます。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "clusterId": {
+                    "type": "string",
+                    "description": "ID of the cluster the import job runs on. Specify clusterId or both projectId and regionId.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "导入任务所在集群的 ID。请指定 clusterId，或同时指定 projectId 和 regionId。"
+                      },
+                      "ja-JP": {
+                        "description": "インポートジョブが実行されるクラスタの ID。clusterId を指定するか、projectId と regionId の両方を指定します。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "projectId": {
+                    "type": "string",
+                    "description": "ID of the project the cluster belongs to.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所属项目的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスタが属するプロジェクトの ID。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "ID of the region the cluster is in.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群所在地域的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "クラスターが存在するリージョンの ID。"
                       }
                     },
                     "x-added-at": "2.6.x",
