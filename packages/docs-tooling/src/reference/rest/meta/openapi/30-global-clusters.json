@@ -3271,6 +3271,56 @@
                             }
                           },
                           "example": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "globalClusterId": {
+                              "type": "string",
+                              "description": "ID of the global cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "全球集群的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "グローバルクラスタの ID。"
+                                }
+                              }
+                            },
+                            "clusterId": {
+                              "type": "string",
+                              "description": "ID of the deleted secondary cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "被删除的备集群的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "削除されたセカンダリクラスタの ID。"
+                                }
+                              }
+                            },
+                            "prompt": {
+                              "type": "string",
+                              "description": "Prompt message related to the deletion.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "与删除相关的提示信息。"
+                                },
+                                "ja-JP": {
+                                  "description": "削除に関するプロンプトメッセージ。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。型はエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "The outcome of removing the specified cluster from the global cluster.",
