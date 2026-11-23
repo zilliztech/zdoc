@@ -7694,11 +7694,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "09ec114becf169551d8f15a608f8fbbdba62e796",
-      "sourceHash": "7b174f588744c9392eae3045777bc719115d6fb4fad18f0de4894d6b26be665d",
+      "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
+      "sourceHash": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
       "status": "translated",
-      "targetHash": "2621c6e658720a9677a0a731c0b13a9b22fa1d1684abaf3d56322c22d1fa4f50",
+      "targetHash": "725e04f7a3514a5e1e865d7b9b9d28518392aea92b8a545e4e41912652b7e211",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md"
     },
     {

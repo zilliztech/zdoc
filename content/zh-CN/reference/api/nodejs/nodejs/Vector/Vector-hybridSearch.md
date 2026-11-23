@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     用于度量向量之间相似度的度量类型。
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
     用于合并多个子搜索结果的重新排序策略。有关完整的 rerank 参数 Schema，请参见 `search()`。
 
@@ -142,7 +142,7 @@ await milvusClient.hybridSearch({
 
     最终分数中保留的小数位数。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于 BFloat16Vector 和 Float16Vector 等特殊向量数据类型的自定义转换器。
 
@@ -184,7 +184,7 @@ await milvusClient.hybridSearch({
 
 **参数：**
 
-- **data** (*SearchData*) -
+- **data** (*[SearchData](./Vector-SearchData)*) -
 
     **[必需]**
 
@@ -216,7 +216,7 @@ await milvusClient.hybridSearch({
 
     按指定字段对结果进行分组，以确保此子搜索内的多样性。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于 BFloat16Vector 和 Float16Vector 等特殊向量类型的自定义转换器。
 
@@ -249,3 +249,4 @@ const results = await milvusClient.hybridSearch({
 
 console.log(results.results);
 ```
+
