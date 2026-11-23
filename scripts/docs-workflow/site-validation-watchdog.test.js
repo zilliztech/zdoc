@@ -7,10 +7,14 @@ const path = require('node:path')
 const test = require('node:test')
 
 const {
+  COVERAGE_WORKFLOWS,
   MAX_AGE_MS_DEFAULT,
   appendGitHubOutputs,
+  coverageDispatchPlan,
   main,
+  runPullCoveragePass,
   selectStartupFailures,
+  selectUncoveredPulls,
   runSiteValidationWatchdog,
   safeOutputPath,
 } = require('./site-validation-watchdog.js')
@@ -134,7 +138,7 @@ test('appendGitHubOutputs writes counts from a success result', () => {
   const outputFile = path.join(os.tmpdir(), `site-validation-watchdog-outputs-${process.pid}-${Date.now()}`)
   try {
     appendGitHubOutputs({rerun: [1], notRerunnable: [], realFailures: [{id: 2}]}, outputFile)
-    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=1\nnot_rerunnable_count=0\nreal_failure_count=1\n')
+    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=1\nnot_rerunnable_count=0\nreal_failure_count=1\ncoverage_dispatched_count=0\ncoverage_not_dispatched_count=0\n')
   } finally {
     fs.rmSync(outputFile, {force: true})
   }
@@ -144,7 +148,7 @@ test('appendGitHubOutputs emits zero counts for a failure result instead of thro
   const outputFile = path.join(os.tmpdir(), `site-validation-watchdog-outputs-${process.pid}-${Date.now()}`)
   try {
     appendGitHubOutputs({ok: false, reason: 'site validation watchdog failure: HTTP 502'}, outputFile)
-    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\n')
+    assert.equal(fs.readFileSync(outputFile, 'utf8'), 'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\ncoverage_dispatched_count=0\ncoverage_not_dispatched_count=0\n')
   } finally {
     fs.rmSync(outputFile, {force: true})
   }
@@ -179,12 +183,152 @@ test('main keeps the failure reason visible when the GitHub API fails', async ()
     assert.match(written.reason, /HTTP 502/)
     assert.equal(
       fs.readFileSync(githubOutput, 'utf8'),
-      'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\n',
+      'rerun_count=0\nnot_rerunnable_count=0\nreal_failure_count=0\ncoverage_dispatched_count=0\ncoverage_not_dispatched_count=0\n',
     )
   } finally {
     globalThis.fetch = realFetch
     console.error = realConsoleError
     process.exitCode = realExitCode
+    if (realGitHubOutput === undefined) delete process.env.GITHUB_OUTPUT
+    else process.env.GITHUB_OUTPUT = realGitHubOutput
+    fs.rmSync(outputDirectory, {recursive: true, force: true})
+    fs.rmSync(githubOutput, {force: true})
+  }
+})
+
+// --- PR-attached coverage pass (2026-11-23) ---
+
+const SITE = COVERAGE_WORKFLOWS[0]
+const SHARED = COVERAGE_WORKFLOWS[1]
+const HEAD_A = 'a'.repeat(40)
+const BASE_A = 'b'.repeat(40)
+const HEAD_C = 'c'.repeat(40)
+
+const PULLS = [
+  {number: 1414, headRefName: 'rest-upstream-refresh/milvus-data-plane-db1ba1974', headSha: HEAD_A, baseSha: BASE_A, baseRefName: 'master'},
+  {number: 1426, headRefName: 'feat/rest-mirror-required-members', headSha: HEAD_C, baseSha: HEAD_A, baseRefName: 'rest-upstream-refresh/milvus-data-plane-db1ba1974'},
+]
+
+function coverageAdapter({pulls = [], covered = new Map(), dispatchFailures = new Map()} = {}) {
+  const calls = {headRunQueries: [], dispatches: []}
+  return {
+    calls,
+    async listOpenPulls() {
+      return pulls
+    },
+    async hasHeadRuns(workflow, headSha) {
+      calls.headRunQueries.push(`${workflow}@${headSha.slice(0, 7)}`)
+      return covered.get(workflow)?.has(headSha) ?? false
+    },
+    async dispatchValidation(workflow, plan) {
+      calls.dispatches.push({workflow, ...plan})
+      if (dispatchFailures.has(workflow)) throw new Error(dispatchFailures.get(workflow))
+    },
+  }
+}
+
+test('coverageDispatchPlan pins shared-docs-validate to the head branch and site-validation to master', () => {
+  assert.deepEqual(coverageDispatchPlan(PULLS[0], SHARED), {
+    workflow: SHARED,
+    ref: PULLS[0].headRefName,
+    inputs: {pr_number: '1414', source_sha: HEAD_A, base_sha: BASE_A},
+  })
+  assert.deepEqual(coverageDispatchPlan(PULLS[0], SITE), {
+    workflow: SITE,
+    ref: 'master',
+    inputs: {site: 'auto', source_ref: HEAD_A, publish: 'false'},
+  })
+})
+
+test('selectUncoveredPulls lists only workflow/pull pairs without runs', () => {
+  const coverage = new Map([
+    [SITE, new Set([HEAD_A])],
+    [SHARED, new Set()],
+  ])
+  const uncovered = selectUncoveredPulls({pulls: PULLS, coverageByWorkflow: coverage})
+  assert.deepEqual(uncovered.map(entry => [entry.number, entry.workflow]), [
+    [1414, SHARED],
+    [1426, SITE],
+    [1426, SHARED],
+  ])
+})
+
+test('runPullCoveragePass dispatches exactly the uncovered pairs', async () => {
+  const adapter = coverageAdapter({pulls: PULLS, covered: new Map([[SITE, new Set([HEAD_A])]])})
+  const result = await runPullCoveragePass({adapter})
+  assert.equal(result.openPulls, 2)
+  assert.equal(result.uncoveredCount, 3)
+  assert.deepEqual(adapter.calls.dispatches.map(entry => entry.workflow), [SHARED, SITE, SHARED])
+  assert.equal(result.dispatched.length, 3)
+  assert.deepEqual(result.notDispatched, [])
+})
+
+test('runPullCoveragePass records dispatch failures without failing', async () => {
+  const adapter = coverageAdapter({
+    pulls: PULLS.slice(0, 1),
+    dispatchFailures: new Map([[SHARED, 'HTTP 403']]),
+  })
+  const result = await runPullCoveragePass({adapter})
+  assert.deepEqual(result.dispatched.map(entry => entry.workflow), [SITE])
+  assert.deepEqual(result.notDispatched, [{pull: 1414, workflow: SHARED, reason: 'HTTP 403'}])
+})
+
+test('runPullCoveragePass skips dev sync-bot pull requests entirely', async () => {
+  const devBot = {number: 99, headRefName: 'sync/master-to-dev', headSha: 'd'.repeat(40), baseSha: 'e'.repeat(40), baseRefName: 'dev'}
+  const adapter = coverageAdapter({pulls: [...PULLS, devBot]})
+  const result = await runPullCoveragePass({adapter})
+  assert.equal(result.openPulls, 3)
+  assert.equal(result.skippedDevBotPulls, 1)
+  assert.equal(adapter.calls.headRunQueries.some(query => query.includes('d'.repeat(40).slice(0, 7))), false)
+  assert.equal(adapter.calls.dispatches.some(entry => entry.inputs?.pr_number === '99'), false)
+})
+
+test('main merges the coverage pass into a success result and its outputs', async () => {
+  const outputDirectory = path.join(process.cwd(), 'tmp', `site-validation-watchdog-cov-${process.pid}-${Date.now()}`)
+  const githubOutput = path.join(os.tmpdir(), `site-validation-watchdog-cov-outputs-${process.pid}-${Date.now()}`)
+  const realFetch = globalThis.fetch
+  const realGitHubOutput = process.env.GITHUB_OUTPUT
+  const fetchCalls = []
+  globalThis.fetch = async (url, options = {}) => {
+    fetchCalls.push(`${options.method || 'GET'} ${url}`)
+    if (url.includes('/runs?status=completed')) {
+      return {status: 200, ok: true, json: async () => ({workflow_runs: []})}
+    }
+    if (url.includes('/pulls?state=open')) {
+      return {status: 200, ok: true, json: async () => [{
+        number: 1414,
+        head: {ref: 'rest-upstream-refresh/milvus-data-plane-db1ba1974', sha: HEAD_A},
+        base: {ref: 'master', sha: BASE_A},
+      }]}
+    }
+    if (url.includes('/runs?head_sha=')) {
+      return {status: 200, ok: true, json: async () => ({total_count: 0})}
+    }
+    if (url.endsWith('/dispatches')) {
+      return {status: 204, ok: true, json: async () => null}
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+  process.env.GITHUB_OUTPUT = githubOutput
+  try {
+    const result = await main(
+      ['--repository', 'owner/name', '--output', path.relative(process.cwd(), path.join(outputDirectory, 'watchdog.json'))],
+      {GITHUB_TOKEN: 'token'},
+    )
+    assert.equal(result.ok, true)
+    assert.equal(result.coverage.openPulls, 1)
+    assert.equal(result.coverage.dispatched.length, 2)
+    const dispatchCalls = fetchCalls.filter(call => call.startsWith('POST'))
+    assert.equal(dispatchCalls.length, 2)
+    assert.equal(dispatchCalls.some(call => call.includes(`${SHARED}/dispatches`)), true)
+    const written = JSON.parse(fs.readFileSync(path.join(outputDirectory, 'watchdog.json'), 'utf8'))
+    assert.equal(written.coverage.uncoveredCount, 2)
+    assert.match(
+      fs.readFileSync(githubOutput, 'utf8'),
+      /coverage_dispatched_count=2\ncoverage_not_dispatched_count=0\n$/,
+    )
+  } finally {
+    globalThis.fetch = realFetch
     if (realGitHubOutput === undefined) delete process.env.GITHUB_OUTPUT
     else process.env.GITHUB_OUTPUT = realGitHubOutput
     fs.rmSync(outputDirectory, {recursive: true, force: true})
