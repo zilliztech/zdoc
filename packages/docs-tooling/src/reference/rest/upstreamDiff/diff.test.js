@@ -251,6 +251,43 @@ test('operation inventory: upstream-added needs a ledger decision, milvus-only f
     assert.equal(classified.entries.find(entry => entry.category === 'upstream-added').ledgerStatus, 'classified')
 })
 
+test('matched operations outside the source publication target are not pair-diffed', () => {
+    // The zilliz lane must not adjudicate an operation only milvus publishes,
+    // even when the cloud upstream happens to carry the same route: before the
+    // gate the 2026-11-21 cloud refresh (PR #1405) mirrored cloud-only request
+    // fields into the milvus-only get_progress alias route and erased its
+    // hand-authored deprecated flag, on a route no zilliz page renders.
+    const fragment = {openapi: '3.0.1', paths: {'/v2/vectordb/jobs/import/get_progress': {
+        post: {summary: 'Get Import Progress', deprecated: true, 'x-include-target': ['milvus'],
+            requestBody: {content: {'application/json': {schema: {type: 'object', properties: {
+                jobId: {type: 'string'},
+            }}}}},
+            responses: {'200': {description: 'ok'}},
+        }}},
+    }
+    const upstream = {openapi: '3.1.0', paths: {'/v2/vectordb/jobs/import/get_progress': {
+        post: {summary: 'Get Import Progress',
+            requestBody: {content: {'application/json': {schema: {type: 'object', properties: {
+                jobId: {type: 'string'}, clusterId: {type: 'string'}, projectId: {type: 'string'}, regionId: {type: 'string'},
+            }}}}},
+            responses: {'200': {description: 'ok'}},
+        }}},
+    }
+    const fragments = new Map([['11-import-operations-v2.json', fragment]])
+    const zilliz = run({upstream, fragments})
+    assert.deepEqual(zilliz.entries.map(entry => entry.id), [])
+
+    // The milvus lane owns the route and still pairs it: the cloud-only fields
+    // and the deprecation divergence stay visible to the lane that publishes it.
+    const milvus = run({source: {...SOURCE, id: 'milvus-data-plane', publicationTarget: 'milvus'}, upstream, fragments})
+    assert.deepEqual(milvus.entries.map(entry => [entry.category, entry.field, entry.change.kind]), [
+        ['upstream-added-field', 'clusterId', 'field-uncovered'],
+        ['upstream-added-field', 'projectId', 'field-uncovered'],
+        ['upstream-added-field', 'regionId', 'field-uncovered'],
+        ['upstream-modified', undefined, 'deprecated'],
+    ])
+})
+
 test('non-branched bodies report field-level drift directly', () => {
     const fragment = {openapi: '3.0.1', paths: {'/v2/projects': {post: {
         summary: 'Create Project',
