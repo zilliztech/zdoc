@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
-import {mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs'
+import {mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {test} from 'node:test'
@@ -30,7 +30,7 @@ test('preview considers the latest normal Fetch on master and holds on unsupport
   }
 })
 
-test('Fetch records the successful manual preparation step only for the exact production Guides dispatch', () => {
+test('Fetch records the successful manual preparation step only for the exact production Guides dispatch', t => {
   const workflow = yaml.load(readFileSync(new URL('../../../.github/workflows/fetch-docs.yml', import.meta.url), 'utf8'))
   const steps = workflow.jobs.prepare.steps
   const marker = steps.findIndex(step => step.name === 'Qualify exact manual Guides dispatch inputs')
@@ -42,12 +42,20 @@ test('Fetch records the successful manual preparation step only for the exact pr
   const end = refs.run.indexOf('\n', refs.run.indexOf('batch_qualification=%s', start))
   assert.ok(start >= 0 && end > start)
   const script = refs.run.slice(start, end)
+  const directory = mkdtempSync(join(tmpdir(), 'guides-fetch-predicate-'))
+  t.after(() => rmSync(directory, {recursive: true, force: true}))
+  const output = join(directory, 'github-output')
   const expected = {GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/master',
     GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_REPOSITORY_ID: '660446555', GITHUB_RUN_ATTEMPT: '1',
     GITHUB_SHA: 'a'.repeat(40), tooling_sha: 'a'.repeat(40), REF_PROTECTED: 'true', SELECTED_GROUP: 'guides',
     TARGET_BRANCH: 'dev', TOOLING_REF: 'master', SOURCE_REF: 'dev', PUBLISH: 'true', RUN_TRANSLATIONS: 'false',
-    MEDIA_UPLOAD_MODE: 'write', FORCE_FULL_FETCH: 'false', GITHUB_OUTPUT: '/dev/stdout'}
-  const record = patch => execFileSync('/bin/bash', ['-eu', '-c', script], {encoding: 'utf8', env: {...expected, ...patch}}).trim()
+    MEDIA_UPLOAD_MODE: 'write', FORCE_FULL_FETCH: 'false', GITHUB_OUTPUT: output, BASH_ENV: '/dev/null'}
+  const record = patch => {
+    writeFileSync(output, '')
+    execFileSync('/bin/bash', ['--noprofile', '--norc', '-eu', '-c', script],
+      {env: {...expected, ...patch}, stdio: ['ignore', 'pipe', 'pipe']})
+    return readFileSync(output, 'utf8').trim()
+  }
   assert.equal(record({}), 'batch_qualification=true')
   for (const patch of [{GITHUB_EVENT_NAME: 'schedule'}, {GITHUB_REF: 'refs/heads/dev'}, {GITHUB_REPOSITORY_ID: '99'},
     {GITHUB_REPOSITORY: 'wrong/zdoc'}, {GITHUB_RUN_ATTEMPT: '2'}, {tooling_sha: 'b'.repeat(40)}, {REF_PROTECTED: 'false'},
