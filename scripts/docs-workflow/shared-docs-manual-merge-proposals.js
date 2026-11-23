@@ -13,11 +13,10 @@ const path = require('node:path')
 
 const REPOSITORY_ROOT = path.resolve(__dirname, '..', '..')
 const { loadTypeScript } = require(path.join(REPOSITORY_ROOT, 'scripts', 'lib', 'load-typescript'))
-const { parseManualConfig } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-tooling', 'src', 'shared-docs', 'core', 'manual-config.ts'))
 const { DOC_HEADING_TAGS } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-ui', 'src', 'shared', 'utils', 'docHeadingTags.ts'))
 const { groupManuals } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-tooling', 'src', 'shared-docs', 'adapters', 'group-context.ts'))
 const { attachProposals, parseManualLedger } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-tooling', 'src', 'shared-docs', 'core', 'ledger.ts'))
-const { validateMetadataDraft } = require('./shared-docs-manual-decide')
+const { validateMetadataDraft, parseGroupManual } = require('./shared-docs-manual-decide')
 
 function usage() {
     return 'Usage: node scripts/docs-workflow/shared-docs-manual-merge-proposals.js --ledger <candidate-ledger.json> --proposals <proposals.jsonl> --shared-docs <dir> --out <ledger.json>'
@@ -34,11 +33,10 @@ async function mergeProposals({ ledgerPath, proposalsPath, sharedDocsPath, outPa
     if ('errors' in existing) fail(`candidate ledger is malformed: ${existing.errors.map(error => error.message).join('; ')}`)
     const manualText = fs.readFileSync(path.join(sharedDocsPath, 'manual.yaml'), 'utf8')
     const group = path.basename(path.resolve(sharedDocsPath))
-    const laneManual = parseManualConfig(manualText, { manuals: groupManuals(group), betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') })
-    if ('errors' in laneManual) fail(`group manual.yaml does not parse: ${laneManual.errors.map(error => error.message).join('; ')}`)
-    const manual = laneManual.config.publish.manual
+    const laneManual = parseGroupManual(manualText, sharedDocsPath, groupManuals(group))
+    const manual = laneManual.publish.manual
     const context = { manuals: [manual], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
-    const sourceDir = laneManual.config.source.dir
+    const sourceDir = laneManual.source.dir
 
     const ACTIONS = ['adopt', 'exclude', 'defer']
     const proposals = fs.readFileSync(proposalsPath, 'utf8').split('\n').filter(lineText => lineText.trim()).map(lineText => {

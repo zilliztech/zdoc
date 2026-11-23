@@ -17,6 +17,8 @@ const path = require('node:path')
 const { decideManualAdditions, validateMetadataDraft } = require('./shared-docs-manual-decide')
 const { mergeProposals } = require('./shared-docs-manual-merge-proposals')
 
+// The production node group carries milvus_values, so every whole-manual parse in these
+// stages has to resolve them against the group's Variables.json like the engine does.
 const MANUAL = `schema_version: 1
 source:
   dir: API_Reference/node
@@ -28,17 +30,22 @@ metadata:
     description: Creates a collection.
     keywords:
       - Vector retrieval
+milvus_values:
+  example_endpoint: localhost:19530
 `
+
+const VARIABLES = JSON.stringify({ example_endpoint: 'YOUR_CLUSTER_ENDPOINT' })
 
 async function temp(prefix) {
     const root = await mkdtemp(path.join(os.tmpdir(), prefix))
     return { root, cleanup: () => rm(root, { recursive: true, force: true }) }
 }
 
-async function writeFixture(root, { pending = ['Extras/pointer.md'], blocked = false, upToDate = false } = {}) {
+async function writeFixture(root, { pending = ['Extras/pointer.md'], blocked = false, upToDate = false, variables = VARIABLES } = {}) {
     const sharedDocs = path.join(root, 'shared-docs', 'node')
     await mkdir(sharedDocs, { recursive: true })
     await writeFile(path.join(sharedDocs, 'manual.yaml'), MANUAL)
+    await writeFile(path.join(sharedDocs, 'Variables.json'), variables)
     const report = {
         schema_version: 1, kind: 'shared-manual-update', group: 'node', manual: 'node', tracking: 'master',
         from: '1'.repeat(40), to: '2'.repeat(40), added: pending, addedPending: pending,
@@ -114,6 +121,19 @@ test('degrades after exhausted gateway failures instead of failing the run', asy
     } finally { await cleanup() }
 })
 
+test('still fails closed when milvus_values names a key Variables.json does not define', async() => {
+    const { root, cleanup } = await temp('decide-missing-variable-')
+    try {
+        const fixture = await writeFixture(root, { variables: '{}' })
+        delete process.env.DECIDE_TEST_ABSENT_KEY
+        await assert.rejects(decideManualAdditions({
+            laneReportPath: fixture.laneReportPath, sharedDocsPath: fixture.sharedDocs, repoPath: fixture.repo,
+            outPath: path.join(root, 'proposals.jsonl'), reportPath: path.join(root, 'decide-report.json'),
+            baseUrl: 'https://gateway.example/v1', apiKeyEnv: 'DECIDE_TEST_ABSENT_KEY', model: 'test-model' }),
+            /group manual\.yaml does not parse: .*Variables\.json must define a nonempty string value for example_endpoint/)
+    } finally { await cleanup() }
+})
+
 test('accepts valid proposals and rejects invented files, unknown actions, and undrafted adopts', async() => {
     const { root, cleanup } = await temp('decide-accept-')
     try {
@@ -170,6 +190,7 @@ test('mergeProposals fills deferred proposals only and skips invalid lines', asy
         const sharedDocs = path.join(root, 'shared-docs', 'node')
         await mkdir(sharedDocs, { recursive: true })
         await writeFile(path.join(sharedDocs, 'manual.yaml'), MANUAL)
+        await writeFile(path.join(sharedDocs, 'Variables.json'), VARIABLES)
         const entry = { file: 'Extras/pointer.md', first_seen_pin: '2'.repeat(40), first_seen_at: '2026-11-19',
             classification: 'deferred', reason: 'pending', owner: 'shared-docs-manual-lane', decided_at: '2026-11-19' }
         const adopted = { ...entry, file: 'Client/session.md', classification: 'adopted' }

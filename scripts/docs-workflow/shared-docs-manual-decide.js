@@ -19,6 +19,7 @@ const { chatCompletionsUrl, parseModelContent, parseArgs } = require('../rest-up
 const REPOSITORY_ROOT = path.resolve(__dirname, '..', '..')
 const { loadTypeScript } = require(path.join(REPOSITORY_ROOT, 'scripts', 'lib', 'load-typescript'))
 const { parseManualConfig, PAGE_METADATA_FIELDS } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-tooling', 'src', 'shared-docs', 'core', 'manual-config.ts'))
+const { parseVariables } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-tooling', 'src', 'shared-docs', 'core', 'variables.ts'))
 const { DOC_HEADING_TAGS } = loadTypeScript(path.join(REPOSITORY_ROOT, 'packages', 'docs-ui', 'src', 'shared', 'utils', 'docHeadingTags.ts'))
 
 const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000
@@ -66,6 +67,21 @@ function validateMetadataDraft(file, draft, context, sourceDir, manual) {
     const parsed = parseManualConfig(JSON.stringify(config), context)
     if ('errors' in parsed) return parsed.errors.map(error => `${error.code}: ${error.message}`).join('; ')
     return undefined
+}
+
+// Whole-manual parse with the inputs the group owns. milvus_values keys resolve against the
+// group's Variables.json (an optional file), and the parser fails closed on every key when
+// the variables are missing from the context, so no stage parses a manual without them.
+function parseGroupManual(manualText, sharedDocsPath, manuals) {
+    const group = path.basename(path.resolve(sharedDocsPath))
+    let variablesText = '{}'
+    try { variablesText = fs.readFileSync(path.join(sharedDocsPath, 'Variables.json'), 'utf8') }
+    catch (error) { if (error.code !== 'ENOENT') throw error }
+    const variables = parseVariables(variablesText, { file: path.join('shared-docs', group, 'Variables.json') })
+    if ('errors' in variables) fail(`group Variables.json does not parse: ${variables.errors.map(error => error.message).join('; ')}`)
+    const parsed = parseManualConfig(manualText, { manuals, betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC'), variables: variables.variables })
+    if ('errors' in parsed) fail(`group manual.yaml does not parse: ${parsed.errors.map(error => error.message).join('; ')}`)
+    return parsed.config
 }
 
 // Post-validation of one model proposal line. Returns {proposal} or {rejected, reason} —
@@ -141,9 +157,7 @@ async function decideManualAdditions({ laneReportPath, sharedDocsPath, repoPath,
     const manualText = fs.readFileSync(path.join(sharedDocsPath, 'manual.yaml'), 'utf8')
     const betaValues = DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC')
     const context = { manuals: [laneReport.manual], betaValues }
-    const parsedManual = parseManualConfig(manualText, context)
-    if ('errors' in parsedManual) fail(`group manual.yaml does not parse: ${parsedManual.errors.map(error => error.message).join('; ')}`)
-    const sourceDir = parsedManual.config.source.dir
+    const sourceDir = parseGroupManual(manualText, sharedDocsPath, context.manuals).source.dir
 
     const writeReport = summary => {
         fs.mkdirSync(path.dirname(path.resolve(reportPath)), { recursive: true })
@@ -251,4 +265,4 @@ if (require.main === module) {
     })
 }
 
-module.exports = { decideManualAdditions, acceptProposalLine, validateMetadataDraft, decideSystemPrompt }
+module.exports = { decideManualAdditions, acceptProposalLine, validateMetadataDraft, parseGroupManual, decideSystemPrompt }
