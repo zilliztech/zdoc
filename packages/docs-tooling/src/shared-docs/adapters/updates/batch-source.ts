@@ -442,15 +442,22 @@ export class BatchGitStore {
 
 import {mkdir, writeFile, statfs} from 'node:fs/promises'
 import {dirname} from 'node:path'
-import {promisify} from 'node:util'
 import {batchAllocatedTree, checkBatchAllocation, reserveBatchAllocation, type EvidenceStore} from './evidence'
-const batchExec = promisify(execFile)
-async function exportRead(repository: string, args: string[], maximum = 32 * 1024 * 1024) {
+const exportBlobLimit = 32 * 1024 * 1024
+const exportBatchBytes = 4 * 1024 * 1024
+async function exportRead(repository: string, args: string[], maximum = exportBlobLimit, input?: string): Promise<Buffer> {
   const lifetime = currentBatchLifetime()
-  const result = await batchExec('git', ['--no-replace-objects', '-C', repository, ...args], {
-    env: {PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_ALLOW_PROTOCOL: '', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0'},
-    timeout: Math.min(30_000, lifetime?.check() ?? 30_000), signal: lifetime?.signal, encoding: 'buffer', maxBuffer: maximum})
-  return result.stdout
+  const timeout = Math.min(30_000, lifetime?.check() ?? 30_000)
+  return new Promise((resolve, reject) => {
+    const child = execFile('git', ['--no-replace-objects', '-C', repository, ...args], {
+      env: {PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_ALLOW_PROTOCOL: '', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0'},
+      timeout, signal: lifetime?.signal, encoding: 'buffer', maxBuffer: maximum}, (error, stdout) => {
+      if (error) reject(error)
+      else resolve(stdout)
+    })
+    child.stdin?.once('error', reject)
+    child.stdin?.end(input)
+  })
 }
 export async function measureBatchExport(repository: string, commit: string, roots: string[]) {
   if (!GitShaSchema.safeParse(commit).success) stop('BATCH_EXPORT_INVALID')
@@ -459,7 +466,7 @@ export async function measureBatchExport(repository: string, commit: string, roo
     const match = /^(100644|100755) blob ([a-f0-9]{40}) +([0-9]+)\t([^\0]+)$/.exec(line)
     if (!match || !RepoPathSchema.safeParse(match[4]).success) stop('BATCH_EXPORT_INVALID')
     const bytes = Number(match[3])
-    if (!Number.isSafeInteger(bytes) || bytes > 32 * 1024 * 1024) stop('BATCH_EXPORT_BLOB_LIMIT')
+    if (!Number.isSafeInteger(bytes) || bytes > exportBlobLimit) stop('BATCH_EXPORT_BLOB_LIMIT')
     return {oid: match[2], bytes, path: match[4]}
   })
   if (!entries.length || entries.length > 20_000) stop('BATCH_EXPORT_ENTRY_LIMIT')
@@ -519,12 +526,34 @@ export async function exportBatchTree(repository: string, commit: string, roots:
     checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: await batchAllocatedTree(ownedRoot)}, bytes, entries)
   }
   await reserve(measured.bytes, measured.count)
-  for (const entry of measured.entries) {
-    const raw = await exportRead(repository, ['cat-file', 'blob', entry.oid])
-    if (raw.length !== entry.bytes || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) stop('BATCH_EXPORT_BINDING_INVALID')
-    await reserve(raw.length, entry.path.split('/').length)
-    await mkdir(dirname(join(destination, entry.path)), {recursive: true, mode: 0o700})
-    await writeFile(join(destination, entry.path), raw, {flag: 'wx', mode: 0o600})
+  // Amortize process startup without retaining the entire export in memory.
+  // A single large blob keeps the original per-blob limit, plus its exact frame.
+  for (let offset = 0; offset < measured.entries.length;) {
+    const frames = []
+    let batchBytes = 0
+    while (offset < measured.entries.length && frames.length < 256) {
+      const entry = measured.entries[offset]
+      const header = Buffer.from(`${entry.oid} blob ${entry.bytes}\n`, 'ascii')
+      const frameBytes = header.length + entry.bytes + 1
+      if (frames.length && batchBytes + frameBytes > exportBatchBytes) break
+      frames.push({entry, header})
+      batchBytes += frameBytes
+      offset++
+    }
+    const raw = await exportRead(repository, ['cat-file', '--batch'], batchBytes,
+      frames.map(({entry}) => entry.oid).join('\n') + '\n')
+    if (raw.length !== batchBytes) stop('BATCH_EXPORT_BINDING_INVALID')
+    let at = 0
+    for (const {entry, header} of frames) {
+      const start = at + header.length, end = start + entry.bytes
+      const bytes = raw.subarray(start, end)
+      if (!raw.subarray(at, start).equals(header) || raw[end] !== 10 ||
+          createHash('sha1').update(`blob ${entry.bytes}\0`).update(bytes).digest('hex') !== entry.oid) stop('BATCH_EXPORT_BINDING_INVALID')
+      await reserve(bytes.length, entry.path.split('/').length)
+      await mkdir(dirname(join(destination, entry.path)), {recursive: true, mode: 0o700})
+      await writeFile(join(destination, entry.path), bytes, {flag: 'wx', mode: 0o600})
+      at = end + 1
+    }
   }
   return measured.entries.length
 }
