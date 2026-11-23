@@ -12,6 +12,7 @@ const lockFile = `${pageDirectory}lock.yaml`
 const track = 'v3.0.x'
 // The shared-update remote runner's deterministic branch for this one Guides unit.
 export const targetRef = 'shared-update/71913de68c56a40339af97e9d3820997140b49a9178025a5061d8603df6c58b3'
+const pilotScope = {directories:[pageDirectory], locks:new Set([lockFile]), targetRef}
 const sha = value => typeof value === 'string' && /^[0-9a-f]{40}$/.test(value) && !/^0+$/.test(value)
 const owned = ref => ref.startsWith('shared-update/') || ref.startsWith('shared-update-staging/')
 const safeName = value => typeof value === 'string' && value.length > 0 && value.length <= 1024 && !/[\x00-\x1f\x7f]/.test(value)
@@ -99,7 +100,7 @@ async function openPulls(read) {
   return rows
 }
 
-async function checkPull(read, summary, ownedPull) {
+async function checkPull(read, summary, ownedPull, scope) {
   const path = `/pulls/${summary.number}`
   const pr = await read(zdoc, path)
   check(pullKey(pr) === pullKey(summary), 'OPEN_PR_CHANGED')
@@ -112,7 +113,7 @@ async function checkPull(read, summary, ownedPull) {
     check(safeName(file.filename) && safeName(file.status) &&
       (file.previous_filename === undefined || safeName(file.previous_filename)) &&
       (file.status !== 'renamed' || safeName(file.previous_filename)), 'INVALID_PR_FILE')
-    if ([file.filename, file.previous_filename].some(path => path?.startsWith(pageDirectory))) overlap = true
+    if ([file.filename, file.previous_filename].some(path => scope.directories.some(directory => path?.startsWith(directory)))) overlap = true
   }
   const after = await read(zdoc, path)
   check(pullKey(after) === pullKey(pr) && after.changed_files === pr.changed_files, 'OPEN_PR_CHANGED')
@@ -122,8 +123,8 @@ async function checkPull(read, summary, ownedPull) {
         snapshot.base.ref === 'master' && snapshot.head.repo.id === zdocId && snapshot.head.repo.full_name === zdoc &&
         snapshot.head.ref === ownedPull.ref && snapshot.head.sha === ownedPull.sha, 'WRITER_OWNED_PR_CHANGED')
     }
-    check(files.length === 1 && files[0].filename === lockFile && files[0].status === 'modified' &&
-      files[0].previous_filename === undefined, 'WRITER_OWNED_PR_FILES_CHANGED')
+    check(files.length === scope.locks.size && files.every(file => scope.locks.has(file.filename) &&
+      file.status === 'modified' && file.previous_filename === undefined), 'WRITER_OWNED_PR_FILES_CHANGED')
     return false
   }
   return overlap
@@ -142,9 +143,10 @@ async function ownedBranches(read) {
   return refs
 }
 
-async function overlapReasons(read, ownedHead, ownedStage, ownedPull) {
+async function overlapReasons(read, ownedHead, ownedStage, ownedPull, scope) {
   const expected = new Map()
-  for (const [exception, matches] of [[ownedHead, ref => ref === targetRef], [ownedStage, ref => /^shared-update-staging\/[0-9a-f]{64}$/.test(ref)]]) {
+  for (const [exception, matches] of [[ownedHead, ref => ref === scope.targetRef], [ownedStage,
+    ref => scope.stageRef ? ref === scope.stageRef : /^shared-update-staging\/[0-9a-f]{64}$/.test(ref)]]) {
     if (exception === undefined) continue
     check(matches(exception?.ref) && sha(exception.sha), 'INVALID_OWNED_REF_EXCEPTION')
     expected.set(exception.ref, exception.sha)
@@ -156,7 +158,7 @@ async function overlapReasons(read, ownedHead, ownedStage, ownedPull) {
   }
   const overlaps = []
   for (const pr of pulls) {
-    if (await checkPull(read, pr, ownedPull)) overlaps.push(`OPEN_UPDATE_PR_${pr.number}`)
+    if (await checkPull(read, pr, ownedPull, scope)) overlaps.push(`OPEN_UPDATE_PR_${pr.number}`)
   }
   const refs = await ownedBranches(read)
   for (const [ref, oid] of expected) {
@@ -267,25 +269,58 @@ async function writerHistory(read, runId, runNumber, master) {
   return []
 }
 
-export async function discover({ token, read = githubReader(token), ownedHead, ownedStage, ownedPull,
-  runId = Number(process.env.GITHUB_RUN_ID), runNumber = Number(process.env.GITHUB_RUN_NUMBER) } = {}) {
+async function assertRepositories(read) {
   const [repo, upstream] = await Promise.all([read(zdoc, ''), read(milvus, '')])
   check(repo.id === zdocId && repo.full_name === zdoc && repo.default_branch === 'master' &&
     upstream.id === milvusId && upstream.full_name === milvus, 'REPOSITORY_IDENTITY_MISMATCH')
-  const pins = () => Promise.all([branch(read, zdoc, 'master'), branch(read, zdoc, 'dev'), branch(read, milvus, track)])
-  const [master, dev, sourceHead] = await pins()
+}
+
+function livePins(read) {
+  return Promise.all([branch(read, zdoc, 'master'), branch(read, zdoc, 'dev'), branch(read, milvus, track)])
+}
+
+// Called with the verified handoff's complete group and exact changed subset.
+// No authority to publish is implied by this read-only check.
+export async function inspectBatchWriterScope({ token, read = githubReader(token), expected, pageIds, changedPageIds, target, stage,
+  ownedHead, ownedStage, ownedPull, runId = Number(process.env.GITHUB_RUN_ID), runNumber = Number(process.env.GITHUB_RUN_NUMBER) }) {
+  const validPages = ids => Array.isArray(ids) && ids.length > 0 && ids.length <= 64 && ids.every((id, index) =>
+    typeof id === 'string' && id.length <= 128 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) && (!index || ids[index - 1] < id))
+  check(validPages(pageIds) && validPages(changedPageIds) && changedPageIds.every(id => pageIds.includes(id)) &&
+    typeof target === 'string' && /^shared-update\/[0-9a-f]{64}$/.test(target) && target !== targetRef &&
+    typeof stage === 'string' && /^shared-update-staging\/[0-9a-f]{64}$/.test(stage), 'INVALID_BATCH_WRITER_SCOPE')
+  const directory = id => `shared-docs/guides/pages/${id}/`
+  const scope = {directories:pageIds.map(directory), locks:new Set(changedPageIds.map(id => directory(id) + 'lock.yaml')),
+    targetRef:target, stageRef:stage}
+  const pins = [expected?.master, expected?.dev, expected?.source]
+  check(pins.every(sha), 'INVALID_BATCH_WRITER_PINS')
+  await assertRepositories(read)
+  function requirePins(live) {
+    check(JSON.stringify(pins) === JSON.stringify(live), 'BATCH_WRITER_PINS_CHANGED')
+  }
+  requirePins(await livePins(read))
+  const reasons = await overlapReasons(read, ownedHead, ownedStage, ownedPull, scope)
+  const historyReasons = await writerHistory(read, runId, runNumber, expected.master)
+  reasons.push(...historyReasons)
+  requirePins(await livePins(read))
+  return {status:reasons.length ? 'held' : 'clear', historyVerified:historyReasons.length === 0, reasons}
+}
+
+export async function discover({ token, read = githubReader(token), ownedHead, ownedStage, ownedPull,
+  runId = Number(process.env.GITHUB_RUN_ID), runNumber = Number(process.env.GITHUB_RUN_NUMBER) } = {}) {
+  await assertRepositories(read)
+  const [master, dev, sourceHead] = await livePins(read)
   const [config, lock] = await Promise.all([configFile(read, master, 'shared-docs/guides/source.yaml'), configFile(read, master, lockFile)])
   // This dependency-free fixed-scope gate recognizes only the reviewed config/lock forms.
   check(/^schema_version: 1\nrepository: https:\/\/github\.com\/milvus-io\/milvus-docs\ntrack: v3\.0\.x\n?$/.test(config), 'UNRECOGNIZED_SOURCE_CONFIG')
   const match = /^schema_version: 1\ncurrent: ([a-f0-9]{40})\nnext: ([a-f0-9]{40})\n?$/.exec(lock)
   check(match && sha(match[1]) && sha(match[2]), 'UNRECOGNIZED_PAGE_LOCK')
   const [, current, next] = match
-  const reasons = await overlapReasons(read, ownedHead, ownedStage, ownedPull)
+  const reasons = await overlapReasons(read, ownedHead, ownedStage, ownedPull, pilotScope)
   const historyReasons = await writerHistory(read, runId, runNumber, master)
   reasons.push(...historyReasons)
   await assertAncestor(read, current, next)
   await assertAncestor(read, next, sourceHead)
-  check(JSON.stringify([master, dev, sourceHead]) === JSON.stringify(await pins()), 'DISCOVERY_PINS_CHANGED')
+  check(JSON.stringify([master, dev, sourceHead]) === JSON.stringify(await livePins(read)), 'DISCOVERY_PINS_CHANGED')
   // Even if the page file last changed earlier, its referenced fragments may have changed at the tip.
   return { schemaVersion: 1, page, master, dev, sourceTrack: track, sourceHead, sourceTarget: sourceHead, current, next,
     historyVerified: historyReasons.length === 0, status: reasons.length ? 'held' : next === sourceHead ? 'unchanged' : 'candidate', reasons }

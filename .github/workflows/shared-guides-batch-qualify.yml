@@ -1,0 +1,92 @@
+name: Shared Guides batch qualification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-guides-batch-qualify
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
+      github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      status: ${{ steps.fetch.outputs.status }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - id: fetch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/docs-workflow/shared-guides-update/batch-qualify-workflow.mjs preview
+
+  qualify:
+    needs: preview
+    if: >-
+      needs.preview.outputs.status == 'check' &&
+      github.event_name == 'workflow_dispatch' &&
+      github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
+      github.ref == 'refs/heads/master' && github.run_attempt == 1
+    runs-on: macos-15
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Authenticate the hosted macOS Search configuration
+        env:
+          HOSTED_RUNNER_ENVIRONMENT: ${{ runner.environment }}
+        run: /bin/sh scripts/docs-workflow/shared-guides-update/provision-search.sh
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22.23.4'
+          architecture: arm64
+          package-manager-cache: false
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5
+      - run: pnpm install --frozen-lockfile
+      - id: stage
+        name: Stage complete Git objects for read-only collection
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse --is-shallow-repository)" = false
+          git rev-parse --verify 'refs/remotes/origin/dev^{commit}' >/dev/null
+          directory=$(mktemp -d "$(cd "$RUNNER_TEMP" && pwd -P)/shared-guides-batch.XXXXXXXX")
+          GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_ALLOW_PROTOCOL=https GIT_TERMINAL_PROMPT=0 \
+            git -c http.followRedirects=false clone --quiet --bare --single-branch --no-tags --branch v3.0.x \
+            https://github.com/milvus-io/milvus-docs.git "$directory/source.git"
+          printf 'directory=%s\n' "$directory" >> "$GITHUB_OUTPUT"
+      - name: Collect and qualify the observed batch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BATCH_DIRECTORY: ${{ steps.stage.outputs.directory }}
+        run: node scripts/docs-workflow/shared-guides-update/batch-qualify-workflow.mjs collect "$BATCH_DIRECTORY"
+      - name: Retain the sanitized qualification summary
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shared-guides-batch-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.stage.outputs.directory }}/summary.json
+          if-no-files-found: error
+          retention-days: 30

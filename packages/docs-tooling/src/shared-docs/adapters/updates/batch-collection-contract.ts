@@ -28,8 +28,12 @@ export const BatchPinsSchema = z.strictObject({master: GitShaSchema, dev: GitSha
   trustedTools: GitShaSchema, toolsetSha256: DigestSchema})
 export type BatchPins = z.infer<typeof BatchPinsSchema>
 export const BatchOriginSchema = z.union([z.strictObject({kind: z.literal('observed')}),
+  z.strictObject({kind: z.literal('observed'), purpose: z.literal('isolated-candidate')}),
   z.strictObject({kind: z.literal('replay'), fixtureSha256: DigestSchema, replayClockMs: BatchCountSchema})])
 export type BatchOrigin = z.infer<typeof BatchOriginSchema>
+export function isIsolatedBatchCandidateOrigin(origin: BatchOrigin) {
+  return origin.kind === 'observed' && 'purpose' in origin && origin.purpose === 'isolated-candidate'
+}
 export const BatchBaseSchema = z.strictObject({origin: BatchOriginSchema, session: DigestSchema, pins: BatchPinsSchema})
 export type BatchBase = z.infer<typeof BatchBaseSchema>
 const localPath = text.min(1).max(4096).refine(v => isAbsolute(v) && !/[\x00-\x1f\x7f]/.test(v))
@@ -48,7 +52,10 @@ export const BatchPageMaterialHeaderSchema = z.strictObject({kind: z.literal('gu
   current: GitShaSchema, oldNext: GitShaSchema, rawMaterialRefs: roleRefs, inventoryRefs: roleRefs, historyRef: BatchBlobRefSchema,
   renderedManualRefs: z.array(manualRef).refine(v => ordered(v, r => `${batchRoles.indexOf(r.role)}:${r.manual}:${r.path}`)),
   imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema.optional()})
-  .refine(header => header.base.origin.kind === 'replay' || header.detailRef === undefined, 'Replay-only material detail')
+  .refine(header => header.base.origin.kind === 'replay' || isIsolatedBatchCandidateOrigin(header.base.origin) || header.detailRef === undefined,
+    'Read-only observed material cannot contain candidate detail')
+  .refine(header => !isIsolatedBatchCandidateOrigin(header.base.origin) || header.detailRef !== undefined,
+    'Isolated candidate material requires detail')
 export type BatchPageMaterialHeader = z.infer<typeof BatchPageMaterialHeaderSchema>
 export const BatchMaterialWireSchema = z.strictObject({kind: z.literal('guides-batch-material-wire-v1'),
   material: BatchPageMaterialHeaderSchema, blobs: z.array(z.strictObject({ref: BatchBlobRefSchema, base64: text}))
