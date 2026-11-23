@@ -253,13 +253,14 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
 }
 
 import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'
-import {latestGuidesRun, scheduledFetchRunPath, stepWindow, successfulJob} from './guides-run-metadata'
+import {batchSelectionArtifact, latestGuidesRun, sameBatchFetchRun, selectBatchFetchRun, stepWindow, successfulJob} from './guides-run-metadata'
 import {coordinatorBodyReader} from './guides-lifecycle-transport'
 import {replayMetadataReader, type ReplayMetadataRow} from './guides-metadata-broker'
 /** A separate fixed GET sequence, after Python has finished reading. No broker
  * channels, archive grant or caller-supplied positive classification is reused. */
 export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; sourceJobId: number; run: {id: number; attempt: 1; head: string};
   sourceArtifact: {id: number; bytes: number; sha256: string}; publicationArtifact: {id: number; bytes: number; sha256: string};
+  selectionArtifact?: {id: number; bytes: number; sha256: string};
   pins: {master: string; dev: string; source: string}}, now: number, replay?: readonly ReplayMetadataRow[], signal?: AbortSignal) {
   const raw = replay === undefined ? undefined : replayMetadataReader(replay)
   const read = coordinatorBodyReader(process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN ?? '', signal, {includeMilvusPins: true})
@@ -272,23 +273,19 @@ export async function verifyBatchFinalFreshness(expected: {scanStartMs: number; 
     if (total > 64 * 1024 * 1024) throw Error('BATCH_FINAL_METADATA_LIMIT')
     signal?.throwIfAborted(); return parseStrictJson(bytes)
   }, async zip() {throw Error('BATCH_FINAL_ARCHIVE_REQUEST_INVALID')}}
-  const select = (value: unknown) => {
-    const rows = object(value).workflow_runs
-    if (!Array.isArray(rows) || rows.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
-    const run = object(rows[0])
-    if (run.id !== expected.run.id || run.run_attempt !== 1 || run.head_sha !== expected.run.head ||
-      run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
-      run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.event !== 'schedule' ||
-      run.status !== 'completed' || run.conclusion !== 'success') throw Error('BATCH_FINAL_RUN_CHANGED')
-    return run
+  const selected = await selectBatchFetchRun(api)
+  if (selected.id !== expected.run.id || selected.head_sha !== expected.run.head) throw Error('BATCH_FINAL_RUN_CHANGED')
+  const facts = await retainedMetadata(api, expected.run.id), {run} = facts
+  if (!sameBatchFetchRun(selected, run)) throw Error('BATCH_FINAL_RUN_CHANGED')
+  const selection = batchSelectionArtifact(run, facts.jobs, facts.artifacts)
+  if (Boolean(selection) !== Boolean(expected.selectionArtifact)) throw Error('BATCH_FINAL_ARTIFACT_CHANGED')
+  function checkArtifact(artifact: Record<string, any>, binding: NonNullable<typeof expected.selectionArtifact>) {
+    if (artifact.id !== binding.id || artifact.size_in_bytes !== binding.bytes || artifact.digest !== 'sha256:' + binding.sha256)
+      throw Error('BATCH_FINAL_ARTIFACT_CHANGED')
   }
-  select(await api.get(scheduledFetchRunPath))
-  const facts = await retainedMetadata(api, expected.run.id), run = select({workflow_runs: [facts.run]})
-  for (const [name, expectedArtifact] of [[`guides-sources-en-${run.id}`, expected.sourceArtifact],
-    [`publication-results-fetch-${run.id}-1`, expected.publicationArtifact]] as const) {
-    const artifact = boundArtifact(facts.artifacts, run, name)
-    if (artifact.id !== expectedArtifact.id || artifact.size_in_bytes !== expectedArtifact.bytes || artifact.digest !== 'sha256:' + expectedArtifact.sha256) throw Error('BATCH_FINAL_ARTIFACT_CHANGED')
-  }
+  checkArtifact(facts.artifact, expected.sourceArtifact)
+  checkArtifact(boundArtifact(facts.artifacts, run, `publication-results-fetch-${run.id}-1`), expected.publicationArtifact)
+  if (selection && expected.selectionArtifact) checkArtifact(selection, expected.selectionArtifact)
   const sourceJob = successfulJob(facts.jobs, 'produce_guides_sources / fetch', run)
   const scan = stepWindow(sourceJob, 'Fetch shared guides sources')
   if (!scan || scan.start !== expected.scanStartMs || sourceJob?.id !== expected.sourceJobId) throw Error('BATCH_FINAL_SCAN_CHANGED')

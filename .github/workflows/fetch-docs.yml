@@ -95,6 +95,7 @@ jobs:
           PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
           RUN_TRANSLATIONS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true' }}
           MEDIA_UPLOAD_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}
+          REF_PROTECTED: ${{ github.ref_protected }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
           SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
           FORCE_FULL_FETCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force_full_fetch == 'true' }}
@@ -140,6 +141,16 @@ jobs:
           fi
           [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]
           git checkout --detach "$master_sha"
+          batch_qualification=false
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$GITHUB_REF" == refs/heads/master &&
+                "$GITHUB_REPOSITORY" == zilliztech/zdoc && "$GITHUB_REPOSITORY_ID" == 660446555 &&
+                "$GITHUB_RUN_ATTEMPT" == 1 && "$REF_PROTECTED" == true && "$tooling_sha" == "$GITHUB_SHA" &&
+                "$SELECTED_GROUP" == guides && "$TARGET_BRANCH" == dev && "$TOOLING_REF" == master &&
+                "$SOURCE_REF" == dev && "$PUBLISH" == true && "$RUN_TRANSLATIONS" == false &&
+                "$MEDIA_UPLOAD_MODE" == write && "$FORCE_FULL_FETCH" == false ]]; then
+            batch_qualification=true
+          fi
+          printf 'batch_qualification=%s\n' "$batch_qualification" >> "$GITHUB_OUTPUT"
           card_parts=("Produce")
           if [[ "$PUBLISH" == true ]]; then card_parts+=("Publish" "Verify"); fi
           [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
@@ -228,6 +239,10 @@ jobs:
           node scripts/docs-workflow/publication-contracts.js validate-selection "$selection_file"
           selection_sha256=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection_file")
           printf 'artifact_name=%s\nselection_sha256=%s\n' "$artifact_name" "$selection_sha256" >> "$GITHUB_OUTPUT"
+      # The attempt jobs API retains this marker alongside the selection upload.
+      - name: Qualify exact manual Guides dispatch inputs
+        if: ${{ steps.refs.outputs.batch_qualification == 'true' }}
+        run: ':'
       - name: Upload immutable Fetch publication selection
         uses: actions/upload-artifact@v6
         with:

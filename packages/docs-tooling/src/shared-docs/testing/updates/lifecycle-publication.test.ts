@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
-import { cp, mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdtemp, mkdir, readFile, realpath, rm, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
@@ -39,6 +39,103 @@ it('builds a complete raw three-page stage with genuinely generated success and 
   raw.finish()
   await writeFile(join(extracted, 'guides-source/payload/tmp/docs-tooling/en/shared-pages/guides/bundle.json'), '{}')
   await expect(shared.validateGuidesStageArtifact(join(extracted, 'guides-source'))).rejects.toThrow(/size|checksum/)
+}, 120000)
+
+it('authenticates exact manual Fetch selection and publication for all Guides pages before accepting the batch', async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), 'manual-guides-fetch-')))
+  onTestFinished(() => rm(root, {recursive: true, force: true}))
+  const f = await rawBatchLifecycleFixture(root, undefined, {manualFetch: true})
+  const {acquireLifecycleStage, producerReasons} = await import('../../adapters/updates/lifecycle')
+  const {retainedMetadata} = await import('../../adapters/updates/github')
+  const metadata = new Map(f.fixture.qualification.map(row => [row.path, JSON.parse(Buffer.from(row.base64, 'base64').toString())]))
+  const buffers = new Map(await Promise.all(Object.values(f.fixture.archives).map(async entry =>
+    [entry.id, await readFile(join(f.root, entry.path))] as const)))
+  const api = {get: async (path: string) => structuredClone(metadata.get(path)),
+    zip: async (id: number) => {const value = buffers.get(id); if (!value) throw Error('Unexpected archive'); return value}}
+  const staging = join(root, 'manual-extraction'); await mkdir(staging)
+  const facts = await retainedMetadata(api, 123)
+  const stage = await acquireLifecycleStage(api, facts, staging, 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh')
+  expect(producerReasons(facts, stage.manifest, stage.snapshot)).toContain('COLLECTION_MODE_UNPROVEN')
+  const selection = f.fixture.archives.selection!
+  const {verifyBatchFinalFreshness} = await import('../../adapters/updates/batch-github')
+  const {acquireBatchRunLease} = await import('../../adapters/updates/guides-lifecycle-transport')
+  const {initializeEvidence, rawSha256} = await import('../../adapters/updates/evidence')
+  const evidence = await initializeEvidence({root: join(root, 'admission'), repositories: [f.tools, f.upstream, f.dev], owner: 'manual-batch-test'})
+  const lease = await acquireBatchRunLease(evidence, f.fixture)
+  expect(lease.selection).toEqual({id: selection.id, bytes: selection.bytes, sha256: selection.sha256})
+  const {source, publication} = lease
+  const freshness = {scanStartMs: Date.parse(facts.jobs[0].steps[0].started_at), sourceJobId: facts.jobs[0].id, run: lease.run,
+    sourceArtifact: source, publicationArtifact: publication, selectionArtifact: lease.selection,
+    pins: {master: f.master, dev: f.sampledDev, source: f.target}}
+  await expect(verifyBatchFinalFreshness(freshness, f.replayClockMs, f.fixture.finalPass)).resolves.toBeUndefined()
+  await expect(verifyBatchFinalFreshness({...freshness, selectionArtifact: {...lease.selection!, sha256: 'f'.repeat(64)}},
+    f.replayClockMs, f.fixture.finalPass)).rejects.toThrow('BATCH_FINAL_ARTIFACT_CHANGED')
+  const [latest, ...remaining] = f.fixture.acquisition
+  const newest = {...facts.run, id: 124, status: 'in_progress', conclusion: null}
+  const body = Buffer.from(JSON.stringify({workflow_runs: [newest]}))
+  const blocked = {...f.fixture, acquisition: [{...latest, bytes: body.length, sha256: rawSha256(body), base64: body.toString('base64')}, ...remaining]}
+  await expect(acquireBatchRunLease(evidence, blocked)).rejects.toThrow('BATCH_FETCH_UNAVAILABLE')
+  const common = await acquireReviewedCommon(api, facts, f.sampledDev, stage)
+  expect(common.selectionArtifact).toEqual({id: selection.id, bytes: selection.bytes, sha256: selection.sha256})
+  for (const page of f.pages) {
+    await expect(readReviewedObservation(api, facts, stage.manifest, stage.snapshot, stage.payload,
+      {page, producerRepo: f.tools, devRepo: f.dev, dev: f.sampledDev}, common)).resolves.toMatchObject({
+      recordId: expect.any(String), outputPaths: [expect.stringContaining('content/en/byoc/'), expect.stringContaining('content/en/guides/')],
+    })
+  }
+
+  const prepare = facts.jobs.find(job => job.name === 'prepare')!, marker = prepare.steps[0]
+  const prove = () => acquireReviewedCommon(api, facts, f.sampledDev, stage)
+  for (const state of ['skipped', 'failure']) {
+    marker.conclusion = state
+    await expect(prove()).rejects.toThrow('BATCH_MANUAL_FETCH_UNPROVEN')
+  }
+  marker.conclusion = 'success'
+  const markerTime = marker.completed_at
+  marker.completed_at = prepare.steps[1].completed_at
+  await expect(prove()).rejects.toThrow('BATCH_MANUAL_FETCH_UNPROVEN')
+  marker.completed_at = markerTime
+  const selectionArtifact = facts.artifacts.find(artifact => artifact.id === selection.id)!
+  const originalArtifact = {...selectionArtifact}
+  selectionArtifact.created_at = '2025-01-01T00:00:00Z'
+  await expect(prove()).rejects.toThrow('BATCH_MANUAL_FETCH_UNPROVEN')
+  Object.assign(selectionArtifact, originalArtifact)
+
+  const originalSelection = buffers.get(selection.id)!
+  buffers.set(selection.id, Buffer.from(originalSelection).fill(0, 0, 1))
+  await expect(prove()).rejects.toThrow('BATCH_SELECTION_ARCHIVE_BINDING_INVALID')
+  buffers.set(selection.id, originalSelection)
+  const zip = (member: string, document: object) => execFileSync('python3', ['-c', `import sys,zipfile,io
+out=io.BytesIO()
+with zipfile.ZipFile(out,'w') as z:z.writestr(sys.argv[1],sys.stdin.buffer.read())
+sys.stdout.buffer.write(out.getvalue())`, member], {input: JSON.stringify(document)})
+  const replaceArchive = (artifact: typeof selectionArtifact, member: string, document: object) => {
+    const archive = zip(member, document)
+    Object.assign(artifact, {size_in_bytes: archive.length, digest: 'sha256:' + hash(archive)})
+    buffers.set(artifact.id, archive)
+  }
+  const {buildFetchPublicationSelection} = createRequire(import.meta.url)('../../../../../../scripts/docs-workflow/fetch-publication-selection.js')
+  const base = {repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, toolingSha: f.master, targetBranch: 'dev',
+    initialTargetSha: f.baseline, sourceBaselineSha: f.baseline, selectedGroup: 'guides', publish: true, runTranslations: false}
+  for (const patch of [{runTranslations: true}, {selectedGroup: 'all'}, {selectedGroup: 'guides,python'}, {publish: false},
+    {targetBranch: 'review'}, {sourceBaselineSha: f.master}, {initialTargetSha: f.master}, {toolingSha: f.baseline},
+    {runId: 124}, {runAttempt: 2}]) {
+    replaceArchive(selectionArtifact, 'publication-selection.json', buildFetchPublicationSelection({...base, ...patch}))
+    await expect(prove()).rejects.toThrow('BATCH_MANUAL_FETCH_UNPROVEN')
+  }
+  buffers.set(selection.id, originalSelection)
+  Object.assign(selectionArtifact, originalArtifact)
+  const published = facts.artifacts.find(artifact => artifact.id === f.fixture.archives.publication.id)!
+  replaceArchive(published, 'publication-results.json', {...f.result, units: f.result.units.slice(0, 1)})
+  await expect(prove()).rejects.toThrow('units must exactly cover selection')
+  replaceArchive(published, 'publication-results.json', {...f.result, selectionSha256: 'b'.repeat(64)})
+  await expect(prove()).rejects.toThrow('selectionSha256')
+  replaceArchive(published, 'publication-results.json', f.result)
+  const history = [...metadata.keys()].find(path => path.includes('fetch-docs.yml/runs?created='))!
+  const listed = metadata.get(history)
+  metadata.set(history, {...listed, total_count: 2, workflow_runs: [...listed.workflow_runs,
+    {...facts.run, id: 124, updated_at: facts.run.updated_at, status: 'in_progress'}]})
+  await expect(prove()).rejects.toThrow('LATEST_OBSERVATION_UNPROVEN')
 }, 120000)
 
 it('retains valid F publication bytes when normalized M locks name a distinct current owner', async () => {

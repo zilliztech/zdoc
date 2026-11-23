@@ -734,6 +734,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
   const q = BatchQualificationSchema.parse(child.value), raw = canonicalBytes(q)
   if (raw.length !== measured.responseBytes || batchSha256(raw) !== measured.responseSha256 || q.scopeDigest !== scopeDigest ||
     !same(q.base, scope.base) || !same(q.run, scope.run) || !same(q.sourceArtifact, lease.source) || !same(q.publicationArtifact, lease.publication) ||
+    !same(q.selectionArtifact ?? null, lease.selection ?? null) ||
     q.method.trustedTools !== scope.base.pins.master || q.method.producer !== scope.run.head || q.rows.length !== scope.pages.length) invalid()
   // Settle the independent stream/profile roots before constructing or reading I.
   batchCasCategory(store, 'qualifier')
@@ -810,7 +811,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
       if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
       const {verifyBatchFinalFreshness} = await import('./batch-github')
       await verifyBatchFinalFreshness({scanStartMs: q.scanStartMs, sourceJobId: q.rows[0].sourceJobId, run: scope.run,
-        sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, collectionClock(scope.base.origin), replay?.finalPass, signal)
+        sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, selectionArtifact: q.selectionArtifact, pins: scope.base.pins}, collectionClock(scope.base.origin), replay?.finalPass, signal)
       await operation.verifyOwned()
       if (await resolveCommit(capture.root) !== scope.base.pins.master) throw Error('BATCH_PIN_CHANGED')
       await recheckBatchSourceHead(sealed.sourceRepository, scope.base.pins.source)

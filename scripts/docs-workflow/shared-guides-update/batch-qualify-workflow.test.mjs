@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
-import {mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs'
+import {execFileSync} from 'node:child_process'
+import {mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {test} from 'node:test'
 import yaml from 'js-yaml'
-import {collectionCounts, collectionSummary, previewScheduledFetch, summarizeCollection} from './batch-qualify-workflow.mjs'
+import {collectionCounts, collectionSummary, previewBatchFetch, summarizeCollection} from './batch-qualify-workflow.mjs'
 
 const run = {
   id: 101, repository: {id: 660446555}, head_repository: {id: 660446555}, workflow_id: 83360731,
@@ -13,15 +14,54 @@ const run = {
   head_sha: 'a'.repeat(40), status: 'completed', conclusion: 'success',
 }
 
-test('preview passes only the latest successful scheduled master attempt through to measured collection', () => {
-  assert.deepEqual(previewScheduledFetch({workflow_runs: [run]}), {status: 'check', runId: run.id, head: run.head_sha})
-  for (const patch of [{conclusion: 'failure'}, {status: 'in_progress'}, {event: 'workflow_dispatch'}, {run_attempt: 2},
+test('preview considers the latest normal Fetch on master and holds on unsupported attempts', () => {
+  assert.deepEqual(previewBatchFetch({workflow_runs: [run]}), {status: 'check', runId: run.id, head: run.head_sha})
+  const manual = {...run, event: 'workflow_dispatch', actor: {id: 100}, triggering_actor: {id: 100}}
+  assert.deepEqual(previewBatchFetch({workflow_runs: [manual]}), {status: 'check', runId: run.id, head: run.head_sha})
+  for (const patch of [{actor: {id: 999}}, {triggering_actor: {}}, {repository: {id: 1}}, {path: '.github/workflows/fetch-guides-requested.yml'}]) {
+    assert.equal(previewBatchFetch({workflow_runs: [{...manual, ...patch}]}).status, 'held')
+  }
+  for (const patch of [{conclusion: 'failure'}, {status: 'in_progress'}, {event: 'workflow_dispatch'}, {event: 'push'}, {run_attempt: 2},
     {workflow_id: 123}, {head_repository: {id: 1}}, {head_branch: 'dev'}, {head_sha: null}]) {
-    assert.equal(previewScheduledFetch({workflow_runs: [{...run, ...patch}]}).status, 'held')
+    assert.equal(previewBatchFetch({workflow_runs: [{...run, ...patch}]}).status, 'held')
   }
   for (const workflow_runs of [undefined, [], [run, run]]) {
-    assert.equal(previewScheduledFetch({workflow_runs}).status, 'held')
+    assert.equal(previewBatchFetch({workflow_runs}).status, 'held')
   }
+})
+
+test('Fetch records the successful manual preparation step only for the exact production Guides dispatch', t => {
+  const workflow = yaml.load(readFileSync(new URL('../../../.github/workflows/fetch-docs.yml', import.meta.url), 'utf8'))
+  const steps = workflow.jobs.prepare.steps
+  const marker = steps.findIndex(step => step.name === 'Qualify exact manual Guides dispatch inputs')
+  assert.ok(marker > 0 && marker < steps.findIndex(step => step.name === 'Upload immutable Fetch publication selection'))
+  assert.equal(steps[marker].if, "${{ steps.refs.outputs.batch_qualification == 'true' }}")
+  const refs = steps.find(step => step.id === 'refs')
+  assert.equal(refs.env.REF_PROTECTED, '${{ github.ref_protected }}')
+  const start = refs.run.indexOf('batch_qualification=false')
+  const end = refs.run.indexOf('\n', refs.run.indexOf('batch_qualification=%s', start))
+  assert.ok(start >= 0 && end > start)
+  const script = refs.run.slice(start, end)
+  const directory = mkdtempSync(join(tmpdir(), 'guides-fetch-predicate-'))
+  t.after(() => rmSync(directory, {recursive: true, force: true}))
+  const output = join(directory, 'github-output')
+  const expected = {GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_REF: 'refs/heads/master',
+    GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_REPOSITORY_ID: '660446555', GITHUB_RUN_ATTEMPT: '1',
+    GITHUB_SHA: 'a'.repeat(40), tooling_sha: 'a'.repeat(40), REF_PROTECTED: 'true', SELECTED_GROUP: 'guides',
+    TARGET_BRANCH: 'dev', TOOLING_REF: 'master', SOURCE_REF: 'dev', PUBLISH: 'true', RUN_TRANSLATIONS: 'false',
+    MEDIA_UPLOAD_MODE: 'write', FORCE_FULL_FETCH: 'false', GITHUB_OUTPUT: output, BASH_ENV: '/dev/null'}
+  const record = patch => {
+    writeFileSync(output, '')
+    execFileSync('/bin/bash', ['--noprofile', '--norc', '-eu', '-c', script],
+      {env: {...expected, ...patch}, stdio: ['ignore', 'pipe', 'pipe']})
+    return readFileSync(output, 'utf8').trim()
+  }
+  assert.equal(record({}), 'batch_qualification=true')
+  for (const patch of [{GITHUB_EVENT_NAME: 'schedule'}, {GITHUB_REF: 'refs/heads/dev'}, {GITHUB_REPOSITORY_ID: '99'},
+    {GITHUB_REPOSITORY: 'wrong/zdoc'}, {GITHUB_RUN_ATTEMPT: '2'}, {tooling_sha: 'b'.repeat(40)}, {REF_PROTECTED: 'false'},
+    {SELECTED_GROUP: 'all'}, {SELECTED_GROUP: 'guides,python'}, {TARGET_BRANCH: 'branch'}, {TOOLING_REF: 'MASTER'},
+    {SOURCE_REF: 'refs/heads/dev'}, {PUBLISH: 'false'}, {RUN_TRANSLATIONS: 'true'}, {MEDIA_UPLOAD_MODE: 'skip'},
+    {FORCE_FULL_FETCH: 'true'}]) assert.equal(record(patch), 'batch_qualification=false', JSON.stringify(patch))
 })
 
 const sha256 = 'a'.repeat(64)
