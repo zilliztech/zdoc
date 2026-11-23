@@ -1191,12 +1191,16 @@ def _batch_material(reader, retained, base):
 
 def _batch_verify_source_edge_proofs(reader, report, ledger, history):
     """Validate narrow merged feature exceptions from retained raw evidence."""
-    pairs, copies = {}, []
+    pairs, copies, at_locks = {}, [], []
     fields = 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons'
     for index, edge in enumerate(ledger):
         restored = edge.get('associationResult') == 'restored'
         copied = edge.get('associationResult') == 'copied'
-        batch_exact(edge, fields + (' restorationRef' if restored else ' copyRef' if copied else ''))
+        at_lock = 'atLockRef' in edge
+        require(not at_lock or edge['associationResult'] == 'complete', 'BATCH_SOURCE_EDGE_PROOF_INVALID')
+        batch_exact(edge, fields + (' restorationRef' if restored else ' copyRef' if copied else ' atLockRef' if at_lock else ''))
+        if at_lock:
+            at_locks.append((index, edge))
         for ref in edge['evidenceRefs']:
             reader.blob(ref)
         if restored:
@@ -1204,13 +1208,14 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
             pairs.setdefault(proof_ref['sha256'], []).append((index, edge))
         if copied:
             copies.append((index, edge))
-    if not pairs and not copies:
+    at_lock_clues = [clue for clue in report['dependencies'] if any(e.startswith('at-lock:') for e in clue['evidence'])]
+    if not pairs and not copies and not at_locks and not at_lock_clues:
         return {}
 
     def checked(condition):
         require(condition, 'BATCH_SOURCE_EDGE_PROOF_INVALID')
 
-    checked(len(history) <= 50_000 and len(pairs) + len(copies) <= 1000)
+    checked(len(history) <= 50_000 and len(pairs) + len(copies) + len(at_locks) <= 1000)
     graph = {}
     for entry in batch_sorted(history, lambda row: row['oid']):
         batch_exact(entry, 'oid parents')
@@ -1254,8 +1259,11 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
             ancestor_sets[key] = seen
         return ancestor_sets[key]
 
-    def file(git, c, path):
-        tree = commit(git, c)[0]
+    def file(git, c, path, source=True):
+        if source:
+            tree = commit(git, c)[0]
+        else:
+            tree = reader.blob(git_ref(git, c, 'commit'), git_kind='commit', git_oid=c)[0]
         identity = b'40000', tree
         for name in path.split('/'):
             checked(identity[0] == b'40000')
@@ -1285,14 +1293,19 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
                 and type(pull['merged_at']) is str and bool(pull['merged_at']) and pull['head']['sha'] == head
                 and pull['base']['ref'] == 'v3.0.x' and fixed_repository(pull))
 
-    def pull_observation(proof, path, merge, head, earlier, edge):
+    def pull_observation(proof, path, merge, head, earlier, edge, expected_blob=None):
         number = proof['number']
         direct = reply(proof['detailRef'], f'/pulls/{number}', edge['evidence'])
         files = reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', edge['evidence'])
         checked(related(direct, number, head) and direct['merged'] is True and direct['merge_commit_sha'] == merge and direct['base']['sha'] in earlier)
         checked(type(files) is list and type(direct['changed_files']) is int and len(files) == direct['changed_files'] < 100)
         names = [batch_path(item['filename']) for item in files]
-        checked(len(set(names)) == len(names) and path not in names)
+        checked(len(set(names)) == len(names))
+        if expected_blob is None:
+            checked(path not in names)
+        else:
+            matched = [item for item in files if item['filename'] == path]
+            checked(len(matched) == 1 and matched[0]['status'] == 'modified' and matched[0]['sha'] == expected_blob)
         for item in files:
             previous = item.get('previous_filename')
             if previous is not None:
@@ -1479,12 +1492,75 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
         label = f"{index}:{edge['parent']}:{edge['commit']}:{path}"
         for c in coverage:
             obligations[(c['pageId'], label)] = edge
+    pages = {page['pageId']: page for page in report['pages']}
+    checked(len(pages) == len(report['pages']) and len(at_lock_clues) == len(at_locks))
+    verified_copies = {}
+    for (page_id, _), edge in obligations.items():
+        if edge['associationResult'] == 'copied':
+            key = (page_id, edge['commit'], edge['parent'], edge['newPath'])
+            verified_copies.setdefault(key, []).append(edge)
+    for index, edge in at_locks:
+        ref = batch_ref(edge['atLockRef'])
+        proof = reader.object(ref, 'pageId detailRef filesRef associationRef')
+        page = pages.get(proof['pageId'])
+        checked(page is not None and proof['pageId'] in edge['rangeIds'] and len(edge['evidenceRefs']) == 1 and not edge['reasons'])
+        path = batch_path(edge['newPath'])
+        checked(path == page['sourceFile'] == edge['oldPath'] and edge['oldOid'] != edge['newOid']
+                and edge['oldMode'] in ('100644', '100755') and edge['newMode'] in ('100644', '100755'))
+        git = edge['evidenceRefs'][0]
+        merge, base = edge['commit'], edge['parent']
+        parents = commit(git, merge)[1]
+        checked(len(parents) == 2 and parents[0] == base)
+        head = parents[1]
+        seed = seeds.get(edge['seedKey'])
+        checked(seed is not None and seed['kind'] == 'pr' and seed['pr']['mergeCommit'] == edge['introductionOid'] == merge)
+        number = seed['pr']['number']
+        checked(type(number) is int and number > 0 and edge['seedKey'] == f'pr:{number}')
+        old = page['oldNext']
+        lock_path = f"shared-docs/guides/pages/{proof['pageId']}/lock.yaml"
+        lock_oid = file(git, report['pins']['master'], lock_path, source=False)[1]
+        checked(oid(old) and oid(page['current'])
+                and reader.blob(git_ref(git, lock_oid, 'blob'), raw_bytes=True) == lock_bytes(page['current'], old))
+        reachable = ancestors(git, target)
+        members = reachable - ancestors(git, old)
+        checked(old in reachable and 0 < len(members) <= 128 and merge in members and head in members
+                and old in ancestors(git, head) and old not in ancestors(git, base))
+        carried = edge['newMode'].encode(), edge['newOid']
+        values = {}
+        def value(c):
+            if c not in values:
+                values[c] = file(git, c, path)
+            return values[c]
+        checked(all(value(c) == carried for c in (old, head, merge, target))
+                and value(base) == (edge['oldMode'].encode(), edge['oldOid']))
+        direct = pull_observation({**proof, 'number': number}, path, merge, head, {base}, edge, carried[1])
+        check_association(proof['associationRef'], edge, direct, head)
+        for child in members:
+            for parent in commit(git, child)[1]:
+                before, after = value(parent), value(child)
+                if before == after or (child, parent) == (merge, base):
+                    continue
+                matches = verified_copies.get((proof['pageId'], child, parent, path), [])
+                checked(len(matches) == 1 and before == (matches[0]['oldMode'].encode(), matches[0]['oldOid'])
+                        and after == (matches[0]['newMode'].encode(), matches[0]['newOid']))
+        evidence = sorted([f'at-lock:{ref["sha256"]}', f'pr-file:{number}:modified:{carried[1]}'])
+        matching = [clue for clue in at_lock_clues if clue == {'pageIds': [proof['pageId']], 'seedKeys': [edge['seedKey']],
+                    'paths': [path], 'evidence': evidence, 'reasons': []}]
+        checked(len(matching) == 1)
+        at_lock_clues.remove(matching[0])
+        # The certificate does not discharge the ordinary source transition.
+        # Require the same per-page raw consumption obligations at verification.
+        for page_id in edge['rangeIds']:
+            label = f'{index}:{base}:{merge}:{path}'
+            checked((page_id, label) not in obligations)
+            obligations[(page_id, label)] = edge
+    checked(not at_lock_clues)
     return obligations
 
 
 def _batch_verify_proved_edge_obligation(reader, obligation, header, edge):
     reason = 'BATCH_SOURCE_EDGE_PROOF_INVALID'
-    subtype = edge.get('restorationRef') or edge['copyRef']
+    subtype = edge.get('restorationRef') or edge.get('copyRef') or edge['atLockRef']
     require(obligation['range'] == {'from': header['oldNext'], 'to': header['base']['pins']['source']}
             and obligation['seedKey'] == edge['seedKey']
             and obligation['supportRefs'] == sorted(edge['evidenceRefs'] + [subtype], key=lambda r: r['sha256']), reason)
@@ -1533,7 +1609,7 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     ledger = reader.blob(discovery['edgeLedgerRef'], parse=True)
     history = reader.blob(discovery['introductionOrderRef'], parse=True)
     proved = _batch_verify_source_edge_proofs(reader, report, ledger, history)
-    source_proof_refs = {(edge.get('restorationRef') or edge['copyRef'])['sha256'] for edge in proved.values()}
+    source_proof_refs = {(edge.get('restorationRef') or edge.get('copyRef') or edge['atLockRef'])['sha256'] for edge in proved.values()}
     source_proof_keys = set(proved)
     materials = reader.object(control['materialRoot'], 'base pages')
     require(materials['base'] == base and batch_digest('materials', materials) == control['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')

@@ -341,7 +341,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         if (!edge.seedKey || !edge.introductionOid || !edge.evidence.length || !edge.evidenceRefs.length) {status = 'held'; add('SOURCE_ASSOCIATION_UNPROVEN')}
         else membership.get(rangeId)!.add(edge.seedKey)
       }
-      const subtype = edge.restorationRef ?? edge.copyRef
+      const subtype = edge.restorationRef ?? edge.copyRef ?? edge.atLockRef
       obligations.push({pageId: rangeId, range: {from: configured.oldNext, to: configured.target}, edge: `${index}:${edge.parent ?? 'root'}:${edge.commit}:${sourcePath}`,
         seedKey: edge.seedKey, status, consumedPaths: sorted(paths),
         supportRefs: subtype ? batchSorted([...edge.evidenceRefs, subtype], r => r.sha256) : edge.evidenceRefs,

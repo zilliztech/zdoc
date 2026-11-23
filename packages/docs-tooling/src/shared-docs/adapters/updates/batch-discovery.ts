@@ -8,10 +8,10 @@ import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, t
   type BatchSeedObservation } from '../../core/updates/batch-discovery'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { guidesSnapshotPath } from '../guides-snapshot'
-import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
+import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubReply, type BatchGitHubTestSeam, type BatchPullFile } from './batch-github'
 import { guidesNextOutputPaths, guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
-import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
-import {BatchCopyProofSchema, BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
+import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type BatchHistory, type RawChange } from './batch-source'
+import {BatchAtLockProofSchema, BatchCopyProofSchema, BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
 import { makeRestoreProof, mergedRestoreFacts, restoreEdgeMatches } from './batch-restore-proof'
 import { importedCopyFacts } from './batch-import-proof'
 import {immutable} from '../../core/updates/types'
@@ -144,8 +144,36 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
 }
 
 interface PageRange { page: BatchPageObservation; members: Set<string>; fragments: Set<string>; interval: BatchInterval }
+// This discharges duplicate PR-file metadata, never the real ordinary merge edge.
+async function provePathAtLock(store: BatchGitStore, history: BatchHistory, range: PageRange, merge: BatchEdge, ledger: BatchEdge[]) {
+  const {page, members} = range
+  if (members.size > 128) return false
+  const entries = new Map<string, Awaited<ReturnType<BatchGitStore['regularIdentity']>>>()
+  async function entry(commit: string) {
+    if (!entries.has(commit)) entries.set(commit, await store.regularIdentity(commit, page.sourceFile))
+    return entries.get(commit)
+  }
+  const pinned = await entry(page.oldNext), target = await entry(page.target)
+  if (!pinned || pinned.oid !== merge.newOid || pinned.mode !== merge.newMode ||
+      !target || target.oid !== pinned.oid || target.mode !== pinned.mode) return false
+  for (const commit of members) {
+    const after = await entry(commit)
+    if (!after) return false
+    for (const parent of history.parents(commit)) {
+      const before = await entry(parent)
+      if (!before) return false
+      if (before.oid === after.oid && before.mode === after.mode) continue
+      if (commit === merge.commit && parent === merge.parent) continue
+      const copies = ledger.filter(row => row.commit === commit && row.parent === parent && row.oldPath === page.sourceFile && row.newPath === page.sourceFile)
+      if (copies.length !== 1 || copies[0].associationResult !== 'copied' || !copies[0].copyRef || !copies[0].rangeIds.includes(page.pageId) ||
+          copies[0].oldMode !== before.mode || copies[0].oldOid !== before.oid || copies[0].newMode !== after.mode || copies[0].newOid !== after.oid) return false
+    }
+  }
+  return true
+}
+
 async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, api: API, budget: BatchBudget, ledger?: BatchEdge[],
-  retain?: (bytes: Uint8Array) => BatchBlobRef) {
+  retain?: (bytes: Uint8Array) => BatchBlobRef, registryStore?: BatchGitStore) {
   const target = input.pins.source, history = await store.history(target)
   const ranges: PageRange[] = [], activeCommits = new Set<string>(), memberships = new Map<string, Set<string>>()
   const ordered = new Set<string>(), unresolved = new Map<BatchPageObservation, string>()
@@ -183,6 +211,8 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
   const intervalTouches: {range: PageRange; commit: string; path: string; row?: BatchEdge}[] = []
   const uncertainties: {range: PageRange; key: string; oid: string; paths: string[]; rows: BatchEdge[]}[] = []
   const lockSideUncertainties: {oid: string; parent: string; touches: typeof intervalTouches}[] = []
+  const pendingPrPaths = new Map<string, {range: PageRange; key: string; file: BatchPullFile; ref: string}>()
+  const mergePaths = new Map<string, {row: BatchEdge; detail: BatchGitHubReply; files: BatchGitHubReply; association: BatchGitHubReply}>()
   const clueKeys = new Set<string>()
   function clue(pageIds: string[], seedKeys: string[], paths: string[], evidence: string[], reasons: string[]) {
     const value = { pageIds: unique(pageIds).sort(), seedKeys: unique(seedKeys).sort(), paths: unique(paths).sort(), evidence: unique(evidence).sort(), reasons }
@@ -367,7 +397,17 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
         const sameEdge = ids.filter(r => raw.some(d => d.path === r.page.sourceFile))
         change(file.path, file.status, file.previousPath, ref, sameEdge.map(r => r.page.pageId))
         const pending = ids.filter(r => !sameEdge.includes(r))
-        if (pending.length) clue(pending.map(r => r.page.pageId), [key], [file.path], [ref], ['PR_PATH_REQUIRES_COLLECTOR'])
+        if (retain && pending.length === 1 && file.status === 'modified') {
+          const [range] = pending
+          pendingPrPaths.set(key + ':' + range.page.pageId + ':' + file.path, {range, key, file, ref})
+        } else if (pending.length) clue(pending.map(r => r.page.pageId), [key], [file.path], [ref], ['PR_PATH_REQUIRES_COLLECTOR'])
+        const metadata = pull.singlePageProof
+        const parents = history.parents(oid)
+        if (retain && metadata && singlePage && file.status === 'modified' && oid === intro && parents.length === 2 &&
+            parents[0] === pull.identity.base && parents[1] === pull.identity.head) {
+          const row = ledgerRows.find(row => row.oldPath === file.path && row.newPath === file.path && row.oldOid !== file.sha && row.newOid === file.sha)
+          if (row) mergePaths.set(key + ':' + file.path, {row, detail: metadata.detail, files: metadata.files, association: singlePage})
+        }
       }
       const prPaths = pull && new Set(pull.files.flatMap(f => f.previousPath ? [f.previousPath, f.path] : [f.path]))
       // A real edit-then-restore range can have no net PR file entry. Only
@@ -451,6 +491,33 @@ async function observeSource(store: BatchGitStore, input: BatchDiscoveryInput, a
       filesRef: retain(pull.singlePageProof.files.body), associationRef: retain(observation.body)})
     row.associationResult = 'copied'; row.seedKey = null; row.introductionOid = null
     row.copyRef = retain(canonicalBytes(proof)); row.reasons = []
+  }
+  for (const {range, key, file, ref} of pendingPrPaths.values()) {
+    const merge = mergePaths.get(key + ':' + file.path), {page} = range
+    let certificate: BatchBlobRef | undefined
+    if (merge && retain && ledger && registryStore && file.path === page.sourceFile &&
+        file.sha === merge.row.newOid && !merge.row.atLockRef && merge.row.associationResult === 'complete' &&
+        merge.row.seedKey === key && merge.row.rangeIds.includes(page.pageId) && range.members.has(merge.row.commit) &&
+        range.members.has(history.parents(merge.row.commit)[1]) &&
+        history.introduces(page.oldNext, merge.row.commit, merge.row.parent!, history.parents(merge.row.commit)[1], 0)) {
+      // A proven carry must already be present on the feature side at the consumed lock.
+      const head = history.parents(merge.row.commit)[1]
+      const lockPath = group + '/pages/' + page.pageId + '/lock.yaml'
+      const lock = utf8.decode((await registryStore.file(input.pins.master, lockPath)).bytes)
+      const feature = await store.regularIdentity(head, file.path)
+      if (lock === `schema_version: 1
+current: ${page.current}
+next: ${page.oldNext}
+` &&
+          feature?.oid === file.sha && feature.mode === merge.row.newMode &&
+          await provePathAtLock(store, history, range, merge.row, ledger)) {
+        certificate = retain(canonicalBytes(BatchAtLockProofSchema.parse({pageId: page.pageId, detailRef: retain(merge.detail.body),
+          filesRef: retain(merge.files.body), associationRef: retain(merge.association.body)})))
+        merge.row.atLockRef = certificate
+      }
+    }
+    clue([page.pageId], [key], [file.path], certificate ? [ref, 'at-lock:' + certificate.sha256] : [ref],
+      certificate ? [] : ['PR_PATH_REQUIRES_COLLECTOR'])
   }
   const survivingTouches = new Map<PageRange, Set<string>>()
   for (const {range, commit, path, row} of intervalTouches) {
@@ -554,7 +621,7 @@ async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOri
       if (!retained.has(ref.sha256)) { retained.set(ref.sha256, ref); evidence.push({ref, bytes}) }
       return ref
     }
-    const introductionOrder = await observeSource(source, input, api, budget, ledger, retain)
+    const introductionOrder = await observeSource(source, input, api, budget, ledger, retain, zdoc)
     await source.verify(); await zdoc.verify()
     const final = await api.pins()
     if (Object.keys(pins).some(k => pins[k as keyof Pins] !== final[k as keyof Pins])) stop('OBSERVED_REF_MOVED')
