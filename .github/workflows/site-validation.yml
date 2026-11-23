@@ -21,6 +21,7 @@ on:
     inputs:
       site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
       source_ref: { description: 'Content branch, tag, or exact SHA', required: false, type: string, default: dev }
+      base_sha: { description: 'Exact comparison base for the content diff (dispatch callers should set it so dispatched runs are attributable and content-scoped)', required: false, type: string, default: '' }
       publish: { description: Reserved for the publication entry, required: false, type: boolean, default: false }
 
 permissions:
@@ -66,7 +67,7 @@ jobs:
       - name: Fetch comparison base
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          BASE_SHA: ${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}
         run: |
           set -euo pipefail
           [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Comparison base must be an exact lowercase Git SHA" >&2; exit 1; }
@@ -83,7 +84,7 @@ jobs:
         id: filters
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          BASE_SHA: ${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}
           HEAD_SHA: ${{ steps.source.outputs.source_sha }}
         run: >-
           node deploy/contracts/evaluate-path-filters.mjs
@@ -177,7 +178,7 @@ jobs:
           fetch-depth: 2
       - name: Fetch comparison base
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          BASE_SHA: ${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}
         run: |
           set -euo pipefail
           [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Comparison base must be an exact lowercase Git SHA" >&2; exit 1; }
@@ -187,7 +188,7 @@ jobs:
           fi
       - name: Require no dev-owned path changes
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          BASE_SHA: ${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}
         run: node scripts/docs-workflow/ownership-gate.js --base "$BASE_SHA" --head "${{ needs.classify.outputs.source_sha }}"
 
   preserved_files_consistency:

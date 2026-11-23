@@ -13,8 +13,22 @@
 // its base branch is on the workflows' allowlist, and a synchronize event
 // occasionally creates no runs. For every open pull whose head SHA has no
 // run of a validation workflow yet, the watchdog dispatches that workflow
-// with the API-provided SHAs — the same recipe as
-// scripts/docs-workflow/dispatch-pr-validation.js, automated hourly.
+// on the pull's HEAD BRANCH with the API-provided SHAs — the recipe the
+// shared-docs lane already uses (shared-docs-lock.yml's manual dispatch).
+// The head-branch ref is load-bearing for BOTH workflows: a dispatched run
+// records the ref's tip as its head_sha, so a dispatch on master would be
+// invisible to the next tick's hasHeadRuns(head_sha) check and re-dispatch
+// forever; on the head branch the run is attributable to the pull and the
+// concurrency group (site-validation-refs/heads/<branch>-auto) stays
+// per-pull instead of colliding with push-to-master runs.
+//
+// A dispatched run counts as coverage even when its conclusion is
+// 'cancelled': hasHeadRuns has no conclusion filter. That is deliberate —
+// a cancelled native PR run implies a superseding run in the same
+// concurrency group, and filtering cancellations out would re-dispatch on
+// top of live queued runs. The known residual: a cancelled dispatched run
+// leaves the pull "covered" with no completed validation until its next PR
+// event (rare; the next synchronize/reopened event re-fires natively).
 
 const fs = require('node:fs')
 const path = require('node:path')
@@ -142,15 +156,20 @@ function selectStartupFailures({runs, jobCountByRunId, now = Date.now(), maxAgeM
   })
 }
 
-// The dispatch recipe per uncovered (pull, workflow) pair. shared-docs-
-// validate pins GITHUB_SHA == source_sha for dispatch runs, so it must ride
-// the pull's head branch; site-validation checks out its source_ref input
-// itself, so the default branch keeps GITHUB_SHA stable.
+// The dispatch recipe per uncovered (pull, workflow) pair. BOTH workflows
+// ride the pull's head branch: the dispatched run's head_sha is the ref's
+// tip, so this is what makes the next tick's hasHeadRuns(head_sha) find the
+// run (dispatch on master would re-dispatch forever) and keeps the
+// site-validation concurrency group per-pull instead of colliding with
+// push-to-master. site-validation's new base_sha dispatch input restores the
+// content diff (otherwise the dispatched run would compare the head against
+// itself and skip every content job); shared-docs-validate additionally
+// pins GITHUB_SHA == source_sha for dispatch runs.
 function coverageDispatchPlan(pull, workflow) {
   if (workflow === 'shared-docs-validate.yml') {
     return {workflow, ref: pull.headRefName, inputs: {pr_number: String(pull.number), source_sha: pull.headSha, base_sha: pull.baseSha}}
   }
-  return {workflow, ref: 'master', inputs: {site: 'auto', source_ref: pull.headSha, publish: 'false'}}
+  return {workflow, ref: pull.headRefName, inputs: {site: 'auto', source_ref: pull.headSha, base_sha: pull.baseSha, publish: 'false'}}
 }
 
 function selectUncoveredPulls({pulls, coverageByWorkflow}) {
@@ -241,14 +260,27 @@ async function main(argv = process.argv.slice(2), environment = process.env) {
   try {
     const adapter = createGitHubAdapter({repository: args.repository, token: environment.GITHUB_TOKEN})
     const rerun = await runSiteValidationWatchdog({adapter})
-    const coverage = await runPullCoveragePass({adapter})
-    result = {
-      ok: true,
-      checkedCompletedRuns: rerun.checkedCompletedRuns,
-      rerun: rerun.rerun,
-      notRerunnable: rerun.notRerunnable,
-      realFailures: rerun.realFailures,
-      coverage,
+    try {
+      const coverage = await runPullCoveragePass({adapter})
+      result = {
+        ok: true,
+        checkedCompletedRuns: rerun.checkedCompletedRuns,
+        rerun: rerun.rerun,
+        notRerunnable: rerun.notRerunnable,
+        realFailures: rerun.realFailures,
+        coverage,
+      }
+    } catch (error) {
+      // The rerun pass already took its side effects; a coverage-pass throw
+      // must not erase that evidence from the artifact and outputs.
+      result = {
+        ok: false,
+        reason: `site validation watchdog failure: coverage pass: ${error.message}`,
+        checkedCompletedRuns: rerun.checkedCompletedRuns,
+        rerun: rerun.rerun,
+        notRerunnable: rerun.notRerunnable,
+        realFailures: rerun.realFailures,
+      }
     }
   } catch (error) {
     result = {ok: false, reason: `site validation watchdog failure: ${error.message}`}

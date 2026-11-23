@@ -227,7 +227,7 @@ function coverageAdapter({pulls = [], covered = new Map(), dispatchFailures = ne
   }
 }
 
-test('coverageDispatchPlan pins shared-docs-validate to the head branch and site-validation to master', () => {
+test('coverageDispatchPlan dispatches both workflows on the pull head branch with the API SHAs', () => {
   assert.deepEqual(coverageDispatchPlan(PULLS[0], SHARED), {
     workflow: SHARED,
     ref: PULLS[0].headRefName,
@@ -235,9 +235,23 @@ test('coverageDispatchPlan pins shared-docs-validate to the head branch and site
   })
   assert.deepEqual(coverageDispatchPlan(PULLS[0], SITE), {
     workflow: SITE,
-    ref: 'master',
-    inputs: {site: 'auto', source_ref: HEAD_A, publish: 'false'},
+    ref: PULLS[0].headRefName,
+    inputs: {site: 'auto', source_ref: HEAD_A, base_sha: BASE_A, publish: 'false'},
   })
+})
+
+test('a second tick recognizes its own dispatched runs and dispatches nothing', async () => {
+  const first = await runPullCoveragePass({adapter: coverageAdapter({pulls: PULLS})})
+  assert.equal(first.dispatched.length, 4)
+  const covered = new Map()
+  for (const entry of first.dispatched) {
+    const headSha = PULLS.find(pull => pull.number === entry.pull).headSha
+    if (!covered.has(entry.workflow)) covered.set(entry.workflow, new Set())
+    covered.get(entry.workflow).add(headSha)
+  }
+  const second = await runPullCoveragePass({adapter: coverageAdapter({pulls: PULLS, covered})})
+  assert.equal(second.dispatched.length, 0)
+  assert.equal(second.uncoveredCount, 0)
 })
 
 test('selectUncoveredPulls lists only workflow/pull pairs without runs', () => {
@@ -331,6 +345,52 @@ test('main merges the coverage pass into a success result and its outputs', asyn
     globalThis.fetch = realFetch
     if (realGitHubOutput === undefined) delete process.env.GITHUB_OUTPUT
     else process.env.GITHUB_OUTPUT = realGitHubOutput
+    fs.rmSync(outputDirectory, {recursive: true, force: true})
+    fs.rmSync(githubOutput, {force: true})
+  }
+})
+
+test('main keeps rerun evidence when the coverage pass throws', async () => {
+  const outputDirectory = path.join(process.cwd(), 'tmp', `site-validation-watchdog-cov-throw-${process.pid}-${Date.now()}`)
+  const githubOutput = path.join(os.tmpdir(), `site-validation-watchdog-cov-throw-outputs-${process.pid}-${Date.now()}`)
+  const realFetch = globalThis.fetch
+  const realGitHubOutput = process.env.GITHUB_OUTPUT
+  const realExitCode = process.exitCode
+  globalThis.fetch = async (url, options = {}) => {
+    if (url.includes('/runs?status=completed')) {
+      return {status: 200, ok: true, json: async () => ({workflow_runs: [run({id: 77, created_at: new Date(Date.now() - 60 * 1000).toISOString()})]})}
+    }
+    if (url.includes('/actions/runs/77/jobs')) {
+      return {status: 200, ok: true, json: async () => ({total_count: 0})}
+    }
+    if (url.includes('/actions/runs/77/rerun')) {
+      return {status: 201, ok: true, json: async () => null}
+    }
+    if (url.includes('/pulls?state=open')) {
+      return {status: 500, ok: false, json: async () => ({message: 'Server Error'})}
+    }
+    throw new Error(`unexpected fetch: ${url}`)
+  }
+  process.env.GITHUB_OUTPUT = githubOutput
+  try {
+    const result = await main(
+      ['--repository', 'owner/name', '--output', path.relative(process.cwd(), path.join(outputDirectory, 'watchdog.json'))],
+      {GITHUB_TOKEN: 'token'},
+    )
+    assert.equal(result.ok, false)
+    assert.match(result.reason, /coverage pass/)
+    assert.deepEqual(result.rerun.map(entry => entry.id), [77])
+    const written = JSON.parse(fs.readFileSync(path.join(outputDirectory, 'watchdog.json'), 'utf8'))
+    assert.equal(written.rerun.length, 1)
+    assert.equal(written.coverage, undefined)
+    const outputs = fs.readFileSync(githubOutput, 'utf8')
+    assert.match(outputs, /rerun_count=1/)
+    assert.match(outputs, /coverage_dispatched_count=0/)
+  } finally {
+    globalThis.fetch = realFetch
+    if (realGitHubOutput === undefined) delete process.env.GITHUB_OUTPUT
+    else process.env.GITHUB_OUTPUT = realGitHubOutput
+    process.exitCode = realExitCode
     fs.rmSync(outputDirectory, {recursive: true, force: true})
     fs.rmSync(githubOutput, {force: true})
   }
