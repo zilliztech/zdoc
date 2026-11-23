@@ -77,11 +77,11 @@ await milvusClient.searchIterator({
 
     The name of the collection to search.
 
-- **data** (*SearchData | SearchData[]*) -
+- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
 
     The query vector(s). Supported types include FloatVector (number[]), BFloat16Vector (Uint8Array), Float16Vector (Uint8Array), BinaryVector (number[]), and SparseFloatVector. Provide either **data** or **vector**.
 
-- **vector** (*SearchData | SearchData[]*) -
+- **vector** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
 
     An alias of **data** for the query vector(s).
 
@@ -171,11 +171,11 @@ await milvusClient.searchIterator({
 
     A highlighter for the search results.
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
     A reranking strategy and its parameters. See `search()` for details on supported reranker types.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     Custom transformers for special vector data types such as BFloat16Vector and Float16Vector.
 

@@ -75,7 +75,7 @@ This method returns a promise that resolves to a **GetCompactionStateResponse** 
 
 **PARAMETERS:**
 
-- **state** (*CompactionState*) -
+- **state** (*[CompactionState](./Management-CompactionState)*) -
 
 The aggregate state of the compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
 

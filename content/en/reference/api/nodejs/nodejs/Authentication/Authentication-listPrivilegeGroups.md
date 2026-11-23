@@ -64,7 +64,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
 **PARAMETERS:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
+- **privilege_groups** (*[PrivelegeGroup](./Authentication-PrivelegeGroup)[]*) -
 
 A list of privilege groups defined in the current Milvus instance.
 
@@ -72,7 +72,7 @@ A list of privilege groups defined in the current Milvus instance.
 
         The name of the privilege group.
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*[PrivilegeEntity](./Authentication-PrivilegeEntity)[]*) -
 
         The privileges contained in the group.
 

@@ -144,7 +144,7 @@ await milvusClient.query(data)
 
     The scalar fields used to group the aggregation results. Optional.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     A custom function to convert data for specific data types. Optional.
 

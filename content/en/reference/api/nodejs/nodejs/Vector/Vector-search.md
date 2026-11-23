@@ -89,13 +89,13 @@ await milvusClient.search({
 
     The name of the target vector field for this operation. It is mandatory if you are searching in a collection with multiple vector fields.
 
-- **data** (*SearchData* | *SearchData[]*) -
+- **data** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     A list of vector embeddings.
 
     Milvus searches for the most similar vector embeddings to the specified ones.
 
-- **vector** (*SearchData* | *SearchData[]*) -
+- **vector** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     An alias of **data** for the query vectors.
 
@@ -193,13 +193,13 @@ await milvusClient.search({
 
     The number of decimal places to keep in the final results.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     A custom function to convert data for the following data types.
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
-    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**. See RerankerObj and [FunctionObject](./Collections-FunctionObject).
+    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**. See [RerankerObj](./Vector-RerankerObj) and [FunctionObject](./Collections-FunctionObject).
 
 - **order_by_fields** (*OrderByFields*) -
 

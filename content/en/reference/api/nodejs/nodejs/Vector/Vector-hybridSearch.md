@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     The metric type used to measure similarity between vectors.
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
     A reranking strategy for combining results from multiple sub-searches. See `search()` for the full rerank parameter schema.
 
@@ -142,7 +142,7 @@ await milvusClient.hybridSearch({
 
     The number of decimal places to keep in the final scores.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     Custom transformers for special vector data types such as BFloat16Vector and Float16Vector.
 
@@ -184,7 +184,7 @@ Each element in the `data` array is a **HybridSearchSingleReq** object that defi
 
 **PARAMETERS:**
 
-- **data** (*SearchData*) -
+- **data** (*[SearchData](./Vector-SearchData)*) -
 
     **[REQUIRED]**
 
@@ -216,7 +216,7 @@ Each element in the `data` array is a **HybridSearchSingleReq** object that defi
 
     Groups results by the specified field to ensure diversity within this sub-search.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     Custom transformers for special vector types such as BFloat16Vector and Float16Vector.
 

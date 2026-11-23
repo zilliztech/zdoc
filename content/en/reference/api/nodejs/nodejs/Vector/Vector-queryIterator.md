@@ -98,7 +98,7 @@ await milvusClient.queryIterator({
 
     An alias of **order_by_fields**.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     A custom function to convert data for specific data types.
 

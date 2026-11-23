@@ -12,7 +12,7 @@
       "next": "30bdd85bd4cc4007f7febdc870066ba454069f22"
     },
     "tools": {
-      "zdoc": "1e92a064e0f20b4a0c07b6a240672169aa64592c"
+      "zdoc": "0fec8b64b27ae33517563693617ea9bd14d0ea45"
     },
     "config": {
       "files": [
@@ -62,7 +62,7 @@
         },
         {
           "path": "manual.yaml",
-          "sha256": "79fa1eee79ab8da6b1772e17b2e9c8f6888857dae58ce1c9b72615ae129ebf2b"
+          "sha256": "7d456e6b0ea6fec86d323ced42d28516909fe381dd8d24e93e1777d0a0ab9301"
         },
         {
           "path": "product-names.yaml",
@@ -78,6 +78,97 @@
   },
   "pages": [
     {
+      "logical": "Authentication/GrantEntity.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/GrantEntity.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-GrantEntity.md",
+        "sha256": "e4da2b77b1d5cf28e57565d1fde8e0d8e9a5bd94870dfcf49080d97beba8045e"
+      }
+    },
+    {
+      "logical": "Authentication/PrivelegeGroup.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/PrivelegeGroup.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-PrivelegeGroup.md",
+        "sha256": "6aae52ceb05387a9508b0a9001ab209fdcd4a217e5a2dcf7d938da117b100de6"
+      }
+    },
+    {
+      "logical": "Authentication/PrivilegeEntity.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/PrivilegeEntity.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-PrivilegeEntity.md",
+        "sha256": "b5e81ba703bcb97f1a25e9c7888439d768d67008212110034e3488d3bfc7635d"
+      }
+    },
+    {
+      "logical": "Authentication/RBACMeta.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/RBACMeta.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-RBACMeta.md",
+        "sha256": "c9275f0e39636c4f55c7ebce8f2c2c9fd24df62efafb2226ba4a95b82d2413b1"
+      }
+    },
+    {
+      "logical": "Authentication/RoleEntity.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/RoleEntity.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-RoleEntity.md",
+        "sha256": "e669de51a95630fd6f67731a469467cd67d24cbd932b3d797b2bc454119ef228"
+      }
+    },
+    {
+      "logical": "Authentication/User.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/User.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-User.md",
+        "sha256": "a410a601a64d930e021799513195241f0adb06f775034c89e86ab9ec23ec29b6"
+      }
+    },
+    {
+      "logical": "Authentication/addPrivilegesToGroup.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/addPrivilegesToGroup.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-addPrivilegesToGroup.md",
+        "sha256": "86fc2c185476cd32683910f2ce6d5aa43f789382d9c4a950a13be6d315f83366"
+      }
+    },
+    {
       "logical": "Authentication/addUserToRole.md",
       "token": "Qc72dTKgroNdHjxIG2xcwNdmnHb",
       "source": {
@@ -89,6 +180,46 @@
       "output": {
         "path": "node/Authentication/Authentication-addUserToRole.md",
         "sha256": "ebe5611343525f06a9d311873cabf25015f6ab75e10ce43be2ed47633e58d96e"
+      }
+    },
+    {
+      "logical": "Authentication/alterRole.md",
+      "token": "Fvw0dyRalo2ceVxdY4Fcf9uTnBg",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/alterRole.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-alterRole.md",
+        "sha256": "eeba2d6c887a1687586b944a5055164e441bdde33b95e8544a13b395964a664c"
+      }
+    },
+    {
+      "logical": "Authentication/backupRBAC.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/backupRBAC.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-backupRBAC.md",
+        "sha256": "8faa319ba9ff439502988f623f8d7438e168bce9575c81a85031f13828616a70"
+      }
+    },
+    {
+      "logical": "Authentication/createPrivilegeGroup.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/createPrivilegeGroup.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-createPrivilegeGroup.md",
+        "sha256": "b395c0c243342952c93a4014ab59fb27af2820177c67edec0237763b2f9f5bc2"
       }
     },
     {
@@ -144,7 +275,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-describeRole.md",
-        "sha256": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626"
+        "sha256": "52e0b907a36f986c1fa87876acf513ece9bb48f1fd21a8bf2e8231254edd52a9"
       }
     },
     {
@@ -158,7 +289,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-describeUser.md",
-        "sha256": "6a94214f07ebc279c40baecca9eff3f480bd5e0923331fde374d8019ecb8f189"
+        "sha256": "0783e45580cc28e10645b2197cbd9d9dfa698821eddfe0dacbb9b4a27ee4ddb1"
       }
     },
     {
@@ -256,7 +387,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-listGrant.md",
-        "sha256": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b"
+        "sha256": "e0e707f4707789d70ee76f8a41d52e2a5c036e49e71dff7c2fd8662a5275fe7a"
       }
     },
     {
@@ -270,7 +401,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-listGrants.md",
-        "sha256": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62"
+        "sha256": "ee6df4fe2d504c889f082e0d0ebbbb3b48bfaa0a2fc069d1a00752160493ef44"
       }
     },
     {
@@ -284,7 +415,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
-        "sha256": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
+        "sha256": "61efa4ebfedfcf1da814860f77cc307539185d4ed3e946b4d5db623582d76aab"
       }
     },
     {
@@ -344,6 +475,19 @@
       }
     },
     {
+      "logical": "Authentication/restoreRBAC.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Authentication/restoreRBAC.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Authentication/Authentication-restoreRBAC.md",
+        "sha256": "0ee03ebfb151df7d5eed1037d0d62398e7aac2b2d8011791241510ef0b3b5855"
+      }
+    },
+    {
       "logical": "Authentication/revokePrivilegeV2.md",
       "token": "UlAUdLNkCo1Mp8xFZYWclSL9n6b",
       "source": {
@@ -381,7 +525,7 @@
       "channel": "current",
       "output": {
         "path": "node/Authentication/Authentication-selectGrant.md",
-        "sha256": "912d5a2e306ae83d796da97f4bd9dcaf75388d52b9b2f89702ad59ec4aca69b8"
+        "sha256": "613f15cdf947e99901d874926a22cf6ec4deaa0c08260bfa87d8507fc3673ee2"
       }
     },
     {
@@ -1225,6 +1369,19 @@
       }
     },
     {
+      "logical": "DataImport/ImportState.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/DataImport/ImportState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/DataImport/DataImport-ImportState.md",
+        "sha256": "bcf6820085b6aeae71260f63e88f3647d78c8cf09537736ad34fcd62f8cd09f0"
+      }
+    },
+    {
       "logical": "DataImport/Storage.md",
       "token": "DsLHde5AWomjFhxD3K7c4Yklnlh",
       "source": {
@@ -1290,7 +1447,7 @@
       "channel": "current",
       "output": {
         "path": "node/DataImport/DataImport-getImportState.md",
-        "sha256": "6b12ac9bbd3ea780b1b2689e431377cc281eadd25203414d21a1b2d315ace45d"
+        "sha256": "f3e1dd76c54e6759248ce3625f02a2705116c0582ed21bb51bb3d60b4f262f06"
       }
     },
     {
@@ -1318,7 +1475,7 @@
       "channel": "current",
       "output": {
         "path": "node/DataImport/DataImport-listImportTasks.md",
-        "sha256": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a"
+        "sha256": "b9238cd9c10be5506201d12b6f2f0dd9eb38440fbae285e164541065d8547195"
       }
     },
     {
@@ -1434,6 +1591,74 @@
       }
     },
     {
+      "logical": "FileResources/addFileResource.md",
+      "token": "RnyUdtGbFoIC7AxyhmNcbudYnhb",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/addFileResource.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/FileResources/FileResources-addFileResource.md",
+        "sha256": "1785b65e4236fea85b2a18c82b04df37a733288760f1bbf198eed004bc6460f7"
+      }
+    },
+    {
+      "logical": "FileResources/listFileResources.md",
+      "token": "GK8hdiDs8olcOtxu0BKc89Vxn0b",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/listFileResources.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/FileResources/FileResources-listFileResources.md",
+        "sha256": "fcdc5ebbe97cac679ec7686ad0e907a4e5d60a11a5309077a69e936386b9ddbd"
+      }
+    },
+    {
+      "logical": "FileResources/removeFileResource.md",
+      "token": "TfFQdwR7borsLfxiwdCcXoKvnth",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/FileResources/removeFileResource.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/FileResources/FileResources-removeFileResource.md",
+        "sha256": "b9440ab57414aa14298fcb2637f8351cdb2cb3db1f0ee4e5df070c0e563c42a0"
+      }
+    },
+    {
+      "logical": "Management/CompactionState.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/CompactionState.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-CompactionState.md",
+        "sha256": "658d3f57692f3e66ad71a62d46bdace4a8af7bacabaf174138a0af413af72a8f"
+      }
+    },
+    {
+      "logical": "Management/IndexDescription.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/IndexDescription.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-IndexDescription.md",
+        "sha256": "0859c7561ea6a54b5446b37e318484908f39b328188c1936707dc7d7bf7d2efd"
+      }
+    },
+    {
       "logical": "Management/IndexType.md",
       "token": "SI3Td00AroRtx8xXQcUce8i2nrb",
       "source": {
@@ -1514,7 +1739,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-describeIndex.md",
-        "sha256": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1"
+        "sha256": "5a1edf6a0ffbf199e6ab23c6fedb4579c521fe266d18b3c79af83f72563f6e13"
       }
     },
     {
@@ -1612,7 +1837,20 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-getCompactionState.md",
-        "sha256": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a"
+        "sha256": "0ab16c2868f0333545b04d244dc983d4e32e6b506d282c1f864ecc48337b8caf"
+      }
+    },
+    {
+      "logical": "Management/getCompactionStateWithPlans.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Management/getCompactionStateWithPlans.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Management/Management-getCompactionStateWithPlans.md",
+        "sha256": "67bf5fc26837b790b9989ef46f8e4e971a15420d574a459568a0f135a55998aa"
       }
     },
     {
@@ -1681,7 +1919,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-getIndexStatistics.md",
-        "sha256": "05576b272d8288b9e95e5070987c91ba23b119a55176916c76a2742c33b108d2"
+        "sha256": "58045a45b4b7b54aeadfb5abadc8b4f0b89ff98e4eb4af3a8233d47befea0373"
       }
     },
     {
@@ -1923,6 +2161,19 @@
       }
     },
     {
+      "logical": "Snapshot/RestoreSnapshotJobInfo.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Snapshot/RestoreSnapshotJobInfo.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Snapshot/Snapshot-RestoreSnapshotJobInfo.md",
+        "sha256": "54eb0559e321615ccbfcbbd8087f8088c206d3d2214cfce660c9c421ba7a8f8f"
+      }
+    },
+    {
       "logical": "Snapshot/createSnapshot.md",
       "token": "NeUFdr0OXo90RExodnccqc3OnYU",
       "source": {
@@ -1975,7 +2226,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
-        "sha256": "764e86531510d2b5f0c01b93edcf0e430f7a4ece133070297faa755529c0564c"
+        "sha256": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
       }
     },
     {
@@ -1989,7 +2240,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-        "sha256": "fd84956f8774387468c056db661c33c2193463147d5267a9f80796a5b0342103"
+        "sha256": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
       }
     },
     {
@@ -2049,6 +2300,97 @@
       }
     },
     {
+      "logical": "Vector/FunctionScore.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/FunctionScore.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-FunctionScore.md",
+        "sha256": "3a80eb856900a8782208c0d63d612f60cf1abc7fa79524586badca138b1848b3"
+      }
+    },
+    {
+      "logical": "Vector/NumberArrayId.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/NumberArrayId.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-NumberArrayId.md",
+        "sha256": "a560a2b31435f2c4c0856340bfb27dba2aa5e4ee7e7190b6752026ea46e65ffa"
+      }
+    },
+    {
+      "logical": "Vector/OutputTransformers.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/OutputTransformers.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-OutputTransformers.md",
+        "sha256": "3fb66e72209a3005def10427603a8bbedf6b8b2c4545b88c76a01c96e6f6461d"
+      }
+    },
+    {
+      "logical": "Vector/RerankerObj.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/RerankerObj.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-RerankerObj.md",
+        "sha256": "26a67eb338efac3c507d971712556ecd1e7f01091d89c8cac9004ad50b90d347"
+      }
+    },
+    {
+      "logical": "Vector/RowData.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/RowData.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-RowData.md",
+        "sha256": "b732aa12aea94b373446887dbbe58f7d1970e765a341ec57f6187e23586489b6"
+      }
+    },
+    {
+      "logical": "Vector/SearchData.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/SearchData.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-SearchData.md",
+        "sha256": "0738c64e0bf55611d4fce0569832f4e3b00e78704721dc046488d2e679a58059"
+      }
+    },
+    {
+      "logical": "Vector/StringArrayId.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/StringArrayId.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-StringArrayId.md",
+        "sha256": "18749f82cc9225d87b2dcb9d2061d263bbc5e2c48b2131aba01be34f5be8036a"
+      }
+    },
+    {
       "logical": "Vector/count.md",
       "token": "NaOadUNSpo1EsIxPMSfc0R4Hnfb",
       "source": {
@@ -2073,7 +2415,20 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-delete.md",
-        "sha256": "d1b956310bde3937ac22bb66108f917ce788f614c06d78da469fcaff4135fc3c"
+        "sha256": "307555b4a9dcb6f319600fbe796c64457378dd6ac74c082acabc34c30f15339f"
+      }
+    },
+    {
+      "logical": "Vector/deleteEntities.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/deleteEntities.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-deleteEntities.md",
+        "sha256": "d989fdf9148afd0343e283a3f9ef5416a046d9f319faeca7fde0b128b242e08e"
       }
     },
     {
@@ -2087,7 +2442,20 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-get.md",
-        "sha256": "ee21008a4a689a3f1b78aaa6876b432f5634e01ead07178e4a1ffc52bd6f5f9c"
+        "sha256": "562e56c9c61ec56b19ed8c02bd48faeff0228cae38e8bbf5a09d461f6ac8be91"
+      }
+    },
+    {
+      "logical": "Vector/getMetric.md",
+      "source": {
+        "kind": "upstream",
+        "file": "API_Reference/milvus-sdk-node/v3.0.x/Vector/getMetric.md",
+        "commit": null
+      },
+      "channel": "current",
+      "output": {
+        "path": "node/Vector/Vector-getMetric.md",
+        "sha256": "0957068fb60eb06d07a54d4ea6a56480eb14f193982d52ec7f9201b74bf990c9"
       }
     },
     {
@@ -2101,7 +2469,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-hybridSearch.md",
-        "sha256": "7b174f588744c9392eae3045777bc719115d6fb4fad18f0de4894d6b26be665d"
+        "sha256": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
       }
     },
     {
@@ -2115,7 +2483,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-insert.md",
-        "sha256": "2b78f33d726146a484cf807bda2ee60321837ea08a6daa6617a0192f487e87d2"
+        "sha256": "170bae549cf49322104568a7384a5cfb1682dee215cbd14e30d08edea90ce88d"
       }
     },
     {
@@ -2129,7 +2497,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-query.md",
-        "sha256": "e8ec2cd6f91bc51342c869e56c5bec3a6d896db3699af8e5052d104fa5f72f5e"
+        "sha256": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
       }
     },
     {
@@ -2143,7 +2511,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-queryIterator.md",
-        "sha256": "a0c375e2fca0599b67222c4f65a6e13f9a8bd0c2522223fb91b6a5ace89dbdea"
+        "sha256": "52873288f15a5145eba9869057341abe2733f6f49ea066b60c43821f4a7bf49c"
       }
     },
     {
@@ -2157,7 +2525,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-search.md",
-        "sha256": "78b1d5e370ec263fcd783da3e151db792c9b207ffdd45f9532f6a5241132923e"
+        "sha256": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
       }
     },
     {
@@ -2171,7 +2539,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-searchIterator.md",
-        "sha256": "222edcd179dd23d55a70cff6cbdd51de903a4cbaffae6b9e2694704e9475b598"
+        "sha256": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
       }
     },
     {
@@ -2185,7 +2553,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-upsert.md",
-        "sha256": "ed32aeda65a85ac5760b4a4d2268d1d83419456cfb3ca1ad0cebcfcb29776565"
+        "sha256": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
       }
     },
     {
@@ -2207,8 +2575,48 @@
       "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
     },
     {
+      "path": "node/Authentication/Authentication-GrantEntity.md",
+      "sha256": "e4da2b77b1d5cf28e57565d1fde8e0d8e9a5bd94870dfcf49080d97beba8045e"
+    },
+    {
+      "path": "node/Authentication/Authentication-PrivelegeGroup.md",
+      "sha256": "6aae52ceb05387a9508b0a9001ab209fdcd4a217e5a2dcf7d938da117b100de6"
+    },
+    {
+      "path": "node/Authentication/Authentication-PrivilegeEntity.md",
+      "sha256": "b5e81ba703bcb97f1a25e9c7888439d768d67008212110034e3488d3bfc7635d"
+    },
+    {
+      "path": "node/Authentication/Authentication-RBACMeta.md",
+      "sha256": "c9275f0e39636c4f55c7ebce8f2c2c9fd24df62efafb2226ba4a95b82d2413b1"
+    },
+    {
+      "path": "node/Authentication/Authentication-RoleEntity.md",
+      "sha256": "e669de51a95630fd6f67731a469467cd67d24cbd932b3d797b2bc454119ef228"
+    },
+    {
+      "path": "node/Authentication/Authentication-User.md",
+      "sha256": "a410a601a64d930e021799513195241f0adb06f775034c89e86ab9ec23ec29b6"
+    },
+    {
+      "path": "node/Authentication/Authentication-addPrivilegesToGroup.md",
+      "sha256": "86fc2c185476cd32683910f2ce6d5aa43f789382d9c4a950a13be6d315f83366"
+    },
+    {
       "path": "node/Authentication/Authentication-addUserToRole.md",
       "sha256": "ebe5611343525f06a9d311873cabf25015f6ab75e10ce43be2ed47633e58d96e"
+    },
+    {
+      "path": "node/Authentication/Authentication-alterRole.md",
+      "sha256": "eeba2d6c887a1687586b944a5055164e441bdde33b95e8544a13b395964a664c"
+    },
+    {
+      "path": "node/Authentication/Authentication-backupRBAC.md",
+      "sha256": "8faa319ba9ff439502988f623f8d7438e168bce9575c81a85031f13828616a70"
+    },
+    {
+      "path": "node/Authentication/Authentication-createPrivilegeGroup.md",
+      "sha256": "b395c0c243342952c93a4014ab59fb27af2820177c67edec0237763b2f9f5bc2"
     },
     {
       "path": "node/Authentication/Authentication-createRole.md",
@@ -2224,11 +2632,11 @@
     },
     {
       "path": "node/Authentication/Authentication-describeRole.md",
-      "sha256": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626"
+      "sha256": "52e0b907a36f986c1fa87876acf513ece9bb48f1fd21a8bf2e8231254edd52a9"
     },
     {
       "path": "node/Authentication/Authentication-describeUser.md",
-      "sha256": "6a94214f07ebc279c40baecca9eff3f480bd5e0923331fde374d8019ecb8f189"
+      "sha256": "0783e45580cc28e10645b2197cbd9d9dfa698821eddfe0dacbb9b4a27ee4ddb1"
     },
     {
       "path": "node/Authentication/Authentication-dropAllRoles.md",
@@ -2256,15 +2664,15 @@
     },
     {
       "path": "node/Authentication/Authentication-listGrant.md",
-      "sha256": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b"
+      "sha256": "e0e707f4707789d70ee76f8a41d52e2a5c036e49e71dff7c2fd8662a5275fe7a"
     },
     {
       "path": "node/Authentication/Authentication-listGrants.md",
-      "sha256": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62"
+      "sha256": "ee6df4fe2d504c889f082e0d0ebbbb3b48bfaa0a2fc069d1a00752160493ef44"
     },
     {
       "path": "node/Authentication/Authentication-listPrivilegeGroups.md",
-      "sha256": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
+      "sha256": "61efa4ebfedfcf1da814860f77cc307539185d4ed3e946b4d5db623582d76aab"
     },
     {
       "path": "node/Authentication/Authentication-listRoles.md",
@@ -2283,6 +2691,10 @@
       "sha256": "f568a96a385e1b9b35af6a2b264d53dd54acdc7c788a0ddb65ef317afe8be0a2"
     },
     {
+      "path": "node/Authentication/Authentication-restoreRBAC.md",
+      "sha256": "0ee03ebfb151df7d5eed1037d0d62398e7aac2b2d8011791241510ef0b3b5855"
+    },
+    {
       "path": "node/Authentication/Authentication-revokePrivilegeV2.md",
       "sha256": "e5156f3eff173b74e06297da8b6e93abd069a29d2abb8999724320d202162061"
     },
@@ -2292,7 +2704,7 @@
     },
     {
       "path": "node/Authentication/Authentication-selectGrant.md",
-      "sha256": "912d5a2e306ae83d796da97f4bd9dcaf75388d52b9b2f89702ad59ec4aca69b8"
+      "sha256": "613f15cdf947e99901d874926a22cf6ec4deaa0c08260bfa87d8507fc3673ee2"
     },
     {
       "path": "node/Authentication/Authentication-updateUser.md",
@@ -2539,6 +2951,10 @@
       "sha256": "aa2dd5685db781d1cf7e5adde939dc50c99cb59d4906bb7a7174a73da0dcd51a"
     },
     {
+      "path": "node/DataImport/DataImport-ImportState.md",
+      "sha256": "bcf6820085b6aeae71260f63e88f3647d78c8cf09537736ad34fcd62f8cd09f0"
+    },
+    {
       "path": "node/DataImport/DataImport-Storage.md",
       "sha256": "be4fa7c01e33bbd2274f019dd30ffd3fb338cc8d67d48691e6572d08153a4897"
     },
@@ -2556,7 +2972,7 @@
     },
     {
       "path": "node/DataImport/DataImport-getImportState.md",
-      "sha256": "6b12ac9bbd3ea780b1b2689e431377cc281eadd25203414d21a1b2d315ace45d"
+      "sha256": "f3e1dd76c54e6759248ce3625f02a2705116c0582ed21bb51bb3d60b4f262f06"
     },
     {
       "path": "node/DataImport/DataImport-listImportJobs.md",
@@ -2564,7 +2980,7 @@
     },
     {
       "path": "node/DataImport/DataImport-listImportTasks.md",
-      "sha256": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a"
+      "sha256": "b9238cd9c10be5506201d12b6f2f0dd9eb38440fbae285e164541065d8547195"
     },
     {
       "path": "node/Database/Database-alterDatabase.md",
@@ -2599,6 +3015,26 @@
       "sha256": "f692a4c8c88259cd027f75ac13227ceb33b53651102dcf5193e33b0b112093cb"
     },
     {
+      "path": "node/FileResources/FileResources-addFileResource.md",
+      "sha256": "1785b65e4236fea85b2a18c82b04df37a733288760f1bbf198eed004bc6460f7"
+    },
+    {
+      "path": "node/FileResources/FileResources-listFileResources.md",
+      "sha256": "fcdc5ebbe97cac679ec7686ad0e907a4e5d60a11a5309077a69e936386b9ddbd"
+    },
+    {
+      "path": "node/FileResources/FileResources-removeFileResource.md",
+      "sha256": "b9440ab57414aa14298fcb2637f8351cdb2cb3db1f0ee4e5df070c0e563c42a0"
+    },
+    {
+      "path": "node/Management/Management-CompactionState.md",
+      "sha256": "658d3f57692f3e66ad71a62d46bdace4a8af7bacabaf174138a0af413af72a8f"
+    },
+    {
+      "path": "node/Management/Management-IndexDescription.md",
+      "sha256": "0859c7561ea6a54b5446b37e318484908f39b328188c1936707dc7d7bf7d2efd"
+    },
+    {
       "path": "node/Management/Management-IndexType.md",
       "sha256": "57ad253a93d7915f32ffafcf77d4cbcbcf2cf8f6a375b5f716ced3cd41cde177"
     },
@@ -2620,7 +3056,7 @@
     },
     {
       "path": "node/Management/Management-describeIndex.md",
-      "sha256": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1"
+      "sha256": "5a1edf6a0ffbf199e6ab23c6fedb4579c521fe266d18b3c79af83f72563f6e13"
     },
     {
       "path": "node/Management/Management-dropIndex.md",
@@ -2648,7 +3084,11 @@
     },
     {
       "path": "node/Management/Management-getCompactionState.md",
-      "sha256": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a"
+      "sha256": "0ab16c2868f0333545b04d244dc983d4e32e6b506d282c1f864ecc48337b8caf"
+    },
+    {
+      "path": "node/Management/Management-getCompactionStateWithPlans.md",
+      "sha256": "67bf5fc26837b790b9989ef46f8e4e971a15420d574a459568a0f135a55998aa"
     },
     {
       "path": "node/Management/Management-getFlushAllState.md",
@@ -2668,7 +3108,7 @@
     },
     {
       "path": "node/Management/Management-getIndexStatistics.md",
-      "sha256": "05576b272d8288b9e95e5070987c91ba23b119a55176916c76a2742c33b108d2"
+      "sha256": "58045a45b4b7b54aeadfb5abadc8b4f0b89ff98e4eb4af3a8233d47befea0373"
     },
     {
       "path": "node/Management/Management-getLoadState.md",
@@ -2739,6 +3179,10 @@
       "sha256": "d68c5a8ffe9d9b40e934753a2aec4e417d59e45a79c9bcf9f8e3c351600069ef"
     },
     {
+      "path": "node/Snapshot/Snapshot-RestoreSnapshotJobInfo.md",
+      "sha256": "54eb0559e321615ccbfcbbd8087f8088c206d3d2214cfce660c9c421ba7a8f8f"
+    },
+    {
       "path": "node/Snapshot/Snapshot-createSnapshot.md",
       "sha256": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
     },
@@ -2752,11 +3196,11 @@
     },
     {
       "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "sha256": "764e86531510d2b5f0c01b93edcf0e430f7a4ece133070297faa755529c0564c"
+      "sha256": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
     },
     {
       "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "sha256": "fd84956f8774387468c056db661c33c2193463147d5267a9f80796a5b0342103"
+      "sha256": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
     },
     {
       "path": "node/Snapshot/Snapshot-listSnapshots.md",
@@ -2775,44 +3219,80 @@
       "sha256": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
     },
     {
+      "path": "node/Vector/Vector-FunctionScore.md",
+      "sha256": "3a80eb856900a8782208c0d63d612f60cf1abc7fa79524586badca138b1848b3"
+    },
+    {
+      "path": "node/Vector/Vector-NumberArrayId.md",
+      "sha256": "a560a2b31435f2c4c0856340bfb27dba2aa5e4ee7e7190b6752026ea46e65ffa"
+    },
+    {
+      "path": "node/Vector/Vector-OutputTransformers.md",
+      "sha256": "3fb66e72209a3005def10427603a8bbedf6b8b2c4545b88c76a01c96e6f6461d"
+    },
+    {
+      "path": "node/Vector/Vector-RerankerObj.md",
+      "sha256": "26a67eb338efac3c507d971712556ecd1e7f01091d89c8cac9004ad50b90d347"
+    },
+    {
+      "path": "node/Vector/Vector-RowData.md",
+      "sha256": "b732aa12aea94b373446887dbbe58f7d1970e765a341ec57f6187e23586489b6"
+    },
+    {
+      "path": "node/Vector/Vector-SearchData.md",
+      "sha256": "0738c64e0bf55611d4fce0569832f4e3b00e78704721dc046488d2e679a58059"
+    },
+    {
+      "path": "node/Vector/Vector-StringArrayId.md",
+      "sha256": "18749f82cc9225d87b2dcb9d2061d263bbc5e2c48b2131aba01be34f5be8036a"
+    },
+    {
       "path": "node/Vector/Vector-count.md",
       "sha256": "18af42ca11891671000a8eac31caec26642f0ed7c8263a98bfda80fafd930a9e"
     },
     {
       "path": "node/Vector/Vector-delete.md",
-      "sha256": "d1b956310bde3937ac22bb66108f917ce788f614c06d78da469fcaff4135fc3c"
+      "sha256": "307555b4a9dcb6f319600fbe796c64457378dd6ac74c082acabc34c30f15339f"
+    },
+    {
+      "path": "node/Vector/Vector-deleteEntities.md",
+      "sha256": "d989fdf9148afd0343e283a3f9ef5416a046d9f319faeca7fde0b128b242e08e"
     },
     {
       "path": "node/Vector/Vector-get.md",
-      "sha256": "ee21008a4a689a3f1b78aaa6876b432f5634e01ead07178e4a1ffc52bd6f5f9c"
+      "sha256": "562e56c9c61ec56b19ed8c02bd48faeff0228cae38e8bbf5a09d461f6ac8be91"
+    },
+    {
+      "path": "node/Vector/Vector-getMetric.md",
+      "sha256": "0957068fb60eb06d07a54d4ea6a56480eb14f193982d52ec7f9201b74bf990c9"
     },
     {
       "path": "node/Vector/Vector-hybridSearch.md",
-      "sha256": "7b174f588744c9392eae3045777bc719115d6fb4fad18f0de4894d6b26be665d"
+      "sha256": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
     },
     {
       "path": "node/Vector/Vector-insert.md",
-      "sha256": "2b78f33d726146a484cf807bda2ee60321837ea08a6daa6617a0192f487e87d2"
+      "sha256": "170bae549cf49322104568a7384a5cfb1682dee215cbd14e30d08edea90ce88d"
     },
     {
       "path": "node/Vector/Vector-query.md",
-      "sha256": "e8ec2cd6f91bc51342c869e56c5bec3a6d896db3699af8e5052d104fa5f72f5e"
+      "sha256": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
     },
     {
       "path": "node/Vector/Vector-queryIterator.md",
-      "sha256": "a0c375e2fca0599b67222c4f65a6e13f9a8bd0c2522223fb91b6a5ace89dbdea"
+      "sha256": "52873288f15a5145eba9869057341abe2733f6f49ea066b60c43821f4a7bf49c"
     },
     {
       "path": "node/Vector/Vector-search.md",
-      "sha256": "78b1d5e370ec263fcd783da3e151db792c9b207ffdd45f9532f6a5241132923e"
+      "sha256": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
     },
     {
       "path": "node/Vector/Vector-searchIterator.md",
-      "sha256": "222edcd179dd23d55a70cff6cbdd51de903a4cbaffae6b9e2694704e9475b598"
+      "sha256": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
     },
     {
       "path": "node/Vector/Vector-upsert.md",
-      "sha256": "ed32aeda65a85ac5760b4a4d2268d1d83419456cfb3ca1ad0cebcfcb29776565"
+      "sha256": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
     },
     {
       "path": "node/Volume/Volume-VolumeManager.md",

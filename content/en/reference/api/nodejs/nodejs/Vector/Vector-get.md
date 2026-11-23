@@ -99,7 +99,7 @@ await milvusClient.get({
 
     The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     A custom function to convert data for specific data types.
 

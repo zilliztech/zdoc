@@ -79,11 +79,11 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 - **results** (*UserResult[]*) -
 A list of **UserResult** objects. For `describeUser()`, this list contains a single entry describing the requested user.
 
-    - **user** (*User*) -
+    - **user** (*[User](./Authentication-User)*) -
 
-        A **User** object identifying the user.
+        A **[User](./Authentication-User)** object identifying the user.
 
-    - **roles** (*RoleEntity[]*) -
+    - **roles** (*[RoleEntity](./Authentication-RoleEntity)[]*) -
 
         A list of roles assigned to this user.
 

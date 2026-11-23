@@ -84,7 +84,7 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
 **PARAMETERS:**
 
-- **index_descriptions** (*IndexDescription[]*) -
+- **index_descriptions** (*[IndexDescription](./Management-IndexDescription)[]*) -
 
 A list of index descriptions for the requested collection. When **field_name** or **index_name** is supplied, the list contains only the matching entry.
 

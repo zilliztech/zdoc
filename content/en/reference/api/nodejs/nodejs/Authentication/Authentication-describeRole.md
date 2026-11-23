@@ -79,15 +79,15 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 - **results** (*RoleResult[]*) -
 A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
 
-    - **role** (*RoleEntity*) -
+    - **role** (*[RoleEntity](./Authentication-RoleEntity)*) -
 
         A **RoleEntity** object describing the role.
 
-    - **users** (*User[]*) -
+    - **users** (*[User](./Authentication-User)[]*) -
 
         A list of users that hold this role.
 
-    - **entities** (*GrantEntity[]*) -
+    - **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
         A list of grants attached to this role. Each entry includes the granted privilege, the target object, and the user who granted it.
 

@@ -90,7 +90,7 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
     A list of grant entities, each of which is shaped as follows.
 

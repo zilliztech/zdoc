@@ -74,7 +74,7 @@ This method returns a promise that resolves to a **GetImportStateResponse** obje
 
 **PARAMETERS:**
 
-- **state** (*ImportState*) -
+- **state** (*[ImportState](./DataImport-ImportState)*) -
 
     The current state of the import task. Possible values include **ImportPending**, **ImportStarted**, **ImportPersisted**, **ImportCompleted**, **ImportFailed**, and **ImportFailedAndCleaned**.
 

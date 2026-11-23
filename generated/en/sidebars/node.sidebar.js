@@ -424,6 +424,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/DataImport/DataImport-getImportJobProgress",
         "label": "getImportJobProgress()",
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportjobprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-ImportState",
+        "label": "ImportState",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-importstate"
       }
     ]
   },
@@ -590,9 +596,27 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-CompactionState",
+        "label": "CompactionState",
+        "key": "doc:api/nodejs/nodejs/Management/management-compactionstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getCompactionStateWithPlans",
+        "label": "getCompactionStateWithPlans()",
+        "key": "doc:api/nodejs/nodejs/Management/management-getcompactionstatewithplans"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Management/Management-getIndexStatistics",
         "label": "getIndexStatistics()",
         "key": "doc:api/nodejs/nodejs/Management/management-getindexstatistics"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-IndexDescription",
+        "label": "IndexDescription",
+        "key": "doc:api/nodejs/nodejs/Management/management-indexdescription"
       }
     ]
   },
@@ -654,6 +678,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData",
         "label": "unpinSnapshotData()",
         "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-unpinsnapshotdata"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-RestoreSnapshotJobInfo",
+        "label": "RestoreSnapshotJobInfo",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-restoresnapshotjobinfo"
       }
     ]
   },
@@ -721,6 +751,60 @@ module.exports = [
         "id": "api/nodejs/nodejs/Vector/Vector-queryIterator",
         "label": "queryIterator()",
         "key": "doc:api/nodejs/nodejs/Vector/vector-queryiterator"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-deleteEntities",
+        "label": "deleteEntities()",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-deleteentities"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-FunctionScore",
+        "label": "FunctionScore",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-functionscore"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-getMetric",
+        "label": "getMetric()",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-getmetric"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-NumberArrayId",
+        "label": "NumberArrayId",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-numberarrayid"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-OutputTransformers",
+        "label": "OutputTransformers",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-outputtransformers"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-RerankerObj",
+        "label": "RerankerObj",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-rerankerobj"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-RowData",
+        "label": "RowData",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-rowdata"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-SearchData",
+        "label": "SearchData",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-searchdata"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Vector/Vector-StringArrayId",
+        "label": "StringArrayId",
+        "key": "doc:api/nodejs/nodejs/Vector/vector-stringarrayid"
       }
     ]
   },
@@ -863,9 +947,75 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-alterRole",
+        "label": "alterRole()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-alterrole"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-addPrivilegesToGroup",
+        "label": "addPrivilegesToGroup()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-addprivilegestogroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-backupRBAC",
+        "label": "backupRBAC()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-backuprbac"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-createPrivilegeGroup",
+        "label": "createPrivilegeGroup()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-createprivilegegroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-GrantEntity",
+        "label": "GrantEntity",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-grantentity"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-PrivelegeGroup",
+        "label": "PrivelegeGroup",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-privelegegroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-PrivilegeEntity",
+        "label": "PrivilegeEntity",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-privilegeentity"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-RBACMeta",
+        "label": "RBACMeta",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-rbacmeta"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-restoreRBAC",
+        "label": "restoreRBAC()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-restorerbac"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-RoleEntity",
+        "label": "RoleEntity",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-roleentity"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Authentication/Authentication-selectGrant",
         "label": "selectGrant()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-selectgrant"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-User",
+        "label": "User",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-user"
       }
     ]
   },
@@ -989,6 +1139,31 @@ module.exports = [
         "id": "api/nodejs/nodejs/Volume/Volume-VolumeManager",
         "label": "VolumeManager",
         "key": "doc:api/nodejs/nodejs/Volume/volume-volumemanager"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "FileResources",
+    "key": "category:api/nodejs/nodejs/fileresources",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-addFileResource",
+        "label": "addFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-addfileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-listFileResources",
+        "label": "listFileResources()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-listfileresources"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/FileResources/FileResources-removeFileResource",
+        "label": "removeFileResource()",
+        "key": "doc:api/nodejs/nodejs/FileResources/fileresources-removefileresource"
       }
     ]
   }

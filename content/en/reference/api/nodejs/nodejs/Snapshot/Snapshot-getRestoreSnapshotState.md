@@ -70,7 +70,7 @@ This method returns a promise that resolves to a **GetRestoreSnapshotStateRespon
 
 **PARAMETERS:**
 
-- **info** (*RestoreSnapshotJobInfo*) -
+- **info** (*[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo)*) -
 
 The current state of the restore job.
 

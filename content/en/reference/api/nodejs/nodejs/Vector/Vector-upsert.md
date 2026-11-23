@@ -59,7 +59,7 @@ await milvusClient.upsert({
 
     The name of an existing collection.
 
-- **data** (*RowData[]*) -
+- **data** (*[RowData](./Vector-RowData)[]*) -
 
     The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the collection schema. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted. Provide either **data** or **fields_data**.
 
@@ -142,7 +142,7 @@ The total number of rows upserted by this operation.
 - **timestamp** (*string*) -
 The hybrid timestamp at which the write became visible.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 The primary keys carried in the upserted rows. For the full field reference, refer to the `insert()` doc.
 
