@@ -15,6 +15,12 @@
 //            plus the ledger update. Conf content is never hand-written:
 //            every mode emits through conf-rules.js.
 //
+// Apply mode accepts --site en|zh-CN for the product-doc-links remediation
+// loop (product-doc-remediation.js): a zh-CN batch carries no ja twin, must
+// be paired with the zh conf/snapshot, and records site-tagged entries in
+// that loop's multi-site ledger. Without --site the en dialect and the
+// path-keyed ledger are unchanged.
+//
 // GA access is read-only (scope analytics.readonly) via scripts/lib/ga4-auth.js.
 // Probes are anonymous public GETs against production.
 //
@@ -54,6 +60,7 @@ const SITE_HOSTS = Object.freeze({
 
 const BOOLEAN_FLAGS = new Set(['--no-probe', '--write-conf'])
 const MODES = new Set(['direct', 'triage', 'apply'])
+const SITES = new Set(['en', 'zh-CN'])
 
 function parseArgs(argv) {
   const values = {}
@@ -77,7 +84,7 @@ function parseArgs(argv) {
 const FLAG_NAMES = [
   '--credentials', '--ga4-report', '--conf', '--snapshot', '--output-dir',
   '--days', '--min-users', '--min-events', '--batch-limit', '--mode',
-  '--mapping', '--reply-file', '--ledger',
+  '--mapping', '--reply-file', '--ledger', '--site',
 ]
 
 const USAGE = [
@@ -85,6 +92,8 @@ const USAGE = [
   '       [--conf PATH] [--snapshot PATH] [--days N] [--min-users N] [--min-events N]',
   '       [--batch-limit N] [--mode direct|triage|apply] [--mapping FILE | --reply-file FILE]',
   '       [--ledger FILE] [--no-probe] [--write-conf]',
+  '       apply/direct/triage also accept --site en|zh-CN (default en; zh-CN rules carry',
+  '       no ja twin and must be paired with explicit --conf/--snapshot of the zh site).',
 ].join('\n')
 
 function parseNumber(values, name, fallback, {min, max}) {
@@ -162,7 +171,13 @@ function loadLedger(filePath) {
     if (!['fixed', 'declined', 'denylist'].includes(entry.status)) {
       throw new Error(`ledger entry ${entry.from} has unknown status ${entry.status}`)
     }
-    map.set(entry.from, entry)
+    // A multi-site ledger (the product-doc-links loop) tags every entry with
+    // its site and keys `site::from`; single-site entries (the GA4 ledger)
+    // stay keyed by the bare path.
+    if (entry.site !== undefined && entry.site !== 'en' && entry.site !== 'zh-CN') {
+      throw new Error(`ledger entry ${entry.from} has invalid site ${entry.site}`)
+    }
+    map.set(entry.site ? `${entry.site}::${entry.from}` : entry.from, entry)
   }
   return {map, raw}
 }
@@ -210,15 +225,17 @@ function workflowRunUrl(env) {
 // re-submitted as the identical decision (retry idempotency); changing it is
 // rejected so a stale reply or a later comment can never silently flip a
 // recorded decision — removing the ledger entry first is the explicit path.
-function assertLedgerUndecided(mapping, ledgerRaw) {
-  const existing = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
+// `site` scopes the lookup for the multi-site ledger dialect (site::from keys).
+function assertLedgerUndecided(mapping, ledgerRaw, site) {
+  const keyOf = entry => (site ?? entry.site) ? `${site ?? entry.site}::${entry.from}` : entry.from
+  const existing = new Map((ledgerRaw.entries ?? []).map(entry => [keyOf(entry), entry]))
   const submissions = [
     ...(mapping.mappings ?? []).map(entry => ({from: entry.from, status: 'fixed', to: entry.to})),
     ...(mapping.declined ?? []).map(entry => ({from: entry.from, status: 'declined'})),
     ...(mapping.denylist ?? []).map(entry => ({from: entry.from, status: 'denylist'})),
   ]
   for (const submission of submissions) {
-    const prior = existing.get(submission.from)
+    const prior = existing.get(site ? `${site}::${submission.from}` : submission.from)
     if (!prior) continue
     const identical = prior.status === submission.status
       && (submission.status !== 'fixed' || prior.to === submission.to)
@@ -228,7 +245,7 @@ function assertLedgerUndecided(mapping, ledgerRaw) {
   }
 }
 
-function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
+function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs, site}) {
   if (args.mapping && args['reply-file']) throw new Error('--mapping and --reply-file are mutually exclusive')
   let mapping
   if (args.mapping) {
@@ -240,8 +257,9 @@ function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
   } else {
     throw new Error('apply mode requires --mapping FILE or --reply-file FILE (the structured mapping JSON)')
   }
-  assertLedgerUndecided(mapping, ledgerRaw)
+  assertLedgerUndecided(mapping, ledgerRaw, site)
   const confSources = parseExactSources(confText)
+  const zhSite = site === 'zh-CN'
   const rules = []
   for (const mappingEntry of mapping.mappings ?? []) {
     if (typeof mappingEntry.from !== 'string' || typeof mappingEntry.to !== 'string') {
@@ -253,25 +271,32 @@ function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs}) {
     throw new Error('the mapping or reply contains no decisions (all decision arrays are empty)')
   }
   // Twins are derived here (never hand-written): the mapping only carries the
-  // en pair, the generator adds the /ja-JP mirror.
-  for (const rule of rules) rule.ja = buildJaRule(rule.from, rule.to)
-  const verdict = validateBatch({rules, confSources, routes, allowlist, denylist: DENYLIST_PATHS})
+  // en pair, the generator adds the /ja-JP mirror. The zh-CN site serves no
+  // ja build, so its rules stand alone.
+  if (!zhSite) {
+    for (const rule of rules) rule.ja = buildJaRule(rule.from, rule.to)
+  }
+  const verdict = validateBatch({rules, confSources, routes, allowlist, denylist: DENYLIST_PATHS, site})
   if (verdict.errors.length > 0) {
     throw new Error(`mapping rejected by the conf contract:\n${verdict.errors.map(line => `  - ${line}`).join('\n')}`)
   }
   const decidedAt = new Date(nowMs).toISOString()
-  const batchText = formatBatch({date: decidedAt.slice(0, 10), sourceLabel: 'operator mapping (apply mode)', rules})
-  // Keyed by from so re-applying the same mapping updates its entry instead
-  // of appending a duplicate decision.
-  const ledgerEntries = new Map((ledgerRaw.entries ?? []).map(entry => [entry.from, entry]))
+  const siteLabel = zhSite ? 'zh-CN operator mapping (apply mode)' : 'operator mapping (apply mode)'
+  const batchText = formatBatch({date: decidedAt.slice(0, 10), sourceLabel: siteLabel, rules})
+  // Keyed by from (site::from for the multi-site ledger) so re-applying the
+  // same mapping updates its entry instead of appending a duplicate decision.
+  const keyOf = entry => (entry.site ?? site) ? `${entry.site ?? site}::${entry.from}` : entry.from
+  const ledgerEntries = new Map((ledgerRaw.entries ?? []).map(entry => [keyOf(entry), entry]))
+  const siteTag = site ? {site} : {}
+  const newEntryKey = from => (site ? `${site}::${from}` : from)
   for (const mappingEntry of mapping.mappings ?? []) {
-    ledgerEntries.set(mappingEntry.from, {from: mappingEntry.from, status: 'fixed', to: mappingEntry.to, note: mappingEntry.note ?? undefined, decided_at: decidedAt})
+    ledgerEntries.set(newEntryKey(mappingEntry.from), {from: mappingEntry.from, ...siteTag, status: 'fixed', to: mappingEntry.to, note: mappingEntry.note ?? undefined, decided_at: decidedAt})
   }
   for (const declined of mapping.declined ?? []) {
-    ledgerEntries.set(declined.from, {from: declined.from, status: 'declined', note: declined.note ?? undefined, decided_at: decidedAt})
+    ledgerEntries.set(newEntryKey(declined.from), {from: declined.from, ...siteTag, status: 'declined', note: declined.note ?? undefined, decided_at: decidedAt})
   }
   for (const denylisted of mapping.denylist ?? []) {
-    ledgerEntries.set(denylisted.from, {from: denylisted.from, status: 'denylist', note: denylisted.note ?? undefined, decided_at: decidedAt})
+    ledgerEntries.set(newEntryKey(denylisted.from), {from: denylisted.from, ...siteTag, status: 'denylist', note: denylisted.note ?? undefined, decided_at: decidedAt})
   }
   return {
     rules,
@@ -390,8 +415,17 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
   const args = parseArgs(argv)
   const mode = args.mode ?? 'direct'
   if (!MODES.has(mode)) throw new Error(`--mode must be one of ${[...MODES].join(', ')}`)
+  if (args.site !== undefined && !SITES.has(args.site)) throw new Error(`--site must be one of ${[...SITES].join(', ')}`)
+  const site = args.site
   const confPath = args.conf ?? 'deploy/en/nginx.conf'
   const snapshotPath = args.snapshot ?? 'deploy/contracts/en-redirect-target-routes.json'
+  // A zh-CN batch spliced into the en conf (or linted against the en routes)
+  // would cross two unrelated route spaces, so the pairing must be explicit.
+  // The default (no --site) stays the legacy single-site en dialect with the
+  // en defaults, so the GA4 workflow keeps its byte-identical invocations.
+  if (site === 'zh-CN' && (!args.conf || !args.snapshot)) {
+    throw new Error('--site zh-CN requires explicit --conf and --snapshot of the zh-CN site')
+  }
   const outputDir = args['output-dir']
   if (!outputDir) throw new Error(USAGE)
   const days = parseNumber(args, 'days', DEFAULT_DAYS, {min: 1, max: 90})
@@ -409,7 +443,7 @@ async function run({fetchImpl = fetch, env = process.env, argv = process.argv.sl
 
   if (mode === 'apply') {
     if (args.credentials || args['ga4-report']) throw new Error('apply mode does not take GA4 inputs')
-    const outcome = runApply({args, confText, routes, allowlist, ledgerRaw, nowMs})
+    const outcome = runApply({args, confText, routes, allowlist, ledgerRaw, nowMs, site})
     const rulesConfPath = writeOutput(outputDir, 'rules.conf', outcome.batchText)
     const ledgerPath = writeOutput(outputDir, 'ledger.json', outcome.ledgerJson)
     // Only rules touch the conf: a ledger-only decision must not splice an

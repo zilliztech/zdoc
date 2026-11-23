@@ -530,3 +530,112 @@ test('run() apply mode rejects mappings that violate the conf contract', async (
     fs.rmSync(dir, {recursive: true, force: true})
   }
 })
+
+// --- apply mode --site (the product-doc-links loop's multi-site dialect) --------
+
+const ZH_SNAPSHOT = {
+  schemaVersion: 1,
+  source: 'https://docs.zilliz.com.cn/sitemap.xml',
+  capturedAt: '2026-11-23',
+  refresh: 'curl',
+  allowlist: {},
+  routes: ['/docs/live-zh'],
+}
+
+const ZH_CONF = `server {
+    error_page 404 /404.html;
+}
+`
+
+test('apply --site zh-CN derives no twin and records site-tagged ledger entries', async () => {
+  const dir = makeTempDir('ga4-rem-zhapply-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'zh.conf', ZH_CONF)
+    const snapshotPath = writeFixture(dir, 'zh-snapshot.json', JSON.stringify(ZH_SNAPSHOT))
+    const ledgerPath = writeFixture(dir, 'ledger.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      entries: [{from: '/docs/byoc/configure-vpc', site: 'zh-CN', status: 'denylist', note: 'intl-only', decided_at: '2026-11-23T00:00:00.000Z'}],
+    }))
+    const mappingPath = writeFixture(dir, 'mapping.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/retired-zh', to: '/docs/live-zh'}],
+    }))
+    const result = await run({
+      argv: ['--mode', 'apply', '--site', 'zh-CN', '--mapping', mappingPath, '--ledger', ledgerPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir, '--write-conf'],
+    })
+    assert.equal(result.rules, 1)
+    const rulesConf = fs.readFileSync(result.rules_conf_path, 'utf8')
+    assert.match(rulesConf, /location = \/docs\/retired-zh \{ return 301 \/docs\/live-zh; \}/)
+    assert.doesNotMatch(rulesConf, /ja-JP/)
+    // The zh conf gains the rule; the ledger keeps the seeded entry and adds
+    // the site-tagged fixed decision.
+    assert.match(fs.readFileSync(confPath, 'utf8'), /location = \/docs\/retired-zh \{ return 301 \/docs\/live-zh; \}/)
+    const ledger = JSON.parse(fs.readFileSync(result.ledger_path, 'utf8'))
+    const fixed = ledger.entries.find(entry => entry.from === '/docs/retired-zh')
+    assert.equal(fixed.site, 'zh-CN')
+    assert.equal(fixed.status, 'fixed')
+    assert.ok(ledger.entries.some(entry => entry.from === '/docs/byoc/configure-vpc' && entry.site === 'zh-CN'))
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('apply --site zh-CN retry with the identical decision stays idempotent', async () => {
+  const dir = makeTempDir('ga4-rem-zhretry-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'zh.conf', ZH_CONF)
+    const snapshotPath = writeFixture(dir, 'zh-snapshot.json', JSON.stringify(ZH_SNAPSHOT))
+    const ledgerPath = writeFixture(dir, 'ledger.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      entries: [{from: '/docs/retired-zh', site: 'zh-CN', status: 'fixed', to: '/docs/live-zh', decided_at: '2026-11-01T00:00:00.000Z'}],
+    }))
+    const mappingPath = writeFixture(dir, 'mapping.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/retired-zh', to: '/docs/live-zh'}],
+    }))
+    const result = await run({
+      argv: ['--mode', 'apply', '--site', 'zh-CN', '--mapping', mappingPath, '--ledger', ledgerPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir],
+    })
+    const ledger = JSON.parse(fs.readFileSync(result.ledger_path, 'utf8'))
+    assert.equal(ledger.entries.filter(entry => entry.from === '/docs/retired-zh').length, 1)
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
+
+test('apply --site zh-CN requires an explicit conf and snapshot pairing', async () => {
+  await assert.rejects(
+    () => run({argv: ['--mode', 'apply', '--site', 'zh-CN', '--output-dir', '/tmp/ga4-zh-pairing-out']}),
+    /requires explicit --conf and --snapshot/,
+  )
+})
+
+test('apply without --site keeps the GA4 ledger dialect byte-identical', async () => {
+  const dir = makeTempDir('ga4-rem-legacyapply-')
+  const outDir = path.join(dir, 'out')
+  try {
+    const confPath = writeFixture(dir, 'nginx.conf', CONF)
+    const snapshotPath = writeFixture(dir, 'snapshot.json', JSON.stringify(SNAPSHOT))
+    const mappingPath = writeFixture(dir, 'mapping.json', JSON.stringify({
+      schema_version: SCHEMA_VERSION,
+      mappings: [{from: '/docs/manual', to: '/docs/home'}],
+    }))
+    const result = await run({
+      argv: ['--mode', 'apply', '--mapping', mappingPath, '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', outDir],
+    })
+    const ledger = JSON.parse(fs.readFileSync(result.ledger_path, 'utf8'))
+    for (const entry of ledger.entries) {
+      assert.equal(entry.site, undefined, 'the GA4 ledger must stay siteless')
+      assert.ok(!ledger.entries.some(candidate => candidate.from === entry.from && candidate.site))
+    }
+    const enTagged = await run({
+      argv: ['--mode', 'apply', '--site', 'en', '--mapping', writeFixture(dir, 'mapping2.json', JSON.stringify({schema_version: SCHEMA_VERSION, mappings: [{from: '/docs/other', to: '/docs/home'}]})), '--conf', confPath, '--snapshot', snapshotPath, '--output-dir', path.join(dir, 'out2')],
+    })
+    const enLedger = JSON.parse(fs.readFileSync(enTagged.ledger_path, 'utf8'))
+    assert.ok(enLedger.entries.some(entry => entry.from === '/docs/other' && entry.site === 'en'))
+  } finally {
+    fs.rmSync(dir, {recursive: true, force: true})
+  }
+})
