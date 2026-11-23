@@ -105,21 +105,6 @@
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
                   },
-                  "id": {
-                    "type": "string",
-                    "description": "The primary key of the entity to delete. You can use this parameter instead of `filter` to delete a single entity by its ID.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "待删除 Entity 的主键。可以使用此参数替代 `filter` 来按主键删除单个 Entity。"
-                      },
-                      "ja-JP": {
-                        "description": "削除するエンティティの primary key です。`filter` の代わりにこのパラメータを使用して、ID により単一のエンティティを削除できます。"
-                      }
-                    },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
-                  },
                   "exprParams": {
                     "type": "object",
                     "description": "Expression template parameter values for parameterized filter expressions.",
@@ -619,6 +604,68 @@
                         "description": "書き込むエンティティに適用するフィールドレベルの操作。各エントリはフィールドを選択し、その値の更新方法を指定します。"
                       }
                     }
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the ordinary integer field whose stored value the incoming value is compared against.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "用作比较基准的普通整数字段名称，写入值会与该字段的存量值进行比较。"
+                          },
+                          "ja-JP": {
+                            "description": "比較基準となる通常の整数フィールドの名前。書き込み値がこのフィールドの保存済み値と比較されます。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "Policy when no stored value exists for the comparison: `insert` (default, write the row anyway), `skip` (drop the row), or `error` (reject the request). Case-insensitive.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "无存量值可供比较时的策略：`insert`（默认，照常写入该行）、`skip`（丢弃该行）或 `error`（拒绝请求），不区分大小写。"
+                          },
+                          "ja-JP": {
+                            "description": "比較対象の保存済み値が存在しない場合のポリシー：`insert`（デフォルト、そのまま書き込む）、`skip`（行を破棄）、`error`（リクエストを拒否）。大文字・小文字は区別されません。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The comparison applied against the stored value: `gt` (greater than) or `gte` (greater than or equal). Case-insensitive.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "对存量值应用的比较：`gt`（大于）或 `gte`（大于等于），不区分大小写。"
+                          },
+                          "ja-JP": {
+                            "description": "保存済みの値に適用する比較：`gt`（より大きい）または `gte`（以上）。大文字・小文字は区別されません。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "Conditional-write condition. The insert endpoint currently accepts this field but does not evaluate it; conditional writes are enforced on the upsert endpoint.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "条件写入条件。insert 端当前接受该字段但不评估；条件写入仅在 upsert 端生效。"
+                      },
+                      "ja-JP": {
+                        "description": "条件付き書き込みの条件。insert エンドポイントは現在このフィールドを受け付けますが評価しません。条件付き書き込みは upsert エンドポイントでのみ有効です。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1265,6 +1312,68 @@
                     },
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the ordinary integer field whose stored value the incoming value is compared against.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "用作比较基准的普通整数字段名称，写入值会与该字段的存量值进行比较。"
+                          },
+                          "ja-JP": {
+                            "description": "比較基準となる通常の整数フィールドの名前。書き込み値がこのフィールドの保存済み値と比較されます。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "Policy when no stored value exists for the comparison: `insert` (default, write the row anyway), `skip` (drop the row), or `error` (reject the request). Case-insensitive.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "无存量值可供比较时的策略：`insert`（默认，照常写入该行）、`skip`（丢弃该行）或 `error`（拒绝请求），不区分大小写。"
+                          },
+                          "ja-JP": {
+                            "description": "比較対象の保存済み値が存在しない場合のポリシー：`insert`（デフォルト、そのまま書き込む）、`skip`（行を破棄）、`error`（リクエストを拒否）。大文字・小文字は区別されません。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The comparison applied against the stored value: `gt` (greater than) or `gte` (greater than or equal). Case-insensitive.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "对存量值应用的比较：`gt`（大于）或 `gte`（大于等于），不区分大小写。"
+                          },
+                          "ja-JP": {
+                            "description": "保存済みの値に適用する比較：`gt`（より大きい）または `gte`（以上）。大文字・小文字は区別されません。"
+                          }
+                        },
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "Enables compare-and-set writes: a row is written only when the incoming value of `field` compares favorably (`op`) against its stored value; rows that fail the comparison are skipped. `field` must be an ordinary integer field. Setting this condition forces partial-update behavior.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "启用比较写入（compare-and-set）：仅当 `field` 的写入值与存量值满足 `op` 比较时才写入该行，未满足的行会被跳过。`field` 必须是普通整数字段。设置此条件后会强制按部分更新处理。"
+                      },
+                      "ja-JP": {
+                        "description": "compare-and-set 書き込みを有効にします：`field` の書き込み値が保存済みの値に対して `op` の比較を満たす場合のみ行が書き込まれ、満たさない行はスキップされます。`field` は通常の整数フィールドである必要があります。この条件を設定すると部分更新として処理されます。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
                   }
                 },
@@ -3157,8 +3266,7 @@
                   }
                 },
                 "required": [
-                  "collectionName",
-                  "data"
+                  "collectionName"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "3.0.x",
