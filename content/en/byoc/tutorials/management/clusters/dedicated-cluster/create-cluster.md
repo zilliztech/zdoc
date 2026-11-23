@@ -172,134 +172,62 @@ The following is an example output.
 
 <NextChannel action="include">
 
-- **Create a Dedicated cluster with the default Milvus version**
+Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
-    By default, Zilliz Cloud creates a Dedicated cluster with the stable (GA) Milvus version. You do not need to specify a Milvus version in your request.
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
 
-    Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
+```
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/clusters/createDedicated" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Accept: application/json" \
-    --header "Request-Timeout: 5" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "clusterName": "Cluster-05",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1,
-        "description": "A cluster for vector search workloads."
-    }'
-    ```
+In the command above,
 
-    In the command above,
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-    - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+- `clusterName`: The name of the cluster to create.
 
-    - `clusterName`: The name of the cluster to create.
+- `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
 
-    - `projectId`: The ID of the project in which you want to create a cluster. To list project IDs, call the [List Projects](/reference/restful/list-projects-v2) operation.
+- `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
 
-    - `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
+- `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized.
 
-    - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048.
 
-    - `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048.
+- `description` (optional): Description of the cluster.
 
-    - `description` (optional): Description of the cluster.
+The following is an example output.
 
-    The following is an example output.
-
-    ```json
-    {
-        "code": 0,
-        "data": {
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "username": "db_admin",
-            "password": "****************",
-            "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-        }
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
     }
-    ```
+}
+```
 
-- **Create a Dedicated cluster with a specific Milvus version**
+</NextChannel>
 
-    To try new features available in a public preview version or match the Milvus version of a source cluster for data migration, you can select a specific Milvus version when creating a Dedicated cluster. 
-
-    <Procedures>
-
-    1. Retrieve the available Milvus versions using **List Milvus Version**.
-
-        ```bash
-        curl --request GET \
-             --url "https://api.cloud.zilliz.com/v2/clusters/versions?regionId=gcp-us-west1" \
-             --header "Authorization: Bearer ${API_KEY}" \
-             --header "Accept: application/json"
-        ```
-
-        Example response:
-
-        ```json
-        {
-          "code": 0,
-          "data": [
-            {
-              "regionId": "gcp-us-west1",
-              "versions": [
-                {"majorVersion": "2.6", "channel": "GA"},
-                {"majorVersion": "3.0", "channel": "PUBLIC_PREVIEW"}
-              ]
-            }
-          ]
-        }
-        ```
-
-    1. Select a version from the response, then specify it in your cluster creation request.
-
-        ```bash
-        curl --request POST \
-             --url "https://api.cloud.zilliz.com/v2/clusters" \
-             --header "Authorization: Bearer ${API_KEY}" \
-             --header "Accept: application/json" \
-             --header "Content-Type: application/json" \
-             --data-raw '{
-               "clusterName": "my-preview-cluster",
-               "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-               "regionId": "gcp-us-west1",
-               "plan": "Enterprise",
-               "cuType": "Performance-optimized",
-               "cuSize": 1,
-               "version": {
-                 "majorVersion": "3.0",
-                 "channel": "PUBLIC_PREVIEW"
-               }
-             }'
-        ```
-
-        - `version.majorVersion`: The Milvus version line returned by the query, without a leading `v` or patch number.
-
-        - `version.channel`: The release channel returned by the query: `GA` or `PUBLIC_PREVIEW`.
-
-    </Procedures>
-
-    <Admonition type="info" title="Notes">
-
-    - The stable (GA) Milvus version is selected by default. To try new features, select a public preview version. After creation, the cluster cannot be downgraded to an earlier Milvus version.
-    
-    - Use an SDK version compatible with your cluster’s Milvus version. For details, see [Install SDKs](./install-sdks).
-    
-    - Milvus 3.0 clusters cannot be converted to [global clusters](./global-cluster-explained). If you plan to convert the cluster to a global cluster, select Milvus 2.6.
-    
-    - Public preview versions are suitable for evaluation and non-critical production workloads. Features may change before general availability.
-
-    </Admonition>
+<NextChannel action="include">
 
 </NextChannel>
 
@@ -321,7 +249,7 @@ No. Zilliz Cloud automatically provisions clusters on the latest supported Milvu
 
 **Can I specify the Milvus version when creating a cluster?**
 
-Yes. When multiple Milvus versions are available, you can select a version when creating a Dedicated cluster. The stable (GA) version is selected by default. During the Milvus 3.0 public preview, you can choose between Milvus 2.6 (GA) and Milvus 3.0 (Public Preview).
+Yes. When multiple Milvus versions are available, you can select a version when creating a Dedicated cluster. The stable (GA) version is selected by default.
 
 Version selection is not available for Free or Serverless clusters.
 

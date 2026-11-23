@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-19T18:51:57.533Z",
+  "generated_at": "2026-11-23T03:04:50.089Z",
   "manual": "guides",
   "target": null,
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "summary": {
-    "canonical_records": 413,
-    "scanned_sources": 327,
+    "canonical_records": 416,
+    "scanned_sources": 330,
     "skipped_noncanonical_sources": 89,
-    "internal_references": 1916,
-    "valid_references": 1891,
+    "internal_references": 1920,
+    "valid_references": 1895,
     "broken_references": 25
   },
   "files": [

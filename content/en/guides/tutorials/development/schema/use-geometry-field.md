@@ -420,8 +420,6 @@ print(insert_result)
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "geo_collection";
-
 List<String> geoPoints = Arrays.asList(
         "POINT(13.399710 52.518010)",
         "POINT(13.403934 52.522877)",
@@ -723,8 +721,6 @@ client.load_collection(collection_name)
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "geo_collection";
-
 List<IndexParam> indexParams = new ArrayList<>();
 indexParams.add(IndexParam.builder()
         .fieldName("embeddings")
@@ -943,8 +939,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "geo_collection";
-
 float topLeftLon = 13.403683f;
 float topLeftLat = 52.520711f;
 float bottomRightLon = 13.455868f;
@@ -1144,8 +1138,6 @@ for ret in query_results:
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "geo_collection";
-
 float centerPointLon = 13.403683f;
 float centerPointLat = 52.520711f;
 float radiusMeters = 1000.0f;
@@ -1335,7 +1327,6 @@ for hits in result:
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "geo_collection";
 String boundingBoxWkt = "POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))";
 
 List<Float> vector = Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f);

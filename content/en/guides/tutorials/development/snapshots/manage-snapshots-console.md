@@ -125,6 +125,10 @@ As an alternative, you can configure schedule policies for Zilliz Cloud to creat
 
         - Alternatively, you can use a cron expression, such as `0 9 * * 1-5`,  in **Advanced** mode to indicate the interval. For details, refer to [Understand Cron Expressions](./cron-expression).
 
-1. Click **Delete**.
+    1. Set the retention period in days.
+
+        The default value is 7 days. You can extends it to the maximum of 30 days.
+
+1. Click **Save**.
 
 </Procedures>

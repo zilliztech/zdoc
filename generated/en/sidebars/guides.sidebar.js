@@ -1839,6 +1839,33 @@ module.exports = [
                 "href": "/docs/on-demand-database",
                 "label": "Database for On-Demand Search",
                 "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster",
+                "label": "Monitor On-Demand Clusters",
+                "key": "doc:tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster",
+                "customProps": {
+                  "channel": "next"
+                }
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference",
+                "label": "Metrics Reference",
+                "key": "doc:tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference",
+                "customProps": {
+                  "channel": "next"
+                }
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage",
+                "label": "Understand Usage",
+                "key": "doc:tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage",
+                "customProps": {
+                  "channel": "next"
+                }
               }
             ]
           },

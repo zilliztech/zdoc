@@ -672,7 +672,7 @@ schema->AddFunction(function);
 ```javascript
 const functions = [
   {
-    name: "text_bm25_emb",
+    name: "text_to_vector",
     description: "bm25 function",
     type: FunctionType.BM25,
     input_field_names: ["text"],
@@ -1221,8 +1221,6 @@ console.log("Documents by language: 2 English, 2 Chinese");
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "multilingual_documents";
-
 // Prepare multilingual documents
 var documents = new List<IDictionary<string, object?>>
 {
@@ -1475,8 +1473,6 @@ english_results.results.forEach((hit, i) => {
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "multilingual_documents";
-
 // Configure search parameters
 var searchParams = new SearchParameters
 {

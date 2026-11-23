@@ -158,6 +158,10 @@ The following is an example output.
 
 <NextChannel action="include">
 
+</NextChannel>
+
+<NextChannel action="include">
+
 - **Create a Dedicated cluster with the default Milvus version**
 
     By default, Zilliz Cloud creates a Dedicated cluster with the stable (GA) Milvus version. You do not need to specify a Milvus version in your request.
@@ -343,7 +347,7 @@ No. Zilliz Cloud automatically provisions clusters on the latest supported Milvu
 
 **Can I specify the Milvus version when creating a cluster?**
 
-Yes. When multiple Milvus versions are available, you can select a version when creating a Dedicated cluster. The stable (GA) version is selected by default. During the Milvus 3.0 public preview, you can choose between Milvus 2.6 (GA) and Milvus 3.0 (Public Preview).
+Yes. When multiple Milvus versions are available, you can select a version when creating a Dedicated cluster. The stable (GA) version is selected by default.
 
 Version selection is not available for Free or Serverless clusters.
 
