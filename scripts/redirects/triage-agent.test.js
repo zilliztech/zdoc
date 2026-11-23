@@ -324,3 +324,17 @@ test('parseArgs rejects bare tokens and missing values', () => {
   assert.throws(() => parseArgs(['mode', 'propose']), /unexpected argument/)
   assert.throws(() => parseArgs(['--mode']), /missing value/)
 })
+
+test('prompts carry site tags and constants and name both route snapshots', () => {
+  const entries = [{from: '/docs/intl-only', site: 'zh-CN', events: 1, users: 1, constants: ['SSO_DOC_OKTA_OIDC_LINK'], reason: 'no ladder resolved'}]
+  const propose = buildProposePrompt({entries, days: 7})
+  assert.match(propose, /site=zh-CN/)
+  assert.match(propose, /constants=SSO_DOC_OKTA_OIDC_LINK/)
+  assert.match(propose, /zh-CN-redirect-target-routes\.json/)
+  assert.match(propose, /en-redirect-target-routes\.json/)
+  assert.match(propose, /recommend "denylist"/)
+
+  const interpret = buildInterpretPrompt({entries, decidedPaths: [], freeText: 'decline it'})
+  assert.match(interpret, /\(site=zh-CN\)/)
+  assert.match(interpret, /zh-CN-redirect-target-routes\.json/)
+})

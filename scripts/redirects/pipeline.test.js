@@ -232,3 +232,50 @@ test('classify without probes trusts the snapshot for direct proposals', async (
   assert.equal(triage.length, 1)
   assert.match(triage[0].reason, /probe disabled/)
 })
+
+test('classify with site zh-CN drops the ja exemption and twin, tagging entries zh-CN', async () => {
+  const zhRoutes = new Set(['/docs/live/retired-zh'])
+  const fetchImpl = stubFetch(new Map())
+  const {direct, triage, exempt} = await classify({
+    batch: [
+      {path: '/docs/retired-zh', events: 2, users: 1, countries: {}, source: 'product-doc-links', constants: ['ZH_CONST']},
+      {path: '/ja-JP/docs/nowhere-zh', events: 1, users: 1, countries: {}},
+    ],
+    routes: zhRoutes, confSources: new Set(), fetchImpl, probe: false, site: 'zh-CN',
+  })
+  assert.equal(direct.length, 1)
+  assert.equal(direct[0].site, 'zh-CN')
+  assert.equal(direct[0].ja, undefined)
+  assert.deepEqual(direct[0].constants, ['ZH_CONST'])
+  // No ja exemption on the zh lane: an unresolvable ja path triages like any
+  // other (and apply would reject a ja-prefixed source outright).
+  assert.equal(triage.length, 1)
+  assert.equal(triage[0].path, '/ja-JP/docs/nowhere-zh')
+  assert.equal(exempt.length, 0)
+})
+
+test('filterPaths scopes the ledger lookup by site for multi-site ledgers', () => {
+  const ledger = new Map([
+    ['zh-CN::/docs/decided-zh', {from: '/docs/decided-zh', site: 'zh-CN', status: 'denylist'}],
+    ['en::/docs/decided-en', {from: '/docs/decided-en', site: 'en', status: 'declined'}],
+  ])
+  const aggregated = new Map([
+    ['/docs/decided-zh', {events: 1, users: 1, countries: new Map()}],
+    ['/docs/decided-en', {events: 1, users: 1, countries: new Map()}],
+    ['/docs/live', {events: 1, users: 1, countries: new Map()}],
+  ])
+  const zhLane = filterPaths({aggregated, ledger, site: 'zh-CN'})
+  assert.deepEqual(zhLane.candidates.map(entry => entry.path), ['/docs/decided-en', '/docs/live'])
+  assert.match(zhLane.filtered[0].reason, /ledger denylist/)
+
+  const enLane = filterPaths({aggregated, ledger, site: 'en'})
+  assert.deepEqual(enLane.candidates.map(entry => entry.path), ['/docs/decided-zh', '/docs/live'])
+  assert.match(enLane.filtered[0].reason, /ledger declined/)
+
+  // A bare-path entry (the GA4 ledger dialect) is invisible to site-scoped
+  // lanes by design — the product loop rejects untagged entries at load time,
+  // so a lane can never silently inherit a decision from the wrong dialect.
+  const gaLedger = new Map([['/docs/live', {from: '/docs/live', status: 'fixed'}]])
+  const gaLane = filterPaths({aggregated, ledger: gaLedger, site: 'zh-CN'})
+  assert.deepEqual(gaLane.candidates.map(entry => entry.path), ['/docs/decided-en', '/docs/decided-zh', '/docs/live'])
+})

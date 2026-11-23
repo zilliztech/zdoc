@@ -35,7 +35,8 @@ const PROBE_CONCURRENCY = 5
 // 404'd from two countries in the window; GA4 dedups per dimension
 // combination, so --min-users is marginally permissive — harmless at the
 // default threshold of 1, which only exists to drop the zero-user crawler
-// buckets.
+// buckets. Extra row fields (the product lane attaches `source`/`constants`)
+// are carried onto the entry verbatim so they reach the candidates.
 function aggregateRows(rows) {
   const aggregated = new Map()
   for (const row of rows) {
@@ -43,6 +44,10 @@ function aggregateRows(rows) {
     const entry = aggregated.get(row.path) ?? {events: 0, users: 0, countries: new Map()}
     entry.events += row.events
     entry.users += row.users
+    for (const [key, value] of Object.entries(row)) {
+      if (['path', 'country', 'events', 'users'].includes(key)) continue
+      entry[key] = value
+    }
     if (row.country) {
       const country = entry.countries.get(row.country) ?? {events: 0, users: 0}
       country.events += row.events
@@ -60,16 +65,19 @@ function countriesToObject(countries) {
 
 // First deterministic gate: denylist, operator thresholds, and the ledger
 // (paths a human already fixed, declined, or denylisted) drop out before any
-// probe traffic is spent.
-function filterPaths({aggregated, minUsers = 1, minEvents = 1, denylist = DENYLIST_PATHS, ledger = new Map()}) {
+// probe traffic is spent. `site` scopes the ledger lookup — a multi-site
+// ledger keys its entries `site::path` while the single-site GA4 ledger stays
+// path-keyed.
+function filterPaths({aggregated, minUsers = 1, minEvents = 1, denylist = DENYLIST_PATHS, ledger = new Map(), site}) {
   const candidates = []
   const filtered = []
+  const ledgerKey = site ? `${site}::` : ''
   for (const [path, entry] of aggregated) {
     if (denylist.includes(path)) {
       filtered.push({path, events: entry.events, users: entry.users, reason: 'denylist (watchdog e2e probe path)'})
       continue
     }
-    const ledgerEntry = ledger.get(path)
+    const ledgerEntry = ledger.get(`${ledgerKey}${path}`)
     if (ledgerEntry) {
       filtered.push({path, events: entry.events, users: entry.users, reason: `ledger ${ledgerEntry.status}`, ledger: ledgerEntry})
       continue
@@ -82,7 +90,12 @@ function filterPaths({aggregated, minUsers = 1, minEvents = 1, denylist = DENYLI
       filtered.push({path, events: entry.events, users: entry.users, reason: `events ${entry.events} below --min-events ${minEvents}`})
       continue
     }
-    candidates.push({path, events: entry.events, users: entry.users, countries: countriesToObject(entry.countries)})
+    const candidate = {path, events: entry.events, users: entry.users, countries: countriesToObject(entry.countries)}
+    for (const [key, value] of Object.entries(entry)) {
+      if (['events', 'users', 'countries'].includes(key)) continue
+      candidate[key] = value
+    }
+    candidates.push(candidate)
   }
   candidates.sort((a, b) => b.events - a.events || a.path.localeCompare(b.path))
   return {candidates, filtered}
@@ -211,55 +224,65 @@ async function mapLimit(items, limit, worker) {
 // snapshot wins, which is the artifact-only replay mode. Probes run with a
 // bounded concurrency (PROBE_CONCURRENCY lanes) so a slow production day
 // cannot stretch the run past the workflow timeout; results keep batch order.
-async function classify({batch, routes, confSources, origin = 'https://docs.zilliz.com', fetchImpl = fetch, probe = true}) {
+// `site` selects the conf dialect: 'zh-CN' serves no ja build, so it has no
+// ja exemption and its direct rules carry no twin; non-zh entries are tagged
+// `site: 'zh-CN'` on zh and left untagged (the en default) elsewhere.
+async function classify({batch, routes, confSources, origin = 'https://docs.zilliz.com', fetchImpl = fetch, probe = true, site}) {
+  const zhSite = site === 'zh-CN'
+  const siteTag = zhSite ? {site: 'zh-CN'} : {}
   const results = await mapLimit(batch, PROBE_CONCURRENCY, async candidate => {
     const {path, events, users, countries} = candidate
+    const extras = {}
+    for (const [key, value] of Object.entries(candidate)) {
+      if (['path', 'events', 'users', 'countries'].includes(key)) continue
+      extras[key] = value
+    }
     // The en host also serves the ja-JP build, so ja page paths arrive in the
     // en rows. Their remediation is the en path (the twin is derived from it),
     // never a /ja-JP source — which would double the locale prefix.
-    if (path.startsWith('/ja-JP/')) {
+    if (!zhSite && path.startsWith('/ja-JP/')) {
       return {bucket: 'exempt', entry: {path, events, users, reason: 'ja-JP page path recorded on the en host; remediate the en path so the twin stays derived'}}
     }
     if (routes.has(path)) {
-      return {bucket: 'exempt', entry: {path, events, users, reason: 'path is a published route in the snapshot (phantom 404 or stale report)'}}
+      return {bucket: 'exempt', entry: {path, events, users, ...siteTag, reason: 'path is a published route in the snapshot (phantom 404 or stale report)'}}
     }
     if (confSources.has(path)) {
-      return {bucket: 'exempt', entry: {path, events, users, reason: 'an exact rule for this path already exists in the conf (deploy-window residual)'}}
+      return {bucket: 'exempt', entry: {path, events, users, ...siteTag, reason: 'an exact rule for this path already exists in the conf (deploy-window residual)'}}
     }
     if (!probe) {
       const resolved = resolveTarget(path, {routes})
       if (resolved) {
-        return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)}}
+        return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ...siteTag, ...extras, ...(zhSite ? {} : {ja: buildJaRule(path, resolved.to)})}}
       }
-      return {bucket: 'triage', entry: {path, events, users, countries, probe: null, attempted: LADDERS, candidates: [], reason: 'no ladder resolved (probe disabled)'}}
+      return {bucket: 'triage', entry: {path, events, users, countries, ...siteTag, ...extras, probe: null, attempted: LADDERS, candidates: [], reason: 'no ladder resolved (probe disabled)'}}
     }
     let sourceProbe
     try {
       sourceProbe = await probeUrl(fetchImpl, `${origin}${path}`)
     } catch (error) {
-      return {bucket: 'triage', entry: {path, events, users, countries, probe: {error: error.message}, attempted: [], candidates: [], reason: 'source probe failed'}}
+      return {bucket: 'triage', entry: {path, events, users, countries, ...siteTag, ...extras, probe: {error: error.message}, attempted: [], candidates: [], reason: 'source probe failed'}}
     }
     if (sourceProbe.error) {
-      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: [], candidates: [], reason: `source probe inconclusive: ${sourceProbe.error}`}}
+      return {bucket: 'triage', entry: {path, events, users, countries, ...siteTag, ...extras, probe: sourceProbe, attempted: [], candidates: [], reason: `source probe inconclusive: ${sourceProbe.error}`}}
     }
     if (sourceProbe.status !== 404) {
-      return {bucket: 'exempt', entry: {path, events, users, reason: `production serves this path (HTTP ${sourceProbe.status} after ${sourceProbe.redirectCount} hops), not a 404`}}
+      return {bucket: 'exempt', entry: {path, events, users, ...siteTag, reason: `production serves this path (HTTP ${sourceProbe.status} after ${sourceProbe.redirectCount} hops), not a 404`}}
     }
     const resolved = resolveTarget(path, {routes})
     if (!resolved) {
-      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: LADDERS, candidates: [], reason: 'no ladder resolved'}}
+      return {bucket: 'triage', entry: {path, events, users, countries, ...siteTag, ...extras, probe: sourceProbe, attempted: LADDERS, candidates: [], reason: 'no ladder resolved'}}
     }
     let targetProbe
     try {
       targetProbe = await probeUrl(fetchImpl, `${origin}${resolved.to}`)
     } catch (error) {
-      return {bucket: 'triage', entry: {path, events, users, countries, probe: sourceProbe, attempted: [resolved.ladder], candidates: [{to: resolved.to, error: error.message}], reason: 'target probe failed'}}
+      return {bucket: 'triage', entry: {path, events, users, countries, ...siteTag, ...extras, probe: sourceProbe, attempted: [resolved.ladder], candidates: [{to: resolved.to, error: error.message}], reason: 'target probe failed'}}
     }
     if (targetProbe.status !== 200) {
       return {
         bucket: 'triage',
         entry: {
-          path, events, users, countries,
+          path, events, users, countries, ...siteTag, ...extras,
           probe: sourceProbe,
           attempted: [resolved.ladder],
           candidates: [{to: resolved.to, status: targetProbe.status}],
@@ -267,7 +290,7 @@ async function classify({batch, routes, confSources, origin = 'https://docs.zill
         },
       }
     }
-    return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ja: buildJaRule(path, resolved.to)}}
+    return {bucket: 'direct', entry: {from: path, to: resolved.to, ladder: resolved.ladder, events, users, countries, ...siteTag, ...extras, ...(zhSite ? {} : {ja: buildJaRule(path, resolved.to)})}}
   })
   const direct = []
   const triage = []
