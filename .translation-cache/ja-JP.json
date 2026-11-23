@@ -6136,9 +6136,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md": {
-      "sourceHash": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626",
+      "sourceHash": "52e0b907a36f986c1fa87876acf513ece9bb48f1fd21a8bf2e8231254edd52a9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-23T22:44:23.774Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md": {
       "sourceHash": "0783e45580cc28e10645b2197cbd9d9dfa698821eddfe0dacbb9b4a27ee4ddb1",

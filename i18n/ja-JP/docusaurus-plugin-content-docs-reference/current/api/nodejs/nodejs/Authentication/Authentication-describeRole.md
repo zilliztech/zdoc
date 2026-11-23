@@ -79,15 +79,15 @@ await milvusClient.describeRole({
 - **results** (*RoleResult[]*) -
 **RoleResult** オブジェクトのリスト。`describeRole()` の場合、このリストには、要求されたロールを記述する 1 つのエントリのみが含まれます。
 
-    - **role** (*RoleEntity*) -
+    - **role** (*[RoleEntity](./Authentication-RoleEntity)*) -
 
         ロールを記述する **RoleEntity** オブジェクト。
 
-    - **users** (*User[]*) -
+    - **users** (*[User](./Authentication-User)[]*) -
 
         このロールを保持するユーザーのリスト。
 
-    - **entities** (*GrantEntity[]*) -
+    - **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
         このロールに付与された権限のリスト。各エントリには、付与された権限、対象オブジェクト、およびそれを付与したユーザーが含まれます。
 
@@ -118,3 +118,4 @@ await milvusClient.describeRole({
 ```javascript
 milvusClient.describeRole({roleName: 'myrole'});
 ```
+
