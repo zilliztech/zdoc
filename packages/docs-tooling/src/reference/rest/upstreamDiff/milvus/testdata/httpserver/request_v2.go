@@ -53,17 +53,6 @@ type CreateCollectionReq struct {
 	Schema    *CollectionSchema `json:"schema"`
 }
 
-// toProto mirrors the upstream's request validation methods: the extractor
-// records its field-scoped error literals verbatim as grounding evidence.
-// The second literal mentions no CreateCollectionReq field, so it must stay
-// out of the skeleton.
-func (r *CreateCollectionReq) toProto() error {
-	if r.Dimension != nil && *r.Dimension <= 0 {
-		return fmt.Errorf("quickSetup dimension must be greater than 0")
-	}
-	return fmt.Errorf("collection must exist")
-}
-
 type CollectionSchema struct {
 	Fields []FieldSchema `json:"fields" binding:"required"`
 }

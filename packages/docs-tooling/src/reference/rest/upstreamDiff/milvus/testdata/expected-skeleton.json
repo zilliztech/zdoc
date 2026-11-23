@@ -25,7 +25,10 @@
       "requestStruct": "JobIDReq",
       "deprecated": true,
       "requestSchema": {
-        "$ref": "#/components/schemas/JobIDReq"
+        "$ref": "#/components/schemas/JobIDReq",
+        "x-upstream-validation": [
+          "validate: jobId is required for the job"
+        ]
       }
     },
     {

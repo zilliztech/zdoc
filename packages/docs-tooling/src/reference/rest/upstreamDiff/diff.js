@@ -525,7 +525,6 @@ function diffResponses(context) {
                     change: {kind: 'field-uncovered', before: null, after: addedSubtree.after},
                     ...(addedSubtree.unresolvableSubtree ? {unresolvableSubtree: true} : {}),
                     ...(addedSubtree.upstreamComments && Object.keys(addedSubtree.upstreamComments).length > 0 ? {upstreamComments: addedSubtree.upstreamComments} : {}),
-            ...(addedSubtree.upstreamValidation && addedSubtree.upstreamValidation.length > 0 ? {upstreamValidation: addedSubtree.upstreamValidation} : {}),
                     requiredMembership: upstreamRequired === null ? null : upstreamRequired.includes(name),
                     evidence: context.upstreamEvidencePath})
                 suggestLifecycle(entry, context.lifecycle, null, upstreamProperties[name])
@@ -689,10 +688,10 @@ function diffSpecifications({source, upstreamPin, upstream, fragments, ledger, r
         const upstreamRecord = upstreamOps.get(opKey)
         const meta = {opKey, fragment: undefined}
         // The extractor's validation literals ride the operation's bare $ref
-        // request-schema node, which resolveSchemaDeep would swallow — so
-        // harvest them from the RAW operation once per pair and let every
-        // entry of the operation (added-operation inventory entries included)
-        // carry the same verbatim evidence.
+        // request-schema node. Harvest them from the RAW operation once per
+        // operation so every entry of the operation — added-operation
+        // inventory entries included — carries the same verbatim evidence,
+        // regardless of how reference resolution treats the node itself.
         const upstreamValidation = harvestUpstreamValidation(upstreamRecord.operation)
         if (upstreamValidation.length > 0) meta.upstreamValidation = upstreamValidation
         const upstreamEvidencePath = `/paths/${encodePointerToken(upstreamRecord.endpoint)}/${upstreamRecord.method}`

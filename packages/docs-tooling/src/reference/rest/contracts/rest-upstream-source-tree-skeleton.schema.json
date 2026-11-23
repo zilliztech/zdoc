@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://zilliz.com/contracts/rest-upstream-source-tree-skeleton.schema.json",
   "title": "REST Upstream Source-Tree Skeleton",
-  "description": "Structural skeleton extracted deterministically from a pinned source checkout (design §6.1). Carries API truth only: routes, handler names, request field names, Go-level types, and binding-required membership. Prose, response shapes, and doc-layer constraints are out of scope.",
+  "description": "Skeleton extracted deterministically from a pinned source checkout (design §6.1). Carries API truth (routes, handler names, request field names, Go-level types, binding-required membership) plus two machine-derived grounding-evidence markers (x-upstream-comment, x-upstream-validation) that the diff harvests onto its entries and strips. Prose, response shapes, and doc-layer constraints are out of scope.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "extractedFrom", "operations", "components"],

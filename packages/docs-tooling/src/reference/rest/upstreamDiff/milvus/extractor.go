@@ -4,10 +4,13 @@
 // RegisterRoutesToV2 (handler_v2.go) and the request structs of the same
 // package (request_v2.go) — into a deterministic skeleton JSON. The Node
 // rest-upstream diff consumes that skeleton for source-tree lock sources
-// (`--skeleton`), so the extractor only produces structural truth: paths,
-// methods, handler names, request field names, Go-level types, and
-// binding:"required" membership. Prose, response shapes, map value types, and
-// doc-layer constraints are deliberately out of scope (fragments win those).
+// (`--skeleton`), so the extractor produces structural truth (paths,
+// methods, handler names, request field names, Go-level types,
+// binding:"required" membership) plus two machine-derived grounding-evidence
+// kinds: the fields' Go comments (x-upstream-comment) and verbatim validation
+// literals from the request structs' receiver methods (x-upstream-validation).
+// Prose, response shapes, map value types, and doc-layer constraints are
+// deliberately out of scope (fragments win those).
 //
 // Run: go run extractor.go --dir <httpserver checkout dir> --out skeleton.json
 // Only the Go standard library is used so the file runs without a module.
@@ -171,20 +174,15 @@ func (ex *extractor) collectValidationMessages(file *ast.File) {
 		if !known {
 			continue
 		}
-		needles := fieldNeedles(def)
-		if len(needles) == 0 {
+		pattern, err := fieldNeedlePattern(def)
+		if err != nil {
+			continue
+		}
+		if pattern == nil {
 			continue
 		}
 		for _, literal := range stringLiterals(funcDecl.Body) {
-			lowered := strings.ToLower(literal)
-			matched := false
-			for _, needle := range needles {
-				if strings.Contains(lowered, needle) {
-					matched = true
-					break
-				}
-			}
-			if !matched {
+			if !pattern.MatchString(literal) {
 				continue
 			}
 			line := fmt.Sprintf("%s: %s", funcDecl.Name.Name, literal)
@@ -214,16 +212,21 @@ func receiverStructName(expr ast.Expr) (string, bool) {
 	return ident.Name, true
 }
 
-// fieldNeedles lists the lowercase JSON field names a validation literal may
-// mention for it to count as field-scoped evidence.
-func fieldNeedles(def *structDef) []string {
-	needles := make([]string, 0, len(def.fields))
+// fieldNeedlePattern compiles the struct's JSON field names into one
+// case-insensitive word-boundary alternation, so a short name cannot match
+// inside an unrelated word (a `data` field must not match "database") while
+// separator-adjacent mentions ("writeCondition.op") still match.
+func fieldNeedlePattern(def *structDef) (*regexp.Regexp, error) {
+	names := make([]string, 0, len(def.fields))
 	for _, field := range def.fields {
 		if field.jsonName != "" {
-			needles = append(needles, strings.ToLower(field.jsonName))
+			names = append(names, regexp.QuoteMeta(strings.ToLower(field.jsonName)))
 		}
 	}
-	return needles
+	if len(names) == 0 {
+		return nil, nil
+	}
+	return regexp.Compile(`(?i)\b(` + strings.Join(names, `|`) + `)\b`)
 }
 
 // stringLiterals collects the interpreted string literals of a subtree in
