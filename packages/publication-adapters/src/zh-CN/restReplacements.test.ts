@@ -373,6 +373,38 @@ describe('zh-CN REST replacement adapter', () => {
 
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'decorated.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
   });
+
+  it('rewrites hosts closed by an HTML tag or an escaped JSON string quote and stays idempotent', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const input = [
+      '<p><code>https://api.cloud.zilliz.com</code> controls the plane.</p>',
+      '<code>https://cluster.serverless.region.vectordb.zillizcloud.com</code>',
+      '<code>https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530</code>',
+      '"shell":"export PROJECT_ENDPOINT=\\"https://{project-id}.{region}.api.zillizcloud.com\\""',
+      '"shell":"export BASE_URL=\\"https://api.cloud.zilliz.com\\""',
+      'https://api.cloud.zilliz.com.evil/path',
+    ].join('\n');
+    const expected = [
+      '<p><code>https://api.cloud.zilliz.com.cn</code> controls the plane.</p>',
+      '<code>https://cluster.serverless.region.cloud.zilliz.com.cn</code>',
+      '<code>https://{cluster-id}.{region}.vectordb.zilliz.com.cn:19530</code>',
+      '"shell":"export PROJECT_ENDPOINT=\\"https://{project-id}.{region}.api.cloud.zilliz.com.cn\\""',
+      '"shell":"export BASE_URL=\\"https://api.cloud.zilliz.com.cn\\""',
+      'https://api.cloud.zilliz.com.evil/path',
+    ].join('\n');
+
+    const once = registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'tag-and-escape-terminals.mdx', contents: input},
+      publicationContext,
+    );
+
+    expect(once.contents).toBe(expected);
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], once, publicationContext)).toEqual(once);
+  });
 });
 
 describe('zh-CN Aliyun OSS adapter', () => {
