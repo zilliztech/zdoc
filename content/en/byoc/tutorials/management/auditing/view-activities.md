@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # Platform Audit Logs
@@ -91,6 +93,8 @@ Enable automatic forwarding when you need an ongoing copy of administrative acti
 ### Configure forwarding\{#configure-forwarding}
 
 The following demo shows the configuration using an Amazon S3 integration.
+
+<Supademo id="cmw2xvh8s041yqmuzkl534a4d" title=""  />
 
 <Procedures>
 

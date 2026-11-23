@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # Configure Access Logs
@@ -40,6 +42,8 @@ Use access logs to understand how applications search and query your data. Choos
     | Send logs to your logging system | A service that accepts logs over HTTPS and an [HTTPS Endpoint integration](./integrate-with-https-endpoint) with its URL and authentication settings. |
 
 ## Enable access log forwarding\{#enable-access-log-forwarding}
+
+<Supademo id="cmwa4b8mn06pzqmfq90sv710t" title=""  />
 
 <Procedures>
 

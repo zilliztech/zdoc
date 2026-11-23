@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # Configure Slow Logs
@@ -39,6 +41,8 @@ Use slow logs to investigate Search, HybridSearch, and Query requests that take 
 Slow logging is configured independently of audit and access logging. You do not need to turn either off to configure slow logs. Creating an integration prepares the destination; the steps below enable forwarding from the cluster.
 
 ## Enable slow log forwarding\{#enable-slow-log-forwarding}
+
+<Supademo id="cmwa5r4vs07nwqmfqs04zwdz3" title=""  />
 
 <Procedures>
 

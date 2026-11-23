@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # VectorDB Audit Logs
@@ -50,6 +52,8 @@ For the existing BYOC audit logging setup, logs are written to the object storag
 ## Enable audit log forwarding\{#enable-audit-log-forwarding}
 
 **Performance and cost:** Audit logging may affect query and write performance and incurs audit log CU costs. Review [Audit Logs Cost](./audit-log-cost) before enabling it.
+
+<Supademo id="cmwa2w2pm068rqmfqew7gz7kh" title=""  />
 
 <Procedures>
 

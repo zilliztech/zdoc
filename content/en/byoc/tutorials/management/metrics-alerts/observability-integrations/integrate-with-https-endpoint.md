@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # Integrate with an HTTPS Endpoint
@@ -56,6 +58,8 @@ You also need access to the project and permission to create the integration. Ch
 
 Follow the demo or the steps below to create your integration. The demo uses Bearer authentication; your service may require different settings.
 
+<Supademo id="cmw92iib60e7wqmiqdykjyr0l" title=""  />
+
 <Procedures>
 
 1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), select your project and open **Integrations**. Under **HTTPS Endpoint**, click **+ Integration**.
@@ -67,7 +71,7 @@ Follow the demo or the steps below to create your integration. The demo uses Bea
     | Integration Name | Enter a name that helps you identify the destination, such as `security-log-receiver`. |
     | HTTPS Endpoint URL | Enter the full log ingestion URL supplied by your receiving service, such as `https://logs.example.com/ingest`. Use the ingestion interface, not the platform sign-in page or a Zilliz cluster endpoint. The URL must not contain embedded credentials or a fragment such as `#section`. |
 
-1. **If your service requires an authentication header,** enable **Authentication Header** and fill in the fields below. Otherwise, leave it disabled.
+1. If your service requires an authentication header, enable **Authentication Header** and fill in the fields below. Otherwise, leave it disabled.
 
     | Field | Description |
     | --- | --- |
