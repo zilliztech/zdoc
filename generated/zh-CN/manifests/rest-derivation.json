@@ -3,10 +3,10 @@
     "01-import-operations.json": "f60830d79ab12bad520d12e984676cc3f7b7d23c4ad61964234da0eea08bf669",
     "02-collection-operations.json": "ae8c57b09ca4891a59093be41c7ba417393a47a0b5572a0a68b00445789c6306",
     "03-vector-operations.json": "27bc31e809dd503fdb59fbb0e34e928f1e4345f8e8c866bdb7d5baef03ff21f2",
-    "04-vector-operations-v2.json": "a1125dcc41bc85666982c482a4263372933a995e7f9454e3eea10fad1fa8411d",
-    "05-collection-operations-v2.json": "8d4630631408dc5255d31388313ffc2699426dfe1711e9cad30f963e7340085d",
+    "04-vector-operations-v2.json": "59b321927f8025704bc55d327ce05f6b756b07b30ba560fdb4e6d826aeade861",
+    "05-collection-operations-v2.json": "889a358910b37aff1b28d74dd65d719b2c818c614ee775efc627cfe50c87c423",
     "06-database-operations-v2.json": "6c78a736fb9461ebe793fb26f245b42f462ef1a7e1c29056388fbf94cca9ac03",
-    "07-index-operations-v2.json": "dff8198ab5c57bbbb2d09dd8b9a37b521dab174bcbfb7cfef8eefa1577f4909e",
+    "07-index-operations-v2.json": "653db572c7df75d5dc8e0ad3118801efe678a5f290b294dadee20861b6291988",
     "08-partition-operations-v2.json": "77c60f81b12acef74f4d66608be12e4d3e7326aebe8c001d1beb29b0f0b8aef0",
     "09-role-operations-v2.json": "7930c706c3383437902b6c5237876a5bef066b5fa28429ee8a517a843c7d2701",
     "10-resource-group-v2.json": "f3d4eac7297051bbef158599a68ab0b1025a53b430e5584238aed9b5bc63a143",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-23T11:44:30.159Z",
+  "generatedAt": "2026-11-23T12:00:38.642Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "cd71fe3ad5abe59103a6b020cd799a2001aaa197"
+  "toolingSha": "1e92a064e0f20b4a0c07b6a240672169aa64592c"
 }

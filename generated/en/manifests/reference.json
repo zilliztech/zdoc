@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "14c83c5efd3bcad55171572ad30a385411236476",
+  "sourceCommit": "c2a251d41ef742bd2ad7bba928fa1bd0902ce371",
   "records": [
     {
       "manual": "cli",
@@ -6925,7 +6925,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "7d4d4df16ab0264fecf6ab40a2f39c2c46ea971b53bc002e158c9a3ffef3c668"
+      "sourceHash": "f8a71da0abb3dac2a38c1ecfbfe9db0a27890ad646e00eaefb38383cb8e18ade"
     },
     {
       "manual": "rest",
@@ -7085,7 +7085,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/create-index-v2.mdx",
-      "sourceHash": "955b139687f8994b4f311232f4631cea4acfb2b7a9e4d006a422fbd2b75600d5"
+      "sourceHash": "22ce24e6ad1bf390375e59679efd5f79e82f5c8a3d06ad56586a2203ece558b9"
     },
     {
       "manual": "rest",
@@ -7220,12 +7220,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/hybrid-search-v2.mdx",
-      "sourceHash": "133e349c9d05c1154b6ee4c5ac8163fdacdbf53a0edda8415fdeb55c92fb6a35"
+      "sourceHash": "2121b9e6f234eef3fb650598c464969bee342659699d96606ce642a4e244cc4a"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/insert-v2.mdx",
-      "sourceHash": "35a08d21cf855c0cb06a111db41269185d65f36f6f5a8991d757b6bf16ab843f"
+      "sourceHash": "062124b42da59545ade94c4740d1102f09e89ba3212d0ec026626996ed701b41"
     },
     {
       "manual": "rest",
@@ -7235,12 +7235,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/search-v2.mdx",
-      "sourceHash": "6d718f0e8532e6386ef10df4da4a9f6a29b153fb9c1937eb8d74b731efca40b0"
+      "sourceHash": "427299bf064043c34a87e761120e858f48c6c8210f88ba7f166335960c447035"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/upsert-v2.mdx",
-      "sourceHash": "e1288361c32c7f12b277c71ba5c75cd3f96ab109d00f12745abf81fa6e11ffac"
+      "sourceHash": "09c76e3ebe9145485a2542a9739c4135301222e370739a36007cb75cc48cbdca"
     },
     {
       "manual": "rest",
