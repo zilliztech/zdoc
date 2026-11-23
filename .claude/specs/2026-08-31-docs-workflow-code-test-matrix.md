@@ -109,9 +109,10 @@ The `shared-guides-upstream-update` entry covers the scheduled
 their scripts. A change to any of these YAML files selects the dedicated
 workflow and CLI contracts, including
 `pnpm test:shared-guides-update` and `pnpm test:shared-docs`, plus typecheck,
-workflow policy and the matrix. The first command exercises the single-page
-and batch discovery, candidate and common writer boundaries, including the
-stop for an open PR and the manual batch upload and signature checks.
+workflow policy and the matrix. The first command exercises manual single-page
+updates, scheduled and manual batch routing, read-only dispatch, and the
+common writer boundaries. It covers stops for open PRs and unresolved writer
+history, the verified history checkpoint, and upload and signature checks.
 The workflow's pull-request job runs these activation-specific tests offline.
 
 ## How an Agent uses the matrix

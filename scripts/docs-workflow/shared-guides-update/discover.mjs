@@ -1,5 +1,6 @@
 // A read-only production preflight. update-plan owns source/dependency impact and lifecycle.
 import { createHash } from 'node:crypto'
+import { appendFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 
 const zdoc = 'zilliztech/zdoc'
@@ -196,7 +197,7 @@ async function attemptJobs(read, run, attempt) {
   return result.jobs
 }
 
-async function writerHistory(read, runId, runNumber, master) {
+async function writerHistory(read, runId, runNumber, master, event) {
   check(positive(runId) && positive(runNumber), 'ACTIONS_RUN_CONTEXT_REQUIRED')
   const workflow = await read(zdoc, workflowApi)
   check(positive(workflow?.id) && workflow.path === workflowPath && workflow.state === 'active', 'WRITER_WORKFLOW_IDENTITY')
@@ -229,7 +230,8 @@ async function writerHistory(read, runId, runNumber, master) {
       }
       if (run.run_number === runNumber) {
         check(run.id === runId && run.run_attempt === 1 && run.status === 'in_progress' && run.head_branch === 'master' &&
-          run.head_sha === master && run.event !== 'pull_request' && run.head_repository?.id === zdocId, 'CURRENT_WRITER_RUN_MISMATCH')
+          run.head_sha === master && run.event !== 'pull_request' && (event === undefined || run.event === event) &&
+          run.head_repository?.id === zdocId, 'CURRENT_WRITER_RUN_MISMATCH')
         currentSeen = true
         if (newerProduction) return [`UNSETTLED_PRODUCTION_RUN_${newerProduction}`]
         continue
@@ -255,8 +257,9 @@ async function writerHistory(read, runId, runNumber, master) {
           }
         }
         if (!settled) return [`UNRESOLVED_WRITER_RUN_${run.id}_ATTEMPT_${attempt}`]
-        if (run.run_attempt !== 1 || !trustedBranch ||
-          !passedStep(jobs, 'discover', 'Check upstream pins and open updates') ||
+        const verifiedScan = passedStep(jobs, 'discover', 'Check upstream pins and open updates') ||
+          passedStep(jobs, 'preview_batch', 'Check earlier writer attempts')
+        if (run.run_attempt !== 1 || !trustedBranch || !verifiedScan ||
           !passedStep(jobs, 'history_checkpoint', 'Record verified writer history')) continue
         if (run.head_sha === master) return []
         const [prior, now] = await Promise.all([checkpointCode(run.head_sha), checkpointCode(master)])
@@ -277,6 +280,20 @@ async function assertRepositories(read) {
 
 function livePins(read) {
   return Promise.all([branch(read, zdoc, 'master'), branch(read, zdoc, 'dev'), branch(read, milvus, track)])
+}
+
+// Batch preview can attest history even when Fetch is unavailable or has no work.
+export async function inspectBatchWriterHistory({ token, read = githubReader(token), master, event,
+  runId = Number(process.env.GITHUB_RUN_ID), runNumber = Number(process.env.GITHUB_RUN_NUMBER) }) {
+  check(sha(master) && ['schedule', 'workflow_dispatch'].includes(event), 'BATCH_WRITER_HISTORY_CONTEXT')
+  await assertRepositories(read)
+  async function requireMaster() {
+    check(await branch(read, zdoc, 'master') === master, 'BATCH_WRITER_MASTER_CHANGED')
+  }
+  await requireMaster()
+  const reasons = await writerHistory(read, runId, runNumber, master, event)
+  await requireMaster()
+  return {historyVerified:reasons.length === 0, reasons}
 }
 
 // Called with the verified handoff's complete group and exact changed subset.
@@ -328,8 +345,24 @@ export async function discover({ token, read = githubReader(token), ownedHead, o
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   try {
-    check(process.argv.length === 2, 'DISCOVERY_ACCEPTS_NO_ARGUMENTS')
-    console.log(JSON.stringify(await discover({ token: process.env.GH_TOKEN })))
+    const env = process.env
+    if (process.argv.length === 3 && process.argv[2] === '--batch-history') {
+      check(env.GITHUB_ACTIONS === 'true' && env.GITHUB_SERVER_URL === 'https://github.com' &&
+        env.GITHUB_API_URL === 'https://api.github.com' && env.GITHUB_REPOSITORY === zdoc &&
+        env.GITHUB_REPOSITORY_ID === String(zdocId) && env.GITHUB_REF === 'refs/heads/master' &&
+        env.GITHUB_REF_PROTECTED === 'true' && env.GITHUB_WORKFLOW_SHA === env.GITHUB_SHA &&
+        env.GITHUB_WORKFLOW_REF === zdoc + '/' + workflowPath + '@refs/heads/master' &&
+        env.GITHUB_JOB === 'preview_batch' && env.GITHUB_RUN_ATTEMPT === '1', 'BATCH_WRITER_HISTORY_CONTEXT')
+      const {historyVerified, reasons} = await inspectBatchWriterHistory({
+        token:env.GH_TOKEN, master:env.GITHUB_SHA, event:env.GITHUB_EVENT_NAME
+      })
+      appendFileSync(env.GITHUB_OUTPUT, 'history_verified=' + historyVerified + '\n')
+      appendFileSync(env.GITHUB_STEP_SUMMARY, historyVerified ? 'Earlier writer attempts verified.\n' :
+        'Batch preparation paused (' + reasons.join(', ') + ').\n')
+    } else {
+      check(process.argv.length === 2, 'DISCOVERY_INVALID_ARGUMENTS')
+      console.log(JSON.stringify(await discover({ token:env.GH_TOKEN })))
+    }
   } catch (error) {
     console.error(error.message)
     process.exitCode = 1

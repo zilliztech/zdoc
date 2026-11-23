@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import test from 'node:test'
-import { discover, inspectBatchWriterScope, targetRef } from './discover.mjs'
+import { discover, inspectBatchWriterHistory, inspectBatchWriterScope, targetRef } from './discover.mjs'
 
 const repo = 'zilliztech/zdoc'
 const source = 'milvus-io/milvus-docs'
@@ -176,10 +176,11 @@ test('checks the whole batch against open PRs and verifies precisely the changed
   assert.deepEqual((await inspect()).reasons,['OPEN_UPDATE_PR_2'])
 
   f.pulls = [pull(3,changedPageIds.map(id => file(lock(id))),target)]
+  f.branches.push(branch(target,writerOid),branch(stageRef,head))
+  assert.deepEqual((await inspect()).reasons,['OPEN_UPDATE_PR_3','EXISTING_UPDATE_BRANCH'])
   f.ownedHead = {ref:target,sha:writerOid}
   f.ownedStage = {ref:stageRef,sha:head}
   f.ownedPull = {number:3,ref:target,sha:writerOid}
-  f.branches.push(branch(target,writerOid),branch(stageRef,head))
   assert.equal((await inspect()).status,'clear')
   f.pulls[0].files[1] = file(lock('member-noop'))
   await assert.rejects(inspect,/OWNED_PR_FILES_CHANGED/)
@@ -284,9 +285,10 @@ test('requires continuous workflow provenance and holds if a prior run is unsett
   await assert.rejects(discover(f), /CURRENT_WRITER_RUN_MISMATCH/)
 })
 
-function attestedCheckpoint(run, writer = 'skipped') {
+function attestedCheckpoint(run, writer = 'skipped', batch = false) {
   return [writerJob(run, 1, writer), ...[
-    ['discover', 'Check upstream pins and open updates'], ['history_checkpoint', 'Record verified writer history'],
+    batch ? ['preview_batch', 'Check earlier writer attempts'] : ['discover', 'Check upstream pins and open updates'],
+    ['history_checkpoint', 'Record verified writer history'],
   ].map(([name, step]) => ({ ...writerJob(run, 1, 'success'), name, steps: [{ name: step, status: 'completed', conclusion: 'success' }] }))]
 }
 
@@ -309,6 +311,39 @@ test('run 3000 accepts a clean checkpoint even with expired old runs and unrelat
   f.checkpointFiles[current][helper] = 'reviewed history code'
   f.jobs[path][2].steps[0].name = 'unrelated green step'
   await assert.rejects(discover(f), /WRITER_WORKFLOW_HISTORY_GAP/)
+})
+
+test('a scheduled batch checkpoint certifies earlier runs only after a trusted scan', async () => {
+  const f = inventory()
+  f.runNumber = 3000
+  f.runId = 4000
+  const checkpoint = run(2999, { head_sha: current })
+  f.runs = [run(3000, { status: 'in_progress' }), checkpoint]
+  const history = () => inspectBatchWriterHistory({...f, master, event: 'schedule'})
+  const path = '/actions/runs/3999/attempts/1/jobs'
+  const helper = 'scripts/docs-workflow/shared-guides-update/discover.mjs'
+  f.checkpointFiles[current] = { [workflow.path]: 'reviewed batch workflow', [helper]: 'reviewed history code' }
+  f.checkpointFiles[master] = { ...f.checkpointFiles[current] }
+  f.jobs[path] = attestedCheckpoint(checkpoint, 'skipped', true)
+  assert.deepEqual(await history(), {historyVerified:true, reasons:[]})
+
+  f.jobs[path] = attestedCheckpoint(checkpoint, 'failure', true)
+  assert.deepEqual(await history(), {historyVerified:false, reasons:['UNRESOLVED_WRITER_RUN_3999_ATTEMPT_1']})
+  f.jobs[path] = attestedCheckpoint(checkpoint, 'skipped', true)
+  f.jobs[path][1].steps[0].conclusion = 'skipped'
+  await assert.rejects(history, /WRITER_WORKFLOW_HISTORY_GAP/)
+  f.jobs[path] = attestedCheckpoint(checkpoint, 'skipped', true)
+  f.checkpointFiles[current][helper] = 'different history code'
+  await assert.rejects(history, /WRITER_WORKFLOW_HISTORY_GAP/)
+  f.checkpointFiles[current][helper] = 'reviewed history code'
+  f.runs[0].event = 'workflow_dispatch'
+  await assert.rejects(history, /CURRENT_WRITER_RUN_MISMATCH/)
+  f.runs[0].event = 'schedule'
+  f.adjust = (_repo, route, result) => {
+    if (route === '/git/ref/heads/master') result.object.sha = dev
+    return result
+  }
+  await assert.rejects(history, /BATCH_WRITER_MASTER_CHANGED/)
 })
 
 test('a checkpoint cannot certify its own writer, a newer failed writer, an unverified gap or a rerun', async () => {

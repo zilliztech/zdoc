@@ -26,24 +26,30 @@ const candidate = {stage,targetRef,seal,unit,report:{axes},reportArtifact:32,pre
 const env = {GITHUB_ACTIONS:'true',GITHUB_SERVER_URL:'https://github.com',GITHUB_API_URL:'https://api.github.com',
   GITHUB_REPOSITORY:'zilliztech/zdoc',GITHUB_REPOSITORY_ID:'660446555',GITHUB_REF:'refs/heads/master',GITHUB_SHA:master,
   GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/shared-guides-update.yml@refs/heads/master',GITHUB_WORKFLOW_SHA:master,
-  GITHUB_JOB:'write',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'15',GITHUB_EVENT_NAME:'schedule',
+  GITHUB_JOB:'write',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'15',GITHUB_EVENT_NAME:'workflow_dispatch',
   PREPARE_ARTIFACT_ID:'31',REPORT_ARTIFACT_ID:'32',PREPARE_ARTIFACT_DIGEST:'4'.repeat(64)}
 
-test('writer accepts only the original run on the fixed production workflow and repository',() => {
+test('pilot writer accepts only the original manual run on the fixed production workflow and repository',() => {
   assert.equal(context(env).master,master)
   for (const [key,value] of Object.entries({GITHUB_RUN_ATTEMPT:'2',GITHUB_EVENT_NAME:'pull_request',GITHUB_SHA:'bad',
     GITHUB_JOB:'discover',GITHUB_WORKFLOW_SHA:k,GITHUB_REF:'refs/heads/dev',GITHUB_REPOSITORY_ID:'22',
     GITHUB_WORKFLOW_REF:'zilliztech/zdoc/.github/workflows/fork.yml@refs/heads/master',PREPARE_ARTIFACT_ID:'013'}))
     assert.throws(() => context({...env,[key]:value}))
+  assert.throws(() => context({...env,GITHUB_EVENT_NAME:'schedule'}), /Pilot writer requires/)
 })
 
-test('batch writer requires an explicit first dispatch plus both staging digests on protected master',() => {
-  const batch = {...env,GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_PROTECTED:'true',BATCH_ARTIFACT_ID:'31',
+test('batch writer accepts first schedule and dispatch runs on protected master with both staging digests',() => {
+  const batch = {...env,GITHUB_REF_PROTECTED:'true',BATCH_ARTIFACT_ID:'31',
     BATCH_ARTIFACT_DIGEST:'6'.repeat(64),BATCH_HANDOFF_DIGEST:'5'.repeat(64)}
-  assert.equal(batchWriterContext(batch).handoffDigest,batch.BATCH_HANDOFF_DIGEST)
-  for (const [key,value] of Object.entries({GITHUB_EVENT_NAME:'schedule',GITHUB_REF_PROTECTED:'false',GITHUB_RUN_ATTEMPT:'2',
-    BATCH_ARTIFACT_ID:'031',BATCH_ARTIFACT_DIGEST:'0'.repeat(65),BATCH_HANDOFF_DIGEST:''})) {
-    assert.throws(() => batchWriterContext({...batch,[key]:value}))
+  for (const event of ['schedule','workflow_dispatch']) {
+    const candidate = {...batch,GITHUB_EVENT_NAME:event}
+    assert.equal(batchWriterContext(candidate).event,event)
+    assert.equal(batchWriterContext(candidate).handoffDigest,batch.BATCH_HANDOFF_DIGEST)
+    for (const [key,value] of Object.entries({GITHUB_EVENT_NAME:'pull_request',GITHUB_REF_PROTECTED:'false',GITHUB_RUN_ATTEMPT:'2',
+      GITHUB_REF:'refs/heads/dev',GITHUB_REPOSITORY_ID:'22',GITHUB_REPOSITORY:'other/zdoc',GITHUB_WORKFLOW_SHA:k,
+      BATCH_ARTIFACT_ID:'031',BATCH_ARTIFACT_DIGEST:'0'.repeat(65),BATCH_HANDOFF_DIGEST:''})) {
+      assert.throws(() => batchWriterContext({...candidate,[key]:value}))
+    }
   }
 })
 
@@ -51,7 +57,7 @@ function prepareEvidence() {
   const bytes = Buffer.from('fixture ZIP'),digest = createHash('sha256').update(bytes).digest('hex')
   const ctx = context({...env,PREPARE_ARTIFACT_DIGEST:digest})
   const origin = {id:15,head_sha:master,head_branch:'master',repository_id:660446555,head_repository_id:660446555}
-  const run = {...origin,run_attempt:1,event:'schedule',status:'in_progress',path:'.github/workflows/shared-guides-update.yml',
+  const run = {...origin,run_attempt:1,event:ctx.event,status:'in_progress',path:'.github/workflows/shared-guides-update.yml',
     repository:{id:660446555},head_repository:{id:660446555}}
   const job = {name:'prepare',run_id:15,run_attempt:1,head_sha:master,status:'completed',conclusion:'success'}
   const artifact = {id:31,name:'shared-guides-candidate-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,workflow_run:origin}
@@ -86,12 +92,12 @@ test('authenticate the prepare job and exact current-run archive, including ever
   }
 })
 
-function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
+function batchPrepareEvidence(payload = Buffer.from('bound handoff'), event = 'schedule') {
   const bytes = Buffer.from('batch ZIP')
   const digest = createHash('sha256').update(bytes).digest('hex')
-  const ctx = {master,run:15,attempt:1,event:'schedule',artifact:31,digest}
+  const ctx = {master,run:15,attempt:1,event,artifact:31,digest}
   const origin = {id:15,head_sha:master,head_branch:'master',repository_id:660446555,head_repository_id:660446555}
-  const run = {...origin,run_attempt:1,event:'schedule',status:'in_progress',conclusion:null,path:'.github/workflows/shared-guides-update.yml',
+  const run = {...origin,run_attempt:1,event,status:'in_progress',conclusion:null,path:'.github/workflows/shared-guides-update.yml',
     repository:{id:660446555},head_repository:{id:660446555}}
   const step = {name:'Upload verified batch handoff',status:'completed',conclusion:'success',
     started_at:'2026-11-20T13:03:00Z',completed_at:'2026-11-20T13:03:06Z'}
@@ -124,11 +130,17 @@ function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
 }
 
 test('batch writer verifies provenance of the handoff upload and rereads metadata after downloading',async () => {
-  const fixture = batchPrepareEvidence()
-  assert.deepEqual(await fixture.authenticate(),fixture.payload)
-  assert.deepEqual(fixture.calls.slice(-2),['/actions/artifacts/31/zip','/actions/artifacts/31'])
+  for (const event of ['schedule', 'workflow_dispatch']) {
+    const fixture = batchPrepareEvidence(undefined,event)
+    assert.deepEqual(await fixture.authenticate(),fixture.payload)
+    assert.deepEqual(fixture.calls.slice(-2),['/actions/artifacts/31/zip','/actions/artifacts/31'])
+  }
   for (const [change,error] of [
     [f => { f.run.path = '.github/workflows/shared-guides-batch-qualify.yml' }, /run identity/],
+    [f => { f.run.event = 'workflow_dispatch' }, /run identity/],
+    [f => { f.run.run_attempt = 2 }, /run identity/],
+    [f => { f.run.head_branch = 'dev' }, /run identity/],
+    [f => { f.run.head_repository.id = 22 }, /run identity/],
     [f => { f.job.name = 'prepare' }, /job not authenticated/],
     [f => { f.step.conclusion = 'skipped' }, /upload not authenticated/],
     [f => { f.artifact.created_at = '2026-11-20T13:01:00Z' }, /artifact binding/],

@@ -7,8 +7,16 @@ import yaml from 'js-yaml'
 const config = yaml.load(readFileSync(new URL('../../../.github/workflows/shared-guides-update.yml', import.meta.url), 'utf8'))
 const { test: ci, discover, prepare, prepare_batch: batch, preview_batch: preview, write } = config.jobs
 
-test('only master schedule or explicit master dispatch can reach the writer', () => {
+const pilotDispatch = "github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot'"
+const batchEvent = "github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch')"
+const batchWriteEvent = "github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && inputs.create_draft)"
+const production = "github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' && github.ref == 'refs/heads/master'"
+const firstAttempt = 'github.run_attempt == 1'
+const expression = value => value.replace(/\s+/g, ' ').trim()
+
+test('schedule uses the protected batch route and only opted-in dispatches can write', () => {
   assert.deepEqual(Object.keys(config.on).sort(), ['pull_request', 'schedule', 'workflow_dispatch'])
+  assert.deepEqual(config.on.schedule, [{cron: '37 14 * * *'}])
   assert.deepEqual(config.permissions, { contents: 'read' })
   assert.equal(config.on.workflow_dispatch.inputs.create_draft.default, false)
   assert.equal(config.on.workflow_dispatch.inputs.scope.default, 'pilot')
@@ -16,19 +24,13 @@ test('only master schedule or explicit master dispatch can reach the writer', ()
   assert.deepEqual(ci.permissions, { contents: 'read' })
   assert.deepEqual([prepare.needs, batch.needs, write.needs], ['discover', 'preview_batch', ['prepare','prepare_batch']])
   assert.equal(prepare.if, "needs.discover.outputs.status == 'candidate'")
-  for (const job of [discover, write]) {
-    assert.match(job.if, /github\.ref == 'refs\/heads\/master'/)
-    assert.match(job.if, /github\.repository_id == '660446555'/)
-    assert.match(job.if, /github\.run_attempt == 1/)
-  }
-  assert.match(write.if, /needs\.prepare\.outputs\.status == 'prepared'/)
-  assert.ok(write.if.includes("github.event_name == 'schedule' ||"))
-  assert.ok(write.if.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot' && inputs.create_draft"))
-  assert.ok(write.if.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && inputs.create_draft && github.ref_protected"))
-  assert.ok(write.if.includes("needs.prepare_batch.result == 'success' && needs.prepare_batch.outputs.status == 'prepared'"))
-  assert.ok(write.if.includes('!cancelled()'))
+  assert.equal(expression(discover.if), `${pilotDispatch} && ${production} && ${firstAttempt}`)
+  assert.equal(expression(preview.if), `(${batchEvent}) && ${production} && github.ref_protected && ${firstAttempt}`)
+  assert.equal(expression(write.if), `!cancelled() && ${production} && ${firstAttempt} && ( ` +
+    `(needs.prepare.result == 'success' && needs.prepare.outputs.status == 'prepared' && ${pilotDispatch} && inputs.create_draft) || ` +
+    `(needs.prepare_batch.result == 'success' && needs.prepare_batch.outputs.status == 'prepared' && github.ref_protected && (${batchWriteEvent})) )`)
   assert.equal(config.concurrency['cancel-in-progress'], false)
-  assert.equal(config.concurrency.group.includes('docs-production-dev'), false)
+  assert.equal(config.concurrency.group, "shared-guides-update-${{ github.event.pull_request.number || 'json-field-overview' }}")
 })
 
 test('only the writer can mutate and it consumes the same preparation job’s artifact', () => {
@@ -54,27 +56,35 @@ test('only the writer can mutate and it consumes the same preparation job’s ar
   assert.equal(write.steps.filter(s => s.env?.GH_TOKEN).length, 1)
   assert.equal(writer.env.GH_TOKEN, '${{ github.token }}')
   assert.equal(writer.id, 'writer')
+  assert.equal(write.env.SHARED_GUIDES_WRITER_MODE, "${{ (" + batchEvent + ") && 'batch' || 'pilot' }}")
   const receipt = write.steps.find(s => s.with?.name === 'shared-guides-update-producer')
-  assert.equal(receipt.if, "success() && steps.writer.outputs.status == 'created' && (github.event_name == 'schedule' || inputs.scope == 'pilot')")
+  assert.equal(receipt.if, "success() && steps.writer.outputs.status == 'created' && env.SHARED_GUIDES_WRITER_MODE == 'pilot'")
   const batchReceipt = write.steps.find(s => s.with?.name === 'shared-guides-batch-producer-v2')
-  assert.equal(batchReceipt.if, "success() && steps.writer.outputs.status == 'created' && github.event_name == 'workflow_dispatch' && inputs.scope == 'batch'")
+  assert.equal(batchReceipt.if, "success() && steps.writer.outputs.status == 'created' && env.SHARED_GUIDES_WRITER_MODE == 'batch'")
   assert.equal(batch.steps.find(s => s.id === 'upload').name, 'Upload verified batch handoff')
   assert.equal(batch.steps.find(s => s.id === 'upload').with.path, '${{ steps.prepare.outputs.handoff_path }}')
   assert.equal(batch.outputs.handoff_digest, '${{ steps.prepare.outputs.handoff_sha256 }}')
   assert.equal(writer.env.BATCH_HANDOFF_DIGEST, '${{ needs.prepare_batch.outputs.handoff_digest }}')
   assert.equal(writer.env.BATCH_ARTIFACT_ID, '${{ needs.prepare_batch.outputs.artifact_id }}')
   assert.equal(writer.env.BATCH_ARTIFACT_DIGEST, '${{ needs.prepare_batch.outputs.artifact_digest }}')
-  assert.ok(preview.if.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'batch'"))
   assert.equal(batch.if, "needs.preview_batch.outputs.status == 'check'")
   assert.deepEqual(Object.values(config.jobs).filter(job => job.permissions.contents === 'write'),[write])
 })
 
-test('a history checkpoint requires a successful authenticated discovery and cannot write', () => {
+test('a history checkpoint requires a successful authenticated pilot or batch scan and cannot write', () => {
   const job = config.jobs.history_checkpoint
-  assert.equal(job.needs, 'discover')
-  assert.equal(job.if, "needs.discover.outputs.history_verified == 'true'")
+  assert.deepEqual(job.needs, ['discover', 'preview_batch'])
+  assert.equal(expression(job.if), "!cancelled() && ( (needs.discover.result == 'success' && needs.discover.outputs.history_verified == 'true') || " +
+    "(needs.preview_batch.result == 'success' && needs.preview_batch.outputs.history_verified == 'true') )")
   assert.equal(discover.outputs.history_verified, '${{ steps.discover.outputs.history_verified }}')
   assert.match(discover.steps.find(s => s.id === 'discover').run, /\.historyVerified/)
+  assert.equal(preview.outputs.history_verified, '${{ steps.history.outputs.history_verified }}')
+  const history = preview.steps.find(s => s.id === 'history')
+  assert.equal(history.name, 'Check earlier writer attempts')
+  assert.equal(history.if, "github.event_name == 'schedule' || inputs.create_draft")
+  assert.equal(history.run, 'node scripts/docs-workflow/shared-guides-update/discover.mjs --batch-history')
+  assert.equal(preview.steps.find(s => s.id === 'fetch').if,
+    "steps.history.outputs.history_verified == 'true' || (github.event_name == 'workflow_dispatch' && !inputs.create_draft)")
   assert.deepEqual(job.permissions, {})
   assert.deepEqual(job.steps.map(s => s.name), ['Record verified writer history'])
 })
@@ -147,7 +157,7 @@ test('manual-only target Check registration pins approved identities and origina
       producer,
       414826845,
       '.github/workflows/shared-guides-update.yml',
-      '35516496047a5c2197c1cf5100e57e263f426ec01122ae474c9fe45096c4997d'
+      '438741410fccf7a77c473b866bd856abce4c0872369f586f4193f1ddfe411481'
     ],
     [
       validator,

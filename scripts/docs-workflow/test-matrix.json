@@ -1609,7 +1609,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The scheduled single-page update and the manual batch update share one writer and create at most one signed Draft PR. Manual batch qualification independently verifies observed evidence using read-only permissions."
+      "reason": "Scheduled and manual batch updates and the manual single-page update share one writer and create at most one signed Draft PR per eligible run. Manual batch qualification independently verifies observed evidence using read-only permissions."
     },
     {
       "id": "shared-docs-pr-workflows",

@@ -242,8 +242,9 @@ against the preparation step and the terminal publication results.
 
 A newer unfinished or incompatible Fetch can hold the batch. Check the
 reported reason and the producer's retained selection, source, and publication
-artifacts before continuing. The daily single-page pilot uses scheduled Fetch
-evidence.
+artifacts before continuing. The daily schedule uses the same batch
+qualification and can open a Draft when the complete batch is eligible. The
+manual `scope=pilot` path uses scheduled Fetch evidence for its one page.
 
 ## Manual target Check validation and finalization
 
@@ -263,11 +264,10 @@ approved run actor is `liyun95` (`105278390`) for all three workflows:
 Registration establishes trusted identities; it does not prove a hosted Check
 was accepted. A CLI invocation without the trusted Actions runtime still
 holds before credentialed acquisition or Check writes. Missing, unregistered
-and incomplete policies also remain held. The existing scheduled producer and
-historical read-only `reviewed-producer.json` policy are unchanged. A scheduled
-producer does not satisfy this dispatch-only Check policy; authenticating
-scheduled producers and automatically triggering the Check path require a
-separate reviewed change.
+and incomplete policies also remain held. The Check policy authenticates the
+manual pilot's exact producer workflow definition. Scheduled batch Drafts use
+the signed batch producer receipt and ordinary PR review. The historical
+read-only producer registry is `reviewed-producer.json`.
 
 At the 2026-11-16 activation review, old-next
 `ccc847315b9e0c8f7bfac0c6cb0e7725c2647425` and source target

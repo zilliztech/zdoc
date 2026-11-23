@@ -428,23 +428,37 @@ pnpm build:zh-CN
 
 Shared Guides final publication evidence and shared Fetch requirement accounting are documented in [runbook/shared-guides-generation.md](runbook/shared-guides-generation.md#shared-guides-final-publication-evidence). The REST upstream and availability operations cadence (watchdog, refresh, availability matrices, zilliz probes) lives in [runbook/rest-reference-pipeline.md](runbook/rest-reference-pipeline.md#rest-upstream-and-availability-operations).
 
-### Scheduled updates for json-field-overview
+### Scheduled Shared Guides updates
 
-[Shared Guides upstream update](.github/workflows/shared-guides-update.yml) checks the
-Milvus `v3.0.x` tracking branch daily at **06:37 UTC**. The pilot plans and prepares
-an update for `json-field-overview` against the current zdoc `master`, published
-`dev` and upstream revision. When the page has a verified change, the writer
-opens a Draft PR against `master` that edits only the page’s `lock.yaml` entry
-for `next`. Review the lock diff and the producing run’s candidate and writer
-artifacts before merging. The existing Fetch schedule picks up a merged change.
+[Shared Guides upstream update](.github/workflows/shared-guides-update.yml) checks
+the Milvus `v3.0.x` tracking branch daily at **14:37 UTC (22:37 Beijing time)**,
+after the 10:00 UTC scheduled Fetch. It qualifies the complete Guides batch
+against the latest normal Fetch on protected `master` and the outputs on `dev`.
+When the batch has verified changes, the writer opens one Draft PR against
+`master` that advances only the affected pages’ `next` entries in `lock.yaml`.
+Before merging, review the lock diff, `shared-guides-batch-decision-<run>-1`,
+`shared-guides-batch-handoff-<run>-1`, the signed
+`shared-guides-batch-producer-v2` receipt, and the writer journal. The existing
+Fetch schedule picks up a merged change.
 
-To inspect the same inputs on demand, dispatch the workflow on `master` with
-`create_draft=false` (the default). Use `create_draft=true` to exercise the scheduled
-write path. An open update PR or a remaining writer branch stops the run before
-it prepares another candidate. If a write loses its response, inspect the run’s
-journal, matching branches and PRs before taking further action. A moved input,
-unverified Fetch producer, or incomplete publication evidence requires fresh
-evidence. Review a superseded Fetch against the next successful scheduled Fetch from a
+Dispatch the workflow on protected `master` with `scope=batch` and
+`create_draft=false` to inspect qualification on demand. An explicit
+`create_draft=true` opts in to the same batch writer. See
+[Qualify a production batch on demand](runbook/shared-guides-generation.md#qualify-a-production-batch-on-demand).
+
+An overlapping open PR, a remaining writer branch, or unresolved earlier
+writer activity stops a new write. A verified history checkpoint covers only
+earlier attempts. If a write loses its response, inspect the run’s journal,
+matching branches and PRs before taking further action. Reconcile remaining
+staging or target branches after a Draft is closed or merged.
+
+### Manual updates for json-field-overview
+
+To use the single-page pilot, dispatch the workflow on `master` with
+`scope=pilot` (the default) and `create_draft=false` (the default). Set
+`create_draft=true` to open a Draft PR that updates the pilot page’s `next`
+entry when the inputs qualify. A moved input, unverified Fetch producer, or
+incomplete publication evidence requires fresh evidence. Review a superseded Fetch against the next successful scheduled Fetch from a
 registered producer tree. The producer fingerprint covers the full repository
 tree, so an unrelated change can require a new reviewed fingerprint. From a
 checkout of the proposed merge, run
@@ -460,11 +474,6 @@ Draft PR can show **Approve workflows to run** for normal PR checks. Review its
 head and approve those checks before merging. See [GitHub’s workflow token
 reference](https://docs.github.com/en/actions/concepts/security/github_token).
 
-A verified history checkpoint covers earlier attempts. If GitHub cannot account
-for an intervening writer, reconcile its API effects before allowing further
-writes. After an update PR is closed or merged, retained staging or target
-branches also require operator reconciliation before a new draft can open.
-
 The separate manual [target Check validation and finalization](runbook/shared-guides-generation.md#manual-target-check-validation-and-finalization)
 path reserves on the signed PR head, retains a formal receipt in a completed
 validator run, and finalizes in a second run. Registration covers a manually
@@ -472,11 +481,7 @@ dispatched producer and manual validation/finalization by the approved run
 actor. It still requires independently qualified Fetch lifecycle evidence and
 a fresh signed candidate. Positive hosted verification awaits a genuine
 consumed-source change; the reviewed old-next and target inputs are currently
-identical. Scheduled-producer Check authentication and automatic triggering
-remain pending.
-
-For an on-demand production Guides batch, see
-[Qualify a production batch on demand](runbook/shared-guides-generation.md#qualify-a-production-batch-on-demand).
+identical.
 
 ### Inspect shared Guides upstream changes without publishing
 
