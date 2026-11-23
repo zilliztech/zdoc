@@ -61,7 +61,7 @@ const fixtureCodeRoot = new URL('../../../../../../../', import.meta.url)
 /** Generates raw producer inputs and immutable histories. Passing an executable
  * checkout inside root yields HEAD=M=tools for the later actual captured replay.
  * The default miniature repo tests raw validators only, never measured authority. */
-export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string, scenario: {wrongCurrent?: boolean; mixedTargets?: boolean; allNoop?: boolean; mergedPull?: boolean} = {}) {
+export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot?: string, scenario: {wrongCurrent?: boolean; mixedTargets?: boolean; allNoop?: boolean; mergedPull?: boolean; manualFetch?: boolean} = {}) {
   await mkdir(inputRoot, {recursive: true, mode: 0o700})
   const root = await realpath(inputRoot), tools = executableRoot ?? join(root, 'tools')
   const rel = relative(root, tools)
@@ -195,7 +195,8 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   }
   const sourceAt = new Date(Date.parse(manifest.createdAt) + 1000).toISOString(), publishAt = new Date(Date.parse(sourceAt) + 5000).toISOString(), scanAt = round.options.candidate.generated_at
   const rootApi = 'repos/zilliztech/zdoc', runId = 123, run = {id: runId, run_attempt: 1, repository: {id: 660446555}, head_repository: {id: 660446555}, workflow_id: 83360731,
-    path: '.github/workflows/fetch-docs.yml', head_sha: master, head_branch: 'master', event: 'schedule', status: 'completed', conclusion: 'success', updated_at: publishAt,
+    path: '.github/workflows/fetch-docs.yml', head_sha: master, head_branch: 'master', event: scenario.manualFetch ? 'workflow_dispatch' : 'schedule', status: 'completed', conclusion: 'success', updated_at: publishAt,
+    ...(scenario.manualFetch ? {actor: {id: 100}, triggering_actor: {id: 100}} : {}),
     referenced_workflows: [{path: `zilliztech/zdoc/.github/workflows/_fetch-guides-sources.yml@${master}`, sha: master}]}
   const time = (at: string, delta: number) => new Date(Date.parse(at) + delta).toISOString()
   const step = (name: string, started_at: string, completed_at: string) => ({name, started_at, completed_at, conclusion: 'success'})
@@ -204,12 +205,21 @@ export async function rawBatchLifecycleFixture(inputRoot: string, executableRoot
   const jobs = [job(21, 'produce_guides_sources / fetch', [step('Fetch shared guides sources', time(scanAt, -1000), scanAt),
     step('Generate selected shared Guides sources', scanAt, manifest.createdAt), step('Create shared source artifact', manifest.createdAt, sourceAt), step('Run actions/upload-artifact@v6', sourceAt, time(sourceAt, 2000))]),
     job(22, 'produce_guides / assemble', []), job(23, 'publish_ready', [step('Publish ready Fetch units in producer completion FIFO order', time(publishAt, -1000), time(publishAt, 1000))], time(publishAt, -1000), time(publishAt, 1000))]
+  const selection = scenario.manualFetch ? requireFixture('../../../../../../../scripts/docs-workflow/fetch-publication-selection.js').buildFetchPublicationSelection({
+    repository: 'zilliztech/zdoc', runId, runAttempt: 1, toolingSha: master, targetBranch: 'dev', initialTargetSha: baseline,
+    sourceBaselineSha: baseline, selectedGroup: 'guides', publish: true, runTranslations: false,
+  }) : undefined
+  const selectionAt = time(scanAt, -4000)
+  if (selection) jobs.push(job(24, 'prepare', [step('Qualify exact manual Guides dispatch inputs', time(selectionAt, -2000), time(selectionAt, -1000)),
+    step('Upload immutable Fetch publication selection', time(selectionAt, -1000), time(selectionAt, 1000))], time(selectionAt, -3000), time(selectionAt, 1000)))
   const result = {schemaVersion: 1, document: 'publication-results', workflow: 'fetch', repository: 'zilliztech/zdoc', runId, runAttempt: 1,
-    selectionSha256: batchSha256(Buffer.from('fixture selection')), mode: 'publish', targetBranch: 'dev', initialTargetSha: baseline, finalTargetSha: resultSha,
+    selectionSha256: selection?.selectionSha256 ?? batchSha256(Buffer.from('fixture selection')), mode: 'publish', targetBranch: 'dev', initialTargetSha: baseline, finalTargetSha: resultSha,
     startedAt: time(publishAt, -1000), completedAt: publishAt, overallStatus: 'success', orchestratorFailure: null,
     units: [{unitKey: 'source/guides-en', attempts: 1, baseSha: baseline, commitShas: [resultSha], failure: null, producerCompletedAt: time(publishAt, -1000), producerJobId: 22,
       publishCompletedAt: publishAt, publishStartedAt: time(publishAt, -1000), readyAt: time(publishAt, -1000), reconciled: null, resultSha, sequence: 1, status: 'published'}]}
-  requireFixture('../../../../../../../scripts/docs-workflow/publication-contracts.js').validatePublicationResults(result)
+  if (selection) result.units.push({...result.units[0], unitKey: 'source/guides-zh-CN', producerJobId: 25,
+    sequence: 2, baseSha: resultSha, commitShas: [], status: 'no_changes'})
+  requireFixture('../../../../../../../scripts/docs-workflow/publication-contracts.js').validatePublicationResults(result, {selection})
   const transportRoot = join(root, 'transport'); await mkdir(transportRoot)
   const sourceZip = join(transportRoot, 'source.zip'), publicationZip = join(transportRoot, 'publication.zip')
   execFileSync('python3', ['-c', `import io,tarfile,zipfile,sys,pathlib
@@ -221,6 +231,15 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
   const artifact = (id: number, name: string, bytes: Buffer, created_at: string) => ({id, name, expired: false, created_at, size_in_bytes: bytes.length, digest: 'sha256:' + batchSha256(bytes),
     workflow_run: {id: runId, repository_id: 660446555, head_repository_id: 660446555, head_sha: master, head_branch: 'master'}})
   const artifacts = [artifact(31, 'guides-sources-en-123', sourceBytes, sourceAt), artifact(32, 'publication-results-fetch-123-1', publicationBytes, publishAt)]
+  const selectionZip = join(transportRoot, 'selection.zip')
+  const selectionBytes = selection ? execFileSync('python3', ['-c', `import io,sys,zipfile
+output=io.BytesIO()
+with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED) as z:z.writestr('publication-selection.json',sys.stdin.buffer.read())
+sys.stdout.buffer.write(output.getvalue())`], {input: JSON.stringify(selection)}) : undefined
+  if (selectionBytes) {
+    await writeFile(selectionZip, selectionBytes)
+    artifacts.push(artifact(33, 'publication-selection-fetch-123-1', selectionBytes, selectionAt))
+  }
   const raw = (path: string, value: unknown) => {const bytes = Buffer.from(JSON.stringify(value)); return {path, bytes: bytes.length, sha256: batchSha256(bytes), base64: bytes.toString('base64')}}
   const metadata = [raw(rootApi, {id: 660446555}), raw(rootApi + '/actions/runs/123', run), raw(rootApi + '/actions/runs/123/attempts/1/jobs?per_page=100&page=1', {total_count: jobs.length, jobs}),
     raw(rootApi + '/actions/runs/123/artifacts?per_page=100&page=1', {total_count: artifacts.length, artifacts})]
@@ -237,9 +256,10 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
     ...(scenario.mergedPull ? [raw('repos/milvus-io/milvus-docs/pulls/999', {...merged, merged: true, merge_commit_sha: target, commits: scenario.allNoop ? 2 : 1, changed_files: files.length}),
       raw('repos/milvus-io/milvus-docs/pulls/999/files?per_page=100&page=1', files)] : [])]
   const fixture: BatchReplayFixture = BatchReplayFixtureSchema.parse({kind: 'guides-batch-replay-fixture-v1', root, pins, qualification, discovery,
-    finalPass: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...qualification.slice(0, -1), ...pins],
-    acquisition: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...metadata],
-    archives: {source: {id: 31, path: 'transport/source.zip', bytes: sourceBytes.length, sha256: batchSha256(sourceBytes)}, publication: {id: 32, path: 'transport/publication.zip', bytes: publicationBytes.length, sha256: batchSha256(publicationBytes)}}, images: []})
+    finalPass: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1', {workflow_runs: [run]}), ...qualification.slice(0, -1), ...pins],
+    acquisition: [raw(rootApi + '/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1', {workflow_runs: [run]}), ...metadata],
+    archives: {source: {id: 31, path: 'transport/source.zip', bytes: sourceBytes.length, sha256: batchSha256(sourceBytes)}, publication: {id: 32, path: 'transport/publication.zip', bytes: publicationBytes.length, sha256: batchSha256(publicationBytes)},
+      ...(selectionBytes ? {selection: {id: 33, path: 'transport/selection.zip', bytes: selectionBytes.length, sha256: batchSha256(selectionBytes)}} : {})}, images: []})
   const fixtureBytes = canonicalBytes(fixture), replayClockMs = Date.parse(publishAt) + 2000
   await writeFile(join(root, 'replay-fixture.json'), fixtureBytes)
   await writeFile(join(root, 'fixture-summary.json'), JSON.stringify({master: measuredMaster, producer: master, current, configuredCurrent, target, baseline, resultSha, sampledDev, replayClockMs, pages, rawOnly: !executableRoot,
@@ -251,5 +271,5 @@ with zipfile.ZipFile(sys.argv[3],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
     throw Error('Unexpected raw fixture discovery GET ' + path)
   }
   return {root, tools, upstream, dev, stage, sourceZip, publicationZip, master: measuredMaster, producer: master, current, configuredCurrent, target, baseline, resultSha, sampledDev, pages,
-    outcomes: round.bundle.outcomes as {page: string; status: string}[], fixtureBytes, fixture, replayClockMs, discoveryTransport}
+    selectionZip, selection, result, outcomes: round.bundle.outcomes as {page: string; status: string}[], fixtureBytes, fixture, replayClockMs, discoveryTransport}
 }

@@ -10,7 +10,7 @@ import { ApprovedProducerDefinitionSchema, REMOTE_IO_LIMITS as IO, REMOTE_LIMITS
   type ApprovedProducerDefinition, type RemoteCommit, type RemotePolicy, type RemotePull,
   type RemoteReadResult, type RemoteRef, type RemoteRepository } from '../../core/updates/remote'
 import { rawSha256, writeOwnedBlob, type EvidenceStore } from './evidence'
-import { scheduledFetchRunPath } from './guides-run-metadata'
+import { batchSelectionLimit, latestBatchFetchRunPath } from './guides-run-metadata'
 
 const fail = (code: string): never => { throw new Error(code) }
 const integer = (value: unknown): number => z.number().int().positive().max(Number.MAX_SAFE_INTEGER).parse(value)
@@ -34,7 +34,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
     if(!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(options.repositoryFullName))fail('ENDPOINT_INVALID')
     // Only these historical listing queries need percent-encoded comparison operators.
     const lifecycleList = options.repositoryFullName === 'zilliztech/zdoc' && /^\/repos\/zilliztech\/zdoc\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D[0-9]{4}-[0-9]{2}-[0-9]{2}&per_page=100&page=(?:[1-9]|10)$/.test(input.path)
-    const scheduledFetch = options.repositoryFullName === 'zilliztech/zdoc' && input.path === '/' + scheduledFetchRunPath
+    const batchFetch = options.repositoryFullName === 'zilliztech/zdoc' && input.path === '/' + latestBatchFetchRunPath
     const lifecycleTip = options.repositoryFullName === 'zilliztech/zdoc' && input.path === prefix + '/branches/dev'
     // The single reviewed Milvus track ref (dotted, so it does not match the generic ref shape).
     const milvusRef = options.repositoryFullName === 'milvus-io/milvus-docs' && input.path === prefix + '/git/ref/heads/v3.0.x'
@@ -48,7 +48,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if (!lifecycleList && !scheduledFetch && !lifecycleTip && !milvusRef && !milvusBatchPage) {
+      if (!lifecycleList && !batchFetch && !lifecycleTip && !milvusRef && !milvusBatchPage) {
         if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*(?:\/jobs)?|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
         for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref','event','head_sha'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|workflow_dispatch|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
       }
@@ -94,6 +94,10 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
 /** Bounded supported ZIP subset. No extraction, shell, URL, or candidate code. */
 export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Array> {
   return parseZip(input, LIMIT.archiveBytes, LIMIT.members, LIMIT.outputBytes)
+}
+
+export function parseFetchSelectionZip(input: Uint8Array): Uint8Array {
+  return parseZip(input, batchSelectionLimit, 1, batchSelectionLimit, 'publication-selection.json').get('publication-selection.json')!
 }
 
 /** A compact handoff is one bounded JSON member, separate from v1 archives. */

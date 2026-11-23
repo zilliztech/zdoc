@@ -2,8 +2,8 @@ import { writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { parseStrictJson } from '../../core/updates/canonical'
 import { createOwnedDirectory, rawSha256, readRegularBytes, type EvidenceStore } from './evidence'
-import { boundArtifact, retainedMetadata, type ReadonlyGitHub } from './github'
-import { scheduledFetchRunPath } from './guides-run-metadata'
+import { boundArtifact, object, retainedMetadata, type ReadonlyGitHub } from './github'
+import { batchSelectionArtifact, batchSelectionLimit, sameBatchFetchRun, selectBatchFetchRun } from './guides-run-metadata'
 import { createRemoteTransport } from './remote-github'
 
 const repository = 'repos/zilliztech/zdoc'
@@ -57,13 +57,14 @@ export function publicGuidesReads(archives: StageResult, signal?: AbortSignal): 
         ? 'Guides source ZIP exceeds the 256 MiB staging limit' : 'Guides publication ZIP exceeds the 1 MiB staging limit')
       if (archives.source.id === id) return readRegularBytes(archives.source.path, maximum)
       if (archives.publication.id === id) return readRegularBytes(archives.publication.path, Math.min(maximum, publicationLimit))
+      if (archives.selection?.id === id) return readRegularBytes(archives.selection.path, Math.min(maximum, batchSelectionLimit))
       throw new Error('Authenticated lifecycle archive unavailable')
     },
   }
 }
 
 interface StagedArchive { id: number; path: string }
-export interface StagedArchives { source: StagedArchive; publication: StagedArchive }
+export interface StagedArchives { source: StagedArchive; publication: StagedArchive; selection?: StagedArchive }
 type StageResult = StagedArchives | { oversized: 'source' | 'publication' } | null
 
 // Only the coordinator receives the explicit read token. The fixed HTTPS transport
@@ -171,22 +172,13 @@ export async function stageGuidesArchives(runId: number, sourceZip: string | nul
   return {source, publication}
 }
 
-import {object} from './github'
 import {currentBatchLifetime, reserveBatchAllocation} from './evidence'
 import {replayMetadataReader} from './guides-metadata-broker'
 import {BatchReplayFixtureSchema, type BatchReplayFixture, type BatchScope} from './batch-collection-contract'
-function scheduledRun(value: unknown) {
-  const data = object(value)
-  if (!Array.isArray(data.workflow_runs) || data.workflow_runs.length !== 1) throw Error('SCHEDULED_FETCH_MISSING')
-  const run = data.workflow_runs[0]
-  if (!Number.isSafeInteger(run.id) || run.id < 1 || run.run_attempt !== 1 || !/^[a-f0-9]{40}$/.test(run.head_sha) ||
-    run.repository?.id !== 660446555 || run.head_repository?.id !== 660446555 || run.workflow_id !== 83360731 ||
-    run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.event !== 'schedule' ||
-    run.status !== 'completed' || run.conclusion !== 'success') throw Error('SCHEDULED_FETCH_UNAVAILABLE')
-  return run
-}
-export interface BatchRunLease {run: BatchScope['run']; archives: StagedArchives; source: {id: number; bytes: number; sha256: string};
-  publication: {id: number; bytes: number; sha256: string}; broker: {runId: number; token: string} | {runId: number; replay: BatchReplayFixture['qualification']}}
+type BatchArtifactBinding = {id: number; bytes: number; sha256: string}
+export interface BatchRunLease {run: BatchScope['run']; archives: StagedArchives; source: BatchArtifactBinding;
+  publication: BatchArtifactBinding; selection?: BatchArtifactBinding;
+  broker: {runId: number; token: string} | {runId: number; replay: BatchReplayFixture['qualification']}}
 /** Fixed coordinator acquisition. A prospective run is selected here, never supplied
  * by an operator, material header, index or child response. */
 export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: BatchReplayFixture): Promise<BatchRunLease> {
@@ -197,36 +189,43 @@ export async function acquireBatchRunLease(evidence: EvidenceStore, replay?: Bat
   const api: ReadonlyGitHub = fixture ? {
     get: async path => parseStrictJson(await raw!.read(path)),
     zip: async id => {
-      const item = [fixture.archives.source, fixture.archives.publication].find(a => a.id === id)
+      const item = Object.values(fixture.archives).find(a => a.id === id)
       if (!item) throw Error('BATCH_REPLAY_ARCHIVE_INVALID')
       const bytes = await readRegularBytes(join(fixture.root, item.path), item.bytes)
       if (bytes.length !== item.bytes || rawSha256(bytes) !== item.sha256) throw Error('BATCH_REPLAY_ARCHIVE_INVALID')
       return bytes
     },
   } : coordinatorReads(token, lifetime?.signal)
-  const selected = scheduledRun(await api.get(scheduledFetchRunPath))
+  const selected = await selectBatchFetchRun(api)
   const facts = await retainedMetadata(api, selected.id)
-  if (facts.run.id !== selected.id || facts.run.run_attempt !== 1 || facts.run.head_sha !== selected.head_sha) throw Error('BATCH_RUN_BINDING_INVALID')
-  // Validate the selected run again against the independently read run body.
-  scheduledRun({workflow_runs: [facts.run]})
+  if (!sameBatchFetchRun(selected, facts.run)) throw Error('BATCH_RUN_BINDING_INVALID')
   const publication = boundArtifact(facts.artifacts, facts.run, `publication-results-fetch-${selected.id}-1`)
+  const selection = batchSelectionArtifact(facts.run, facts.jobs, facts.artifacts)
   const source = facts.artifact
-  if (source.id === publication.id || source.size_in_bytes > sourceLimit || publication.size_in_bytes > publicationLimit) throw Error('BATCH_ARCHIVE_LIMIT')
+  const artifacts = [source, publication, ...(selection ? [selection] : [])]
+  if (new Set(artifacts.map(item => item.id)).size !== artifacts.length ||
+      source.size_in_bytes > sourceLimit || publication.size_in_bytes > publicationLimit) throw Error('BATCH_ARCHIVE_LIMIT')
   lifetime?.check()
-  await reserveBatchAllocation(evidence, source.size_in_bytes + publication.size_in_bytes, 3)
-  const sourceBytes = await api.zip(source.id, source.size_in_bytes), publicationBytes = await api.zip(publication.id, publication.size_in_bytes)
-  for (const [item, bytes] of [[source, sourceBytes], [publication, publicationBytes]] as const) {
-    if (item.size_in_bytes !== bytes.length || item.digest !== 'sha256:' + rawSha256(bytes)) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+  await reserveBatchAllocation(evidence, artifacts.reduce((sum, item) => sum + item.size_in_bytes, 0), artifacts.length + 1)
+  const acquire = async (item: Record<string, any>) => {
+    const bytes = await api.zip(item.id, item.size_in_bytes)
+    if (item.size_in_bytes !== bytes.length || item.digest !== 'sha256:' + rawSha256(bytes))
+      throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+    return bytes
   }
+  const sourceBytes = await acquire(source), publicationBytes = await acquire(publication)
+  const selectionBytes = selection ? await acquire(selection) : undefined
   raw?.finish()
   const owned = await createOwnedDirectory(evidence)
   const stage = async (name: string, id: number, bytes: Uint8Array) => {
     lifetime?.check(); await reserveBatchAllocation(evidence, bytes.length); await owned.verify(); const path = join(owned.root, name); await writeFile(path, bytes, {flag: 'wx', mode: 0o600}); lifetime?.check(); await owned.verify(); return {id, path}
   }
+  const archiveBinding = (item: Record<string, any>) => ({id: item.id, bytes: item.size_in_bytes, sha256: item.digest.slice(7)})
   return {run: {id: selected.id, attempt: 1, head: selected.head_sha},
-    archives: {source: await stage('source.zip', source.id, sourceBytes), publication: await stage('publication.zip', publication.id, publicationBytes)},
-    source: {id: source.id, bytes: sourceBytes.length, sha256: rawSha256(sourceBytes)},
-    publication: {id: publication.id, bytes: publicationBytes.length, sha256: rawSha256(publicationBytes)},
+    archives: {source: await stage('source.zip', source.id, sourceBytes), publication: await stage('publication.zip', publication.id, publicationBytes),
+      ...(selection && selectionBytes ? {selection: await stage('selection.zip', selection.id, selectionBytes)} : {})},
+    source: archiveBinding(source), publication: archiveBinding(publication),
+    ...(selection ? {selection: archiveBinding(selection)} : {}),
     broker: fixture ? {runId: selected.id, replay: fixture.qualification} : {runId: selected.id, token}}
 }
 

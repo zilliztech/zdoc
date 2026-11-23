@@ -378,7 +378,8 @@ async function buildCompactHandoff(input: CandidateLaunch, binding: Binding, can
     // any future consumer. This frame is a measured witness, not a write grant.
     base: binding.base, collection, method: binding.method, groupSha256: binding.closure.digest,
     fetch: {run: qualification.run, sourceJobId: qualification.rows[0].sourceJobId, scanStartMs: qualification.scanStartMs,
-      sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact},
+      sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact,
+      ...(qualification.selectionArtifact ? {selectionArtifact: qualification.selectionArtifact} : {})},
     binding: {ref: candidate.binding, digest: candidate.bindingDigest}, qualification: binding.qualification, members,
     plan: candidate.plan, proof: candidate.proof, patch: proof.patch, candidate: proof.candidate, candidateTree: proof.candidateTree,
     toolset: {sha256: proof.trustedToolsetSha256, executableClosure: proof.executableClosure},
