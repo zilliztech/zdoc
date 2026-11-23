@@ -7,8 +7,11 @@ const path = require('node:path');
 const test = require('node:test');
 
 const {
+  DEFAULT_MAX_REPAIR_TURNS,
   buildAgenticTaskPrompt,
   buildRepairPrompt,
+  buildSeededTaskPrompt,
+  buildUnchangedDraftRepairPrompt,
   createUsageTracker,
   parseCliArgs,
   preflightAgent,
@@ -64,6 +67,14 @@ const JA_TRANSLATED_LINK = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n
 // title and heading do carry real translations.
 const EN_IDENTITY_SOURCE = `---\ntitle: Limits\nslug: /limits\n---\n\n# Limits\n\n- **privileges** (*PrivilegeEntity[]*) -\n`;
 const JA_IDENTITY_PUBLISHED = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\n- **privileges** (*PrivilegeEntity[]*) -\n`;
+// Markup-only pending fixture mirroring the 2026-11-23 link-augmentation
+// publish (run 45281887801, Vector-searchIterator): the English parameter row
+// gained a cross-link while the published translation still carries the old
+// link-less bytes, so the row is a "new" pending unit with no translatable
+// prose in it.
+const EN_LINK_SOURCE = `---\ntitle: Limits\nslug: /limits\n---\n\n# Limits\n\n- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -\n`;
+const JA_LINK_PUBLISHED = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\n- **data** (*SearchData | SearchData[]*) -\n`;
+const JA_LINK_TRANSLATED = `---\ntitle: 制限\nslug: /limits\n---\n\n# 制限\n\n- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -\n`;
 
 test('stylePromptPathFor resolves per target without hardcoding ja', () => {
   assert.equal(stylePromptPathFor('ja-JP'), 'codex-style-guide.ja-JP.md');
@@ -611,7 +622,7 @@ test('mergeTranslatedResultsIntoProgressState updates the Chinese Reference mani
 const {createHash} = require('node:crypto');
 const {loadLocaleContract} = require('./localeContract');
 const {collectCurrentUnits, pairOldSourceWithTarget} = require('./semanticSeeds');
-const {NO_TRANSLATION_NEEDED_MARKER, resolveSeededDraft} = require('./agenticProvider');
+const {NO_TRANSLATION_NEEDED_MARKER, resolveSeededDraft, isIdentityTranslationUnit} = require('./agenticProvider');
 
 function unitHash(text) {
   return createHash('sha256').update(text).digest('hex');
@@ -706,50 +717,47 @@ test('runAgenticFile rejects a turn that leaves the seeded draft unchanged', asy
   });
 });
 
-test('runAgenticFile accepts an unchanged seeded draft when the agent reports no translation needed', async () => {
+test('an unchanged seeded draft accepted via the marker keeps the agent-route result shape', async () => {
   await withSite(async siteDir => {
     const item = jaFixture();
-    write(siteDir, item.sourcePath, EN_IDENTITY_SOURCE);
-    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_IDENTITY_SOURCE, published: JA_IDENTITY_PUBLISHED, keep: unit => unit.kind !== 'paragraph'});
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
     const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
-    assert.equal(seeded.pendingUnits.length, 1);
-    assert.match(seeded.pendingUnits[0].source, /\*\*privileges\*\*/);
-    const prompts = [];
     const result = await runAgenticFile({
       item, target: 'ja-JP', siteDir,
-      callCodex: async ({prompt, workingDirectory}) => {
-        prompts.push(prompt);
-        // The pending unit is the identifier-only privileges row; the agent
-        // correctly leaves the draft byte-identical and claims the marker on
-        // its own reply line.
+      callCodex: async ({workingDirectory}) => {
+        // The pending frontmatter title is prose-shaped, so only the marker
+        // route can accept an unchanged draft; the deterministic gate stub
+        // passes it like any translated draft.
         writeAgentDraft(workingDirectory, seeded.draft);
         return `Checked the pending unit: nothing to translate.\n${NO_TRANSLATION_NEEDED_MARKER}`;
       },
+      validate: async () => [],
       seedReport,
     });
     assert.equal(result.status, 'translated');
     assert.equal(result.unchangedDraftAccepted, true);
+    assert.equal(result.identityPendingAccepted, undefined);
     assert.deepEqual(result.attempts, ['translate']);
     assert.ok(result.semanticSeedUnits >= 1);
     assert.ok(isConsistentSuccessfulReview(result.review));
     assert.deepEqual(result.validationErrors, []);
-    // The prompt must state the identity rule and the exact marker.
-    assert.match(prompts[0], /Identity-translation rule/);
-    assert.match(prompts[0], new RegExp(NO_TRANSLATION_NEEDED_MARKER));
-    // The published draft is the untouched seeded draft: reused translations
-    // in place, the pending identifier row still byte-identical English.
-    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
-    assert.equal(draft, seeded.draft.endsWith('\n') ? seeded.draft : `${seeded.draft}\n`);
-    assert.match(draft, /title: 制限/);
-    assert.match(draft, /\*\*privileges\*\*/);
   });
+});
+
+test('the seeded prompt states the identity rule and the exact marker', () => {
+  const item = jaFixture();
+  const prompt = buildSeededTaskPrompt({item, target: 'ja-JP', validatorCommand: 'node validator.js', pendingUnits: [{id: 'document.4', kind: 'paragraph', source: '- **privileges** (*PrivilegeEntity[]*) -'}], seededUnits: 3});
+  assert.match(prompt, /Identity-translation rule/);
+  assert.match(prompt, new RegExp(NO_TRANSLATION_NEEDED_MARKER));
+  assert.match(prompt, /document\.4/);
 });
 
 test('a reply that only quotes the marker inside prose still fails an unchanged draft', async () => {
   await withSite(async siteDir => {
     const item = jaFixture();
-    write(siteDir, item.sourcePath, EN_IDENTITY_SOURCE);
-    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_IDENTITY_SOURCE, published: JA_IDENTITY_PUBLISHED, keep: unit => unit.kind !== 'paragraph'});
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
     const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
     const result = await runAgenticFile({
       item, target: 'ja-JP', siteDir,
@@ -760,6 +768,190 @@ test('a reply that only quotes the marker inside prose still fails an unchanged 
       seedReport,
     }).catch(error => ({error: String(error.message)}));
     assert.match(result.error, /left the seeded draft .* unchanged/);
+  });
+});
+
+test('an unchanged draft without the marker gets a bounded nudge turn and then translates', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const phases = [];
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({phase, workingDirectory}) => {
+        phases.push(phase);
+        // First turn leaves the seeded draft untouched without the marker;
+        // the nudge turn translates properly.
+        writeAgentDraft(workingDirectory, phases.length === 1 ? seeded.draft : JA_CLEAN);
+        return 'DONE';
+      },
+      validate: async () => [],
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['translate', 'repair1']);
+    assert.equal(result.unchangedDraftAccepted, undefined);
+    assert.equal(phases[0], 'translate');
+    assert.equal(phases[1], 'repair1');
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, JA_CLEAN);
+  });
+});
+
+test('the nudge prompt restates the two allowed outcomes', async () => {
+  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: '- **data** (*[SearchData](./Vector-SearchData)*) -'}], validatorCommand: 'node validator.js'}), /byte-identical to the pre-seeded draft/);
+  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: 'x'}], validatorCommand: 'node validator.js'}), new RegExp(NO_TRANSLATION_NEEDED_MARKER));
+  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: 'x'}], validatorCommand: 'node validator.js'}), /Units still to translate/);
+});
+
+test('a nudge turn that claims the marker on an unchanged draft is accepted', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    let first = true;
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({workingDirectory}) => {
+        // Both turns leave the seeded draft untouched: the title unit is
+        // prose-shaped so the identity fast path cannot take it, and only the
+        // nudge reply carries the marker.
+        writeAgentDraft(workingDirectory, seeded.draft);
+        const reply = first ? 'Nothing to change.' : NO_TRANSLATION_NEEDED_MARKER;
+        first = false;
+        return reply;
+      },
+      validate: async () => [],
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.equal(result.unchangedDraftAccepted, true);
+    assert.deepEqual(result.attempts, ['translate', 'repair1']);
+  });
+});
+
+test('an unchanged draft without the marker still fails hard after the nudge bound', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', keep: unit => unit.kind !== 'frontmatter-scalar'});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    const lines = [];
+    let turns = 0;
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({workingDirectory}) => {
+        turns += 1;
+        writeAgentDraft(workingDirectory, seeded.draft);
+        return 'Still leaving it as is.';
+      },
+      log: {log: message => lines.push(message)},
+      seedReport,
+    }).catch(error => ({error: String(error.message)}));
+    assert.match(result.error, /left the seeded draft .* unchanged/);
+    assert.equal(turns, 1 + DEFAULT_MAX_REPAIR_TURNS);
+    assert.ok(lines.some(line => /nudging/.test(line)));
+    // The failed candidate restores the batch baseline: the target file did
+    // not exist before the run, so it must be gone again.
+    assert.equal(fs.existsSync(path.join(siteDir, item.targetPath)), false);
+  });
+});
+
+test('isIdentityTranslationUnit accepts production markup-only rows and rejects prose', () => {
+  const mk = (source, kind = 'paragraph') => ({id: 'u', kind, source});
+  // The production shapes behind run 45281887801: parameter rows whose type
+  // annotation gained a cross-link.
+  assert.equal(isIdentityTranslationUnit(mk('- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -')), true);
+  assert.equal(isIdentityTranslationUnit(mk('- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -')), true);
+  assert.equal(isIdentityTranslationUnit(mk('- **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -')), true);
+  assert.equal(isIdentityTranslationUnit(mk('    - **state** (*[ImportState](./DataImport-ImportState)*) -')), true);
+  assert.equal(isIdentityTranslationUnit(mk('**privileges** (*PrivilegeEntity[]*) -')), true);
+  // Inline code is protected byte material, so a row that only adds one stays
+  // identity; identifier-shaped bare types are fine too.
+  assert.equal(isIdentityTranslationUnit(mk('- **limit** - `16,384`')), true);
+  assert.equal(isIdentityTranslationUnit(mk('| SearchData[] |', 'table-cell')), true);
+  // Prose, ALL-CAPS labels, headings, and frontmatter always reject.
+  assert.equal(isIdentityTranslationUnit(mk('The query vector(s). Supported types include FloatVector (number[]).')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**[REQUIRED]**')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**See** the docs')), false);
+  assert.equal(isIdentityTranslationUnit(mk('See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).')), false);
+  assert.equal(isIdentityTranslationUnit(mk('title: Limits', 'frontmatter-scalar')), false);
+  assert.equal(isIdentityTranslationUnit(mk('## Request Syntax', 'heading')), false);
+});
+
+test('runAgenticFile splices markup-only pending units without a model call', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_LINK_SOURCE);
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async () => { throw new Error('model must not be called for markup-only pending units') },
+      seedReport: buildSeedReport({item, target: 'ja-JP', source: EN_LINK_SOURCE, published: JA_LINK_PUBLISHED}),
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['verified-current']);
+    assert.equal(result.identityPendingAccepted, true);
+    assert.ok(isConsistentSuccessfulReview(result.review));
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.match(draft, /title: 制限/);
+    // The published draft carries the new cross-link bytes verbatim.
+    assert.match(draft, /\*\*data\*\* \(\*\[SearchData\]\(\.\/Vector-SearchData\)/);
+  });
+});
+
+test('the identity fast path falls back to the agent when the gate rejects the spliced draft', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_LINK_SOURCE);
+    const seedReport = buildSeedReport({item, target: 'ja-JP', source: EN_LINK_SOURCE, published: JA_LINK_PUBLISHED});
+    const seeded = resolveSeededDraft({item, target: 'ja-JP', siteDir, chunkOptions: null, seedReport});
+    let gateCalls = 0;
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({workingDirectory}) => {
+        // After the fast-path gate rejection the agent is invoked; it leaves
+        // the (gate-failing) bytes untouched and claims the marker, so the
+        // deterministic gate decides again — and passes this time.
+        writeAgentDraft(workingDirectory, seeded.draft);
+        return `Nothing to translate in the markup row.\n${NO_TRANSLATION_NEEDED_MARKER}`;
+      },
+      // The source preflight must pass; the first real gate call (the spliced
+      // draft) fails, the retry passes.
+      validate: async content => {
+        if (content === EN_LINK_SOURCE) return [];
+        gateCalls += 1;
+        return gateCalls === 1 ? ['synthetic gate violation'] : [];
+      },
+      seedReport,
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['translate']);
+    assert.equal(result.identityPendingAccepted, undefined);
+    assert.equal(result.unchangedDraftAccepted, true);
+    assert.equal(gateCalls, 2);
+  });
+});
+
+test('a mixed pending set with a prose unit never takes the identity fast path', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_LINK_SOURCE);
+    const result = await runAgenticFile({
+      item, target: 'ja-JP', siteDir,
+      callCodex: async ({workingDirectory}) => {
+        writeAgentDraft(workingDirectory, JA_LINK_TRANSLATED);
+        return 'DONE';
+      },
+      // The heading is pending next to the markup-only row: headings always
+      // translate, so the agent must be called.
+      seedReport: buildSeedReport({item, target: 'ja-JP', source: EN_LINK_SOURCE, published: JA_LINK_PUBLISHED, keep: unit => unit.kind !== 'heading'}),
+    });
+    assert.equal(result.status, 'translated');
+    assert.deepEqual(result.attempts, ['translate']);
+    assert.equal(result.identityPendingAccepted, undefined);
   });
 });
 
