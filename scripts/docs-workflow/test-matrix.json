@@ -793,6 +793,26 @@
       "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
     },
     {
+      "id": "broken-links-report-workflow",
+      "paths": [
+        "packages/docs-tooling/src/links/brokenLinkAnalysis*",
+        "packages/docs-tooling/src/links/reportBrokenLinks*",
+        "packages/docs-tooling/src/links/brokenLinksLedger*",
+        "scripts/broken-links/**",
+        "scripts/broken-links-report-workflow.test.js",
+        ".github/workflows/broken-links-report.yml"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/links",
+        "node --test scripts/broken-links-report-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The internal broken-links report owns the tracked known-items ledger (scripts/broken-links/broken-links-ledger.json): the report stage labels ledger-decided findings in the Feishu table, and the workflow contract pins the ledger flag, the evidence artifact, and the seed schema."
+    },
+    {
       "id": "ga4-search-404-report-tooling",
       "paths": [
         "scripts/ga4-search-404-report*",

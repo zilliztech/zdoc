@@ -85,7 +85,7 @@ jobs:
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Report broken links to table
-        run: pnpm docs-tooling report-broken-links --analysis tmp/broken-links/en.analysis.json,tmp/broken-links/zh-CN.analysis.json --note tmp/broken-links/note.md
+        run: pnpm docs-tooling report-broken-links --analysis tmp/broken-links/en.analysis.json,tmp/broken-links/zh-CN.analysis.json --note tmp/broken-links/note.md --ledger scripts/broken-links/broken-links-ledger.json
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -93,6 +93,20 @@ jobs:
           FEISHU_WEB_HOST: ${{ vars.FEISHU_WEB_HOST }}
           BROKEN_LINKS_REPORT_BASE_TOKEN: ${{ vars.BROKEN_LINKS_REPORT_BASE_TOKEN }}
           BROKEN_LINKS_REPORT_TABLE_ID: ${{ vars.BROKEN_LINKS_REPORT_TABLE_ID }}
+
+      # The report previously existed only on the runner (job log + Feishu
+      # table); the artifact is the ledger-closure evidence channel (which
+      # known items stopped appearing) and the complete unseen list backing
+      # the capped card note. Uploading even on failure keeps the evidence
+      # when the table write itself fails (a bad ledger must surface here).
+      - name: Upload broken links report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: broken-links-report-${{ github.run_id }}
+          path: tmp/broken-links
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Create report card
         id: report_card

@@ -3,11 +3,16 @@ import {createRequire} from 'node:module';
 import * as z from 'zod';
 
 import type {BrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
+import type {BrokenLinksLedger, LedgerCoverage} from './brokenLinksLedger.ts';
+import {analysisItemKey, ledgerEntryKey, readBrokenLinksLedger, summarizeLedgerCoverage} from './brokenLinksLedger.ts';
 import {resolveManualPublication} from '../manuals/registry.ts';
 
 const requireFromDocsTooling = createRequire(import.meta.url);
 
 const SITE_LABEL: Record<'en' | 'zh-CN', string> = {en: '英文站', 'zh-CN': '中文站'};
+
+/** Label for rows whose finding tuple is decided in the broken-links ledger. */
+export const KNOWN_ITEM_LABEL = '已知项（ledger）';
 
 export function categoryLabel(category: BrokenLinkAnalysisReport['items'][number]['category']): string {
   switch (category) {
@@ -47,11 +52,17 @@ export const ReportRowSchema = z.object({
   扫描时间: z.string(),
 }).strict();
 
-/** Map an analysis report to table rows, attaching `#block_id` jump links where located. */
+/** Map an analysis report to table rows, attaching `#block_id` jump links where located.
+ *
+ * `knownKeys` carries the ledger-decided finding tuples: a matching row keeps
+ * its place in the table (complete view) but its 分类 switches to the known
+ * label so downstream consumers can ignore decided findings.
+ */
 export function buildReportRows(
   analysis: BrokenLinkAnalysisReport,
   blockIds: ReadonlyMap<string, string>,
   scannedAt: string,
+  knownKeys?: ReadonlySet<string>,
 ): ReportRow[] {
   const siteLabel = SITE_LABEL[analysis.site];
   return analysis.items.map(item => {
@@ -62,7 +73,7 @@ export function buildReportRows(
     return ReportRowSchema.parse({
       断链源文档: item.source.title || item.source.slug || item.source.path,
       站点: siteLabel,
-      分类: categoryLabel(item.category),
+      分类: knownKeys?.has(analysisItemKey(analysis.site, item)) ? KNOWN_ITEM_LABEL : categoryLabel(item.category),
       源页面路径: item.source.path,
       源文档链接: sourceLink,
       '断链 block': item.target.slug,
@@ -231,8 +242,8 @@ export function reportTableUrl(appToken: string, tableId: string, webHost: strin
 }
 
 export async function reportBrokenLinksCommand(
-  options: {analysisPaths: string[]; notePath: string},
-  dependencies: {appToken?: string; tableId?: string; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>} = {},
+  options: {analysisPaths: string[]; notePath: string; ledgerPath?: string},
+  dependencies: {appToken?: string; tableId?: string; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; ledger?: BrokenLinksLedger} = {},
 ): Promise<void> {
   const {parseBrokenLinkAnalysisReport} = await import('./brokenLinkAnalysis.ts');
   const {readFileSync, writeFileSync} = await import('node:fs');
@@ -240,6 +251,10 @@ export async function reportBrokenLinksCommand(
   const write = dependencies.write ?? (message => process.stdout.write(`${message}\n`));
   if (options.analysisPaths.length === 0) throw new Error('At least one analysis path is required');
   const analyses = options.analysisPaths.map(p => parseBrokenLinkAnalysisReport(JSON.parse(readFileSync(p, 'utf8'))));
+
+  const ledger = dependencies.ledger ?? (options.ledgerPath ? readBrokenLinksLedger(options.ledgerPath) : undefined);
+  const coverage = ledger ? summarizeLedgerCoverage(ledger, analyses) : undefined;
+  const knownKeys = coverage ? new Set(coverage.matched.map(ledgerEntryKey)) : undefined;
 
   const appToken = dependencies.appToken ?? environment.BROKEN_LINKS_REPORT_BASE_TOKEN;
   const tableId = dependencies.tableId ?? environment.BROKEN_LINKS_REPORT_TABLE_ID;
@@ -252,7 +267,7 @@ export async function reportBrokenLinksCommand(
   for (const analysis of analyses) {
     for (const [key, value] of await locateBlockIds(analysis)) blockIds.set(key, value);
   }
-  const rows = analyses.flatMap(analysis => buildReportRows(analysis, blockIds, scannedAt));
+  const rows = analyses.flatMap(analysis => buildReportRows(analysis, blockIds, scannedAt, knownKeys));
 
   const {fetchFeishuJsonWithRetry} = requireFromDocsTooling('../lark/feishuFetch.js') as {fetchFeishuJsonWithRetry: FeishuFetch};
   const LarkTokenFetcher = requireFromDocsTooling('../lark/larkTokenFetcher.js') as new () => {fetchToken: () => Promise<void>; token: () => Promise<string>};
@@ -266,17 +281,46 @@ export async function reportBrokenLinksCommand(
 
   await writeBrokenLinksTable(rows, {appToken, tableId, token, fetchFeishu: fetchFeishuJsonWithRetry, host});
   const tableUrl = reportTableUrl(appToken, tableId, webHost);
-  const note = renderCombinedNote(analyses, tableUrl);
+  const note = renderCombinedNote(analyses, tableUrl, coverage);
   writeFileSync(options.notePath, note);
   write(`Report table refreshed: ${rows.length} row(s) at ${scannedAt}`);
+  if (coverage) {
+    write(`Ledger: ${coverage.matched.length} matched, ${coverage.unseen.length} unseen`);
+    // The card note caps this list; the artifact next to the note carries it
+    // in full so ledger pruning never depends on the note's size.
+    if (coverage.unseen.length > 0) {
+      const unseenPath = options.notePath.replace(/\.md$/u, '.unseen.md');
+      const lines = ['# Ledger entries not observed this round', '', ...(coverage.unseen.map(entry => `- \`${entry.site}\` \`${entry.source_path}\` → \`${entry.target}\` — ${entry.note || '(no note)'}`))];
+      writeFileSync(unseenPath, `${lines.join('\n')}\n`);
+      write(`Unseen ledger entries written to ${unseenPath}`);
+    }
+  }
   write(`Card note written to ${options.notePath}`);
 }
 
-function renderCombinedNote(analyses: readonly BrokenLinkAnalysisReport[], tableUrl: string): string {
+/** Render the combined card note across sites, plus the ledger coverage section when a ledger ran.
+ *
+ * The unseen list is capped: on the day a batch fix lands, every seeded
+ * entry flips to unseen at once, and the interactive card silently drops
+ * oversized notes. The artifact carries the complete list either way.
+ */
+export const UNSEEN_NOTE_LIMIT = 20;
+
+export function renderCombinedNote(analyses: readonly BrokenLinkAnalysisReport[], tableUrl: string, coverage?: LedgerCoverage): string {
   const lines: string[] = ['## 内部断链检查', ''];
   for (const analysis of analyses) {
     const s = analysis.summary;
     lines.push(`- ${SITE_LABEL[analysis.site]}：断链 ${s.broken_links}，断锚 ${s.broken_anchors}，组缺失 ${s.target_missing_group}，目标缺失 ${s.target_missing}，自动生成 ${s.reference}`);
+  }
+  if (coverage) {
+    lines.push(`- 已知项（ledger）：${coverage.matched.length} 条已抑制标注，${coverage.unseen.length} 条本轮未再现`);
+    const listed = coverage.unseen.slice(0, UNSEEN_NOTE_LIMIT);
+    for (const entry of listed) {
+      lines.push(`  - 未再现：\`${entry.site}\` \`${entry.source_path}\` → \`${entry.target}\`（考虑评审移除 ledger 条目）`);
+    }
+    if (coverage.unseen.length > listed.length) {
+      lines.push(`  - ……其余 ${coverage.unseen.length - listed.length} 条见 run artifact（完整未再现清单）`);
+    }
   }
   lines.push('', `完整明细与跳转链接见 [断链分析表](${tableUrl})`);
   return lines.join('\n');
