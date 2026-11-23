@@ -8,15 +8,15 @@ import { DigestSchema, GitShaSchema } from '../../core/updates/envelope'
 import { GitLinkInputReader } from '../links-input'
 import { isFetchProducerContext, isMeasuredBatchContext, isMeasuredPageGrant, type MeasuredBatchContext, type PageGrant, type FetchProducerContext, type ProducerAuthentication } from './trusted-fetch-producer'
 import { gitRead, sha } from './git'
-import { exactlyOne, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
+import { batchSelectionArtifact, exactlyOne, isBatchFetchRun, latestGuidesRun, stepWindow, successfulJob } from './guides-run-metadata'
 export { latestGuidesRun } from './guides-run-metadata'
 import { boundArtifact, object, type ReadonlyGitHub, type retainedMetadata } from './github'
-import { parseRemoteZip } from './remote-github'
+import { parseFetchSelectionZip, parseRemoteZip } from './remote-github'
 import { parseStrictJson } from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
 
 const require = createRequire(import.meta.url)
-const { validatePublicationResults } = require('../../../../../../scripts/docs-workflow/publication-contracts.js')
+const { validatePublicationResults, validatePublicationSelection } = require('../../../../../../scripts/docs-workflow/publication-contracts.js')
 const sharedBundle = require('../../../lark/sharedPageBundle.js')
 const { validatePublishedReceipt } = require('../../../lark/sharedPagePublication.js')
 const { validateCandidateSnapshot } = require('../../../lark/sourceSnapshot.js')
@@ -139,8 +139,7 @@ export async function selectedObservation(api: ReadonlyGitHub, facts: Metadata, 
   // a method JSON object nor a replayed lifecycle identity is a grant.
   if (batch) {
     if (!isMeasuredBatchContext(batch.context) || !isMeasuredPageGrant(batch.grant, batch.context, selected.page) ||
-      run.repository?.id !== 660446555 || run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' ||
-      run.event !== 'schedule' || run.run_attempt !== 1 || run.status !== 'completed' || run.conclusion !== 'success') return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
+      !isBatchFetchRun(run) || (run.event === 'workflow_dispatch' && !batch.common.selectionArtifact)) return unknown('BASE_SCAN_PRODUCER_UNPROVEN')
     const method = await batch.grant.authenticate(selected.page, {id: run.id, attempt: 1, head: run.head_sha})
     const result = await readReviewedObservation(api, facts, manifest, snapshot, payload, selected, batch.common)
     if ('identity' in result) Object.assign(result.identity, {producerAuthentication: method})
@@ -187,6 +186,7 @@ export async function readReviewedObservation(api: ReadonlyGitHub, facts: Metada
   if (common && (!cached || cached.api !== api || cached.facts !== facts || cached.dev !== selected.dev || !equal(cached.snapshot, facts))) throw Error('BATCH_COMMON_BINDING_INVALID')
   if (cached) facts = cached.snapshot
   const { run, jobs, artifact } = facts
+  if (run.event === 'workflow_dispatch' && !common?.selectionArtifact) return unknown('BATCH_MANUAL_FETCH_UNPROVEN')
   const job = successfulJob(jobs, 'produce_guides_sources / fetch', run)
   const scan = stepWindow(job, 'Fetch shared guides sources')
   if (!scan || !during(snapshot.generated_at, scan) || !stepWindow(job, 'Generate selected shared Guides sources') ||
@@ -281,14 +281,36 @@ async function acquirePublication(api: ReadonlyGitHub, facts: Metadata) {
 }
 
 declare const reviewedCommonBrand: unique symbol
-export type ReviewedCommon = {readonly [reviewedCommonBrand]: true}
+export type ReviewedCommon = {readonly [reviewedCommonBrand]: true;
+  readonly selectionArtifact?: Readonly<{id: number; bytes: number; sha256: string}>}
 type Publication = Exclude<Awaited<ReturnType<typeof acquirePublication>>, {reason: string}>
 const reviewedCommons = new WeakMap<object, {api: ReadonlyGitHub; facts: Metadata; snapshot: Metadata; dev: string; publication: Publication; source?: {payload: string; manifest: Row; snapshot: Row; bundleBytes: Buffer; bundle: Row; handoff: any}}>()
+async function acquireManualSelection(api: ReadonlyGitHub, {run, jobs, artifacts}: Metadata, publication: Publication, manifest?: Row) {
+  if (!manifest) throw Error('BATCH_MANUAL_FETCH_UNPROVEN')
+  const artifact = batchSelectionArtifact(run, jobs, artifacts)
+  if (!artifact) throw Error('BATCH_MANUAL_FETCH_UNPROVEN')
+  const archive = await api.zip(artifact.id, artifact.size_in_bytes)
+  if (archive.length !== artifact.size_in_bytes || `sha256:${sha256(archive)}` !== artifact.digest)
+    throw Error('BATCH_SELECTION_ARCHIVE_BINDING_INVALID')
+  const selection = validatePublicationSelection(parseStrictJson(parseFetchSelectionZip(archive)))
+  if (selection.workflow !== 'fetch' || selection.repository !== 'zilliztech/zdoc' || selection.runId !== run.id ||
+      selection.runAttempt !== 1 || selection.toolingSha !== run.head_sha || selection.targetBranch !== 'dev' ||
+      selection.initialTargetSha !== manifest.devBaselineSha || selection.sourceBaselineSha !== manifest.devBaselineSha ||
+      selection.inputs.selectedGroup !== 'guides' || selection.inputs.publish !== true || selection.inputs.runTranslations !== false ||
+      selection.units.map((unit: Row) => unit.unitKey).join(',') !== 'source/guides-en,source/guides-zh-CN' ||
+      publication.result.mode !== 'publish') throw Error('BATCH_MANUAL_FETCH_UNPROVEN')
+  // The publisher must have returned terminal results for this exact selection
+  // and its complete ordered set of units.
+  validatePublicationResults(publication.result, {selection})
+  return Object.freeze({id: artifact.id, bytes: artifact.size_in_bytes, sha256: artifact.digest.slice(7)})
+}
+
 /** Immutable run-level acquisition only. Per-page observations/receipts are never cached. */
 export async function acquireReviewedCommon(api: ReadonlyGitHub, facts: Metadata, dev: string, source?: {payload: string; manifest: Row; snapshot: Row}): Promise<ReviewedCommon> {
   const snapshot = immutable(structuredClone(facts))
   const publication = await acquirePublication(api, snapshot)
   if ('reason' in publication) throw Error(publication.reason)
+  const selectionArtifact = snapshot.run.event === 'workflow_dispatch' ? await acquireManualSelection(api, snapshot, publication, source?.manifest) : undefined
   const scan = stepWindow(successfulJob(snapshot.jobs, 'produce_guides_sources / fetch', snapshot.run), 'Fetch shared guides sources')
   if (!scan || !await latestGuidesRun(api, snapshot.run, scan.start)) throw Error('LATEST_OBSERVATION_UNPROVEN')
   const tip = object(await api.get(`${apiRoot}/branches/dev`))
@@ -299,7 +321,7 @@ export async function acquireReviewedCommon(api: ReadonlyGitHub, facts: Metadata
     sourceFacts = {payload: source.payload, manifest: immutable(structuredClone(source.manifest)), snapshot: immutable(structuredClone(source.snapshot)), bundleBytes,
       bundle: immutable(JSON.parse(bundleBytes.toString())), handoff: sharedBundle.loadBundle(join(source.payload, sharedBundle.ROOT), {masterSha: snapshot.run.head_sha, devBaselineSha: source.manifest.devBaselineSha})}
   }
-  const common = Object.freeze({}) as ReviewedCommon
+  const common = Object.freeze(selectionArtifact ? {selectionArtifact} : {}) as ReviewedCommon
   reviewedCommons.set(common, {api, facts, snapshot, dev, source: sourceFacts, publication: {...publication, result: immutable(structuredClone(publication.result)), publication: immutable(structuredClone(publication.publication))}})
   return common
 }

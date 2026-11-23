@@ -7,10 +7,11 @@
 // every proposal passes validateBatch before anything is emitted. The
 // invariants mirror the contracts pinned in deploy/contracts/container.test.mjs:
 //   - single-line exact blocks `location = X { return 301 Y; }`
-//   - every non-ja source gets a /ja-JP twin (mirror contract)
-//   - targets resolve against the sitemap snapshot, another exact source
-//     (chain), or the reviewed allowlist; absolute URLs and `$var` targets are
-//     allowed but stay nginx-only
+//   - en rules carry a derived /ja-JP twin (mirror contract); zh-CN rules
+//     (site: 'zh-CN') stand alone — the zh site serves no ja build
+//   - targets resolve against the site's sitemap snapshot, another exact
+//     source (chain), or the reviewed allowlist; absolute URLs and `$var`
+//     targets are allowed but stay nginx-only
 //   - no duplicate `location =` sources (nginx rejects them at load time)
 
 const ANCHOR = 'error_page 404 /404.html;'
@@ -96,11 +97,15 @@ function findInsertionOffset(confText) {
 
 // Validates one proposed batch before emission. errors block the write;
 // warnings surface in the proposal but do not. `denylist` paths (watchdog e2e
-// probes) must never receive a rule through any entry point.
-function validateBatch({rules, confSources, routes, allowlist = new Map(), denylist = []}) {
+// probes) must never receive a rule through any entry point. `site` selects
+// the conf dialect: the en site derives a mandatory /ja-JP twin for every
+// rule (the mirror contract), while the zh-CN site serves no ja build and its
+// rules stand alone against the zh route snapshot.
+function validateBatch({rules, confSources, routes, allowlist = new Map(), denylist = [], site}) {
   const errors = []
   const warnings = []
   const seen = new Set()
+  const requireJaTwins = site !== 'zh-CN'
   for (const rule of rules) {
     if (denylist.includes(rule.from)) {
       errors.push(`source is on the remediation denylist (watchdog probe path): ${rule.from}`)
@@ -121,10 +126,14 @@ function validateBatch({rules, confSources, routes, allowlist = new Map(), denyl
     if (rule.from.startsWith(JA_PREFIX)) {
       errors.push(`en source must not be /ja-JP-prefixed; remediate the en path so the twin stays derived: ${rule.from}`)
     }
-    if (rule.ja && rule.ja.from !== `${JA_PREFIX}${rule.from}`) {
-      errors.push(`ja twin source must be the derived /ja-JP mirror of the en source: got ${rule.ja.from}`)
+    if (requireJaTwins) {
+      if (rule.ja && rule.ja.from !== `${JA_PREFIX}${rule.from}`) {
+        errors.push(`ja twin source must be the derived /ja-JP mirror of the en source: got ${rule.ja.from}`)
+      }
+      if (!rule.ja) errors.push(`missing ja twin for ${rule.from}`)
+    } else if (rule.ja) {
+      errors.push(`zh-CN rules must not carry a ja twin (the zh site serves no ja build): ${rule.from}`)
     }
-    if (!rule.ja) errors.push(`missing ja twin for ${rule.from}`)
     for (const target of [rule.to, rule.ja ? rule.ja.to : null]) {
       if (!target) continue
       const verdict = lintTarget(target, {routes, exactSources: confSources, allowlist})

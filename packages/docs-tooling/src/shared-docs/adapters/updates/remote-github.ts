@@ -10,7 +10,7 @@ import { ApprovedProducerDefinitionSchema, REMOTE_IO_LIMITS as IO, REMOTE_LIMITS
   type ApprovedProducerDefinition, type RemoteCommit, type RemotePolicy, type RemotePull,
   type RemoteReadResult, type RemoteRef, type RemoteRepository } from '../../core/updates/remote'
 import { rawSha256, writeOwnedBlob, type EvidenceStore } from './evidence'
-import { scheduledFetchRunPath } from './guides-run-metadata'
+import { batchSelectionLimit, latestBatchFetchRunPath } from './guides-run-metadata'
 
 const fail = (code: string): never => { throw new Error(code) }
 const integer = (value: unknown): number => z.number().int().positive().max(Number.MAX_SAFE_INTEGER).parse(value)
@@ -34,7 +34,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
     if(!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(options.repositoryFullName))fail('ENDPOINT_INVALID')
     // Only these historical listing queries need percent-encoded comparison operators.
     const lifecycleList = options.repositoryFullName === 'zilliztech/zdoc' && /^\/repos\/zilliztech\/zdoc\/actions\/workflows\/(?:fetch-docs|fetch-guides-requested)\.yml\/runs\?created=%3E%3D[0-9]{4}-[0-9]{2}-[0-9]{2}&per_page=100&page=(?:[1-9]|10)$/.test(input.path)
-    const scheduledFetch = options.repositoryFullName === 'zilliztech/zdoc' && input.path === '/' + scheduledFetchRunPath
+    const batchFetch = options.repositoryFullName === 'zilliztech/zdoc' && input.path === '/' + latestBatchFetchRunPath
     const lifecycleTip = options.repositoryFullName === 'zilliztech/zdoc' && input.path === prefix + '/branches/dev'
     // The single reviewed Milvus track ref (dotted, so it does not match the generic ref shape).
     const milvusRef = options.repositoryFullName === 'milvus-io/milvus-docs' && input.path === prefix + '/git/ref/heads/v3.0.x'
@@ -48,7 +48,7 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
       if(input.method!=='GET')fail('ENDPOINT_INVALID')
       if(input.body||!input.path.startsWith(prefix))fail('ENDPOINT_INVALID')
       const suffix=input.path.slice(prefix.length),parts=suffix.split('?')
-      if (!lifecycleList && !scheduledFetch && !lifecycleTip && !milvusRef && !milvusBatchPage) {
+      if (!lifecycleList && !batchFetch && !lifecycleTip && !milvusRef && !milvusBatchPage) {
         if(parts.length>2||parts[0].includes('..')||! /^(?:|\/git\/(?:ref\/heads\/[A-Za-z0-9_/-]+|matching-refs\/heads\/)|\/pulls(?:\/[1-9][0-9]*)?|\/commits\/[a-f0-9]{40}(?:\/check-runs)?|\/actions\/runs\/[1-9][0-9]*(?:\/attempts\/[1-9][0-9]*(?:\/jobs)?|\/artifacts)?|\/actions\/workflows\/[1-9][0-9]*(?:\/runs)?|\/actions\/artifacts\/[1-9][0-9]*(?:\/zip)?|\/contents\/\.github\/workflows\/[A-Za-z0-9_.-]+)$/.test(parts[0]))fail('ENDPOINT_INVALID')
         for(const [key,value] of new URLSearchParams(parts[1]??''))if(!['page','per_page','state','base','filter','ref','event','head_sha'].includes(key)||! /^(?:[1-9][0-9]*|all|open|master|workflow_dispatch|[a-f0-9]{40})$/.test(value))fail('ENDPOINT_INVALID')
       }
@@ -93,11 +93,25 @@ export function createRemoteTransport(options: { repositoryFullName: string; tok
 
 /** Bounded supported ZIP subset. No extraction, shell, URL, or candidate code. */
 export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Array> {
-  if (input.length > LIMIT.archiveBytes || input.length < 22) fail('ZIP_LIMIT')
+  return parseZip(input, LIMIT.archiveBytes, LIMIT.members, LIMIT.outputBytes)
+}
+
+export function parseFetchSelectionZip(input: Uint8Array): Uint8Array {
+  return parseZip(input, batchSelectionLimit, 1, batchSelectionLimit, 'publication-selection.json').get('publication-selection.json')!
+}
+
+/** A compact handoff is one bounded JSON member, separate from v1 archives. */
+export function parseBatchHandoffZip(input: Uint8Array): ReadonlyMap<string, Uint8Array> {
+  const handoffLimit = 2 * 1024 ** 2
+  return parseZip(input, handoffLimit, 1, handoffLimit, 'handoff.json')
+}
+
+function parseZip(input: Uint8Array, archiveLimit: number, memberLimit: number, entryLimit: number, expectedName?: string) {
+  if (input.length > archiveLimit || input.length < 22) fail('ZIP_LIMIT')
   const bytes = Buffer.from(input), end = bytes.length - 22
   if (bytes.readUInt32LE(end) !== 0x06054b50 || bytes.readUInt16LE(end+20) || bytes.readUInt16LE(end+4) || bytes.readUInt16LE(end+6)) fail('ZIP_FORMAT')
   const count = bytes.readUInt16LE(end+10), countDisk=bytes.readUInt16LE(end+8), length=bytes.readUInt32LE(end+12), offset=bytes.readUInt32LE(end+16)
-  if (!count || count>LIMIT.members || count!==countDisk || offset+length!==end) fail('ZIP_DIRECTORY')
+  if (!count || count>memberLimit || count!==countDisk || offset+length!==end) fail('ZIP_DIRECTORY')
   const result=new Map<string,Uint8Array>(), folded=new Set<string>(), ranges:{start:number;end:number}[]=[]
   let at=offset, expanded=0
   const crc32=(data:Uint8Array)=>{let crc=0xffffffff;for(const byte of data){crc^=byte;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0)}return (crc^0xffffffff)>>>0}
@@ -105,10 +119,10 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
     if(at+46>end||bytes.readUInt32LE(at)!==0x02014b50)fail('ZIP_DIRECTORY')
     const flags=bytes.readUInt16LE(at+8), method=bytes.readUInt16LE(at+10), crc=bytes.readUInt32LE(at+16), compressed=bytes.readUInt32LE(at+20), size=bytes.readUInt32LE(at+24)
     const names=bytes.readUInt16LE(at+28), extra=bytes.readUInt16LE(at+30), comments=bytes.readUInt16LE(at+32), disk=bytes.readUInt16LE(at+34), attributes=bytes.readUInt32LE(at+38), local=bytes.readUInt32LE(at+42)
-    if(flags&~0x808||![0,8].includes(method)||disk||extra||comments||compressed===0xffffffff||size>LIMIT.outputBytes||at+46+names>end||local+30>offset)fail('ZIP_UNSUPPORTED')
+    if(flags&~0x808||![0,8].includes(method)||disk||extra||comments||compressed===0xffffffff||size>entryLimit||at+46+names>end||local+30>offset)fail('ZIP_UNSUPPORTED')
     const nameBytes=bytes.subarray(at+46,at+46+names), name=new TextDecoder('utf8',{fatal:true}).decode(nameBytes)
     RepoPathSchema.parse(name)
-    if(folded.has(name.toLowerCase())||name.endsWith('/')||![0,0x8000].includes((attributes>>>16)&0xf000)||(attributes&0x10)!==0)fail('ZIP_MEMBER')
+    if(expectedName!==undefined&&name!==expectedName||folded.has(name.toLowerCase())||name.endsWith('/')||![0,0x8000].includes((attributes>>>16)&0xf000)||(attributes&0x10)!==0)fail('ZIP_MEMBER')
     folded.add(name.toLowerCase())
     if(bytes.readUInt32LE(local)!==0x04034b50||bytes.readUInt16LE(local+6)!==flags||bytes.readUInt16LE(local+8)!==method)fail('ZIP_LOCAL')
     const localNames=bytes.readUInt16LE(local+26),localExtra=bytes.readUInt16LE(local+28),start=local+30+localNames+localExtra, stop=start+compressed
@@ -124,7 +138,7 @@ export function parseRemoteZip(input: Uint8Array): ReadonlyMap<string, Uint8Arra
     if(ranges.some(range=>local<range.end&&rangeEnd>range.start))fail('ZIP_OVERLAP')
     ranges.push({start:local,end:rangeEnd})
     expanded+=size;if(expanded>IO.expandedBytes)fail('ZIP_LIMIT')
-    const inflated=method===8?(inflateRawSync(bytes.subarray(start,stop),{maxOutputLength:LIMIT.outputBytes,info:true}) as unknown as {buffer:Buffer;engine:{bytesWritten:number}}):null
+    const inflated=method===8?(inflateRawSync(bytes.subarray(start,stop),{maxOutputLength:entryLimit,info:true}) as unknown as {buffer:Buffer;engine:{bytesWritten:number}}):null
     if(inflated&&inflated.engine.bytesWritten!==compressed)fail('ZIP_COMPRESSED_TRAILING')
     const data=inflated?inflated.buffer:bytes.subarray(start,stop)
     if(data.length!==size||crc32(data)!==crc)fail('ZIP_CRC')

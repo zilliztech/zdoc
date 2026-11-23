@@ -9,10 +9,11 @@ const {execFileSync, spawnSync} = require('node:child_process')
 // Run against a clean committed checkout with the already-installed workspace dependencies.
 const cwd = path.resolve(__dirname, '../../..')
 const args = process.argv.slice(2)
-if (args[0] !== '--out' || !args[1] || (args.length !== 2 && (args.length !== 3 || args[2] !== '--simulate-free-space'))) {
-  throw Error('Usage: node batch-candidate-replay.fixture.cjs --out <fresh-directory> [--simulate-free-space]')
+const flags = new Set(args.slice(2)), simulate = flags.has('--simulate-free-space'), compact = flags.has('--compact-handoff'), manual = flags.has('--manual-fetch')
+if (args[0] !== '--out' || !args[1] || flags.size !== args.length - 2 || flags.size !== Number(simulate) + Number(compact) + Number(manual)) {
+  throw Error('Usage: node batch-candidate-replay.fixture.cjs --out <fresh-directory> [--simulate-free-space] [--compact-handoff] [--manual-fetch]')
 }
-const lane = path.resolve(args[1]), out = path.join(lane, 'owned'), simulate = args[2] === '--simulate-free-space'
+const lane = path.resolve(args[1]), out = path.join(lane, 'owned')
 const git = (root, ...args) => execFileSync('/usr/bin/git', ['-C', root, ...args], {
   env: {PATH: '/usr/bin:/bin', GIT_NO_LAZY_FETCH: '1', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', LC_ALL: 'C'},
   maxBuffer: 128 * 1024 * 1024,
@@ -57,7 +58,7 @@ async function main() {
     return original
   }
   const {rawBatchLifecycleFixture} = load('testing/updates/fixtures/batch-qualification.ts')
-  const f = await rawBatchLifecycleFixture(lane, tools, {mixedTargets: true, mergedPull: true})
+  const f = await rawBatchLifecycleFixture(lane, tools, {mixedTargets: true, mergedPull: true, manualFetch: manual})
   const generated = path.join(f.tools, 'packages/chat-ui/dist')
   if (await fs.lstat(generated).then(() => true, () => false)) {
     await fs.rename(generated, path.join(lane, 'generated-chat-ui-dist'))
@@ -65,9 +66,16 @@ async function main() {
   await fs.writeFile(path.join(lane, 'replay-fixture.json'), f.fixtureBytes)
   const {captureTrustedToolset, describeTrustedToolset} = load('adapters/updates/toolset.ts')
   const capture = await captureTrustedToolset({root: f.tools, commit: f.master, cwd: f.tools})
-  const {prepareReplayGuidesBatchCandidate} = load('adapters/updates/batch-collection.ts')
-  const result = await prepareReplayGuidesBatchCandidate({sourceRepository: f.upstream, zdocRepository: f.tools, out,
-    capture, fixtureBytes: f.fixtureBytes, replayClockMs: f.replayClockMs})
+  const {prepareObservedBatchHandoff, prepareReplayBatchHandoffFixture, prepareReplayGuidesBatchCandidate} = load('adapters/updates/batch-collection.ts')
+  const optionsForReplay = {sourceRepository: f.upstream, zdocRepository: f.tools, out,
+    capture, fixtureBytes: f.fixtureBytes, replayClockMs: f.replayClockMs}
+  if (compact) {
+    const wrongOrigin = await prepareObservedBatchHandoff(optionsForReplay)
+    equal(wrongOrigin.status, 'held')
+    deepStrictEqual(wrongOrigin.reasons, ['BATCH_LAUNCH_BINDING_INVALID'])
+    equal(wrongOrigin.handoff, undefined)
+  }
+  const result = await (compact ? prepareReplayBatchHandoffFixture : prepareReplayGuidesBatchCandidate)(optionsForReplay)
   await write('result.json', result)
   equal(result.status, 'collected', JSON.stringify(result))
   equal(result.writeEligible, false)
@@ -95,11 +103,15 @@ async function main() {
     profileDigest: binding.method.profileSha256, indexRef: binding.index.ref, indexDigest: binding.index.digest}
   const {openLocalBatchBaseline} = load('adapters/updates/batch-source.ts')
   const baseline = await openLocalBatchBaseline({repository: f.tools, git: describeTrustedToolset(capture).git, master: f.master, dev: f.sampledDev, checkLocalDev: true})
-  const {inspectSignedBatchCandidate, prepareQualifiedBatchCandidate} = load('adapters/updates/batch-candidate.ts')
+  const {inspectSignedBatchCandidate, prepareQualifiedBatchCandidate, prepareQualifiedBatchCandidateHandoff} = load('adapters/updates/batch-candidate.ts')
   const options = {roots, evidence, transaction, baseline, bindingRef: candidate.binding, planRef: candidate.plan, proofRef: candidate.proof,
     sealRef: candidate.seal, sealOid: candidate.sealOid, publicKey: createPublicKey(candidate.publicKey),
     executableClosure: await evidence.writeBlob(capture.bytes), toolset: capture.material, budget() {}}
   const exact = await inspectSignedBatchCandidate(options)
+  if (compact) {
+    await rejects(prepareQualifiedBatchCandidateHandoff(binding), /BATCH_LAUNCH_BINDING_INVALID/)
+    await verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes, tools: f.tools, executableClosure: options.executableClosure})
+  } else equal(result.handoff, undefined)
   const negatives = [
     ['missing noop', {bindingRef: await put({...binding, pages: binding.pages.slice(0, -1)})}, /BATCH_CANDIDATE_BINDING/],
     ['substituted qualification', {bindingRef: await put({...binding, qualification: binding.closure})}, /BATCH_CANDIDATE_BINDING/],
@@ -116,7 +128,7 @@ async function main() {
   const qualification = await value(binding.qualification.ref)
   const {verifyBatchFinalFreshness} = load('adapters/updates/batch-github.ts')
   await rejects(verifyBatchFinalFreshness({scanStartMs: qualification.scanStartMs, sourceJobId: qualification.rows[0].sourceJobId, run: qualification.run,
-    sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins: binding.base.pins},
+    sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, selectionArtifact: qualification.selectionArtifact, pins: binding.base.pins},
   qualification.scanStartMs + 37 * 3600_000, f.fixture.finalPass), /BATCH_FRESHNESS_EXPIRED/)
   const index = await value(binding.index.ref), closure = await value(binding.closure.ref)
   // The standalone graph probe reconstructs locator fields for the retained
@@ -168,6 +180,104 @@ async function main() {
   console.log(JSON.stringify({code, fixtureMaster: f.master, out, status: replay.draft.status, drafts: replay.draftCount, simulation: simulate}))
 }
 
+async function verifyCompactHandoff({result, evidence, candidate, binding, plan, proof, baseline, exact, canonicalBytes, tools, executableClosure}) {
+  const {batchRef} = load('adapters/updates/batch-collection-contract.ts')
+  const {inspectObservedBatchHandoff, inspectReplayBatchHandoff} = load('adapters/updates/batch-handoff.ts')
+  const {compareUtf8} = load('core/updates/canonical.ts')
+  const bytes = Buffer.from(await evidence.readBlob(result.handoff))
+  const frame = JSON.parse(bytes)
+  const {pins} = binding.base
+  const expected = {ref: result.handoff, pins, executableClosure}
+  const input = {bytes, expected, baseline: {
+    read: (oid, type) => baseline.read(oid, type),
+    async verifyConnected(commits) {
+      deepStrictEqual(commits, [pins.master, pins.dev])
+      await baseline.verifyPins(pins.master, pins.dev)
+      git(tools, 'fsck', '--connectivity-only', '--no-dangling', ...commits)
+    },
+  }}
+  const verified = await inspectReplayBatchHandoff(input)
+  const {manifest} = verified
+  equal(verified.status, 'verified-witness')
+  equal(verified.observation, 'replay')
+  equal(verified.writeEligible, false)
+  deepStrictEqual(verified.operations, [])
+  deepStrictEqual(verified.proof, proof)
+  deepStrictEqual(verified.plan, plan)
+  const closure = JSON.parse(Buffer.from(await evidence.readBlob(binding.closure.ref)).toString('utf8'))
+  const pullSeeds = closure.seedKeys.filter(seed => seed.startsWith('pr:')).map(seed => Number(seed.slice(3))).sort((a, b) => a - b)
+  const commitSeeds = closure.seedKeys.filter(seed => seed.startsWith('commit:')).map(seed => seed.slice('commit:'.length))
+  equal(pullSeeds.length + commitSeeds.length > 0, true)
+  deepStrictEqual(verified.upstream, {pulls: pullSeeds, directCommits: commitSeeds})
+  for (const row of verified.nextLocks) {
+    const edit = plan.nextEdits.find(edit => edit.subject.pageId === row.pageId)
+    if (edit) deepStrictEqual([row.before, row.after], [edit.before.next, edit.target])
+    else equal(row.before, row.after)
+  }
+  deepStrictEqual(manifest.base, binding.base)
+  equal(manifest.groupSha256, binding.closure.digest)
+  deepStrictEqual(manifest.binding, {ref: candidate.binding, digest: candidate.bindingDigest})
+  deepStrictEqual(manifest.members.map(row => [row.pageId, row.disposition]), binding.pages.map(row => [row.pageId, row.disposition]))
+  deepStrictEqual(verified.objects.map(o => o.oid).sort(), exact.objects.map(o => o.oid).sort())
+  equal(verified.objects.some(o => o.oid === candidate.sealOid), false)
+  equal(frame.documents.some(d => d.ref.sha256 === proof.executableClosure.sha256), false)
+  const pointer = JSON.parse(await fs.readFile(path.join(out, 'index.json')))
+  deepStrictEqual(manifest.collection, pointer)
+  equal(createHash('sha256').update(await fs.readFile(path.join(out, pointer.archive.path))).digest('hex'), pointer.archive.sha256)
+  equal(JSON.parse(await fs.readFile(path.join(out, 'measurement.json'))).observation, 'replay')
+  await rejects(() => inspectObservedBatchHandoff(input), /BATCH_HANDOFF_ORIGIN/)
+  await rejects(() => inspectReplayBatchHandoff({...input, expected: {...expected, pins: {...pins, dev: pins.master}}}),
+    /BATCH_HANDOFF_PINS/)
+
+  const legacy = canonicalBytes({...frame, documents: frame.documents.filter(item => item.ref.sha256 !== binding.closure.ref.sha256)})
+  const legacyResult = await inspectReplayBatchHandoff({...input, bytes: legacy, expected: {...expected, ref: batchRef(legacy)}})
+  deepStrictEqual(legacyResult.upstream, {pulls: [], directCommits: []})
+  deepStrictEqual(legacyResult.nextLocks, verified.nextLocks)
+
+  const negatives = []
+  async function tamper(name, mutate, reason) {
+    const changed = structuredClone(frame)
+    mutate(changed)
+    const changedBytes = canonicalBytes(changed)
+    await rejects(() => inspectReplayBatchHandoff({...input, bytes: changedBytes, expected: {...expected, ref: batchRef(changedBytes)}}), reason)
+    negatives.push(name)
+  }
+  await tamper('missing noop', changed => changed.manifest.members.pop(), /BATCH_HANDOFF_CLOSURE/)
+  await tamper('missing report', changed => {
+    changed.documents = changed.documents.filter(item => item.ref.sha256 !== changed.manifest.members[0].report.sha256)
+  }, /BATCH_HANDOFF_DOCUMENT/)
+  await tamper('substituted report', changed => {
+    changed.manifest.members[0].report = changed.manifest.members[1].report
+  }, /BATCH_HANDOFF_MEMBERS/)
+  await tamper('substituted attribution closure', changed => {
+    const source = changed.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256)
+    const raw = Buffer.from(source.base64, 'base64').toString('utf8')
+    source.base64 = Buffer.from(raw.replace(/"(?:pr|commit):/, prefix => `"x${prefix.slice(2)}`)).toString('base64')
+    equal(source.base64 === frame.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256).base64, false)
+  }, /BLOB_BINDING/)
+  await tamper('extra document', changed => {
+    const raw = Buffer.from('null')
+    changed.documents.push({ref: batchRef(raw), base64: raw.toString('base64')})
+    changed.documents.sort((a, b) => compareUtf8(a.ref.sha256, b.ref.sha256))
+  }, /BATCH_HANDOFF_INVENTORY/)
+  await tamper('changed Git bytes', changed => {
+    changed.objects[0].base64 = Buffer.from('wrong object').toString('base64')
+  }, /BATCH_HANDOFF_GIT_BINDING/)
+  await tamper('changed root tree', changed => {
+    changed.manifest.candidateTree = changed.manifest.candidate
+  }, /BATCH_HANDOFF_PROOF/)
+  await tamper('extra Git object', changed => {
+    const raw = Buffer.from('unrequested object')
+    const oid = createHash('sha1').update('blob ' + raw.length + '\0').update(raw).digest('hex')
+    changed.objects.push({oid, type: 'blob', base64: raw.toString('base64')})
+    changed.objects.sort((a, b) => compareUtf8(a.oid, b.oid))
+  }, /BATCH_HANDOFF_GIT_INVENTORY/)
+  await write('compact-handoff-verification.json', {ref: result.handoff, candidate: verified.proof.candidate, tree: verified.proof.candidateTree,
+    group: manifest.groupSha256, documents: frame.documents.length, objects: verified.objects.length,
+    members: manifest.members.map(row => [row.pageId, row.disposition]), bytes: bytes.length,
+    rawPatchBytes: verified.rawPatch.length, observation: verified.observation, upstream: verified.upstream, nextLocks: verified.nextLocks, negatives})
+}
+
 async function replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,
   verifyBatchFinalFreshness, graphProbe, missingRef}) {
   const writerPath = path.join(f.tools, 'scripts/docs-workflow/shared-guides-update/batch-draft.mjs')
@@ -198,7 +308,8 @@ async function replayDraft({f, options, inspectSignedBatchCandidate, binding, ca
     const target = git(f.upstream, 'rev-parse', 'refs/heads/v3.0.x').toString().trim()
     if (target !== pins.source) throw Error('BATCH_DRAFT_TRACK_CHANGED')
     await verifyBatchFinalFreshness({scanStartMs: qualification.scanStartMs, sourceJobId: qualification.rows[0].sourceJobId,
-      run: qualification.run, sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins},
+      run: qualification.run, sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact,
+      selectionArtifact: qualification.selectionArtifact, pins},
     time, f.fixture.finalPass)
   }
 

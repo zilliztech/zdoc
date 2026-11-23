@@ -223,6 +223,28 @@ sets and bytes, zero shared generation/image-store calls and no empty authority
 directory. Separate site/browser and retained-artifact inventory/build gates remain
 required; the default suite and requirement tags cannot replace them.
 
+## Qualify a production batch on demand
+
+Use [fetch lark docs](../.github/workflows/fetch-docs.yml) on protected `master`.
+Select `group=guides`, `target_branch=dev`, `publish=true`,
+`tooling_ref=master`, and `source_ref=dev`. Keep `run_translations=false`,
+`media_upload_mode=write`, and `force_full_fetch=false`. A matching first
+attempt records the **Qualify exact manual Guides dispatch inputs** step in
+`prepare` alongside the immutable Fetch publication selection.
+
+After Fetch completes, run [Shared Guides upstream update](../.github/workflows/shared-guides-update.yml)
+on protected `master` with `scope=batch` and `create_draft=false` to inspect
+the preparation decision. The qualifier checks the latest normal Fetch run on
+`master`, including scheduled runs. It verifies the reviewed producer tree,
+the retained English source and publication results, and the published page
+outputs against current `dev`. For manual Fetch it also verifies the selection
+against the preparation step and the terminal publication results.
+
+A newer unfinished or incompatible Fetch can hold the batch. Check the
+reported reason and the producer's retained selection, source, and publication
+artifacts before continuing. The daily single-page pilot uses scheduled Fetch
+evidence.
+
 ## Manual target Check validation and finalization
 
 The single-page target Check path uses two independently dispatched runs on

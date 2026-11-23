@@ -663,7 +663,8 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       trees: contract.batchSorted([...inventoryTrees], ([oid]) => oid).map(([oid, ref]) => ({oid, ref})),
       discovery: contract.batchSorted([...discovery], ([oid]) => oid).map(([oid, metadata]) => ({oid, metadata})),
     })
-    const detailRef = replay && object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
+    const includeDetail = replay !== undefined || contract.isIsolatedBatchCandidateOrigin(request.origin)
+    const detailRef = includeDetail && object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
       configPaths: sorted([...consumedConfigurationPaths(request.pageId, ids, loaded.configuration.sharedDocs.pages.get(request.pageId)!.contentFiles?.keys() ?? [])]),
       targets: fixed.candidateNext.targets, observations: observations.map((o, i) => ({role: contract.batchRoles[i], commit: o.commit,
         buildLock: o.buildLock, engine: o.engine, localInputs: contract.batchSorted(o.localInputs, f => f.file), blocks: o.blocks,
@@ -703,7 +704,7 @@ import {isMeasuredBatchContext, type MeasuredBatchContext} from './trusted-fetch
 import {retainedMetadata} from './github'
 import {classifyLifecycle} from '../../core/updates/lifecycle'
 import {BatchGitStore, batchBudget} from './batch-source'
-import {successfulJob, stepWindow} from './guides-run-metadata'
+import {isBatchFetchRun, successfulJob, stepWindow} from './guides-run-metadata'
 
 /** Fixed group worker. Input contains identity and material digests only. The
  * issuer is an ordinary bootstrap call, never a request property or ready fact. */
@@ -721,7 +722,7 @@ export async function qualifyBatchLifecycle(data: BatchQualifierRequest, issue: 
   const directory = await mkdtemp(join(request.temporaryRoot, 'qualifier-stage-'))
   try {
     const facts = await retainedMetadata(api, scope.run.id), {run} = facts
-    if (run.id !== scope.run.id || run.run_attempt !== 1 || run.head_sha !== scope.run.head) throw Error('BATCH_RUN_BINDING_INVALID')
+    if (!isBatchFetchRun(run) || run.id !== scope.run.id || run.head_sha !== scope.run.head) throw Error('BATCH_RUN_BINDING_INVALID')
     const stage = immutable(await acquireLifecycleStage(api, facts, directory, 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'))
     const common = await acquireReviewedCommon(api, facts, pins.dev, stage), trusted = await context.facts()
     const scan = stepWindow(successfulJob(facts.jobs, 'produce_guides_sources / fetch', run), 'Fetch shared guides sources')
@@ -774,9 +775,11 @@ export async function qualifyBatchLifecycle(data: BatchQualifierRequest, issue: 
     await context.finish()
     const artifact = (a: Record<string, any>) => ({id: a.id, bytes: a.size_in_bytes, sha256: a.digest.slice(7)})
     const publication = facts.artifacts.find(a => a.id === request.archives.publication.id)
-    if (!publication || facts.artifact.id !== request.archives.source.id) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+    if (!publication || facts.artifact.id !== request.archives.source.id ||
+      common.selectionArtifact?.id !== request.archives.selection?.id) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
     return BatchQualificationSchema.parse({kind: 'guides-batch-qualification-v1', base: scope.base, run: scope.run,
-      scopeDigest: batchDigest('scope', scope), method: rows[0]?.method, sourceArtifact: artifact(facts.artifact), publicationArtifact: artifact(publication), scanStartMs: scan.start, rows})
+      scopeDigest: batchDigest('scope', scope), method: rows[0]?.method, sourceArtifact: artifact(facts.artifact), publicationArtifact: artifact(publication), ...(common.selectionArtifact ? {selectionArtifact: common.selectionArtifact} : {}),
+      scanStartMs: scan.start, rows})
   } finally {context.close(); channel.close()}
 }
 

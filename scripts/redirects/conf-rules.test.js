@@ -152,3 +152,24 @@ test('validateBatch accepts the derived twin for absolute targets and rejects no
 test('findInsertionOffset fails closed when the anchor is missing', () => {
   assert.throws(() => findInsertionOffset('server {\n}\n'), /insertion anchor not found/)
 })
+
+test('validateBatch with site zh-CN drops the twin contract and rejects ja twins', () => {
+  const zhRoutes = new Set(['/docs/live-zh', '/docs/other-zh'])
+  // A twin-free zh rule passes against the zh route space.
+  const zh = validateBatch({rules: [{from: '/docs/retired-zh', to: '/docs/live-zh'}], confSources: new Set(), routes: zhRoutes, site: 'zh-CN'})
+  assert.equal(zh.errors.length, 0)
+
+  // A ja twin is not a derivation on the zh site (no ja build) — carrying one
+  // is a bug, not a missing mirror.
+  const withTwin = validateBatch({rules: [{from: '/docs/retired-zh', to: '/docs/live-zh', ja: {from: '/ja-JP/docs/retired-zh', to: '/ja-JP/docs/live-zh'}}], confSources: new Set(), routes: zhRoutes, site: 'zh-CN'})
+  assert.ok(withTwin.errors.some(error => error.includes('zh-CN rules must not carry a ja twin')))
+
+  // Targets still resolve against the site's own snapshot.
+  const enRoutesOnly = validateBatch({rules: [{from: '/docs/retired-zh', to: '/reference/go/go/v2-Vector-HybridSearch'}], confSources: new Set(), routes: zhRoutes, site: 'zh-CN'})
+  assert.ok(enRoutesOnly.errors.some(error => error.includes('unresolved target')))
+})
+
+test('validateBatch without a site keeps the mandatory en twin contract', () => {
+  const untwinned = validateBatch({rules: [{from: '/docs/retired-en', to: '/docs/home'}], confSources: new Set(), routes: ROUTES})
+  assert.ok(untwinned.errors.some(error => error.includes('missing ja twin for /docs/retired-en')))
+})

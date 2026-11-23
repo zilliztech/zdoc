@@ -793,6 +793,26 @@
       "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
     },
     {
+      "id": "broken-links-report-workflow",
+      "paths": [
+        "packages/docs-tooling/src/links/brokenLinkAnalysis*",
+        "packages/docs-tooling/src/links/reportBrokenLinks*",
+        "packages/docs-tooling/src/links/brokenLinksLedger*",
+        "scripts/broken-links/**",
+        "scripts/broken-links-report-workflow.test.js",
+        ".github/workflows/broken-links-report.yml"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/links",
+        "node --test scripts/broken-links-report-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The internal broken-links report owns the tracked known-items ledger (scripts/broken-links/broken-links-ledger.json): the report stage labels ledger-decided findings in the Feishu table, and the workflow contract pins the ledger flag, the evidence artifact, and the seed schema."
+    },
+    {
       "id": "ga4-search-404-report-tooling",
       "paths": [
         "scripts/ga4-search-404-report*",
@@ -830,13 +850,28 @@
         ".github/workflows/ga4-404-remediation.yml"
       ],
       "focusedTests": [
-        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/reply.test.js scripts/redirects/triage-agent.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/ga4-search-404-report.test.js scripts/ga4-engagement-report.test.js"
+        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/reply.test.js scripts/redirects/triage-agent.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/product-doc-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/ga4-search-404-report.test.js scripts/ga4-engagement-report.test.js"
       ],
       "harnesses": [],
       "gates": [
         "pnpm test:workflow-policy"
       ],
-      "reason": "The 404 remediation tool owns the single conf generator (ja twins, target lint, duplicate-source detection) and the tracked decision ledger behind the ga4-404-remediation.yml scheduled/PR workflow (batch PR opening, the ga4-404-reply-data comment executor, the codex triage proposal job, and the free-text interpreter that feeds the same apply path); the shared GA4 auth lib and both refactored GA4 report scripts are co-tested so the JWT extraction never drifts."
+      "reason": "The 404 remediation tool owns the single conf generator (ja twins, target lint, duplicate-source detection) and the tracked decision ledger behind the ga4-404-remediation.yml scheduled/PR workflow (batch PR opening, the ga4-404-reply-data comment executor, the codex triage proposal job, and the free-text interpreter that feeds the same apply path); the shared GA4 auth lib and both refactored GA4 report scripts are co-tested so the JWT extraction never drifts. The site-aware conf generator also serves the product-doc-links remediation loop."
+    },
+    {
+      "id": "product-doc-links-remediation-tooling",
+      "paths": [
+        ".github/workflows/product-doc-links-remediation.yml",
+        "scripts/product-doc-links-remediation-workflow.test.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/redirects/conf-rules.test.js scripts/redirects/pipeline.test.js scripts/redirects/reply.test.js scripts/redirects/triage-agent.test.js scripts/redirects/ga4-404-remediation.test.js scripts/redirects/product-doc-remediation.test.js scripts/redirects/ga4-404-remediation-workflow.test.js scripts/product-doc-links-remediation-workflow.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy"
+      ],
+      "reason": "The product-doc-links remediation loop is the second data source of the 404 remediation mechanism: it splits broken product-UI doc links into site lanes (en with derived ja twins, zh-CN twin-free), suppresses decided paths through the multi-site product ledger, and opens one labeled PR per batch with per-site apply; the workflow contract pins the fail-closed Link.ts revision scan, the lane split, the triage-sourced reply routing, and the Git writer inventory."
     },
     {
       "id": "docs-tooling-cli-dispatch",
@@ -1540,6 +1575,7 @@
       "id": "shared-guides-upstream-update",
       "paths": [
         ".github/workflows/shared-guides-update.yml",
+        ".github/workflows/shared-guides-batch-qualify.yml",
         ".github/workflows/shared-guides-validate.yml",
         ".github/workflows/shared-guides-finalize.yml",
         "scripts/docs-workflow/shared-guides-update/**"
@@ -1555,7 +1591,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "The scheduled single-page update must verify fresh production inputs, skip existing updates, accept only the prepared lock.next edit, and create at most one Draft PR."
+      "reason": "The scheduled single-page update and the manual batch update share one writer and create at most one signed Draft PR. Manual batch qualification independently verifies observed evidence using read-only permissions."
     },
     {
       "id": "shared-docs-pr-workflows",

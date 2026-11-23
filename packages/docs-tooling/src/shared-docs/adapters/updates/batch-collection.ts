@@ -3,7 +3,7 @@ import {fileURLToPath} from 'node:url'
 import {canonicalBytes} from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
 import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
-import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, validateBatchWire,
+import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, isIsolatedBatchCandidateOrigin, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
   type TrustedToolsetCapture} from './toolset'
@@ -87,10 +87,11 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
 }
 
 /** Unexported constructors keep replay captures in a separate nominal family. */
-function observedOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>): Operation {
+function observedOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>, candidateRequested = false): Operation {
   const discovery = readBatchDiscoveryCapture(input.discovery)
   if (discovery.origin.kind !== 'observed') invalid()
-  return operation(input, discovery.origin)
+  // Candidate intent comes from the coordinator entry, not discovery or public input.
+  return operation(input, candidateRequested ? {kind: 'observed', purpose: 'isolated-candidate'} : {kind: 'observed'})
 }
 function replayOperation(input: Omit<Operation, 'base' | 'active' | 'pages' | 'issued' | 'outstanding'>): Operation {
   const discovery = readBatchDiscoveryCapture(input.discovery)
@@ -632,8 +633,11 @@ export type BatchQualifiedCollection = {status: 'held'; reasons: readonly string
 declare const candidateLaunchBrand: unique symbol
 export type BatchCandidateLaunchTicket = {readonly [candidateLaunchBrand]: true}
 type LiveCandidateLaunch = {control: BatchVerifyControl; evidence: EvidenceStore; repository: string;
-  git: string; closureBytes: Uint8Array; toolset: TrustedToolsetCapture['material']; budget: () => void; reserve: (bytes?: number, entries?: number) => Promise<void>}
-const verifiedCompletions = new WeakMap<object, {launch: LiveCandidateLaunch; recheck: (candidate: import('./batch-candidate').LocalBatchCandidate) => Promise<() => void>}>()
+  git: string; closureBytes: Uint8Array; toolset: TrustedToolsetCapture['material']; budget: () => void; reserve: (bytes?: number, entries?: number) => Promise<void>;
+  handoffCollection?: ReturnType<typeof BatchCollectionPointerSchema.parse>}
+type CandidatePreparation = 'local' | 'handoff'
+type PreparedCandidate = {candidate: import('./batch-candidate').LocalBatchCandidate; handoff?: BatchBlobRef}
+const verifiedCompletions = new WeakMap<object, {launch: LiveCandidateLaunch; recheck: (prepared: PreparedCandidate) => Promise<() => void>}>()
 const candidateLaunches = new WeakMap<BatchCandidateLaunchTicket, LiveCandidateLaunch>()
 
 export function consumeBatchCandidateLaunch(ticket: BatchCandidateLaunchTicket) {
@@ -644,22 +648,24 @@ export function consumeBatchCandidateLaunch(ticket: BatchCandidateLaunchTicket) 
   return launch
 }
 
-async function buildCompletedCandidate(qualified: Extract<BatchQualifiedCollection, {status: 'verified'}>, kind: BatchOrigin['kind']) {
+async function buildCompletedCandidate(qualified: Extract<BatchQualifiedCollection, {status: 'verified'}>, kind: BatchOrigin['kind'], preparation: CandidatePreparation) {
   const completed = verifiedCompletions.get(qualified)
   if (!completed || completed.launch.control.base.origin.kind !== kind) invalid()
   verifiedCompletions.delete(qualified)
   const {launch} = completed
   launch.budget()
   const ticket = Object.freeze({}) as BatchCandidateLaunchTicket
-  const {prepareQualifiedBatchCandidate} = await import('./batch-candidate')
+  const {prepareQualifiedBatchCandidate, prepareQualifiedBatchCandidateHandoff} = await import('./batch-candidate')
   candidateLaunches.set(ticket, launch)
-  const candidate = await prepareQualifiedBatchCandidate(ticket)
-  const checkPaths = await completed.recheck(candidate)
+  const prepared: PreparedCandidate = preparation === 'handoff'
+    ? await prepareQualifiedBatchCandidateHandoff(ticket)
+    : {candidate: await prepareQualifiedBatchCandidate(ticket)}
+  const checkPaths = await completed.recheck(prepared)
   launch.budget()
-  return {candidate, checkPaths}
+  return {...prepared, checkPaths}
 }
 
-async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: BatchOrigin['kind'], publish = false, candidateRequested = false): Promise<BatchQualifiedCollection> {
+async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: BatchOrigin['kind'], publish = false, preparation?: CandidatePreparation): Promise<BatchQualifiedCollection> {
   const map = kind === 'observed' ? observedMaterialClosures : replayMaterialClosures, sealed = map.get(ticket)
   // Retire synchronously before lease reads/capture/launch. Failure never permits retry.
   if (!sealed) return {status: 'held', reasons: ['BATCH_LAUNCH_BINDING_INVALID']}
@@ -668,6 +674,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
   try {
     const {base, capture, store} = sealed, provenance = describeTrustedToolset(capture)
     if (base.origin.kind !== kind || provenance.commit !== base.pins.master || base.pins.trustedTools !== base.pins.master || provenance.root !== capture.root) invalid()
+    if (kind === 'observed' && (preparation !== undefined) !== isIsolatedBatchCandidateOrigin(base.origin)) invalid()
     let replay: BatchReplayFixture | undefined
     if (kind === 'replay') {
       if (!sealed.replayFixtureBytes || base.origin.kind !== 'replay' || batchSha256(sealed.replayFixtureBytes) !== base.origin.fixtureSha256) invalid()
@@ -690,7 +697,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
     const qualifier = Object.freeze({async qualify() {
       if (started || !operation!.active) invalid()
       started = true
-      return executeQualification(operation!, publish, candidateRequested)
+      return executeQualification(operation!, publish, preparation)
     }})
     return await qualifier.qualify()
   } catch (error) {
@@ -702,7 +709,7 @@ async function qualifyMaterialTicket(ticket: BatchMaterialClosureTicket, kind: B
 export const qualifyObservedBatchMaterial = (ticket: BatchMaterialClosureTicket) => qualifyMaterialTicket(ticket, 'observed')
 export const qualifyReplayBatchMaterial = (ticket: BatchMaterialClosureTicket) => qualifyMaterialTicket(ticket, 'replay')
 
-async function executeQualification(operation: QualificationOperation, publish: boolean, candidateRequested: boolean): Promise<BatchQualifiedCollection> {
+async function executeQualification(operation: QualificationOperation, publish: boolean, preparation?: CandidatePreparation): Promise<BatchQualifiedCollection> {
   const {sealed, scope, request, lease} = operation, {store, capture} = sealed
   const check = () => {currentBatchLifetime()?.check(); if (!operation.active) invalid()}
   const retain = async (bytes: Uint8Array) => {
@@ -727,6 +734,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
   const q = BatchQualificationSchema.parse(child.value), raw = canonicalBytes(q)
   if (raw.length !== measured.responseBytes || batchSha256(raw) !== measured.responseSha256 || q.scopeDigest !== scopeDigest ||
     !same(q.base, scope.base) || !same(q.run, scope.run) || !same(q.sourceArtifact, lease.source) || !same(q.publicationArtifact, lease.publication) ||
+    !same(q.selectionArtifact ?? null, lease.selection ?? null) ||
     q.method.trustedTools !== scope.base.pins.master || q.method.producer !== scope.run.head || q.rows.length !== scope.pages.length) invalid()
   // Settle the independent stream/profile roots before constructing or reading I.
   batchCasCategory(store, 'qualifier')
@@ -803,7 +811,7 @@ async function executeQualification(operation: QualificationOperation, publish: 
       if (replay && !replay.finalPass) throw Error('BATCH_FINAL_REPLAY_MISSING')
       const {verifyBatchFinalFreshness} = await import('./batch-github')
       await verifyBatchFinalFreshness({scanStartMs: q.scanStartMs, sourceJobId: q.rows[0].sourceJobId, run: scope.run,
-        sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, pins: scope.base.pins}, collectionClock(scope.base.origin), replay?.finalPass, signal)
+        sourceArtifact: q.sourceArtifact, publicationArtifact: q.publicationArtifact, selectionArtifact: q.selectionArtifact, pins: scope.base.pins}, collectionClock(scope.base.origin), replay?.finalPass, signal)
       await operation.verifyOwned()
       if (await resolveCommit(capture.root) !== scope.base.pins.master) throw Error('BATCH_PIN_CHANGED')
       await recheckBatchSourceHead(sealed.sourceRepository, scope.base.pins.source)
@@ -842,14 +850,11 @@ async function executeQualification(operation: QualificationOperation, publish: 
     const result = immutable({status: 'verified' as const, origin: scope.base.origin, indexRef, indexDigest, qualifierRef,
       qualifierDigest, controlDigest: batchDigest('control', control),
       measurement: {qualifier: measured, settlement: child.settlement, verifierSettlement: verified.settlement}})
-    if (publish && candidateRequested) {
+    if (publish && preparation) {
       const budget = () => assertCompletionValidity(store)
       const reread = parseBatchCanonical(await store.readBlob(indexRef), BatchCollectionIndexSchema)
       if (batchDigest('index', reread) !== indexDigest || !same(reread, index)) invalid()
       budget()
-      const launch: LiveCandidateLaunch = {control, evidence: store, repository: sealed.devRepository,
-        git: describeTrustedToolset(capture).git, closureBytes: capture.bytes, toolset: capture.material,
-        budget, reserve: (bytes = 0, entries) => reserveBatchAllocation(store, bytes, entries)}
       const pointerPath = join(store.root, 'index.json'), archivePath = join(store.root, 'collection.zip')
       const stamp = (stat: BigIntStats) => ({...identity(stat), mode: String(stat.mode), size: String(stat.size),
         links: String(stat.nlink), modified: String(stat.mtimeNs), changed: String(stat.ctimeNs)})
@@ -865,7 +870,11 @@ async function executeQualification(operation: QualificationOperation, publish: 
         archive.length !== pointer.archive.bytes || batchSha256(archive) !== pointer.archive.sha256 ||
         !sameNamed(pointerPath, pointerStat) || !sameNamed(archivePath, archiveStat)) invalid()
       budget()
-      verifiedCompletions.set(result, {launch, async recheck(candidate) {
+      const launch: LiveCandidateLaunch = {control, evidence: store, repository: sealed.devRepository,
+        git: describeTrustedToolset(capture).git, closureBytes: capture.bytes, toolset: capture.material,
+        budget, reserve: (bytes = 0, entries) => reserveBatchAllocation(store, bytes, entries),
+        ...(preparation === 'handoff' ? {handoffCollection: pointer} : {})}
+      verifiedCompletions.set(result, {launch, async recheck({candidate, handoff}) {
         budget()
         const signal = currentBatchLifetime()?.signal
         const root = await open(store.root, fsConstants.O_RDONLY | fsConstants.O_DIRECTORY | fsConstants.O_NOFOLLOW)
@@ -886,7 +895,8 @@ async function executeQualification(operation: QualificationOperation, publish: 
               verifierLaunches.delete(ticket)
             }
             await verifyFresh(signal)
-            const refs = [indexRef, candidate.binding, candidate.plan, ...(candidate.status === 'candidate' ? [candidate.proof, candidate.seal] : [])]
+            const refs = [indexRef, candidate.binding, candidate.plan, ...(candidate.status === 'candidate' ? [candidate.proof, candidate.seal] : []),
+            ...(handoff ? [handoff] : [])]
             const retained = []
             for (const ref of refs) {
               const path = join(store.root, ref.path), before = await lstat(path, {bigint: true})
@@ -936,6 +946,7 @@ import {reserveBatchContentAllocation} from './batch-source'
 export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
   status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null;
   localCandidate?: import('./batch-candidate').LocalBatchCandidate}>
+type BatchHandoffResult = BatchCollectionResult & Readonly<{handoff?: BatchBlobRef}>
 /** Samples are explicitly observations, never an OS lifetime maximum. Disk walks
  * do not serialize RSS ticks; each channel records its own gaps and failures. */
 function sampleBatchOperation(root: string) {
@@ -997,7 +1008,7 @@ export async function settleBatchMeasurement(store: EvidenceStore, stopSampling:
 }
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
-}, candidateRequested = false): Promise<BatchCollectionResult> {
+}, preparation?: CandidatePreparation): Promise<BatchHandoffResult> {
   const observation = replay ? 'replay' : 'observed'
   const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
@@ -1040,20 +1051,22 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
-      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput))
+      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined))
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
-      const qualified = await qualifyMaterialTicket(material.ticket, observation, true, candidateRequested)
+      const qualified = await qualifyMaterialTicket(material.ticket, observation, true, preparation)
       if (qualified.status === 'held') return result('held', qualified.reasons)
       try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
       collectedIndex = qualified.indexRef
-      if (!candidateRequested) return result('collected', [], qualified.indexRef)
-      const {candidate: localCandidate, checkPaths} = await buildCompletedCandidate(qualified, observation)
+      if (!preparation) return result('collected', [], qualified.indexRef)
+      const {candidate: localCandidate, handoff, checkPaths} = await buildCompletedCandidate(qualified, observation, preparation)
       checkCandidatePaths = checkPaths
       assertCompletionValidity(store)
       checkPaths()
-      return immutable({...result('collected', [], qualified.indexRef), localCandidate})
+      // The finally path settles measurement and confirms the held paths before
+      // issuing this internal reference. Orphaned CAS bytes carry no authority.
+      return immutable({...result('collected', [], qualified.indexRef), localCandidate, ...(handoff ? {handoff} : {})})
     } catch (error) {
       const message = error instanceof Error ? error.message : ''
       return result('held', [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_COLLECTION_FAILED'], collectedIndex)
@@ -1085,13 +1098,28 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
 }
+/** Internal entry prepares only a local candidate within the live measured collection. */
+export function prepareObservedIsolatedBatchCandidate(options: Parameters<typeof collectObservedGuidesBatch>[0]): Promise<BatchCollectionResult> {
+  return collectCompleteBatch(options, undefined, 'local')
+}
 /** Test-only raw immutable replay. There is no mode/ref/run option on the observed entry. */
 export function collectReplayGuidesBatch(options: {sourceRepository: string; out: string; zdocRepository: string;
   capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number}): Promise<BatchCollectionResult> {
   return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)})
 }
 export function prepareReplayGuidesBatchCandidate(options: Parameters<typeof collectReplayGuidesBatch>[0]): Promise<BatchCollectionResult> {
-  return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)}, true)
+  return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)}, 'local')
+}
+
+/** Fixed internal producer path. Its evidence is ready for an authenticated job
+ * to retain only after live settlement. The reference itself grants no writes. */
+export function prepareObservedBatchHandoff(options: Parameters<typeof collectObservedGuidesBatch>[0]): Promise<BatchHandoffResult> {
+  return collectCompleteBatch(options, undefined, 'handoff')
+}
+
+/** Test fixture exercises the same measured handoff with permanent replay provenance. */
+export function prepareReplayBatchHandoffFixture(options: Parameters<typeof collectReplayGuidesBatch>[0]): Promise<BatchHandoffResult> {
+  return collectCompleteBatch({sourceRepository: options.sourceRepository, out: options.out}, {...options, fixtureBytes: Uint8Array.from(options.fixtureBytes)}, 'handoff')
 }
 
 function collectionClock(origin: BatchOrigin) {

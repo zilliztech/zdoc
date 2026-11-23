@@ -795,7 +795,8 @@ def _batch_base(base):
             and pins['master'] == pins['trustedTools'] and DIGEST.fullmatch(pins['toolsetSha256']), 'BATCH_BASE_INVALID')
     origin = base['origin']
     if origin.get('kind') == 'observed':
-        batch_exact(origin, 'kind')
+        batch_exact(origin, 'kind purpose' if 'purpose' in origin else 'kind')
+        require('purpose' not in origin or origin['purpose'] == 'isolated-candidate', 'BATCH_BASE_INVALID')
     else:
         batch_exact(origin, 'kind fixtureSha256 replayClockMs')
         require(origin['kind'] == 'replay' and DIGEST.fullmatch(origin['fixtureSha256'])
@@ -994,7 +995,11 @@ def _batch_material(reader, retained, base):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
-    batch_exact(header, fields + (' detailRef' if base['origin']['kind'] == 'replay' and 'detailRef' in header else ''))
+    origin = base['origin']
+    isolated_candidate = origin['kind'] == 'observed' and origin.get('purpose') == 'isolated-candidate'
+    if isolated_candidate or (origin['kind'] == 'replay' and 'detailRef' in header):
+        fields += ' detailRef'
+    batch_exact(header, fields)
     require(header['kind'] == 'guides-batch-material-v1' and header['base'] == base
             and header['pageId'] == retained['pageId'] and batch_digest('material', header) == retained['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     for key, maximum in (('requestBytes', 32 * 1024**2), ('responseBytes', 128 * 1024**2)):
@@ -1571,16 +1576,22 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     for page in dispositions['pages']:
         batch_exact(page, 'pageId disposition beforeSha256 targetSha256 reasons')
         require(page['disposition'] in ('advance', 'noop') and page['reasons'] == [], 'BATCH_CLOSURE_INVALID')
-    q = reader.object(control['qualifierRef'], 'kind base run scopeDigest method sourceArtifact publicationArtifact scanStartMs rows')
+    q = reader.blob(control['qualifierRef'], parse=True)
+    selection_field = ' selectionArtifact' if type(q) is dict and 'selectionArtifact' in q else ''
+    batch_exact(q, 'kind base run scopeDigest method sourceArtifact publicationArtifact scanStartMs rows' + selection_field)
     require(q['kind'] == 'guides-batch-qualification-v1' and q['base'] == base and q['run'] == run and q['scopeDigest'] == control['scopeDigest']
             and batch_digest('qualifier', q) == control['qualifierDigest'], 'BATCH_QUALIFIER_BINDING_INVALID')
     method = validate_profile_method(q['method'], expected_kind='fetch-producer-profile-v2', master=pins['master'], producer=run['head'],
                                      observed_tool=pins['trustedTools'], expected_digest=control['profileDigest'])
-    for key, limit in (('sourceArtifact', 256 * 1024**2), ('publicationArtifact', 1024**2)):
+    artifact_limits = {'sourceArtifact': 256 * 1024**2, 'publicationArtifact': 1024**2}
+    if selection_field:
+        artifact_limits['selectionArtifact'] = 1024**2
+    for key, limit in artifact_limits.items():
         artifact_row = batch_exact(q[key], 'id bytes sha256')
         require(type(artifact_row['id']) is int and artifact_row['id'] > 0 and type(artifact_row['bytes']) is int
                 and 0 < artifact_row['bytes'] <= limit and DIGEST.fullmatch(artifact_row['sha256']), 'BATCH_ARTIFACT_INVALID')
-    require(q['sourceArtifact']['id'] != q['publicationArtifact']['id'] and type(q['scanStartMs']) is int and q['scanStartMs'] >= 0,
+    require(len({q[key]['id'] for key in artifact_limits}) == len(artifact_limits)
+            and type(q['scanStartMs']) is int and q['scanStartMs'] >= 0,
             'BATCH_ARTIFACT_INVALID')
     require([r['pageId'] for r in q['rows']] == members, 'BATCH_MEMBER_SET_INVALID')
     receipts = batch_exact(control['receiptsRoot'], 'base scopeDigest qualifierRawSha256 pages')
