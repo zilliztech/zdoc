@@ -1063,8 +1063,17 @@ class larkDocWriter {
                     if (line.startsWith('**')) {
                         let qtext = line.indexOf('{#') > 0 ? line.split('{#')[0].split('**')[1] : line.replace(/\*/g, '').trim()
                         let qslug = line.indexOf('{#') > 0 ? line.split('{#')[1]?.split('}')[0] : slugify(qtext, {lower: true, strict: true})
-                        line = `### ${qtext}{#${qslug}}`
-                        links.push(`- [${qtext}](#${qslug})`)
+                        // An empty id ("{#}" left when a translation drops the id,
+                        // or slugify stripping a CJK-only question) would mint an
+                        // anchorless marker and a dead "#-only" Contents link.
+                        // Emit a bare heading and an unlinked entry instead.
+                        if (qslug) {
+                            line = `### ${qtext}{#${qslug}}`
+                            links.push(`- [${qtext}](#${qslug})`)
+                        } else {
+                            line = `### ${qtext}`
+                            links.push(`- ${qtext}`)
+                        }
                     }
 
                     if (line == short_description) {
@@ -1859,11 +1868,23 @@ class larkDocWriter {
         content = this.__clean_headings(content)
         content = this.__stripHeadingEmphasis(content)
 
+        // An empty anchor marker ("{#}") either survived a translation that
+        // dropped the id, or was minted by the append below when slugify strips
+        // a CJK-only heading (observed on zh-CN membership-match: slugify
+        // ('概述') === ''). No parser consumes an empty id, so published markdown
+        // renders it as literal "{#}". Drop a trailing empty marker, then only
+        // append when the slug is non-empty; bare CJK headings fall back to the
+        // SSG slugger instead.
+        content = content.replace(/\s*\{#\s*}$/, '')
+
         if (content.length > 0) {
-            
+
             if (content.indexOf('{#') < 0) {
                 let slug = this.__heading_slug(content)
-                return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+                if (slug) {
+                    return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
+                }
+                return '#'.repeat(level) + ' ' + content;
             } else {
                 return '#'.repeat(level) + ' ' + content;
             }
