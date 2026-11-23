@@ -209,3 +209,66 @@ test('a product ledger entry without a site tag fails closed', async () => {
     env: {},
   }), /missing its site tag/)
 })
+
+// --- lane routing (the executor's split-reply mode) ------------------------------
+
+const DUAL_TRIAGE_ENTRIES = [
+  {from: '/docs/retired-both', site: 'en'},
+  {from: '/docs/retired-both', site: 'zh-CN'},
+  {from: '/docs/retired-zh-only', site: 'zh-CN'},
+]
+
+function replyFile(dir, mapping) {
+  return writeFixture(dir, 'reply.md', [
+    '<!-- ga4-404-reply-data begin -->',
+    '```json',
+    JSON.stringify({schema_version: 1, ...mapping}),
+    '```',
+    '<!-- ga4-404-reply-data end -->',
+  ].join('\n'))
+}
+
+function triageFile(dir) {
+  return writeFixture(dir, 'entries.json', JSON.stringify({schema_version: 1, entries: DUAL_TRIAGE_ENTRIES}))
+}
+
+test('split-reply fans a dual-host path out to both lanes and pins explicit sites', async () => {
+  const dir = makeTempDir('pdl-split-')
+  const result = await run({
+    argv: [
+      '--mode', 'split-reply',
+      '--reply-file', replyFile(dir, {mappings: [{from: '/docs/retired-both', to: '/docs/live', note: 'renamed'}], declined: [{from: '/docs/retired-zh-only', note: 'product-side'}]}),
+      '--triage-file', triageFile(dir),
+      '--split-dir', path.join(dir, 'lanes'),
+    ],
+  })
+  assert.deepEqual(result.counts, {en: 1, 'zh-CN': 2})
+  const enMapping = JSON.parse(fs.readFileSync(path.join(result.split_dir, 'mapping-en.json'), 'utf8'))
+  assert.deepEqual(enMapping.mappings, [{from: '/docs/retired-both', to: '/docs/live', note: 'renamed'}])
+  const zhMapping = JSON.parse(fs.readFileSync(path.join(result.split_dir, 'mapping-zh-CN.json'), 'utf8'))
+  assert.equal(zhMapping.mappings.length, 1)
+  assert.equal(zhMapping.declined.length, 1)
+})
+
+test('split-reply pins an explicit site and rejects off-triage decisions', async () => {
+  const dir = makeTempDir('pdl-split-pin-')
+  const result = await run({
+    argv: [
+      '--mode', 'split-reply',
+      '--reply-file', replyFile(dir, {mappings: [{from: '/docs/retired-both', to: '/docs/live', site: 'zh-CN'}]}),
+      '--triage-file', triageFile(dir),
+      '--split-dir', path.join(dir, 'lanes'),
+    ],
+  })
+  assert.deepEqual(result.counts, {en: 0, 'zh-CN': 1})
+  assert.equal(fs.existsSync(path.join(result.split_dir, 'mapping-en.json')), false)
+
+  await assert.rejects(run({
+    argv: [
+      '--mode', 'split-reply',
+      '--reply-file', replyFile(dir, {mappings: [{from: '/docs/not-on-triage', to: '/docs/live'}]}),
+      '--triage-file', triageFile(dir),
+      '--split-dir', path.join(dir, 'lanes2'),
+    ],
+  }), /not on this batch triage/)
+})

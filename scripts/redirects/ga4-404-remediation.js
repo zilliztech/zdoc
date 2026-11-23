@@ -225,9 +225,12 @@ function workflowRunUrl(env) {
 // re-submitted as the identical decision (retry idempotency); changing it is
 // rejected so a stale reply or a later comment can never silently flip a
 // recorded decision — removing the ledger entry first is the explicit path.
-// `site` scopes the lookup for the multi-site ledger dialect (site::from keys).
+// `site` scopes the SUBMISSION lookup for the multi-site ledger dialect.
+// Existing entries are keyed by their OWN site tag (untagged = the GA4
+// dialect's bare path): re-keying another lane's entry under the current
+// site would make a zh decision collide with a recorded en decision.
 function assertLedgerUndecided(mapping, ledgerRaw, site) {
-  const keyOf = entry => (site ?? entry.site) ? `${site ?? entry.site}::${entry.from}` : entry.from
+  const keyOf = entry => (entry.site ? `${entry.site}::${entry.from}` : entry.from)
   const existing = new Map((ledgerRaw.entries ?? []).map(entry => [keyOf(entry), entry]))
   const submissions = [
     ...(mapping.mappings ?? []).map(entry => ({from: entry.from, status: 'fixed', to: entry.to})),
@@ -257,6 +260,16 @@ function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs, site}) {
   } else {
     throw new Error('apply mode requires --mapping FILE or --reply-file FILE (the structured mapping JSON)')
   }
+  // The ledger dialect must match the invocation: a site-tagged (multi-site)
+  // ledger under the untagged GA4 dialect (or the reverse) would write keys
+  // the lane lookups never read — decisions that silently stop suppressing.
+  const ledgerTagged = (ledgerRaw.entries ?? []).some(entry => entry.site)
+  if (ledgerTagged && !site) {
+    throw new Error('this ledger is site-tagged (the multi-site dialect); pass --site en|zh-CN to match it')
+  }
+  if (!ledgerTagged && site && (ledgerRaw.entries ?? []).length > 0) {
+    throw new Error(`--site ${site} requires a site-tagged ledger; this ledger is the untagged single-site dialect`)
+  }
   assertLedgerUndecided(mapping, ledgerRaw, site)
   const confSources = parseExactSources(confText)
   const zhSite = site === 'zh-CN'
@@ -285,7 +298,7 @@ function runApply({args, confText, routes, allowlist, ledgerRaw, nowMs, site}) {
   const batchText = formatBatch({date: decidedAt.slice(0, 10), sourceLabel: siteLabel, rules})
   // Keyed by from (site::from for the multi-site ledger) so re-applying the
   // same mapping updates its entry instead of appending a duplicate decision.
-  const keyOf = entry => (entry.site ?? site) ? `${entry.site ?? site}::${entry.from}` : entry.from
+  const keyOf = entry => (entry.site ? `${entry.site}::${entry.from}` : entry.from)
   const ledgerEntries = new Map((ledgerRaw.entries ?? []).map(entry => [keyOf(entry), entry]))
   const siteTag = site ? {site} : {}
   const newEntryKey = from => (site ? `${site}::${from}` : from)

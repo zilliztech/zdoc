@@ -101,19 +101,23 @@ jobs:
         run: |
           pnpm docs-tooling check-product-doc-links --output tmp/product-remediation/report.md
 
+      # The classifier writes into its own subdirectory: the scan's raw
+      # report.json (broken/redirected/blocked/transient links — the raw
+      # evidence the watchdog doubles as) must survive in the artifact
+      # alongside the lane classification, not be overwritten by it.
       - name: Classify broken links into site lanes
         id: remediation
         run: |
           node scripts/redirects/product-doc-remediation.js \
             --product-report tmp/product-remediation/report.json \
-            --output-dir tmp/product-remediation \
+            --output-dir tmp/product-remediation/classification \
             --ledger "$PRODUCT_LINKS_LEDGER"
-          echo "direct_count=$(node -e 'const r=require("./tmp/product-remediation/report.json");process.stdout.write(String(r.stats.direct))')" >> "$GITHUB_OUTPUT"
-          echo "triage_count=$(node -e 'const r=require("./tmp/product-remediation/report.json");process.stdout.write(String(r.stats.triage))')" >> "$GITHUB_OUTPUT"
+          echo "direct_count=$(node -e 'const r=require("./tmp/product-remediation/classification/report.json");process.stdout.write(String(r.stats.direct))')" >> "$GITHUB_OUTPUT"
+          echo "triage_count=$(node -e 'const r=require("./tmp/product-remediation/classification/report.json");process.stdout.write(String(r.stats.triage))')" >> "$GITHUB_OUTPUT"
 
       - name: Append proposal summary
-        if: ${{ hashFiles('tmp/product-remediation/proposal.md') != '' }}
-        run: cat tmp/product-remediation/proposal.md >> "$GITHUB_STEP_SUMMARY"
+        if: ${{ hashFiles('tmp/product-remediation/classification/proposal.md') != '' }}
+        run: cat tmp/product-remediation/classification/proposal.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload remediation artifacts
         uses: actions/upload-artifact@v6
@@ -132,8 +136,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REST_UPSTREAM_REFRESH_PAT: ${{ secrets.REST_UPSTREAM_REFRESH_PAT }}
         run: |
-          direct=$(node -e 'const r=require("./tmp/product-remediation/report.json");process.stdout.write(String(r.stats.direct))')
-          triage=$(node -e 'const r=require("./tmp/product-remediation/report.json");process.stdout.write(String(r.stats.triage))')
+          direct=$(node -e 'const r=require("./tmp/product-remediation/classification/report.json");process.stdout.write(String(r.stats.direct))')
+          triage=$(node -e 'const r=require("./tmp/product-remediation/classification/report.json");process.stdout.write(String(r.stats.triage))')
           if [ "$direct" = "0" ] && [ "$triage" = "0" ]; then
             echo "::notice::No unresolved product-doc links in this window; the artifact and summary were still updated."
             exit 0
@@ -150,37 +154,48 @@ jobs:
           # Split the deterministic rules per site lane and apply each lane
           # with its own conf/snapshot pair; the second lane reads the first
           # lane's merged ledger so one commit carries one consistent ledger.
-          node -e 'const fs=require("fs");const r=JSON.parse(fs.readFileSync("tmp/product-remediation/report.json","utf8"));const lanes={en:[],zh:[]};for(const rule of r.direct){(rule.site==="zh-CN"?lanes.zh:lanes.en).push(rule)}for(const lane of ["en","zh"]){if(lanes[lane].length===0)continue;const site=lane==="en"?"en":"zh-CN";const file="tmp/product-remediation/publish-mapping-"+lane+".json";fs.writeFileSync(file,JSON.stringify({schema_version:1,mappings:lanes[lane].map(function(rule){return {from:rule.from,to:rule.to,note:"Product-doc-links lane "+site+" (revision "+(r.source_revision||"unknown")+"): "+rule.ladder+" ladder"}})},null,2))}'
+          node -e 'const fs=require("fs");const r=JSON.parse(fs.readFileSync("tmp/product-remediation/classification/report.json","utf8"));const lanes={en:[],zh:[]};for(const rule of r.direct){(rule.site==="zh-CN"?lanes.zh:lanes.en).push(rule)}for(const lane of ["en","zh"]){if(lanes[lane].length===0)continue;const site=lane==="en"?"en":"zh-CN";const file="tmp/product-remediation/classification/publish-mapping-"+lane+".json";fs.writeFileSync(file,JSON.stringify({schema_version:1,mappings:lanes[lane].map(function(rule){return {from:rule.from,to:rule.to,note:"Product-doc-links lane "+site+" (revision "+(r.source_revision||"unknown")+"): "+rule.ladder+" ladder"}})},null,2))}'
           ledger_in="$PRODUCT_LINKS_LEDGER"
           en_rules=0
           zh_rules=0
-          if [ -f tmp/product-remediation/publish-mapping-en.json ]; then
+          if [ -f tmp/product-remediation/classification/publish-mapping-en.json ]; then
             apply_log="$(node scripts/redirects/ga4-404-remediation.js \
               --mode apply --site en \
-              --mapping tmp/product-remediation/publish-mapping-en.json \
+              --mapping tmp/product-remediation/classification/publish-mapping-en.json \
               --conf deploy/en/nginx.conf \
               --snapshot deploy/contracts/en-redirect-target-routes.json \
               --ledger "$ledger_in" \
               --output-dir tmp/apply-en \
-              --write-conf 2>&1)"
+              --write-conf 2>&1)" || {
+              printf 'en lane apply failed:\n%s\n' "$apply_log" >&2
+              exit 1
+            }
             ledger_in="tmp/apply-en/ledger.json"
-            en_rules=$(node -e 'const m=require("./tmp/product-remediation/publish-mapping-en.json");process.stdout.write(String(m.mappings.length))')
+            en_rules=$(node -e 'const m=require("./tmp/product-remediation/classification/publish-mapping-en.json");process.stdout.write(String(m.mappings.length))')
             printf '%s\n' "$apply_log" | head -3
           fi
-          if [ -f tmp/product-remediation/publish-mapping-zh.json ]; then
+          if [ -f tmp/product-remediation/classification/publish-mapping-zh.json ]; then
             apply_log="$(node scripts/redirects/ga4-404-remediation.js \
               --mode apply --site zh-CN \
-              --mapping tmp/product-remediation/publish-mapping-zh.json \
+              --mapping tmp/product-remediation/classification/publish-mapping-zh.json \
               --conf deploy/zh-CN/nginx.conf \
               --snapshot deploy/contracts/zh-CN-redirect-target-routes.json \
               --ledger "$ledger_in" \
               --output-dir tmp/apply-zh \
-              --write-conf 2>&1)"
+              --write-conf 2>&1)" || {
+              printf 'zh lane apply failed:\n%s\n' "$apply_log" >&2
+              exit 1
+            }
             ledger_in="tmp/apply-zh/ledger.json"
-            zh_rules=$(node -e 'const m=require("./tmp/product-remediation/publish-mapping-zh.json");process.stdout.write(String(m.mappings.length))')
+            zh_rules=$(node -e 'const m=require("./tmp/product-remediation/classification/publish-mapping-zh.json");process.stdout.write(String(m.mappings.length))')
             printf '%s\n' "$apply_log" | head -3
           fi
-          cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"
+          # GNU cp fails (exit 1) on a same-file copy, which a triage-only
+          # batch hits with ledger_in still pointing at the tracked ledger —
+          # under bash -e that aborted the step before the PR could open.
+          if [ "$ledger_in" != "$PRODUCT_LINKS_LEDGER" ]; then
+            cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"
+          fi
           batch_date=$(date -u +%Y-%m-%d)
           branch="product-doc-remediation/${batch_date}-${GITHUB_RUN_ID}"
           git config user.name "zdoc product-remediation bot"
@@ -212,7 +227,7 @@ jobs:
           GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT" gh label create product-doc-links-remediation --color D4C5F9 --description 'Automated product-doc-links remediation batch' 2>/dev/null || true
           body_file="$RUNNER_TEMP/pr-body.md"
           rm -f "$body_file"
-          BODY_FILE="$body_file" node -e 'const fs=require("fs");const b=fs.readFileSync("tmp/product-remediation/proposal.md","utf8");const body=b.length>60000?b.slice(0,60000)+"\n\n(Truncated at 60000 characters; the full proposal is in the run artifact product-doc-remediation-"+process.env.GITHUB_RUN_ID+".)\n":b;fs.writeFileSync(process.env.BODY_FILE,body)'
+          BODY_FILE="$body_file" node -e 'const fs=require("fs");const b=fs.readFileSync("tmp/product-remediation/classification/proposal.md","utf8");const body=b.length>60000?b.slice(0,60000)+"\n\n(Truncated at 60000 characters; the full proposal is in the run artifact product-doc-remediation-"+process.env.GITHUB_RUN_ID+".)\n":b;fs.writeFileSync(process.env.BODY_FILE,body)'
           export GH_TOKEN="$REST_UPSTREAM_REFRESH_PAT"
           test -s "$body_file" || {
             echo "::error::proposal body file missing or empty at $body_file; refusing to open an empty PR."
@@ -230,7 +245,7 @@ jobs:
           echo "pr_url=$pr_url" >> "$GITHUB_OUTPUT"
           echo "pr_number=${pr_url##*/}" >> "$GITHUB_OUTPUT"
           if [ -f tmp/product-remediation/triage.md ]; then
-            gh pr comment "$pr_url" --repo "$GITHUB_REPOSITORY" --body-file tmp/product-remediation/triage.md
+            gh pr comment "$pr_url" --repo "$GITHUB_REPOSITORY" --body-file tmp/product-remediation/classification/triage.md
           fi
 
   # Read-only codex proposal, identical in shape to the GA4 loop's: researches
@@ -286,7 +301,7 @@ jobs:
           fi
           node scripts/redirects/triage-agent.js \
             --mode propose \
-            --report tmp/product-remediation/report.json \
+            --report tmp/product-remediation/classification/report.json \
             --output tmp/product-remediation/proposal-comment.md \
             --model "${AGENTIC_TRANSLATION_MODEL:-deepseek-flash}" \
             --base-url "$AGENTIC_BASE_URL" \
@@ -495,14 +510,32 @@ jobs:
             reply_file="$INTERPRETED_REPLY_FILE"
           fi
           gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" --jq '[.[] | select(.body | startswith("<!-- ga4-404-triage:v1 -->")) | .body] | .[0] // empty' > "$RUNNER_TEMP/triage-comments.md"
-          node scripts/redirects/triage-agent.js \
+          # A block reply on a PR without its machine triage comment has no
+          # lane router; the rejection comment (not a bare red run) is the
+          # operator-visible outcome, same as the interpreter path.
+          if [ ! -s "$RUNNER_TEMP/triage-comments.md" ]; then
+            printf 'The reply could not be applied:\n\n    no machine triage comment on this PR to route site lanes from; reply on the batch PR that carries the ga4-404-triage comment.\n' > "$RUNNER_TEMP/rejection.md"
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/rejection.md"
+            echo '::error::no machine triage comment on this PR; nothing applied.'
+            exit 1
+          fi
+          extract_log="$(node scripts/redirects/triage-agent.js \
             --mode extract-triage \
             --comment-file "$RUNNER_TEMP/triage-comments.md" \
-            --output "$RUNNER_TEMP/triage-entries.json"
-          split_log="$(REPLY_FILE="$reply_file" \
-          ENTRIES_FILE="$RUNNER_TEMP/triage-entries.json" \
-          SPLIT_DIR="$RUNNER_TEMP/lanes" \
-          node -e 'const fs=require("fs");const path=require("path");const {extractReplyBlock}=require("./scripts/redirects/reply.js");const reply=extractReplyBlock(fs.readFileSync(process.env.REPLY_FILE,"utf8"));if(!reply.ok){console.error("reply rejected: "+reply.reason);process.exit(1)}const mapping=JSON.parse(reply.payload);const entries=JSON.parse(fs.readFileSync(process.env.ENTRIES_FILE,"utf8")).entries;const siteOf=new Map(entries.map(function(e){return [e.from, e.site==="zh-CN"?"zh-CN":"en"]}));const lanes={en:{schema_version:1,mappings:[],declined:[],denylist:[]},"zh-CN":{schema_version:1,mappings:[],declined:[],denylist:[]}};const unassigned=[];for(const key of ["mappings","declined","denylist"]){for(const entry of mapping[key]||[]){const site=siteOf.get(entry.from);if(!site){unassigned.push(entry.from);continue}lanes[site][key].push(entry)}}if(unassigned.length>0){console.error("reply decisions not on this batch triage (cannot route a site lane): "+unassigned.join(", "));process.exit(1)}fs.mkdirSync(process.env.SPLIT_DIR,{recursive:true});let summary=[];for(const site of ["en","zh-CN"]){const data=lanes[site];const total=data.mappings.length+data.declined.length+data.denylist.length;if(total>0){fs.writeFileSync(path.join(process.env.SPLIT_DIR,"mapping-"+site+".json"),JSON.stringify(data,null,2))}summary.push(site+"="+total)}console.log("lane split: "+summary.join(", "))' 2>&1)" || {
+            --output "$RUNNER_TEMP/triage-entries.json" 2>&1)" || {
+            printf 'The reply could not be applied:\n\n    %s\n' "$(printf '%s' "$extract_log" | head -3)" > "$RUNNER_TEMP/rejection.md"
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/rejection.md"
+            echo "::error::extract-triage failed: $extract_log"
+            exit 1
+          }
+          # Lane routing lives in the unit-tested runner (splitReplyByLane):
+          # a path triaged on BOTH hosts fans out to both lanes, so neither
+          # lane's decision can silently shadow the other's.
+          split_log="$(node scripts/redirects/product-doc-remediation.js \
+            --mode split-reply \
+            --reply-file "$reply_file" \
+            --triage-file "$RUNNER_TEMP/triage-entries.json" \
+            --split-dir "$RUNNER_TEMP/lanes" 2>&1)" || {
             split_log="${split_log//ga4-404-reply-data begin/(reply marker elided)}"
             split_log="${split_log//ga4-404-reply-data end/(reply marker elided)}"
             REJECTION_BODY="$split_log" node -e 'const fs=require("fs");const log=(process.env.REJECTION_BODY||"").slice(0,1000);fs.writeFileSync(process.env.RUNNER_TEMP+"/rejection.md","The reply could not be applied:\n\n    "+log.split("\n").join("\n    ")+"\n\n(No conf or ledger change was made; every decision must name a path from this batch triage.)\n")'
@@ -552,7 +585,11 @@ jobs:
             printf '%s\n' "$apply_log" | head -3
           fi
           rules=$((en_rules + zh_rules))
-          cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"
+          # Same-file copy fails under GNU cp (see the publish step); an
+          # all-declined reply never reassigns ledger_in.
+          if [ "$ledger_in" != "$PRODUCT_LINKS_LEDGER" ]; then
+            cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"
+          fi
           git config user.name "zdoc product-remediation bot"
           git config user.email "bot@zilliz.com"
           git add "$PRODUCT_LINKS_LEDGER"
@@ -569,6 +606,19 @@ jobs:
           git commit --no-verify -m "chore(redirects): apply product-doc-links triage reply from @${COMMENT_AUTHOR} (en ${en_rules} + zh ${zh_rules} rules, ledger update)"
           git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${PR_BRANCH}"
           # Executor-authored comments are prefix-marked ("Reply applied") and
-          # never carry reply markers.
-          printf 'Reply applied: %s rule(s) + ledger update pushed to this PR by @%s (en %s / zh %s).\n\nConf and ledger changes always come from the generator (scripts/redirects/); review the new commit as usual.\n\nRun: %s\n' "$rules" "$COMMENT_AUTHOR" "$en_rules" "$zh_rules" "$RUN_URL" > "$RUNNER_TEMP/confirmation.md"
+          # never carry reply markers; interpreted decisions are echoed as
+          # bare JSON so the operator reviews exactly what the agent
+          # understood (GA4-loop parity; the pushed commit is the truth).
+          if [ "$REPLY_MODE" = "interpret" ]; then
+            REPLY_FILE="$reply_file" \
+            RULES="$rules" \
+            AUTHOR="$COMMENT_AUTHOR" \
+            EN_RULES="$en_rules" \
+            ZH_RULES="$zh_rules" \
+            RUN_URL="$RUN_URL" \
+            CONFIRMATION_FILE="$RUNNER_TEMP/confirmation.md" \
+            node -e 'const fs=require("fs");const {extractReplyBlock}=require("./scripts/redirects/reply.js");const extracted=extractReplyBlock(fs.readFileSync(process.env.REPLY_FILE,"utf8"));if(!extracted.ok){process.exit(1)}const fence="\x60\x60\x60";const body=["Reply applied (interpreted from your comment by the triage agent): "+process.env.RULES+" rule(s) + ledger update pushed to this PR by @"+process.env.AUTHOR+" (en "+process.env.EN_RULES+" / zh "+process.env.ZH_RULES+").","","Interpreted decisions (the commit below is the source of truth):","",fence+"json",extracted.payload,fence,"","Conf and ledger changes always come from the generator (scripts/redirects/); review the new commit as usual.","","Run: "+process.env.RUN_URL,""].join("\n");fs.writeFileSync(process.env.CONFIRMATION_FILE,body)'
+          else
+            printf 'Reply applied: %s rule(s) + ledger update pushed to this PR by @%s (en %s / zh %s).\n\nConf and ledger changes always come from the generator (scripts/redirects/); review the new commit as usual.\n\nRun: %s\n' "$rules" "$COMMENT_AUTHOR" "$en_rules" "$zh_rules" "$RUN_URL" > "$RUNNER_TEMP/confirmation.md"
+          fi
           gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/confirmation.md"

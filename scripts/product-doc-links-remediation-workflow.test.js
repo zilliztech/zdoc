@@ -66,9 +66,12 @@ test('the classification job scans Link.ts at a fail-closed revision and runs th
 
   const classify = stepNamed(remediation, 'Classify broken links into site lanes')
   assert.match(classify.run, /product-doc-remediation\.js \\\n\s+--product-report tmp\/product-remediation\/report\.json/)
+  // The classifier writes into its own subdirectory so the scan's raw
+  // report.json survives in the artifact as the raw evidence.
+  assert.match(classify.run, /--output-dir tmp\/product-remediation\/classification/)
   assert.match(classify.run, /--ledger "\$PRODUCT_LINKS_LEDGER"/)
-  assert.match(classify.run, /direct_count=\$\(node -e/)
-  assert.match(classify.run, /triage_count=\$\(node -e/)
+  assert.match(classify.run, /direct_count=\$\(node -e .*classification\/report\.json/)
+  assert.match(classify.run, /triage_count=\$\(node -e .*classification\/report\.json/)
 
   const upload = stepNamed(remediation, 'Upload remediation artifacts')
   assert.equal(upload.with.name, 'product-doc-remediation-${{ github.run_id }}')
@@ -95,10 +98,13 @@ test('the publish step gates on direct or triage work and applies each lane thro
     '--mode apply --site en \\',
     '--conf deploy/en/nginx.conf',
     '--snapshot deploy/contracts/en-redirect-target-routes.json',
+    'en lane apply failed:',
     'publish-mapping-zh.json',
     '--mode apply --site zh-CN \\',
     '--conf deploy/zh-CN/nginx.conf',
     '--snapshot deploy/contracts/zh-CN-redirect-target-routes.json',
+    'zh lane apply failed:',
+    'if [ "$ledger_in" != "$PRODUCT_LINKS_LEDGER" ]; then',
     'cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"',
   ])
   assert.match(publish.run, /branch="product-doc-remediation\/\$\{batch_date\}-\$\{GITHUB_RUN_ID\}"/)
@@ -123,7 +129,7 @@ test('the publish step gates on direct or triage work and applies each lane thro
   assert.match(publish.run, /--base master --head "\$branch"/)
   assert.match(publish.run, /--label product-doc-links-remediation\)/)
   assert.match(publish.run, /60000/)
-  assert.match(publish.run, /gh pr comment "\$pr_url" --repo "\$GITHUB_REPOSITORY" --body-file tmp\/product-remediation\/triage\.md/)
+  assert.match(publish.run, /gh pr comment "\$pr_url" --repo "\$GITHUB_REPOSITORY" --body-file tmp\/product-remediation\/classification\/triage\.md/)
   assert.match(source, /persist-credentials: false/)
 })
 
@@ -131,10 +137,20 @@ test('the proposal job stays read-only and posts as the bot identity', () => {
   assert.equal(triageProposal.needs, 'remediation')
   assert.equal(triageProposal.if, "needs.remediation.outputs.pr_number != '' && needs.remediation.outputs.triage_count != '' && needs.remediation.outputs.triage_count != '0'")
   assert.deepEqual(triageProposal.permissions, {contents: 'read', issues: 'write', 'pull-requests': 'write'})
-  assert.doesNotMatch(triageProposal.run ?? '', /REST_UPSTREAM_REFRESH_PAT|git push|git commit/)
+  const proposalSource = JSON.stringify(triageProposal)
+  assert.doesNotMatch(proposalSource, /REST_UPSTREAM_REFRESH_PAT/)
+  assert.doesNotMatch(proposalSource, /git push|git commit --no-verify/)
+  // Every checkout is credential-free: the PAT never rides the runner disk.
+  for (const [jobName, jobObj] of Object.entries(jobs)) {
+    const checkouts = (jobObj.steps ?? []).filter(step => step.uses?.startsWith('actions/checkout@'))
+    assert.ok(checkouts.length > 0, `${jobName} has a checkout`)
+    for (const checkout of checkouts) {
+      assert.equal(checkout.with['persist-credentials'], false, `${jobName} checkout must not persist credentials`)
+    }
+  }
   const propose = stepNamed(triageProposal, 'Run the codex triage proposal')
   assert.match(propose.run, /--mode propose/)
-  assert.match(propose.run, /--report tmp\/product-remediation\/report\.json/)
+  assert.match(propose.run, /--report tmp\/product-remediation\/classification\/report\.json/)
   assert.match(propose.run, /--api-key-env AGENTIC_PROVIDER_API_KEY/)
   assert.equal(propose.env.AGENTIC_PROVIDER_API_KEY, '${{ secrets.DEEPSEEK_API_KEY }}')
   assert.equal(propose.env.AGENTIC_BASE_URL, '${{ vars.DEEPSEEK_BASE_URL }}')
@@ -181,13 +197,27 @@ test('the executor routes every decision through the triage entries before any c
   // Lane routing: the split step reads the machine triage entries, and an
   // unassignable decision fails the reply before the first apply.
   orderedNeedles(apply.run, [
+    'if [ ! -s "$RUNNER_TEMP/triage-comments.md" ]; then',
     '--mode extract-triage',
-    'reply decisions not on this batch triage',
+    '--mode split-reply',
+    '--triage-file "$RUNNER_TEMP/triage-entries.json"',
     'mapping-en.json',
     '--mode apply --site en \\',
+    '--conf deploy/en/nginx.conf',
+    '--snapshot deploy/contracts/en-redirect-target-routes.json',
     'mapping-zh-CN.json',
     '--mode apply --site zh-CN \\',
+    '--conf deploy/zh-CN/nginx.conf',
+    '--snapshot deploy/contracts/zh-CN-redirect-target-routes.json',
+    'if [ "$ledger_in" != "$PRODUCT_LINKS_LEDGER" ]; then',
     'cp "$ledger_in" "$PRODUCT_LINKS_LEDGER"',
+  ])
+  // The GA4 parity pins: interpreter mode echoes the interpreted decisions,
+  // and the confirmation stays prefix-marked and marker-free.
+  orderedNeedles(apply.run, [
+    "if [ \"$REPLY_MODE\" = \"interpret\" ]; then",
+    'Reply applied (interpreted from your comment by the triage agent):',
+    "printf 'Reply applied: %s rule(s) + ledger update pushed to this PR by @",
   ])
   assert.match(apply.run, /--write-conf/)
   assert.match(apply.run, /git add "\$PRODUCT_LINKS_LEDGER"/)
@@ -196,7 +226,7 @@ test('the executor routes every decision through the triage entries before any c
   assert.match(apply.run, /git commit --no-verify/)
   assert.match(apply.run, /git push "https:\/\/x-access-token:\$\{GH_TOKEN\}@github\.com/)
   // The confirmation stays prefix-marked and never carries reply markers.
-  assert.match(apply.run, /^printf 'Reply applied: /m)
+  assert.match(apply.run, /^  printf 'Reply applied: %s rule\(s\) \+ ledger update pushed to this PR by @/m)
   assert.doesNotMatch(apply.run, /ga4-404-reply-data begin.*confirmation/)
 })
 
@@ -213,12 +243,33 @@ test('the pushing jobs stay identical to the Git writer inventory', () => {
 test('the seeded product ledger is complete, site-tagged, and denylist-shaped', () => {
   const ledger = JSON.parse(fs.readFileSync('scripts/redirects/product-doc-links-ledger.json', 'utf8'))
   assert.equal(ledger.schema_version, 1)
-  assert.ok(ledger.entries.length >= 14, 'the known product-difference entries must be seeded')
+  // The 14 seeded international-product denylist paths (10-29/30 operator
+  // decisions); the loop must never start by re-triaging them.
+  const seededPaths = new Set([
+    '/docs/byoc/configure-vpc',
+    '/docs/byoc/deploy-byoc-aws',
+    '/docs/byoc/deploy-byoc-gcp',
+    '/docs/byoc/deploy-byoc-i-aws',
+    '/docs/byoc/deploy-byoc-i-azure',
+    '/docs/byoc/deploy-byoc-i-gcp',
+    '/docs/integrate-with-azure-blob-storage',
+    '/docs/openid-connect',
+    '/docs/scim-provisioning-overview',
+    '/docs/single-sign-on-with-google-workspace',
+    '/docs/single-sign-on-with-microsoft-entra',
+    '/docs/single-sign-on-with-other-idp',
+    '/docs/subscribe-by-adding-credit-card',
+    '/docs/zero-downtime-migration',
+  ])
+  for (const seedPath of seededPaths) {
+    assert.ok(ledger.entries.some(entry => entry.from === seedPath), `the seed must denylist ${seedPath}`)
+  }
+  // Post-seed decisions may add en rules or declined entries; every entry
+  // must still carry a site tag and a known status.
   for (const entry of ledger.entries) {
-    assert.equal(entry.site, 'zh-CN')
-    assert.equal(entry.status, 'denylist')
+    assert.ok(entry.site === 'en' || entry.site === 'zh-CN', `entry ${entry.from} must be site-tagged`)
+    assert.ok(['fixed', 'declined', 'denylist'].includes(entry.status), `entry ${entry.from} has unknown status ${entry.status}`)
     assert.match(entry.from, /^\//)
-    assert.equal(typeof entry.note, 'string')
     assert.match(entry.decided_at, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
   }
 })
