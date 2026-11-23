@@ -79,11 +79,11 @@ await milvusClient.describeUser({
 - **results** (*UserResult[]*) -
 **UserResult** 对象列表。对于 `describeUser()`，此列表仅包含一个描述所请求用户的条目。
 
-    - **user** (*User*) -
+    - **user** (*[User](./Authentication-User)*) -
 
-        用于标识该用户的 **User** 对象。
+        一个标识该用户的 **[User](./Authentication-User)** 对象。
 
-    - **roles** (*RoleEntity[]*) -
+    - **roles** (*[RoleEntity](./Authentication-RoleEntity)[]*) -
 
         分配给该用户的角色列表。
 

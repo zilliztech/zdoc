@@ -98,7 +98,7 @@ await milvusClient.queryIterator({
 
     **order_by_fields** 的别名。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于针对特定数据类型转换数据的自定义函数。
 

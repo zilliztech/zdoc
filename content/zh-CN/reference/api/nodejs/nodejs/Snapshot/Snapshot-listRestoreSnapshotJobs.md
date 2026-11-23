@@ -73,9 +73,9 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **参数：**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -
+- **jobs** (*[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo)[]*) -
 
-与请求的 Database 和 Collection 筛选条件匹配的恢复作业列表。有关 RestoreSnapshotJobInfo 字段的完整参考，请参见 `getRestoreSnapshotState()` 文档。
+与请求的 Database 和 Collection 筛选条件匹配的恢复作业列表。有关 [RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo) 字段的完整参考，请参阅 `getRestoreSnapshotState()` 文档。
 
 - **ResStatus**
 一个 **ResStatus** 对象。

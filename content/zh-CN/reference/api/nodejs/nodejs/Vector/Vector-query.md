@@ -144,7 +144,7 @@ await milvusClient.query(data)
 
     用于对聚合结果进行分组的标量字段。可选。
 
-- **transformers** （*OutputTransformers*） -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于转换特定数据类型的数据的自定义函数。可选。
 
@@ -205,3 +205,4 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
+

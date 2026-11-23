@@ -59,7 +59,7 @@ await milvusClient.upsert({
 
     现有 Collection 的名称。
 
-- **data** (*RowData[]*) -
+- **data** (*[RowData](./Vector-RowData)[]*) -
 
     要 upsert 的数据。每个元素都是一个普通 JavaScript 对象，其键与 Collection Schema 的字段名称匹配。主键与现有记录匹配的 Entity 会被更新；否则会插入新的 Entity。请通过 **data** 或 **fields_data** 之一提供数据。
 
@@ -142,7 +142,7 @@ await milvusClient.upsert({
 - **timestamp** (*string*) -
 写入变为可见时的混合时间戳。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 已 upsert 的各行所携带的主键。有关完整的字段参考，请参见 `insert()` 文档。
 

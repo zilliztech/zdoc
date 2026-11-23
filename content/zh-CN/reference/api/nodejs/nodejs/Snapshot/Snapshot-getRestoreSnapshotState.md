@@ -70,7 +70,7 @@ restoreSnapshot() 返回的恢复任务 ID。
 
 **参数：**
 
-- **info** （*RestoreSnapshotJobInfo*） -
+- **info** (*[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo)*) -
 
 恢复任务的当前状态。
 

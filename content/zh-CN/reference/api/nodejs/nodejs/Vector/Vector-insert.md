@@ -61,7 +61,7 @@ await milvusClient.insert({
 
     现有 Collection 的名称。
 
-- **data** (*RowData[]*) -
+- **data** (*[RowData](./Vector-RowData)[]*) -
 
     要插入到当前 Collection 中的数据。
 
@@ -178,7 +178,7 @@ await milvusClient.insert({
 - **timestamp** (*string*) -
 写入变为可见时的混合时间戳。可使用此值进行时间旅行查询。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 分配给已插入行的主键。对于 autoID Collection，Milvus 会生成这些值；否则，这些值会回显输入键。
 
@@ -232,3 +232,4 @@ const res = await milvusClient.insert({
 
 console.log(res.insert_cnt); // '2'
 ```
+

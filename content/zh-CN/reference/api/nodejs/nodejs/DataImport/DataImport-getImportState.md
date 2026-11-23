@@ -74,7 +74,7 @@ await milvusClient.getImportState({
 
 **参数：**
 
-- **state** (*ImportState*) -
+- **state** (*[ImportState](./DataImport-ImportState)*) -
 
     导入任务的当前状态。可能的值包括 **ImportPending**、**ImportStarted**、**ImportPersisted**、**ImportCompleted**、**ImportFailed** 和 **ImportFailedAndCleaned**。
 

@@ -99,7 +99,7 @@ await milvusClient.get({
 
     该值默认为 **None**。如果未指定，则选择所有字段作为输出字段。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于转换特定数据类型的数据的自定义函数。
 

@@ -79,15 +79,15 @@ await milvusClient.describeRole({
 - **results** (*RoleResult[]*) -
 **RoleResult** 对象的列表。对于 `describeRole()`，此列表包含一个描述所请求角色的条目。
 
-    - **role** (*RoleEntity*) -
+    - **role** (*[RoleEntity](./Authentication-RoleEntity)*) -
 
         描述该角色的 **RoleEntity** 对象。
 
-    - **users** (*User[]*) -
+    - **users** (*[User](./Authentication-User)[]*) -
 
         拥有此角色的用户列表。
 
-    - **entities** (*GrantEntity[]*) -
+    - **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
         附加到此角色的授权列表。每个条目都包含被授予的权限、目标对象以及授予该权限的用户。
 
@@ -118,3 +118,4 @@ await milvusClient.describeRole({
 ```javascript
 milvusClient.describeRole({roleName: 'myrole'});
 ```
+

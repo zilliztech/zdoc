@@ -73,7 +73,7 @@ await milvusClient.selectGrant({
 
 **参数：**
 
-- **entities** （**GrantEntity[]**） -
+- **entities** (**[GrantEntity](./Authentication-GrantEntity)[]**) -
 
     包含授权 Entity 的列表，这些 Entity 描述授予该角色的权限。
 

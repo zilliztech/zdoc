@@ -89,13 +89,13 @@ await milvusClient.search({
 
     此操作的目标向量字段名称。如果要在包含多个向量字段的 Collection 中搜索，则必须指定此参数。
 
-- **data**（*SearchData* | *SearchData[]*） -
+- **data** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     向量嵌入列表。
 
     Milvus 会搜索与指定向量嵌入最相似的向量嵌入。
 
-- **vector**（*SearchData* | *SearchData[]*） -
+- **vector** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     查询向量对应的 **data** 别名。
 
@@ -193,13 +193,13 @@ await milvusClient.search({
 
     最终结果中要保留的小数位数。
 
-- **transformers**（*OutputTransformers*） -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     用于转换以下数据类型的自定义函数。
 
-- **rerank**（*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*） -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
-    一种带有自定义参数的重排策略。您可以使用 **RerankerObj**、**FunctionObject** 或 **FunctionScore**。请参见 RerankerObj 和 [FunctionObject](./Collections-FunctionObject)。
+    带有自定义参数的重排序策略。您可以使用 **RerankerObj**、**FunctionObject** 或 **FunctionScore**。请参见 [RerankerObj](./Vector-RerankerObj) 和 [FunctionObject](./Collections-FunctionObject)。
 
 - **order_by_fields**（*OrderByFields*） -
 

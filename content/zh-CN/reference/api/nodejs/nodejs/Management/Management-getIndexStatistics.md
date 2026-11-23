@@ -73,7 +73,7 @@ await milvusClient.getIndexStatistics({
 
 **参数：**
 
-- **index_descriptions**（*IndexDescription[]*）-
+- **index_descriptions** (*[IndexDescription](./Management-IndexDescription)[]*) -
 
 请求的索引的索引描述列表。每个条目都包含 **indexed_rows** 和 **total_rows**。
 

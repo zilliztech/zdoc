@@ -82,7 +82,7 @@ await milvusClient.listImportTasks({
 - **tasks** (*GetImportStateResponse[]*) -
 一个导入任务描述符列表。每个条目包含任务状态、行数、Segment ID 和创建时间戳。
 
-    - **state** (*ImportState*) -
+    - **state** (*[ImportState](./DataImport-ImportState)*) -
 
         任务状态。可能的值包括 **ImportPending**、**ImportFailed**、**ImportStarted**、**ImportPersisted**、**ImportCompleted** 和 **ImportFailedAndCleaned**。
 

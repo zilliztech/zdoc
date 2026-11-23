@@ -64,7 +64,7 @@ await milvusClient.listPrivilegeGroups(data?)
 
 **参数：**
 
-- **privilege_groups** （*PrivelegeGroup[]*） -
+- **privilege_groups** (*[PrivelegeGroup](./Authentication-PrivelegeGroup)[]*) -
 
 当前 Milvus 实例中定义的所有权限组列表。
 
@@ -72,7 +72,7 @@ await milvusClient.listPrivilegeGroups(data?)
 
         权限组的名称。
 
-    - **privileges** （*PrivilegeEntity[]*） -
+    - **privileges** (*[PrivilegeEntity](./Authentication-PrivilegeEntity)[]*) -
 
         组中包含的权限。
 
