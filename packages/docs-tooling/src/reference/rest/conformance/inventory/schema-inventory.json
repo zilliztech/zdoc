@@ -5,7 +5,7 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "72961ffb54c9",
+  "04-vector-operations-v2.json": "4fcf4ae0693d",
   "05-collection-operations-v2.json": "c0d081401d8d",
   "06-database-operations-v2.json": "0f026fcf2914",
   "07-index-operations-v2.json": "f12180fd9514",
@@ -2646,6 +2646,9 @@
      "schemaType": "string"
     },
     {
+     "required": false
+    },
+    {
      "name": "clusterId",
      "in": "query",
      "required": true,
@@ -2888,6 +2891,9 @@
      "in": "header",
      "required": true,
      "schemaType": "string"
+    },
+    {
+     "required": false
     },
     {
      "name": "clusterId",
@@ -3681,6 +3687,9 @@
      "schemaType": "string"
     },
     {
+     "required": false
+    },
+    {
      "name": "clusterId",
      "in": "query",
      "required": true,
@@ -4258,6 +4267,9 @@
      "in": "header",
      "required": true,
      "schemaType": "string"
+    },
+    {
+     "required": false
     },
     {
      "name": "clusterId",

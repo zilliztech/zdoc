@@ -12,10 +12,10 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2446,
+    "elements": 2448,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
-    "modified": 9,
+    "modified": 11,
     "deprecated": 1
   },
   "elements": [
@@ -9596,27 +9596,26 @@
       "fragment": "04-vector-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1entities~1get/post",
       "elementType": "operation",
-      "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
+      "change": "modified",
+      "releaseTrack": "3.0.x",
       "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
       },
-      "previousLifecycle": {},
       "source": {
         "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
+        "commit": "a549a746240cb179dde2387b4138266813fc9c7a",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/vector_encoding.go",
+        "symbol": "HandlersV2.get"
       },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+      "confidence": "high",
+      "rationale": "The 3.0 REST v2 get responses honor Accept-Type-Float-Vector-Encoding and the handler forwards it through parseFloatVectorEncoding."
     },
     {
       "fragment": "04-vector-operations-v2.json",
@@ -10480,27 +10479,26 @@
       "fragment": "04-vector-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post",
       "elementType": "operation",
-      "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
+      "change": "modified",
+      "releaseTrack": "3.0.x",
       "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null
       },
-      "previousLifecycle": {},
       "source": {
         "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
+        "commit": "a549a746240cb179dde2387b4138266813fc9c7a",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/vector_encoding.go",
+        "symbol": "HandlersV2.hybridSearch"
       },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+      "confidence": "high",
+      "rationale": "The 3.0 REST v2 hybrid_search responses honor Accept-Type-Float-Vector-Encoding and the handler forwards it through parseFloatVectorEncoding."
     },
     {
       "fragment": "04-vector-operations-v2.json",
@@ -57135,6 +57133,48 @@
       "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
     },
     {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/components/parameters/FloatVectorEncodingHeader",
+      "elementType": "reusable-parameter",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "commit": "a549a746240cb179dde2387b4138266813fc9c7a",
+        "file": "internal/distributed/proxy/httpserver/constant.go; internal/distributed/proxy/httpserver/vector_encoding.go",
+        "symbol": "HTTPHeaderFloatVectorEncoding / parseFloatVectorEncoding"
+      },
+      "confidence": "high",
+      "rationale": "The 3.0 REST v2 proxy accepts the Accept-Type-Float-Vector-Encoding request header (HTTPHeaderFloatVectorEncoding) and returns FLOAT_VECTOR fields as padded Base64 little-endian float32 when it is set to base64."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/components/parameters/FloatVectorEncodingHeader/schema",
+      "elementType": "parameter-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "commit": "a549a746240cb179dde2387b4138266813fc9c7a",
+        "file": "internal/distributed/proxy/httpserver/constant.go; internal/distributed/proxy/httpserver/vector_encoding.go",
+        "symbol": "HTTPHeaderFloatVectorEncoding / parseFloatVectorEncoding"
+      },
+      "confidence": "high",
+      "rationale": "The header schema admits array (default), base64, and the empty string, matching parseFloatVectorEncoding."
+    },
+    {
       "fragment": "14-privilege-group-operations-v2.json",
       "jsonPointer": "/components/schemas/EmptyResponse",
       "elementType": "reusable-schema",
@@ -63513,7 +63553,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "5956e1c9189f4460481fb3d245c7167109f95b7cc287d9bf0b6f067a6db42236",
+    "fragmentInventorySha256": "357353030ba642a21640eefa61f53c4d0ba4fef18f485bdc6014960b7bf2b771",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
