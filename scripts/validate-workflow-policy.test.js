@@ -3410,9 +3410,12 @@ test('shared-docs workflow policy rejects trigger, permission, input, writer and
   const objectMutation = mutate => source => { const workflow = yaml.load(source); mutate(workflow); return yaml.dump(workflow, {lineWidth: -1, noRefs: true}) }
   const step = (workflow, job, name) => workflow.jobs[job].steps.find(item => item.name === name)
   const fixtures = [
-    [validateFile, objectMutation(w => { delete w.on.pull_request.branches }), 'PR triggers must target only master'],
-    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['dev'] }), 'PR triggers must target only master'],
-    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'PR triggers must target only master'],
+    [validateFile, objectMutation(w => { delete w.on.pull_request.branches }), 'PR triggers must target master and the stacking bases, never dev'],
+    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['dev'] }), 'PR triggers must target master and the stacking bases, never dev'],
+    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'PR triggers must target master and the stacking bases, never dev'],
+    [validateFile, objectMutation(w => { w.on.pull_request.branches = ['master'] }), 'PR triggers must target master and the stacking bases, never dev'],
+    [lockFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'feat/**'] }), 'PR triggers must target only master'],
+    [lockFile, objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'PR triggers must target only master'],
     [validateFile, objectMutation(w => { w.permissions.contents = 'write' }), 'validation must be read-only'],
     [validateFile, objectMutation(w => { w.jobs.validate.permissions = {contents: 'write'} }), 'validation must be read-only'],
     [validateFile, objectMutation(w => { w.jobs.validate.env = {TOKEN: '${{ secrets.APP_SECRET }}'} }), 'isolate credentials'],
