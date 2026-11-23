@@ -106,6 +106,17 @@ test('the publish step gates on direct or triage work and applies each lane thro
   assert.match(publish.run, /git add deploy\/en\/nginx\.conf/)
   assert.match(publish.run, /git add deploy\/zh-CN\/nginx\.conf/)
   assert.match(publish.run, /git commit --no-verify/)
+  // The triage-only exit: a batch with new unresolved paths but no
+  // deterministic rules has no diff to commit, and an empty-marker commit is
+  // what lets the PR (and its triage comment) exist at all — this is the
+  // exit the GA4 loop's direct-only gate never had.
+  orderedNeedles(publish.run, [
+    'if git diff --cached --quiet; then',
+    'if [ "$direct" = "0" ] && [ "$triage" != "0" ]; then',
+    'git commit --no-verify --allow-empty -m "chore(redirects): product-doc-links remediation batch ${batch_date} (triage-only, ${triage} new paths)"',
+    'refusing to open an empty PR',
+    'fix(redirects): product-doc-links remediation batch ${batch_date} (en ${en_rules} + zh ${zh_rules} rules)',
+  ])
   assert.match(publish.run, /x-access-token:\$\{REST_UPSTREAM_REFRESH_PAT\}@github\.com/)
   assert.doesNotMatch(publish.run, /git push origin/)
   assert.match(publish.run, /gh label create product-doc-links-remediation/)
