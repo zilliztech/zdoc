@@ -9,10 +9,10 @@
       "repository": "https://github.com/milvus-io/web-content",
       "dir": "API_Reference/milvus-sdk-node/v3.0.x",
       "current": "a0fa765e1fccfadc52d1edf7d59d766d9074b7f7",
-      "next": "a0fa765e1fccfadc52d1edf7d59d766d9074b7f7"
+      "next": "30bdd85bd4cc4007f7febdc870066ba454069f22"
     },
     "tools": {
-      "zdoc": "09456f7950a7c877b34d1a5c3d692da189f532be"
+      "zdoc": "96a3f760b18eeaa5ea7c292e647ccd0242820ff4"
     },
     "config": {
       "files": [
