@@ -112,3 +112,169 @@ test('off-branch pins and broken configuration report unhealthy and errors', asy
   assert.equal(report.summary.unhealthyCount, 1)
   assert.ok(report.pages.find(page => page.page === 'broken').errors[0].startsWith('CONFIG_SYNTAX_INVALID'))
 })
+
+/** Manual-layout fixture: the group directory name must be a supported group for
+ *  the build's own reader (group-context), so this fixture is `node`. */
+async function manualFixture() {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'pin-drift-manual-')))
+  const repo = path.join(root, 'upstream'), group = path.join(root, 'shared-docs/node')
+  const sourceDir = 'site/en/sdk-node/v3.0.x'
+  put(repo, `${sourceDir}/Overview.md`, '# Overview\n\nUpstream overview.\n')
+  put(repo, `${sourceDir}/Client/createClient.md`, '# createClient\n\nUpstream client.\n')
+  git(repo, 'init', '--quiet', `--initial-branch=${UPSTREAM_TRACK}`, '--template=')
+  git(repo, 'add', '--all'); git(repo, 'commit', '--quiet', '-m', 'Base')
+  const base = git(repo, 'rev-parse', 'HEAD')
+  put(repo, `${sourceDir}/Overview.md`, '# Overview\n\nUpstream overview, tip text.\n')
+  git(repo, 'add', '--all'); git(repo, 'commit', '--quiet', '-m', 'Tip: refresh overview')
+  const tip = git(repo, 'rev-parse', 'HEAD')
+
+  put(group, 'source.yaml', `schema_version: 1\nrepository: ${repo}\ntrack: ${UPSTREAM_TRACK}\n`)
+  put(group, 'Variables.json', JSON.stringify({endpoint: "'localhost:19530'"}))
+  put(group, 'product-names.yaml', 'check:\n  - localhost\nallow: []\n')
+  put(group, 'manual.yaml', [
+    'schema_version: 1',
+    'source:',
+    `  dir: ${sourceDir}`,
+    'publish:',
+    '  manual: node',
+    'metadata:',
+    '  Authentication/addUser.md:',
+    '    beta: false',
+    '    sidebar_position: 2',
+    '    type: docx',
+    '    token: T123',
+    'milvus_values:',
+    '  endpoint: "\'localhost:19530\'"',
+    'cloud_pages:',
+    '  Overview.md:',
+    '    file: Overview.md',
+    '',
+  ].join('\n'))
+  put(group, 'content/Overview.md', '# Overview\n\nCloud overview.\n')
+  put(group, 'lock.yaml', `schema_version: 1\ncurrent: ${base}\nnext: ${base}\n`)
+  return {root, repo, group, base, tip, sourceDir}
+}
+
+const manualOptions = setup => ({sharedDocsRoot: setup.group, upstreamRepo: setup.repo, headSha: setup.tip})
+
+test('manual layout audits declared transform targets against the upstream head', async () => {
+  const setup = await manualFixture()
+  put(setup.group, 'manual.yaml', fs.readFileSync(path.join(setup.group, 'manual.yaml'), 'utf8')
+    .replace('milvus_values:', [
+      'transforms:',
+      '  Client/createClient.md:',
+      '    - operation: add',
+      '      position: after',
+      '      target:',
+      '        block: client-anchor',
+      '      content:',
+      '        file: client-note.md',
+      'milvus_values:',
+    ].join('\n')))
+  put(setup.group, 'content/client-note.md', 'On Zilliz Cloud, the client anchors.\n')
+  put(setup.repo, `${setup.sourceDir}/Client/createClient.md`, '# createClient\n\n<!-- doc:block:start id="client-anchor" -->\nUpstream client.\n<!-- doc:block:end id="client-anchor" -->\n')
+  git(setup.repo, 'add', '--all'); git(setup.repo, 'commit', '--quiet', '-m', 'Add marker')
+  const marked = git(setup.repo, 'rev-parse', 'HEAD')
+  put(setup.group, 'lock.yaml', `schema_version: 1\ncurrent: ${setup.base}\nnext: ${marked}\n`)
+
+  // Marker present at the head: the audit stays healthy.
+  const healthy = await scan({...manualOptions(setup), headSha: marked})
+  assert.equal(healthy.summary.unhealthyCount, 0)
+  assert.ok(!healthy.issues.some(issue => issue.code.startsWith('TRANSFORM_TARGET')))
+
+  // Marker deleted at the head: the audit turns unhealthy.
+  put(setup.repo, `${setup.sourceDir}/Client/createClient.md`, '# createClient\n\nMarker removed by an upstream cleanup.\n')
+  git(setup.repo, 'add', '--all'); git(setup.repo, 'commit', '--quiet', '-m', 'Delete marker')
+  const stripped = git(setup.repo, 'rev-parse', 'HEAD')
+  const missing = await scan({...manualOptions(setup), headSha: stripped})
+  assert.equal(missing.summary.unhealthyCount, 1)
+  assert.ok(missing.issues.some(issue => issue.code === 'TRANSFORM_TARGET_MISSING' && issue.message.includes('client-anchor')))
+  assert.equal(watchdogCardStatus(missing), 'fail')
+})
+
+test('manual layout audits pins, drift and cloud content as one healthy entry', async () => {
+  const setup = await manualFixture()
+  const report = await scan(manualOptions(setup))
+  assert.equal(report.layout, 'manual')
+  assert.equal(report.manual, 'node')
+  assert.equal(report.summary.scannedPages, 1)
+  assert.equal(report.summary.driftedCount, 1)
+  assert.equal(report.summary.unhealthyCount, 0)
+  assert.equal(report.summary.errorCount, 0)
+  assert.equal(report.summary.pendingReconciliationCount, 0)
+  assert.equal(watchdogCardStatus(report), 'success')
+  assert.ok(report.drifted[0].includes('Tip: refresh overview'))
+  const markdown = renderMarkdown(report)
+  assert.ok(markdown.includes('node manual node'))
+  assert.ok(markdown.includes('drift: ') && markdown.includes('Tip: refresh overview'))
+  const stable = await scan(manualOptions(setup))
+  assert.equal(stable.summary.diffDigest, report.summary.diffDigest)
+})
+
+test('manual layout reports off-branch pins as unhealthy and skips the drift range', async () => {
+  const setup = await manualFixture()
+  const orphanTree = git(setup.repo, 'hash-object', '-t', 'tree', '/dev/null')
+  const orphan = git(setup.repo, 'commit-tree', orphanTree, '-m', 'Orphan')
+  git(setup.repo, 'update-ref', 'refs/heads/orphan', orphan)
+  const orphanCommit = git(setup.repo, 'rev-parse', 'refs/heads/orphan')
+  put(setup.group, 'lock.yaml', `schema_version: 1\ncurrent: ${orphanCommit}\nnext: ${orphanCommit}\n`)
+  const report = await scan(manualOptions(setup))
+  assert.equal(report.summary.driftedCount, 0)
+  assert.equal(report.summary.unhealthyCount, 1)
+  assert.ok(report.issues[0].message.includes('is missing from or off the tracking branch'))
+  assert.equal(watchdogCardStatus(report), 'fail')
+})
+
+test('manual layout configuration errors include missing cloud_pages content', async () => {
+  const setup = await manualFixture()
+  put(setup.group, 'manual.yaml', [
+    'schema_version: 1',
+    'source:',
+    `  dir: ${setup.sourceDir}`,
+    'publish:',
+    '  manual: node',
+    'cloud_pages:',
+    '  Overview.md:',
+    '    file: Absent.md',
+    '',
+  ].join('\n'))
+  const report = await scan(manualOptions(setup))
+  assert.ok(report.errors.some(line => line.startsWith('TRANSFORM_CONTENT_NOT_FOUND')), report.errors.join('\n'))
+  assert.equal(report.summary.errorCount, 1)
+  assert.equal(report.summary.unhealthyCount, 0)
+  assert.equal(watchdogCardStatus(report), 'fail')
+  assert.ok(renderMarkdown(report).includes('TRANSFORM_CONTENT_NOT_FOUND'))
+})
+
+/** Page-layout fixture dedicated to the WP-3b third layer: transform targets must
+ *  still be named blocks at the upstream head. */
+async function transformFixture() {
+  const setup = await fixture()
+  put(setup.repo, 'site/en/targeted.md', 'Intro.\n\n<!-- doc:block:start id="live-target" -->\nMarker body.\n<!-- doc:block:end id="live-target" -->\n')
+  git(setup.repo, 'add', '--all'); git(setup.repo, 'commit', '--quiet', '-m', 'Tip: add named marker page')
+  const tip = git(setup.repo, 'rev-parse', 'HEAD')
+  const page = (name, block) => {
+    const transforms = block === undefined ? '' : `\ntransforms:\n  - operation: replace\n    target:\n      block: ${block}\n    content:\n      file: cloud-${block}.md\n`
+    put(setup.group, `pages/${name}/page.yaml`, `schema_version: 1\n\nsource:\n  file: site/en/targeted.md\n\npublish:\n  - manual: guides\n    path: tutorials/${name}\n  - manual: guides-byoc\n    path: tutorials/${name}\n${transforms}`)
+    put(setup.group, `pages/${name}/lock.yaml`, `schema_version: 1\ncurrent: ${tip}\nnext: ${tip}\n`)
+  }
+  page('target-live', 'live-target'); page('target-gone', 'missing-target')
+  return {...setup, tip}
+}
+
+test('declared transform targets must exist as named blocks at the upstream head', async () => {
+  const setup = await transformFixture()
+  const report = await scan(scanOptions(setup, () => ({state: 'open', merged: false, head: setup.tip})))
+  const live = report.pages.find(page => page.page === 'target-live')
+  const gone = report.pages.find(page => page.page === 'target-gone')
+  assert.equal(live.transformIssue, undefined)
+  assert.equal(gone.transformIssue, 'TRANSFORM_TARGET_MISSING')
+  // The base fixture contributes one off-branch page and one broken page.
+  assert.equal(report.summary.unhealthyCount, 2)
+  assert.equal(report.summary.errorCount, 1)
+  assert.equal(watchdogCardStatus(report), 'fail')
+  assert.ok(renderMarkdown(report).includes('TRANSFORM_TARGET_MISSING'))
+  // Digest stability: an unchanged group must produce the same digest again.
+  const again = await scan(scanOptions(setup, () => ({state: 'open', merged: false, head: setup.tip})))
+  assert.equal(again.summary.diffDigest, report.summary.diffDigest)
+})

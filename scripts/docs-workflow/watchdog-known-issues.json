@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-23",
   "description": "Known-issues ledger for the scheduled watchdog workflows. Holds the durable triage knowledge the daily ops digest compares against: fetch channels, steady-state baselines, known-issue classifications, and closed-incident history. Volatile daily numbers (for example the rest-upstream drift substantiveCount/diffDigest series) intentionally live in a local state file outside the repository; only rules, statuses, and thresholds belong here.",
   "statusSemantics": {
     "known-expected": "Appears in healthy runs; do not report unless it disappears or worsens.",
@@ -31,16 +31,16 @@
       "workflow": "broken-links-report.yml",
       "cadence": "daily",
       "schedule": "02:17 UTC",
-      "fetch": "job-logs",
-      "fetchDetail": "No artifact; scheduled runs set FEISHU_NOTIFICATIONS_DISABLED=true and skip report-card. The only channel is the job log: gh api repos/zilliztech/zdoc/actions/jobs/<jobId>/logs --allow-escape-sequences, strip ANSI, then grep 'Broken links:|Broken anchors:' and the 'Broken link on source page path' / 'linking to' detail lines.",
-      "steadyState": "The zh /docs/home -> ./migrate-from-pinecone entry appears every day by design (build-time scanner still reports it; the navigation layer is covered by #918, merged 6cf9e3020).",
+      "fetch": "artifact",
+      "fetchDetail": "Since the 2026-11-23 known-items ledger (#1406), every run uploads artifact broken-links-report-<run_id> (retained 14 days): en.json / zh-CN.json are the stage-1 findings, note.md the card note (its 未再现 section is capped), note.unseen.md the complete list of ledger entries the round no longer observed. Runs before that change, and failed artifact-less runs, still expose counts only through the job log: gh api repos/zilliztech/zdoc/actions/jobs/<jobId>/logs --allow-escape-sequences, strip ANSI, then grep 'Broken links:|Broken anchors:' and the 'Broken link on source page path' / 'linking to' detail lines. Scheduled runs set FEISHU_NOTIFICATIONS_DISABLED=true and skip report-card.",
+      "steadyState": "The zh /docs/home -> ./migrate-from-pinecone entry appears every day by design (build-time scanner still reports it; the navigation layer is covered by #918, merged 6cf9e3020). The Feishu table keeps every finding but labels ledger-decided rows 分类=已知项（ledger）; the authoritative decided set is the tracked ledger scripts/broken-links/broken-links-ledger.json (site-tagged tuples: en serves the en+ja builds, zh-CN the zh site). Treat 已知项（ledger） rows and unseen entries in note.unseen.md as ledger follow-ups, not new breakage: an entry moving to unseen means the fix landed and the ledger tuple can be pruned through a reviewed PR.",
       "knownIssues": [
         {
           "id": "broken-links-zh-home-migrate-from-pinecone",
           "status": "known-expected",
           "symptom": "zh /docs/home links to ./migrate-from-pinecone reported broken daily.",
           "classification": "Known; build-time scan only. The 404 page SPA redirect (#918) covers readers.",
-          "action": "None; do not report unless the entry disappears or the count grows.",
+          "action": "None; do not report unless the entry disappears or the count grows. Decided findings are suppressed into 分类=已知项（ledger） by scripts/broken-links/broken-links-ledger.json — prune entries whose tuple stops appearing (see note.unseen.md).",
           "evidence": "#918 (merged 6cf9e3020)."
         },
         {

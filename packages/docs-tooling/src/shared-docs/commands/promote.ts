@@ -34,6 +34,7 @@ export interface ManualPromoteReport {
   upstreamPagesRetired: string[]
   metadataRemoved: string[]
   excludeRemoved: string[]
+  transformsRemoved: string[]
   /** Advisory: authored block-level gates in remaining cloud content, for the author. */
   handwrittenGates: { file: string; line: number }[]
   /** Non-empty blocks the promotion: live pages still link a vanishing page. */
@@ -98,7 +99,7 @@ async function promote(options: ManualPromoteOptions, write: (text: string) => v
     const report: ManualPromoteReport = { schema_version: 1, kind: 'shared-manual-promotion', group,
       manual: shared.manualConfig.publish.manual,
       lock: { from: { current: shared.lock.current, next: shared.lock.next }, to: { current: shared.lock.next, next: shared.lock.next } },
-      cloudPagesPromoted: [], cloudPagesRetired: [], upstreamPagesRetired: [], metadataRemoved: [], excludeRemoved: [],
+      cloudPagesPromoted: [], cloudPagesRetired: [], upstreamPagesRetired: [], metadataRemoved: [], excludeRemoved: [], transformsRemoved: [],
       handwrittenGates: [], blockedReferences: [] }
     for (const logical of [...currentLogicals].filter(file => !nextLogicals.has(file)).sort()) {
       report.upstreamPagesRetired.push(logical)
@@ -176,6 +177,17 @@ async function promote(options: ManualPromoteOptions, write: (text: string) => v
       if (kept.length) nextConfig.exclude = kept
       else delete nextConfig.exclude
     }
+    if (nextConfig.transforms) {
+      const kept = Object.entries(nextConfig.transforms).filter(([key]) => {
+        // Transform keys are page paths; the parse layer already rejects cloud_pages overlap.
+        const alive = nextLogicals.has(key)
+        if (!alive && !vanishingLogicals.has(key)) fail(`Transforms key names no surviving or vanishing page: ${key}; fix it before promoting`)
+        return alive
+      })
+      for (const key of Object.keys(nextConfig.transforms)) if (!kept.some(([entry]) => entry === key)) report.transformsRemoved.push(key)
+      if (kept.length) nextConfig.transforms = Object.fromEntries(kept)
+      else delete nextConfig.transforms
+    }
     if (Object.keys(remainingCloudPages).length) nextConfig.cloud_pages = remainingCloudPages
     else delete nextConfig.cloud_pages
     const manualText = `${dump(nextConfig, { lineWidth: 0, noRefs: true }).trimEnd()}\n`
@@ -213,6 +225,7 @@ function promoteMarkdown(report: ManualPromoteReport): string {
     `- cloud_pages promoted to two-sided visibility: ${list(report.cloudPagesPromoted)}`,
     `- cloud_pages retired (config removed; content files stay): ${list(report.cloudPagesRetired)}`,
     `- Upstream pages retired with this promotion: ${list(report.upstreamPagesRetired)}`,
+    `- Stale transforms keys removed: ${list(report.transformsRemoved)}`,
     `- Stale metadata keys removed: ${list(report.metadataRemoved)}`,
     `- Stale exclude entries removed: ${list(report.excludeRemoved)}`, '']
   if (report.handwrittenGates.length) {

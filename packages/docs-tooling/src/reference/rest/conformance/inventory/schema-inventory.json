@@ -5,7 +5,7 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "72961ffb54c9",
+  "04-vector-operations-v2.json": "4fcf4ae0693d",
   "05-collection-operations-v2.json": "c0d081401d8d",
   "06-database-operations-v2.json": "0f026fcf2914",
   "07-index-operations-v2.json": "f12180fd9514",
@@ -23,18 +23,18 @@
   "19-extract-load-and-transform-v2.json": "d94b1ce6f5d1",
   "20-volume-operations-v2.json": "b81e8c51da3b",
   "21-project-operations-v2.json": "ac3db53599f7",
-  "22-cluster-operations-v2.json": "477938a0aea0",
-  "23-cloud-migration-v2.json": "2acc14b2690f",
-  "24-backup-and-restore-v2.json": "e62cb8aa15df",
-  "25-metrics-and-alerts-v2.json": "89facad89aa3",
+  "22-cluster-operations-v2.json": "a279c133fb07",
+  "23-cloud-migration-v2.json": "b5bb01e8bf7c",
+  "24-backup-and-restore-v2.json": "9150f5777384",
+  "25-metrics-and-alerts-v2.json": "8291ec548711",
   "26-cloud-job-v2.json": "ced1a80f1f94",
   "27-invoices-v2.json": "e6d0377f311f",
   "28-usage-v2.json": "846526bc2445",
   "29-on-demand-compute-v2.json": "575ed891c53d",
-  "30-global-clusters.json": "f10a69c91fc5",
+  "30-global-clusters.json": "45194586adcb",
   "31-storage-integration-v2.json": "c046a25cf024",
   "32-spark-job-v2.json": "e02b883ff933",
-  "33-on-demand-cluster-operations-v2.json": "833321cdb214",
+  "33-on-demand-cluster-operations-v2.json": "075f13ca6cfc",
   "34-cloud-access-control-operations-v2.json": "67329dd655c7",
   "35-cloud-api-key-operations-v2.json": "3b79107fdc4e",
   "36-private-endpoint-operations-v2.json": "4397375081f7",
@@ -2646,6 +2646,9 @@
      "schemaType": "string"
     },
     {
+     "required": false
+    },
+    {
      "name": "clusterId",
      "in": "query",
      "required": true,
@@ -2888,6 +2891,9 @@
      "in": "header",
      "required": true,
      "schemaType": "string"
+    },
+    {
+     "required": false
     },
     {
      "name": "clusterId",
@@ -3681,6 +3687,9 @@
      "schemaType": "string"
     },
     {
+     "required": false
+    },
+    {
      "name": "clusterId",
      "in": "query",
      "required": true,
@@ -4258,6 +4267,9 @@
      "in": "header",
      "required": true,
      "schemaType": "string"
+    },
+    {
+     "required": false
     },
     {
      "name": "clusterId",
@@ -28203,7 +28215,12 @@
               "required": false,
               "enum": [
                "Performance-optimized",
-               "Capacity-optimized"
+               "Capacity-optimized",
+               "Cost-optimized",
+               "Tiered-storage",
+               "Free",
+               "Serverless",
+               ""
               ]
              },
              {
@@ -28231,24 +28248,13 @@
               "in": "body",
               "type": "string",
               "required": false,
-              "enum": [
-               "CREATING",
-               "RUNNING",
-               "DELETING",
-               "DELETED",
-               "STOPPING",
-               "RESUMING",
-               "MODIFYING",
-               "ABNORMAL",
-               "FREEZING",
-               "FROZEN",
-               "UNFREEZED",
-               "RESTORE_BACKUP",
-               "MIGRATING",
-               "RESIZING",
-               "UPGRADING",
-               "WRITING_OPERATION",
-               "SET_PRIVATE_LINK"
+              "branches": [
+               {
+                "type": "string"
+               },
+               {
+                "type": "string"
+               }
               ]
              },
              {
@@ -29210,7 +29216,12 @@
            "required": false,
            "enum": [
             "Performance-optimized",
-            "Capacity-optimized"
+            "Capacity-optimized",
+            "Cost-optimized",
+            "Tiered-storage",
+            "Free",
+            "Serverless",
+            ""
            ]
           },
           {
@@ -29231,24 +29242,13 @@
            "in": "body",
            "type": "string",
            "required": false,
-           "enum": [
-            "CREATING",
-            "RUNNING",
-            "DELETING",
-            "DELETED",
-            "STOPPING",
-            "RESUMING",
-            "MODIFYING",
-            "ABNORMAL",
-            "FREEZING",
-            "FROZEN",
-            "UNFREEZED",
-            "RESTORE_BACKUP",
-            "MIGRATING",
-            "RESIZING",
-            "UPGRADING",
-            "WRITING_OPERATION",
-            "SET_PRIVATE_LINK"
+           "branches": [
+            {
+             "type": "string"
+            },
+            {
+             "type": "string"
+            }
            ]
           },
           {
@@ -30865,6 +30865,22 @@
              "in": "body",
              "type": "string",
              "required": false
+            },
+            {
+             "name": "destCollectionName",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "destCollectionStatus",
+             "in": "body",
+             "type": "string",
+             "required": false,
+             "enum": [
+              "LOADED",
+              "UNLOADED"
+             ]
             }
            ],
            "required": []
@@ -31314,7 +31330,8 @@
               "required": false,
               "enum": [
                "CLUSTER",
-               "COLLECTION"
+               "COLLECTION",
+               ""
               ]
              },
              {
@@ -31323,8 +31340,9 @@
               "type": "string",
               "required": false,
               "enum": [
+               "MANUAL",
                "AUTO",
-               "MANUAL"
+               ""
               ]
              },
              {
@@ -31543,7 +31561,8 @@
            "required": false,
            "enum": [
             "CLUSTER",
-            "COLLECTION"
+            "COLLECTION",
+            ""
            ]
           },
           {
@@ -31553,7 +31572,8 @@
            "required": false,
            "enum": [
             "MANUAL",
-            "AUTO"
+            "AUTO",
+            ""
            ]
           },
           {
@@ -34242,17 +34262,21 @@
           "type": "string",
           "required": true,
           "enum": [
-           "CU_COMPUTATION",
-           "CU_CAPACITY",
-           "STORAGE_USE",
            "READ_VCU",
            "WRITE_VCU",
+           "CU_COMPUTATION",
+           "CU_CAPACITY",
+           "REPLICATION_LAG",
+           "STORAGE_USE",
+           "STORAGE_SERVERLESS",
+           "CLUSTER_WRITE_CAPACITY",
            "REQ_INSERT_COUNT",
            "REQ_BULK_INSERT_COUNT",
            "REQ_UPSERT_COUNT",
            "REQ_DELETE_COUNT",
            "REQ_SEARCH_COUNT",
            "REQ_QUERY_COUNT",
+           "REQ_HYBRID_SEARCH_COUNT",
            "VECTOR_REQ_INSERT_COUNT",
            "VECTOR_REQ_BULK_INSERT_COUNT",
            "VECTOR_REQ_UPSERT_COUNT",
@@ -34260,6 +34284,8 @@
            "VECTOR_REQ_SEARCH_COUNT",
            "REQ_INSERT_LATENCY_AVG",
            "REQ_INSERT_LATENCY_P99",
+           "REQ_BULK_INSERT_LATENCY_AVG",
+           "REQ_BULK_INSERT_LATENCY_P99",
            "REQ_UPSERT_LATENCY_AVG",
            "REQ_UPSERT_LATENCY_P99",
            "REQ_DELETE_LATENCY_AVG",
@@ -34268,20 +34294,67 @@
            "REQ_SEARCH_LATENCY_P99",
            "REQ_QUERY_LATENCY_AVG",
            "REQ_QUERY_LATENCY_P99",
-           "SLOW_QUERY_COUNT",
+           "REQ_HYBRID_SEARCH_LATENCY_AVG",
+           "REQ_HYBRID_SEARCH_LATENCY_P99",
            "REQ_FAIL_RATE_INSERT",
            "REQ_FAIL_RATE_BULK_INSERT",
            "REQ_FAIL_RATE_UPSERT",
            "REQ_FAIL_RATE_DELETE",
            "REQ_FAIL_RATE_SEARCH",
            "REQ_FAIL_RATE_QUERY",
+           "REQ_FAIL_RATE_HYBRID_SEARCH",
+           "SLOW_QUERY_COUNT",
+           "FLUSH_COUNT",
+           "ENTITIES_COUNT",
            "ENTITIES_LOADED",
            "ENTITIES_INDEXED",
-           "ENTITIES_COUNT",
            "COLLECTIONS_COUNT",
-           "CLUSTER_WRITE_CAPACITY",
            "UNLOADED_COLLECTIONS_COUNT",
-           "FLUSH_COUNT"
+           "INSTANCE_STATUS",
+           "DENY_STATUS",
+           "CU_SIZE",
+           "COLD_START_DURATION",
+           "REPLICA_COUNT",
+           "PROXY_NODE_COUNT",
+           "STREAMING_NODE_COUNT",
+           "CACHE_HIT_RATIO",
+           "ON_DEMAND_REQUEST_COUNT",
+           "ON_DEMAND_REQUEST_SUCCESS_COUNT",
+           "ON_DEMAND_REQUEST_ERROR_COUNT",
+           "ON_DEMAND_REQUEST_TIMEOUT_COUNT",
+           "ON_DEMAND_REQUEST_CANCELED_COUNT",
+           "ON_DEMAND_REQUEST_DURATION_P50",
+           "ON_DEMAND_REQUEST_DURATION_P95",
+           "ON_DEMAND_PREPARED_REQUEST_DURATION_P50",
+           "ON_DEMAND_PREPARED_REQUEST_DURATION_P95",
+           "ON_DEMAND_READY_REQUEST_DURATION_P50",
+           "ON_DEMAND_READY_REQUEST_DURATION_P95",
+           "ON_DEMAND_COMPUTE_START_COUNT",
+           "ON_DEMAND_COMPUTE_START_DURATION_P50",
+           "ON_DEMAND_COMPUTE_START_DURATION_P95",
+           "ON_DEMAND_QUERY_READY_COUNT",
+           "ON_DEMAND_QUERY_READY_DURATION_P50",
+           "ON_DEMAND_QUERY_READY_DURATION_P95",
+           "ON_DEMAND_CONFIGURED_CU_SIZE",
+           "ON_DEMAND_REQUEST_QPS",
+           "ON_DEMAND_REQUEST_QPM",
+           "ON_DEMAND_REQUEST_ERROR_RATE",
+           "ON_DEMAND_REQUEST_EXECUTION_COUNT",
+           "ON_DEMAND_REQUEST_EXECUTION_DURATION_P50",
+           "ON_DEMAND_REQUEST_EXECUTION_DURATION_P95",
+           "ON_DEMAND_COMPUTE_START_ACCEPTED_COUNT",
+           "ON_DEMAND_COMPUTE_START_TIMEOUT_COUNT",
+           "ON_DEMAND_COMPUTE_START_CANCELED_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_COMMAND_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_DURATION_P50",
+           "ON_DEMAND_COMPUTE_STOP_DURATION_P95",
+           "ON_DEMAND_COMPUTE_START_COMMAND_ERROR_COUNT",
+           "ON_DEMAND_COMPUTE_START_COMMAND_TIMEOUT_COUNT",
+           "ON_DEMAND_COMPUTE_START_COMMAND_CANCELED_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_COMMAND_ERROR_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_COMMAND_TIMEOUT_COUNT",
+           "ON_DEMAND_COMPUTE_STOP_COMMAND_CANCELED_COUNT"
           ]
          },
          {
@@ -37422,6 +37495,32 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "globalClusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "clusterId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "prompt",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -42591,6 +42690,12 @@
      "in": "header",
      "required": true,
      "schemaType": "string"
+    },
+    {
+     "name": "Accept",
+     "in": "header",
+     "required": false,
+     "schemaType": "string"
     }
    ],
    "requestBody": {
@@ -42622,6 +42727,54 @@
        "type": "integer",
        "required": false,
        "format": "int32"
+      },
+      {
+       "name": "keepWarm",
+       "in": "body",
+       "type": "object",
+       "required": [
+        "enabled",
+        "schedules"
+       ],
+       "fields": [
+        {
+         "name": "enabled",
+         "in": "body",
+         "type": "boolean",
+         "required": true
+        },
+        {
+         "name": "schedules",
+         "in": "body",
+         "type": "array",
+         "required": true,
+         "items": {
+          "type": "object",
+          "fields": [
+           {
+            "name": "cron",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "target",
+            "in": "body",
+            "type": "integer",
+            "required": false,
+            "format": "int64"
+           },
+           {
+            "name": "timezone",
+            "in": "body",
+            "type": "string",
+            "required": false
+           }
+          ],
+          "required": []
+         }
+        }
+       ]
       }
      ],
      "required": []

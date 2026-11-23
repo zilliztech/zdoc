@@ -1,13 +1,14 @@
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { lstat, realpath } from 'node:fs/promises'
-import { join } from 'node:path'
+import { isAbsolute, join } from 'node:path'
 import {currentBatchLifetime} from './evidence'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
+import {BatchReadError, BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree, stop, type Commit, type TreeEntry} from './batch-git-object'
 
-export class BatchReadError extends Error {}
-export function stop(reason: string): never { throw new BatchReadError(reason) }
+export {BatchReadError, batchRenderCommitSet, stop} from './batch-git-object'
+
 export function safeReason(error: unknown, fallback: string) {
   return error instanceof BatchReadError ? error.message : fallback
 }
@@ -21,10 +22,10 @@ export function batchBudget() {
     } }
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
-const traversalLimit = 50_000
+const traversalLimit = BATCH_TREE_VISITS
+const gitCommandBytes = 16 * 1024 * 1024
+const fragmentRoot = 'site/en/fragments'
 const utf8 = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true })
-interface TreeEntry { mode: string; oid: string }
-interface Commit { tree: string; parents: string[] }
 export interface RawChange { path: string; before: string | null; after: string | null; beforeMode: string | null; afterMode: string | null }
 
 export class BatchHistory {
@@ -106,18 +107,21 @@ export class BatchGitStore {
   private blobs = new Map<string, Buffer>()
   private regularObjects = new Set<string>()
   private proofObjects = new Map<string, {kind: 'commit' | 'tree' | 'blob'; bytes: Buffer}>()
-  private constructor(private readonly root: string, private readonly spelling: string, private readonly budget: BatchBudget) {}
-  static async open(root: string, budget: BatchBudget) {
-    const store = new BatchGitStore(await realpath(root), root, budget)
+  private constructor(private readonly root: string, private readonly spelling: string, private readonly budget: BatchBudget,
+    private readonly localCandidateGit?: string) {}
+  static async open(root: string, budget: BatchBudget, localCandidateGit?: string) {
+    if (localCandidateGit !== undefined && !isAbsolute(localCandidateGit)) stop('GIT_METADATA_INVALID')
+    const store = new BatchGitStore(await realpath(root), root, budget, localCandidateGit)
     store.stamp = await store.fingerprint()
     return store
   }
   private run(args: string[], input?: string): Promise<Buffer> {
-    const maximum = Math.min(16 * 1024 * 1024, IO.objectBytes - this.budget.gitBytes)
+    if (this.localCandidateGit && ++this.budget.calls > IO.calls) stop('GIT_BYTE_LIMIT')
+    const maximum = Math.min(gitCommandBytes, IO.objectBytes - this.budget.gitBytes)
     if (maximum < 1) stop('GIT_BYTE_LIMIT')
     const timeout = this.budget.remaining()
     return new Promise((resolve, reject) => {
-      const child = execFile('git', ['--no-replace-objects', '-c', 'core.commitGraph=false', '-C', this.root, ...args], {
+      const child = execFile(this.localCandidateGit ?? 'git', ['--no-replace-objects', '-c', 'core.commitGraph=false', '-C', this.root, ...args], {
         env: { PATH: process.env.PATH, LC_ALL: 'C', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
           GIT_ALLOW_PROTOCOL: '', GIT_NO_LAZY_FETCH: '1', GIT_OPTIONAL_LOCKS: '0', GIT_TERMINAL_PROMPT: '0' },
         encoding: 'buffer', timeout, maxBuffer: maximum, signal: currentBatchLifetime()?.signal,
@@ -151,6 +155,14 @@ export class BatchGitStore {
     if (!pointer && this.root !== gitdir) stop('GIT_METADATA_INVALID')
     for (const name of ['commondir', 'gitdir']) await identify(join(gitdir, name), 'pointer')
     for (const path of ['info/grafts', 'shallow']) await identify(join(common, path), 'absent')
+    if (this.localCandidateGit) {
+      // A private candidate reads the examined store only. Do not allow an
+      // ambient Git alternate or worktree configuration to redirect its reads.
+      for (const path of ['objects/info', 'objects/pack']) await identify(join(common, path), 'dir')
+      for (const path of ['objects/info/alternates', 'objects/info/http-alternates']) await identify(join(common, path), 'absent')
+      for (const name of ['config', 'config.worktree']) for (const dir of new Set([common, gitdir])) await identify(join(dir, name), 'pointer')
+      if (gitdir !== common) for (const name of ['info/grafts', 'shallow']) await identify(join(gitdir, name), 'absent')
+    }
     if ((await this.run(['for-each-ref', '--count=1', '--format=%(objectname)', 'refs/replace/'])).length) stop('GIT_METADATA_INVALID')
     return JSON.stringify(metadata)
   }
@@ -176,6 +188,24 @@ export class BatchGitStore {
     this.budget.remaining()
     return values
   }
+  async read(oid: string, kind: 'commit' | 'tree' | 'blob') {
+    this.budget.remaining()
+    const cached = this.proofObjects.get(oid)
+    if (cached && cached.kind !== kind) stop('GIT_OBJECT_INVALID')
+    return Buffer.from(cached?.bytes ?? (await this.objects(kind, [oid]))[0])
+  }
+
+  async verifyCandidatePins(master: string, dev: string, checkLocalDev: boolean) {
+    if (!this.localCandidateGit) stop('GIT_METADATA_INVALID')
+    await this.verify()
+    const refs = ['HEAD^{commit}', ...(checkLocalDev ? ['refs/heads/dev^{commit}'] : [])]
+    const observed = utf8.decode(await this.run(['rev-parse', '--verify', refs[0]])).trim()
+    if (observed !== master || checkLocalDev && utf8.decode(await this.run(['rev-parse', '--verify', refs[1]])).trim() !== dev) stop('BATCH_PIN_CHANGED')
+    // Read both exact commit objects anew. Observed D is independently checked
+    // against the production ref by the coordinator, and may not be a local ref.
+    for (const oid of new Set([master, dev])) await this.objects('commit', [oid])
+  }
+
   /** Hash-checked raw objects observed by this store; never reconstructed from a public report. */
   evidenceObjects() {return [...this.proofObjects].map(([oid, value]) => ({oid, kind: value.kind, bytes: Buffer.from(value.bytes)}))}
   private async loadCommits(ids: string[]) {
@@ -183,19 +213,7 @@ export class BatchGitStore {
     if (!missing.length) return
     const bodies = await this.objects('commit', missing)
     bodies.forEach((bytes, i) => {
-      const end = bytes.indexOf('\n\n')
-      if (end < 0) stop('GIT_COMMIT_INVALID')
-      const lines = bytes.subarray(0, end).toString('latin1').split('\n')
-      const tree = /^tree ([a-f0-9]{40})$/.exec(lines[0])?.[1] ?? stop('GIT_COMMIT_INVALID')
-      const parents: string[] = []
-      for (let n = 1; n < lines.length; n++) {
-        if (lines[n].startsWith('tree ')) stop('GIT_COMMIT_INVALID')
-        if (lines[n].startsWith('parent ')) {
-          if (n !== parents.length + 1) stop('GIT_COMMIT_INVALID')
-          parents.push(GitShaSchema.parse(lines[n].slice(7)))
-        }
-      }
-      this.commits.set(missing[i], { tree, parents })
+      this.commits.set(missing[i], parseBatchGitCommit(bytes))
     })
   }
   async history(target: string) {
@@ -218,34 +236,78 @@ export class BatchGitStore {
     if (reachable.size !== graph.size) stop('SOURCE_HISTORY_INCOMPLETE')
     return new BatchHistory(graph, this.budget)
   }
-  private async tree(oid: string) {
-    const cached = this.trees.get(oid)
-    if (cached) return cached
-    const [bytes] = await this.objects('tree', [oid]), entries = new Map<string, TreeEntry>()
-    let previous: Buffer | undefined
-    for (let at = 0; at < bytes.length;) {
-      const sp = bytes.indexOf(32, at), end = bytes.indexOf(0, sp + 1)
-      if (sp <= at || end <= sp + 1 || end + 21 > bytes.length) stop('GIT_TREE_INVALID')
-      const mode = bytes.subarray(at, sp).toString('ascii'), name = utf8.decode(bytes.subarray(sp + 1, end))
-      if (!['40000', '100644', '100755', '120000', '160000'].includes(mode) || name.includes('/') ||
-          !RepoPathSchema.safeParse(name).success || entries.has(name)) stop('GIT_TREE_INVALID')
-      const sortKey = Buffer.from(name + (mode === '40000' ? '/' : ''))
-      if (previous && Buffer.compare(previous, sortKey) >= 0) stop('GIT_TREE_INVALID')
-      previous = sortKey
-      entries.set(name, { mode, oid: bytes.subarray(end + 1, end + 21).toString('hex') }); at = end + 21
+  /** Compact proof with one big-endian length and raw commit body per ordered row. */
+  commitProof(history: readonly {oid: string}[]) {
+    const parts: Buffer[] = []
+    for (const {oid} of history) {
+      this.budget.remaining()
+      const object = this.proofObjects.get(oid)
+      if (!object || object.kind !== 'commit') stop('SOURCE_HISTORY_INCOMPLETE')
+      const size = Buffer.alloc(4)
+      size.writeUInt32BE(object.bytes.length)
+      parts.push(size, object.bytes)
     }
-    this.trees.set(oid, entries)
+    return Buffer.concat(parts)
+  }
+  private async readTrees(ids: string[]) {
+    const bodies = await this.objects('tree', ids)
+    bodies.forEach((bytes, i) => this.trees.set(ids[i], parseBatchGitTree(bytes)))
+  }
+  private async loadTrees(ids: Set<string>) {
+    const missing = [...ids].filter(oid => !this.trees.has(oid))
+    for (let at = 0; at < missing.length; at += 256) {
+      const chunk = missing.slice(at, at + 256)
+      if (chunk.length === 1) {
+        await this.readTrees(chunk)
+        continue
+      }
+      // Size hints keep each process within the existing stdout bound even for large trees.
+      // Only the independently hashed contents returned by readTrees populate the cache.
+      const hints = await this.run(['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'], chunk.join('\n') + '\n')
+      const lines = hints.toString('latin1').split('\n')
+      if (lines.pop() !== '' || lines.length !== chunk.length) stop('GIT_OBJECT_UNAVAILABLE')
+      let batch: string[] = [], bytes = 0
+      for (const [index, line] of lines.entries()) {
+        const match = /^([a-f0-9]{40}) tree (0|[1-9][0-9]*)$/.exec(line)
+        if (!match || match[1] !== chunk[index]) stop('GIT_OBJECT_UNAVAILABLE')
+        const frameBytes = Number(match[2]) + line.length + 2
+        if (frameBytes > gitCommandBytes) stop('GIT_BYTE_LIMIT')
+        if (bytes + frameBytes > gitCommandBytes) {
+          await this.readTrees(batch)
+          batch = []; bytes = 0
+        }
+        batch.push(match[1]); bytes += frameBytes
+      }
+      await this.readTrees(batch)
+    }
+  }
+  private async tree(oid: string) {
+    if (!this.trees.has(oid)) await this.readTrees([oid])
+    return this.trees.get(oid)!
+  }
+  private async entriesAt(commits: readonly string[], path: string, recordTree?: (oid: string, bytes: Buffer) => void) {
+    RepoPathSchema.parse(path)
+    for (let at = 0; at < commits.length; at += 256) await this.loadCommits(commits.slice(at, at + 256))
+    let entries: (TreeEntry | undefined)[] = commits.map(commit => ({ mode: '40000', oid: this.commits.get(commit)!.tree }))
+    for (const part of path.split('/')) {
+      const trees = new Set<string>()
+      for (const entry of entries) if (entry) {
+        if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+        trees.add(entry.oid)
+      }
+      await this.loadTrees(trees)
+      if (recordTree) for (const oid of trees) recordTree(oid, this.proofObjects.get(oid)!.bytes)
+      entries = entries.map(entry => entry && this.trees.get(entry.oid)!.get(part))
+    }
     return entries
   }
-  private async entry(commit: string, path: string): Promise<TreeEntry | undefined> {
-    RepoPathSchema.parse(path); await this.loadCommits([commit])
-    let entry: TreeEntry | undefined = { mode: '40000', oid: this.commits.get(commit)!.tree }
-    for (const part of path.split('/')) {
-      if (!entry) return undefined
-      if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
-      entry = (await this.tree(entry.oid)).get(part)
-    }
+  private async entry(commit: string, path: string) {
+    const [entry] = await this.entriesAt([commit], path)
     return entry
+  }
+  async rootTree(commit: string) {
+    await this.loadCommits([commit])
+    return this.commits.get(commit)!.tree
   }
   async directory(commit: string, path: string) {
     const entry = await this.entry(commit, path)
@@ -257,10 +319,30 @@ export class BatchGitStore {
     const entry = await this.entry(commit, root)
     if (!entry) return []
     if (entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+    return this.inventoryTree(root, entry.oid)
+  }
+  async sourceInventory(commit: string, recordTree: (oid: string, bytes: Buffer) => void) {
+    const [entry] = await this.entriesAt([commit], 'site/en', recordTree)
+    if (entry && entry.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+    const treeOid = this.commits.get(commit)!.tree
+    return {treeOid, commitBytes: this.proofObjects.get(commit)!.bytes,
+      entries: entry ? await this.inventoryTree('site/en', entry.oid, recordTree) : []}
+  }
+  async sourceInventoryHas(commit: string, path: string) {
+    let entry: TreeEntry = {mode: '40000', oid: this.commits.get(commit)!.tree}
+    for (const component of path.split('/')) {
+      if (entry?.mode !== '40000') return false
+      entry = (await this.tree(entry.oid)).get(component)
+    }
+    return entry?.mode === '100644' || entry?.mode === '100755'
+  }
+  private async inventoryTree(root: string, oid: string, recordTree?: (oid: string, bytes: Buffer) => void) {
     const entries: {path: string; oid: string; mode: '100644' | '100755'}[] = []
     let visits = 0
     const walk = async (path: string, oid: string) => {
-      for (const [name, value] of await this.tree(oid)) {
+      const tree = await this.tree(oid)
+      recordTree?.(oid, this.proofObjects.get(oid)!.bytes)
+      for (const [name, value] of tree) {
         this.budget.remaining()
         if (++visits > traversalLimit) stop('SOURCE_TREE_LIMIT')
         const child = path + '/' + name
@@ -269,7 +351,7 @@ export class BatchGitStore {
         else stop('GIT_PATH_TYPE_INVALID')
       }
     }
-    await walk(root, entry.oid)
+    await walk(root, oid)
     return entries.sort((a, b) => Buffer.compare(Buffer.from(a.path), Buffer.from(b.path)))
   }
   private async blob(entry: TreeEntry) {
@@ -291,7 +373,44 @@ export class BatchGitStore {
     const entry = await this.entry(commit, path)
     return entry ? this.blob(entry) : null
   }
+  async regularIdentity(commit: string, path: string) {
+    const entry = await this.entry(commit, path)
+    if (!entry || (entry.mode !== '100644' && entry.mode !== '100755')) return null
+    await this.blob(entry)
+    return {mode: entry.mode, oid: entry.oid}
+  }
   async file(commit: string, path: string) { return await this.optionalFile(commit, path) ?? stop('GIT_PATH_MISSING') }
+
+  async measureFragmentSnapshots(commits: readonly string[]) {
+    const snapshots: {commit: string; bytes: number; count: number}[] = []
+    const byTree = new Map<string, {bytes: number; count: number}>()
+    const roots = await this.entriesAt(commits, fragmentRoot)
+    for (const [index, root] of roots.entries()) {
+      this.budget.remaining()
+      const commit = commits[index]
+      if (!root) {
+        snapshots.push({commit, bytes: 0, count: 1})
+        continue
+      }
+      if (root.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+      let measured = byTree.get(root.oid)
+      if (!measured) {
+        const entries = (await this.inventoryTree(fragmentRoot, root.oid)).filter(entry => entry.path.endsWith('.md'))
+        const directories = new Set(['.'])
+        let bytes = 0
+        for (const entry of entries) {
+          const raw = await this.blob(entry)
+          // Match the worker reader's UTF-8 replacement-character expansion.
+          bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
+          for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
+        }
+        measured = {bytes, count: entries.length + directories.size}
+        byTree.set(root.oid, measured)
+      }
+      snapshots.push({commit, ...measured})
+    }
+    return snapshots
+  }
 
   /** Walk changed subtrees from both authenticated roots. Report regular-file transitions and hash both endpoint blobs. */
   async delta(from: string | null, to: string): Promise<RawChange[]> {
@@ -348,47 +467,13 @@ export async function measureBatchExport(repository: string, commit: string, roo
   for (const entry of entries) for (let p = dirname(entry.path); p !== '.'; p = dirname(p)) directories.add(p)
   return {entries, bytes: entries.reduce((sum, entry) => sum + entry.bytes, 0), count: entries.length + directories.size}
 }
-/** Both the worker and parent use this exact stopped-history walk. The parent
- * supplies hash-checked history; no caller-provided commit list grants a budget. */
-export function batchRenderCommitSet(history: readonly {oid: string; parents: readonly string[]}[], current: string, oldNext: string, target: string) {
-  const graph = new Map(history.map(commit => [commit.oid, commit.parents]))
-  const reachable = (tip: string) => {
-    const pending = [tip], found = new Set<string>()
-    while (pending.length) {
-      const oid = pending.pop()!
-      if (found.has(oid)) continue
-      found.add(oid)
-      const parents = graph.get(oid) ?? stop('SOURCE_HISTORY_INCOMPLETE')
-      if (oid !== current) pending.push(...parents)
-    }
-    return found
-  }
-  const excluded = reachable(oldNext)
-  const interval = [...reachable(target)].filter(oid => !excluded.has(oid))
-  return [...new Set(interval.flatMap(oid => [oid, ...graph.get(oid)!]))].sort()
-}
 
-async function measureFragmentSnapshot(store: BatchGitStore, commit: string) {
-  GitShaSchema.parse(commit)
-  const entries = (await store.inventory(commit, 'site/en/fragments')).filter(entry => entry.path.endsWith('.md'))
-  const directories = new Set(['.'])
-  let bytes = 0
-  for (const entry of entries) {
-    const raw = await store.optionalFile(commit, entry.path)
-    if (!raw || raw.oid !== entry.oid) stop('BATCH_FRAGMENT_BINDING_INVALID')
-    // Match the unchanged reader's UTF-8 replacement-character expansion.
-    bytes += Buffer.byteLength(raw.bytes.toString('utf8'))
-    for (let path = dirname(entry.path.slice('site/en/'.length)); path !== '.'; path = dirname(path)) directories.add(path)
-  }
-  return {commit, bytes, count: entries.length + directories.size}
-}
 /** Endpoint observations retain one snapshot per distinct commit concurrently. */
 export async function measureBatchFragmentSnapshots(repository: string, commits: readonly string[]) {
   const store = await BatchGitStore.open(repository, batchBudget())
   let bytes = 0, count = 0
   const distinct = [...new Set(commits)]
-  for (const commit of distinct) {
-    const measured = await measureFragmentSnapshot(store, commit)
+  for (const measured of await store.measureFragmentSnapshots(distinct)) {
     bytes += measured.bytes; count += measured.count
   }
   await store.verify()
@@ -404,13 +489,12 @@ export async function measureBatchRenderFragments(repository: string, commits: r
   const history = await store.history(target)
   const required = batchRenderCommitSet(history.records(), current, oldNext, target)
   const endpoints = [...new Set(commits)], intermediate = required.filter(commit => !endpoints.includes(commit))
+  const measured = await store.measureFragmentSnapshots([...endpoints, ...intermediate])
   let endpointBytes = 0, endpointCount = 0
-  for (const commit of endpoints) {
-    const measured = await measureFragmentSnapshot(store, commit)
-    endpointBytes += measured.bytes; endpointCount += measured.count
+  for (const endpoint of measured.slice(0, endpoints.length)) {
+    endpointBytes += endpoint.bytes; endpointCount += endpoint.count
   }
-  const sequential = []
-  for (const commit of intermediate) sequential.push(await measureFragmentSnapshot(store, commit))
+  const sequential = measured.slice(endpoints.length)
   await store.verify()
   return {bytes: Math.max(endpointBytes, ...sequential.map(snapshot => snapshot.bytes)),
     count: Math.max(endpointCount, ...sequential.map(snapshot => snapshot.count)),
@@ -457,4 +541,18 @@ export async function recheckBatchSourceHead(repository: string, expected: strin
   if (!GitShaSchema.safeParse(expected).success) stop('BATCH_PIN_CHANGED')
   const raw = await exportRead(repository, ['rev-parse', '--verify', 'refs/heads/v3.0.x^{commit}'], 41)
   if (!raw.equals(Buffer.from(expected + '\n'))) stop('BATCH_PIN_CHANGED')
+}
+
+/** Hash-addressed read-only custody for a local candidate. It never certifies
+ * receiver connectivity or supplies Git with an alternate object directory. */
+export async function openLocalBatchBaseline(input: {repository: string; git: string; master: string; dev: string; checkLocalDev: boolean}) {
+  const {repository, git, master, dev, checkLocalDev} = input
+  const store = await BatchGitStore.open(repository, batchBudget(), git)
+  const verifyPins = async (expectedMaster: string, expectedDev: string) => {
+    if (expectedMaster !== master || expectedDev !== dev) stop('BATCH_PIN_CHANGED')
+    await store.verifyCandidatePins(master, dev, checkLocalDev)
+  }
+  await verifyPins(master, dev)
+  return Object.freeze({verifyPins, read: store.read.bind(store),
+    masterTree: () => store.rootTree(master), inventory: () => store.inventory(master, 'shared-docs/guides')})
 }

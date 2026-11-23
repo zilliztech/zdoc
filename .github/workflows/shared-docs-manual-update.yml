@@ -1,0 +1,423 @@
+name: shared docs manual update
+run-name: shared-docs-manual-update ${{ inputs.mode || 'update' }} ${{ inputs.group || 'node' }}
+
+# Manual-layout update/promote lane (design 10 WP12/WP13): compares the group's
+# locked pins against the upstream tracking head and opens one PR per candidate.
+# `update` stages the whole-manual `next` candidate (next-lock.yaml applied as the
+# group lock); `promote` moves `current` to `next` with the carried one-sided
+# configuration. The scheduled dispatch runs `update` only; `promote` is a
+# deliberate human dispatch. Publish-surface safety (B + tiered blocking): a removed
+# page still published at the current pin blocks the run before anything is staged,
+# and every unadjudicated addition rides behind a new `exclude` entry plus a deferred
+# `ledger.json` entry — the advisory model stage only drafts proposals into those
+# entries and never decides, so adoption always needs a human-authored edit.
+# Read-only lane: it writes only its own candidate branch through a PAT and never
+# master or dev, so it must not reacquire the production queue.
+
+on:
+  schedule:
+    - cron: '23 5 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Lane to run: update stages the next candidate, promote promotes next to current'
+        required: true
+        default: 'update'
+        type: choice
+        options:
+          - update
+          - promote
+      group:
+        description: 'Manual-layout shared-docs group (directory under shared-docs/)'
+        required: true
+        default: 'node'
+        type: string
+      base_ref:
+        description: 'Branch the candidate PR targets'
+        required: true
+        default: 'master'
+        type: string
+      draft_pr:
+        description: 'Open the candidate PR as a draft for human review'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shared-docs-manual-update-${{ inputs.mode || 'update' }}-${{ inputs.group || 'node' }}
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      proceed: ${{ steps.single_flight.outputs.proceed }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MODE: ${{ inputs.mode || 'update' }}
+      GROUP: ${{ inputs.group || 'node' }}
+      BASE_REF: ${{ inputs.base_ref || 'master' }}
+    steps:
+      - name: Check out pinned master for the layout gate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Validate the dispatch inputs before any upstream access
+        run: |
+          set -euo pipefail
+          [[ "$MODE" == update || "$MODE" == promote ]] || { echo '::error::mode must be update or promote'; exit 1; }
+          [[ "$GROUP" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo '::error::group must be a lowercase slug'; exit 1; }
+          [[ "$BASE_REF" == master ]] || { echo '::error::the candidate PR must target master'; exit 1; }
+          test -f "shared-docs/$GROUP/manual.yaml" || { echo "::error::shared-docs/$GROUP must be a manual-layout group with manual.yaml"; exit 1; }
+
+      # Single flight: one open candidate PR per group across both modes (update and
+      # promote rewrite the same group lock, so they must never run concurrently).
+      # The hex tail keeps per-candidate branches apart; a closed PR leaves its
+      # branch to the operator (the next identical candidate dies as a
+      # non-fast-forward instead of resurrecting a reviewed branch).
+      - name: Gate the single-flight lane per group
+        id: single_flight
+        run: |
+          set -euo pipefail
+          open_prs=$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --limit 500 --json headRefName --jq '.[].headRefName')
+          matching=$(printf '%s\n' "$open_prs" | grep -E "^shared-docs-(update|promote)/${GROUP}-[0-9a-f]{7,40}$" || true)
+          if [ -n "$matching" ]; then
+            echo "::notice::An open shared-docs lane PR already exists for $GROUP; the next candidate opens after it merges."
+            echo 'proceed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'proceed=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  lane:
+    needs: gate
+    if: needs.gate.outputs.proceed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      MODE: ${{ inputs.mode || 'update' }}
+      GROUP: ${{ inputs.group || 'node' }}
+      BASE_REF: ${{ inputs.base_ref || 'master' }}
+    steps:
+      - name: Check out the lane base
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.base_ref || 'master' }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Read public source configuration
+        id: source
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const { loadTypeScript } = require('./scripts/lib/load-typescript');
+          const { parseSourceConfig } = loadTypeScript(path.resolve('packages/docs-tooling/src/shared-docs/core/config.ts'));
+          const group = process.env.GROUP;
+          const result = parseSourceConfig(fs.readFileSync(`shared-docs/${group}/source.yaml`, 'utf8'));
+          if ('errors' in result) throw new Error(JSON.stringify(result.errors));
+          const { repository, track } = result.config;
+          if (!/^https:\/\/github\.com\/[A-Za-z0-9][A-Za-z0-9-]*\/[A-Za-z0-9_.-]+(?:\.git)?$/.test(repository) || /\/(?:\.|\.\.)(?:\.git)?$/.test(repository)) {
+            throw new Error(`Source repository for ${group} must be a credential-free GitHub HTTPS repository URL`);
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `repository=${repository}\ntrack=${track}\n`);
+          NODE
+
+      - name: Clone complete tracking history
+        run: |
+          set -euo pipefail
+          git clone --quiet --single-branch --branch "$TRACK" --no-tags "$REPOSITORY" "$RUNNER_TEMP/upstream/$GROUP"
+          git -C "$RUNNER_TEMP/upstream/$GROUP" show-ref --verify "refs/heads/$TRACK" > /dev/null
+          test "$(git -C "$RUNNER_TEMP/upstream/$GROUP" rev-parse --is-shallow-repository)" = false
+        env:
+          REPOSITORY: ${{ steps.source.outputs.repository }}
+          TRACK: ${{ steps.source.outputs.track }}
+
+      # The update/promote commands accept --dev but do not read it yet; the sparse
+      # snapshot keeps the CLI contract satisfiable without a full dev checkout.
+      - name: Check out read-only upstream dev snapshot
+        uses: actions/checkout@v5
+        with:
+          repository: zilliztech/zdoc
+          ref: refs/heads/dev
+          path: .shared-docs-dev
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /content/en/reference/
+
+      - name: Prepare the lane candidate
+        id: candidate
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/shared-docs-lane-out"
+          rm -rf "$out"
+          log="$RUNNER_TEMP/shared-docs-lane.log"
+          status=0
+          pnpm docs-tooling shared-docs "$MODE" --shared-docs "shared-docs/$GROUP" --repo "$RUNNER_TEMP/upstream/$GROUP" \
+            --dev .shared-docs-dev --out "$out" > "$log" 2>&1 || status=$?
+          cat "$log"
+          # The output directory is always emitted, so a blocked run keeps its report
+          # for the classify step, the blocked-surface report and the run artifact.
+          printf '%s\n' "candidate_out=$out" >> "$GITHUB_OUTPUT"
+          if [ "$status" != 0 ] && [ "$status" != 3 ]; then
+            echo "::error::shared-docs $MODE failed with exit $status; the candidate output is retained as the run artifact."
+            exit "$status"
+          fi
+
+      - name: Classify the lane result
+        id: classify
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          # The command's final stdout line is a JSON contract; authenticate it before use.
+          tail -n 1 "$RUNNER_TEMP/shared-docs-lane.log" | grep -q '^{' || { echo '::error::lane summary line missing'; exit 1; }
+          if [ "$MODE" = update ]; then
+            if jq -e '.blocked == true' "$out/report.json" > /dev/null; then
+              echo 'result=blocked' >> "$GITHUB_OUTPUT"
+            elif jq -e '.upToDate == true' "$out/report.json" > /dev/null; then
+              echo 'result=up-to-date' >> "$GITHUB_OUTPUT"
+            else
+              jq -e '.kind == "shared-manual-update" and .upToDate == false and (.to | test("^[0-9a-f]{40}$"))' "$out/report.json" > /dev/null
+              test -f "$out/next-lock.yaml"
+              echo 'result=candidate' >> "$GITHUB_OUTPUT"
+            fi
+          else
+            jq -e '.kind == "shared-manual-promotion"' "$out/report.json" > /dev/null
+            [[ -f "$out/lock.yaml" && -f "$out/manual.yaml" ]]
+            echo 'result=candidate' >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+
+      # Tiered blocking, tier one: a removal that would retire a live route stops the
+      # lane before anything is staged. The redirect decision has no default, so the
+      # run fails red and the summary carries the adjudication recipe instead of a PR.
+      - name: Report the blocked surface
+        if: steps.classify.outputs.result == 'blocked'
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          {
+            echo '## Update blocked: removed page(s) still published at the current pin'
+            echo ''
+            jq -r '.removedPublished[]' "$CANDIDATE_OUT/report.json" | sed 's/^/- /'
+            echo ''
+            echo 'Retiring a live route needs a human redirect decision, so no candidate was staged.'
+            echo 'Recipe: retire = add the file to the exclude list, drop its metadata key, file the redirect;'
+            echo 'keep = leave the lock as is; rename = exclude the old path, adopt the new one, move the metadata key.'
+            echo 'Commit the adjudication on master, then re-run the lane.'
+          } >> "$GITHUB_STEP_SUMMARY"
+          jq -r '.removedPublished[]' "$CANDIDATE_OUT/report.json" | sed 's/^/blocked-removal: /'
+          exit 1
+
+      # Advisory model stage (B: suggestion only, degrade-safe). The decide stage exits 0
+      # with a degraded report when the API key is missing or the gateway fails — the
+      # ledger entries simply carry no proposals and the human checklist stays the only
+      # decision surface. Model/base-url vars are wiring: missing ones fail hard here,
+      # like the REST refresh preflight. Zero pending additions skip the call entirely.
+      - name: Draft the advisory proposals
+        if: steps.classify.outputs.result == 'candidate' && env.MODE == 'update'
+        env:
+          AGENTIC_PROVIDER_API_KEY: ${{ secrets.AGENTIC_PROVIDER_API_KEY || secrets.DEEPSEEK_API_KEY }}
+          REST_UPSTREAM_AGENT_MODEL: ${{ vars.REST_UPSTREAM_AGENT_MODEL || vars.AGENTIC_TRANSLATION_MODEL }}
+          REST_UPSTREAM_AGENT_BASE_URL: ${{ vars.REST_UPSTREAM_AGENT_BASE_URL || vars.AGENTIC_BASE_URL || vars.DEEPSEEK_BASE_URL }}
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          pending=$(jq -r '.counts.addedPending' "$out/report.json")
+          if [ "$pending" -eq 0 ]; then
+            echo 'No unadjudicated additions; the advisory stage is skipped.'
+            exit 0
+          fi
+          test -n "$REST_UPSTREAM_AGENT_MODEL" || { echo 'REST_UPSTREAM_AGENT_MODEL (or AGENTIC_TRANSLATION_MODEL) var is not configured' >&2; exit 1; }
+          test -n "$REST_UPSTREAM_AGENT_BASE_URL" || { echo 'REST_UPSTREAM_AGENT_BASE_URL (or AGENTIC_BASE_URL or DEEPSEEK_BASE_URL) var is not configured' >&2; exit 1; }
+          node scripts/docs-workflow/shared-docs-manual-decide.js \
+            --lane-report "$out/report.json" \
+            --shared-docs "shared-docs/$GROUP" \
+            --repo "$RUNNER_TEMP/upstream/$GROUP" \
+            --out "$out/proposals.jsonl" \
+            --report "$out/decide-report.json" \
+            --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
+            --api-key-env AGENTIC_PROVIDER_API_KEY \
+            --model "$REST_UPSTREAM_AGENT_MODEL"
+
+      # Deterministic proposal landing: fills the `proposal` field of the deferred ledger
+      # entries only; classification, existing proposals, and adopted/excluded entries are
+      # never touched, and every metadata draft is re-validated through the real parser.
+      - name: Merge the advisory proposals
+        if: steps.classify.outputs.result == 'candidate'
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          [ -f "$out/proposals.jsonl" ] || { echo 'No proposals to merge; the candidate ledger stays as the lane staged it.'; exit 0; }
+          test -f "$out/ledger.json" || { echo '::error::proposals exist without a candidate ledger; lane wiring is broken'; exit 1; }
+          node scripts/docs-workflow/shared-docs-manual-merge-proposals.js \
+            --ledger "$out/ledger.json" \
+            --proposals "$out/proposals.jsonl" \
+            --shared-docs "shared-docs/$GROUP" \
+            --out "$out/ledger.json"
+
+      - name: Apply the candidate to the group
+        id: apply
+        if: steps.classify.outputs.result == 'candidate'
+        run: |
+          set -euo pipefail
+          out="$CANDIDATE_OUT"
+          if [ "$MODE" = update ]; then
+            # The update contract stages a whole-manual next candidate as the group lock.
+            # The exclusion pairing and the decision ledger are atomic with the pin: when
+            # the lane staged them, they land in the same commit or not at all.
+            grep -q "^schema_version: 1$" "$out/next-lock.yaml"
+            grep -Eq "^next: [0-9a-f]{40}$" "$out/next-lock.yaml"
+            cp "$out/next-lock.yaml" "shared-docs/$GROUP/lock.yaml"
+            staged_paths=("shared-docs/$GROUP/lock.yaml")
+            if [ -f "$out/manual.yaml" ]; then
+              grep -q "^schema_version: 1$" "$out/manual.yaml"
+              cp "$out/manual.yaml" "shared-docs/$GROUP/manual.yaml"
+              staged_paths+=("shared-docs/$GROUP/manual.yaml")
+            fi
+            if [ -f "$out/ledger.json" ]; then
+              jq -e '.schema_version == 1 and (.entries | type == "array")' "$out/ledger.json" > /dev/null
+              cp "$out/ledger.json" "shared-docs/$GROUP/ledger.json"
+              staged_paths+=("shared-docs/$GROUP/ledger.json")
+            fi
+            git add -- "${staged_paths[@]}"
+          else
+            grep -Eq "^current: [0-9a-f]{40}$" "$out/lock.yaml"
+            cp "$out/lock.yaml" "shared-docs/$GROUP/lock.yaml"
+            cp "$out/manual.yaml" "shared-docs/$GROUP/manual.yaml"
+            git add -- "shared-docs/$GROUP/lock.yaml" "shared-docs/$GROUP/manual.yaml"
+          fi
+          if git diff --cached --quiet; then
+            echo 'result=no-change' >> "$GITHUB_OUTPUT"
+          else
+            echo 'result=staged' >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+
+      - name: Retain the lane evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: shared-docs-manual-lane-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ steps.candidate.outputs.candidate_out }}
+            ${{ runner.temp }}/shared-docs-lane.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Deliver the candidate as a PR
+        id: deliver
+        if: steps.apply.outputs.result == 'staged'
+        env:
+          SHARED_DOCS_UPDATE_PAT: ${{ secrets.SHARED_DOCS_UPDATE_PAT || secrets.SHARED_DOCS_ADOPT_PAT || secrets.REST_UPSTREAM_REFRESH_PAT }}
+          DRAFT: ${{ inputs.draft_pr || 'true' }}
+          CANDIDATE_OUT: ${{ steps.candidate.outputs.candidate_out }}
+          REPOSITORY: ${{ steps.source.outputs.repository }}
+          TRACK: ${{ steps.source.outputs.track }}
+        run: |
+          set -euo pipefail
+          if [ -z "$SHARED_DOCS_UPDATE_PAT" ]; then
+            echo 'SHARED_DOCS_UPDATE_PAT is not configured; the candidate is committed on this run but was not delivered. Provision the PAT and re-dispatch, or open the PR from the run artifact.' >&2
+            exit 1
+          fi
+          base_sha=$(git rev-parse HEAD)
+          candidate=$(jq -r '.to // .lock.to.next // empty' "$CANDIDATE_OUT/report.json")
+          [[ "$candidate" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::candidate identity missing from the lane report'; exit 1; }
+          branch="shared-docs-$MODE/$GROUP-${candidate:0:12}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git commit -m "chore(shared-docs): $MODE $GROUP to $TRACK ${candidate:0:12}"
+          [[ "$(git rev-parse HEAD)" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          authorization=$(printf 'x-access-token:%s' "$SHARED_DOCS_UPDATE_PAT" | base64 | tr -d '\n')
+          GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $authorization" \
+            git push "https://github.com/$GITHUB_REPOSITORY.git" "HEAD:refs/heads/$branch"
+          {
+            echo '## Shared-docs manual candidate'
+            echo ''
+            echo "Lane: \`$MODE\`; group: \`$GROUP\`; upstream: \`$REPOSITORY\` branch \`$TRACK\`; candidate \`${candidate:0:12}\`; base ${base_sha:0:12}."
+            echo 'Validation runs the normal shared-docs PR workflows at this candidate.'
+            echo ''
+            if [ -f "$CANDIDATE_OUT/ledger.json" ]; then
+              pending=$(jq -r '.counts.addedPending' "$CANDIDATE_OUT/report.json")
+              entries=$(jq -r '.entries | length' "$CANDIDATE_OUT/ledger.json")
+              echo "Zero-auto-adoption pairing: ${pending} added page(s) ride behind new \`exclude\` entries; \`ledger.json\` carries ${entries} deferred entr(ies) to adjudicate — adopting a page means deleting its \`exclude\` line (optionally copying its \`proposal.metadata_draft\`)."
+              echo ''
+            fi
+            if [ -f "$CANDIDATE_OUT/decide-report.json" ]; then
+              proposed=$(jq -r '.summary.proposed' "$CANDIDATE_OUT/decide-report.json")
+              pending=$(jq -r '.summary.pending' "$CANDIDATE_OUT/decide-report.json")
+              model=$(jq -r '.model' "$CANDIDATE_OUT/decide-report.json")
+              if [ "$(jq -r '.summary.degraded' "$CANDIDATE_OUT/decide-report.json")" = true ]; then
+                echo "> **Advisory stage degraded** (reason: $(jq -r '.summary.reason // "unavailable"' "$CANDIDATE_OUT/decide-report.json")): no proposals were drafted, so every pending page reviews with no model guidance. Human review is the only decision surface for this candidate."
+              else
+                echo "Advisory proposals: ${proposed}/${pending} drafted by \`${model}\`; see the \`proposal\` fields in \`ledger.json\` and the decide report in the run artifact."
+              fi
+              missing=$(jq -r '.summary.missingContent // 0' "$CANDIDATE_OUT/decide-report.json")
+              if [ "$missing" != 0 ]; then
+                echo "> **${missing} pending page(s) had no readable upstream content head** and were never sent to the advisory stage; they review with no model guidance (listed in the decide report artifact)."
+              fi
+              echo ''
+            fi
+            cat "$CANDIDATE_OUT/report.md"
+          } > "$RUNNER_TEMP/shared-docs-pr-body.md"
+          GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh label create shared-docs-lane --color D4C5F9 --description 'Automated shared-docs manual lane' --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1 || true
+          draft_args=()
+          [[ "$DRAFT" == true ]] && draft_args=(--draft)
+          GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh pr create \
+            --repo "$GITHUB_REPOSITORY" --base "$BASE_REF" --head "$branch" "${draft_args[@]}" \
+            --title "shared-docs: $MODE $GROUP to $TRACK ${candidate:0:12}" \
+            --body-file "$RUNNER_TEMP/shared-docs-pr-body.md" | tee "$RUNNER_TEMP/shared-docs-pr-url"
+          printf 'Pull request: %s\n' "$(cat "$RUNNER_TEMP/shared-docs-pr-url")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summarize the lane outcome
+        if: always()
+        env:
+          CLASSIFY_RESULT: ${{ steps.classify.outputs.result }}
+          APPLY_RESULT: ${{ steps.apply.outputs.result }}
+          DELIVERED: ${{ steps.deliver.conclusion }}
+        run: |
+          set -euo pipefail
+          if [ "$CLASSIFY_RESULT" = blocked ]; then
+            echo 'Update blocked: removed page(s) are still published at the current pin, so no candidate was staged and nothing was delivered. See the blocked-surface section above for the adjudication recipe.' >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$APPLY_RESULT" = no-change ]; then
+            echo "The $MODE candidate produced no diff against $BASE_REF; nothing was delivered." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$CLASSIFY_RESULT" = up-to-date ]; then
+            echo "The group lock is up to date with the tracking head; no candidate was staged." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$DELIVERED" != success ] && [ "$APPLY_RESULT" != staged ]; then
+            echo "Lane outcome: ${CLASSIFY_RESULT:-failed} (applied: ${APPLY_RESULT:-none})." >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -166,6 +166,319 @@
       "status": "denylist",
       "note": "template-variable artifact, not a real page; permanent noise that would resurface every window",
       "decided_at": "2026-11-16T06:16:33.504Z"
+    },
+    {
+      "from": "/reference/go/v2-Client-ClientConfig",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Client-ClientConfig",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-20T03:25:02.702Z"
+    },
+    {
+      "from": "/docs/autoindex",
+      "status": "fixed",
+      "to": "/docs/autoindex-explained",
+      "note": "Retired short slug; sibling AUTOINDEX rules resolve here.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/cost-and-billing",
+      "status": "fixed",
+      "to": "/docs/payment-billing",
+      "note": "Billing-family aliases resolve to the payment and billing overview.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/migrate-from-milvus-2x-1",
+      "status": "fixed",
+      "to": "/docs/migrate-from-milvus",
+      "note": "Versioned duplicate of the current Milvus migration page.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/use-collection-from-a-serving-cluster-as-data-source",
+      "status": "fixed",
+      "to": "/docs/use-collection-from-a-dedicated-cluster-as-data-source",
+      "note": "Serving-cluster terminology was renamed to dedicated-cluster.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/use-partitions",
+      "status": "fixed",
+      "to": "/docs/use-partition-key",
+      "note": "Chinese sibling rule maps this exact retired path.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/advanced-data-types",
+      "status": "fixed",
+      "to": "/docs/json-field-overview",
+      "note": "Retired category contained only the JSON data-type page.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/api-comparisons",
+      "status": "fixed",
+      "to": "/docs/api-comparison",
+      "note": "Singular/plural variant of the retained comparison page.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/cluster-types",
+      "status": "fixed",
+      "to": "/docs/select-zilliz-cloud-service-plans",
+      "note": "Short form of cluster-types-explained; sibling rule uses this target.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/consistency",
+      "status": "fixed",
+      "to": "/docs/consistency-level",
+      "note": "Concept page was renamed to consistency-level.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/create-free-serverless-cluster",
+      "status": "fixed",
+      "to": "/docs/free-and-serverless-clusters",
+      "note": "Target covers creation and lifecycle of free and serverless clusters.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/cross-encoder-rerank-function",
+      "status": "fixed",
+      "to": "/reference/python/python/Rerankers-CrossEncoderRerankFunction",
+      "note": "Exact Python API page for the retired function name.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/customize-collection-schema",
+      "status": "fixed",
+      "to": "/docs/manage-collections-sdks",
+      "note": "Schema customization successor; use-customized-schema already maps here.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/data-import-into-existing-collection",
+      "status": "fixed",
+      "to": "/docs/import-data",
+      "note": "Current import task hub covering import into collections.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/faqs-account",
+      "status": "fixed",
+      "to": "/docs/faq-account",
+      "note": "Plural-to-singular FAQ rename.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/faqs-billing-payment",
+      "status": "fixed",
+      "to": "/docs/faq-payment-and-billing",
+      "note": "Retained payment and billing FAQ page.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/faqs-migration",
+      "status": "fixed",
+      "to": "/docs/faq-migration",
+      "note": "Retained migration FAQ; related sibling rule also uses this target.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/system-settings",
+      "status": "fixed",
+      "to": "/docs/organization-settings",
+      "note": "System-settings family resolves to organization settings.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/use-milvus-snapshot-as-data-source",
+      "status": "fixed",
+      "to": "/docs/create-external-collection",
+      "note": "External collection guide documents Milvus snapshots as a source.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/vector-database-v2-api-reference",
+      "status": "fixed",
+      "to": "/reference/restful/v2",
+      "note": "RESTful API V2 overview matches the requested API version.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/reference/python/python/Stage-StageManager",
+      "status": "fixed",
+      "to": "/reference/python/python/Volume-VolumeManager",
+      "note": "StageManager was renamed to VolumeManager; Java rule sets the precedent.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/llms-full.txt",
+      "status": "declined",
+      "note": "No published full-document route; the site generates llms.txt and section files.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/embeddings",
+      "status": "declined",
+      "note": "Only a historical draft exists; no general current embeddings successor.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/release-notes/release-notes-21",
+      "status": "declined",
+      "note": "No matching historical route; release-notes-210 is not an unambiguous successor.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/account-and-security",
+      "status": "declined",
+      "note": "Former multi-topic category split across account, authentication, and security pages.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/data-import-csv",
+      "status": "declined",
+      "note": "Current import formats are Parquet, JSON, and NumPy; no CSV page exists.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/release-notes-239",
+      "status": "declined",
+      "note": "No matching release route or historical source; neighboring releases differ.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/release-notes-57",
+      "status": "declined",
+      "note": "No matching release route or historical source.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/docs/[a-z0-9-]*backfill[a-z0-9-]*",
+      "status": "denylist",
+      "note": "Regex-like parser artifact, not a documentation route.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/reference/python/python/DataType.md*",
+      "status": "denylist",
+      "note": "Literal wildcard request artifact, not a valid route.",
+      "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/reference/go/v2-Collection-Alias",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-Alias",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-21T03:24:13.757Z"
+    },
+    {
+      "from": "/docs/data-import).",
+      "status": "fixed",
+      "to": "/docs/data-import-zero-to-hero",
+      "note": "Trailing-paren artifact; the existing /docs/data-import rule resolves to data-import-zero-to-hero.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/filtered-search)",
+      "status": "fixed",
+      "to": "/docs/filtered-search",
+      "note": "Trailing-paren artifact; strip the suffix to the live filtered-search page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/free-serverless-clusters",
+      "status": "fixed",
+      "to": "/docs/free-and-serverless-clusters",
+      "note": "Dropped conjunction; sibling free-cluster aliases use this current page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/index-scalar-fields)",
+      "status": "fixed",
+      "to": "/docs/bitmap-index-type",
+      "note": "Trailing-paren artifact; existing index-scalar-fields and scalar-index rules resolve to bitmap-index-type.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/index-with-scalar-fields",
+      "status": "fixed",
+      "to": "/docs/bitmap-index-type",
+      "note": "Retired scalar-index slug variant; the sibling index-scalar-fields rule resolves to bitmap-index-type.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/manage-partitions)",
+      "status": "fixed",
+      "to": "/docs/manage-partitions",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/multi-tenancy)",
+      "status": "fixed",
+      "to": "/docs/multi-tenancy",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/replica",
+      "status": "fixed",
+      "to": "/docs/manual-scaling",
+      "note": "The existing /docs/manage-replica sibling maps to manual-scaling, which documents replica scaling.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/select-zilliz-cloud-edition",
+      "status": "fixed",
+      "to": "/docs/select-zilliz-cloud-service-plans",
+      "note": "Edition terminology is retired; sibling deployment-option and cluster-types aliases use this comparison page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/use-partition-key)",
+      "status": "fixed",
+      "to": "/docs/use-partition-key",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities",
+      "status": "fixed",
+      "to": "/reference/restful/delete",
+      "note": "Legacy unversioned REST slug; the current V1 Delete page is /reference/restful/delete.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities-v1",
+      "status": "fixed",
+      "to": "/reference/restful/delete",
+      "note": "Legacy explicit-V1 slug; the current V1 Delete page is /reference/restful/delete.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities-v2",
+      "status": "fixed",
+      "to": "/reference/restful/delete-v2",
+      "note": "Delete (V2) was renamed to delete-v2, matching the insert-entities-v2 rename precedent.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/query-org-daily-usage-v2",
+      "status": "fixed",
+      "to": "/reference/restful/query-daily-usage-v2",
+      "note": "The operation title shortened from organization daily usage to Query Daily Usage (V2).",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/releases",
+      "status": "fixed",
+      "to": "/docs/changelogs",
+      "note": "Release-notes family endpoint; /release-notes and /docs/release-notes already resolve to docs/changelogs.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
     }
   ]
 }

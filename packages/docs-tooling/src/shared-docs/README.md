@@ -139,9 +139,21 @@ A group whose root contains `manual.yaml` instead of `pages/` uses the manual
 layout: one `manual.yaml` (`source.dir`, `publish.manual`, per-module and
 per-page `metadata`), one group-level `lock.yaml`, optional `Variables.json`,
 and the required `product-names.yaml`. A group cannot combine both layouts.
-The difference keys are `exclude`, `milvus_values`, and `cloud_pages`;
-`transforms` is still rejected until its semantics land in a follow-up
-package.
+The difference keys are `exclude`, `milvus_values`, `cloud_pages`, and
+`transforms`. `transforms` carries per-page transform rules keyed by an
+upstream page path relative to `source.dir` — the same rule schema the
+pages layout uses in `page.yaml` (`operation`, `target.block`, optional
+`channel`, `content.file`/`content.lines`). A key must name an upstream
+page: unknown keys fail the expansion, keys naming excluded pages are
+consumed but inert (mirroring excluded-page metadata), and keys naming
+`cloud_pages` pages are rejected at parse (a cloud page is
+content-owned; edit its `content/` file instead). Transform content
+files live in the group `content/` directory (same path safety as
+`cloud_pages`). Rules run through the same fail-closed pipeline as the
+pages layout — an upstream deletion of a referenced marker fails the
+build (`TRANSFORM_TARGET_NOT_FOUND`) and the pin-drift watchdog asserts
+declared markers at the upstream head. Promotion sweeps transform keys
+naming vanishing pages alongside metadata and exclude.
 
 ```sh
 pnpm docs-tooling shared-docs lock --shared-docs shared-docs/node --repo /path/to/web-content
@@ -190,6 +202,17 @@ cloud — still links a vanishing page, and handwritten block-level
 `NextChannel` markers in cloud content are listed for the author, never
 removed automatically. Both commands stage their outputs (`lock.yaml`,
 `manual.yaml`, reports) for the caller's PR; neither edits the group.
+
+The scheduled lane that turns those outputs into PRs is
+`shared-docs-manual-update.yml`: it runs `update` daily for the configured manual-layout group
+(default `node`; further groups need a dispatch or schedule entry, `promote` is
+dispatch-only), opens one candidate PR per group and mode through
+a PAT (single-flight per open candidate branch), and lets the normal
+shared-docs PR workflows validate the candidate. The daily pin-drift watchdog
+(`shared-docs-pin-drift-watchdog.yml` + `scripts/docs-workflow/shared-docs-pin-drift.js`)
+audits both layouts: page groups page by page, manual groups as one manual
+(group lock pins, upstream `source.dir`, `cloud_pages` content references), and
+asserts declared transform target blocks still exist at the upstream head.
 
 ## Fetch production for shared-source manuals (design 10 R2)
 

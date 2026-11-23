@@ -8,7 +8,7 @@ import { deflateRawSync } from 'node:zlib'
 import { afterEach, expect, it } from 'vitest'
 import { canonicalBytes } from '../../core/updates/canonical'
 import { REMOTE_LIMITS, type RemotePolicy } from '../../core/updates/remote'
-import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, createCheckWriter, REMOTE_REF_CAS, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
+import { createRemoteReads, createRemoteTransport, createRemoteMutationFixtureClient, createCheckWriter, REMOTE_REF_CAS, parseBatchHandoffZip, parseRemoteZip, remoteReadContext, type RemoteTransport } from '../../adapters/updates/remote-github'
 import { initializeEvidence, rawSha256 } from '../../adapters/updates/evidence'
 const oid='a'.repeat(40),roots:string[]=[]
 afterEach(async()=>{for(const root of roots.splice(0))await rm(root,{recursive:true,force:true})})
@@ -131,6 +131,19 @@ it('authenticates a scheduled producer definition with its matching schedule eve
   if(result.kind==='found')expect(result.value.event).toBe('schedule')
 })
 it.each([true,false])('parses synthetic deflate ZIP with descriptor=%s using central and actual CRC/size',descriptor=>{const archive=zip({'provenance.json':Buffer.from('{}')},descriptor);expect(Buffer.from(parseRemoteZip(archive).get('provenance.json')!).toString()).toBe('{}')})
+it('decodes the bounded single batch handoff without widening the ordinary ZIP contract', () => {
+  const payload = Buffer.alloc(2 * 1024 ** 2, 'x')
+  const archive = zip({'handoff.json': payload})
+  expect(() => parseRemoteZip(archive)).toThrow('ZIP_UNSUPPORTED')
+  const extracted = parseBatchHandoffZip(archive).get('handoff.json')!
+  expect(Buffer.from(extracted).equals(payload)).toBe(true)
+  expect(() => parseBatchHandoffZip(zip({'other.json': Buffer.from('{}')}))).toThrow('ZIP_MEMBER')
+  expect(() => parseBatchHandoffZip(zip({'handoff.json': Buffer.from('{}'), 'extra.json': Buffer.from('{}')}))).toThrow('ZIP_DIRECTORY')
+  const oversized = Buffer.from(archive)
+  const centralDirectory = oversized.readUInt32LE(oversized.length - 6)
+  oversized.writeUInt32LE(payload.length + 1, centralDirectory + 24)
+  expect(() => parseBatchHandoffZip(oversized)).toThrow('ZIP_UNSUPPORTED')
+})
 it.each(['crc','descriptor-size','missing-descriptor','truncated','alias','traversal','zip64','encrypted','overlap','bomb'])('rejects ZIP %s before evidence acceptance',kind=>{
   let archive=zip(kind==='alias'?{'A':Buffer.from('a'),'a':Buffer.from('b')}:kind==='traversal'?{'../bad':Buffer.from('a')}:{'x':Buffer.from('bytes')})
   const central=archive.indexOf(Buffer.from([0x50,0x4b,0x01,0x02])),descriptor=archive.indexOf(Buffer.from([0x50,0x4b,0x07,0x08]))

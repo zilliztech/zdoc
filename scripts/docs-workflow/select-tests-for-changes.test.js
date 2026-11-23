@@ -327,7 +327,7 @@ test('workflow and replay infrastructure changes select structural and aggregate
 
 test('selector maps publication workflow design specifications to replay infrastructure checks', () => {
   const selected = selectTests(['.claude/specs/2026-09-07-guides-requested-fetch-workflow-design.md'])
-  assert.deepEqual(selected.areas.map(area => area.id), ['replay-infrastructure'])
+  assert.deepEqual(selected.areas.map(area => area.id), ['replay-infrastructure', 'claude-local-workspace'])
   assert.equal(selected.commands.includes('pnpm test:replay:contract'), true)
   assert.equal(selected.commands.includes('pnpm test:replay:all'), true)
   assert.equal(selected.commands.includes('pnpm test:workflow-policy'), true)
@@ -370,8 +370,8 @@ test('selector explicitly maps shared aliases and independent regeneration to ex
 })
 
 
-test('each manual target Check YAML selects the dedicated shared Guides contracts alone', () => {
-  for (const input of ['.github/workflows/shared-guides-validate.yml', '.github/workflows/shared-guides-finalize.yml']) {
+test('each manual Guides qualification or target Check YAML selects the dedicated shared Guides contracts', () => {
+  for (const input of ['.github/workflows/shared-guides-batch-qualify.yml', '.github/workflows/shared-guides-validate.yml', '.github/workflows/shared-guides-finalize.yml']) {
     const selected = selectTests([input])
     assert.equal(selected.areas.some(entry => entry.id === 'shared-guides-upstream-update'), true, input)
     assert.equal(selected.commands.includes('pnpm test:shared-guides-update'), true, input)

@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { constants } from 'node:fs'
-import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors } from '../../adapters/updates/evidence'
+import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors, batchAllocatedTree, withBatchLifetime } from '../../adapters/updates/evidence'
 const roots: string[] = []
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
 async function fixture() {
@@ -17,6 +17,48 @@ async function fixture() {
 }
 // Fixtures are retained until the process exits: never recursively remove an unverified path.
 afterEach(() => { roots.length = 0 })
+describe('batch allocation walk', () => {
+  it('charges fresh allocation without following links and excludes only the top-level blob store', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'batch-allocation-')))
+    const owned = join(root, 'owned'), outside = join(root, 'outside')
+    const blobStore = join(owned, 'blobs'), nested = join(owned, 'in', 'blobs')
+    await mkdir(nested, {recursive: true})
+    await mkdir(blobStore)
+    await mkdir(outside)
+    await writeFile(join(outside, 'untouched'), Buffer.alloc(8192, 1))
+    await writeFile(join(blobStore, 'blob'), Buffer.alloc(4096, 1))
+    await writeFile(join(nested, 'still-charged'), 'data')
+    const alias = join(owned, 'alias'), dangling = join(owned, 'dangling')
+    await symlink(outside, alias)
+    await symlink(join(root, 'absent'), dangling)
+    const charge = async (paths: string[]) => {
+      const stats = await Promise.all(paths.map(path => lstat(path, {bigint: true})))
+      return stats.reduce((sum, st) => sum + Number(st.blocks * 512n) + 4096, 0)
+    }
+    const transient = [owned, join(owned, 'in'), nested, join(nested, 'still-charged'), alias, dangling]
+    expect(await batchAllocatedTree(owned, true)).toBe(await charge(transient))
+    expect(await batchAllocatedTree(owned)).toBe(await charge([...transient, blobStore, join(blobStore, 'blob')]))
+    const added = join(owned, 'between-checks')
+    await writeFile(added, 'new allocation')
+    expect(await batchAllocatedTree(owned, true)).toBe(await charge([...transient, added]))
+  })
+
+  it('checks the deadline again after yielding at the end of a batch', async () => {
+    const root = await realpath(await mkdtemp(join(tmpdir(), 'batch-allocation-yield-')))
+    await Promise.all(Array.from({length: 255}, (_, i) => writeFile(join(root, String(i)), '')))
+    let clock = 0
+    const now = vi.spyOn(performance, 'now').mockImplementation(() => clock)
+    try {
+      await expect(withBatchLifetime(() => {
+        setImmediate(() => { clock += 4_500_000 })
+        return batchAllocatedTree(root)
+      })).rejects.toThrow('BATCH_OPERATION_DEADLINE')
+    } finally {
+      now.mockRestore()
+    }
+  })
+})
+
 describe('owned evidence bytes', () => {
   it('preserves exact filesystem identities above the JavaScript safe integer limit', async () => {
     const first={dev:1n,ino:2n**60n}, next={dev:1n,ino:2n**60n+1n}

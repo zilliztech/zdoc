@@ -132,6 +132,12 @@ runs the deterministic diff at HEAD — spec-file sources download the upstream
 spec, source-tree sources download the non-test Go files of the pinned
 directory and extract the skeleton with the vendored extractor (the workflow
 installs Go 1.27 via `actions/setup-go`; locally, `go` must be on PATH). The
+diff pairs an upstream route only with fragment operations whose
+`x-include-target` includes that source's publication target, so a route
+pinned to the other track (the `[milvus]` get_progress alias, for example)
+is never compared, mirrored, or flagged by a lane that does not publish it
+— before the gate, PR #1405 mirrored cloud-only request fields into it and
+flipped its hand-authored `deprecated` flag. The
 report artifact (`rest-upstream-drift-<run_id>`) carries
 `watchdog-report.{md,json}` plus the raw `diff.json`/`diff.md` (and the
 extracted `skeleton.json`) per drifting source. The substantive headline

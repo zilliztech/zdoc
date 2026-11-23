@@ -209,6 +209,7 @@ test('zero-drift replay republishes the pinned receipt without building', {timeo
   await git(options.repo, 'add', '.'); await git(options.repo, 'commit', '--quiet', '-m', 'Ahead of pin')
   await git(options.repo, 'update-ref', 'refs/remotes/origin/release/docs', await git(options.repo, 'rev-parse', 'HEAD'))
   const publication = require('../../packages/docs-tooling/src/lark/sharedPagePublication')
+  const publicationCli = require('./guides-shared-publication')
   const bundles = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   const renderIdentity = require('../../packages/docs-tooling/src/lark/sharedPageRenderIdentity')
   const fetchOld = async () => ({blocks: {items: [heading]}})
@@ -227,7 +228,13 @@ test('zero-drift replay republishes the pinned receipt without building', {timeo
       await write(workspace, output.path, handoff.files.get(output.file))
     }
     const {snapshot, publication: authority} = publication.finalizePublication({workspace, handoff, candidate: options.candidate})
-    await write(workspace, adapter.snapshotPath, JSON.stringify(snapshot))
+    publication.publishedEvidence(workspace, snapshot)
+    const bundleRoot = path.join(workspace, bundles.ROOT)
+    fs.cpSync(options.out, bundleRoot, {recursive: true})
+    try {
+      publicationCli.main(['--operation', 'promote', '--workspace', workspace, '--output', adapter.snapshotPath,
+        '--source-branch', 'dev', '--source-dir', options.sourceDir])
+    } finally { fs.rmSync(bundleRoot, {recursive: true, force: true}) }
     // The finalize report carries a fresh run timestamp and is not checkpoint-managed;
     // drop it so the dirty check mirrors the checkpoint composition scope.
     fs.rmSync(path.join(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-shared-publication.json'), {force: true})

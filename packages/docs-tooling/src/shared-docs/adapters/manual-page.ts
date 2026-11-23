@@ -33,6 +33,8 @@ export interface ManualGroupInputs {
   productNamesYaml: string
   /** cloud_pages logical path → the group content/ file backing it. */
   cloudFiles: ReadonlyMap<string, ContentFile>
+  /** Transform content-file name → the group content/ file backing it (path-safe reads). */
+  transformContentFiles: ReadonlyMap<string, ContentFile>
   context: PageConfigContext
 }
 
@@ -170,6 +172,7 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   // Link rewrite resolves manual-internal targets by globally unique basename.
   const byBasename = new Map<string, string>()
   const consumedMetadata = new Set<string>()
+  const consumedTransforms = new Set<string>()
   const prefix = `${manual.source.dir}/`
   const identity = (logical: string) => {
     const segments = logical.split('/')
@@ -229,6 +232,9 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   for (const file of upstreamFiles) {
     if (!file.startsWith(prefix) || !file.endsWith('.md')) continue
     const logical = file.slice(prefix.length)
+    // Transforms on an excluded page are inert rather than a typo, mirroring excluded-page
+    // metadata; the leftover check below still catches keys naming no upstream page at all.
+    if (manual.transforms?.[logical]?.length) consumedTransforms.add(logical)
     if (excludedLogicals.has(logical)) continue
     const derived = identity(logical)
     if (!/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(derived.pageId)) {
@@ -237,9 +243,10 @@ export function expandManualPages(files: readonly string[] | { current: readonly
     }
     if (!claim(logical, derived)) continue
     const metadata = mergedMetadata(manual, logical, consumedMetadata)
+    const transforms = manual.transforms?.[logical]
     const channel = currentSet.has(file) ? nextSet.has(file) ? undefined : 'retire-in-next' as const : 'next' as const
     const config = { schema_version: 1 as const, source: { file }, publish: [{ manual: manual.publish.manual, path: derived.publishPath }],
-      ...(metadata ? { metadata } : {}) }
+      ...(transforms?.length ? { transforms } : {}), ...(metadata ? { metadata } : {}) }
     // JSON is a YAML subset; the synthetic config keeps one serializer and one parser.
     pages.set(derived.pageId, { pageYaml: JSON.stringify(config), config, lockYaml: undefined, ...(channel ? { channel } : {}) })
   }
@@ -263,6 +270,13 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   for (const key of Object.keys(manual.metadata ?? {}).sort()) if (!consumedMetadata.has(key)) {
     errors.push({ file: 'manual.yaml', page: key, channel: 'both' as const, code: 'CONFIG_PATH_UNKNOWN',
       message: `Metadata key does not match any upstream page: ${key}` })
+  }
+  // A transform key naming no upstream page at all would silently never apply, so it
+  // fails the expansion like stale metadata. Keys naming excluded pages were consumed
+  // as inert above, and cloud_pages keys are rejected at parse time.
+  for (const key of Object.keys(manual.transforms ?? {}).sort()) if (!consumedTransforms.has(key)) {
+    errors.push({ file: 'manual.yaml', page: key, channel: 'both' as const, code: 'CONFIG_PATH_UNKNOWN',
+      message: `Transforms key does not match any published upstream page: ${key}` })
   }
   // Links to a page absent from this channel's tree lose the link there; config-excluded
   // pages keep their own unconditional strip set, so they never double up here.
@@ -370,7 +384,9 @@ export async function buildManualPage(input: ManualPageInput): Promise<BuildPage
     const commit = shared.lock[channels[0]]
     const lockYaml = page.channel ? `schema_version: 1\ncurrent: ${commit}\nnext: ${commit}\n` : shared.lockYaml
     const read = await inspectPage({ pageId, sourceYaml: shared.sourceYaml, pageYaml: page.pageYaml, lockYaml,
-      context: { ...shared.context, ...context }, sharedDocsPath: shared.sharedDocsPath, variablesJson: shared.variablesJson }, reader, md2md)
+      context: { ...shared.context, ...context }, sharedDocsPath: shared.sharedDocsPath, variablesJson: shared.variablesJson,
+      ...(page.config.transforms?.length ? { transformContext: { contentFiles: shared.transformContentFiles, tabsRules: MANUAL_TABS_RULES,
+        manuals: [{ name: target.manual, availableChannels: channels }] } } : {}) }, reader, md2md)
     if ('errors' in read) return read
     inspected = read
   }

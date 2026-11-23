@@ -564,6 +564,25 @@ metadata:
       - cloud
       - connect()
       - nodejs30
+  Client/getTelemetry.md:
+    beta: false
+    description: This operation returns the telemetry manager attached to this client for inspection and custom command handlers.
+    sidebar_position: 10
+    type: docx
+    token: LMSCdLflPoeX27xgsbocsSsHn2d
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - client telemetry
+      - command handler
+      - telemetry manager
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getTelemetry()
+      - nodejs30
   Client/getVersion.md:
     beta: false
     description: This operation returns version information for the Milvus server.
@@ -843,6 +862,142 @@ metadata:
       - zilliz cloud
       - cloud
       - createAlias()
+      - nodejs30
+  Collections/addFunctionField.md:
+    beta: PUBLIC
+    description: This operation adds a field to the collection schema along with a function.
+    sidebar_position: 29
+    type: docx
+    token: BjKLdh2SFouRSbxELaqc9b4tnts
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - add field
+      - bm25
+      - function
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addFunctionField()
+      - nodejs30
+  Collections/alterCollectionSchema.md:
+    beta: PUBLIC
+    description: This operation alters the schema of an existing collection.
+    sidebar_position: 30
+    type: docx
+    token: VD1AddhBlo14dnxad79cWBEinMe
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - alter schema
+      - function
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterCollectionSchema()
+      - nodejs30
+  Collections/dropCollectionField.md:
+    beta: PUBLIC
+    description: This operation drops a field from the collection schema.
+    sidebar_position: 31
+    type: docx
+    token: ANWZdmEMkocWK3xo2ZxcnqtLnUh
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - drop field
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropCollectionField()
+      - nodejs30
+  Collections/dropFunctionField.md:
+    beta: PUBLIC
+    description: This operation drops a function from the collection schema.
+    sidebar_position: 32
+    type: docx
+    token: MmABd2rdooxiLZxYzwEciyTanOg
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - drop function
+      - function
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - dropFunctionField()
+      - nodejs30
+  Collections/ConsistencyLevelEnum.md:
+    description: This operation describes the consistency levels supported by the target collection.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - consistency level
+      - bounded
+      - session
+      - eventually
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/FieldType.md:
+    description: This operation describes the field types supported in a collection schema.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - field type
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/FunctionObject.md:
+    beta: PUBLIC
+    description: This operation describes the function object used in a collection schema.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - function object
+      - bm25
+      - schema
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Collections/RefreshExternalCollectionJobInfo.md:
+    beta: PUBLIC
+    description: This operation describes the job information returned by external collection refresh operations.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - external collection
+      - refresh job
+      - zilliz
+      - zilliz cloud
+      - cloud
       - nodejs30
   Collections/createCollection.md:
     beta: false
@@ -2604,6 +2759,25 @@ metadata:
       - cloud
       - count()
       - nodejs30
+  Volume/VolumeManager.md:
+    beta: false
+    description: This class manages the volumes of a Zilliz Cloud project over the cloud control plane.
+    sidebar_position: 1
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - volume
+      - managed volume
+      - external volume
+      - storage integration
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - VolumeManager
+      - nodejs30
   Vector/delete.md:
     beta: false
     description: This operation deletes entities by their IDs or with a boolean expression.
@@ -2803,6 +2977,9 @@ metadata:
     sidebar_position: 5
   Vector/:
     sidebar_position: 6
+  Volume/:
+    title: Volume
+    sidebar_position: 10
 exclude:
   - FileResources/
   - ResourceGroup/
@@ -2820,24 +2997,12 @@ exclude:
   - Authentication/grantPrivilege.md
   - Authentication/restoreRBAC.md
   - Authentication/revokePrivilege.md
-  - Authentication/selectGrant.md
-  - Client/reconnectToPrimary.md
-  - Collections/ConsistencyLevelEnum.md
-  - Collections/FieldType.md
-  - Collections/FunctionObject.md
-  - Collections/RefreshExternalCollectionJobInfo.md
-  - Collections/addFunctionField.md
-  - Collections/alterCollectionSchema.md
-  - Collections/dropCollectionField.md
-  - Collections/dropFunctionField.md
   - DataImport/ImportState.md
-  - DataImport/getImportJobProgress.md
   - Management/CompactionState.md
   - Management/IndexDescription.md
   - Management/SegmentLevel.md
   - Management/SegmentState.md
   - Management/getCompactionStateWithPlans.md
-  - Management/getIndexStatistics.md
   - Management/getPersistentSegmentInfo.md
   - Management/getQuerySegmentInfo.md
   - Management/loadBalance.md
@@ -2857,6 +3022,10 @@ milvus_values:
   token: root:Milvus
   example_endpoint: http://localhost:19530
 cloud_pages:
+  Client/getTelemetry.md:
+    file: getTelemetry.md
+  Volume/VolumeManager.md:
+    file: VolumeManager.md
   DataImport/BulkWriterOptions.md:
     file: DataImport-BulkWriterOptions.md
   DataImport/FlushEvent.md:
@@ -2873,3 +3042,61 @@ cloud_pages:
     file: DataImport-HttpImportProgressReq.md
   DataImport/HttpImportProgressResponse.md:
     file: DataImport-HttpImportProgressResponse.md
+transforms:
+  Client/MilvusClient.md:
+    - operation: add
+      position: after
+      target:
+        block: node-milvus-client-ssl-config
+      content:
+        file: milvus-client-ssl.md
+    - operation: add
+      position: after
+      target:
+        block: node-milvus-client-ssl
+      content:
+        file: milvus-client-ssl.md
+    - operation: add
+      position: after
+      target:
+        block: node-milvus-client-example
+      content:
+        file: milvus-client-console.md
+  Collections/createCollection.md:
+    - operation: add
+      position: after
+      target:
+        block: node-create-collection-external-source-createcollectionreq
+      content:
+        file: create-collection-external-source.md
+    - operation: add
+      position: after
+      target:
+        block: node-create-collection-external-spec-createcollectionreq
+      content:
+        file: create-collection-external-spec.md
+    - operation: add
+      position: after
+      target:
+        block: node-create-collection-external-source-createcolwithschema
+      content:
+        file: create-collection-external-source.md
+    - operation: add
+      position: after
+      target:
+        block: node-create-collection-external-spec-createcolwithschema
+      content:
+        file: create-collection-external-spec.md
+  Collections/refreshExternalCollection.md:
+    - operation: add
+      position: after
+      target:
+        block: node-refresh-external-collection-external-source
+      content:
+        file: refresh-external-source.md
+    - operation: add
+      position: after
+      target:
+        block: node-refresh-external-collection-external-spec
+      content:
+        file: refresh-external-spec.md

@@ -93,12 +93,40 @@ export interface ManualConfig {
   milvus_values?: Record<string, string>
   /** Manual-local pages: logical path (relative to source.dir) → a file in the group's content/ directory. */
   cloud_pages?: Record<string, { file: string; channel?: ManualCloudChannel }>
+  /** Upstream-page transforms: logical page path (relative to source.dir) → transform rules.
+   * Keys must name published upstream pages; cloud_pages pages are content-owned and reject keys. */
+  transforms?: Record<string, Transform[]>
 }
 export interface PageConfigContext extends DiagnosticContext {
   manuals: readonly string[]
   betaValues: readonly string[]
 }
 export interface PageLock { schema_version: 1; current: string; next: string }
+/** Advisory draft an agent stage attaches to a ledger entry; a proposal never decides
+ * classification — a human edits the ledger to promote, exclude, or defer for real. */
+export interface ManualLedgerProposal {
+  action: 'adopt' | 'exclude' | 'defer'
+  reason: string
+  metadata_draft?: Record<string, unknown>
+}
+/** One pending upstream-surface decision, keyed by its logical page path relative to
+ * source.dir. Entries are append-only: an existing file key is never rewritten. */
+export interface ManualLedgerEntry {
+  file: string
+  /** The candidate commit whose tree first contained the file. */
+  first_seen_pin: string
+  /** Local date (YYYY-MM-DD) the entry was first staged. */
+  first_seen_at: string
+  classification: 'deferred' | 'adopted' | 'excluded'
+  reason: string
+  owner: string
+  decided_at: string
+  proposal?: ManualLedgerProposal
+}
+/** shared-docs/<group>/ledger.json: the human decision surface for upstream additions
+ * and removals. Canonical bytes are sorted JSON, two-space indented, trailing newline. */
+export interface ManualLedger { schema_version: 1; entries: ManualLedgerEntry[] }
+export type ManualLedgerResult = { ledger: ManualLedger } | { errors: SharedDocsError[] }
 /** Provenance sidecar for an adopted variant, recorded verbatim next to the content file. */
 export interface VariantProvenance { pull: number; head_sha: string; adopted_at: string; adopted_via?: string }
 /** Raw upstream markdown bytes adopted as Zilliz-owned variant content for one channel. */

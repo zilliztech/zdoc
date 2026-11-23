@@ -3,10 +3,12 @@ import {isAbsolute} from 'node:path'
 import * as z from 'zod'
 import {canonicalBytes, compareUtf8, isValidUnicode, parseStrictJson} from '../../core/updates/canonical'
 import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/envelope'
+import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-git-object'
+import {isMilvusIgnoredPathComponent} from '../../core/links/milvus-page-path'
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
 export const BATCH_WIRE_LIMIT = 128 * 1024 * 1024
-export const batchTags = Object.freeze(['discovery', 'material', 'materials', 'closure', 'scope', 'qualifier', 'index', 'control'] as const)
+export const batchTags = Object.freeze(['discovery', 'material', 'materials', 'closure', 'scope', 'qualifier', 'index', 'control', 'candidate-binding'] as const)
 export function batchDigest(tag: typeof batchTags[number], value: unknown): string {
   if (!batchTags.includes(tag)) throw Error('BATCH_DIGEST_TAG_INVALID')
   return createHash('sha256').update(`zdoc/guides-batch/${tag}/v1\n`).update(canonicalBytes(value)).digest('hex')
@@ -26,8 +28,12 @@ export const BatchPinsSchema = z.strictObject({master: GitShaSchema, dev: GitSha
   trustedTools: GitShaSchema, toolsetSha256: DigestSchema})
 export type BatchPins = z.infer<typeof BatchPinsSchema>
 export const BatchOriginSchema = z.union([z.strictObject({kind: z.literal('observed')}),
+  z.strictObject({kind: z.literal('observed'), purpose: z.literal('isolated-candidate')}),
   z.strictObject({kind: z.literal('replay'), fixtureSha256: DigestSchema, replayClockMs: BatchCountSchema})])
 export type BatchOrigin = z.infer<typeof BatchOriginSchema>
+export function isIsolatedBatchCandidateOrigin(origin: BatchOrigin) {
+  return origin.kind === 'observed' && 'purpose' in origin && origin.purpose === 'isolated-candidate'
+}
 export const BatchBaseSchema = z.strictObject({origin: BatchOriginSchema, session: DigestSchema, pins: BatchPinsSchema})
 export type BatchBase = z.infer<typeof BatchBaseSchema>
 const localPath = text.min(1).max(4096).refine(v => isAbsolute(v) && !/[\x00-\x1f\x7f]/.test(v))
@@ -45,7 +51,11 @@ export const BatchPageMaterialHeaderSchema = z.strictObject({kind: z.literal('gu
   pageId: BatchPageIdSchema, configRef: BatchBlobRefSchema, lockRef: BatchBlobRefSchema, targets: BatchTargetsSchema,
   current: GitShaSchema, oldNext: GitShaSchema, rawMaterialRefs: roleRefs, inventoryRefs: roleRefs, historyRef: BatchBlobRefSchema,
   renderedManualRefs: z.array(manualRef).refine(v => ordered(v, r => `${batchRoles.indexOf(r.role)}:${r.manual}:${r.path}`)),
-  imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema})
+  imagesRef: BatchBlobRefSchema, projectionRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema, detailRef: BatchBlobRefSchema.optional()})
+  .refine(header => header.base.origin.kind === 'replay' || isIsolatedBatchCandidateOrigin(header.base.origin) || header.detailRef === undefined,
+    'Read-only observed material cannot contain candidate detail')
+  .refine(header => !isIsolatedBatchCandidateOrigin(header.base.origin) || header.detailRef !== undefined,
+    'Isolated candidate material requires detail')
 export type BatchPageMaterialHeader = z.infer<typeof BatchPageMaterialHeaderSchema>
 export const BatchMaterialWireSchema = z.strictObject({kind: z.literal('guides-batch-material-wire-v1'),
   material: BatchPageMaterialHeaderSchema, blobs: z.array(z.strictObject({ref: BatchBlobRefSchema, base64: text}))
@@ -72,6 +82,7 @@ export type BatchScope = z.infer<typeof BatchScopeSchema>
 export const BatchMethodSchema = z.strictObject({kind: z.literal('fetch-producer-profile-v2'), trustedTools: GitShaSchema,
   producer: GitShaSchema, profileSha256: DigestSchema})
 export const BatchArtifactSchema = z.strictObject({id: BatchCountSchema.positive(), bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+export const BatchSelectionArtifactSchema = BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024)
 export const BatchOutputTupleSchema = z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema,
   oid: GitShaSchema, bytes: BatchCountSchema.max(BATCH_BLOB_LIMIT), sha256: DigestSchema})
 export const BatchQualificationRowSchema = z.strictObject({pageId: BatchPageIdSchema, materialDigest: DigestSchema,
@@ -86,7 +97,7 @@ export const BatchQualificationRowSchema = z.strictObject({pageId: BatchPageIdSc
 export type BatchQualificationRow = z.infer<typeof BatchQualificationRowSchema>
 export const BatchQualificationSchema = z.strictObject({kind: z.literal('guides-batch-qualification-v1'), base: BatchBaseSchema,
   run: BatchRunSchema, scopeDigest: DigestSchema, method: BatchMethodSchema, sourceArtifact: BatchArtifactSchema,
-  publicationArtifact: BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024), scanStartMs: BatchCountSchema,
+  publicationArtifact: BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024), selectionArtifact: BatchSelectionArtifactSchema.optional(), scanStartMs: BatchCountSchema,
   rows: z.array(BatchQualificationRowSchema).min(1).refine(v => ordered(v, r => r.pageId))})
 export type BatchQualification = z.infer<typeof BatchQualificationSchema>
 export const BatchReceiptsRootSchema = z.strictObject({base: BatchBaseSchema, scopeDigest: DigestSchema, qualifierRawSha256: DigestSchema,
@@ -108,6 +119,11 @@ export const BatchCollectionIndexSchema = z.strictObject({kind: z.literal('guide
     reportRef: BatchBlobRefSchema, pinsRef: BatchBlobRefSchema})).min(1).refine(v => ordered(v, p => p.pageId)),
   obligationsRef: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), writeEligible: z.literal(false), operations: z.tuple([])})
 export type BatchCollectionIndex = z.infer<typeof BatchCollectionIndexSchema>
+export const BatchCollectionPointerSchema = z.strictObject({kind: z.literal('guides-batch-collection-pointer-v1'),
+  origin: BatchOriginSchema, controlDigest: DigestSchema, indexRef: BatchBlobRefSchema, indexDigest: DigestSchema,
+  archive: z.strictObject({path: z.literal('collection.zip'), sha256: DigestSchema, bytes: BatchCountSchema.positive().max(16 * 1024 * 1024),
+    expandedBytes: BatchCountSchema.positive().max(16 * 1024 * 1024), members: z.array(RepoPathSchema).min(2).max(64)}),
+  writeEligible: z.literal(false), operations: z.tuple([])})
 const directoryIdentity = z.strictObject({dev: text.regex(/^(0|[1-9][0-9]*)$/), ino: text.regex(/^(0|[1-9][0-9]*)$/)})
 export const BatchVerifyControlSchema = z.strictObject({kind: z.literal('guides-batch-verify-control-v1'), base: BatchBaseSchema,
   run: BatchRunSchema, discoveryRef: BatchBlobRefSchema, discoveryDigest: DigestSchema, closureRef: BatchBlobRefSchema,
@@ -116,16 +132,17 @@ export const BatchVerifyControlSchema = z.strictObject({kind: z.literal('guides-
   qualifierRef: BatchBlobRefSchema, qualifierDigest: DigestSchema, profileDigest: DigestSchema, receiptsRoot: BatchReceiptsRootSchema,
   indexRef: BatchBlobRefSchema, indexDigest: DigestSchema, rootIdentity: directoryIdentity, blobsIdentity: directoryIdentity})
 export type BatchVerifyControl = z.infer<typeof BatchVerifyControlSchema>
+const stagedArchive = z.strictObject({id: BatchCountSchema.positive(), path: localPath})
 export const BatchQualifierRequestSchema = z.strictObject({kind: z.literal('guides-batch-qualify-v1'), scope: BatchScopeSchema,
   sourceRepository: localPath, devRepository: localPath, temporaryRoot: localPath,
-  archives: z.strictObject({source: z.strictObject({id: BatchCountSchema.positive(), path: localPath}),
-    publication: z.strictObject({id: BatchCountSchema.positive(), path: localPath})})})
+  archives: z.strictObject({source: stagedArchive, publication: stagedArchive, selection: stagedArchive.optional()})})
 export type BatchQualifierRequest = z.infer<typeof BatchQualifierRequestSchema>
 const replayBody = z.strictObject({path: text.min(1), bytes: BatchCountSchema.positive().max(16 * 1024 * 1024), sha256: DigestSchema, base64: text})
 const replayFile = z.strictObject({path: RepoPathSchema, bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+const replayArchive = replayFile.extend({id: BatchCountSchema.positive()})
 export const BatchReplayFixtureSchema = z.strictObject({kind: z.literal('guides-batch-replay-fixture-v1'), root: localPath,
   discovery: z.array(replayBody).max(63).optional(), finalPass: z.array(replayBody).max(63).optional(), acquisition: z.array(replayBody).max(63), qualification: z.array(replayBody).max(63), pins: z.array(replayBody).max(5),
-  archives: z.strictObject({source: replayFile.extend({id: BatchCountSchema.positive()}), publication: replayFile.extend({id: BatchCountSchema.positive()})}),
+  archives: z.strictObject({source: replayArchive, publication: replayArchive, selection: replayArchive.optional()}),
   images: z.array(replayFile.extend({url: text.min(1)})).refine(v => ordered(v, i => i.url))})
 export type BatchReplayFixture = z.infer<typeof BatchReplayFixtureSchema>
 
@@ -138,12 +155,34 @@ const diagnostic = z.strictObject({code: text, message: text, file: text.optiona
 export const BatchDiagnosticsSchema = z.strictObject({errors: z.array(diagnostic), rawErrors: z.array(diagnostic), reasons: strings(text)})
 export const BatchManualSchema = z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema,
   markdown: text, output: text.nullable(), headings: z.array(BatchHeadingSchema), references: z.array(BatchReferenceSchema)})
+// Older read-only collections may lack detail. Candidate preparation requires this measured leaf.
+export const BatchMaterialDetailSchema = z.strictObject({kind: z.literal('guides-batch-material-detail-v1'),
+  pageId: BatchPageIdSchema, configPaths: strings(RepoPathSchema), targets: z.array(BatchTargetSchema).min(1),
+  observations: z.array(z.strictObject({role, commit: GitShaSchema,
+    buildLock: z.strictObject({current: GitShaSchema, next: GitShaSchema}).nullable(),
+    engine: z.strictObject({name: text.min(1), version: text.min(1)}).nullable(),
+    localInputs: z.array(z.strictObject({file: RepoPathSchema, sha256: DigestSchema})).min(1).refine(v => ordered(v, x => x.file)),
+    blocks: z.array(z.strictObject({id: text, type: z.enum(['markdown', 'code-group']), startLine: BatchCountSchema.positive(),
+      endLine: BatchCountSchema.positive(), languages: z.array(text.nullable()), summary: text}).refine(b => b.endLine >= b.startLine)),
+    diagnosticsRef: BatchBlobRefSchema
+  })).length(3).refine(v => v.every((o, i) => o.role === batchRoles[i]))})
+export type BatchMaterialDetail = z.infer<typeof BatchMaterialDetailSchema>
+
 const fileRef = z.strictObject({path: RepoPathSchema, oid: GitShaSchema, ref: BatchBlobRefSchema})
 export const BatchRawTreeSchema = z.strictObject({commit: GitShaSchema, entries: z.array(fileRef).refine(v => ordered(v, e => e.path))})
 export const BatchInventorySchema = z.strictObject({commit: GitShaSchema, treeOid: GitShaSchema,
   entries: z.array(z.strictObject({path: RepoPathSchema, oid: GitShaSchema, mode: z.enum(['100644', '100755'])})).refine(v => ordered(v, e => e.path)),
   absentPaths: strings(RepoPathSchema), discoveryRef: BatchBlobRefSchema})
-export const BatchCommitHistorySchema = z.array(z.strictObject({oid: GitShaSchema, parents: z.array(GitShaSchema).refine(v => new Set(v).size === v.length)})).refine(v => ordered(v, c => c.oid))
+export const BatchGitInventorySchema = z.strictObject({kind: z.literal('guides-batch-git-inventory-v1'),
+  commit: GitShaSchema, treeOid: GitShaSchema, commitRef: BatchBlobRefSchema, absentPaths: strings(RepoPathSchema)})
+const oidRef = z.strictObject({oid: GitShaSchema, ref: BatchBlobRefSchema})
+export const BatchInventoryProofSchema = z.strictObject({
+  trees: z.array(oidRef).refine(v => ordered(v, item => item.oid)),
+  discovery: z.array(z.strictObject({oid: GitShaSchema, metadata: z.strictObject({id: text, title: text}).nullable()}))
+    .refine(v => ordered(v, item => item.oid)),
+})
+export const BatchCommitHistorySchema = z.array(z.strictObject({oid: GitShaSchema, parents: z.array(GitShaSchema).refine(v => new Set(v).size === v.length)}))
+  .max(BATCH_TREE_VISITS).refine(v => ordered(v, c => c.oid))
 const registryPage = z.strictObject({pageId: BatchPageIdSchema, sourceFile: RepoPathSchema, targets: BatchTargetsSchema, current: GitShaSchema, oldNext: GitShaSchema})
 export const BatchConfigSchema = z.strictObject({pageId: BatchPageIdSchema, sourceFile: RepoPathSchema,
   repository: z.literal('https://github.com/milvus-io/milvus-docs'), track: z.literal('v3.0.x'),
@@ -177,7 +216,8 @@ export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSche
   dependencies,
   outputStatus: z.enum(['observed', 'unobserved', 'error']), imageStatus: z.enum(['observed', 'unavailable'])})
 export const BatchHistorySchema = z.strictObject({commits: BatchCommitHistorySchema,
-  interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit))})
+  interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit)), inventoryProofRef: BatchBlobRefSchema.optional(),
+  commitProofRef: BatchBlobRefSchema.optional()})
 
 export function parseBatchCanonical<T>(bytes: Uint8Array, schema: z.ZodType<T>): T {
   if (bytes.length > BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
@@ -195,6 +235,138 @@ export function decodeBatchBlob(ref: BatchBlobRef, base64: string): Buffer {
   if (bytes.length !== ref.bytes || bytes.toString('base64') !== base64 || batchSha256(bytes) !== ref.sha256) throw Error('BATCH_BLOB_BINDING_INVALID')
   return bytes
 }
+/** The proof frames match the ordered declaration one-for-one. Check every
+ * commit against its object ID and every declared parent against its raw body. */
+export function verifyCommitProof(proof: Buffer, history: z.infer<typeof BatchCommitHistorySchema>) {
+  let offset = 0
+  for (const {oid, parents} of history) {
+    if (offset + 4 > proof.length) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    const size = proof.readUInt32BE(offset)
+    offset += 4
+    if (size > proof.length - offset) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    const raw = proof.subarray(offset, offset + size)
+    if (createHash('sha1').update(`commit ${size}\0`).update(raw).digest('hex') !== oid ||
+        JSON.stringify(parseBatchGitCommit(raw).parents) !== JSON.stringify(parents)) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    offset += size
+  }
+  if (offset !== proof.length) throw Error('BATCH_HISTORY_PROOF_INVALID')
+}
+interface SourceInventory {
+  commit: string;
+  treeOid: string;
+  absentPaths: string[];
+  oidOf(path: string): string | undefined;
+  entriesDigest?: string;
+}
+
+export function batchGitInventoryReader(
+  proof: z.infer<typeof BatchInventoryProofSchema>,
+  history: z.infer<typeof BatchCommitHistorySchema>,
+  bytes: (ref: BatchBlobRef) => Buffer,
+) {
+  const parents = new Map(history.map(record => [record.oid, record.parents]))
+  const refs = new Map(proof.trees.map(row => [row.oid, row.ref]))
+  const trees = new Map<string, ReturnType<typeof parseBatchGitTree>>()
+  const metadata = new Map(proof.discovery.map(row => [row.oid, row.metadata])), reachedMetadata = new Set<string>()
+  type DiscoveryRow = {path: string; metadata: {id: string; title: string} | null}
+  const discoveryByTree = new Map<string, DiscoveryRow[]>()
+  const counts = new Map<string, number>()
+  const checkedCommits = new Map<string, ReturnType<typeof parseBatchGitCommit>>()
+  function gitBytes(kind: 'commit' | 'tree', oid: string, ref: BatchBlobRef) {
+    const raw = bytes(ref)
+    if (createHash('sha1').update(`${kind} ${raw.length}\0`).update(raw).digest('hex') !== oid) throw Error('BATCH_SOURCE_GIT_IDENTITY_INVALID')
+    return raw
+  }
+  function tree(oid: string) {
+    let parsed = trees.get(oid)
+    if (!parsed) {
+      const ref = refs.get(oid)
+      if (!ref) throw Error('BATCH_INVENTORY_TREE_MISSING')
+      parsed = parseBatchGitTree(gitBytes('tree', oid, ref))
+      trees.set(oid, parsed)
+    }
+    return parsed
+  }
+  // Git trees share structure across revisions. Validate each subtree once per discovery
+  // context, counting its full expanded extent again on every edge that reaches it.
+  function verifySubtree(oid: string, discoverable: boolean, visiting: Set<string>): number {
+    const key = (discoverable ? '+' : '-') + oid, count = counts.get(key)
+    if (count !== undefined) return count
+    if (visiting.has(oid)) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+    visiting.add(oid)
+    let visits = 0
+    for (const [name, item] of tree(oid)) {
+      visits++
+      const eligible = discoverable && !isMilvusIgnoredPathComponent(name)
+      if (item.mode === '40000') {
+        visits += verifySubtree(item.oid, eligible, visiting)
+      } else {
+        if (item.mode !== '100644' && item.mode !== '100755') throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+        if (eligible && name.endsWith('.md')) {
+          if (!metadata.has(item.oid)) throw Error('BATCH_INVENTORY_DISCOVERY_MISSING')
+          reachedMetadata.add(item.oid)
+        }
+      }
+      if (visits > BATCH_TREE_VISITS) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+    }
+    visiting.delete(oid)
+    counts.set(key, visits)
+    return visits
+  }
+  function collectDiscovery(oid: string, parent: string, rows: DiscoveryRow[]) {
+    for (const [name, item] of tree(oid)) {
+      if (isMilvusIgnoredPathComponent(name)) continue
+      const path = parent + '/' + name
+      if (item.mode === '40000') collectDiscovery(item.oid, path, rows)
+      else if (name.endsWith('.md')) rows.push({path, metadata: metadata.get(item.oid)!})
+    }
+  }
+  return {
+    inventory(value: z.infer<typeof BatchGitInventorySchema>): SourceInventory & {discoveryRows(): readonly DiscoveryRow[]} {
+      const {commit, treeOid, commitRef, absentPaths} = value
+      const key = commit + ':' + commitRef.sha256
+      let parsed = checkedCommits.get(key)
+      if (!parsed) {
+        parsed = parseBatchGitCommit(gitBytes('commit', commit, commitRef))
+        if (JSON.stringify(parsed.parents) !== JSON.stringify(parents.get(commit))) throw Error('BATCH_SOURCE_GIT_IDENTITY_INVALID')
+        checkedCommits.set(key, parsed)
+      } else {
+        // Check the exact ref even when the same commit supplies more than one role.
+        bytes(commitRef)
+      }
+      if (parsed.tree !== treeOid) throw Error('BATCH_SOURCE_GIT_IDENTITY_INVALID')
+      const site = tree(treeOid).get('site')
+      if (site && site.mode !== '40000') throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const en = site && tree(site.oid).get('en')
+      if (en) {
+        if (en.mode !== '40000') throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+        verifySubtree(en.oid, true, new Set())
+      }
+      return {commit, treeOid, absentPaths, oidOf(path) {
+        if (!en || !path.startsWith('site/en/')) return undefined
+        let entry = en
+        for (const component of path.slice('site/en/'.length).split('/')) {
+          if (entry?.mode !== '40000') return undefined
+          entry = tree(entry.oid).get(component)
+        }
+        return entry?.mode === '100644' || entry?.mode === '100755' ? entry.oid : undefined
+      }, discoveryRows() {
+        if (!en) return []
+        const cached = discoveryByTree.get(en.oid)
+        if (cached) return cached
+        const rows: DiscoveryRow[] = []
+        collectDiscovery(en.oid, 'site/en', rows)
+        rows.sort((a, b) => compareUtf8(a.path, b.path))
+        discoveryByTree.set(en.oid, rows)
+        return rows
+      }}
+    },
+    finish() {
+      if (trees.size !== refs.size || reachedMetadata.size !== metadata.size) throw Error('BATCH_INVENTORY_PROOF_ORPHAN')
+    },
+  }
+}
+
 export function validateBatchWire(value: unknown, expected: BatchRenderRequest) {
   const wire = BatchMaterialWireSchema.parse(value), header = wire.material
   const base = {origin: expected.origin, session: expected.session, pins: expected.pins}
@@ -204,7 +376,7 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   if (header.renderedManualRefs.length !== 3 * header.targets.length || header.targets.some(target => batchRoles.some(role =>
       header.renderedManualRefs.filter(m => m.role === role && m.manual === target.manual && m.path === target.path).length !== 1))) throw Error('BATCH_MANUAL_COVERAGE_INVALID')
   // Validate the complete typed graph. Raw bytes are never accepted by walking arbitrary object keys.
-  const blobs = new Map(wire.blobs.map(b => [b.ref.sha256, b])), reached = new Set<string>(), parsed = new Map<string, unknown>()
+  const blobs = new Map(wire.blobs.map(b => [b.ref.sha256, b])), reached = new Set<string>()
   function bytes(ref: BatchBlobRef) {
     const entry = blobs.get(ref.sha256)
     if (!entry || entry.ref.bytes !== ref.bytes || entry.ref.path !== ref.path) throw Error('BATCH_MATERIAL_GRAPH_INCOMPLETE')
@@ -212,33 +384,52 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   }
   function object<T>(ref: BatchBlobRef, schema: z.ZodType<T>): T {
     // Each typed edge is validated, even where identical bytes are shared by distinct roles.
-    const result = parseBatchCanonical(bytes(ref), schema); parsed.set(ref.sha256, result); return result
+    return parseBatchCanonical(bytes(ref), schema)
   }
   const config = object(header.configRef, BatchConfigSchema), namespace = object(config.namespaceRef, BatchNamespaceSchema)
   if (config.pageId !== header.pageId || namespace.commit !== base.pins.dev) throw Error('BATCH_MATERIAL_IDENTITY_INVALID')
   for (const file of [...config.files, ...namespace.outputs]) bytes(file.ref)
   bytes(namespace.activeRef); bytes(namespace.snapshotRef); bytes(header.lockRef)
+  const history = object(header.historyRef, BatchHistorySchema)
+  if (history.commitProofRef) {
+    if (!history.inventoryProofRef) throw Error('BATCH_HISTORY_PROOF_INVALID')
+    verifyCommitProof(bytes(history.commitProofRef), history.commits)
+  } else if (expected.origin.kind === 'observed') throw Error('BATCH_HISTORY_PROOF_REQUIRED')
+  const gitInventory = history.inventoryProofRef && batchGitInventoryReader(object(history.inventoryProofRef, BatchInventoryProofSchema), history.commits, bytes)
+  const inventoriesByRef = new Map<string, SourceInventory>()
+  function inventoryAt(ref: BatchBlobRef): SourceInventory {
+    let inventory: SourceInventory
+    if (gitInventory) inventory = gitInventory.inventory(object(ref, BatchGitInventorySchema))
+    else {
+      const value = object(ref, BatchInventorySchema)
+      bytes(value.discoveryRef)
+      const entries = new Map(value.entries.map(e => [e.path, e.oid]))
+      inventory = {commit: value.commit, treeOid: value.treeOid, absentPaths: value.absentPaths,
+        oidOf: path => entries.get(path), entriesDigest: batchSha256(canonicalBytes(value.entries))}
+    }
+    if (inventory.absentPaths.some(path => inventory.oidOf(path))) throw Error('BATCH_SOURCE_ABSENCE_INVALID')
+    inventoriesByRef.set(ref.sha256, inventory)
+    return inventory
+  }
   const trees = header.rawMaterialRefs.map(r => object(r.ref, BatchRawTreeSchema))
-  const inventories = header.inventoryRefs.map(r => object(r.ref, BatchInventorySchema))
+  const inventories = header.inventoryRefs.map(r => inventoryAt(r.ref))
+  const consumed = new Set([config.sourceFile].filter(path => path.startsWith('site/en/')))
   for (const [i, tree] of trees.entries()) {
     const inventory = inventories[i]
     if (tree.commit !== header.rawMaterialRefs[i].commit || inventory.commit !== tree.commit) throw Error('BATCH_MATERIAL_IDENTITY_INVALID')
-    bytes(inventory.discoveryRef)
     for (const entry of tree.entries) {
-      const original = inventory.entries.find(e => e.path === entry.path)
+      consumed.add(entry.path)
       const raw = bytes(entry.ref)
-      if (!original || original.oid !== entry.oid || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      if (inventory.oidOf(entry.path) !== entry.oid || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
     }
-    if (inventory.absentPaths.some(path => inventory.entries.some(e => e.path === path))) throw Error('BATCH_SOURCE_ABSENCE_INVALID')
   }
-  const history = object(header.historyRef, BatchHistorySchema)
   for (const observation of history.interval) {
-    const raw = object(observation.rawRef, BatchRawTreeSchema), inventory = object(observation.inventoryRef, BatchInventorySchema)
+    const raw = object(observation.rawRef, BatchRawTreeSchema), inventory = inventoryAt(observation.inventoryRef)
     if (observation.commit !== raw.commit || observation.commit !== inventory.commit) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
-    bytes(inventory.discoveryRef)
     for (const entry of raw.entries) {
+      consumed.add(entry.path)
       const content = bytes(entry.ref)
-      if (!inventory.entries.some(e => e.path === entry.path && e.oid === entry.oid) || createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex') !== entry.oid) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
+      if (inventory.oidOf(entry.path) !== entry.oid || createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex') !== entry.oid) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
     }
     for (const manual of observation.manuals) {
       const body = object(manual.ref, BatchManualSchema)
@@ -256,7 +447,7 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   for (const group of images) for (const image of group.images) if (image.ref) {
     bytes(image.ref)
     if (!image.observed || image.observed.sha256 !== image.ref.sha256 || image.observed.bytes !== image.ref.bytes || image.emitted.sha256 !== image.ref.sha256) throw Error('BATCH_IMAGE_BINDING_INVALID')
-    if (image.origin.kind === 'repository') {const inventory = inventories[batchRoles.indexOf(group.role)]; const path = image.origin.path; const entry = inventory.entries.find(e => e.path === path); const raw = bytes(image.ref); if (image.origin.commit !== inventory.commit || !entry || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) throw Error('BATCH_IMAGE_GIT_IDENTITY_INVALID')}
+    if (image.origin.kind === 'repository') {const inventory = inventories[batchRoles.indexOf(group.role)]; const path = image.origin.path; const oid = inventory.oidOf(path); const raw = bytes(image.ref); if (image.origin.commit !== inventory.commit || !oid || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== oid) throw Error('BATCH_IMAGE_GIT_IDENTITY_INVALID')}
   }
   const projection = object(header.projectionRef, BatchProjectionSchema)
   if (projection.pageId !== header.pageId) throw Error('BATCH_PROJECTION_IDENTITY_INVALID')
@@ -266,14 +457,68 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
     for (const manual of observation.manuals) if (!header.renderedManualRefs.some(m => m.role === observation.role && m.manual === manual.manual && m.path === manual.path && m.ref.sha256 === manual.ref.sha256)) throw Error('BATCH_PROJECTION_BINDING_INVALID')
   }
   object(header.diagnosticsRef, BatchDiagnosticsSchema)
+  if (gitInventory) {
+    gitInventory.finish()
+    const endpoints = new Set([header.current, header.oldNext, base.pins.source])
+    const required = batchRenderCommitSet(history.commits, header.current, header.oldNext, base.pins.source, !history.commitProofRef)
+      .filter(oid => !endpoints.has(oid))
+    if (required.length !== history.interval.length || required.some((oid, i) => oid !== history.interval[i].commit)) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
+    const paths = batchSorted([...consumed], path => path)
+    for (const inventory of inventoriesByRef.values()) {
+      const absent = paths.filter(path => !inventory.oidOf(path))
+      if (absent.length !== inventory.absentPaths.length || absent.some((path, i) => path !== inventory.absentPaths[i])) throw Error('BATCH_SOURCE_ABSENCE_INVALID')
+    }
+  }
+  const detail = header.detailRef && object(header.detailRef, BatchMaterialDetailSchema)
+  if (detail) {
+    validateBatchMaterialDetail(detail, header, config, projection)
+    for (const observation of detail.observations) object(observation.diagnosticsRef, BatchDiagnosticsSchema)
+  }
   if (reached.size !== blobs.size) throw Error('BATCH_MATERIAL_ORPHAN_BLOB')
-  return {header, projection, trees, inventories, config, namespace, images, parsed}
+  return {header, projection, trees, inventories, inventoriesByRef, history, config, namespace, images, detail}
 }
+
+export function validateBatchMaterialDetail(detail: BatchMaterialDetail, header: BatchPageMaterialHeader,
+  config: z.infer<typeof BatchConfigSchema>, projection: BatchProjection) {
+  const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(Buffer.from(canonicalBytes(b)))
+  const files = new Map(config.files.map(f => [f.path, f.ref.sha256]))
+  if (detail.pageId !== header.pageId || !same(batchSorted(detail.targets, t => t.manual), header.targets)
+      || !detail.configPaths.length || detail.configPaths.some(path => !files.has(path))) throw Error('BATCH_MATERIAL_DETAIL_INVALID')
+  const locks = [header.base.pins.source, header.oldNext, header.base.pins.source]
+  for (const [i, endpoint] of detail.observations.entries()) {
+    if (endpoint.commit !== projection.observations[i].commit ||
+      (projection.observations[i].outputStatus === 'observed' && (!endpoint.engine || !same(endpoint.buildLock, {current: header.current, next: locks[i]}))) ||
+      endpoint.localInputs.some(input => files.get(input.file) !== input.sha256) ||
+      detail.configPaths.some(path => !endpoint.localInputs.some(input => input.file === path))) throw Error('BATCH_MATERIAL_DETAIL_INVALID')
+  }
+}
+
+export const BatchRestoreProofSchema = z.strictObject({kind: z.literal('guides-merged-restore-v1'),
+  path: RepoPathSchema, mode: z.enum(['100644', '100755']), original: GitShaSchema, changed: GitShaSchema,
+  first: GitShaSchema, prefix: GitShaSchema, head: GitShaSchema, base: GitShaSchema, merge: GitShaSchema,
+  number: BatchCountSchema.min(1), rangeIds: strings(BatchPageIdSchema),
+  detailRef: BatchBlobRefSchema, filesRef: BatchBlobRefSchema, firstAssociationRef: BatchBlobRefSchema, headAssociationRef: BatchBlobRefSchema,
+})
+export type BatchRestoreProof = z.infer<typeof BatchRestoreProofSchema>
+
+export const BatchCopyProofSchema = z.strictObject({kind: z.enum(['guides-pr-internal-copy-v1', 'guides-pr-lock-side-copy-v1']),
+  path: RepoPathSchema, mode: z.enum(['100644', '100755']), before: GitShaSchema, after: GitShaSchema,
+  commit: GitShaSchema, parent: GitShaSchema, copiedParent: GitShaSchema,
+  origin: GitShaSchema, originParent: GitShaSchema, originBefore: GitShaSchema,
+  base: GitShaSchema, head: GitShaSchema, merge: GitShaSchema, number: BatchCountSchema.min(1),
+  coverage: z.array(z.strictObject({pageId: BatchPageIdSchema, oldNext: GitShaSchema, kind: z.enum(['ordinary-edge', 'at-lock'])}))
+    .min(1).refine(v => ordered(v, entry => entry.pageId)),
+  detailRef: BatchBlobRefSchema, filesRef: BatchBlobRefSchema, associationRef: BatchBlobRefSchema,
+})
+export type BatchCopyProof = z.infer<typeof BatchCopyProofSchema>
 
 export const BatchEdgeSchema = z.strictObject({commit: GitShaSchema, parent: GitShaSchema.nullable(), oldPath: RepoPathSchema.nullable(), newPath: RepoPathSchema.nullable(),
   oldOid: GitShaSchema.nullable(), newOid: GitShaSchema.nullable(), oldMode: z.enum(['100644', '100755']).nullable(), newMode: z.enum(['100644', '100755']).nullable(),
-  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant']), introductionOid: GitShaSchema.nullable(),
-  seedKey: text.nullable(), evidenceRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), evidence: strings(text), reasons: strings(text)})
+  rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant', 'restored', 'copied']), introductionOid: GitShaSchema.nullable(),
+  seedKey: text.nullable(), evidenceRefs: z.array(BatchBlobRefSchema).refine(v => ordered(v, r => r.sha256)), evidence: strings(text), reasons: strings(text),
+  restorationRef: BatchBlobRefSchema.optional(), copyRef: BatchBlobRefSchema.optional(),
+}).refine(edge => (edge.associationResult === 'restored') === (edge.restorationRef !== undefined) &&
+  (edge.associationResult === 'copied') === (edge.copyRef !== undefined))
 export type BatchEdge = z.infer<typeof BatchEdgeSchema>
 
 const identity = z.strictObject({pageId: BatchPageIdSchema, manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema})

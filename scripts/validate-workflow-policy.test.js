@@ -3442,7 +3442,8 @@ test('shared-docs workflow policy rejects trigger, permission, input, writer and
     [validateFile, s => s.replace('shared-docs-output/$group', 'shared-docs-output'), 'separate output directories'],
     [validateFile, s => s.replace('done < "$RUNNER_TEMP/shared-docs-groups"', 'done < /dev/null'), 'every affected whole group'],
     [lockFile, s => s.replace('--shared-docs "shared-docs/$group" --repo "$RUNNER_TEMP/upstream/$group"', '--shared-docs shared-docs --repo'), 'distinguish content'],
-    [lockFile, s => s.replace('SHARED_DOC_GROUPS.join(\'|\')', "'guides'"), 'only new regular locks'],
+    [lockFile, s => s.replace('fs.existsSync(`shared-docs/${group}/manual.yaml`)', 'false'), 'only new regular locks'],
+    [lockFile, s => s.replace('lockPatterns.join(\'|\')', "'^shared-docs/'"), 'only new regular locks'],
     [lockFile, s => s.replace("'-z', '--', 'shared-docs/'", "'-z', '--', 'shared-docs/guides/pages/'"), 'only new regular locks'],
     [lockFile, objectMutation(w => { delete step(w, 'lock', 'Classify failure for isolated reporting').env.GROUP_FAILURE }), 'distinguish content'],
     [validateFile, objectMutation(w => { delete step(w, 'validate', 'Install tooling').if }), 'skip install'],
@@ -3460,7 +3461,7 @@ test('shared-docs workflow policy rejects trigger, permission, input, writer and
     [lockFile, objectMutation(w => { delete w.jobs.infrastructure_report.permissions }), 'only the same-repository lock job'],
     [lockFile, objectMutation(w => { w.jobs.fork_notice.permissions.actions = 'write' }), 'only the same-repository lock job'],
     [lockFile, objectMutation(w => { w.on.workflow_dispatch = {} }), 'PR-only lock'],
-    [lockFile, objectMutation(w => { w.on.pull_request.paths = ['shared-docs/**'] }), 'trigger must be scoped'],
+    [lockFile, objectMutation(w => { w.on.pull_request.paths = ['shared-docs/*/pages/**'] }), 'trigger must be scoped'],
     [lockFile, objectMutation(w => { w.concurrency['cancel-in-progress'] = true }), 'cancellation rule'],
     [lockFile, objectMutation(w => { w.jobs.lock['timeout-minutes'] = 30 }), 'lock timeout must remain 45 minutes'],
     [lockFile, s => s.replace('Please submit this onboarding PR from a branch in this repository', 'Generate a lock locally'), 'exact successful warning'],
@@ -3500,6 +3501,78 @@ test('shared-docs workflow policy rejects trigger, permission, input, writer and
       fs.writeFileSync(destination, changed)
       const errors = validateWorkflowPolicies(directory)
       assert.ok(errors.some(error => error.includes(`${file}: shared-docs`) && error.includes(expected)), `${file}: expected ${expected}; got ${errors.join('\n')}`)
+      fs.unlinkSync(destination)
+    }
+  } finally { fs.rmSync(directory, {recursive: true, force: true}) }
+})
+
+test('shared-docs manual update lane policy rejects trigger, permission, gate and delivery mutations', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'shared-docs-lane-policy-'))
+  const laneFile = 'shared-docs-manual-update.yml'
+  const lane = fs.readFileSync(path.join('.github/workflows', laneFile), 'utf8')
+  const objectMutation = mutate => source => { const workflow = yaml.load(source); mutate(workflow); return yaml.dump(workflow, {lineWidth: -1, noRefs: true}) }
+  const step = (workflow, job, name) => workflow.jobs[job].steps.find(item => item.name === name)
+  const fixtures = [
+    [objectMutation(w => { delete w.on.schedule }), 'scheduled update and dispatch-only lane triggers'],
+    [objectMutation(w => { w.on.workflow_dispatch.inputs.mode.default = 'promote' }), 'dispatch inputs'],
+    [objectMutation(w => { w.on.workflow_dispatch.inputs.draft_pr.default = 'false' }), 'dispatch inputs'],
+    [objectMutation(w => { w.concurrency['cancel-in-progress'] = true }), 'serialize lane runs'],
+    [objectMutation(w => { w.concurrency.queue = 'max' }), 'production queue'],
+    [objectMutation(w => { w.concurrency.group = 'shared-docs-manual-update' }), 'serialize lane runs'],
+    [objectMutation(w => { w.jobs.lane.permissions.contents = 'write' }), 'least-privileged'],
+    [objectMutation(w => { w.jobs.gate.permissions['pull-requests'] = 'write' }), 'least-privileged'],
+    [objectMutation(w => { w.jobs.lane.needs = [] }), 'behind the single-flight gate'],
+    [objectMutation(w => { w.jobs.lane.if = 'always()' }), 'behind the single-flight gate'],
+    [objectMutation(w => { w.jobs.gate.env.GROUP = '${{ inputs.group }}' }), 'scheduled update/node/master defaults'],
+    [objectMutation(w => { step(w, 'gate', 'Check out pinned master for the layout gate').with['persist-credentials'] = true }), 'credential persistence'],
+    [source => source.replace('test -f "shared-docs/$GROUP/manual.yaml"', 'true'), 'manual-layout group'],
+    [source => source.replace('[[ "$BASE_REF" == master ]]', 'true'), 'master base'],
+    [source => source.replace('^[a-z0-9]+(-[a-z0-9]+)*$', '.*'), 'a slug group'],
+    [source => source.replace('"$MODE" == promote', '"$MODE" == "$MODE"'), 'a known mode'],
+    [source => source.replace('--state open --limit 500', '--state merged --limit 500'), 'open candidate branches'],
+    [source => source.replace('grep -E "^shared-docs-(update|promote)/${GROUP}-[0-9a-f]{7,40}$"', 'true'), 'open candidate branches'],
+    [objectMutation(w => { step(w, 'lane', 'Check out the lane base').with.ref = '${{ github.head_ref }}' }), 'validated dispatch input'],
+    [objectMutation(w => { step(w, 'lane', 'Check out read-only upstream dev snapshot').with.repository = '${{ github.repository }}' }), 'read-only and sparse'],
+    [objectMutation(w => { step(w, 'lane', 'Check out read-only upstream dev snapshot').with['sparse-checkout'] = '/' }), 'read-only and sparse'],
+    [source => source.replace('--dev .shared-docs-dev --out "$out"', '--out "$out"'), 'dual-layout update/promote command'],
+    [source => source.replace('[ "$status" != 0 ] && [ "$status" != 3 ]', '[ "$status" != 0 ]'), 'pass the blocked exit code through to classify'],
+    [source => source.replace('grep -Eq "^next: [0-9a-f]{40}$"', 'true'), 'authenticate the lock identity'],
+    [source => source.replace('grep -Eq "^current: [0-9a-f]{40}$"', 'true'), 'authenticate the lock identity'],
+    [source => source.replace('git add -- ', 'git add -A # '), 'stage explicit paths'],
+    [objectMutation(w => { step(w, 'lane', 'Deliver the candidate as a PR').env.SHARED_DOCS_UPDATE_PAT = '${{ secrets.PRODUCT_DOC_LINKS_GITHUB_TOKEN }}' }), 'delivery step env'],
+    [source => source.replace('if [ -z "$SHARED_DOCS_UPDATE_PAT" ]', 'if false'), 'fail closed'],
+    [source => source.replace('git push "https:', 'git push --force "https:'), 'non-forcefully'],
+    [source => source.replace('GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh pr create', 'gh pr create'), 'through the PAT'],
+    [source => source.replace('--repo "$GITHUB_REPOSITORY" --base "$BASE_REF" --head "$branch"', '--repo "$GITHUB_REPOSITORY" --head "$branch"'), 'through the PAT'],
+    [objectMutation(w => { step(w, 'lane', 'Retain the lane evidence').if = 'failure()' }), 'retained even when the lane fails'],
+    [source => source.replace("jq -e '.blocked == true'", "jq -e '.never == true'"), 'classify blocked, up-to-date and candidate outcomes'],
+    [source => source.replace("echo 'result=blocked'", "echo 'result=candidate'"), 'classify blocked, up-to-date and candidate outcomes'],
+    [objectMutation(w => { step(w, 'lane', 'Report the blocked surface').if = 'always()' }), 'fail the lane without staging anything'],
+    [source => source.split("jq -r '.removedPublished[]'").join('true'), 'fail the lane without staging anything'],
+    [objectMutation(w => { step(w, 'lane', 'Draft the advisory proposals').if = 'always()' }), 'run only for update-mode candidates'],
+    [objectMutation(w => { step(w, 'lane', 'Draft the advisory proposals').if = "steps.classify.outputs.result == 'candidate'" }), 'run only for update-mode candidates'],
+    [objectMutation(w => { step(w, 'lane', 'Draft the advisory proposals').env.AGENTIC_PROVIDER_API_KEY = '${{ secrets.DEEPSEEK_API_KEY }}' }), 'same provisioned gateway chain as the REST refresh'],
+    [objectMutation(w => { step(w, 'lane', 'Draft the advisory proposals').env.REST_UPSTREAM_AGENT_BASE_URL = '${{ vars.DEEPSEEK_BASE_URL }}' }), 'same provisioned gateway chain as the REST refresh'],
+    [source => source.replace('shared-docs-manual-decide.js', 'decide-batches.js'), 'gated decide script'],
+    [source => source.replace('--api-key-env AGENTIC_PROVIDER_API_KEY', '--api-key-env OTHER_KEY'), 'gated decide script'],
+    [source => source.replace('shared-docs-manual-merge-proposals.js', 'merge.js'), 'deterministic and absent'],
+    [source => source.replace('[ -f "$out/proposals.jsonl" ]', 'true'), 'deterministic and absent'],
+    [source => source.replace('if [ -f "$out/manual.yaml" ]', 'if false'), 'exclusion pairing and the decision ledger atomically'],
+    [source => source.replace('if [ -f "$out/ledger.json" ]', 'if false'), 'exclusion pairing and the decision ledger atomically'],
+    [source => source.replace('git add -- "${staged_paths[@]}"', 'git add -- "shared-docs/$GROUP/lock.yaml"'), 'exclusion pairing and the decision ledger atomically'],
+    [source => source.replace('Zero-auto-adoption pairing', 'pairing'), 'pairing and any advisory degradation'],
+    [source => source.replace('Advisory stage degraded', 'degraded'), 'pairing and any advisory degradation'],
+    [source => source.replace('[ "$CLASSIFY_RESULT" = blocked ]', 'false'), 'report the blocked outcome'],
+  ]
+  try {
+    for (const [mutate, expected] of fixtures) {
+      const changed = mutate(lane)
+      assert.notEqual(changed, lane, `${laneFile}: ${expected} mutation must change the source`)
+      const destination = path.join(directory, laneFile)
+      fs.writeFileSync(destination, changed)
+      const errors = validateWorkflowPolicies(directory)
+      assert.ok(errors.some(error => error.includes(`${laneFile}: shared-docs manual lane`) && error.includes(expected)),
+        `${laneFile}: expected ${expected}; got ${errors.join('\n')}`)
       fs.unlinkSync(destination)
     }
   } finally { fs.rmSync(directory, {recursive: true, force: true}) }

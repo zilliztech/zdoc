@@ -313,6 +313,7 @@ To silence all workflow Feishu cards without touching the Feishu app credentials
 - Validate the ledger fail-closed (schema version, referenced workflow files exist, status/cadence enums, producer stays off the production queue) with `node scripts/docs-workflow/daily-ops-summary.js --validate-ledger`; the digest consumes the ledger only after this passes.
 - Get the digest's mechanical sections on demand — current production-queue occupancy (including wait times), per-workflow run statistics for yesterday (or a custom `--window`), and a watchdog run cross-check — with `node scripts/docs-workflow/daily-ops-summary.js --markdown` (add `--json` for machine consumption). The script is read-only: it lists runs through the `gh` CLI and never dispatches, reruns, or cancels anything.
 - Status changes in the ledger go through reviewed changes like any other tooling. Volatile daily numbers (for example the rest-upstream drift `substantiveCount`/`diffDigest` series) deliberately stay in a local state file outside the repository — only rules, statuses, and thresholds belong in the ledger.
+- This ledger is triage knowledge for the digest; it is distinct from the suppression ledgers the pipelines enforce themselves — `scripts/broken-links/broken-links-ledger.json` (which broken-links findings are decided, labeled `已知项（ledger）` in the report table) and `scripts/redirects/ga4-404-remediation-ledger.json` (which 404 paths were fixed/declined/denylisted). Prune suppression-ledger entries whose finding disappeared through a reviewed PR; the workflows surface candidates (`note.unseen.md` for broken-links) but never remove entries.
 
 ### Evidence required after a successful run
 
@@ -402,7 +403,7 @@ node deploy/contracts/verify-image.mjs verify-record --root <dir> --record <reco
 
 The cloud-providers-and-regions and zilliz-cloud-ips pages carry globally registered `<CloudRegions>`/`<CloudFeatures>`/`<RegionIps>` components (HTML pages fetch the CMS JSON after mount) and standalone markers inside the Feishu source. `embed-markdown` bakes every marker into an SSI pair — a `<!--# block -->` stub rendered from the committed snapshot (`packages/docs-ui/src/shared/cloud-data/snapshots/`) plus `<!--# include virtual="/api/cloud-data/fragment.md?…&site=…" stub=… -->`. At request time nginx resolves the include through `/api/cloud-data/` (loopback proxy) → `/_njs/fragment.md` (njs renderer, the same `packages/docs-ui/src/shared/cloud-data` modules as the build) → `/api/cloud-json/*` (per-site CMS proxy: en `cms.zilliz.cc`, zh-CN `cms-cn.zilliz.cc`, 60s `proxy_cache` with stale-on-error). Any upstream failure is intercepted into an empty 200 so SSI serves the snapshot stub — the `.md` route degrades to the last committed snapshot, never to an error page.
 
-Operational prerequisites: the container must reach the site's CMS instance at startup (static `proxy_pass` hostnames resolve at config time), and the JSON responses must stay below the 1m `subrequest_output_buffer_size`. Refresh the committed snapshots with `node scripts/docs-workflow/cloud-data-snapshot.mjs --site <en|zh-CN> --from-base <cms-origin> --out packages/docs-ui/src/shared/cloud-data/snapshots/<site>.json` and gate freshness with `--check` (the wire format for a future scheduled refresher). Verification: `pnpm test:containers` (static contract) and `pnpm test:cloud-data-nginx` (live four-scenario run in `nginx:1.28-alpine`; skipped automatically without Docker).
+Operational prerequisites: the container must reach the site's CMS instance at startup (static `proxy_pass` hostnames resolve at config time), and the JSON responses must stay below the 1m `subrequest_output_buffer_size`. Refresh the committed snapshots with `node scripts/docs-workflow/cloud-data-snapshot.mjs --site <en|zh-CN> --from-base <cms-origin> --out packages/docs-ui/src/shared/cloud-data/snapshots/<site>.json` and gate freshness with `--check` (the wire format for a future scheduled refresher). Verification: `pnpm test:containers` (static contract) and `pnpm test:cloud-data-nginx` (live four-scenario run in `nginx:1.31.9-alpine`; skipped automatically without Docker).
 
 ### Selected shared Guides source generation
 
@@ -473,6 +474,9 @@ a fresh signed candidate. Positive hosted verification awaits a genuine
 consumed-source change; the reviewed old-next and target inputs are currently
 identical. Scheduled-producer Check authentication and automatic triggering
 remain pending.
+
+For an on-demand production Guides batch, see
+[Qualify a production batch on demand](runbook/shared-guides-generation.md#qualify-a-production-batch-on-demand).
 
 ### Inspect shared Guides upstream changes without publishing
 

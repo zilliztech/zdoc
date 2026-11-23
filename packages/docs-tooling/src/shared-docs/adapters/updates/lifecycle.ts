@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { createRequire } from 'node:module'
 import type { LifecycleEvidence } from '../../core/updates/lifecycle'
 import type { FetchProducerContext } from './trusted-fetch-producer'
+import { isBatchFetchRun } from './guides-run-metadata'
 import { selectedObservation, type SelectedPage } from './selected-lifecycle'
 import { retainedMetadata, type ReadonlyGitHub } from './github'
 const require = createRequire(import.meta.url)
@@ -58,7 +59,7 @@ export async function acquireLifecycleStage(api: ReadonlyGitHub, facts: Awaited<
   const manifest = await validateGuidesStageArtifact(stage, {site: 'en', stage: 'source', masterSha: run.head_sha})
   const raw = await readFile(join(stage, 'payload', rawSnapshotPath))
   const snapshot = validateCandidateSnapshot(JSON.parse(new TextDecoder('utf8', {fatal: true}).decode(raw)), {manual: 'guides', buildEnv: 'uat', baseAppToken: expectedBase})
-  const reasons = producerReasons(facts, manifest, snapshot)
+  const reasons = producerReasons(facts, manifest, snapshot, 'batch')
   const navigation = new Map(snapshot.navigation_records.map((r: any) => [r.record_id, r.table_id]))
   if (snapshot.records.some((r: any) => !r.table_id || !Object.hasOwn(snapshot.table_digests, r.table_id) || navigation.get(r.record_id) !== r.table_id)) reasons.push('TABLE_RECORD_BINDING_UNPROVEN')
   if (reasons.length) throw Error(reasons[0])
@@ -104,10 +105,10 @@ export async function readLifecycle(api: ReadonlyGitHub, runId: number, director
 }
 
 /** Facts come from the GET response and validated stage, never a CLI authentication flag. */
-export function producerReasons({ run, jobs, artifact }: Pick<Awaited<ReturnType<typeof retainedMetadata>>, 'run' | 'jobs' | 'artifact'>, manifest: { files: { path: string }[]; createdAt: string }, snapshot: { generated_at: string }) {
+export function producerReasons({ run, jobs, artifact }: Pick<Awaited<ReturnType<typeof retainedMetadata>>, 'run' | 'jobs' | 'artifact'>, manifest: { files: { path: string }[]; createdAt: string }, snapshot: { generated_at: string }, mode?: 'batch') {
   const reasons: string[] = []
   if (run.path !== '.github/workflows/fetch-docs.yml' || run.head_branch !== 'master' || run.status !== 'completed' || run.conclusion !== 'success') reasons.push('PRODUCER_NOT_SUCCESSFUL')
-  if (run.event !== 'schedule' || manifest.files.some((f: { path: string }) => /guides-requested-fetch/.test(f.path))) reasons.push('COLLECTION_MODE_UNPROVEN')
+  if ((mode === 'batch' ? !isBatchFetchRun(run) : run.event !== 'schedule') || manifest.files.some((f: { path: string }) => /guides-requested-fetch/.test(f.path))) reasons.push('COLLECTION_MODE_UNPROVEN')
   const referenced = run.referenced_workflows?.filter((w: any) => w.path === `zilliztech/zdoc/.github/workflows/_fetch-guides-sources.yml@${run.head_sha}` && w.sha === run.head_sha)
   if (referenced?.length !== 1) reasons.push('SOURCE_WORKFLOW_UNPROVEN')
   const source = jobs.filter(j => j.name === 'produce_guides_sources / fetch')

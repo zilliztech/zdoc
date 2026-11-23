@@ -3,12 +3,13 @@ import { execFileSync } from 'node:child_process'
 import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { afterEach, expect, it } from 'vitest'
-import { BatchGitStore, batchBudget } from '../../adapters/updates/batch-source'
+import { afterEach, expect, it, vi } from 'vitest'
+import { BatchGitStore, batchBudget, batchRenderCommitSet, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
-import { collectBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import { collectBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { validateSharedSnapshotRecord } from '../../core/handoff/source-state'
+import { canonicalBytes } from '../../core/updates/canonical'
 import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
@@ -78,6 +79,52 @@ it('excludes shared ancestors reached through a pre-oldNext side branch while in
   expect(history.introduces(target, target, oldNext, fork, 1)).toBe(false)
 })
 
+it('measures the exact Git interval and all its parents through shared authenticated fragment trees', async () => {
+  const r = await repository()
+  const absent = await r.change('README.md', 'initial')
+  const fragment = 'site/en/fragments/part.md'
+  const ancestor = await r.change(fragment, 'base')
+  const current = await r.change('site/en/current.md', 'current')
+  const oldNext = await r.change('site/en/current.md', 'next')
+  r.git('checkout', '-b', 'topic', ancestor)
+  const intermediate = 'intermediate fragment edit'
+  const changed = [await r.change(fragment, intermediate)]
+  for (let n = 0; n < 10; n++) changed.push(await r.change('site/en/topic.md', String(n)))
+  const restored = await r.change(fragment, 'base')
+  r.git('checkout', 'main'); r.git('merge', '--no-ff', 'topic', '-m', 'merge')
+  const target = r.git('rev-parse', 'HEAD')
+  const history = await (await BatchGitStore.open(r.root, batchBudget())).history(target)
+  // The side branch bypasses current, but absent is already reachable from oldNext.
+  // Keep ancestor as a direct parent of the first genuinely new side commit.
+  expect(batchRenderCommitSet(history.records(), current, oldNext, target))
+    .toEqual([ancestor, oldNext, ...changed, restored, target].sort())
+  expect(batchRenderCommitSet(history.records(), current, oldNext, target, true)).toContain(absent)
+  expect(() => batchRenderCommitSet(history.records().filter(row => row.oid !== absent), current, oldNext, target))
+    .toThrow('SOURCE_HISTORY_INCOMPLETE')
+  expect(history.range(oldNext, target).sort()).toEqual([...changed, restored, target].sort())
+
+  const log = join(r.root, 'git-calls')
+  const bin = join(r.root, 'bin')
+  const git = execFileSync('which', ['git'], {encoding: 'utf8'}).trim()
+  const quote = (path: string) => "'" + path.replaceAll("'", "'\\''") + "'"
+  await mkdir(bin)
+  await writeFile(join(bin, 'git'), '#!/bin/sh\nprintf "%s\\n" "$*" >> ' + quote(log) + '\nexec ' + quote(git) + ' "$@"\n', {mode: 0o700})
+  vi.stubEnv('PATH', bin + ':' + process.env.PATH)
+  try {
+    expect(await measureBatchRenderFragments(r.root, [current, oldNext, target])).toEqual({
+      bytes: intermediate.length, count: 9, snapshots: 3 + 2 + changed.length,
+      endpoints: {bytes: 12, count: 9},
+      sequential: [
+        {commit: ancestor, bytes: 4, count: 3},
+        {commit: restored, bytes: 4, count: 3},
+        ...changed.map(commit => ({commit, bytes: intermediate.length, count: 3})),
+      ].sort((a, b) => a.commit.localeCompare(b.commit)),
+    })
+    const calls = (await readFile(log, 'utf8')).split('\n')
+    expect(calls.filter(line => line.includes(' cat-file ')).length).toBeLessThan(12)
+  } finally { vi.unstubAllEnvs() }
+})
+
 it('proves squash and rebased introductions without requiring the original PR head to survive at T', async () => {
   const r = await repository(), base = await r.change('a', '0'), first = await r.change('a', '1'), tip = await r.change('a', '2')
   const history = await (await BatchGitStore.open(r.root, batchBudget())).history(tip), original = 'c'.repeat(40)
@@ -101,25 +148,40 @@ async function inventoryFixture(scenario: string) {
   const fragment = 'site/en/fragments/shared.md'
   // #3707's topic merge 37f5505d imported primary-field.md from v3.0.x. Its PR files
   // include prepare-source-data.md, while primary-field.md has identical lock/target bytes.
-  const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock'
+  const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock', restore = scenario === 'merged-restoration'
+  const lockSideCopy = scenario === 'bound-lock-side-copy'
   const sourcePath = sync ? 'site/en/userGuide/schema/primary-field.md' : 'site/en/a.md'
-  const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : sourcePath
+  const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : restore ? 'site/en/owned.md' : lockSideCopy ? 'site/en/b.md' : sourcePath
   async function stageSecondRoot(bytes: string) {
     await mkdir(join(source.root, 'site/en'), { recursive: true })
     await writeFile(join(source.root, 'site/en/b.md'), bytes)
     source.git('add', 'site/en/b.md')
   }
-  if (scenario === 'api-failed') await stageSecondRoot('old b')
+  if (scenario === 'api-failed' || lockSideCopy) await stageSecondRoot('old b')
   let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
-  let t: string, topic = '', syncCommit = ''
+  let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = ''
   if (sync) {
     source.git('checkout', '-b', 'topic'); await source.change(prPath, 'topic edit')
-    source.git('checkout', 'main'); old = await source.change(sourcePath, 'base version')
+    source.git('checkout', 'main'); syncedBase = await source.change(sourcePath, 'base version')
+    if (scenario !== '3707-copy-origin') old = syncedBase
     source.git('checkout', 'topic'); source.git('merge', '--no-ff', 'main', '-m', 'import base')
     syncCommit = source.git('rev-parse', 'HEAD')
     topic = scenario === '3707-later-edit' ? await source.change(sourcePath, 'later topic edit') : syncCommit
     source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'merge topic')
+    t = source.git('rev-parse', 'HEAD')
+  } else if (restore) {
+    source.git('checkout', '-b', 'topic', old)
+    await writeFile(join(source.root, prPath), 'A genuine PR change.\n')
+    source.git('add', prPath)
+    firstRestore = await source.change(sourcePath, 'An intermediate change.\n')
+    topic = await source.change(sourcePath, 'hello\n')
+    source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'Merge an edit and revert')
+    t = source.git('rev-parse', 'HEAD')
+  } else if (lockSideCopy) {
+    source.git('checkout', '-b', 'topic'); old = topic = await source.change(prPath, 'ordinary PR change')
+    source.git('checkout', 'main'); syncedBase = await source.change(sourcePath, 'ordinary first-parent origin')
+    source.git('merge', '--no-ff', 'topic', '-m', 'merge topic while retaining the first-parent transition')
     t = source.git('rev-parse', 'HEAD')
   } else if (secondParent) {
     source.git('checkout', '-b', 'side'); old = await source.change(sourcePath, 'lock version')
@@ -138,9 +200,11 @@ async function inventoryFixture(scenario: string) {
   await put(grouped + 'source.yaml', { schema_version: 1, repository: 'https://github.com/milvus-io/milvus-docs', track: 'v3.0.x' })
   for (const id of ids) {
     const prefix = grouped + 'pages/' + id + '/'
-    await put(prefix + 'page.yaml', { schema_version: 1, source: { file: scenario === 'api-failed' && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
+    await put(prefix + 'page.yaml', { schema_version: 1, source: { file: (scenario === 'api-failed' || lockSideCopy) && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
     if (id === 'a' && scenario.startsWith('variant-')) await put(prefix + scenario, 'unsupported')
-    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: old, next: id === 'b' && !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old })
+    const next = id === 'b' && (scenario === '3707-copy-origin' || lockSideCopy) ? syncedBase : id === 'b' &&
+      !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
+    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: lockSideCopy ? unrelated : old, next })
   }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'registry'); const m = zdoc.git('rev-parse', 'HEAD')
   const active = ids.map(page => ({ page, record: 'rec-' + page, feishu_token: null, anchors: {}, activated_in: '123' }))
@@ -173,13 +237,16 @@ async function inventoryFixture(scenario: string) {
     if (path === '/repos/zilliztech/zdoc') rounds++
     const branch = path.split('/heads/')[1]
     const pr = { number: sync ? 3707 : 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
-      base: { repo, ref: 'v3.0.x', sha: old }, head: { repo: null, sha: topic || 'f'.repeat(40) }, merge_commit_sha: t, commits: 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
+      base: { repo, ref: 'v3.0.x', sha: restore ? unrelated : syncedBase || old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
+      merge_commit_sha: t, commits: restore ? 2 : 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
     let data: unknown
     if (branch) data = { ref: 'refs/heads/' + branch, object: { type: 'commit', sha: branch === 'master' ? m : branch === 'dev'
       ? scenario === 'missing-dev' ? 'd'.repeat(40) : d : scenario === 'ref-moved' && rounds > 1 ? unrelated : t } }
     else if (path.includes('/commits/')) {
       if (scenario === 'api-failed' && path.includes(t)) return { status: 500, headers: {}, body: Buffer.from('private-token') }
-      data = scenario === 'merged' && path.includes(t) || sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ? [pr] : []
+      data = scenario === 'merged' && path.includes(t) || lockSideCopy && (path.includes(t) || path.includes(topic)) ||
+        sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ||
+        restore && (path.includes(firstRestore) || path.includes(topic) || path.includes(t)) ? [pr] : []
     } else if (path.endsWith('/pulls/' + pr.number)) data = pr
     else if (path.includes('/files?')) {
       const filenames = scenario === '3707-later-edit' ? [prPath, sourcePath] : [prPath]
@@ -190,8 +257,82 @@ async function inventoryFixture(scenario: string) {
   }
   const run = () => collectBatchDiscovery({ zdocRepository: zdoc.root, sourceRepository: scenario === 'missing-source' ? join(source.root, 'absent') : source.root,
     tools: old }, { transport })
-  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, rounds: () => rounds }
+  return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, syncedBase, rounds: () => rounds }
 }
+
+it('retains both edges of a verified merged-branch edit and revert and rejects edited retained proofs', async () => {
+  const f = await inventoryFixture('merged-restoration')
+  const captured = await replayBatchDiscovery({zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('merged-restoration'), replayClockMs: 0}, {transport: f.transport})
+  const view = readBatchDiscoveryCapture(captured)
+  const restored = view.ledger.filter(edge => edge.associationResult === 'restored')
+  expect(restored.map(e => e.commit).sort()).toEqual([f.firstRestore, f.topic].sort())
+  expect(restored.every(e => e.restorationRef && e.seedKey === 'pr:5' && e.rangeIds.join(',') === 'a')).toBe(true)
+  expect(view.ledger.find(e => e.newPath === 'site/en/owned.md' && e.commit === f.t)?.associationResult).toBe('complete')
+  expect(view.report.pages.find(p => p.pageId === 'a')?.intervals[0].association).toBe('complete')
+  await verifyRetainedCertificates(view, 'restored')
+}, 30_000)
+
+async function verifyRetainedCertificates(view: ReturnType<typeof readBatchDiscoveryCapture>, kind: 'copied' | 'restored', obligations = 2) {
+  const dir = await mkdtemp(join(tmpdir(), 'batch-retained-restore-'))
+  roots.push(dir)
+  await mkdir(join(dir, 'blobs'))
+  for (const {ref, bytes} of view.evidence) await writeFile(join(dir, ref.path), bytes)
+  const spec = join(dir, 'captured.json')
+  await writeFile(spec, JSON.stringify({report: view.report, ledger: view.ledger, history: view.introductionOrder}))
+  const python = `
+import copy, json, os, sys
+import prepare as p
+root = sys.argv[1]
+data = json.load(open(sys.argv[2]))
+kind = sys.argv[3]
+fd, blobs = (os.open(path, os.O_RDONLY) for path in (root, os.path.join(root,'blobs')))
+def verify(ledger):
+    reader = p._BatchReader(fd, blobs, {'rootIdentity': p._BatchReader.identity(fd), 'blobsIdentity': p._BatchReader.identity(blobs)})
+    return p._batch_verify_source_edge_proofs(reader, data['report'], ledger, data['history'])
+assert len(verify(data['ledger'])) == int(sys.argv[4])
+for mutation in ('drop-peer', 'wrong-mode', 'rename', 'wrong-range', 'wrong-parent'):
+    ledger = copy.deepcopy(data['ledger'])
+    indexes = [i for i,e in enumerate(ledger) if e['associationResult'] == kind]
+    row = ledger[indexes[0]]
+    if mutation == 'drop-peer':
+        if kind == 'restored': ledger.pop(indexes[1])
+        else:
+            origin = next(edge for edge in ledger if edge['newPath'] == row['newPath'] and edge['associationResult'] == 'complete')
+            ledger.remove(origin)
+    if mutation == 'wrong-mode': row['newMode'] = '100755'
+    if mutation == 'rename': row['oldPath'] = 'site/en/old-a.md'
+    if mutation == 'wrong-range': row['rangeIds'] = []
+    if mutation == 'wrong-parent': row['parent'] = row['commit']
+    try: verify(ledger)
+    except p.Hold as e: assert str(e) == 'BATCH_SOURCE_EDGE_PROOF_INVALID'
+    else: raise AssertionError(mutation)
+`
+  expect(() => execFileSync('python3', ['-B', '-c', python, dir, spec, kind, String(obligations)], {
+    cwd: join(process.cwd(), 'scripts/docs-workflow/shared-guides-update'), timeout: 15_000,
+  })).not.toThrow()
+}
+
+it('keeps an imported physical edge but assigns only its proven earlier origin to the affected interval', async () => {
+  const f = await inventoryFixture('3707-copy-origin'), options = {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old}
+  const replay = {fixtureBytes: Buffer.from('authored-origin'), replayClockMs: 0}
+  const view = readBatchDiscoveryCapture(await replayBatchDiscovery(options, replay, {transport: f.transport}))
+  const copy = view.ledger.find(row => row.commit === f.syncCommit && row.newPath === f.sourcePath)!
+  expect(copy).toMatchObject({associationResult: 'copied', seedKey: null, introductionOid: null, rangeIds: ['a', 'b']})
+  expect(copy.copyRef).toBeDefined()
+  const a = view.report.pages.find(p => p.pageId === 'a')!, b = view.report.pages.find(p => p.pageId === 'b')!
+  expect(a.seedKeys).toEqual(['commit:' + f.syncedBase])
+  expect(a.intervals[0]).toMatchObject({association: 'complete', commits: [f.syncedBase]})
+  expect(b.seedKeys).toEqual([])
+  expect(b.intervals[0]).toMatchObject({association: 'complete', commits: []})
+  await verifyRetainedCertificates(view, 'copied')
+
+  const missingOrigin: RemoteTransport = async request => request.path.includes('/commits/' + f.syncedBase)
+    ? {status: 503, headers: {}, body: Buffer.from('missing-origin')} : f.transport(request)
+  const blocked = readBatchDiscoveryCapture(await replayBatchDiscovery(options, replay, {transport: missingOrigin}))
+  expect(blocked.ledger.find(row => row.commit === f.syncCommit && row.newPath === f.sourcePath))
+    .toMatchObject({associationResult: 'unknown', seedKey: 'pr:3707'})
+}, 30_000)
 
 it('retains the raw lock-side edge of an ours merge even when its first parent has the target bytes', async () => {
   const f = await inventoryFixture('second-parent-lock'), report = await f.run()
@@ -203,6 +344,65 @@ it('retains the raw lock-side edge of an ours merge even when its first parent h
   expect(report.groups.map(g => g.pageIds)).toEqual([['a']])
   expect(report.status).toBe('held')
 })
+
+it('retains a proven lock-side copy only for locks that select that edge and keeps the merge’s own change', async () => {
+  const f = await inventoryFixture('bound-lock-side-copy')
+  const run = async (transport = f.transport) => readBatchDiscoveryCapture(await replayBatchDiscovery(
+    {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('lock-side-copy'), replayClockMs: 0}, {transport}))
+  const view = await run()
+  const sideCopy = view.ledger.find(row => row.commit === f.t && row.parent === f.old && row.newPath === f.sourcePath)
+  expect(sideCopy).toMatchObject({associationResult: 'copied', seedKey: null, introductionOid: null, rangeIds: ['a']})
+  expect(sideCopy?.copyRef).toBeDefined()
+  expect(view.ledger.find(row => row.commit === f.t && row.parent === f.syncedBase && row.newPath === 'site/en/b.md'))
+    .toMatchObject({associationResult: 'complete', seedKey: 'pr:5', rangeIds: ['a', 'b']})
+  expect(view.report.pages.find(page => page.pageId === 'a')).toMatchObject({seedKeys: ['commit:' + f.syncedBase],
+    intervals: [{association: 'complete', commits: [f.syncedBase]}]})
+  expect(view.report.pages.find(page => page.pageId === 'b')).toMatchObject({seedKeys: ['pr:5']})
+  await verifyRetainedCertificates(view, 'copied', 1)
+
+  const missingOrigin: RemoteTransport = async request => request.path.includes('/commits/' + f.syncedBase)
+    ? {status: 503, headers: {}, body: Buffer.from('missing-origin')} : f.transport(request)
+  const blocked = await run(missingOrigin)
+  expect(blocked.ledger.find(row => row.commit === f.t && row.parent === f.old && row.newPath === f.sourcePath))
+    .toMatchObject({associationResult: 'unknown', reasons: ['LOCK_SIDE_MERGE_REQUIRES_COLLECTOR']})
+  expect(blocked.report.pages.find(page => page.pageId === 'a')?.reasons).toContain('LOCK_SIDE_MERGE_REQUIRES_COLLECTOR')
+}, 30_000)
+
+it('prefetches only authenticated relevant commits and keeps the report and ledger bytes in edge order', async () => {
+  const f = await inventoryFixture('direct')
+  const second = await f.source.change(f.sourcePath, 'another edit')
+  for (let i = 0; i < 5; i++) await f.source.change('site/en/unrelated.json', String(i))
+  const newest = await f.source.change(f.sourcePath, 'last edit')
+  const captures = (transport: RemoteTransport) => replayBatchDiscovery(
+    {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.old},
+    {fixtureBytes: Buffer.from('ordered-discovery'), replayClockMs: 0}, {transport}).then(readBatchDiscoveryCapture)
+  const completed: string[] = [], started: string[] = []
+  let release!: () => void
+  const wait = new Promise<void>(resolve => { release = resolve })
+  const transport = (reorder: boolean): RemoteTransport => async request => {
+    if (request.path.endsWith('/heads/v3.0.x')) return {status: 200, headers: {}, body: Buffer.from(JSON.stringify({
+      ref: 'refs/heads/v3.0.x', object: {type: 'commit', sha: newest},
+    }))}
+    const commit = /\/commits\/([a-f0-9]{40})\/pulls/.exec(request.path)?.[1]
+    if (!reorder || !commit) return f.transport(request)
+    started.push(commit)
+    if (commit === newest) await wait
+    const result = await f.transport(request)
+    completed.push(commit)
+    return result
+  }
+  const baseline = await captures(transport(false))
+  const pending = captures(transport(true))
+  try { await vi.waitFor(() => expect(completed).toContain(second), {timeout: 5_000}) } finally { release() }
+  const delayed = await pending
+  expect(started).toEqual([newest, second, f.t])
+  expect(completed[0]).toBe(second)
+  expect(delayed.ledger.filter(row => row.newPath === f.sourcePath).map(row => row.commit)).toEqual([newest, second, f.t])
+  for (const field of ['report', 'ledger', 'introductionOrder'] as const) {
+    expect(canonicalBytes(delayed[field])).toEqual(canonicalBytes(baseline[field]))
+  }
+}, 20_000)
 
 it('keeps a #3707-style imported base path as a held clue without assigning the PR as a page seed', async () => {
   const f = await inventoryFixture('3707-base-import'), report = await f.run()

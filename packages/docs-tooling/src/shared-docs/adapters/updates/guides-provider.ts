@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative } from 'node:path'
@@ -23,6 +24,7 @@ import type { UpdateConfiguration } from '../update-inputs'
 import { openWorkerMetadataReader } from './guides-metadata-broker'
 import { publicGuidesReads, stageGuidesArchives, type LifecycleAcquisitionCode } from './guides-lifecycle-transport'
 import { createGuidesReadSession, type GitFile } from './guides-read-session'
+import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
 const localPath = z.string().min(1).max(4096).refine(value => isAbsolute(value) && !/[\x00-\x1f\x7f]/.test(value), 'Expected an absolute local path')
@@ -444,16 +446,23 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const request = contract.BatchRenderRequestSchema.parse(data)
   if (replay && request.origin.kind !== 'replay') throw Error('BATCH_REPLAY_ORIGIN_REQUIRED')
   const repositoryRoot = replay?.repositoryRoot ?? (request.origin.kind === 'replay' ? request.devRepository : toolingRoot)
-  const {readReportConfiguration} = await import('./candidate')
+  const {createHistoricalCandidateCollector, readReportConfiguration} = await import('./candidate')
   const {observeGuidesPage} = await import('./runner')
+  const {createHistoricalMdxFinalizer} = await import('../mdx')
+  const {createHistoricalFragmentReader} = await import('../git-milvus-docs-reader')
+  const {GitLinkInputReader} = await import('../links-input')
   const {analyzeUpdates} = await import('../../core/updates/impact')
   const payloads = new Map<string, {ref: BlobRef; base64: string}>()
   let retainedEncodedBytes = 0
   const retain = (bytes: Uint8Array) => {
     if (bytes.length > contract.BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
     const ref = contract.batchRef(bytes)
-    if (!payloads.has(ref.sha256)) {retainedEncodedBytes += 4 * Math.ceil(bytes.length / 3) + 1024; if (retainedEncodedBytes > contract.BATCH_WIRE_LIMIT) throw Error('BATCH_WIRE_BYTE_LIMIT')}
-    payloads.set(ref.sha256, {ref, base64: Buffer.from(bytes).toString('base64')}); return ref
+    const previous = payloads.get(ref.sha256)
+    if (previous) return previous.ref
+    retainedEncodedBytes += 4 * Math.ceil(bytes.length / 3) + 1024
+    if (retainedEncodedBytes > contract.BATCH_WIRE_LIMIT) throw Error('BATCH_WIRE_BYTE_LIMIT')
+    payloads.set(ref.sha256, {ref, base64: Buffer.from(bytes).toString('base64')})
+    return ref
   }
   const object = (value: unknown) => retain(canonicalBytes(value))
   const reads = createGuidesReadSession(retain)
@@ -500,6 +509,28 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     if (collected.pages.length !== 1 || collected.pages[0].pageId !== request.pageId) throw Error('BATCH_SELECTED_PAGE_INVALID')
     const fixed = collected.pages[0], impact = analyzeUpdates(collected).pages[0]
     const observations = [fixed.current, fixed.oldNext, fixed.candidateNext]
+    const inventoryTrees = new Map<string, BlobRef>()
+    const discovery = new Map<string, ReturnType<typeof milvusPageMetadata> | null>()
+    const inventoryDescriptors = new Map<string, {treeOid: string; commitRef: BlobRef}>()
+    const consumedPaths = new Set([configured.sourceFile].filter(path => path.startsWith('site/en/')))
+    async function sourceInventory(commit: string) {
+      const snapshot = await sourceProof.sourceInventory(commit, (oid, bytes) => {
+        if (!inventoryTrees.has(oid)) inventoryTrees.set(oid, retain(bytes))
+      })
+      const entries = await reads.inventory(request.sourceRepository, commit, ['site/en'])
+      if (!equal(entries, snapshot.entries)) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      if (!inventoryDescriptors.has(commit)) {
+        inventoryDescriptors.set(commit, {treeOid: snapshot.treeOid, commitRef: retain(snapshot.commitBytes)})
+      }
+      for (const entry of entries) {
+        if (!isMilvusPagePath(entry.path) || discovery.has(entry.oid)) continue
+        rawBudget.remaining()
+        const bytes = await reads.readCommitted(request.sourceRepository, [entry], entry.path)
+        if (!bytes || createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex') !== entry.oid) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        discovery.set(entry.oid, milvusPageMetadata(entry.path, new TextDecoder('utf8', {fatal: true}).decode(bytes)) ?? null)
+      }
+      return entries
+    }
     const paths = sorted(observations.flatMap(o => [o.sourceFile, ...o.files.map(f => f.file)]).filter(p => p.startsWith('site/en/')))
     type Role = (typeof contract.batchRoles)[number]
     const rawMaterialRefs: {role: Role; commit: string; ref: BlobRef}[] = [], inventoryRefs: {role: Role; commit: string; ref: BlobRef}[] = []
@@ -511,21 +542,19 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       const role = contract.batchRoles[i]
       if (observation.commit !== [configured.current, configured.oldNext, request.pins.source][i] || observation.sourceFile !== configured.sourceFile ||
           !equal(contract.batchSorted(observation.targets, t => t.manual), configured.targets)) throw Error('BATCH_OBSERVATION_BINDING_INVALID')
-      const snapshot = await reads.sourceSnapshot(request.sourceRepository, observation.commit)
-      if (!equal(snapshot.entries, await sourceProof.inventory(observation.commit, 'site/en'))) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const sourceEntries = await sourceInventory(observation.commit)
       const consumed: {path: string; oid: string; ref: BlobRef}[] = []
       for (const path of paths) {
         const declared = observation.files.find(f => f.file === path), isRoot = path === observation.sourceFile
-        const bytes = await reads.readCommitted(request.sourceRepository, snapshot.entries, path)
+        const bytes = await reads.readCommitted(request.sourceRepository, sourceEntries, path)
         const authenticated = await sourceProof.optionalFile(observation.commit, path)
         if (authenticated && (!bytes || !authenticated.bytes.equals(bytes)) || !authenticated && bytes) throw Error('BATCH_SOURCE_BYTES_INVALID')
         if (declared && (!bytes || rawSha256(bytes) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(bytes) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
-        if (bytes && (declared || isRoot && observation.source !== null)) consumed.push({path, oid: snapshot.entries.find(e => e.path === path)!.oid, ref: retain(bytes)})
+        if (bytes && (declared || isRoot && observation.source !== null)) consumed.push({path, oid: sourceEntries.find(e => e.path === path)!.oid, ref: retain(bytes)})
         if (!bytes && (declared || isRoot && observation.source !== null)) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
       }
       rawMaterialRefs.push({role, commit: observation.commit, ref: object({commit: observation.commit, entries: consumed})})
-      inventoryRefs.push({role, commit: observation.commit, ref: object({commit: observation.commit, treeOid: snapshot.treeOid, entries: snapshot.entries,
-        absentPaths: paths.filter(path => !snapshot.entries.some(e => e.path === path)), discoveryRef: snapshot.discovery})})
+      for (const entry of consumed) consumedPaths.add(entry.path)
       const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
         const manual = observation.manuals.find(m => m.manual === target.manual && m.path === target.path) ?? {...target, markdown: '', output: undefined, headings: [], references: []}
         const ref = object({...manual, output: manual.output ?? null})
@@ -572,23 +601,33 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       const {detail, ...rest} = error
       return detail === undefined ? rest : {...rest, detail: new TextDecoder().decode(canonicalBytes(detail))}
     }
-    const commitHistory = await reads.history(request.sourceRepository, request.pins.source, [configured.current])
+    // Both wire readers authenticate the full ancestry needed to rule out
+    // reintroducing commits already reachable from oldNext through a side branch.
+    const sourceHistory = await sourceProof.history(request.pins.source)
+    const commitHistory = sourceHistory.records()
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
+    const commitProofRef = retain(sourceProof.commitProof(commitHistory))
     const intervalObservations = []
+    const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
+    const historicalFragments = createHistoricalFragmentReader(sourceProof, rawBudget.remaining)
+    let historicalInventory: {commit: string; paths: ReadonlyMap<string, string>} | undefined
+    const historicalLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) =>
+      historicalInventory?.commit === commit ? historicalInventory.paths.get(path) : undefined)
+    const collectHistoricalCandidate = createHistoricalCandidateCollector({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
+      configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
     for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
       // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
-      const observed = await observeGuidesPage({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
-        current: commit, oldNext: commit, target: commit, configuration: loaded.configuration, previousConfiguration: loaded.configuration,
-        versions: {master: request.pins.master, dev: request.pins.dev, tools: {zdoc: request.pins.trustedTools}}, fetcher})
-      const o = observed.pages[0].candidateNext, snapshot = await reads.sourceSnapshot(request.sourceRepository, commit)
-      if (!equal(snapshot.entries, await sourceProof.inventory(commit, 'site/en'))) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const sourceEntries = await sourceInventory(commit)
+      historicalInventory = {commit, paths: new Map(sourceEntries.map(entry => [entry.path, entry.oid]))}
+      const o = await collectHistoricalCandidate(commit)
+      historicalInventory = undefined
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
-        const raw = await reads.readCommitted(request.sourceRepository, snapshot.entries, path), declared = o.files.find(f => f.file === path)
+        const raw = await reads.readCommitted(request.sourceRepository, sourceEntries, path), declared = o.files.find(f => f.file === path)
         const authenticated = await sourceProof.optionalFile(commit, path)
         if (authenticated && (!raw || !authenticated.bytes.equals(raw)) || !authenticated && raw) throw Error('BATCH_SOURCE_BYTES_INVALID')
         if (declared && (!raw || rawSha256(raw) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(raw) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
-        if (raw && (declared || path === o.sourceFile && o.source !== null)) entries.push({path, oid: snapshot.entries.find(e => e.path === path)!.oid, ref: retain(raw)})
+        if (raw && (declared || path === o.sourceFile && o.source !== null)) entries.push({path, oid: sourceEntries.find(e => e.path === path)!.oid, ref: retain(raw)})
       }
       const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
         const m = o.manuals.find(m => m.manual === target.manual && m.path === target.path) ?? {...target, markdown: '', output: undefined, headings: [], references: []}
@@ -603,28 +642,39 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         const ref = raw && image.observed && rawSha256(raw) === image.observed.sha256 && raw.length === image.observed.bytes ? retain(raw) : null
         images.push({...image, ref})
       }
+      for (const entry of entries) consumedPaths.add(entry.path)
       intervalObservations.push({commit, sourceFile: o.sourceFile, rawRef: object({commit, entries}),
-        inventoryRef: object({commit, treeOid: snapshot.treeOid, entries: snapshot.entries, absentPaths: paths.filter(path => !snapshot.entries.some(e => e.path === path)), discoveryRef: snapshot.discovery}),
         manuals, imagesRef: object(contract.batchRoles.map(role => ({role, images: contract.batchSorted(images, contract.batchImageKey)}))),
         diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []}),
         dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus})
     }
-    const allConsumed = sorted([...paths, ...intervalObservations.flatMap(o => {
-      const raw = JSON.parse(Buffer.from(payloads.get(o.rawRef.sha256)!.base64, 'base64').toString('utf8'))
-      return raw.entries.map((e: {path: string}) => e.path) as string[]
-    })])
-    const completeAbsence = (ref: BlobRef) => {
-      const inventory = JSON.parse(Buffer.from(payloads.get(ref.sha256)!.base64, 'base64').toString('utf8'))
-      return object({...inventory, absentPaths: allConsumed.filter(path => !inventory.entries.some((e: {path: string}) => e.path === path))})
+    const allConsumed = sorted([...consumedPaths])
+    const inventoryRefFor = async (commit: string) => {
+      const descriptor = inventoryDescriptors.get(commit)
+      if (!descriptor) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      const absentPaths = []
+      for (const path of allConsumed) if (!await sourceProof.sourceInventoryHas(commit, path)) absentPaths.push(path)
+      return object({kind: 'guides-batch-git-inventory-v1', commit, ...descriptor, absentPaths})
     }
-    for (const inventory of inventoryRefs) inventory.ref = completeAbsence(inventory.ref)
-    for (const observation of intervalObservations) observation.inventoryRef = completeAbsence(observation.inventoryRef)
+    for (const {role, commit} of rawMaterialRefs) inventoryRefs.push({role, commit, ref: await inventoryRefFor(commit)})
+    const interval = []
+    for (const observation of intervalObservations) interval.push({...observation, inventoryRef: await inventoryRefFor(observation.commit)})
+    const inventoryProofRef = object({
+      trees: contract.batchSorted([...inventoryTrees], ([oid]) => oid).map(([oid, ref]) => ({oid, ref})),
+      discovery: contract.batchSorted([...discovery], ([oid]) => oid).map(([oid, metadata]) => ({oid, metadata})),
+    })
+    const includeDetail = replay !== undefined || contract.isIsolatedBatchCandidateOrigin(request.origin)
+    const detailRef = includeDetail && object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
+      configPaths: sorted([...consumedConfigurationPaths(request.pageId, ids, loaded.configuration.sharedDocs.pages.get(request.pageId)!.contentFiles?.keys() ?? [])]),
+      targets: fixed.candidateNext.targets, observations: observations.map((o, i) => ({role: contract.batchRoles[i], commit: o.commit,
+        buildLock: o.buildLock, engine: o.engine, localInputs: contract.batchSorted(o.localInputs, f => f.file), blocks: o.blocks,
+        diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []})}))}))
     const material = contract.BatchPageMaterialHeaderSchema.parse({kind: 'guides-batch-material-v1', base: {origin: request.origin, session: request.session, pins: request.pins}, pageId: request.pageId,
-      configRef, lockRef, targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
-      historyRef: object({commits: commitHistory, interval: intervalObservations}), renderedManualRefs,
+      configRef, lockRef, ...(detailRef ? {detailRef} : {}), targets: configured.targets, current: configured.current, oldNext: configured.oldNext, rawMaterialRefs, inventoryRefs,
+      historyRef: object({commits: commitHistory, interval, inventoryProofRef, commitProofRef}), renderedManualRefs,
       imagesRef: object(images), projectionRef: object({pageId: request.pageId, observations: projected, promotionAnchors: impact.promotion.anchors, sourceAnchors: impact.sourceImpact.anchors}),
       diagnosticsRef: object({errors: impact.errors.map(normalizeDiagnostic), rawErrors: impact.rawErrors.map(normalizeDiagnostic), reasons: []})})
-    // sourceSnapshot intentionally retains discovery inputs too; deliver only the exact material graph.
+    // Deliver only the exact material graph, including its shared Git tree objects.
     const reached = new Set<string>()
     const visit = (value: unknown): void => {
       if (!value || typeof value !== 'object') return
@@ -634,6 +684,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         const blob = payloads.get(ref.sha256)
         if (!blob) throw Error('BATCH_MATERIAL_GRAPH_INCOMPLETE')
         reached.add(ref.sha256)
+        if (ref.sha256 === commitProofRef.sha256) return
         try {visit(JSON.parse(Buffer.from(blob.base64, 'base64').toString('utf8')))} catch { /* raw leaf */ }
       } else for (const child of Object.values(value)) visit(child)
     }
@@ -653,7 +704,7 @@ import {isMeasuredBatchContext, type MeasuredBatchContext} from './trusted-fetch
 import {retainedMetadata} from './github'
 import {classifyLifecycle} from '../../core/updates/lifecycle'
 import {BatchGitStore, batchBudget} from './batch-source'
-import {successfulJob, stepWindow} from './guides-run-metadata'
+import {isBatchFetchRun, successfulJob, stepWindow} from './guides-run-metadata'
 
 /** Fixed group worker. Input contains identity and material digests only. The
  * issuer is an ordinary bootstrap call, never a request property or ready fact. */
@@ -671,7 +722,7 @@ export async function qualifyBatchLifecycle(data: BatchQualifierRequest, issue: 
   const directory = await mkdtemp(join(request.temporaryRoot, 'qualifier-stage-'))
   try {
     const facts = await retainedMetadata(api, scope.run.id), {run} = facts
-    if (run.id !== scope.run.id || run.run_attempt !== 1 || run.head_sha !== scope.run.head) throw Error('BATCH_RUN_BINDING_INVALID')
+    if (!isBatchFetchRun(run) || run.id !== scope.run.id || run.head_sha !== scope.run.head) throw Error('BATCH_RUN_BINDING_INVALID')
     const stage = immutable(await acquireLifecycleStage(api, facts, directory, 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh'))
     const common = await acquireReviewedCommon(api, facts, pins.dev, stage), trusted = await context.facts()
     const scan = stepWindow(successfulJob(facts.jobs, 'produce_guides_sources / fetch', run), 'Fetch shared guides sources')
@@ -724,9 +775,11 @@ export async function qualifyBatchLifecycle(data: BatchQualifierRequest, issue: 
     await context.finish()
     const artifact = (a: Record<string, any>) => ({id: a.id, bytes: a.size_in_bytes, sha256: a.digest.slice(7)})
     const publication = facts.artifacts.find(a => a.id === request.archives.publication.id)
-    if (!publication || facts.artifact.id !== request.archives.source.id) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
+    if (!publication || facts.artifact.id !== request.archives.source.id ||
+      common.selectionArtifact?.id !== request.archives.selection?.id) throw Error('BATCH_ARTIFACT_BINDING_INVALID')
     return BatchQualificationSchema.parse({kind: 'guides-batch-qualification-v1', base: scope.base, run: scope.run,
-      scopeDigest: batchDigest('scope', scope), method: rows[0]?.method, sourceArtifact: artifact(facts.artifact), publicationArtifact: artifact(publication), scanStartMs: scan.start, rows})
+      scopeDigest: batchDigest('scope', scope), method: rows[0]?.method, sourceArtifact: artifact(facts.artifact), publicationArtifact: artifact(publication), ...(common.selectionArtifact ? {selectionArtifact: common.selectionArtifact} : {}),
+      scanStartMs: scan.start, rows})
   } finally {context.close(); channel.close()}
 }
 

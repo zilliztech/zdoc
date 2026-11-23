@@ -300,6 +300,7 @@ export interface BuildPageObservation {
 }
 export interface BuildPageInput {
   pageId: string; sharedDocs: SharedDocsInputs; reader: BuildReader; md2md: Md2md; runtime: BuildRuntime
+  finalizeMdx?: typeof toMdx
   /** Detached actual adaptation evidence. Observer exceptions cannot change generation. */
   observe?: (observation: BuildPageObservation) => void
 }
@@ -314,7 +315,7 @@ export async function buildPage(input: BuildPageInput): Promise<BuildPageResult>
 }
 
 async function generatePage(input: BuildPageInput, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
-  const { pageId, sharedDocs: shared, reader, runtime } = input
+  const { pageId, sharedDocs: shared, reader, runtime, finalizeMdx = toMdx } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
   const file = groupFile(shared.sharedDocsPath, `pages/${pageId}/page.yaml`)
@@ -407,6 +408,16 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
     const location = { page: pageId, channel, file: source }
     const output = new Map<number, PreparedVersion>()
     versions.set(channel, output)
+    // Guides whole-page release channels live on the Base records, not in a
+    // manual.yaml cloud_pages map, so the channel-absent link strip needs the
+    // same basenames derived here: a target whose release channel excludes
+    // this channel loses inbound links, keeping its visible text.
+    const channelAbsent = new Set(records
+      .filter(record => {
+        const release = record.release_channel?.toLowerCase()
+        return release === 'next' && channel !== 'next' || release === 'retire-in-next' && channel !== 'current'
+      })
+      .map(record => `${record.slug}.md`))
     for (const [index, target] of config.publish.entries()) {
       const dev = targets.get(index)
       if (!dev) continue
@@ -416,7 +427,8 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       const sources = await productSources(version, source, shared, reader)
       const mappedErrors = (items: SharedDocsError[]) => items.map(error => version.provenance ? remapError(error, version.provenance, source) : error)
       const rewritten = rewriteLinksAndImages({ ...prepared, markdown: version.content, sourceFile: source, sharedPages,
-        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location, pathLinks: !!layout })
+        linkMap: shared.linkMap, cloudPages: dev.pages, recorded: runtime.fetchContext?.recordedImages, context: location,
+        pathLinks: !!layout, ...(channelAbsent.size ? { channelAbsent } : {}) })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
       const adaptation = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
@@ -457,7 +469,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
         }
         // Finalize the actual complete channel through the same MDX adapter. This
         // optional detached pass neither rewrites merged output nor reads images.
-        const finalized = await toMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
+        const finalized = await finalizeMdx(adapted, location, { preserveFrontMatter: !!runtime.fetchContext })
         observationErrors.push(...('errors' in finalized ? finalized.errors.flatMap(error => {
           const attributed = error.line === undefined ? [] : observedOrigins[error.line - 1] ?? []
           const { line: _line, ...unlocated } = error
@@ -555,7 +567,7 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
       }
       return aliases.get(key)!
     })
-    const mdx = await toMdx({ markdown: merged.markdown, components: merged.components, provenance: { inputLines, outputLines } },
+    const mdx = await finalizeMdx({ markdown: merged.markdown, components: merged.components, provenance: { inputLines, outputLines } },
       location, { preserveFrontMatter: !!runtime.fetchContext })
     if ('errors' in mdx) {
       for (const error of mdx.errors) {

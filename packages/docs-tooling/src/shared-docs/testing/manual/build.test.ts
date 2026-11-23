@@ -551,6 +551,7 @@ cloud_pages:
   const expectation = {
     group: 'node', manual: 'node',
     upstream: { repository: 'https://github.com/milvus-io/web-content', dir: sourceDir, current: demo.commit, next: demo.nextCommit },
+    tools: { zdoc: TOOLING },
     config: { files: [...await Promise.all(['manual.yaml', 'source.yaml', 'product-names.yaml'].map(configOf)),
       { path: 'Variables.json', sha256: sha256('{}') }, { path: 'content/overview.md', sha256: sha256('# Overview\n\nManual-local page.\n') }] },
     images: stagedImages, pages: expectedPages,
@@ -564,6 +565,7 @@ cloud_pages:
   }
   reject(copy => { copy.kind = 'shared-page' }, 'Unknown record kind')
   reject(copy => { copy.schema_version = 2 }, 'Unsupported record schema_version')
+  reject(copy => { copy.inputs.tools.zdoc = 'b'.repeat(40) }, 'Record inputs.tools.zdoc')
   reject(copy => { copy.inputs.upstream.current = null }, 'Record inputs.upstream.current must be a complete lowercase commit SHA')
   reject(copy => { copy.inputs.upstream.next = demo.commit }, 'Record inputs.upstream.next')
   reject(copy => { copy.pages[0].output.sha256 = '0'.repeat(64) }, 'Record output mismatch')
@@ -645,4 +647,154 @@ metadata:
   const created = await readFile(join(demo.out, 'node/Collections/Collections-createCollection.md'), 'utf8')
   expect(created).toContain('beta: false')
   expect(created).toContain('description: "Custom summary kept verbatim. | Node.js"')
+})
+
+it('applies manual transforms at the marked region and strips the markers', async () => {
+  const marked = `# createCollection()
+
+Creates a collection.
+
+- **external_source** (*string*) -
+
+    <!-- doc:block:start id="demo-anchor" -->
+    The external source path.
+    <!-- doc:block:end id="demo-anchor" -->
+
+- **next_param** (*string*) -
+
+    Another parameter.
+`
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+transforms:
+  Collections/createCollection.md:
+    - operation: add
+      position: after
+      target:
+        block: demo-anchor
+      content:
+        file: create-collection-schemes.md
+`
+  const demo = await createManualDemo(await temp('manual-transform-'), {
+    upstream: { 'Collections/createCollection.md': marked }, manual,
+    cloud: { 'create-collection-schemes.md': 'On Zilliz Cloud, external_source accepts two schemes.\n' } })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  let output = ''
+  expect(await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text })).toBe(0)
+  const created = await readFile(join(demo.out, 'node/Collections/Collections-createCollection.md'), 'utf8')
+  expect(created).toContain('On Zilliz Cloud, external_source accepts two schemes.')
+  // The inserted paragraph stays inside the list item: the marker indent carries the content indent.
+  expect(created).toContain('    On Zilliz Cloud, external_source accepts two schemes.')
+  expect(created).not.toContain('doc:block')
+})
+
+it('fails closed when a transforms key names no published upstream page', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+transforms:
+  Collections/unknown-page.md:
+    - operation: add
+      position: after
+      target:
+        block: demo-anchor
+      content:
+        file: schemes.md
+`
+  // The content file exists so the stale-key failure surfaces at expansion, not at the content read.
+  const demo = await createManualDemo(await temp('manual-transform-unknown-'), { manual, cloud: { 'schemes.md': 'On Zilliz Cloud.\n' } })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  let output = ''
+  expect(await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text })).toBe(1)
+  expect(output).toContain('CONFIG_PATH_UNKNOWN')
+  expect(output).toContain('Transforms key does not match any published upstream page')
+})
+
+it('rejects a transforms key that names a cloud_pages page at parse time', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+cloud_pages:
+  Client/Overview.md:
+    file: overview.md
+transforms:
+  Client/Overview.md:
+    - operation: add
+      position: after
+      target:
+        block: demo-anchor
+      content:
+        file: schemes.md
+`
+  const demo = await createManualDemo(await temp('manual-transform-cloud-'), {
+    manual, cloud: { 'overview.md': '# Overview\n\nCloud overview.\n' } })
+  let output = ''
+  expect(await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text })).toBe(1)
+  expect(output).toContain('CONFIG_TRANSFORM_CLOUD_PAGE')
+})
+
+it('fails closed when a transform marker is missing upstream', async () => {
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+transforms:
+  Collections/createCollection.md:
+    - operation: add
+      position: after
+      target:
+        block: vanished-anchor
+      content:
+        file: create-collection-schemes.md
+`
+  const demo = await createManualDemo(await temp('manual-transform-missing-'), {
+    manual, cloud: { 'create-collection-schemes.md': 'On Zilliz Cloud.\n' } })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  let output = ''
+  expect(await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text })).toBe(1)
+  expect(output).toContain('TRANSFORM_TARGET_NOT_FOUND')
+})
+
+it('fails closed when transform content is missing from the group content directory', async () => {
+  const marked = `# createCollection()
+
+Creates a collection.
+
+<!-- doc:block:start id="demo-anchor" -->
+Anchor paragraph.
+<!-- doc:block:end id="demo-anchor" -->
+`
+  const manual = `schema_version: 1
+source:
+  dir: ${sourceDir}
+publish:
+  manual: node
+transforms:
+  Collections/createCollection.md:
+    - operation: add
+      position: after
+      target:
+        block: demo-anchor
+      content:
+        file: absent-content.md
+`
+  const demo = await createManualDemo(await temp('manual-transform-nocontent-'), {
+    upstream: { 'Collections/createCollection.md': marked }, manual })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  let output = ''
+  expect(await runBuild({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out: demo.out },
+    text => { output += text })).toBe(1)
+  expect(output).toContain('TRANSFORM_CONTENT_NOT_FOUND')
 })
