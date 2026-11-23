@@ -470,3 +470,49 @@ describe('RestSpecs staged field flip pairs', () => {
     expect(html).toContain(paramName('plainField'));
   });
 });
+
+describe('RestSpecs default-value row', () => {
+  const renderWithDefault = (lang: string) => {
+    const specs = {
+      summary: 'Validate Storage Integration',
+      description: 'Validates a storage integration.',
+      parameters: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                pageSize: {type: 'integer', description: 'The page size.', default: 10},
+                plainField: {type: 'string', description: 'No default.'},
+              },
+            },
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    return render(<RestSpecs specs={specs} endpoint="/v2/storageIntegrations/validate" method="post" target="zilliz" lang={lang} />).container.innerHTML;
+  };
+
+  it('renders the documented default from the OpenAPI default key with its localized label', () => {
+    expect(renderWithDefault('en-US')).toContain('Default Value: ');
+    expect(renderWithDefault('zh-CN')).toContain('默认值：');
+    // The property without a default stays row-free; exactly one default row renders.
+    const rows = renderWithDefault('en-US').match(/Default Value: /g) ?? [];
+    expect(rows.length).toBe(1);
+    expect(renderWithDefault('en-US')).toContain('>10</span>');
+  });
+});

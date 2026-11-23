@@ -13,7 +13,12 @@ const PROJECT_ENDPOINT = 'https://{project-id}.{region}.api.cloud.zilliz.com.cn'
 const GLOBAL_ENDPOINT = 'https://glo-xxxx.global-cluster.vectordb.zilliz.com.cn';
 const PRIVATE_ENDPOINT = 'https://{cluster-id}-privatelink.{region}.vectordb.zilliz.com.cn';
 
-const HOST_CLOSING_CONTEXT = String.raw`[\s)\]}>"'|\x60。，；！？]|\\[)\]|]`;
+// `<` opens the HTML tag that visually closes the host (`…zilliz.com</code>` in
+// rendered endpoint prompts); a hostname can never contain it, so it is a safe
+// terminal just like the closing brackets. `\` covers the `\"` escape that
+// closes a host embedded in a JSON/JS string literal (x-base-urls shell
+// commands carry no port, so nothing else terminates them).
+const HOST_CLOSING_CONTEXT = String.raw`[\s)\]}>"'<|\\\x60。，；！？]|\\[)\]|]`;
 const HOST_EMPHASIS_CONTEXT = `(?:\\*{1,2}|_)(?=$|${HOST_CLOSING_CONTEXT}|[.,;])`;
 const HOST_TERMINAL = `(?=$|[:/?#]|${HOST_CLOSING_CONTEXT}|${HOST_EMPHASIS_CONTEXT}|[.,;](?=$|${HOST_CLOSING_CONTEXT}))`;
 
