@@ -669,7 +669,6 @@
                   }
                 },
                 "required": [
-                  "data",
                   "collectionName"
                 ],
                 "x-added-at": "2.6.x",
@@ -1291,12 +1290,24 @@
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
                           "x-deprecated-since": null
+                        },
+                        "path": {
+                          "type": "string",
+                          "description": "The JSON path to the field or subfield the operation applies to, used for path-based partial updates on nested struct fields.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "操作适用的字段或子字段的 JSON 路径，用于嵌套 Struct 字段的基于路径的部分更新。"
+                            },
+                            "ja-JP": {
+                              "description": "操作の対象となるフィールドまたはサブフィールドの JSON パス。ネストした struct フィールドへのパスベースの部分更新に使用されます。"
+                            }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
                       },
-                      "required": [
-                        "fieldName",
-                        "op"
-                      ],
+                      "required": [],
                       "x-added-at": "2.6.x",
                       "x-last-modified": "2.6.x",
                       "x-deprecated-since": null,
@@ -1378,7 +1389,6 @@
                   }
                 },
                 "required": [
-                  "data",
                   "collectionName"
                 ],
                 "x-added-at": "2.6.x",
@@ -4421,9 +4431,7 @@
                             "description": "指定された戦略に関連するパラメータのセット"
                           }
                         },
-                        "required": [
-                          "k"
-                        ],
+                        "required": [],
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
                         "x-deprecated-since": null
@@ -4438,9 +4446,7 @@
                         "description": "再ランキング戦略。"
                       }
                     },
-                    "required": [
-                      "params"
-                    ],
+                    "required": [],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
@@ -6350,9 +6356,7 @@
             "x-deprecated-since": null
           }
         },
-        "required": [
-          "name"
-        ],
+        "required": [],
         "description": "An expression evaluated by a function-chain operation.",
         "x-i18n": {
           "zh-CN": {
@@ -6476,9 +6480,7 @@
             "x-deprecated-since": null
           }
         },
-        "required": [
-          "op"
-        ],
+        "required": [],
         "description": "An operation in a function chain.",
         "x-i18n": {
           "zh-CN": {
@@ -6550,10 +6552,7 @@
             "x-deprecated-since": null
           }
         },
-        "required": [
-          "stage",
-          "ops"
-        ],
+        "required": [],
         "description": "A function chain applied during search reranking.",
         "x-i18n": {
           "zh-CN": {

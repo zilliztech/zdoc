@@ -243,10 +243,7 @@
                         }
                       },
                       "required": [
-                        "metricType",
-                        "fieldName",
-                        "indexName",
-                        "indexType"
+                        "fieldName"
                       ],
                       "x-added-at": "2.6.x",
                       "x-last-modified": "2.6.x",

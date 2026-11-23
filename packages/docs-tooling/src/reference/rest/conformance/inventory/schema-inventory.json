@@ -5,10 +5,10 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "a1125dcc41bc",
-  "05-collection-operations-v2.json": "8d4630631408",
+  "04-vector-operations-v2.json": "59b321927f80",
+  "05-collection-operations-v2.json": "889a358910b3",
   "06-database-operations-v2.json": "6c78a736fb94",
-  "07-index-operations-v2.json": "dff8198ab5c5",
+  "07-index-operations-v2.json": "653db572c7df",
   "08-partition-operations-v2.json": "77c60f81b12a",
   "09-role-operations-v2.json": "7930c706c338",
   "10-resource-group-v2.json": "f3d4eac72970",
@@ -2250,7 +2250,7 @@
        "name": "data",
        "in": "body",
        "type": "oneOf",
-       "required": true,
+       "required": false,
        "branches": [
         {
          "type": "object",
@@ -2337,7 +2337,6 @@
       }
      ],
      "required": [
-      "data",
       "collectionName"
      ]
     }
@@ -2506,24 +2505,27 @@
           "name": "fieldName",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "op",
           "in": "body",
           "type": "string",
-          "required": true,
+          "required": false,
           "enum": [
            "REPLACE",
            "ARRAY_APPEND",
            "ARRAY_REMOVE"
           ]
+         },
+         {
+          "name": "path",
+          "in": "body",
+          "type": "string",
+          "required": false
          }
         ],
-        "required": [
-         "fieldName",
-         "op"
-        ]
+        "required": []
        }
       },
       {
@@ -2554,7 +2556,6 @@
       }
      ],
      "required": [
-      "data",
       "collectionName"
      ]
     }
@@ -3213,7 +3214,7 @@
           "name": "stage",
           "in": "body",
           "type": "string",
-          "required": true,
+          "required": false,
           "enum": [
            "FunctionChainStageL2Rerank"
           ]
@@ -3222,7 +3223,7 @@
           "name": "ops",
           "in": "body",
           "type": "array",
-          "required": true,
+          "required": false,
           "items": {
            "type": "object",
            "fields": [
@@ -3230,21 +3231,19 @@
              "name": "op",
              "in": "body",
              "type": "string",
-             "required": true
+             "required": false
             },
             {
              "name": "expr",
              "in": "body",
              "type": "object",
-             "required": [
-              "name"
-             ],
+             "required": [],
              "fields": [
               {
                "name": "name",
                "in": "body",
                "type": "string",
-               "required": true
+               "required": false
               },
               {
                "name": "args",
@@ -3307,16 +3306,11 @@
              "dynamic": true
             }
            ],
-           "required": [
-            "op"
-           ]
+           "required": []
           }
          }
         ],
-        "required": [
-         "stage",
-         "ops"
-        ]
+        "required": []
        }
       },
       {
@@ -3877,9 +3871,7 @@
        "name": "rerank",
        "in": "body",
        "type": "object",
-       "required": [
-        "params"
-       ],
+       "required": [],
        "fields": [
         {
          "name": "strategy",
@@ -3895,15 +3887,13 @@
          "name": "params",
          "in": "body",
          "type": "object",
-         "required": [
-          "k"
-         ],
+         "required": [],
          "fields": [
           {
            "name": "k",
            "in": "body",
            "type": "integer",
-           "required": true
+           "required": false
           }
          ]
         }
@@ -4944,7 +4934,7 @@
             "name": "metricType",
             "in": "body",
             "type": "string",
-            "required": true,
+            "required": false,
             "enum": [
              "L2",
              "IP",
@@ -4964,7 +4954,13 @@
             "name": "indexName",
             "in": "body",
             "type": "string",
-            "required": true
+            "required": false
+           },
+           {
+            "name": "indexType",
+            "in": "body",
+            "type": "string",
+            "required": false
            },
            {
             "name": "params",
@@ -5002,9 +4998,7 @@
            }
           ],
           "required": [
-           "metricType",
-           "fieldName",
-           "indexName"
+           "fieldName"
           ]
          }
         },
@@ -5479,7 +5473,7 @@
             "name": "metricType",
             "in": "body",
             "type": "string",
-            "required": true,
+            "required": false,
             "enum": [
              "L2",
              "IP",
@@ -5499,7 +5493,13 @@
             "name": "indexName",
             "in": "body",
             "type": "string",
-            "required": true
+            "required": false
+           },
+           {
+            "name": "indexType",
+            "in": "body",
+            "type": "string",
+            "required": false
            },
            {
             "name": "params",
@@ -5537,9 +5537,7 @@
            }
           ],
           "required": [
-           "metricType",
-           "fieldName",
-           "indexName"
+           "fieldName"
           ]
          }
         },
@@ -11385,7 +11383,7 @@
           "name": "metricType",
           "in": "body",
           "type": "string",
-          "required": true,
+          "required": false,
           "enum": [
            "L2",
            "IP",
@@ -11403,13 +11401,13 @@
           "name": "indexName",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "indexType",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "params",
@@ -11439,10 +11437,7 @@
          }
         ],
         "required": [
-         "metricType",
-         "fieldName",
-         "indexName",
-         "indexType"
+         "fieldName"
         ]
        }
       }
