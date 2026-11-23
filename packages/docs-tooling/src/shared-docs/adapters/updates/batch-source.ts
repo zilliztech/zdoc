@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { lstat, realpath } from 'node:fs/promises'
-import { isAbsolute, join } from 'node:path'
+import { isAbsolute, join, relative } from 'node:path'
 import {currentBatchLifetime} from './evidence'
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { REMOTE_IO_LIMITS as IO } from '../../core/updates/remote'
@@ -107,6 +107,7 @@ export class BatchGitStore {
   private blobs = new Map<string, Buffer>()
   private regularObjects = new Set<string>()
   private proofObjects = new Map<string, {kind: 'commit' | 'tree' | 'blob'; bytes: Buffer}>()
+  private readQueue = Promise.resolve()
   private constructor(private readonly root: string, private readonly spelling: string, private readonly budget: BatchBudget,
     private readonly localCandidateGit?: string) {}
   static async open(root: string, budget: BatchBudget, localCandidateGit?: string) {
@@ -116,6 +117,12 @@ export class BatchGitStore {
     return store
   }
   private run(args: string[], input?: string): Promise<Buffer> {
+    // Reserve against the same aggregate byte budget when historical renders overlap.
+    const next = this.readQueue.then(() => this.runBounded(args, input))
+    this.readQueue = next.then(() => undefined, () => undefined)
+    return next
+  }
+  private runBounded(args: string[], input?: string): Promise<Buffer> {
     if (this.localCandidateGit && ++this.budget.calls > IO.calls) stop('GIT_BYTE_LIMIT')
     const maximum = Math.min(gitCommandBytes, IO.objectBytes - this.budget.gitBytes)
     if (maximum < 1) stop('GIT_BYTE_LIMIT')
@@ -249,40 +256,45 @@ export class BatchGitStore {
     }
     return Buffer.concat(parts)
   }
-  private async readTrees(ids: string[]) {
-    const bodies = await this.objects('tree', ids)
-    bodies.forEach((bytes, i) => this.trees.set(ids[i], parseBatchGitTree(bytes)))
-  }
-  private async loadTrees(ids: Set<string>) {
-    const missing = [...ids].filter(oid => !this.trees.has(oid))
+  private async prefetchObjects(kind: 'tree' | 'blob', ids: Iterable<string>) {
+    const missing = [...new Set(ids)].filter(oid => {
+      if (!GitShaSchema.safeParse(oid).success) stop('GIT_OBJECT_INVALID')
+      const existing = this.proofObjects.get(oid)
+      if (existing && existing.kind !== kind) stop('GIT_OBJECT_INVALID')
+      return !existing
+    })
     for (let at = 0; at < missing.length; at += 256) {
       const chunk = missing.slice(at, at + 256)
       if (chunk.length === 1) {
-        await this.readTrees(chunk)
+        await this.objects(kind, chunk)
         continue
       }
-      // Size hints keep each process within the existing stdout bound even for large trees.
-      // Only the independently hashed contents returned by readTrees populate the cache.
+      // Size hints only group requests. The separately authenticated bodies populate the cache.
       const hints = await this.run(['cat-file', '--batch-check=%(objectname) %(objecttype) %(objectsize)'], chunk.join('\n') + '\n')
       const lines = hints.toString('latin1').split('\n')
       if (lines.pop() !== '' || lines.length !== chunk.length) stop('GIT_OBJECT_UNAVAILABLE')
       let batch: string[] = [], bytes = 0
       for (const [index, line] of lines.entries()) {
-        const match = /^([a-f0-9]{40}) tree (0|[1-9][0-9]*)$/.exec(line)
-        if (!match || match[1] !== chunk[index]) stop('GIT_OBJECT_UNAVAILABLE')
-        const frameBytes = Number(match[2]) + line.length + 2
-        if (frameBytes > gitCommandBytes) stop('GIT_BYTE_LIMIT')
+        const match = /^([a-f0-9]{40}) (tree|blob) (0|[1-9][0-9]*)$/.exec(line)
+        if (!match || match[1] !== chunk[index] || match[2] !== kind) stop('GIT_OBJECT_UNAVAILABLE')
+        const frameBytes = Number(match[3]) + line.length + 2
+        if (!Number.isSafeInteger(frameBytes) || frameBytes > gitCommandBytes) stop('GIT_BYTE_LIMIT')
         if (bytes + frameBytes > gitCommandBytes) {
-          await this.readTrees(batch)
+          await this.objects(kind, batch)
           batch = []; bytes = 0
         }
         batch.push(match[1]); bytes += frameBytes
       }
-      await this.readTrees(batch)
+      await this.objects(kind, batch)
     }
   }
+  private async loadTrees(ids: Set<string>) {
+    const missing = [...ids].filter(oid => !this.trees.has(oid))
+    await this.prefetchObjects('tree', missing)
+    for (const oid of missing) this.trees.set(oid, parseBatchGitTree(this.proofObjects.get(oid)!.bytes))
+  }
   private async tree(oid: string) {
-    if (!this.trees.has(oid)) await this.readTrees([oid])
+    if (!this.trees.has(oid)) await this.loadTrees(new Set([oid]))
     return this.trees.get(oid)!
   }
   private async entriesAt(commits: readonly string[], path: string, recordTree?: (oid: string, bytes: Buffer) => void) {
@@ -327,6 +339,32 @@ export class BatchGitStore {
     const treeOid = this.commits.get(commit)!.tree
     return {treeOid, commitBytes: this.proofObjects.get(commit)!.bytes,
       entries: entry ? await this.inventoryTree('site/en', entry.oid, recordTree) : []}
+  }
+  /** Fetch shared directory objects in bounded batches; each inventory still follows its full commit path. */
+  async prefetchSourceInventoryTrees(commits: readonly string[]) {
+    const roots = await this.entriesAt(commits, 'site/en')
+    let frontier = new Set<string>()
+    for (const root of roots) {
+      if (!root) continue
+      if (root.mode !== '40000') stop('GIT_PATH_TYPE_INVALID')
+      frontier.add(root.oid)
+    }
+    const visited = new Set<string>()
+    while (frontier.size) {
+      this.budget.remaining()
+      if (frontier.size + visited.size > traversalLimit) stop('SOURCE_TREE_LIMIT')
+      await this.loadTrees(frontier)
+      const next = new Set<string>()
+      for (const oid of frontier) visited.add(oid)
+      for (const oid of frontier) for (const child of this.trees.get(oid)!.values()) {
+        if (child.mode === '40000' && !visited.has(child.oid)) next.add(child.oid)
+      }
+      frontier = next
+    }
+  }
+  async readVerifiedBlobs(ids: readonly string[]) {
+    await this.prefetchObjects('blob', ids)
+    return new Map(ids.map(oid => [oid, Buffer.from(this.proofObjects.get(oid)!.bytes)]))
   }
   async sourceInventoryHas(commit: string, path: string) {
     let entry: TreeEntry = {mode: '40000', oid: this.commits.get(commit)!.tree}
@@ -445,6 +483,19 @@ import {dirname} from 'node:path'
 import {batchAllocatedTree, checkBatchAllocation, reserveBatchAllocation, type EvidenceStore} from './evidence'
 const exportBlobLimit = 32 * 1024 * 1024
 const exportBatchBytes = 4 * 1024 * 1024
+async function verifyExportParent(parent: string, root: string) {
+  for (let cursor = parent; ; cursor = dirname(cursor)) {
+    const stat = await lstat(cursor).catch(error => {
+      if (error.code === 'ENOENT') return null
+      throw error
+    })
+    if (stat) {
+      if (!stat.isDirectory() || await realpath(cursor) !== cursor) stop('BATCH_EXPORT_INVALID')
+      return
+    }
+    if (cursor === root) stop('BATCH_EXPORT_INVALID')
+  }
+}
 async function exportRead(repository: string, args: string[], maximum = exportBlobLimit, input?: string): Promise<Buffer> {
   const lifetime = currentBatchLifetime()
   const timeout = Math.min(30_000, lifetime?.check() ?? 30_000)
@@ -486,9 +537,9 @@ export async function measureBatchFragmentSnapshots(repository: string, commits:
   await store.verify()
   return {bytes, count, snapshots: distinct.length}
 }
-/** All endpoint and intermediate snapshots share ONE authenticated read budget.
- * The endpoint reader disposes before sequential intermediate observations, each
- * of which also disposes its reader. M/D exports remain live throughout. */
+export const BATCH_HISTORICAL_WINDOW = 4
+/** Endpoints dispose before intermediate rendering. Reserve the largest possible
+ * window of intermediate snapshots in addition to the live M/D exports. */
 export async function measureBatchRenderFragments(repository: string, commits: readonly string[]) {
   if (commits.length !== 3) stop('BATCH_FRAGMENT_BINDING_INVALID')
   const [current, oldNext, target] = commits
@@ -501,11 +552,12 @@ export async function measureBatchRenderFragments(repository: string, commits: r
   for (const endpoint of measured.slice(0, endpoints.length)) {
     endpointBytes += endpoint.bytes; endpointCount += endpoint.count
   }
-  const sequential = measured.slice(endpoints.length)
+  const intermediates = measured.slice(endpoints.length)
+  const peak = (field: 'bytes' | 'count') => intermediates.map(snapshot => snapshot[field])
+    .sort((a, b) => b - a).slice(0, BATCH_HISTORICAL_WINDOW).reduce((sum, value) => sum + value, 0)
   await store.verify()
-  return {bytes: Math.max(endpointBytes, ...sequential.map(snapshot => snapshot.bytes)),
-    count: Math.max(endpointCount, ...sequential.map(snapshot => snapshot.count)),
-    snapshots: endpoints.length + sequential.length, endpoints: {bytes: endpointBytes, count: endpointCount}, sequential}
+  return {bytes: Math.max(endpointBytes, peak('bytes')), count: Math.max(endpointCount, peak('count')),
+    snapshots: endpoints.length + intermediates.length, endpoints: {bytes: endpointBytes, count: endpointCount}, intermediates}
 }
 export async function reserveBatchContentAllocation(store: EvidenceStore, inputs: {
   masterRepository: string; master: string; devRepository: string; dev: string; sourceRepository: string; commits: readonly string[]
@@ -517,13 +569,21 @@ export async function reserveBatchContentAllocation(store: EvidenceStore, inputs
   await reserveBatchAllocation(store, master.bytes + dev.bytes + fragments.bytes, master.count + dev.count + fragments.count + 4)
   return {master, dev, fragments}
 }
-/** Batch-only exporter: bound the complete next representation before creating
- * it, then recheck the filesystem before each exclusive regular-file write. */
+/** Bound the whole export, then reserve each chunk from the physical tree.
+ * Check free space before each exclusive file creation. */
 export async function exportBatchTree(repository: string, commit: string, roots: string[], destination: string, ownedRoot: string) {
   const measured = await measureBatchExport(repository, commit, roots)
+  const physicalRoot = await realpath(ownedRoot)
+  const rootIdentity = await lstat(physicalRoot)
+  if (!rootIdentity.isDirectory()) stop('BATCH_EXPORT_INVALID')
+  const destinationPath = join(physicalRoot, relative(ownedRoot, destination))
+  if (!destinationPath.startsWith(physicalRoot + '/')) stop('BATCH_EXPORT_INVALID')
   const reserve = async (bytes: number, entries: number) => {
-    const fs = await statfs(ownedRoot, {bigint: true})
-    checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: await batchAllocatedTree(ownedRoot)}, bytes, entries)
+    const currentRoot = await lstat(physicalRoot)
+    if (!currentRoot.isDirectory() || currentRoot.dev !== rootIdentity.dev || currentRoot.ino !== rootIdentity.ino)
+      stop('BATCH_EXPORT_INVALID')
+    const fs = await statfs(physicalRoot, {bigint: true})
+    checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: await batchAllocatedTree(physicalRoot)}, bytes, entries)
   }
   await reserve(measured.bytes, measured.count)
   // Amortize process startup without retaining the entire export in memory.
@@ -543,18 +603,27 @@ export async function exportBatchTree(repository: string, commit: string, roots:
     const raw = await exportRead(repository, ['cat-file', '--batch'], batchBytes,
       frames.map(({entry}) => entry.oid).join('\n') + '\n')
     if (raw.length !== batchBytes) stop('BATCH_EXPORT_BINDING_INVALID')
+    // Summing each path's full depth conservatively charges new directories even if they are shared.
+    await reserve(frames.reduce((sum, {entry}) => sum + entry.bytes, 0),
+      frames.reduce((sum, {entry}) => sum + entry.path.split('/').length, 1))
     let at = 0
     for (const {entry, header} of frames) {
       const start = at + header.length, end = start + entry.bytes
       const bytes = raw.subarray(start, end)
       if (!raw.subarray(at, start).equals(header) || raw[end] !== 10 ||
           createHash('sha1').update(`blob ${entry.bytes}\0`).update(bytes).digest('hex') !== entry.oid) stop('BATCH_EXPORT_BINDING_INVALID')
-      await reserve(bytes.length, entry.path.split('/').length)
-      await mkdir(dirname(join(destination, entry.path)), {recursive: true, mode: 0o700})
-      await writeFile(join(destination, entry.path), bytes, {flag: 'wx', mode: 0o600})
+      currentBatchLifetime()?.check()
+      const fs = await statfs(physicalRoot, {bigint: true})
+      checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, bytes.length, entry.path.split('/').length)
+      const target = join(destinationPath, entry.path), parent = dirname(target)
+      await verifyExportParent(parent, physicalRoot)
+      await mkdir(parent, {recursive: true, mode: 0o700})
+      if (await realpath(parent) !== parent) stop('BATCH_EXPORT_INVALID')
+      await writeFile(target, bytes, {flag: 'wx', mode: 0o600})
       at = end + 1
     }
   }
+  await reserve(0, 1)
   return measured.entries.length
 }
 

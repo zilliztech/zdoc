@@ -364,7 +364,7 @@ it('refuses an edit-restore intermediate fragment peak before its actual materia
     const materialize = vi.spyOn(reader, 'withFragments'), inputs = {masterRepository: repo, master: target, devRepository: repo, dev: target, sourceRepository: repo, commits: [first, first, target]}
     expect(await source.measureBatchFragmentSnapshots(repo, inputs.commits)).toMatchObject({bytes: 10, count: 6, snapshots: 2})
     expect(await source.measureBatchRenderFragments(repo, inputs.commits)).toEqual({bytes: 3 * 1024 ** 2 + 5, count: 7, snapshots: 3,
-      endpoints: {bytes: 10, count: 6}, sequential: [{commit: middle, bytes: 3 * 1024 ** 2 + 5, count: 7}]})
+      endpoints: {bytes: 10, count: 6}, intermediates: [{commit: middle, bytes: 3 * 1024 ** 2 + 5, count: 7}]})
     await expect((async () => {await source.reserveBatchContentAllocation(store, inputs); await reader.withFragments(middle, async () => {})})()).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
     expect(materialize).not.toHaveBeenCalled()
     expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
