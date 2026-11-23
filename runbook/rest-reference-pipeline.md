@@ -327,10 +327,16 @@ node packages/docs-tooling/src/reference/rest/index.js rest-upstream-diff \
 ```
 
 The extractor reads the route table and request structs of the pinned Go
-package and emits structural truth only (paths, handler names, request
-fields, Go-level types, `binding:"required"` membership); prose, response
-shapes, and doc-layer constraints are documentation territory and stay out of
-the skeleton.
+package and emits structural truth plus two kinds of machine-derived grounding
+evidence: paths, handler names, request fields, Go-level types,
+`binding:"required"` membership, and — attached to each operation's
+request-schema node — verbatim string literals from the request struct's
+receiver methods that mention one of its fields (the upstream's own
+validation vocabulary: accepted enum values, row policies). The diff harvests
+the evidence onto its entries (`upstreamComments`, `upstreamValidation`) and
+strips the markers, so it grounds description drafting and human adjudication
+without ever riding into a fragment; prose, response shapes, and doc-layer
+constraints are still documentation territory and stay out of the skeleton.
 
 ## REST upstream and availability operations
 
