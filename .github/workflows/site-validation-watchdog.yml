@@ -9,16 +9,22 @@ permissions:
   actions: write
   contents: read
 
+# One coverage pass at a time: two overlapping ticks could dispatch the same
+# missing run twice before either run listing reflects the first dispatch.
+concurrency:
+  group: site-validation-watchdog
+  cancel-in-progress: false
+
 jobs:
   watchdog:
-    name: Retry startup-failed site validation runs
+    name: Retry startup failures, dispatch uncovered PR validations
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
 
-      - name: Retry zero-job site validation failures
+      - name: Retry zero-job failures and dispatch uncovered PR validations
         id: watchdog
         env:
           GITHUB_TOKEN: ${{ github.token }}
