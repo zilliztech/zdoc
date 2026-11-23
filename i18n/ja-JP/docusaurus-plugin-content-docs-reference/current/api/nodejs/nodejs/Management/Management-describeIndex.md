@@ -84,7 +84,7 @@ await milvusClient.describeIndex(data)
 
 **パラメータ:**
 
-- **index_descriptions** (*IndexDescription[]*) -
+- **index_descriptions** (*[IndexDescription](./Management-IndexDescription)[]*) -
 
 要求されたコレクションのインデックス記述のリストです。**field_name** または **index_name** が指定されている場合、リストには一致するエントリのみが含まれます。
 
@@ -157,3 +157,4 @@ const describeIndexReq = {
 const res = await milvusClient.describeIndex(describeIndexReq);
 console.log(res);
 ```
+

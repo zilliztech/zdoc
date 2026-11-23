@@ -64,7 +64,7 @@ await milvusClient.listPrivilegeGroups(data?)
 
 **パラメーター:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
+- **privilege_groups** (*[PrivelegeGroup](./Authentication-PrivelegeGroup)[]*) -
 
 現在の Milvus インスタンスで定義されている特権グループのリストです。
 
@@ -72,7 +72,7 @@ await milvusClient.listPrivilegeGroups(data?)
 
         特権グループの名前です。
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*[PrivilegeEntity](./Authentication-PrivilegeEntity)[]*) -
 
         グループに含まれる特権です。
 

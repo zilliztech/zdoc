@@ -6181,14 +6181,14 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrants.md": {
-      "sourceHash": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62",
+      "sourceHash": "ee6df4fe2d504c889f082e0d0ebbbb3b48bfaa0a2fc069d1a00752160493ef44",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Authentication/Authentication-listGrants.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-23T20:41:25.108Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md": {
-      "sourceHash": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841",
+      "sourceHash": "61efa4ebfedfcf1da814860f77cc307539185d4ed3e946b4d5db623582d76aab",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md",
-      "translatedAt": "2026-11-19T19:42:41.058Z"
+      "translatedAt": "2026-11-23T20:41:25.108Z"
     },
     "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md": {
       "sourceHash": "80e951320c87272b082cd9bf85d96c39a826637b012a739a5dc95bee3fdc6838",
@@ -6666,9 +6666,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-describeIndex.md": {
-      "sourceHash": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1",
+      "sourceHash": "5a1edf6a0ffbf199e6ab23c6fedb4579c521fe266d18b3c79af83f72563f6e13",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-describeIndex.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-23T20:41:25.108Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-dropIndex.md": {
       "sourceHash": "b7c854bb69899a477368b1816ed288cc008cbb9c1e557090542a71c11d01ec71",
@@ -6911,9 +6911,9 @@
       "translatedAt": "2026-11-19T03:46:33.018Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-delete.md": {
-      "sourceHash": "d1b956310bde3937ac22bb66108f917ce788f614c06d78da469fcaff4135fc3c",
+      "sourceHash": "307555b4a9dcb6f319600fbe796c64457378dd6ac74c082acabc34c30f15339f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-delete.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-23T20:41:25.108Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-deleteEntities.md": {
       "sourceHash": "d989fdf9148afd0343e283a3f9ef5416a046d9f319faeca7fde0b128b242e08e",

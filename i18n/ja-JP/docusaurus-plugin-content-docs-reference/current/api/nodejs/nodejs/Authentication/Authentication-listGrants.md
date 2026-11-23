@@ -74,7 +74,7 @@ await milvusClient.listGrants(data)
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
 要求されたロールに付与された権限のリストです。各エントリは、権限を対象オブジェクトおよびその権限を付与したプリンシパルと対応付けます。**GrantEntity** フィールドの完全なリファレンスについては、`describeRole()` のドキュメントを参照してください。
 

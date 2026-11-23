@@ -185,7 +185,7 @@ await milvusClient.delete({
 - **timestamp** (*string*) -
 削除が可視になったハイブリッドタイムスタンプです。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 この削除の対象となったプライマリキーです。フィールドの完全なリファレンスについては、`insert()` のドキュメントを参照してください。
 
