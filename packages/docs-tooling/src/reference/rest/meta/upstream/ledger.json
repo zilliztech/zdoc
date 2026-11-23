@@ -856,6 +856,28 @@
       "fragment": "11-import-operations-v2.json"
     },
     {
+      "opKey": "post /v2/vectordb/jobs/import/describe",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "377633280086e18f088f20fdadfb30d724ece60d",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "Cross-track attribution (2026-11-23, #1258 adjudication follow-up): the flagged projectId/regionId/clusterId live in the [zilliz]-scoped scenario branches of 11-import-operations-v2.json, so the milvus-data-plane lane has no standing to retire them; this entry moves the field-level notices to the cross-track list.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "11-import-operations-v2.json"
+    },
+    {
+      "opKey": "post /v2/vectordb/jobs/import/list",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "377633280086e18f088f20fdadfb30d724ece60d",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "Cross-track attribution (2026-11-23, #1258 adjudication follow-up): the flagged clusterId/currentPage/pageSize/projectId/regionId live in the [zilliz]-scoped scenario branches of 11-import-operations-v2.json, so the milvus-data-plane lane has no standing to retire them; this entry moves the field-level notices to the cross-track list.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "11-import-operations-v2.json"
+    },
+    {
       "opKey": "put /v2/api-keys/{apiKeyId}",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
