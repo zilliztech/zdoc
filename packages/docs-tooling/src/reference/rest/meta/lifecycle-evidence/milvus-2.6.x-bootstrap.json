@@ -23050,7 +23050,7 @@
       "releaseTrack": "2.6.x",
       "lifecycle": {
         "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
+        "x-last-modified": "3.0.x",
         "x-deprecated-since": null
       },
       "previousLifecycle": {},
@@ -63837,7 +63837,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "f48cb6e7e79782c756b6cb2de2ce8f87a7e95d1e7aa0467f11899fd35291e216",
+    "fragmentInventorySha256": "fc85d2ea0d75f4299b5c834a381c54441b32cf9ddbfc0449874cf1a7c611bc91",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
