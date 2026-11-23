@@ -384,6 +384,39 @@ async function testHeadingRepairsMangledAnchor() {
   assert.ok(!literal.includes('{#参数}'), 'expected literal placeholder not to become an anchor');
 }
 
+async function testHeadingDropsEmptyAnchorMarkers() {
+  const writer = createWriter([]);
+
+  // An empty "{#}" marker carries no id: either a translation dropped the id,
+  // or the append below minted it when slugify strips a CJK-only heading
+  // (slugify('概述') === '', observed on zh-CN membership-match). No parser
+  // consumes an empty id, so the marker renders as literal "{#}". __heading
+  // must drop it and leave the heading bare so the SSG slugger ids it.
+  const emptyMarker = await writer.__heading({elements: [
+    textRun('概述'),
+    textRun('{#}'),
+  ]}, 2);
+  assert.equal(emptyMarker, '## 概述');
+
+  // Whitespace between the heading text and the marker is dropped with it.
+  const spacedMarker = await writer.__heading({elements: [
+    textRun('操作检查清单 '),
+    textRun('{#}'),
+  ]}, 3);
+  assert.equal(spacedMarker, '### 操作检查清单');
+
+  // The bare-heading fallback also applies when slugify itself returns '' for
+  // a CJK-only heading that carries no marker at all: appending `{#}` would
+  // mint the very artifact this regression is about.
+  const bareCjk = await writer.__heading({elements: [textRun('常见问题')]}, 2);
+  assert.equal(bareCjk, '## 常见问题');
+
+  // A non-empty anchor is still preserved verbatim, and a heading whose
+  // slugify output is non-empty keeps getting its writer-appended anchor.
+  const latin = await writer.__heading({elements: [textRun('SDK 请求示例')]}, 2);
+  assert.equal(latin, '## SDK 请求示例{#sdk}');
+}
+
 function testHeadingCleanupStillRemovesActualHtmlTags() {
   const writer = createWriter([]);
   assert.equal(
@@ -1447,6 +1480,7 @@ async function run() {
   await testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors();
   await testHeadingStripsEmphasisButKeepsInlineCode();
   await testHeadingRepairsMangledAnchor();
+  await testHeadingDropsEmptyAnchorMarkers();
   testHeadingCleanupStillRemovesActualHtmlTags();
   await testConvertedHeadingLinkDropsVisibilitySuffixes();
   await testConvertedAnchorLinkToleratesTargetWithoutBlocks();

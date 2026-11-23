@@ -7,6 +7,7 @@ import {
   remarkDedupeHeadingAnchors,
   remarkMathFix,
   remarkRewriteDocLinks,
+  remarkStripEmptyHeadingAnchors,
   remarkStripHeadingZeroWidthChars,
   resolveMarkdownPolicy,
 } from './markdownPolicy';
@@ -84,11 +85,12 @@ $$`;
 });
 
 describe('heading zero-width normalization policy', () => {
-  it('registers the zero-width strip ahead of anchor dedup as before-default plugins on both sites', () => {
+  it('registers the zero-width strip, the empty-anchor strip, and anchor dedup as before-default plugins on both sites', () => {
     for (const site of ['en', 'zh-CN'] as const) {
       const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, site);
       expect(policy.beforeDefaultRemarkPlugins).toEqual([
         remarkStripHeadingZeroWidthChars,
+        remarkStripEmptyHeadingAnchors,
         remarkDedupeHeadingAnchors,
       ]);
     }
@@ -129,6 +131,79 @@ describe('heading zero-width normalization policy', () => {
 
     const cleaned = tree.children[0].value;
     expect(docusaurusExplicitAnchor.exec(cleaned)?.groups?.id).toBe('json-index-syntax');
+  });
+});
+
+describe('empty heading anchor strip policy', () => {
+  type TestNode = {type?: string; depth?: number; value?: string; children?: TestNode[]};
+  const textOf = (node: TestNode): string =>
+    typeof node.value === 'string' ? node.value : (node.children ?? []).map(textOf).join('');
+
+  it('strips trailing empty anchor tokens so headings slug like unmarked ones', () => {
+    const tree: {type: string; children: TestNode[]} = {
+      type: 'root',
+      children: [
+        {type: 'heading', depth: 2, children: [{type: 'text', value: '概述{#}'}]},
+        {type: 'heading', depth: 3, children: [{type: 'text', value: '操作检查清单 {#}'}]},
+        {type: 'heading', depth: 2, children: [{type: 'text', value: '选择编码{# }'}]},
+      ],
+    };
+    remarkStripEmptyHeadingAnchors()(tree);
+
+    expect(tree.children.map(textOf)).toEqual(['概述', '操作检查清单', '选择编码']);
+  });
+
+  it('leaves non-empty anchors, code, mid-text, and prose untouched', () => {
+    const tree: {type: string; children: TestNode[]} = {
+      type: 'root',
+      children: [
+        {type: 'heading', depth: 2, children: [{type: 'text', value: 'Overview{#overview}'}]},
+        {type: 'heading', depth: 2, children: [
+          {type: 'inlineCode', value: '`{#}`'},
+          {type: 'text', value: ' placeholder'},
+        ]},
+        {type: 'heading', depth: 2, children: [{type: 'text', value: '使用 {#} 语法'}]},
+        {type: 'heading', depth: 2, children: [
+          {type: 'text', value: '概述{#}'},
+          {type: 'emphasis', children: [{type: 'text', value: ' tail'}]},
+        ]},
+        {type: 'paragraph', children: [{type: 'text', value: '正文 {#} 原样'}]},
+      ],
+    };
+    const before = JSON.stringify(tree);
+    remarkStripEmptyHeadingAnchors()(tree);
+
+    // Non-empty ids stay (Docusaurus consumes them); the token inside inline
+    // code and mid-text shapes has no explicit-anchor grammar behind it; the
+    // token before inline nodes is not the trailing text node; paragraphs are
+    // not headings.
+    expect(JSON.stringify(tree)).toBe(before);
+  });
+
+  it('strips tokens that only become trailing after the zero-width strip', () => {
+    // Live page shape: the writer emits the marker and the source wiki appends
+    // a zero-width paste artifact, so `{#}` is not trailing until the
+    // zero-width strip (wired ahead of this pass) removes it.
+    const tree: TestNode = {type: 'heading', depth: 2, children: [
+      {type: 'text', value: '概述{#}\u200B'},
+    ]};
+    remarkStripHeadingZeroWidthChars()(tree);
+    remarkStripEmptyHeadingAnchors()(tree);
+
+    expect(textOf(tree)).toBe('概述');
+  });
+
+  it('renders an escaped empty heading anchor as clean heading text, end to end', async () => {
+    // Published content carries the MDX-escaped form `## 概述\{#}`; the parser
+    // resolves the escapes into the AST text the strip pass mutates.
+    const policy = resolveMarkdownPolicy({remarkPlugins: [], rehypePlugins: []}, 'zh-CN');
+    const compiled = String(await compile('## 概述\\{#}\n\n正文\n', {
+      remarkPlugins: [...policy.beforeDefaultRemarkPlugins, ...policy.remarkPlugins],
+      rehypePlugins: policy.rehypePlugins,
+    }));
+
+    expect(compiled).not.toContain('{#}');
+    expect(compiled).toContain('概述');
   });
 });
 
