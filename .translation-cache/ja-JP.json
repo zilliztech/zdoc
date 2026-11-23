@@ -271,9 +271,9 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/development/analyzer/multi-language-analyzers.md": {
-      "sourceHash": "7a0178a05264aa422b81c1c62a51e338d60ceef906c6a0a7d55a6a666821b394",
+      "sourceHash": "3b65430155e3768a46e1ad4ee02c4976fdd6953cb41fd49efb5413fd2f466d9e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/multi-language-analyzers.md",
-      "translatedAt": "2026-11-06T11:48:36.003Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/byoc/tutorials/development/collection/collection-on-console/manage-collections-console.md": {
       "sourceHash": "3f89cf1f3449954076ea09787116cf3ffe3792bf3f3730e87f1cce285ebb7ccd",
@@ -651,9 +651,9 @@
       "translatedAt": "2026-11-09T12:49:41.519Z"
     },
     "content/en/byoc/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "86fbc589e8b5b094f142e5f6d26c225a7b0ee2d7fbbae406087fbf07750fdad5",
+      "sourceHash": "6d14c79a52f32b088c462aec0dcef3dc8eb393cd98be44f6dead7e1b02d0315b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-18T19:44:39.793Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/byoc/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "fb7a5e3afff5c05e419f61338f42ee57bc85d8d35f0a278632c0be660e16634c",
@@ -1051,9 +1051,9 @@
       "translatedAt": "2026-11-10T12:54:37.831Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/restore-from-backup-files.md": {
-      "sourceHash": "5a877a97297c484a0da9f3e70f8d2b458ffa39a90f18cc6103afe373c051c8ef",
+      "sourceHash": "12a5322d94d0cba63f160e927bcf546b9ffa5619b9b0fbf95d39368d71565ea2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
       "sourceHash": "ca337425c45a708287c90971b99ef90da0e6021896f0ed134d704ffde630f34e",
@@ -1141,9 +1141,9 @@
       "translatedAt": "2026-10-28T03:14:38.024Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "ecb641d9189bb736f86d118322cd81a8ae6cf84c25b63bcb388ef3188350d175",
+      "sourceHash": "d826bfc9e994053d37e922c8934fffc72b448de564a162bd8360a6d6616646b0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "3430bd6d04e84010f14fe15037a841d14bb8cf44f95420a6cdc7b07334040e80",
@@ -1225,10 +1225,25 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
       "translatedAt": "2026-11-10T13:08:08.036Z"
     },
+    "content/en/byoc/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
+      "sourceHash": "acd71b86a922da859e499280ef391c34c61480d99bf84c2d70d73110a94a1693",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
+    },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "6c145a0ad87c14c6cf0f950ee58a06e29c964460c924837d360c141b8ed32de1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
       "translatedAt": "2026-11-09T12:57:16.914Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference.md": {
+      "sourceHash": "4a4d5c62c5282d91ee6df4c0012febd153a2696c5d419e4734f252569812c756",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
+    },
+    "content/en/byoc/tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage.md": {
+      "sourceHash": "fa4c1977f5db5089cd2015dc6f3a8aeef481ef08cccafb373834802034d6eed5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/byoc/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "529dd815ddd01fe597cf8dba2edfaeb64ed63f8b13b9fdcab8f303381e52bed1",
@@ -1621,9 +1636,9 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/guides/tutorials/development/analyzer/multi-language-analyzers.md": {
-      "sourceHash": "65bd66424cb33e6b9d74ff3cabacda3653a39c53e3a4e8ee17f66af8baaff941",
+      "sourceHash": "900d4ccaa2da9fd7bb1099c32b7df060fbc774d5f046c8d78d06f71d8921a28d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/analyzer/multi-language-analyzers.md",
-      "translatedAt": "2026-11-06T12:02:10.961Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/development/batch-jobs/anomaly-detection.md": {
       "sourceHash": "f22cdd489d7e81a05b0eba6f62d4813c861864a6e0f267310af085ce31406951",
@@ -2081,9 +2096,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/schema/use-geometry-field.md": {
-      "sourceHash": "cb4ebb6b2fb14872d500737d1b6aef9a42638e457b1a304a88233468a510e2cf",
+      "sourceHash": "e0ba21e9c4046b47ff37ad50f7f0ec707cfdcbd707a6e77f2746637640f1db8b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-geometry-field.md",
-      "translatedAt": "2026-11-18T19:44:39.793Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "b6656c43a0c287d78fcd7cf6e754c153f381e569ecb56975c83a3d6999bf35b5",
@@ -2291,9 +2306,9 @@
       "translatedAt": "2026-11-09T13:49:19.042Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots-console.md": {
-      "sourceHash": "c26cbbe0f1ebcb6ecfb98a2f1f3e021914eb200c422dc6957458d8c4436716c7",
+      "sourceHash": "785557e1624ca7b22169662fb8ae48f0e4258fba9f95f2773250ad063f4a2731",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/manage-snapshots-console.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots.md": {
       "sourceHash": "b2c8fafff3b340130ac13d0520ab3b359e19df7fe1495f9cee095cc10728cb84",
@@ -2731,9 +2746,9 @@
       "translatedAt": "2026-11-10T13:30:20.760Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/restore-from-backup-files.md": {
-      "sourceHash": "ce1d2bd91c5c3059a39b89424d0e0dfeb877193e417547deba6cbee1cedce3f2",
+      "sourceHash": "46732ee7023c5896ad0acda72964316462de3013eb7578c0660806a45494a5f1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/backup-and-restore/restore-from-backup-files.md",
-      "translatedAt": "2026-11-09T13:53:59.156Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
       "sourceHash": "b84c4623d336f6375045cbb4382754e44536adac6212ef2708fb4a22ae52a608",
@@ -2841,9 +2856,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/create-cluster.md": {
-      "sourceHash": "f08fc9758efe0ff18527a7850692e20e7103b2262b4e9d2fe8bca742bb88b0d6",
+      "sourceHash": "7d470451b3f4a48a7e647e0a009d7716eb9f91fb07cd8334274adec47bfe8fe4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/create-cluster.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/manage-cluster.md": {
       "sourceHash": "4b7f2cf04eba0a8bce45024ed4f61a0445f9ac030a4e08a4ea428d6155d03515",
@@ -2925,10 +2940,25 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
       "translatedAt": "2026-11-10T13:30:20.760Z"
     },
+    "content/en/guides/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
+      "sourceHash": "80ddbc01231a9edec8585e5df1da267baa63520155ac780745d029c90f939012",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
+    },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "0a3fac69090f95a4291c3b7d880535e62ba172ff47ecd79f201590537461fa81",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md",
       "translatedAt": "2026-11-09T13:57:51.180Z"
+    },
+    "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference.md": {
+      "sourceHash": "ac33d936800c97a93492dd396e54cfb84d99577dcf834aa78658801ae6cb2260",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/on-demand-metrics-reference.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
+    },
+    "content/en/guides/tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage.md": {
+      "sourceHash": "c8f072145f7dee9fa2902a859ad325f9b95f96b74ebdab7ebbe0512db868de45",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/understand-on-demand-compute-usage.md",
+      "translatedAt": "2026-11-23T03:50:36.587Z"
     },
     "content/en/guides/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "0e8289e79673034a0ce02f4b218e6b9c6360512c32d77f594872b95acb28af97",

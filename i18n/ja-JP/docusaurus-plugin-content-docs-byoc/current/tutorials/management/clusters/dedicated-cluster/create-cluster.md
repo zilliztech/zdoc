@@ -172,134 +172,62 @@ curl --request POST \
 
 <NextChannel action="include">
 
-- **デフォルトの Milvus バージョンで Dedicated クラスターを作成する**
+リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
-    デフォルトでは、Zilliz Cloud は安定版（GA）の Milvus バージョンで Dedicated クラスターを作成します。リクエストで Milvus のバージョンを指定する必要はありません。
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
 
-    リクエストは、次の例のようになります。ここで、`{API_KEY}` は認証に使用する API キーです。詳細については、[Create Dedicated クラスター](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
+```
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/clusters/createDedicated" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Accept: application/json" \
-    --header "Request-Timeout: 5" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "clusterName": "Cluster-05",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1,
-        "description": "A cluster for vector search workloads."
-    }'
-    ```
+上記のコマンドでは、次のとおりです。
 
-    上記のコマンドでは、次のとおりです。
+- `{API_KEY}`: API リクエストの認証に使用する資格情報です。値をご自身の値に置き換えてください。
 
-    - `{API_KEY}`: API リクエストの認証に使用する資格情報です。値をご自身の値に置き換えてください。
+- `clusterName`: 作成するクラスターの名前です。
 
-    - `clusterName`: 作成するクラスターの名前です。
+- `projectId`: クラスターを作成するプロジェクトの ID です。プロジェクト ID を一覧表示するには、[List Projects](/reference/restful/list-projects-v2) オペレーションを呼び出します。
 
-    - `projectId`: クラスターを作成するプロジェクトの ID です。プロジェクト ID を一覧表示するには、[List Projects](/reference/restful/list-projects-v2) オペレーションを呼び出します。
+- `regionId`: クラスターを作成するクラウドリージョンの ID です。利用可能なクラウドリージョン ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) オペレーションを呼び出します。
 
-    - `regionId`: クラスターを作成するクラウドリージョンの ID です。利用可能なクラウドリージョン ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) オペレーションを呼び出します。
+- `cuType`: クラスターのタイプです。有効な値: Performance-optimized、Capacity-optimized。
 
-    - `cuType`: クラスターのタイプです。有効な値: Performance-optimized、Capacity-optimized。
+- `cuSize`: クラスターで使用する Query CU 数です。値の範囲: 1 ～ 2,048。
 
-    - `cuSize`: クラスターで使用する Query CU 数です。値の範囲: 1 ～ 2,048。
+- `description`（任意）: クラスターの説明です。
 
-    - `description`（任意）: クラスターの説明です。
+以下は出力例です。
 
-    以下は出力例です。
-
-    ```json
-    {
-        "code": 0,
-        "data": {
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
-            "username": "db_admin",
-            "password": "****************",
-            "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-        }
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
     }
-    ```
+}
+```
 
-- **特定の Milvus バージョンで Dedicated クラスターを作成する**
+</NextChannel>
 
-    パブリックプレビュー版で利用可能な新機能を試す場合や、データ移行のためにソースクラスターの Milvus バージョンに合わせる場合は、Dedicated クラスターの作成時に特定の Milvus バージョンを選択できます。 
-
-    <Procedures>
-
-    1. **List Milvus Version** を使用して、利用可能な Milvus バージョンを取得します。
-
-        ```bash
-        curl --request GET \
-             --url "https://api.cloud.zilliz.com/v2/clusters/versions?regionId=gcp-us-west1" \
-             --header "Authorization: Bearer ${API_KEY}" \
-             --header "Accept: application/json"
-        ```
-
-        レスポンス例:
-
-        ```json
-        {
-          "code": 0,
-          "data": [
-            {
-              "regionId": "gcp-us-west1",
-              "versions": [
-                {"majorVersion": "2.6", "channel": "GA"},
-                {"majorVersion": "3.0", "channel": "PUBLIC_PREVIEW"}
-              ]
-            }
-          ]
-        }
-        ```
-
-    1. レスポンスからバージョンを選択し、クラスター作成リクエストで指定します。
-
-        ```bash
-        curl --request POST \
-             --url "https://api.cloud.zilliz.com/v2/clusters" \
-             --header "Authorization: Bearer ${API_KEY}" \
-             --header "Accept: application/json" \
-             --header "Content-Type: application/json" \
-             --data-raw '{
-               "clusterName": "my-preview-cluster",
-               "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-               "regionId": "gcp-us-west1",
-               "plan": "Enterprise",
-               "cuType": "Performance-optimized",
-               "cuSize": 1,
-               "version": {
-                 "majorVersion": "3.0",
-                 "channel": "PUBLIC_PREVIEW"
-               }
-             }'
-        ```
-
-        - `version.majorVersion`: クエリによって返される Milvus のバージョン系列です。先頭の `v` やパッチ番号は含まれません。
-
-        - `version.channel`: クエリによって返されるリリースチャネルです。`GA` または `PUBLIC_PREVIEW` のいずれかです。
-
-    </Procedures>
-
-    <Admonition type="info" title="Notes">
-
-    - デフォルトでは、安定版（GA）の Milvus バージョンが選択されます。新機能を試すには、パブリックプレビュー版を選択してください。作成後、クラスターを以前の Milvus バージョンにダウングレードすることはできません。
-    
-    - クラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[Install SDKs](./install-sdks) を参照してください。
-    
-    - Milvus 3.0 クラスターは、[グローバルクラスター](./global-cluster-explained) に変換できません。クラスターをグローバルクラスターに変換する予定がある場合は、Milvus 2.6 を選択してください。
-    
-    - パブリックプレビュー版は、評価および重要度の低い本番ワークロードに適しています。一般提供前に機能が変更される可能性があります。
-
-    </Admonition>
+<NextChannel action="include">
 
 </NextChannel>
 
@@ -321,7 +249,7 @@ curl --request POST \
 
 **クラスター作成時に Milvus のバージョンを指定できますか？**
 
-はい。複数の Milvus バージョンが利用可能な場合は、Dedicated クラスターの作成時にバージョンを選択できます。デフォルトでは安定版（GA）が選択されます。Milvus 3.0 のパブリックプレビュー期間中は、Milvus 2.6（GA）と Milvus 3.0（Public Preview）のいずれかを選択できます。
+はい。複数の Milvus バージョンが利用可能な場合は、Dedicated クラスターを作成するときにバージョンを選択できます。安定版（GA）バージョンがデフォルトで選択されます。
 
 Free または Serverless クラスターでは、バージョンを選択できません。
 

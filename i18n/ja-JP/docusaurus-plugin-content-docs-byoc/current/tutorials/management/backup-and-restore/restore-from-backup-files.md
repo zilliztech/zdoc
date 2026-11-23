@@ -42,17 +42,17 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 - 復元される新しいクラスターの Milvus バージョンを選択します。
 
-    - 過去 30 日以内に作成されたバックアップファイルの場合、元のクラスターが最新の利用可能な Milvus GA バージョンより古い Milvus GA バージョンを使用していた場合は、復元後のクラスターの Milvus バージョンを選択できます。デフォルトでは、Zilliz Cloud はクラスターを最新の GA Milvus バージョンに復元します。
+    <NextChannel action="include">
 
-    - 30 日より前に作成されたバックアップファイル、またはすでに最新の Milvus GA バージョンを使用しているバックアップファイルの場合、対象の Milvus バージョンは変更できません。
+    - 利用可能なオプションは、バックアップ、ソースクラスターのリージョン、およびバックアップと機能の互換性によって異なります。オプションには、安定版（GA）バージョン、パブリックプレビューバージョン、またはバックアップに記録された元のバージョンが含まれる場合があります。
 
-    たとえば、最新の利用可能な Milvus GA バージョンが 2.6.x であるとします。
+    - 元のバージョンは、バックアップがサポートされている復元ウィンドウ内にあり、互換性要件を満たしている場合にのみ利用できます。
 
-    - 過去 30 日以内に作成された 2.5.x のバックアップファイルから復元する場合、Zilliz Cloud はデフォルトで新しいクラスターを 2.6.x に復元しますが、2.5.x に復元することも選択できます。
+    </NextChannel>
 
-    - 30 日より前に作成された 2.5.x のバックアップファイルから復元する場合、Zilliz Cloud はデフォルトで新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
+    <NextChannel action="exclude">
 
-    - 2.6.x のバックアップファイルから復元する場合、Zilliz Cloud は新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
+    </NextChannel>
 
 - CMEK による保存時暗号化を有効にするかどうかを選択します。詳細については、[Customer-Managed Encryption Keys](./cmek) を参照してください。
 
@@ -74,7 +74,7 @@ Zilliz Cloud の復元機能を使用すると、偶発的なデータ損失、�
 
 1. **Restore** をクリックし、次に **Full クラスター** を選択します。
 
-1. 設定を構成し、**Restore** をクリックします。
+1. 復元されるクラスターの Milvus バージョンを含む設定を構成し、**Restore** をクリックします。利用可能なバージョンは、バックアップと互換性要件によって異なります。
 
 </Procedures>
 
@@ -94,7 +94,7 @@ curl --request POST \
      --header "Accept: application/json" \
      --header "Content-type: application/json" \
      --data-raw '{
-        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
+        "projectId": "proj-20e13e974c7d659a83xxxx",
         "clusterName": "Dedicated-01-backup",
         "cuSize": 1,
         "collectionStatus": "KEEP",
@@ -110,8 +110,8 @@ curl --request POST \
      <th><p><strong>説明</strong></p></th>
    </tr>
    <tr>
-     <td><p><code>targetProjectId</code></p></td>
-     <td><p>復元されたクラスターが作成される対象プロジェクトの ID。</p></td>
+     <td><p><code>projectId</code></p></td>
+     <td><p>復元されたクラスターを作成する対象プロジェクトの ID。</p></td>
    </tr>
    <tr>
      <td><p><code>clusterName</code></p></td>
@@ -127,7 +127,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>restoreVersionPolicy</code></p></td>
-     <td><p>復元されたクラスターの互換性のある Milvus バージョン。利用可能なオプションは次のとおりです。</p><ul><li><p><code>ORIGINAL</code>: クラスターを元の互換性のある Milvus バージョンに復元します。</p></li><li><p><code>LATEST</code>: クラスターを利用可能な最新の GA Milvus バージョンに復元します。</p></li></ul></td>
+     <td><p>復元されるクラスターの互換性のある Milvus バージョン。利用可能なオプションは次のとおりです。</p><ul><li><p><code>ORIGINAL</code>: クラスターを元の互換性のある Milvus バージョンに復元します。</p></li><li><p><code>LATEST</code>: 利用可能な最新の GA Milvus バージョンにクラスターを復元します。</p></li></ul> <NextChannel action="include"><p><code>version</code> とは相互に排他的です。特定の Milvus バージョンを選択するには、後述の <a href="./restore-from-backup-files#restore-with-a-specific-milvus-version">特定の Milvus バージョンで復元する</a> を参照してください。</p> </NextChannel></td>
    </tr>
 </table>
 
@@ -144,6 +144,51 @@ curl --request POST \
   }
 }
 ```
+
+<NextChannel action="include">
+
+#### 特定の Milvus バージョンで復元する\{#restore-with-a-specific-milvus-version}
+
+特定の Milvus バージョンでクラスターを復元するには、まずバックアップで利用可能なバージョンのオプションを取得します。
+
+```bash
+curl --request GET \
+     --url "${BASE_URL}/v2/clusters/versions?backupId=${BACKUP_ID}" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json"
+```
+
+返された `versions` リストからオプションを選択し、復元リクエストに `version` オブジェクトとして含めます。たとえば、レスポンスに次のオプションが含まれている場合:
+
+```json
+{
+  "majorVersion": "2.6",
+  "channel": "ORIGIN"
+}
+```
+
+前述の復元リクエスト内の `restoreVersionPolicy` を次に置き換えます。
+
+```bash
+"version": {
+  "majorVersion": "2.6",
+  "channel": "ORIGIN"
+}
+```
+
+`ORIGIN` チャネルは、バックアップに記録された正確な Milvus バージョンを復元します。利用可能な他のチャネルには `GA` と `PUBLIC_PREVIEW` があります。復元するバックアップに対して返されたオプションのみを使用してください。
+
+<Admonition type="info" title="Notes">
+
+- `version` と `restoreVersionPolicy` は相互に排他的です。同じリクエストに両方を含めないでください。
+
+- `version` を省略した場合、既存の復元ポリシーが適用されます。
+
+- 復元されたクラスターの Milvus バージョンと互換性のある SDK バージョンを使用してください。詳細については、[SDK 互換性](/docs/install-sdks#sdk-compatibility) を参照してください。
+
+</Admonition>
+
+</NextChannel>
 
 ## クラスターの一部を復元する\{#restore-a-partial-cluster}
 
@@ -209,6 +254,14 @@ curl --request POST \
 
 **復元されたクラスターはどの Milvus バージョンで実行されますか？**
 
+<NextChannel action="include">
+
+復元されたクラスターの Milvus バージョンは、復元ポリシーまたは明示的なバージョン選択によって異なります。API で特定のバージョンを選択するには、バックアップで利用可能なオプションを照会し、選択したオプションを復元リクエストに含めます。詳細については、[クラスター全体を復元する](./restore-from-backup-files#restore-a-full-cluster) を参照してください。
+
+</NextChannel>
+
+<NextChannel action="exclude">
+
 デフォルトでは、クラスター全体の復元では、Zilliz Cloud がサポートする最新の GA メジャーバージョンで対象クラスターが作成されます。
 
 - 過去 30 日以内に作成されたバックアップファイルの場合、元のクラスターが最新の利用可能な Milvus GA バージョンより古い Milvus GA バージョンを使用していた場合は、復元後のクラスターの Milvus バージョンを選択できます。デフォルトでは、Zilliz Cloud はクラスターを最新の GA Milvus バージョンに復元します。
@@ -222,3 +275,5 @@ curl --request POST \
 - 30 日より前に作成された 2.5.x のバックアップファイルから復元する場合、Zilliz Cloud はデフォルトで新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
 
 - 2.6.x のバックアップファイルから復元する場合、Zilliz Cloud は新しいクラスターを 2.6.x に復元し、対象の Milvus バージョンは変更できません。
+
+</NextChannel>

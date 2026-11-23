@@ -158,6 +158,10 @@ curl --request POST \
 
 <NextChannel action="include">
 
+</NextChannel>
+
+<NextChannel action="include">
+
 - **デフォルトの Milvus バージョンで Dedicated クラスターを作成する**
 
     デフォルトでは、Zilliz Cloud は安定版（GA）の Milvus バージョンで Dedicated クラスターを作成します。リクエストで Milvus バージョンを指定する必要はありません。
@@ -343,7 +347,7 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 **クラスターを作成するときに Milvus のバージョンを指定できますか？**
 
-はい。複数の Milvus バージョンが利用可能な場合は、Dedicated クラスターを作成するときにバージョンを選択できます。安定版（GA）がデフォルトで選択されます。Milvus 3.0 のパブリックプレビュー期間中は、Milvus 2.6（GA）と Milvus 3.0（Public Preview）のいずれかを選択できます。
+はい。複数の Milvus バージョンが利用可能な場合は、Dedicated クラスターを作成するときにバージョンを選択できます。安定版（GA）バージョンがデフォルトで選択されます。
 
 バージョンの選択は、Free クラスターまたは Serverless クラスターでは利用できません。
 
