@@ -229,6 +229,54 @@ change-scoped union the workflow runs (the command list is visible in the
 failed run's step log). A full local pass means the next dispatch is verified
 before it starts.
 
+### Adjudicating and landing a refresh PR by hand
+
+The refresh PR body groups its sections: **Decisions required** (description
+drift to harvest, retirements to confirm, pending confirmations, unresolvable
+subtrees, unplaced additions, reorganization proposals) come first, and the
+automatic stage reports follow as reference. Record the adjudication in a PR
+comment — the comment is the decision anchor on this lane — and land each
+agreed batch as a follow-up commit on the refresh branch. Keep decisions that
+only reclassify ledger entries in their own master PR (the
+`rest-upstream-ledger-bootstrap` merge above); they have no fragment effect
+and do not belong inside the refresh commit.
+
+After any hand edit on the refresh branch, re-run the whole landing chain in
+one command instead of stepping through it:
+
+```bash
+node scripts/rest-upstream/verify-rest-meta.js   # --base <merge-base> on a stacked branch
+```
+
+It reproduces the refresh workflow's own verification sequence: regenerate
+the schema-attribution inventory when a fragment changed, check canonical
+fragment bytes, verify the lifecycle-evidence inventory when that tree
+changed, execute the change-scoped `test:for-change` union for every changed
+path plus `pnpm test:rest-publication-contract` and
+`pnpm test:workflow-policy`, and check whitespace. Commit any regenerated
+inventory in the same commit as the fragment edit (atomic adoption).
+
+When master moves under a refresh branch, resolve the two derived-file
+conflicts as a union, never as a side: fragments auto-merge; the lifecycle
+bootstrap must become master's element set plus this branch's own element
+surgery — taking `--ours` silently drops master's element deltas and the
+drift gate fails closed. Take master's file
+(`git checkout origin/master -- packages/docs-tooling/src/reference/rest/meta/lifecycle-evidence/milvus-2.6.x-bootstrap.json`),
+replay the surgery, then re-verify with `verify-rest-meta.js`.
+
+A stacked PR (base ≠ master) never fires the pull_request validation
+workflows, and a draft-PR synchronize event occasionally creates no runs at
+all. Fill both gaps with the dispatch helper — it takes the head and base
+SHAs from the GitHub API and never from the keyboard:
+
+```bash
+node scripts/docs-workflow/dispatch-pr-validation.js --pr <number>   # add --execute to dispatch
+```
+
+Plan-only (the default) prints what would run and which workflows already
+cover the head SHA. A stacked PR carries no PR-attached CI while its base is
+open, so retarget it to master as soon as the base merges.
+
 Required credentials and variables (all fail closed when missing):
 
 - `REST_UPSTREAM_GITHUB_TOKEN` — contents:read on `zilliztech/zilliz-cloud`
