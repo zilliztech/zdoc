@@ -1286,8 +1286,7 @@
                 },
                 "required": [
                   "indexName",
-                  "collectionName",
-                  "properties"
+                  "collectionName"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
@@ -1621,8 +1620,7 @@
                 },
                 "required": [
                   "indexName",
-                  "collectionName",
-                  "propertyKeys"
+                  "collectionName"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "2.6.x",
