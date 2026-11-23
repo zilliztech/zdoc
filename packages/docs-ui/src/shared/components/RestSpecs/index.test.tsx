@@ -515,4 +515,85 @@ describe('RestSpecs default-value row', () => {
     expect(rows.length).toBe(1);
     expect(renderWithDefault('en-US')).toContain('>10</span>');
   });
+
+  it('renders boolean defaults as text and keeps a false default row visible', () => {
+    // JSX drops boolean children, so `default: true` used to render the label
+    // with an empty chip, and `{defaultValue && ...}` hid `default: false`
+    // rows entirely; both shapes ship in create-collection-v2 today.
+    const specs = {
+      summary: 'Create Collection',
+      description: 'Creates a collection.',
+      parameters: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                enableDynamicField: {type: 'boolean', description: 'Whether to enable the dynamic field feature.', default: true},
+                partitionKeyIsolation: {type: 'boolean', description: 'Whether to isolate partition keys.', default: false},
+                noDefaultFlag: {type: 'boolean', description: 'No default here.'},
+              },
+            },
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    const html = render(<RestSpecs specs={specs} endpoint="/v2/vectordb/collections/create" method="post" target="zilliz" lang="en-US" />).container.innerHTML;
+    expect(html).toContain('>true</span>');
+    expect(html).toContain('>false</span>');
+    expect(html).not.toContain('<span class="label"></span>');
+    // Exactly two default rows: the boolean without a default stays row-free.
+    expect((html.match(/Default Value: /g) ?? []).length).toBe(2);
+  });
+
+  it('renders array defaults as their JSON literal', () => {
+    const specs = {
+      summary: 'Search',
+      description: 'Searches a collection.',
+      parameters: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                outputFields: {type: 'array', items: {type: 'string', default: ['id', 'distance']}, description: 'Fields to return.'},
+              },
+            },
+            example: {},
+          },
+        },
+      },
+      responses: {
+        '200': {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {type: 'object', properties: {code: {type: 'integer'}}},
+              example: {code: 0},
+            },
+          },
+        },
+      },
+    };
+
+    const html = render(<RestSpecs specs={specs} endpoint="/v1/vector/search" method="post" target="zilliz" lang="en-US" />).container.innerHTML;
+    expect(html).toContain('Default Value: ');
+    expect(html).toContain('["id","distance"]</span>');
+    expect(html).not.toContain('[object Object]');
+  });
 });
