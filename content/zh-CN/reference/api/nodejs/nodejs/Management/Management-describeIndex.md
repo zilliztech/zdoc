@@ -84,7 +84,7 @@ await milvusClient.describeIndex(data)
 
 **参数：**
 
-- **index_descriptions** (*IndexDescription[]*) -
+- **index_descriptions** (*[IndexDescription](./Management-IndexDescription)[]*) -
 
 所请求 Collection 的索引描述列表。当提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
 
@@ -157,3 +157,4 @@ const describeIndexReq = {
 const res = await milvusClient.describeIndex(describeIndexReq);
 console.log(res);
 ```
+

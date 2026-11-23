@@ -7217,11 +7217,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "fa8d368f2de33b3c4a5ff7ac68dc98d87b30b174",
-      "sourceHash": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1",
+      "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
+      "sourceHash": "5a1edf6a0ffbf199e6ab23c6fedb4579c521fe266d18b3c79af83f72563f6e13",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-describeIndex.md",
       "status": "translated",
-      "targetHash": "db88f38a6f08b290c4acad8df45d6274191725d755893df65bcaf4a168daa7f2",
+      "targetHash": "20ad42e4704181d0cd309f480ecab21160d22abbd25209265ff7b32f1b558128",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management-describeIndex.md"
     },
     {
