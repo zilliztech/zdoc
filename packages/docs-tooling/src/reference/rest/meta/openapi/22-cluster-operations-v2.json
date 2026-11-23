@@ -300,6 +300,15 @@
                                   "cuType": {
                                     "type": "string",
                                     "description": "CU type of the cluster.",
+                                    "enum": [
+                                      "Performance-optimized",
+                                      "Capacity-optimized",
+                                      "Cost-optimized",
+                                      "Tiered-storage",
+                                      "Free",
+                                      "Serverless",
+                                      ""
+                                    ],
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "集群的 CU 类型。"
@@ -307,11 +316,7 @@
                                       "ja-JP": {
                                         "description": "クラスタの CU タイプ。"
                                       }
-                                    },
-                                    "enum": [
-                                      "Performance-optimized",
-                                      "Capacity-optimized"
-                                    ]
+                                    }
                                   },
                                   "plan": {
                                     "type": "string",
@@ -349,6 +354,42 @@
                                   },
                                   "status": {
                                     "type": "string",
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "CREATING",
+                                          "RUNNING",
+                                          "DELETING",
+                                          "DELETED",
+                                          "STOPPING",
+                                          "RESUMING",
+                                          "MODIFYING",
+                                          "ABNORMAL",
+                                          "FREEZING",
+                                          "FROZEN",
+                                          "UNFREEZING",
+                                          "RESTORE_BACKUP",
+                                          "MIGRATING",
+                                          "RESIZING",
+                                          "UPGRADING",
+                                          "WAITING_OPERATION",
+                                          "SET_PRIVATE_LINK"
+                                        ],
+                                        "description": "Current lifecycle status of the cluster. Possible values are `CREATING`, `RUNNING`, `DELETING`, `DELETED`, `STOPPING`, `RESUMING`, `MODIFYING`, `ABNORMAL`, `FREEZING`, `FROZEN`, `UNFREEZING`, `RESTORE_BACKUP`, `MIGRATING`, `RESIZING`, `UPGRADING`, `WAITING_OPERATION`, and `SET_PRIVATE_LINK`.",
+                                        "x-i18n": {
+                                          "zh-CN": {
+                                            "description": "集群的当前生命周期状态。可能的值包括 `CREATING`、`RUNNING`、`DELETING`、`DELETED`、`STOPPING`、`RESUMING`、`MODIFYING`、`ABNORMAL`、`FREEZING`、`FROZEN`、`UNFREEZING`、`RESTORE_BACKUP`、`MIGRATING`、`RESIZING`、`UPGRADING`、`WAITING_OPERATION` 和 `SET_PRIVATE_LINK`。"
+                                          },
+                                          "ja-JP": {
+                                            "description": "クラスターの現在のライフサイクルステータス。可能な値は `CREATING`、`RUNNING`、`DELETING`、`DELETED`、`STOPPING`、`RESUMING`、`MODIFYING`、`ABNORMAL`、`FREEZING`、`FROZEN`、`UNFREEZING`、`RESTORE_BACKUP`、`MIGRATING`、`RESIZING`、`UPGRADING`、`WAITING_OPERATION`、`SET_PRIVATE_LINK` です。"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ],
                                     "description": "Status of the cluster.",
                                     "x-i18n": {
                                       "zh-CN": {
@@ -357,26 +398,7 @@
                                       "ja-JP": {
                                         "description": "クラスタのステータス。"
                                       }
-                                    },
-                                    "enum": [
-                                      "CREATING",
-                                      "RUNNING",
-                                      "DELETING",
-                                      "DELETED",
-                                      "STOPPING",
-                                      "RESUMING",
-                                      "MODIFYING",
-                                      "ABNORMAL",
-                                      "FREEZING",
-                                      "FROZEN",
-                                      "UNFREEZED",
-                                      "RESTORE_BACKUP",
-                                      "MIGRATING",
-                                      "RESIZING",
-                                      "UPGRADING",
-                                      "WRITING_OPERATION",
-                                      "SET_PRIVATE_LINK"
-                                    ]
+                                    }
                                   },
                                   "connectAddress": {
                                     "type": "string",
@@ -2285,6 +2307,15 @@
                             "cuType": {
                               "type": "string",
                               "description": "Type of the cluster. <br/>This applies to dedicated clusters only. For free and serverless clusters, the value is empty.",
+                              "enum": [
+                                "Performance-optimized",
+                                "Capacity-optimized",
+                                "Cost-optimized",
+                                "Tiered-storage",
+                                "Free",
+                                "Serverless",
+                                ""
+                              ],
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前集群的类型。<br/>仅适用于 Dedicated 集群。对于 Free 和 Serverless 集群，该值为空。"
@@ -2292,11 +2323,7 @@
                                 "ja-JP": {
                                   "description": "クラスターのタイプ。<br/>これは専用クラスターにのみ適用されます。Free および serverless クラスターでは、この値は空です。"
                                 }
-                              },
-                              "enum": [
-                                "Performance-optimized",
-                                "Capacity-optimized"
-                              ]
+                              }
                             },
                             "plan": {
                               "type": "string",
@@ -2319,6 +2346,42 @@
                             },
                             "status": {
                               "type": "string",
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "CREATING",
+                                    "RUNNING",
+                                    "DELETING",
+                                    "DELETED",
+                                    "STOPPING",
+                                    "RESUMING",
+                                    "MODIFYING",
+                                    "ABNORMAL",
+                                    "FREEZING",
+                                    "FROZEN",
+                                    "UNFREEZING",
+                                    "RESTORE_BACKUP",
+                                    "MIGRATING",
+                                    "RESIZING",
+                                    "UPGRADING",
+                                    "WAITING_OPERATION",
+                                    "SET_PRIVATE_LINK"
+                                  ],
+                                  "description": "Current lifecycle status of the cluster. Possible values are `CREATING`, `RUNNING`, `DELETING`, `DELETED`, `STOPPING`, `RESUMING`, `MODIFYING`, `ABNORMAL`, `FREEZING`, `FROZEN`, `UNFREEZING`, `RESTORE_BACKUP`, `MIGRATING`, `RESIZING`, `UPGRADING`, `WAITING_OPERATION`, and `SET_PRIVATE_LINK`.",
+                                  "x-i18n": {
+                                    "zh-CN": {
+                                      "description": "集群的当前生命周期状态。可能的值包括 `CREATING`、`RUNNING`、`DELETING`、`DELETED`、`STOPPING`、`RESUMING`、`MODIFYING`、`ABNORMAL`、`FREEZING`、`FROZEN`、`UNFREEZING`、`RESTORE_BACKUP`、`MIGRATING`、`RESIZING`、`UPGRADING`、`WAITING_OPERATION` 和 `SET_PRIVATE_LINK`。"
+                                    },
+                                    "ja-JP": {
+                                      "description": "クラスタの現在のライフサイクルステータス。指定可能な値は `CREATING`、`RUNNING`、`DELETING`、`DELETED`、`STOPPING`、`RESUMING`、`MODIFYING`、`ABNORMAL`、`FREEZING`、`FROZEN`、`UNFREEZING`、`RESTORE_BACKUP`、`MIGRATING`、`RESIZING`、`UPGRADING`、`WAITING_OPERATION`、`SET_PRIVATE_LINK` です。"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
                               "description": "Current status of the cluster.",
                               "x-i18n": {
                                 "zh-CN": {
@@ -2327,26 +2390,7 @@
                                 "ja-JP": {
                                   "description": "クラスターの現在のステータス。"
                                 }
-                              },
-                              "enum": [
-                                "CREATING",
-                                "RUNNING",
-                                "DELETING",
-                                "DELETED",
-                                "STOPPING",
-                                "RESUMING",
-                                "MODIFYING",
-                                "ABNORMAL",
-                                "FREEZING",
-                                "FROZEN",
-                                "UNFREEZED",
-                                "RESTORE_BACKUP",
-                                "MIGRATING",
-                                "RESIZING",
-                                "UPGRADING",
-                                "WRITING_OPERATION",
-                                "SET_PRIVATE_LINK"
-                              ]
+                              }
                             },
                             "connectAddress": {
                               "type": "string",

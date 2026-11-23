@@ -374,6 +374,36 @@
       "fragment": "34-cloud-access-control-operations-v2.json"
     },
     {
+      "opKey": "delete /v2/serviceAccounts/{serviceAccountId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation delete /v2/serviceAccounts/{serviceAccountId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "delete /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation delete /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "delete /v2/serviceAccounts/{serviceAccountId}/projectAssignments/{projectId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation delete /v2/serviceAccounts/{serviceAccountId}/projectAssignments/{projectId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
       "opKey": "get /v1/clouds",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
@@ -605,6 +635,76 @@
       "fragment": "34-cloud-access-control-operations-v2.json"
     },
     {
+      "opKey": "get /v2/serviceAccounts",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation get /v2/serviceAccounts; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "get /v2/serviceAccounts/{serviceAccountId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation get /v2/serviceAccounts/{serviceAccountId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "get /v2/serviceAccounts/{serviceAccountId}/apiKeys",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation get /v2/serviceAccounts/{serviceAccountId}/apiKeys; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "get /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation get /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "patch /v2/serviceAccounts/{serviceAccountId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation patch /v2/serviceAccounts/{serviceAccountId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "patch /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation patch /v2/serviceAccounts/{serviceAccountId}/apiKeys/{apiKeyId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "patch /v2/serviceAccounts/{serviceAccountId}/roles",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation patch /v2/serviceAccounts/{serviceAccountId}/roles; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
       "opKey": "post /v1/clusters/create",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
@@ -725,6 +825,16 @@
       "fragment": "19-extract-load-and-transform-v2.json"
     },
     {
+      "opKey": "post /v2/project/{projectId}/serviceAccounts",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation post /v2/project/{projectId}/serviceAccounts; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
       "opKey": "post /v2/projects/{projectId}/jobs/anomaly-detection",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
@@ -843,6 +953,36 @@
       "owner": "rest-upstream-bootstrap",
       "decidedAt": "2026-10-28",
       "fragment": "34-cloud-access-control-operations-v2.json"
+    },
+    {
+      "opKey": "post /v2/serviceAccounts",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation post /v2/serviceAccounts; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "post /v2/serviceAccounts/{serviceAccountId}/apiKeys",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation post /v2/serviceAccounts/{serviceAccountId}/apiKeys; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
+    },
+    {
+      "opKey": "post /v2/serviceAccounts/{serviceAccountId}/projectAssignments/{projectId}",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
+      "firstSeenAt": "2026-11-21",
+      "classification": "deferred",
+      "reason": "new upstream operation post /v2/serviceAccounts/{serviceAccountId}/projectAssignments/{projectId}; field: operation",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-21"
     },
     {
       "opKey": "post /v2/vectordb/jobs/import/create",

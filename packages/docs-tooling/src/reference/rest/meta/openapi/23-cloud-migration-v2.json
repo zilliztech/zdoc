@@ -684,6 +684,34 @@
                                     "description": "Collection の名前。"
                                   }
                                 }
+                              },
+                              "destCollectionName": {
+                                "type": "string",
+                                "description": "Name of the destination collection.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "目标集合名称。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "転送先Collectionの名前。"
+                                  }
+                                }
+                              },
+                              "destCollectionStatus": {
+                                "type": "string",
+                                "description": "Status of the destination collection.",
+                                "enum": [
+                                  "LOADED",
+                                  "UNLOADED"
+                                ],
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "目标集合的状态。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "転送先Collectionのステータス。"
+                                  }
+                                }
                               }
                             },
                             "x-i18n": {
