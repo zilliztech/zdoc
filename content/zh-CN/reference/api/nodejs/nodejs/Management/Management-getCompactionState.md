@@ -75,7 +75,7 @@ await milvusClient.getCompactionState({
 
 **参数：**
 
-- **state** (*CompactionState*) -
+- **state** (*[CompactionState](./Management-CompactionState)*) -
 
 Compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
 
@@ -124,3 +124,4 @@ const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });
 ```
+

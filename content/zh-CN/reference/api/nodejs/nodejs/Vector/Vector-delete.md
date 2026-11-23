@@ -185,7 +185,7 @@ Milvus 是否已确认此删除操作。
 - **timestamp** (*string*) -
 该删除操作变为可见时的混合时间戳。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 此删除操作针对的主键。有关完整的字段参考，请参见 `insert()` 文档。
 

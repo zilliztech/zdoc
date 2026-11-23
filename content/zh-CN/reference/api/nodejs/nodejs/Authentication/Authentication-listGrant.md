@@ -90,7 +90,7 @@ await milvusClient.listGrant(data)
 
 **参数：**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
     授权 Entity 列表，其中每个 Entity 的结构如下。
 
@@ -126,3 +126,4 @@ await milvusClient.listGrant(data)
    objectName: '*'
  });
 ```
+

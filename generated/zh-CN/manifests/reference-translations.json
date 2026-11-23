@@ -6335,11 +6335,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "fa8d368f2de33b3c4a5ff7ac68dc98d87b30b174",
-      "sourceHash": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b",
+      "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
+      "sourceHash": "e0e707f4707789d70ee76f8a41d52e2a5c036e49e71dff7c2fd8662a5275fe7a",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md",
       "status": "translated",
-      "targetHash": "e0b767ee98e882febf8de19d19982d849c047d330cfbe317248dc7d1fcd0a73a",
+      "targetHash": "220ee757dcee9ae7a64820d0d424a0134abe1b777f51aaea894dae9248affc82",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md"
     },
     {
@@ -7280,11 +7280,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "fa8d368f2de33b3c4a5ff7ac68dc98d87b30b174",
-      "sourceHash": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a",
+      "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
+      "sourceHash": "0ab16c2868f0333545b04d244dc983d4e32e6b506d282c1f864ecc48337b8caf",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getCompactionState.md",
       "status": "translated",
-      "targetHash": "be8f0a633dd33c36196609b7eabbbb1543ea4a7293ce0b39bd6a5f2653f4bfec",
+      "targetHash": "528523ac4964a54dc3d854a2a31039a89b86850c19030f39368ca0b0d5c050e8",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management-getCompactionState.md"
     },
     {
@@ -7658,11 +7658,11 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "09ec114becf169551d8f15a608f8fbbdba62e796",
-      "sourceHash": "d1b956310bde3937ac22bb66108f917ce788f614c06d78da469fcaff4135fc3c",
+      "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
+      "sourceHash": "307555b4a9dcb6f319600fbe796c64457378dd6ac74c082acabc34c30f15339f",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-delete.md",
       "status": "translated",
-      "targetHash": "c911a45c3a1c09f5b16e5541eed30a918021d8c9f649afb986225e7412c7fc2b",
+      "targetHash": "f18b4ef12b3a3960cdd80796eaea5c6d5d2786e732acb14ec8154cce643a2b7d",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-delete.md"
     },
     {
