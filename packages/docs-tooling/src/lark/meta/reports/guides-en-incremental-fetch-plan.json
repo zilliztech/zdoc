@@ -1,162 +1,18 @@
 {
-  "generated_at": "2026-11-23T08:02:49.951Z",
+  "generated_at": "2026-11-23T10:33:04.342Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "reczz28b2hdJVXQJ",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Integrate with an HTTPS Endpoint",
-      "labels": "Integrate with an HTTPS Endpoint",
-      "slug": "integrate-with-https-endpoint",
-      "release_channel": "current",
-      "doc_token": "OeMhwPg82iCzGskj1sLcQgAZndg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/OeMhwPg82iCzGskj1sLcQgAZndg",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvlW0B32Y5js",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "VectorDB Audit Logs",
-      "labels": "VectorDB Audit Logs",
-      "slug": "audit-logs",
-      "release_channel": "current",
-      "doc_token": "FrKYwyBXKiktPzkQcFXco2qUnYd",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/FrKYwyBXKiktPzkQcFXco2qUnYd",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvlW0ETSBp1j",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Platform Audit Logs",
-      "labels": "Platform Audit Logs",
-      "slug": "view-activities",
-      "release_channel": "current",
-      "doc_token": "PynkwpI6Qi7zL9kiTBfchREknOc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PynkwpI6Qi7zL9kiTBfchREknOc",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvlW0ZJIlsqj",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Configure Access Logs",
-      "labels": "Configure Access Logs",
-      "slug": "configure-access-logs",
-      "release_channel": "current",
-      "doc_token": "E2X9wUPLpi3pQxkJzBpcpZ4snHg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/E2X9wUPLpi3pQxkJzBpcpZ4snHg",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvobbtOtXv8f",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Configure Slow Logs",
-      "labels": "",
-      "slug": "configure-slow-logs",
-      "release_channel": "current",
-      "doc_token": "QoEpwKGbEirQl1kh3W3c0zdinAd",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/QoEpwKGbEirQl1kh3W3c0zdinAd",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "E2X9wUPLpi3pQxkJzBpcpZ4snHg",
-    "FrKYwyBXKiktPzkQcFXco2qUnYd",
-    "OeMhwPg82iCzGskj1sLcQgAZndg",
-    "PynkwpI6Qi7zL9kiTBfchREknOc",
-    "QoEpwKGbEirQl1kh3W3c0zdinAd"
-  ],
-  "expanded_tokens": [
-    "E2X9wUPLpi3pQxkJzBpcpZ4snHg",
-    "FrKYwyBXKiktPzkQcFXco2qUnYd",
-    "FuX7w7cfZisGBmk8chnco3msnud",
-    "GBfswoqhviHfTVk2qhHc4eGXnfh",
-    "INoRwFTjfiindPkaNlwc9XAgnkh",
-    "IrxCwX9Hoi2BYckqDdjcSN7ynkh",
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
-    "KiCTwoFPCiVWCUkJtSecFryfn7g",
-    "OeMhwPg82iCzGskj1sLcQgAZndg",
-    "PAViwMSb3iVMzuk56z3c1zfRnwh",
-    "PynkwpI6Qi7zL9kiTBfchREknOc",
-    "Q8LHwWmyjiPOQJkpDq8cU3bxnwg",
-    "QoEpwKGbEirQl1kh3W3c0zdinAd",
-    "QvqMw06F7iI6oKkXiD4cjV33nCd",
-    "XWjpwaGdTi3PM9kST46cU7mpnLg",
-    "Yhh6wS2hdimtdfkMvYXcBi3InyL"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "OeMhwPg82iCzGskj1sLcQgAZndg": [
-      "wiki node revision changed"
-    ],
-    "FrKYwyBXKiktPzkQcFXco2qUnYd": [
-      "wiki node revision changed"
-    ],
-    "PynkwpI6Qi7zL9kiTBfchREknOc": [
-      "wiki node revision changed"
-    ],
-    "E2X9wUPLpi3pQxkJzBpcpZ4snHg": [
-      "wiki node revision changed"
-    ],
-    "QoEpwKGbEirQl1kh3W3c0zdinAd": [
-      "wiki node revision changed"
-    ],
-    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
-      "outgoing reference from E2X9wUPLpi3pQxkJzBpcpZ4snHg"
-    ],
-    "INoRwFTjfiindPkaNlwc9XAgnkh": [
-      "outgoing reference from E2X9wUPLpi3pQxkJzBpcpZ4snHg"
-    ],
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
-      "outgoing reference from E2X9wUPLpi3pQxkJzBpcpZ4snHg"
-    ],
-    "KiCTwoFPCiVWCUkJtSecFryfn7g": [
-      "incoming reference to E2X9wUPLpi3pQxkJzBpcpZ4snHg"
-    ],
-    "XWjpwaGdTi3PM9kST46cU7mpnLg": [
-      "incoming reference to E2X9wUPLpi3pQxkJzBpcpZ4snHg"
-    ],
-    "GBfswoqhviHfTVk2qhHc4eGXnfh": [
-      "outgoing reference from FrKYwyBXKiktPzkQcFXco2qUnYd"
-    ],
-    "IrxCwX9Hoi2BYckqDdjcSN7ynkh": [
-      "incoming reference to FrKYwyBXKiktPzkQcFXco2qUnYd"
-    ],
-    "FuX7w7cfZisGBmk8chnco3msnud": [
-      "outgoing reference from OeMhwPg82iCzGskj1sLcQgAZndg"
-    ],
-    "Q8LHwWmyjiPOQJkpDq8cU3bxnwg": [
-      "outgoing reference from OeMhwPg82iCzGskj1sLcQgAZndg"
-    ],
-    "Yhh6wS2hdimtdfkMvYXcBi3InyL": [
-      "outgoing reference from OeMhwPg82iCzGskj1sLcQgAZndg"
-    ],
-    "QvqMw06F7iI6oKkXiD4cjV33nCd": [
-      "incoming reference to QoEpwKGbEirQl1kh3W3c0zdinAd"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
   "affected_tables": [
     "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
     "tblh7utKxg0dgdTo"
   ],
   "current_table_targets": {
@@ -252,7 +108,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-11-23T08:02:49.951Z",
+    "generated_at": "2026-11-23T10:33:04.342Z",
     "records": 411
   },
   "source_scope": "partial"
