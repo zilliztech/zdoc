@@ -203,18 +203,21 @@ function decisionCounts(mapping) {
 function buildProposePrompt({entries, days}) {
   const entryLines = entries.map(entry => {
     const countries = Object.entries(entry.countries ?? {}).map(([name, bucket]) => `${name}=${bucket.events}e/${bucket.users}u`).join(', ') || 'unknown'
-    return `- ${entry.from} (${entry.events ?? '?'} events / ${entry.users ?? '?'} users; ${countries}); probe=${JSON.stringify(entry.probe ?? {})}; ladders tried: ${(entry.attempted ?? []).join(', ') || 'none'} (${entry.reason || 'no ladder resolved'})`
+    const site = entry.site ? ` site=${entry.site};` : ''
+    const constants = entry.constants?.length ? ` constants=${entry.constants.join(', ')};` : ''
+    return `- ${entry.from} (${entry.events ?? '?'} events / ${entry.users ?? '?'} users;${site}${constants} ${countries}); probe=${JSON.stringify(entry.probe ?? {})}; ladders tried: ${(entry.attempted ?? []).join(', ') || 'none'} (${entry.reason || 'no ladder resolved'})`
   }).join('\n')
   return `You are the triage research agent for the zilliztech/zdoc documentation site's GA4 404 remediation loop.
 
-The deterministic target ladders could not resolve the paths below (window: last ${days} days of GA4 page-not-found events). Research each one in THIS repository checkout and produce a proposal for a human operator.
+The deterministic target ladders could not resolve the paths below (window: last ${days} days of GA4 page-not-found events, or the product-doc-links watchdog for entries carrying site/constants). Research each one in THIS repository checkout and produce a proposal for a human operator.
 
 Triage entries:
 ${entryLines}
 
 Research rules:
 - Precedent first: this site's 404s cluster in families that operators have already mapped. Grep the exact rules in deploy/en/nginx.conf (lines shaped \`location = <path> { return 301 <target>; }\`) and the decided entries in scripts/redirects/ga4-404-remediation-ledger.json for the dead path's family before researching anything else. Known families: retired v1 SDK references (/reference/api/<sdk>/... → the /reference/<sdk>/<sdk>/v2-... pages), deduped legacy slugs (insert-N, search-N, createcollection-N, milvusclient-N), renamed pages (e.g. REST insert-entities-v2 → insert-v2, create-cluster-v2 → create-dedicated-cluster-v2), and singular/plural typo twins. A target already used by a sibling rule or a ledger decision is strong evidence.
-- The authority for "this target exists" is the redirect routes snapshot at ${ROUTES_SNAPSHOT}. Grep it for candidate targets; a target you cannot find there must not be proposed.
+- The authority for "this target exists" is the redirect routes snapshot of the entry's site: entries tagged site=zh-CN resolve against deploy/contracts/zh-CN-redirect-target-routes.json (the docs.zilliz.com.cn route space), everything else against ${ROUTES_SNAPSHOT}. Grep the right snapshot for candidate targets; a target you cannot find there must not be proposed.
+- Entries tagged site=zh-CN come from the product UI's Link.ts and often document international-only product features that do not exist for .cn users; when the feature itself is unavailable on .cn, recommend "denylist" (structural never-redirect) instead of inventing a substitute target, and when the constant should be re-pointed by the product team, recommend "declined" with that note.
 - Prefer the chain endpoint: a candidate that is itself an exact-rule source in the conf would add a redirect hop. It is mechanically accepted, but when the final page is visible in the conf, propose that endpoint instead.
 - content/en holds the English source pages; git log --follow helps detect renames or retirements of a source path.
 - NEVER invent a target path. If you cannot verify a confident target, recommend "declined" (do not fix this window) with a one-line reason. Recommend "denylist" only for structural never-redirect paths (test fixtures, e2e probes, bot noise).
@@ -232,7 +235,7 @@ Every triage path must appear in exactly one bucket. Operators will copy this JS
 }
 
 function buildInterpretPrompt({entries, decidedPaths, freeText}) {
-  const entryPaths = entries.map(entry => `- ${entry.from} (${entry.events ?? '?'} events / ${entry.users ?? '?'} users; ${entry.reason || 'no ladder resolved'})`).join('\n')
+  const entryPaths = entries.map(entry => `- ${entry.from}${entry.site ? ` (site=${entry.site})` : ''} (${entry.events ?? '?'} events / ${entry.users ?? '?'} users; ${entry.reason || 'no ladder resolved'})`).join('\n')
   const decided = decidedPaths.length > 0 ? `\nAlready decided in the ledger (do not re-propose; only an identical decision is legal, and omitting is better):\n${decidedPaths.map(p => `- ${p}`).join('\n')}\n` : '\n'
   return `You are the triage reply interpreter for the zilliztech/zdoc GA4 404 remediation loop. Translate the operator's free-text comment into exactly one machine-readable decision block. You are a translator, not a decider: every decision must be grounded in what the operator wrote, and anything the operator did not clearly decide must be left out.
 
@@ -240,7 +243,7 @@ Paths on the current triage (the only ones you may decide):
 ${entryPaths}
 ${decided}
 Decision semantics:
-- "mappings": fix this window; "to" must be an existing route — verify candidates against the routes snapshot at ${ROUTES_SNAPSHOT} in this checkout. Never invent a target; when the operator's wording does not pin a verifiable target, use "declined" instead.
+- "mappings": fix this window; "to" must be an existing route — verify candidates against the entry's site snapshot: entries tagged site=zh-CN resolve against deploy/contracts/zh-CN-redirect-target-routes.json, everything else against ${ROUTES_SNAPSHOT} in this checkout. Never invent a target; when the operator's wording does not pin a verifiable target, use "declined" instead.
 - "declined": record "do not fix this window" (ledger only, no rule).
 - "denylist": record a structural never-redirect path (ledger only, tool-level rejection).
 - /ja-JP twin rules are derived automatically; never include them.

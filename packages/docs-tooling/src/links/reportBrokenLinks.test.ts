@@ -1,7 +1,8 @@
 import {describe, expect, it} from 'vitest';
 
-import {buildReportRows, categoryLabel, listRecordIds, reportTableUrl, writeBrokenLinksTable} from './reportBrokenLinks.ts';
+import {buildReportRows, categoryLabel, KNOWN_ITEM_LABEL, listRecordIds, renderCombinedNote, reportTableUrl, writeBrokenLinksTable} from './reportBrokenLinks.ts';
 import {parseBrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
+import {parseBrokenLinksLedger} from './brokenLinksLedger.ts';
 
 function analysis() {
   return parseBrokenLinkAnalysisReport({
@@ -44,6 +45,31 @@ describe('buildReportRows', () => {
     expect(rows[0].源文档链接).toBe('https://zilliverse.feishu.cn/wiki/Wl2Pw#Msm7dh');
     expect(rows[0].扫描时间).toBe('2026-08-26T00:00:00.000Z');
     expect(rows[1].源文档链接).toBe('');
+  });
+
+  it('labels ledger-decided rows as known while keeping the rest untouched', () => {
+    const known = new Set(['en\n/docs/home\n/docs/connect-to-cluster']);
+    const rows = buildReportRows(analysis(), new Map(), '2026-08-26T00:00:00.000Z', known);
+    expect(rows[0].分类).toBe('分类一：目标在当前发布组不存在');
+    expect(rows[1].分类).toBe(KNOWN_ITEM_LABEL);
+  });
+});
+
+describe('renderCombinedNote', () => {
+  it('renders the per-site summary without a ledger section by default', () => {
+    const note = renderCombinedNote([analysis()], 'https://example.feishu.cn/base/app?table=tbl');
+    expect(note).toContain('- 英文站：断链 2，断锚 0，组缺失 1，目标缺失 1，自动生成 0');
+    expect(note).not.toContain('已知项');
+  });
+
+  it('appends the ledger coverage section with unseen entries for closure review', () => {
+    const coverage = {
+      matched: [parseBrokenLinksLedger({schema_version: 1, entries: [{site: 'en', source_path: '/docs/home', target: '/docs/connect-to-cluster', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
+      unseen: [parseBrokenLinksLedger({schema_version: 1, entries: [{site: 'zh-CN', source_path: '/docs/gone', target: '/docs/also-gone', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
+    };
+    const note = renderCombinedNote([analysis()], 'https://example.feishu.cn/base/app?table=tbl', coverage);
+    expect(note).toContain('- 已知项（ledger）：1 条已抑制标注，1 条本轮未再现');
+    expect(note).toContain('  - 未再现：`zh-CN` `/docs/gone` → `/docs/also-gone`（考虑评审移除 ledger 条目）');
   });
 });
 

@@ -33,6 +33,11 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   // batch with the same PAT (remediation job) and applies triage replies to
   // that branch (apply_reply job); it never pushes master or dev.
   ['ga4-404-remediation.yml', new Set(['remediation', 'apply_reply'])],
+  // The product-doc-links remediation is the second data source of the GA4
+  // loop and follows the same push contract: one remediation branch per
+  // classified batch (remediation job), triage replies applied to that
+  // branch (apply_reply job); it never pushes master or dev.
+  ['product-doc-links-remediation.yml', new Set(['remediation', 'apply_reply'])],
   ['shared-docs-lock.yml', new Set(['lock'])],
   // The adoption workflow pushes one adoption branch per dispatch with a PAT and
   // opens a master PR; it never pushes master or dev.
