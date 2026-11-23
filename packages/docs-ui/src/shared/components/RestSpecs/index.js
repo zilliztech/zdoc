@@ -310,7 +310,9 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
-    const { type, format, minimum, maximum, defaultValue } = obj;
+    // OpenAPI carries the default on the `default` key; the old destructure
+    // read a `defaultValue` key that never exists, so this row never rendered.
+    const { type, format, minimum, maximum, default: defaultValue } = obj;
     const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const example = obj["x-i18n"]?.[lang]?.example ? obj["x-i18n"][lang].example : obj.example
     const enums = obj.enum ? obj.enum : []
@@ -335,7 +337,7 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                 </div> }
                 { enums.length > 0 && <Enums enums={enums} defaultValue={defaultValue} lang={lang} target={target} /> }
                 { defaultValue && <div>
-                    <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
+                    <span className={styles.paramExample}>{i18n[lang]['label.default']}</span>
                     <span className={styles.label}>{defaultValue}</span>
                 </div> }
                 { (example === 0 || isRenderableExample(example)) && <div>
