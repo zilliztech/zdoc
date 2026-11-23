@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "from": "/docs/byoc/configure-vpc",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC VPC configuration page; a CN product difference decided 2026-10-29/30, never redirect.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/byoc/deploy-byoc-aws",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC deployment guide (credential-setting anchor observation); CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/byoc/deploy-byoc-gcp",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC deployment guide; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/byoc/deploy-byoc-i-aws",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC I-deployment variant; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/byoc/deploy-byoc-i-azure",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC I-deployment variant; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/byoc/deploy-byoc-i-gcp",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only BYOC I-deployment variant; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/integrate-with-azure-blob-storage",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only Azure Blob integration (bare path + anchor observations); CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/openid-connect",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only SSO/OIDC page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/scim-provisioning-overview",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only SCIM provisioning page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/single-sign-on-with-google-workspace",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only SSO page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/single-sign-on-with-microsoft-entra",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only SSO page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/single-sign-on-with-other-idp",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only SSO page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/subscribe-by-adding-credit-card",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only billing page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    },
+    {
+      "from": "/docs/zero-downtime-migration",
+      "site": "zh-CN",
+      "status": "denylist",
+      "note": "International-only migration page; CN product difference decided 2026-10-29/30.",
+      "decided_at": "2026-11-23T00:00:00.000Z"
+    }
+  ]
+}
