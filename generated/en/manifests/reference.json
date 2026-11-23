@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "c4fc30cb6e07b18d15bf9afcadb498260af96edf",
+  "sourceCommit": "14c83c5efd3bcad55171572ad30a385411236476",
   "records": [
     {
       "manual": "cli",
@@ -6890,7 +6890,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2.mdx",
-      "sourceHash": "8df8f665625954a1efd191df22e8512db1ba487b2872c74136a64eabb7bb75fb"
+      "sourceHash": "69ec1851340261248e05c454c23a79190767eb588797c0cfdfcff3d563c40e9e"
     },
     {
       "manual": "rest",
@@ -6900,7 +6900,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/alter-collection-properties-v2.mdx",
-      "sourceHash": "480a85a0d89feb43e49162d02627784f1e76798fbeb17da105be7e5a844009f4"
+      "sourceHash": "d10a7be9a5de5963bf60ec728ee0b37b475906064332b34e0003c257523c9b53"
     },
     {
       "manual": "rest",
@@ -6925,7 +6925,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
-      "sourceHash": "efea03b8b2d0500b555818f278a09b6ab14df56e5ebb8c1c207688bf2f1c8392"
+      "sourceHash": "7d4d4df16ab0264fecf6ab40a2f39c2c46ea971b53bc002e158c9a3ffef3c668"
     },
     {
       "manual": "rest",
@@ -6945,7 +6945,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-properties-v2.mdx",
-      "sourceHash": "7461dd151e2ea1e3f7c78bc49b29d1a3103ee66a574ce6e3d0463a3469733876"
+      "sourceHash": "c27fd8a0cb6a4b1fbdffe41bcd5855fc88233e68a56d4a232b2218a27b9a812b"
     },
     {
       "manual": "rest",
@@ -6965,7 +6965,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/flush-collection-v2.mdx",
-      "sourceHash": "cca68108d707443efb72ee1977c301cda5cc3d709d3b2e668f9064ad336b91ca"
+      "sourceHash": "16a669edcaa350ddf5f147529bc55daf8398e389ef9d1579d4d27f642b4e8f45"
     },
     {
       "manual": "rest",
@@ -7045,7 +7045,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2.mdx",
-      "sourceHash": "fd289a8eed7d391fefbaa262cc504d9b7eba751d73540687d797bf9ee53aac69"
+      "sourceHash": "9c60d9d89756cee4434057c3d8f3b4f5b5a990bae42738b6d39e7b716aeeecd2"
     },
     {
       "manual": "rest",
@@ -7065,7 +7065,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2.mdx",
-      "sourceHash": "c922af5b72133588b092a5d977bb4bd5e5992997c1961bb20decd1835f67edf5"
+      "sourceHash": "5fb5df437bff3cd31bc2717874093afa716495a465bc4a8c66fddb3508fb220d"
     },
     {
       "manual": "rest",
@@ -7080,7 +7080,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/alter-index-properties-v2.mdx",
-      "sourceHash": "5e001271e4096161dc2a81d19fc0206473f965c2a3f20f22b0f8c770cb012e62"
+      "sourceHash": "9aebaaa91f160c01d299ba4a1435fb382a5e0de4326124f37333ae4677d6a751"
     },
     {
       "manual": "rest",
@@ -7095,7 +7095,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/drop-index-properties-v2.mdx",
-      "sourceHash": "dbdacad0b221e35a4e2fd31f5b8a33368230f99a46e283c240b4e6e97a48a2fc"
+      "sourceHash": "cf2842b910e9a981cb2b1809d150ef3ab96818dcd12b58b581631c74d447c63b"
     },
     {
       "manual": "rest",
@@ -7155,7 +7155,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/add-privileges-to-group-v2.mdx",
-      "sourceHash": "d0a9f0f97b134b423291f94e14ab660447d79eeb91edf489ff72e4d168dbd56b"
+      "sourceHash": "ce1679be25d8ce7fb1978e883cc22f1373cbab1c34fc26b4682aff609089f2ba"
     },
     {
       "manual": "rest",
@@ -7180,7 +7180,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/remove-privileges-from-group-v2.mdx",
-      "sourceHash": "2a234625dad906bb6dd409b17fa6869ab01f0317062568b2be0323a1f727c002"
+      "sourceHash": "2de7de898229b765aa3b446a4a92ac668f65a823ca1036eec70afb12ffbb5db7"
     },
     {
       "manual": "rest",
@@ -7210,7 +7210,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/delete-v2.mdx",
-      "sourceHash": "4ec3da48da8077acad445543586447281fc2b4f47370ab301035988961d8ca60"
+      "sourceHash": "5dbae0f99a7f0c8650fec9d6c4d7fae469960b7d3ceac79bdc9bee5c1bf9bdea"
     },
     {
       "manual": "rest",
@@ -7225,7 +7225,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/insert-v2.mdx",
-      "sourceHash": "5de27d43c0ac926210b3340dfe59f32809d50533ea61d20a240bb5b342e19a85"
+      "sourceHash": "35a08d21cf855c0cb06a111db41269185d65f36f6f5a8991d757b6bf16ab843f"
     },
     {
       "manual": "rest",
@@ -7235,12 +7235,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/search-v2.mdx",
-      "sourceHash": "c82b1ed84ab0cb7e268c4f6ca19b5be251407b429762d06c83a24a8142927672"
+      "sourceHash": "6d718f0e8532e6386ef10df4da4a9f6a29b153fb9c1937eb8d74b731efca40b0"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/upsert-v2.mdx",
-      "sourceHash": "a9c0fe75ac937b892654d0d5d30afb2eb7874ab87ab7b688164520d56661e8b5"
+      "sourceHash": "e1288361c32c7f12b277c71ba5c75cd3f96ab109d00f12745abf81fa6e11ffac"
     },
     {
       "manual": "rest",
