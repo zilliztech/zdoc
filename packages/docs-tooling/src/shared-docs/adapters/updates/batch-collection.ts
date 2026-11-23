@@ -116,7 +116,7 @@ import {analyzeAnchorRelations} from '../../core/updates/anchors'
 import {confirmedAdoptionDependencies, computeUpdateUnits} from '../../core/updates/units'
 import {validateActiveState, validateSharedSnapshotRecord} from '../../core/handoff/source-state'
 import {parseLock} from '../../core/lock'
-import {validateGuidesPage, validateGuidesSource, guidesVariantNames} from './guides-batch-registry'
+import {guidesNextOutputPaths, validateGuidesPage, validateGuidesSource, guidesVariantNames} from './guides-batch-registry'
 import {resolveManualPublication} from '../../../manuals/registry'
 import {BatchDiagnosticsSchema, BatchManualSchema, BatchRawTreeSchema, BatchImagesSchema, BatchPageMaterialHeaderSchema, BatchClosureSchema, BatchMaterialsSchema,
   BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchCopyProofSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchRestoreProof, type BatchCopyProof} from './batch-collection-contract'
@@ -236,14 +236,19 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   }
   const activeRow = active.pages.find(p => p.page === header.pageId), row = records.length === 1 ? records[0] : undefined
   if (!activeRow) ownershipReasons.add('INACTIVE_NECESSARY_PAGE')
-  if (!row || row.release_channel !== 'current' || row.record_id !== activeRow?.record || row.slug !== header.pageId) ownershipReasons.add('PUBLISHED_RECORD_MISMATCH')
-  if (row) {
-    if (row.output_paths.length !== header.targets.length || row.publish_targets.length !== header.targets.length) ownershipReasons.add('PUBLISHED_RECORD_MISMATCH')
-    for (const target of header.targets) {
-      const publication = resolveManualPublication(target.manual, 'en').publication, stem = publication.contentRoot + '/' + target.path
-      const paths = row.output_paths.filter((path: string) => path === stem + '.md' || path === stem + '.mdx')
-      if (paths.length !== 1 || outputOwners.get(paths[0])?.size !== 1 || !namespace.outputs.some(o => o.path === paths[0] && o.manual === target.manual) ||
-          !row.publish_targets.map((t: string) => t.toLowerCase()).includes(publication.generatorTarget) || !snapshot.targets_built.includes(publication.generatorTarget)) ownershipReasons.add('PUBLISHED_OUTPUT_OWNERSHIP_INVALID')
+  const nextOutputs = row && guidesNextOutputPaths(header.pageId, activeRow?.record, header.targets, row, snapshot.targets_built, snapshot.records)
+  if (nextOutputs?.every((path, index) => namespace.outputs.some(o => o.path === path && o.manual === header.targets[index].manual))) {
+    ownershipReasons.add('UNPUBLISHED_NECESSARY_PAGE')
+  } else {
+    if (!row || row.release_channel !== 'current' || row.record_id !== activeRow?.record || row.slug !== header.pageId) ownershipReasons.add('PUBLISHED_RECORD_MISMATCH')
+    if (row) {
+      if (row.output_paths.length !== header.targets.length || row.publish_targets.length !== header.targets.length) ownershipReasons.add('PUBLISHED_RECORD_MISMATCH')
+      for (const target of header.targets) {
+        const publication = resolveManualPublication(target.manual, 'en').publication, stem = publication.contentRoot + '/' + target.path
+        const paths = row.output_paths.filter((path: string) => path === stem + '.md' || path === stem + '.mdx')
+        if (paths.length !== 1 || outputOwners.get(paths[0])?.size !== 1 || !namespace.outputs.some(o => o.path === paths[0] && o.manual === target.manual) ||
+            !row.publish_targets.map((t: string) => t.toLowerCase()).includes(publication.generatorTarget) || !snapshot.targets_built.includes(publication.generatorTarget)) ownershipReasons.add('PUBLISHED_OUTPUT_OWNERSHIP_INVALID')
+      }
     }
   }
   const existing = namespace.outputs.map(o => {

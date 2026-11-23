@@ -9,7 +9,7 @@ import { discoverBatches, type BatchDiscoveryInput, type BatchPageObservation, t
 import { GitShaSchema, RepoPathSchema } from '../../core/updates/envelope'
 import { guidesSnapshotPath } from '../guides-snapshot'
 import { BATCH_ASSOCIATION_WINDOW, createBatchGitHub, type BatchGitHubTestSeam } from './batch-github'
-import { guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
+import { guidesNextOutputPaths, guidesVariantNames, validateGuidesPage, validateGuidesSource, type AuthenticatedRegistryPage } from './guides-batch-registry'
 import { BatchGitStore, batchBudget, safeReason, stop, type BatchBudget, type RawChange } from './batch-source'
 import {BatchCopyProofSchema, BatchRestoreProofSchema, batchRef, batchSha256, parseBatchCanonical, type BatchEdge, type BatchOrigin, type BatchBlobRef, type BatchRestoreProof} from './batch-collection-contract'
 import { makeRestoreProof, mergedRestoreFacts, restoreEdgeMatches } from './batch-restore-proof'
@@ -109,6 +109,14 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
       const row = rows.get(p.pageId)
       if (!row) { p.published = false; continue }
       if (p.active === null) continue
+      const nextOutputs = guidesNextOutputPaths(p.pageId, activeIds.get(p.pageId), p.publish, row, snapshot.targets_built, snapshot.records)
+      if (nextOutputs) {
+        try {
+          for (const path of nextOutputs) await store.regularOid(dev, path)
+          p.published = false
+        } catch { p.published = null; add(p.reasons, 'PUBLISHED_OUTPUT_UNAVAILABLE') }
+        continue
+      }
       const expected = p.publish.map(t => ({ target: t, publication: resolveManualPublication(t.manual, 'en').publication }))
       const targets = row.publish_targets.map(t => t.toLowerCase())
       const targetSet = expected.map(t => t.publication.generatorTarget)
@@ -533,7 +541,9 @@ async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOri
   GitShaSchema.parse(options.tools)
   const budget = batchBudget(), api = createBatchGitHub(budget, seam, 'discovery')
   try {
-    const pins = await api.pins(), zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
+    const pins = await api.pins()
+    if (origin.kind === 'observed' && pins.master !== options.tools) stop('OBSERVED_REF_MOVED')
+    const zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
     const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
     const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
     await lifecycle(zdoc, input)

@@ -1,4 +1,5 @@
 import { DOC_HEADING_TAGS } from '../../../../../docs-ui/src/shared/utils/docHeadingTags'
+import { resolveManualPublication } from '../../../manuals/registry'
 import { parsePageConfig, parseSourceConfig } from '../../core/config'
 import { RepoPathSchema } from '../../core/updates/envelope'
 import { variantFileName, variantSidecarName } from '../../core/variants'
@@ -12,6 +13,31 @@ export interface AuthenticatedRegistryPage {
   readonly lockPath: string
   readonly sourceFile: string
   readonly publish: readonly Readonly<{manual: string; path: string}>[]
+}
+
+/** Call only after the pinned snapshot and its unique shared row have been validated. */
+export function guidesNextOutputPaths(
+  pageId: string, activeRecord: string | undefined, targets: AuthenticatedRegistryPage['publish'],
+  row: {release_channel: unknown; record_id: unknown; slug: unknown; output_paths: unknown; publish_targets: unknown},
+  targetsBuilt: readonly unknown[], records: readonly {record_id: unknown; output_paths?: unknown}[],
+): string[] | undefined {
+  if (row.release_channel !== 'next' || activeRecord === undefined || row.record_id !== activeRecord || row.slug !== pageId ||
+      !Array.isArray(row.output_paths) || row.output_paths.length !== targets.length ||
+      !Array.isArray(row.publish_targets) || row.publish_targets.length !== targets.length ||
+      !row.publish_targets.every(target => typeof target === 'string')) return
+  const generators = row.publish_targets.map(target => target.toLowerCase())
+  const outputPaths: string[] = []
+  for (const target of targets) {
+    const {publication} = resolveManualPublication(target.manual, 'en')
+    const stem = publication.contentRoot + '/' + target.path
+    const markdown = stem + '.md', mdx = stem + '.mdx'
+    const matches = row.output_paths.filter(path => path === markdown || path === mdx)
+    if (matches.length !== 1 || records.some(record => record.record_id !== activeRecord &&
+        Array.isArray(record.output_paths) && record.output_paths.some(path => path === markdown || path === mdx)) ||
+        !generators.includes(publication.generatorTarget) || !targetsBuilt.includes(publication.generatorTarget)) return
+    outputPaths.push(matches[0])
+  }
+  return outputPaths
 }
 export function validateGuidesSource(text: string, checkBudget = () => {}) {
   const source = parseSourceConfig(text, {}, checkBudget)

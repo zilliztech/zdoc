@@ -6,7 +6,8 @@ import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
 import { BatchGitStore, batchBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
-import { collectBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import { collectBatchDiscovery, observeBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import * as batchGitHub from '../../adapters/updates/batch-github'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { validateSharedSnapshotRecord } from '../../core/handoff/source-state'
 import { canonicalBytes } from '../../core/updates/canonical'
@@ -189,7 +190,7 @@ async function inventoryFixture(scenario: string) {
     source.git('add', 'site/en/b.md')
   }
   if (scenario === 'api-failed' || lockSideCopy) await stageSecondRoot('old b')
-  let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
+  let old = await source.change(sourcePath, scenario.endsWith('fragment') ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
   let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = ''
   if (sync) {
@@ -234,7 +235,7 @@ async function inventoryFixture(scenario: string) {
     await put(prefix + 'page.yaml', { schema_version: 1, source: { file: (scenario === 'api-failed' || lockSideCopy) && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
     if (id === 'a' && scenario.startsWith('variant-')) await put(prefix + scenario, 'unsupported')
     const next = id === 'b' && (scenario === '3707-copy-origin' || lockSideCopy) ? syncedBase : id === 'b' &&
-      !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
+      !['inactive-member', 'api-failed', '3707-base-import', 'next-required-fragment'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
     if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: lockSideCopy ? unrelated : old, next })
   }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'registry'); const m = zdoc.git('rev-parse', 'HEAD')
@@ -253,12 +254,17 @@ async function inventoryFixture(scenario: string) {
   if (scenario === 'record-mismatch') records[0].record_id = 'other-record'
   if (scenario === 'output-mismatch') records[0].output_paths.push('content/en/byoc/tutorials/a.md')
   if (scenario === 'channel-mismatch') records[0].release_channel = 'next'
+  if (scenario.startsWith('next-')) records[1].release_channel = 'next'
+  if (scenario === 'next-record-mismatch') records[1].record_id = 'other-record'
   if (scenario === 'invalid-snapshot') records[0].shared_page.inputs_sha256 = 'bad'
   const ordinary = scenario.endsWith('-claim') ? [{ record_id: 'ordinary', slug: 'ordinary', placement_type: 'canonical',
-    release_channel: scenario === 'ordinary-current-claim' ? 'current' : 'next', doc_token: 'ordinary-token',
-    output_paths: [...records[0].output_paths] }] : []
+    release_channel: scenario.endsWith('current-claim') ? 'current' : 'next', doc_token: 'ordinary-token',
+    output_paths: [...records[scenario.startsWith('next-') ? 1 : 0].output_paths] }] : []
   await put(guidesSnapshotPath, { manual: 'guides', schema_version: 3, build_env: 'uat', source_branch: 'dev', targets_built: ['zilliz.saas'], records: [...records, ...ordinary] })
-  for (const id of ids) if (scenario !== 'missing-output' || id !== 'a') await put('content/en/guides/tutorials/' + id + '.md', 'published')
+  for (const id of ids) {
+    if ((scenario === 'missing-output' && id === 'a') || (scenario === 'next-missing-output' && id === 'b')) continue
+    await put('content/en/guides/tutorials/' + id + '.md', 'published')
+  }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'snapshot'); const d = zdoc.git('rev-parse', 'HEAD')
   await put(grouped + 'pages/a/page.yaml', 'invalid uncommitted config')
   let rounds = 0
@@ -290,6 +296,35 @@ async function inventoryFixture(scenario: string) {
     tools: old }, { transport })
   return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, syncedBase, rounds: () => rounds }
 }
+
+it('stops observed discovery on master drift before opening the registry', async () => {
+  const f = await inventoryFixture('direct')
+  const create = batchGitHub.createBatchGitHub
+  const isolated = vi.spyOn(batchGitHub, 'createBatchGitHub').mockImplementation((budget, _seam, mode) =>
+    create(budget, {transport: f.transport}, mode))
+  try {
+    await expect(observeBatchDiscovery({zdocRepository: join(f.zdoc.root, 'missing'), sourceRepository: f.source.root, tools: f.d}))
+      .rejects.toThrow('OBSERVED_REF_MOVED')
+    expect(f.rounds()).toBe(1)
+  } finally {isolated.mockRestore()}
+})
+
+it.each(['next-collateral', 'next-required-fragment', 'channel-mismatch', 'next-record-mismatch', 'next-current-claim', 'next-ordinary-claim', 'next-missing-output'])(
+  'classifies an independently bound NEXT release without making it eligible (%s)', async scenario => {
+    const f = await inventoryFixture(scenario), report = await f.run()
+    const page = report.pages.find(row => row.pageId === (scenario === 'channel-mismatch' ? 'a' : 'b'))!
+    expect(page).toMatchObject({active: true, published: scenario === 'next-missing-output' ? null : false})
+    if (scenario === 'next-collateral') {
+      expect(page.reasons).toEqual(['NO_DIRECT_SOURCE_CHANGE'])
+      expect(report.reasons).not.toContain('PUBLISHED_RECORD_MISMATCH')
+      expect(report.groups.map(group => group.pageIds)).toEqual([['a']])
+    } else if (scenario === 'channel-mismatch' || scenario === 'next-required-fragment') {
+      expect(page.reasons).toContain('UNPUBLISHED_NECESSARY_PAGE')
+      expect(report.reasons).not.toContain('PUBLISHED_RECORD_MISMATCH')
+      if (scenario === 'next-required-fragment') expect(report.groups.map(group => group.pageIds)).toEqual([['a', 'b']])
+    } else if (scenario === 'next-missing-output') expect(report.reasons).toContain('PUBLISHED_OUTPUT_UNAVAILABLE')
+    else expect(report.reasons).toContain('PUBLISHED_RECORD_MISMATCH')
+  })
 
 it('retains both edges of a verified merged-branch edit and revert and rejects edited retained proofs', async () => {
   const f = await inventoryFixture('merged-restoration')
