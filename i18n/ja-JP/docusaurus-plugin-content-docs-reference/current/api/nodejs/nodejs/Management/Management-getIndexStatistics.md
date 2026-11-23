@@ -73,7 +73,7 @@ await milvusClient.getIndexStatistics({
 
 **パラメーター：**
 
-- **index_descriptions** (*IndexDescription[]*) -
+- **index_descriptions** (*[IndexDescription](./Management-IndexDescription)[]*) -
 
 要求されたインデックスのインデックス記述のリストです。各エントリには **indexed_rows** と **total_rows** が含まれます。
 

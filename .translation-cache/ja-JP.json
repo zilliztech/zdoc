@@ -6731,9 +6731,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexStatistics.md": {
-      "sourceHash": "05576b272d8288b9e95e5070987c91ba23b119a55176916c76a2742c33b108d2",
+      "sourceHash": "58045a45b4b7b54aeadfb5abadc8b4f0b89ff98e4eb4af3a8233d47befea0373",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-getIndexStatistics.md",
-      "translatedAt": "2026-11-19T02:44:12.607Z"
+      "translatedAt": "2026-11-23T21:40:01.549Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadState.md": {
       "sourceHash": "c3f6ca4fccf6dad6771a5656cafc9ed8c7ac315f424b7df04a5f5788201bf368",
@@ -6941,9 +6941,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md": {
-      "sourceHash": "e8ec2cd6f91bc51342c869e56c5bec3a6d896db3699af8e5052d104fa5f72f5e",
+      "sourceHash": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-query.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-23T21:40:01.549Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md": {
       "sourceHash": "52873288f15a5145eba9869057341abe2733f6f49ea066b60c43821f4a7bf49c",

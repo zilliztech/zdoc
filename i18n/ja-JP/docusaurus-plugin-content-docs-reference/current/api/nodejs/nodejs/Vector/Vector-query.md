@@ -144,7 +144,7 @@ await milvusClient.query(data)
 
     集計結果をグループ化するために使用するスカラーフィールドです。任意です。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     特定のデータ型のデータを変換するカスタム関数です。任意です。
 
@@ -205,3 +205,4 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
+
