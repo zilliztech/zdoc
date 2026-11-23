@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "2ade761cd75fe9af196212ec2a32e94de9a4cc17",
+  "sourceCommit": "9f6637b825bd76be2f600a0ae774057fd78d242b",
   "records": [
     {
       "manual": "cli",
@@ -7215,12 +7215,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/get-v2.mdx",
-      "sourceHash": "7341fbfb90515ab473b9f8eaf414574acf0d21df83190fedc72289fbfeef32cf"
+      "sourceHash": "e5048355654805889dbf196a08ae0b07bc86dbb8ea5df5a1dbdd9f616ebcf5b1"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/hybrid-search-v2.mdx",
-      "sourceHash": "5fc8265689c2d236e78f5e53bc0e1e41d564e120e7e58b869d5333572d88a9fd"
+      "sourceHash": "133e349c9d05c1154b6ee4c5ac8163fdacdbf53a0edda8415fdeb55c92fb6a35"
     },
     {
       "manual": "rest",
@@ -7230,12 +7230,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/query-v2.mdx",
-      "sourceHash": "5033314a0ac8ff75f3b0c55da107434b4a3381674d236a3fa9a2d3e016b24acb"
+      "sourceHash": "00d54711ffe4b85617d5197ac0ecf203eaa63f7389f1d1bd8791485a9283249b"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/search-v2.mdx",
-      "sourceHash": "e13286cd9e11a15248e958f30623a6d17d1b8dbd3f7887092f9034d3bd3a850c"
+      "sourceHash": "c82b1ed84ab0cb7e268c4f6ca19b5be251407b429762d06c83a24a8142927672"
     },
     {
       "manual": "rest",
