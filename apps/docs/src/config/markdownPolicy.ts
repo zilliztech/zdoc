@@ -188,6 +188,30 @@ export function remarkStripHeadingZeroWidthChars() {
   };
 }
 
+// An anchor suffix with an empty id ("概述{#}") satisfies no consumer: the
+// explicit-anchor parsers here and in Docusaurus (@docusaurus/utils
+// parseMarkdownHeadingId) all require a non-empty id, so the token survives
+// parsing and renders as literal "{#}" in the heading and the on-page TOC
+// (observed on zh-CN membership-match, where the fetch writer mints "{#}" when
+// slugify strips a CJK-only heading). Strip the empty token from the trailing
+// text node so the heading slugs like an unmarked one. Trailing-only mirrors
+// parseMarkdownHeadingId, so a "{#}" inside inline code or mid-text is never
+// touched. Runs ahead of the dedupe pass, which only counts non-empty ids.
+const EMPTY_HEADING_ANCHOR = /\s*\{#\s*}$/;
+
+export function remarkStripEmptyHeadingAnchors() {
+  return (tree: AstNode): void => {
+    visit(tree as never, 'heading', (node: AstNode) => {
+      const textChildren = (node.children ?? []).filter(
+        child => child.type !== 'html' && child.type !== 'jsx',
+      );
+      const last = textChildren[textChildren.length - 1];
+      if (last?.type !== 'text' || typeof last.value !== 'string') return;
+      last.value = last.value.replace(EMPTY_HEADING_ANCHOR, '');
+    });
+  };
+}
+
 // Explicit heading anchors ({#id}) bypass Docusaurus's slugger: they are
 // consumed verbatim, unlike implicit slugs. Wiki sources that repeat a section
 // heading inside one page ("Via RESTful API") therefore mint identical
@@ -198,8 +222,8 @@ export function remarkStripHeadingZeroWidthChars() {
 // #anchor links keep landing on it, and unique anchors are never touched.
 // Reserved suffix-shaped ids ({#x-1} authored by hand) never receive a
 // colliding suffix. Runs in beforeDefaultRemarkPlugins, after the zero-width
-// strip and ahead of the built-in headings/TOC plugins, which then consume the
-// rewritten anchors as ordinary explicit ids.
+// strip and the empty-anchor strip and ahead of the built-in headings/TOC
+// plugins, which then consume the rewritten anchors as ordinary explicit ids.
 const HEADING_ANCHOR_PATTERN = /\s*\{#(?<id>(?:.(?!\{#|\}))*.)\}$/;
 // The token alone, so a rewrite replaces exactly what Docusaurus consumes even
 // when an unbalanced `{#` precedes it in the same text node.
@@ -293,7 +317,11 @@ export function resolveMarkdownPolicy(markdown: DeepReadonly<MarkdownProfile>, s
     return plugin;
   });
   return {
-    beforeDefaultRemarkPlugins: [remarkStripHeadingZeroWidthChars, remarkDedupeHeadingAnchors],
+    beforeDefaultRemarkPlugins: [
+      remarkStripHeadingZeroWidthChars,
+      remarkStripEmptyHeadingAnchors,
+      remarkDedupeHeadingAnchors,
+    ],
     remarkPlugins,
     rehypePlugins,
     stylesheets: markdown.rehypePlugins.includes('katex')
