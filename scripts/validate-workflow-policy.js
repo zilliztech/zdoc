@@ -805,7 +805,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           classifierCheckout?.with?.['fetch-depth'] !== 2 ||
           classifierCheckout?.with?.['sparse-checkout'] !== 'deploy/contracts' ||
           String(comparisonFetch?.if || '').trim() !== "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}" ||
-          comparisonFetch?.env?.BASE_SHA !== '${{ github.event.pull_request.base.sha || github.event.before || github.sha }}' ||
+          comparisonFetch?.env?.BASE_SHA !== '${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}' ||
           !/\[\[ "\$BASE_SHA" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(comparisonRun) ||
           !/\[\[ ! "\$BASE_SHA" =~ \^0\{40\}\$ \]\][\s\S]*git cat-file -e "\$BASE_SHA\^\{commit\}"/.test(comparisonRun) ||
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
