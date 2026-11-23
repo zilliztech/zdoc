@@ -94,17 +94,17 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 常见问题\{#}
+## 常见问题｛#faq｝\{#faq}
 
-### 为什么提示账号注册失败？\{#}
+### 为什么提示账号注册失败？｛#why-did-my-registration-fail｝\{#why-did-my-registration-fail}
 
-账号注册失败的理由可能是您已使用该邮箱地址或手机号注册过 Zilliz Cloud 账号。这种情况下，您可以使用该邮箱或手机号直接登录 Zilliz Cloud。如果仍然无法解决问题，您可以[提交工单](http://support.zilliz.com.cn)。
+账号注册失败的理由可能是您已使用该邮箱地址或手机号注册过 Zilliz Cloud 账号。这种情况下，您可以使用该邮箱或手机号直接登录 Zilliz Cloud。如果仍然无法解决问题，您可以提交工单。
 
-## 后续操作\{#}
+## 后续操作｛#next-steps｝\{#next-steps}
 
-- 继续使用 Serverless 和 Dedicated 集群：[添加支付方式](./payment-billing)
+- 继续使用 Serverless 和 Dedicated 集群：添加支付方式
 
-- 恢复免费试用结束后移入回收站的数据：[回收站](./use-recycle-bin)
+- 恢复免费试用结束后移入回收站的数据：回收站
 
-- 获取更多优惠券或延长试用期：[联系销售](https://zilliz.com.cn/contact-sales)
+- 获取更多优惠券或延长试用期：联系销售
 

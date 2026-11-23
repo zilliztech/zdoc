@@ -42,13 +42,13 @@ import Procedures from '@site/src/components/Procedures';
 
 - 集群被移至回收站 30 天后，集群被彻底删除，集群数据无法恢复。
 
-## 续订管理\{#}
+## 续订管理\{#manage-renewal}
 
 Zilliz Cloud 提供两种续订方式，您可以根据自己的需求选择合适的续订方式。
 
-- [手动续订](./renew-annual-subscription)：包年包月集群从购买到被移至回收站之前，您可以随时为集群进行手动续订，以延长集群的使用时间。
+- [手动续订](./renew-annual-subscription#manual-renewal)：包年包月集群从购买到被移至回收站之前，您可以随时为集群进行手动续订，以延长集群的使用时间。
 
-- [自动续订](./renew-annual-subscription)：开启自动续订后，集群会在每次到期前自动进行续订，避免您因忘记手动续订而导致集群被自动删除。
+- [自动续订](./renew-annual-subscription#auto-renewal)：开启自动续订后，集群会在每次到期前自动进行续订，避免您因忘记手动续订而导致集群被自动删除。
 
 <Admonition type="info" title="说明">
 
@@ -60,7 +60,7 @@ Zilliz Cloud 提供两种续订方式，您可以根据自己的需求选择合�
 
 续订完成后，您可以针对续订订单进行开票。详情请参考[开具发票](./manage-invoice)。
 
-### 手动续订\{#}
+### 手动续订\{#manual-renewal}
 
 <Procedures>
 
@@ -74,7 +74,7 @@ Zilliz Cloud 提供两种续订方式，您可以根据自己的需求选择合�
 
 </Procedures>
 
-### 自动续订\{#}
+### 自动续订\{#auto-renewal}
 
 <Procedures>
 

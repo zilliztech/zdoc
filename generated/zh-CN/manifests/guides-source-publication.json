@@ -1173,9 +1173,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-array-fields.md",
-      "sha256": "b76295d9cc7af9f5e62034d0171e119976412d202de00d11796a8449a11fea85",
+      "sha256": "3e23b5e6ac4738c06a56f80d3dd3228bc1bb48c109220ba443243751d0335f3b",
       "docToken": "LKIuw8JSfice0ek9PvTc2GxXnZz",
-      "revisionId": "1202"
+      "revisionId": "1206"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-binary-vector.md",
@@ -1281,9 +1281,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/membership-match.md",
-      "sha256": "368853ec8d7b106d5bdcde2942c1670984d8d6dbf7f3f71caaa826857d069c74",
+      "sha256": "6881688f869d7428714e67af4b73407a5c6fcc72240c4bf4397597e5fd380659",
       "docToken": "R5W0wfQS3igsPnk4fgNcuvFqnjc",
-      "revisionId": "73"
+      "revisionId": "102"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/filtering/pattern-match.md",
@@ -1563,9 +1563,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "018cbc7e5cd3aa4aaae2f8657446a6c4663f57c024585b2341e585a556d5199d",
+      "sha256": "2985cbb267234b9dd859e0b0be173c1fcae9475b66f291da5bf2600028f5df68",
       "docToken": "VLvsdfwWZo2tf5xqwGdcYBE7nyh",
-      "revisionId": "61"
+      "revisionId": "66"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/get-started/select-zilliz-cloud-service-plans.md",
@@ -2763,9 +2763,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-array-fields.md",
-      "sha256": "9ea25d0ef7f839c024b9e018597862a008ce1b1a91029a42604a17f2c5034d69",
+      "sha256": "50bcecfda6802c974a206e5fa03547cb7cd966b9687cc15df335ee5dde8a7de3",
       "docToken": "LKIuw8JSfice0ek9PvTc2GxXnZz",
-      "revisionId": "1202"
+      "revisionId": "1206"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-binary-vector.md",
@@ -2877,9 +2877,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/membership-match.md",
-      "sha256": "9796924d8ec054b8372ecbc123b4a692a4c1b89406d724885b34313a1d072bab",
+      "sha256": "4fdfa2c8ecdd42573b81ccd21e34d55cb69a81e2540e4102f5d479ce62eee515",
       "docToken": "R5W0wfQS3igsPnk4fgNcuvFqnjc",
-      "revisionId": "73"
+      "revisionId": "102"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/filtering/pattern-match.md",
@@ -3213,9 +3213,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/register-with-zilliz-cloud.md",
-      "sha256": "8df7a4b483c907420423be0dbc2e148b40cb28feb01e73d2b5b72b65fae93eae",
+      "sha256": "ee5ae04bca9609b2ddfb5e57c2b59f76ab1844e551723087eb3b233bbc2bcbdb",
       "docToken": "VLvsdfwWZo2tf5xqwGdcYBE7nyh",
-      "revisionId": "61"
+      "revisionId": "66"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/release-notes/changelogs.md",
@@ -3585,9 +3585,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/renew-annual-subscription.md",
-      "sha256": "40f8fa4e65c028583785801926fc0eec94c555319d437ca1d7fdc9a63ea5c356",
+      "sha256": "6586e7df5b71647f2891056a72584609a9197b70056204cca0ed609311ad11ee",
       "docToken": "BMzFwP8BbiUeAbkZ0abcDIHlnle",
-      "revisionId": "742"
+      "revisionId": "768"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/billing-management/set-up-payment-method/aliyun-marketplace.md",

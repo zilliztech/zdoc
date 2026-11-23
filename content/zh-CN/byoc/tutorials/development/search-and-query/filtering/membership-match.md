@@ -21,7 +21,7 @@ import TabItem from '@theme/TabItem';
 
 # Membership Match
 
-## 概述\{#}
+## 概述\{#overview}
 
 Membership Match 通过判断标量字段值是否属于调用方给定的集合来过滤 Entity。客户端构建一个紧凑的二进制成员关系过滤 Blob，并将其作为表达式模板值传入。
 
@@ -39,7 +39,7 @@ Membership Match 通过判断标量字段值是否属于调用方给定的集合
 
 不要将 **Bloom** 成员关系用于授权判断或破坏性删除。一次误判就可能暴露一行本不在目标集合中的数据，或误删一行数据。
 
-### 操作检查清单\{#}
+### 操作检查清单\{#operational-checklist}
 
 - 确认目标字段类型，并用同一取值域构建 Blob。
 
@@ -55,7 +55,7 @@ Membership Match 通过判断标量字段值是否属于调用方给定的集合
 
 - 在启用破坏性工作流之前，先在非生产 Collection 上测试表达式。
 
-## 表达式语法\{#}
+## 表达式语法\{#expression-syntax}
 
 ```plaintext
 membership_match(<field>, {<template>}, type=bloom)
@@ -68,7 +68,7 @@ not membership_match(<field>, {<template>}, type=bloom)
 
 `type` 参数是可选的。每个 Blob 都带有自描述的 magic header：Bloom 为 `MBF1`，Roaring 为 `MRB1`；省略 `type` 时服务端会嗅探该头部。显式 `type` 与 Blob 头部冲突时会作为请求错误被拒绝；未知或被截断的头部会触发 fail-closed（直接拒绝）。
 
-## 选择编码\{#}
+## 选择编码\{#choose-the-encoding}
 
 可以接受误判时使用 **Bloom**。**Bloom** 支持有符号整型字段（**INT8**/**16**/**32**/**64**）、**VARCHAR** 字段和 **JSON** 路径。Bloom 过滤器不是精确的允许列表。
 
@@ -96,7 +96,7 @@ not membership_match(<field>, {<template>}, type=bloom)
 
 Membership Match 不能通过 RESTful HTTP API 使用。HTTP 表达式模板参数只接受布尔、数字、字符串和数组，没有承载 Blob 的二进制 `bytes` 类型。请使用各 SDK 传递成员关系 Blob。
 
-## SDK 请求示例\{#sdk}
+## SDK 请求示例\{#sdk-request-patterns}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -160,7 +160,7 @@ const roaringBlob = buildRoaringBitmap(integerIds);
 </TabItem>
 </Tabs>
 
-## 使用 Roaring 执行 Delete\{#roaring-delete}
+## 使用 Roaring 执行 Delete\{#delete-with-roaring}
 
 用外部整型 ID 集合删除 Entity 时，应使用精确的 **Roaring** Blob。发出删除请求前，先核对成员集合和 Collection 字段类型。**不要使用 Bloom**：近似匹配不是安全的删除谓词，**Bloom** 形式在 Delete 表达式中于解析阶段就会被拒绝。
 
