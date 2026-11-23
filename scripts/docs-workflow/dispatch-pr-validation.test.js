@@ -46,8 +46,8 @@ function routesFor({pull = pullFixture(), siteRuns = 0, sharedRuns = 0} = {}) {
 }
 
 function recordedDispatch(log) {
-  return ({workflow, ref, inputs}) => {
-    log.push({workflow, ref, inputs})
+  return entry => {
+    log.push(entry)
   }
 }
 
@@ -116,7 +116,7 @@ test('validatePlan enforces the head-branch ref rule for shared-docs-validate', 
   validatePlan(plan)
   const wrongRef = JSON.parse(JSON.stringify(plan))
   wrongRef.workflows[1].ref = 'other-branch'
-  assert.throws(() => validatePlan(wrongRef), /head branch/)
+  assert.throws(() => validatePlan(wrongRef), /unexpected dispatch ref/)
   const badReason = JSON.parse(JSON.stringify(plan))
   badReason.workflows[0].reason = 'made-up'
   assert.throws(() => validatePlan(badReason), /dispatchable with reason/)
@@ -129,16 +129,53 @@ test('validatePlan enforces the head-branch ref rule for shared-docs-validate', 
   assert.throws(() => validatePlan(shortSha), /non-exact SHAs/)
 })
 
+test('validatePlan rejects workflows, refs, or inputs that disagree with the plan identity', () => {
+  const base = {
+    schemaVersion: 1,
+    repository: 'o/r',
+    prNumber: 7,
+    headRefName: 'feat/x',
+    headSha: HEAD_SHA,
+    baseSha: BASE_SHA,
+    verification: 'full',
+    workflows: decideWorkflows({pull: {headRefName: 'feat/x', headSha: HEAD_SHA, baseSha: BASE_SHA}, prNumber: 7, coverage: {[SITE_VALIDATION_WORKFLOW]: false, [SHARED_DOCS_VALIDATE_WORKFLOW]: false}, force: false}),
+  }
+  validatePlan(base)
+  const unknown = JSON.parse(JSON.stringify(base))
+  unknown.workflows[0].workflow = 'not-a-validation.yml'
+  assert.throws(() => validatePlan(unknown), /not a known validation workflow/)
+  const wrongSha = JSON.parse(JSON.stringify(base))
+  wrongSha.workflows[0].inputs.source_ref = 'c'.repeat(40)
+  assert.throws(() => validatePlan(wrongSha), /disagree with the plan identity/)
+  const wrongRef = JSON.parse(JSON.stringify(base))
+  wrongRef.workflows[0].ref = 'master'
+  assert.throws(() => validatePlan(wrongRef), /unexpected dispatch ref/)
+})
+
+test('--out without a .json suffix fails closed instead of overwriting the plan', async testContext => {
+  inTempDirectory(testContext)
+  await assert.rejects(
+    run({
+      argv: ['--pr', '1414', '--repo', 'o/r', '--out', 'tmp/plan.txt'],
+      env: {GH_TOKEN: 't'},
+      fetchImpl: fetchStub(routesFor({})),
+      nowMs: NOW_MS,
+    }),
+    {message: /must end in \.json/},
+  )
+})
+
 test('commandPreview renders the exact gh invocation including the dispatch ref', () => {
   const entry = decideWorkflows({pull: {headRefName: 'feat/x', headSha: HEAD_SHA, baseSha: BASE_SHA}, prNumber: 7, coverage: {[SITE_VALIDATION_WORKFLOW]: false, [SHARED_DOCS_VALIDATE_WORKFLOW]: false}, force: false})[1]
   assert.equal(
-    commandPreview(entry),
-    `gh workflow run ${SHARED_DOCS_VALIDATE_WORKFLOW} --ref feat/x -f pr_number=7 -f source_sha=${HEAD_SHA} -f base_sha=${BASE_SHA}`,
+    commandPreview(entry, 'o/r'),
+    `gh workflow run ${SHARED_DOCS_VALIDATE_WORKFLOW} --repo o/r --ref feat/x -f pr_number=7 -f source_sha=${HEAD_SHA} -f base_sha=${BASE_SHA}`,
   )
 })
 
 test('renderPlanMarkdown lists every workflow with its command', () => {
   const plan = {
+    repository: 'o/r',
     prNumber: 1414,
     headSha: HEAD_SHA,
     headRefName: 'feat/x',
@@ -182,6 +219,7 @@ test('--execute dispatches only uncovered workflows with exact identities', asyn
   assert.equal(result.dispatchableCount, 1)
   assert.equal(result.dispatchedCount, 1)
   assert.deepEqual(dispatchLog, [{
+    repository: 'o/r',
     workflow: SHARED_DOCS_VALIDATE_WORKFLOW,
     ref: 'rest-upstream-refresh/milvus-data-plane-db1ba1974',
     inputs: {pr_number: '1414', source_sha: HEAD_SHA, base_sha: BASE_SHA},

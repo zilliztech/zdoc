@@ -248,7 +248,8 @@ one command instead of stepping through it:
 node scripts/rest-upstream/verify-rest-meta.js   # --base <merge-base> on a stacked branch
 ```
 
-It reproduces the refresh workflow's own verification sequence: regenerate
+It reproduces the refresh workflow's own verification sequence (minus the
+ledger accounting gate, which needs the run's staging diff.json): regenerate
 the schema-attribution inventory when a fragment changed, check canonical
 fragment bytes, verify the lifecycle-evidence inventory when that tree
 changed, execute the change-scoped `test:for-change` union for every changed

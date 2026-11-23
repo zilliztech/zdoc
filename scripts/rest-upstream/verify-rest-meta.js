@@ -9,8 +9,12 @@
 // test:for-change selector union, the two explicit contract gates, and the
 // whitespace check. A hand-authored follow-up commit on a refresh branch —
 // an adjudication landing, a conflict replay, a required-member rebuild —
-// must re-run the identical chain; this script is that chain, so the
-// ceremony is one reviewed command instead of a re-derivable checklist. See
+// must re-run the same chain; this script is that chain, so the ceremony is
+// one reviewed command instead of a re-derivable checklist. Two workflow
+// steps are deliberately omitted: the ledger accounting gate (it needs the
+// run's staging diff.json, which a hand edit does not have) and the
+// standalone release-track projection step (the matrix union still selects
+// its test for fragment and lifecycle paths). See
 // runbook/rest-reference-pipeline.md ("Adjudicating and landing a refresh PR
 // by hand").
 //
@@ -194,8 +198,8 @@ function renderSummary(result) {
     return `[${step.status}] ${label}${detail}`
   })
   const failed = result.steps.find(step => step.status === 'fail')
-  const passed = result.steps.filter(step => step.status === 'pass').length
-  lines.push(`verify-rest-meta: ${passed}/${result.steps.length} step(s) passed (base=${result.base}, ${result.changedPaths.length} changed path(s))${failed ? ` — FAILED AT: ${failed.name}` : ''}`)
+  const count = status => result.steps.filter(step => step.status === status).length
+  lines.push(`verify-rest-meta: ${count('pass')} passed / ${count('skipped')} skipped / ${count('fail')} failed (base=${result.base}, ${result.changedPaths.length} changed path(s))${failed ? ` — FAILED AT: ${failed.name}` : ''}`)
   return lines.join('\n')
 }
 

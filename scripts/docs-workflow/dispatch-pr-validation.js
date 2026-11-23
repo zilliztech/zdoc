@@ -149,8 +149,18 @@ function validatePlan(plan) {
     }
     if (entry.dispatchable) {
       if (entry.reason !== DISPATCH_REASON) fail(`dispatch plan workflow ${entry.workflow} is dispatchable with reason ${entry.reason}`)
-      if (entry.workflow === SHARED_DOCS_VALIDATE_WORKFLOW && entry.ref !== plan.headRefName) {
-        fail(`dispatch plan workflow ${entry.workflow} must dispatch on the head branch (shared-docs-validate pins GITHUB_SHA == source_sha)`)
+      // Identity cross-check: a dispatchable entry's ref and inputs must be
+      // exactly the plan's own identity — the validator exists so a wrong
+      // dispatch is unrepresentable, not merely unlikely.
+      const expected = entry.workflow === SITE_VALIDATION_WORKFLOW
+        ? {ref: null, inputs: {site: 'auto', source_ref: plan.headSha, publish: 'false'}}
+        : entry.workflow === SHARED_DOCS_VALIDATE_WORKFLOW
+          ? {ref: plan.headRefName, inputs: {pr_number: String(plan.prNumber), source_sha: plan.headSha, base_sha: plan.baseSha}}
+          : null
+      if (!expected) fail(`dispatch plan workflow ${entry.workflow} is not a known validation workflow`)
+      if (entry.ref !== expected.ref) fail(`dispatch plan workflow ${entry.workflow} carries an unexpected dispatch ref`)
+      if (JSON.stringify(entry.inputs) !== JSON.stringify(expected.inputs)) {
+        fail(`dispatch plan workflow ${entry.workflow} carries inputs that disagree with the plan identity`)
       }
     } else if (!SKIP_REASONS.has(entry.reason)) {
       fail(`dispatch plan workflow ${entry.workflow} skips with unknown reason ${entry.reason}`)
@@ -158,8 +168,8 @@ function validatePlan(plan) {
   }
 }
 
-function commandPreview(entry) {
-  const args = ['gh', 'workflow', 'run', entry.workflow]
+function commandPreview(entry, repository) {
+  const args = ['gh', 'workflow', 'run', entry.workflow, '--repo', repository]
   if (entry.ref) args.push('--ref', entry.ref)
   for (const [key, value] of Object.entries(entry.inputs)) args.push('-f', `${key}=${value}`)
   return args.join(' ')
@@ -170,16 +180,19 @@ function renderPlanMarkdown(plan) {
   for (const entry of plan.workflows) {
     const label = entry.dispatchable ? '✅ dispatchable' : `⏸ skipped (${entry.reason})`
     lines.push(`- **${entry.workflow}** — ${label}`)
-    lines.push(`  - \`${commandPreview(entry)}\``)
+    lines.push(`  - \`${commandPreview(entry, plan.repository)}\``)
   }
   lines.push('', `- verification: ${plan.verification}`)
   return `${lines.join('\n')}\n`
 }
 
 // The production dispatch goes through the gh CLI so the runner keeps a
-// single credential path (mirrors dispatch-refresh.js).
-function dispatchWorkflow({workflow, ref, inputs}) {
-  const args = ['workflow', 'run', workflow]
+// single credential path (mirrors dispatch-refresh.js). The repository is
+// passed explicitly: without --repo gh resolves the target from the local
+// checkout's remotes/gh default, so a fork clone would silently dispatch
+// there instead of the planned repository.
+function dispatchWorkflow({repository, workflow, ref, inputs}) {
+  const args = ['workflow', 'run', workflow, '--repo', repository]
   if (ref) args.push('--ref', ref)
   for (const [key, value] of Object.entries(inputs)) args.push('-f', `${key}=${value}`)
   const result = spawnSync('gh', args, {encoding: 'utf8'})
@@ -227,6 +240,9 @@ async function run({
   validatePlan(plan)
 
   const output = safeOutputPath(args.out || DEFAULT_OUTPUT)
+  // The markdown twin is derived from the path; a non-.json --out would make
+  // the twin overwrite the JSON plan itself (silent loss of the artifact).
+  if (!output.endsWith('.json')) fail('--out must end in .json (the markdown twin is derived from the path)')
   const markdownPath = output.replace(/\.json$/, '.md')
   const writePlan = () => {
     fs.mkdirSync(path.dirname(output), {recursive: true})
@@ -241,7 +257,7 @@ async function run({
     // (mirrors dispatch-refresh.js).
     for (const entry of plan.workflows.filter(candidate => candidate.dispatchable)) {
       try {
-        dispatchFn({workflow: entry.workflow, ref: entry.ref, inputs: entry.inputs})
+        dispatchFn({repository, workflow: entry.workflow, ref: entry.ref, inputs: entry.inputs})
       } catch (error) {
         entry.dispatchable = false
         entry.reason = 'dispatch-failed'
