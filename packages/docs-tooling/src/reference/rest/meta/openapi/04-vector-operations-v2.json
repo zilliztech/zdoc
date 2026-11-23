@@ -105,21 +105,6 @@
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
                   },
-                  "id": {
-                    "type": "string",
-                    "description": "The primary key of the entity to delete. You can use this parameter instead of `filter` to delete a single entity by its ID.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "待删除 Entity 的主键。可以使用此参数替代 `filter` 来按主键删除单个 Entity。"
-                      },
-                      "ja-JP": {
-                        "description": "削除するエンティティの primary key です。`filter` の代わりにこのパラメータを使用して、ID により単一のエンティティを削除できます。"
-                      }
-                    },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
-                  },
                   "exprParams": {
                     "type": "object",
                     "description": "Expression template parameter values for parameterized filter expressions.",

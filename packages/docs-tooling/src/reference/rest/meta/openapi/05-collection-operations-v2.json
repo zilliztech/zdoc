@@ -633,7 +633,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CollectionCommons"
+                "type": "object",
+                "properties": {
+                  "dbName": {
+                    "type": "string",
+                    "description": "The name of the database which the collection belongs to. Setting this to a non-existing database results in an error. If not specified, the default database applies.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Database 名称。设置为不存在的 Database 会导致错误。如果未指定，则使用默认 Database。"
+                      },
+                      "ja-JP": {
+                        "description": "collection が属する database の名前です。存在しない database に設定するとエラーになります。指定しない場合は、default database が適用されます。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "collectionName": {
+                    "type": "string",
+                    "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Collection 名称。设置为不存在的 Collection 会导致错误。"
+                      },
+                      "ja-JP": {
+                        "description": "対象の collection の名前です。\n存在しない collection に設定するとエラーになります。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null,
+                "description": "The request body for flushing a collection, which requires `collectionName`.",
+                "x-i18n": {
+                  "zh-CN": {
+                    "description": "Flush Collection 的请求体，必须提供 `collectionName`。"
+                  },
+                  "ja-JP": {
+                    "description": "collection を flush するリクエストボディです。`collectionName` が必要です。"
+                  }
+                }
               },
               "example": {
                 "collectionName": "test_collection"
