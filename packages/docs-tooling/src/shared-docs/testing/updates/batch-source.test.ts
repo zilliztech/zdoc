@@ -191,7 +191,8 @@ async function inventoryFixture(scenario: string) {
     source.git('add', 'site/en/b.md')
   }
   if (scenario === 'api-failed' || lockSideCopy || atLock) await stageSecondRoot('old b')
-  let old = await source.change(sourcePath, scenario.endsWith('fragment') ? '{{fragments/shared.md}}' : 'hello\n')
+  const consumesFragment = scenario === 'fragment' || scenario === 'next-required-fragment'
+  let old = await source.change(sourcePath, consumesFragment ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
   let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = '', postLock = ''
   if (sync) {
