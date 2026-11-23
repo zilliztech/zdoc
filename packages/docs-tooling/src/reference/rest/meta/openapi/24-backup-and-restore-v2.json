@@ -314,6 +314,11 @@
                                   "backupType": {
                                     "type": "string",
                                     "description": "The type of resources contained in the backup.",
+                                    "enum": [
+                                      "CLUSTER",
+                                      "COLLECTION",
+                                      ""
+                                    ],
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "备份中包含的资源类型。"
@@ -321,15 +326,16 @@
                                       "ja-JP": {
                                         "description": "バックアップに含まれるリソースの種類。"
                                       }
-                                    },
-                                    "enum": [
-                                      "CLUSTER",
-                                      "COLLECTION"
-                                    ]
+                                    }
                                   },
                                   "creationMethod": {
                                     "type": "string",
                                     "description": "Whether the backup is created manually or automatically.",
+                                    "enum": [
+                                      "MANUAL",
+                                      "AUTO",
+                                      ""
+                                    ],
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "备份的创建方式，是手动创建还是自动创建。"
@@ -337,11 +343,7 @@
                                       "ja-JP": {
                                         "description": "バックアップが手動で作成されたものか、自動で作成されたものかを示します。"
                                       }
-                                    },
-                                    "enum": [
-                                      "AUTO",
-                                      "MANUAL"
-                                    ]
+                                    }
                                   },
                                   "status": {
                                     "type": "string",
@@ -783,6 +785,11 @@
                             "backupType": {
                               "type": "string",
                               "description": "The type of resources backed up.",
+                              "enum": [
+                                "CLUSTER",
+                                "COLLECTION",
+                                ""
+                              ],
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "备份的资源类型。"
@@ -790,15 +797,16 @@
                                 "ja-JP": {
                                   "description": "バックアップされたリソースの種類。"
                                 }
-                              },
-                              "enum": [
-                                "CLUSTER",
-                                "COLLECTION"
-                              ]
+                              }
                             },
                             "creationMethod": {
                               "type": "string",
                               "description": "Whether the backup was created manually or automatically.",
+                              "enum": [
+                                "MANUAL",
+                                "AUTO",
+                                ""
+                              ],
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "备份的创建方式，是手动创建还是自动创建。"
@@ -806,11 +814,7 @@
                                 "ja-JP": {
                                   "description": "バックアップが手動で作成されたか、自動で作成されたかを示します。"
                                 }
-                              },
-                              "enum": [
-                                "MANUAL",
-                                "AUTO"
-                              ]
+                              }
                             },
                             "status": {
                               "type": "string",
