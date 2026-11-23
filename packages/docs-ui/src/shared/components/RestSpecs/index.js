@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, formatSchemaDefault, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
 import { useRuntimeReleaseChannel } from '../../utils/releaseChannel.ts';
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
@@ -336,9 +336,9 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                     { maximum &&<span className={styles.label}>{obj.exclusiveMaximum ? `\< ${maximum}` : `\≤ ${maximum}`}</span>}
                 </div> }
                 { enums.length > 0 && <Enums enums={enums} defaultValue={defaultValue} lang={lang} target={target} /> }
-                { defaultValue && <div>
+                { defaultValue !== undefined && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.default']}</span>
-                    <span className={styles.label}>{defaultValue}</span>
+                    <span className={styles.label}>{formatSchemaDefault(defaultValue)}</span>
                 </div> }
                 { (example === 0 || isRenderableExample(example)) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>
