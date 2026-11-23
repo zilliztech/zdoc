@@ -34,7 +34,8 @@ const DIFF = {
     source: 'milvus-data-plane',
     entries: [
         {id: 'upstream-modified|post /v2/x|05-a.json|requestBody|||params|schema|mirror', opKey: 'post /v2/x',
-            upstreamComments: {'consistencyLevel': 'ConsistencyLevel guards read-your-writes for quick-setup collections.'}},
+            upstreamComments: {'consistencyLevel': 'ConsistencyLevel guards read-your-writes for quick-setup collections.'},
+            upstreamValidation: ['toProto: consistencyLevel must be Strong, Bounded, or Eventually']},
         {id: 'upstream-added-field|post /v2/x|05-a.json|response||200|vectorFieldType|field-uncovered|', opKey: 'post /v2/x', upstreamComments: {}},
     ],
 }
@@ -94,6 +95,9 @@ test('describeChangeSet fills prose-less mirror/addition nodes and leaves other 
         assert.deepEqual(report.degraded, [])
         assert.equal(report.grounding.upstreamCommentsUsed, 1)
         assert.equal(report.grounding.referencesUsed, 1)
+        // The mirror entry's two prose-less nodes each see the entry-level
+        // validation vocabulary; other entries carry none.
+        assert.equal(report.grounding.upstreamValidationUsed, 2)
         // one batch per entry with prose-less nodes; the constraint entry never calls
         assert.equal(calls.length, 3)
         // grounding rides the prompt: upstream comment + reference description + enum
@@ -101,6 +105,8 @@ test('describeChangeSet fills prose-less mirror/addition nodes and leaves other 
         assert.equal(consistencyItem.upstreamComment, 'ConsistencyLevel guards read-your-writes for quick-setup collections.')
         assert.equal(consistencyItem.references[0].description, 'The consistency level of the collection.')
         assert.deepEqual(consistencyItem.enum, ['Strong', 'Bounded', 'Eventually'])
+        assert.deepEqual(consistencyItem.upstreamValidation, ['toProto: consistencyLevel must be Strong, Bounded, or Eventually'])
+        assert.equal(calls[1].items.some(item => 'upstreamValidation' in item), false)
         assert.match(calls[0].user, /Do the thing/)
     } finally {
         fs.rmSync(fragmentsDir, {recursive: true, force: true})

@@ -572,7 +572,7 @@ test('site classifier checks out only the shallow contract tree and fetches a mi
   assert.equal(checkout.with['fetch-depth'], 2)
   assert.equal(checkout.with['sparse-checkout'], 'deploy/contracts')
   assert.equal(comparison.if, "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}")
-  assert.equal(comparison.env.BASE_SHA, '${{ github.event.pull_request.base.sha || github.event.before || github.sha }}')
+  assert.equal(comparison.env.BASE_SHA, '${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}')
   assert.match(comparison.run, /git cat-file -e "\$BASE_SHA\^\{commit\}"/)
   assert.match(comparison.run, /git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/)
 })
