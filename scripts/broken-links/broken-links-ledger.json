@@ -3,684 +3,798 @@
   "entries": [
     {
       "source_path": "/docs/byoc/audit-logs",
+      "site": "en",
       "target": "/docs/byoc/audit-log-cost",
       "note": "Follow-up: shared-page cloud-projection orphan link; the fix belongs on the zdoc tooling side (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/docs/byoc/bitmap-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/docs/byoc/bitmap-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/docs/byoc/bitmap-index-type#how-bitmap-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/index-struct-array",
+      "site": "en",
       "target": "/docs/byoc/index-struct-array#create-vector-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/index-struct-array",
+      "site": "en",
       "target": "/docs/byoc/index-struct-array#create-scalar-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/docs/byoc/inverted-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/docs/byoc/inverted-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/docs/byoc/inverted-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/docs/byoc/inverted-index-type#how-inverted-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/json-indexing",
+      "site": "en",
       "target": "/docs/byoc/json-indexing#before-you-create-an-index",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/json-indexing",
+      "site": "en",
       "target": "/docs/byoc/json-indexing#index-requirements",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#usage-notes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/docs/byoc/ngram-index-type#how-ngram-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/docs/byoc/rtree-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/docs/byoc/rtree-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/docs/byoc/rtree-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/docs/byoc/rtree-index-type#how-rtree-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/byoc/slt-sort-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/byoc/slt-sort-index-type#supported-data-types-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/byoc/slt-sort-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/byoc/slt-sort-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/byoc/slt-sort-index-type#how-stlsort-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/use-array-fields",
+      "site": "en",
       "target": "/docs/byoc/scalar-index-overview#autoindex-behavior",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/bitmap-index-type",
+      "site": "en",
       "target": "/docs/bitmap-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/bitmap-index-type",
+      "site": "en",
       "target": "/docs/bitmap-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/bitmap-index-type",
+      "site": "en",
       "target": "/docs/bitmap-index-type#how-bitmap-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/index-struct-array",
+      "site": "en",
       "target": "/docs/index-struct-array#create-vector-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/index-struct-array",
+      "site": "en",
       "target": "/docs/index-struct-array#create-scalar-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/inverted-index-type",
+      "site": "en",
       "target": "/docs/inverted-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/inverted-index-type",
+      "site": "en",
       "target": "/docs/inverted-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/inverted-index-type",
+      "site": "en",
       "target": "/docs/inverted-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/inverted-index-type",
+      "site": "en",
       "target": "/docs/inverted-index-type#how-inverted-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/json-indexing",
+      "site": "en",
       "target": "/docs/json-indexing#before-you-create-an-index",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/json-indexing",
+      "site": "en",
       "target": "/docs/json-indexing#index-requirements",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#usage-notes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/ngram-index-type",
+      "site": "en",
       "target": "/docs/ngram-index-type#how-ngram-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/rtree-index-type",
+      "site": "en",
       "target": "/docs/rtree-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/rtree-index-type",
+      "site": "en",
       "target": "/docs/rtree-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/rtree-index-type",
+      "site": "en",
       "target": "/docs/rtree-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/rtree-index-type",
+      "site": "en",
       "target": "/docs/rtree-index-type#how-rtree-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/slt-sort-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/slt-sort-index-type#supported-data-types-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/slt-sort-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/slt-sort-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/docs/slt-sort-index-type#how-stlsort-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/use-array-fields",
+      "site": "en",
       "target": "/docs/scalar-index-overview#autoindex-behavior",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/audit-logs",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/audit-log-cost",
       "note": "Follow-up: shared-page cloud-projection orphan link; the fix belongs on the zdoc tooling side (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/bitmap-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/bitmap-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/bitmap-index-type#how-bitmap-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/index-struct-array",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/index-struct-array#create-vector-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/index-struct-array",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/index-struct-array#create-scalar-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/inverted-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/inverted-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/inverted-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/inverted-index-type#how-inverted-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/json-indexing",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/json-indexing#before-you-create-an-index",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/json-indexing",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/json-indexing#index-requirements",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#usage-notes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/ngram-index-type#how-ngram-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/rtree-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/rtree-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/rtree-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/rtree-index-type#how-rtree-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/slt-sort-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/slt-sort-index-type#supported-data-types-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/slt-sort-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/slt-sort-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/slt-sort-index-type#how-stlsort-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/byoc/use-array-fields",
+      "site": "en",
       "target": "/ja-JP/docs/byoc/scalar-index-overview#autoindex-behavior",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/bitmap-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/bitmap-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/bitmap-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/bitmap-index-type#how-bitmap-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/index-struct-array",
+      "site": "en",
       "target": "/ja-JP/docs/index-struct-array#create-vector-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/index-struct-array",
+      "site": "en",
       "target": "/ja-JP/docs/index-struct-array#create-scalar-indexes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/inverted-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/inverted-index-type#index-targets-and-filters",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/inverted-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/inverted-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/inverted-index-type#how-inverted-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/json-indexing",
+      "site": "en",
       "target": "/ja-JP/docs/json-indexing#before-you-create-an-index",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/json-indexing",
+      "site": "en",
       "target": "/ja-JP/docs/json-indexing#index-requirements",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#usage-notes-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/ngram-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/ngram-index-type#how-ngram-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/rtree-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/rtree-index-type#supported-data-types",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/rtree-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/rtree-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/rtree-index-type#how-rtree-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/slt-sort-index-type#overview",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/slt-sort-index-type#supported-data-types-next",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/slt-sort-index-type#filter-acceleration",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/slt-sort-index-type#memory-considerations",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/slt-sort-index-type",
+      "site": "en",
       "target": "/ja-JP/docs/slt-sort-index-type#how-stlsort-works",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/ja-JP/docs/use-array-fields",
+      "site": "en",
       "target": "/ja-JP/docs/scalar-index-overview#autoindex-behavior",
       "note": "Follow-up: shared-page remove-transform orphan anchors (#1149 blind-spot class); batch fix pending (digest 2026-11-19).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/byoc/cash-recharge",
+      "site": "zh-CN",
       "target": "/docs/byoc/manage-invoice",
       "note": "Pending decision: the zh byoc publish set lacks manage-invoice/update-payment-method (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/home",
+      "site": "zh-CN",
       "target": "/docs/migrate-from-pinecone",
       "note": "Expected daily: the navigation-layer path is already covered by the #918 SPA 404 fallback on zh (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/create-external-collection",
+      "site": "zh-CN",
       "target": "/docs/create-external-collection#troubleshooting",
       "note": "Waiting for translation propagation: fixed in the Feishu source, zh output pending (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"
     },
     {
       "source_path": "/docs/quick-start-to-external-data-lake-search",
+      "site": "zh-CN",
       "target": "/docs/quick-start-to-external-data-lake-search#use-a-collection-from-a-serving-cluster-as-the-data-source",
       "note": "Waiting for translation propagation: fixed in the Feishu source, zh output pending (digest baseline 2026-11-21).",
       "decided_at": "2026-11-23T00:00:00.000Z"

@@ -95,9 +95,12 @@ jobs:
           BROKEN_LINKS_REPORT_TABLE_ID: ${{ vars.BROKEN_LINKS_REPORT_TABLE_ID }}
 
       # The report previously existed only on the runner (job log + Feishu
-      # table); the artifact is the evidence channel for ledger-closure
-      # review (which known items stopped appearing) and the watchdog digest.
+      # table); the artifact is the ledger-closure evidence channel (which
+      # known items stopped appearing) and the complete unseen list backing
+      # the capped card note. Uploading even on failure keeps the evidence
+      # when the table write itself fails (a bad ledger must surface here).
       - name: Upload broken links report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v6
         with:
           name: broken-links-report-${{ github.run_id }}

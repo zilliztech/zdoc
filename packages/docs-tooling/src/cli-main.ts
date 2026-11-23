@@ -491,7 +491,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   if (argv[0] === 'report-broken-links') {
     const options = parseOptions(argv.slice(1));
     const analysisPaths = requiredOption(options, 'analysis').split(',').map(part => part.trim()).filter(Boolean);
-    const ledgerPath = typeof options.ledger === 'string' ? options.ledger : undefined;
+    const ledgerPath = options.ledger === undefined ? undefined : requiredOption(options, 'ledger');
     await reportBrokenLinksCommand({analysisPaths, notePath: requiredOption(options, 'note'), ledgerPath});
     return true;
   }

@@ -48,7 +48,7 @@ describe('buildReportRows', () => {
   });
 
   it('labels ledger-decided rows as known while keeping the rest untouched', () => {
-    const known = new Set(['/docs/home\n/docs/connect-to-cluster']);
+    const known = new Set(['en\n/docs/home\n/docs/connect-to-cluster']);
     const rows = buildReportRows(analysis(), new Map(), '2026-08-26T00:00:00.000Z', known);
     expect(rows[0].分类).toBe('分类一：目标在当前发布组不存在');
     expect(rows[1].分类).toBe(KNOWN_ITEM_LABEL);
@@ -64,12 +64,12 @@ describe('renderCombinedNote', () => {
 
   it('appends the ledger coverage section with unseen entries for closure review', () => {
     const coverage = {
-      matched: [parseBrokenLinksLedger({schema_version: 1, entries: [{source_path: '/docs/home', target: '/docs/connect-to-cluster', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
-      unseen: [parseBrokenLinksLedger({schema_version: 1, entries: [{source_path: '/docs/gone', target: '/docs/also-gone', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
+      matched: [parseBrokenLinksLedger({schema_version: 1, entries: [{site: 'en', source_path: '/docs/home', target: '/docs/connect-to-cluster', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
+      unseen: [parseBrokenLinksLedger({schema_version: 1, entries: [{site: 'zh-CN', source_path: '/docs/gone', target: '/docs/also-gone', note: '', decided_at: '2026-11-23T00:00:00.000Z'}]}).entries[0]],
     };
     const note = renderCombinedNote([analysis()], 'https://example.feishu.cn/base/app?table=tbl', coverage);
     expect(note).toContain('- 已知项（ledger）：1 条已抑制标注，1 条本轮未再现');
-    expect(note).toContain('  - 未再现：`/docs/gone` → `/docs/also-gone`（考虑评审移除 ledger 条目）');
+    expect(note).toContain('  - 未再现：`zh-CN` `/docs/gone` → `/docs/also-gone`（考虑评审移除 ledger 条目）');
   });
 });
 

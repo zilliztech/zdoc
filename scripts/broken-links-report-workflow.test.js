@@ -42,15 +42,25 @@ test('the report restores exact dev content and builds both sites from pinned in
   for (const name of ['Build English site', 'Build Chinese site']) {
     assert.match(stepNamed(name).run, /set -o pipefail/)
   }
-  for (const name of ['Check broken links (en)', 'Check broken links (zh-CN)']) {
-    assert.match(stepNamed(name).run, /check-broken-links --site (?:en|zh-CN) --log tmp\/broken-links\/build-(?:en|zh-CN)\.log --output tmp\/broken-links\/(?:en|zh-CN)\.md/)
+  const checkCommands = {
+    'Check broken links (en)': 'check-broken-links --site en --log tmp/broken-links/build-en.log --output tmp/broken-links/en.md',
+    'Check broken links (zh-CN)': 'check-broken-links --site zh-CN --log tmp/broken-links/build-zh-CN.log --output tmp/broken-links/zh-CN.md',
+  }
+  for (const [name, command] of Object.entries(checkCommands)) {
+    assert.ok(stepNamed(name).run.includes(command), `${name} must run ${command}`)
   }
 })
 
 test('analysis consumes live source records and the report stage runs fail-closed', () => {
-  for (const name of ['Analyze broken links (en)', 'Analyze broken links (zh-CN)']) {
+  // Per-site commands are asserted exactly, so a mixed-site invocation
+  // (e.g. --site zh-CN reading the en build log) cannot pass the pin.
+  const analysisCommands = {
+    'Analyze broken links (en)': 'analyze-broken-links --site en --report tmp/broken-links/en.json --output tmp/broken-links/en.analysis.md',
+    'Analyze broken links (zh-CN)': 'analyze-broken-links --site zh-CN --report tmp/broken-links/zh-CN.json --output tmp/broken-links/zh-CN.analysis.md',
+  }
+  for (const [name, command] of Object.entries(analysisCommands)) {
     const step = stepNamed(name)
-    assert.match(step.run, /analyze-broken-links --site (?:en|zh-CN) --report tmp\/broken-links\/(?:en|zh-CN)\.json --output tmp\/broken-links\/(?:en|zh-CN)\.analysis\.md/)
+    assert.ok(step.run.includes(command), `${name} must run ${command}`)
     assert.equal(step.env.APP_ID, '${{ secrets.APP_ID }}')
     assert.equal(step.env.APP_SECRET, '${{ secrets.APP_SECRET }}')
     assert.equal(step.env.FEISHU_HOST, '${{ vars.FEISHU_HOST }}')
@@ -69,6 +79,9 @@ test('the report artifact is uploaded as reviewable evidence and the card stays 
   assert.equal(upload.with.path, 'tmp/broken-links')
   assert.equal(upload.with['if-no-files-found'], 'error')
   assert.equal(upload.with['retention-days'], 14)
+  // Evidence must survive the failure it is evidence of (a bad ledger or a
+  // failed table write), so the upload does not ride the job's success.
+  assert.equal(upload['if'], '${{ !cancelled() }}')
 
   const create = stepNamed('Create report card')
   assert.equal(create['continue-on-error'], true)
@@ -82,13 +95,18 @@ test('the report artifact is uploaded as reviewable evidence and the card stays 
 test('the tracked ledger exists and follows the shared schema contract', () => {
   const ledger = JSON.parse(fs.readFileSync('scripts/broken-links/broken-links-ledger.json', 'utf8'))
   assert.equal(ledger.schema_version, 1)
-  assert.ok(Array.isArray(ledger.entries) && ledger.entries.length > 0, 'the seed ledger must not be emptied')
+  assert.ok(Array.isArray(ledger.entries), 'the ledger file must carry an entries array (empty is the legitimate fully-pruned end state)')
+  const keys = new Set()
   for (const entry of ledger.entries) {
+    assert.ok(entry.site === 'en' || entry.site === 'zh-CN')
     assert.equal(typeof entry.source_path, 'string')
     assert.match(entry.source_path, /^\//)
     assert.equal(typeof entry.target, 'string')
     assert.match(entry.target, /^\//)
     assert.equal(typeof entry.note, 'string')
     assert.match(entry.decided_at, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/)
+    const key = `${entry.site}\n${entry.source_path}\n${entry.target}`
+    assert.ok(!keys.has(key), `duplicate ledger tuple: ${key}`)
+    keys.add(key)
   }
 })

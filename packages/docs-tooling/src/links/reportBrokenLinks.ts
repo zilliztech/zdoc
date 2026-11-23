@@ -73,7 +73,7 @@ export function buildReportRows(
     return ReportRowSchema.parse({
       断链源文档: item.source.title || item.source.slug || item.source.path,
       站点: siteLabel,
-      分类: knownKeys?.has(analysisItemKey(item)) ? KNOWN_ITEM_LABEL : categoryLabel(item.category),
+      分类: knownKeys?.has(analysisItemKey(analysis.site, item)) ? KNOWN_ITEM_LABEL : categoryLabel(item.category),
       源页面路径: item.source.path,
       源文档链接: sourceLink,
       '断链 block': item.target.slug,
@@ -286,11 +286,26 @@ export async function reportBrokenLinksCommand(
   write(`Report table refreshed: ${rows.length} row(s) at ${scannedAt}`);
   if (coverage) {
     write(`Ledger: ${coverage.matched.length} matched, ${coverage.unseen.length} unseen`);
+    // The card note caps this list; the artifact next to the note carries it
+    // in full so ledger pruning never depends on the note's size.
+    if (coverage.unseen.length > 0) {
+      const unseenPath = options.notePath.replace(/\.md$/u, '.unseen.md');
+      const lines = ['# Ledger entries not observed this round', '', ...(coverage.unseen.map(entry => `- \`${entry.site}\` \`${entry.source_path}\` → \`${entry.target}\` — ${entry.note || '(no note)'}`))];
+      writeFileSync(unseenPath, `${lines.join('\n')}\n`);
+      write(`Unseen ledger entries written to ${unseenPath}`);
+    }
   }
   write(`Card note written to ${options.notePath}`);
 }
 
-/** Render the combined card note across sites, plus the ledger coverage section when a ledger ran. */
+/** Render the combined card note across sites, plus the ledger coverage section when a ledger ran.
+ *
+ * The unseen list is capped: on the day a batch fix lands, every seeded
+ * entry flips to unseen at once, and the interactive card silently drops
+ * oversized notes. The artifact carries the complete list either way.
+ */
+export const UNSEEN_NOTE_LIMIT = 20;
+
 export function renderCombinedNote(analyses: readonly BrokenLinkAnalysisReport[], tableUrl: string, coverage?: LedgerCoverage): string {
   const lines: string[] = ['## 内部断链检查', ''];
   for (const analysis of analyses) {
@@ -299,8 +314,12 @@ export function renderCombinedNote(analyses: readonly BrokenLinkAnalysisReport[]
   }
   if (coverage) {
     lines.push(`- 已知项（ledger）：${coverage.matched.length} 条已抑制标注，${coverage.unseen.length} 条本轮未再现`);
-    for (const entry of coverage.unseen) {
-      lines.push(`  - 未再现：\`${entry.source_path}\` → \`${entry.target}\`（考虑评审移除 ledger 条目）`);
+    const listed = coverage.unseen.slice(0, UNSEEN_NOTE_LIMIT);
+    for (const entry of listed) {
+      lines.push(`  - 未再现：\`${entry.site}\` \`${entry.source_path}\` → \`${entry.target}\`（考虑评审移除 ledger 条目）`);
+    }
+    if (coverage.unseen.length > listed.length) {
+      lines.push(`  - ……其余 ${coverage.unseen.length - listed.length} 条见 run artifact（完整未再现清单）`);
     }
   }
   lines.push('', `完整明细与跳转链接见 [断链分析表](${tableUrl})`);
