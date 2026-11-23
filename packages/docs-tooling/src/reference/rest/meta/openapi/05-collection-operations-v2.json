@@ -5641,8 +5641,7 @@
                 "required": [
                   "collectionName",
                   "function",
-                  "outputField",
-                  "indexParams"
+                  "outputField"
                 ],
                 "x-added-at": "3.0.x",
                 "x-last-modified": "3.0.x",
@@ -6716,8 +6715,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "propertyKeys"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
@@ -7457,8 +7455,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "dimension"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
@@ -9338,8 +9335,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "properties"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",

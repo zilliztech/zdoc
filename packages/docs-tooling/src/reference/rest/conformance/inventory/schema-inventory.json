@@ -5,17 +5,17 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "ba8a7bd827ed",
-  "05-collection-operations-v2.json": "c0d081401d8d",
-  "06-database-operations-v2.json": "0f026fcf2914",
-  "07-index-operations-v2.json": "f12180fd9514",
+  "04-vector-operations-v2.json": "180905b4e77f",
+  "05-collection-operations-v2.json": "2a30297909a8",
+  "06-database-operations-v2.json": "6c78a736fb94",
+  "07-index-operations-v2.json": "dff8198ab5c5",
   "08-partition-operations-v2.json": "77c60f81b12a",
   "09-role-operations-v2.json": "7930c706c338",
   "10-resource-group-v2.json": "f3d4eac72970",
   "11-import-operations-v2.json": "94d884b27c79",
   "12-alias-operations-v2.json": "d1bebc1a999e",
   "13-user-operations-v2.json": "10756aa34d80",
-  "14-privilege-group-operations-v2.json": "49dca49765a5",
+  "14-privilege-group-operations-v2.json": "813768dc3ff8",
   "15-cloud-meta.json": "1596c95f7dc7",
   "16-cluster-operations.json": "916016983ec0",
   "17-pipeline-operations.json": "e4786d64b14d",
@@ -2120,12 +2120,6 @@
        "required": false
       },
       {
-       "name": "id",
-       "in": "body",
-       "type": "string",
-       "required": false
-      },
-      {
        "name": "exprParams",
        "in": "body",
        "type": "object",
@@ -2969,7 +2963,7 @@
        "name": "data",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "array",
         "items": {
@@ -3454,8 +3448,7 @@
       }
      ],
      "required": [
-      "collectionName",
-      "data"
+      "collectionName"
      ]
     }
    },
@@ -4642,7 +4635,7 @@
          "name": "dimension",
          "in": "body",
          "type": "integer",
-         "required": true
+         "required": false
         },
         {
          "name": "metricType",
@@ -4802,8 +4795,7 @@
         }
        ],
        "required": [
-        "collectionName",
-        "dimension"
+        "collectionName"
        ]
       },
       {
@@ -5767,15 +5759,6 @@
        "in": "body",
        "type": "string",
        "required": true
-      },
-      {
-       "name": "partitionNames",
-       "in": "body",
-       "type": "array",
-       "required": false,
-       "items": {
-        "type": "string"
-       }
       }
      ],
      "required": [
@@ -7553,8 +7536,7 @@
       }
      ],
      "required": [
-      "collectionName",
-      "properties"
+      "collectionName"
      ]
     }
    },
@@ -7656,15 +7638,14 @@
        "name": "propertyKeys",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "string"
        }
       }
      ],
      "required": [
-      "collectionName",
-      "propertyKeys"
+      "collectionName"
      ]
     }
    },
@@ -9933,8 +9914,7 @@
      "required": [
       "collectionName",
       "function",
-      "outputField",
-      "indexParams"
+      "outputField"
      ]
     }
    },
@@ -10982,8 +10962,7 @@
       }
      ],
      "required": [
-      "dbName",
-      "properties"
+      "dbName"
      ]
     }
    },
@@ -11079,15 +11058,14 @@
        "name": "propertyKeys",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "string"
        }
       }
      ],
      "required": [
-      "dbName",
-      "propertyKeys"
+      "dbName"
      ]
     }
    },
@@ -11888,8 +11866,7 @@
      ],
      "required": [
       "indexName",
-      "collectionName",
-      "properties"
+      "collectionName"
      ]
     }
    },
@@ -12001,7 +11978,7 @@
        "name": "propertyKeys",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "string"
        }
@@ -12009,8 +11986,7 @@
      ],
      "required": [
       "indexName",
-      "collectionName",
-      "propertyKeys"
+      "collectionName"
      ]
     }
    },
@@ -18368,15 +18344,14 @@
        "name": "privileges",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "string"
        }
       }
      ],
      "required": [
-      "privilegeGroupName",
-      "privileges"
+      "privilegeGroupName"
      ]
     }
    },
@@ -18472,15 +18447,14 @@
        "name": "privileges",
        "in": "body",
        "type": "array",
-       "required": true,
+       "required": false,
        "items": {
         "type": "string"
        }
       }
      ],
      "required": [
-      "privilegeGroupName",
-      "privileges"
+      "privilegeGroupName"
      ]
     }
    },

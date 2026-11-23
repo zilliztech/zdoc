@@ -3260,8 +3260,7 @@
                   }
                 },
                 "required": [
-                  "collectionName",
-                  "data"
+                  "collectionName"
                 ],
                 "x-added-at": "2.6.x",
                 "x-last-modified": "3.0.x",
