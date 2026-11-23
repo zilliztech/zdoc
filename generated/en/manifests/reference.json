@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "3e59fd163a152bf6a7fe6aa1fa712a9eb98ac965",
+  "sourceCommit": "467196514c0072f731547e9c2fa154bfd04d07a3",
   "records": [
     {
       "manual": "cli",
@@ -3354,8 +3354,58 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-GrantEntity.md",
+      "sourceHash": "e4da2b77b1d5cf28e57565d1fde8e0d8e9a5bd94870dfcf49080d97beba8045e"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-PrivelegeGroup.md",
+      "sourceHash": "6aae52ceb05387a9508b0a9001ab209fdcd4a217e5a2dcf7d938da117b100de6"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-PrivilegeEntity.md",
+      "sourceHash": "b5e81ba703bcb97f1a25e9c7888439d768d67008212110034e3488d3bfc7635d"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-RBACMeta.md",
+      "sourceHash": "c9275f0e39636c4f55c7ebce8f2c2c9fd24df62efafb2226ba4a95b82d2413b1"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-RoleEntity.md",
+      "sourceHash": "e669de51a95630fd6f67731a469467cd67d24cbd932b3d797b2bc454119ef228"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-User.md",
+      "sourceHash": "a410a601a64d930e021799513195241f0adb06f775034c89e86ab9ec23ec29b6"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-addPrivilegesToGroup.md",
+      "sourceHash": "86fc2c185476cd32683910f2ce6d5aa43f789382d9c4a950a13be6d315f83366"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-addUserToRole.md",
       "sourceHash": "ebe5611343525f06a9d311873cabf25015f6ab75e10ce43be2ed47633e58d96e"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-alterRole.md",
+      "sourceHash": "eeba2d6c887a1687586b944a5055164e441bdde33b95e8544a13b395964a664c"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-backupRBAC.md",
+      "sourceHash": "8faa319ba9ff439502988f623f8d7438e168bce9575c81a85031f13828616a70"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createPrivilegeGroup.md",
+      "sourceHash": "b395c0c243342952c93a4014ab59fb27af2820177c67edec0237763b2f9f5bc2"
     },
     {
       "manual": "node",
@@ -3375,12 +3425,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
-      "sourceHash": "8c07b04c5d68d21f0b164eb064d8fc5e94dd8a89cd00183c105d32b1a6cdf626"
+      "sourceHash": "52e0b907a36f986c1fa87876acf513ece9bb48f1fd21a8bf2e8231254edd52a9"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
-      "sourceHash": "6a94214f07ebc279c40baecca9eff3f480bd5e0923331fde374d8019ecb8f189"
+      "sourceHash": "0783e45580cc28e10645b2197cbd9d9dfa698821eddfe0dacbb9b4a27ee4ddb1"
     },
     {
       "manual": "node",
@@ -3415,17 +3465,17 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md",
-      "sourceHash": "12f54ab0d94ab50c609ffb19546e62294f505722c205d6886bfca6906948232b"
+      "sourceHash": "e0e707f4707789d70ee76f8a41d52e2a5c036e49e71dff7c2fd8662a5275fe7a"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrants.md",
-      "sourceHash": "41a994352e266c051a1dd8d43762f97aaef8855f19747887b6c997d0d15b0a62"
+      "sourceHash": "ee6df4fe2d504c889f082e0d0ebbbb3b48bfaa0a2fc069d1a00752160493ef44"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md",
-      "sourceHash": "88c9ec20e4ce44a33bb765a1ecf29ea51e705a5f09537131bb16880fc07ec841"
+      "sourceHash": "61efa4ebfedfcf1da814860f77cc307539185d4ed3e946b4d5db623582d76aab"
     },
     {
       "manual": "node",
@@ -3449,6 +3499,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-restoreRBAC.md",
+      "sourceHash": "0ee03ebfb151df7d5eed1037d0d62398e7aac2b2d8011791241510ef0b3b5855"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-revokePrivilegeV2.md",
       "sourceHash": "e5156f3eff173b74e06297da8b6e93abd069a29d2abb8999724320d202162061"
     },
@@ -3460,7 +3515,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-selectGrant.md",
-      "sourceHash": "912d5a2e306ae83d796da97f4bd9dcaf75388d52b9b2f89702ad59ec4aca69b8"
+      "sourceHash": "613f15cdf947e99901d874926a22cf6ec4deaa0c08260bfa87d8507fc3673ee2"
     },
     {
       "manual": "node",
@@ -3769,6 +3824,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-ImportState.md",
+      "sourceHash": "bcf6820085b6aeae71260f63e88f3647d78c8cf09537736ad34fcd62f8cd09f0"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md",
       "sourceHash": "be4fa7c01e33bbd2274f019dd30ffd3fb338cc8d67d48691e6572d08153a4897"
     },
@@ -3790,7 +3850,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md",
-      "sourceHash": "6b12ac9bbd3ea780b1b2689e431377cc281eadd25203414d21a1b2d315ace45d"
+      "sourceHash": "f3e1dd76c54e6759248ce3625f02a2705116c0582ed21bb51bb3d60b4f262f06"
     },
     {
       "manual": "node",
@@ -3800,7 +3860,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md",
-      "sourceHash": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a"
+      "sourceHash": "b9238cd9c10be5506201d12b6f2f0dd9eb38440fbae285e164541065d8547195"
     },
     {
       "manual": "node",
@@ -3844,6 +3904,31 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-addFileResource.md",
+      "sourceHash": "1785b65e4236fea85b2a18c82b04df37a733288760f1bbf198eed004bc6460f7"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-listFileResources.md",
+      "sourceHash": "fcdc5ebbe97cac679ec7686ad0e907a4e5d60a11a5309077a69e936386b9ddbd"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/FileResources/FileResources-removeFileResource.md",
+      "sourceHash": "b9440ab57414aa14298fcb2637f8351cdb2cb3db1f0ee4e5df070c0e563c42a0"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-CompactionState.md",
+      "sourceHash": "658d3f57692f3e66ad71a62d46bdace4a8af7bacabaf174138a0af413af72a8f"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-IndexDescription.md",
+      "sourceHash": "0859c7561ea6a54b5446b37e318484908f39b328188c1936707dc7d7bf7d2efd"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-IndexType.md",
       "sourceHash": "57ad253a93d7915f32ffafcf77d4cbcbcf2cf8f6a375b5f716ced3cd41cde177"
     },
@@ -3870,7 +3955,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-describeIndex.md",
-      "sourceHash": "967879eb620d72e2c8dabd2061b08c3c7940d25683323d14d277d085839cefd1"
+      "sourceHash": "5a1edf6a0ffbf199e6ab23c6fedb4579c521fe266d18b3c79af83f72563f6e13"
     },
     {
       "manual": "node",
@@ -3905,7 +3990,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getCompactionState.md",
-      "sourceHash": "3e973674bba284caff960d04ad14a973bb155e84aa0d7d62c0545d4522725a0a"
+      "sourceHash": "0ab16c2868f0333545b04d244dc983d4e32e6b506d282c1f864ecc48337b8caf"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getCompactionStateWithPlans.md",
+      "sourceHash": "67bf5fc26837b790b9989ef46f8e4e971a15420d574a459568a0f135a55998aa"
     },
     {
       "manual": "node",
@@ -3930,7 +4020,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexStatistics.md",
-      "sourceHash": "05576b272d8288b9e95e5070987c91ba23b119a55176916c76a2742c33b108d2"
+      "sourceHash": "58045a45b4b7b54aeadfb5abadc8b4f0b89ff98e4eb4af3a8233d47befea0373"
     },
     {
       "manual": "node",
@@ -4019,6 +4109,11 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-RestoreSnapshotJobInfo.md",
+      "sourceHash": "54eb0559e321615ccbfcbbd8087f8088c206d3d2214cfce660c9c421ba7a8f8f"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md",
       "sourceHash": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
     },
@@ -4035,12 +4130,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "sourceHash": "764e86531510d2b5f0c01b93edcf0e430f7a4ece133070297faa755529c0564c"
+      "sourceHash": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "sourceHash": "fd84956f8774387468c056db661c33c2193463147d5267a9f80796a5b0342103"
+      "sourceHash": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
     },
     {
       "manual": "node",
@@ -4064,53 +4159,98 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-FunctionScore.md",
+      "sourceHash": "3a80eb856900a8782208c0d63d612f60cf1abc7fa79524586badca138b1848b3"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-NumberArrayId.md",
+      "sourceHash": "a560a2b31435f2c4c0856340bfb27dba2aa5e4ee7e7190b6752026ea46e65ffa"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-OutputTransformers.md",
+      "sourceHash": "3fb66e72209a3005def10427603a8bbedf6b8b2c4545b88c76a01c96e6f6461d"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-RerankerObj.md",
+      "sourceHash": "26a67eb338efac3c507d971712556ecd1e7f01091d89c8cac9004ad50b90d347"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-RowData.md",
+      "sourceHash": "b732aa12aea94b373446887dbbe58f7d1970e765a341ec57f6187e23586489b6"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-SearchData.md",
+      "sourceHash": "0738c64e0bf55611d4fce0569832f4e3b00e78704721dc046488d2e679a58059"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-StringArrayId.md",
+      "sourceHash": "18749f82cc9225d87b2dcb9d2061d263bbc5e2c48b2131aba01be34f5be8036a"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-count.md",
       "sourceHash": "18af42ca11891671000a8eac31caec26642f0ed7c8263a98bfda80fafd930a9e"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-delete.md",
-      "sourceHash": "d1b956310bde3937ac22bb66108f917ce788f614c06d78da469fcaff4135fc3c"
+      "sourceHash": "307555b4a9dcb6f319600fbe796c64457378dd6ac74c082acabc34c30f15339f"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-deleteEntities.md",
+      "sourceHash": "d989fdf9148afd0343e283a3f9ef5416a046d9f319faeca7fde0b128b242e08e"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-get.md",
-      "sourceHash": "ee21008a4a689a3f1b78aaa6876b432f5634e01ead07178e4a1ffc52bd6f5f9c"
+      "sourceHash": "562e56c9c61ec56b19ed8c02bd48faeff0228cae38e8bbf5a09d461f6ac8be91"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-getMetric.md",
+      "sourceHash": "0957068fb60eb06d07a54d4ea6a56480eb14f193982d52ec7f9201b74bf990c9"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "sourceHash": "7b174f588744c9392eae3045777bc719115d6fb4fad18f0de4894d6b26be665d"
+      "sourceHash": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
-      "sourceHash": "2b78f33d726146a484cf807bda2ee60321837ea08a6daa6617a0192f487e87d2"
+      "sourceHash": "170bae549cf49322104568a7384a5cfb1682dee215cbd14e30d08edea90ce88d"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
-      "sourceHash": "e8ec2cd6f91bc51342c869e56c5bec3a6d896db3699af8e5052d104fa5f72f5e"
+      "sourceHash": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md",
-      "sourceHash": "a0c375e2fca0599b67222c4f65a6e13f9a8bd0c2522223fb91b6a5ace89dbdea"
+      "sourceHash": "52873288f15a5145eba9869057341abe2733f6f49ea066b60c43821f4a7bf49c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "78b1d5e370ec263fcd783da3e151db792c9b207ffdd45f9532f6a5241132923e"
+      "sourceHash": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md",
-      "sourceHash": "222edcd179dd23d55a70cff6cbdd51de903a4cbaffae6b9e2694704e9475b598"
+      "sourceHash": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
-      "sourceHash": "ed32aeda65a85ac5760b4a4d2268d1d83419456cfb3ca1ad0cebcfcb29776565"
+      "sourceHash": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
     },
     {
       "manual": "node",
