@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6d2230f8824a53416a82bf2522b4a2013f8f783a",
+  "sourceCommit": "684075bddafb754bd519459e9b17439b8fee7a4d",
   "records": [
     {
       "manual": "cli",
@@ -6120,7 +6120,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/backup-and-restore-v2/describe-backup-v2.mdx",
-      "sourceHash": "0397e38966843baa81489d17d433638e193f8ce3cd3ea9900c32a4221b958d0a"
+      "sourceHash": "be18d103b04872e5970bb8842b613fc96e88264e445d07a3f932a7a977830ed6"
     },
     {
       "manual": "rest",
@@ -6135,7 +6135,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/backup-and-restore-v2/list-backups-v2.mdx",
-      "sourceHash": "17078cb276d09ec4b8935a372691b2a372e93d58a8815a24905017abf7567466"
+      "sourceHash": "b70a7c657817f56eab87a31d3f34125653a758ffc68764940c86daee2981721a"
     },
     {
       "manual": "rest",
@@ -6350,7 +6350,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-existing-cluster-v2.mdx",
-      "sourceHash": "958466344b2d29d12770610df7c6957efb36dce3fe3ffa0dbd658b35fc1ce05b"
+      "sourceHash": "91259aac81205fa92761e1323f7ad14ccf7f104ce423466aff751cfc94eeea34"
     },
     {
       "manual": "rest",
@@ -6380,7 +6380,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2.mdx",
-      "sourceHash": "55661795b0e7dfc04e7fd16122dffd2f80d548182f8450512d2eaf0f207215cf"
+      "sourceHash": "97ad590c914e897cdadf799e524bd33543eefa95fd34bbf6e4f120864d402311"
     },
     {
       "manual": "rest",
@@ -6390,7 +6390,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/list-clusters-v2.mdx",
-      "sourceHash": "1fb3c524e3322c0d39fccfb24cbcc29c28136a345db9fa4b43c7ab9d20885995"
+      "sourceHash": "288635be19875ff20e8e95d08be60dd87c4ec2c63f96bf9b0d39224f55a1bea2"
     },
     {
       "manual": "rest",
@@ -6450,7 +6450,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/delete-global-member-cluster-v2.mdx",
-      "sourceHash": "87addc6ef3f54efe9d310803bc6fd3a18bff433840276a400611069d0366353a"
+      "sourceHash": "f59d3f6be7d09f9548a35505bba3a0432e847dacfca21e4893a18d0d3577a7d2"
     },
     {
       "manual": "rest",
@@ -6555,7 +6555,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/metrics-and-alerts-v2/query-cluster-metrics-v2.mdx",
-      "sourceHash": "d3379c65d383030ebbe185de7633b47d9b305dc40aa0d093d41da73079098ccc"
+      "sourceHash": "649fb215a52745ebc5b3613e67bb277ab858193dee907e3bc98be48d7c3f585b"
     },
     {
       "manual": "rest",
@@ -6590,7 +6590,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/update-on-demand-cluster-v2.mdx",
-      "sourceHash": "3604a05cddd59b9bd3da636ce4697479087201069eab25d517dea5c4291f6f5a"
+      "sourceHash": "3a9fe137beaeeb1b4dd2b56f93bba331218b6bdba714d4bf0819347190b84384"
     },
     {
       "manual": "rest",
