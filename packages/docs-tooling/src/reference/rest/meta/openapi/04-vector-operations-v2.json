@@ -619,6 +619,68 @@
                         "description": "書き込むエンティティに適用するフィールドレベルの操作。各エントリはフィールドを選択し、その値の更新方法を指定します。"
                       }
                     }
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the field to which the write condition applies.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "写入条件所应用的字段名称。"
+                          },
+                          "ja-JP": {
+                            "description": "書き込み条件を適用するフィールドの名前。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "Specifies how to behave when the field referenced by the write condition is missing.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "指定当写入条件引用的字段缺失时的行为。"
+                          },
+                          "ja-JP": {
+                            "description": "書き込み条件で参照されるフィールドが存在しない場合の動作を指定します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The operation to apply: `REPLACE` replaces the field value, `ARRAY_APPEND` appends array elements, and `ARRAY_REMOVE` removes matching array elements.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "要应用的操作：`REPLACE` 替换字段值，`ARRAY_APPEND` 追加数组元素，`ARRAY_REMOVE` 删除匹配的数组元素。"
+                          },
+                          "ja-JP": {
+                            "description": "適用する操作：`REPLACE` はフィールド値を置換し、`ARRAY_APPEND` は配列要素を追加し、`ARRAY_REMOVE` は一致する配列要素を削除します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "Defines the condition used to determine whether the insert write is performed.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "定义用于确定是否执行插入写入的条件。"
+                      },
+                      "ja-JP": {
+                        "description": "挿入書き込みを実行するかどうかを決定するために使用する条件を定義します。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1261,6 +1323,68 @@
                         "ja-JP": {
                           "description": "部分更新時に適用されるフィールドレベルの操作。1 つのフィールドを選択し、その値の更新方法を指定します。各エントリには `fieldName` と `op` が必要です。"
                         }
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "writeCondition": {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "description": "The name of the field to which the operation applies.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "操作所应用到的字段名称。"
+                          },
+                          "ja-JP": {
+                            "description": "操作が適用されるフィールドの名前。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "onMissing": {
+                        "type": "string",
+                        "description": "The behavior to apply when the target field is missing.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "目标字段缺失时应用的行为。"
+                          },
+                          "ja-JP": {
+                            "description": "対象フィールドが存在しない場合に適用される動作。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      },
+                      "op": {
+                        "type": "string",
+                        "description": "The update operation to apply. `REPLACE` replaces the field value, `ARRAY_APPEND` appends array elements, and `ARRAY_REMOVE` removes matching array elements.",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "要应用的更新操作。`REPLACE` 替换字段值，`ARRAY_APPEND` 追加数组元素，`ARRAY_REMOVE` 删除匹配的数组元素。"
+                          },
+                          "ja-JP": {
+                            "description": "適用する更新操作。`REPLACE` はフィールド値を置き換え、`ARRAY_APPEND` は配列要素を追加し、`ARRAY_REMOVE` は一致する配列要素を削除します。"
+                          }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
+                      }
+                    },
+                    "description": "The condition that governs the write performed by the upsert request.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "控制 upsert 请求所执行写入的条件。"
+                      },
+                      "ja-JP": {
+                        "description": "upsert リクエストによって実行される書き込みを制御する条件。"
                       }
                     },
                     "x-added-at": "2.6.x",
