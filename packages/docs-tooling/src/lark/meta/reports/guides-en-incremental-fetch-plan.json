@@ -1,310 +1,2535 @@
 {
-  "generated_at": "2026-11-19T18:35:26.808Z",
+  "generated_at": "2026-11-23T02:56:18.117Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [
     {
-      "record_id": "recvlPtlO4t2zh",
+      "record_id": "recvlPoTGW03Cp",
       "table_id": "tblWv7PjNDsexddH",
       "table_name": "Development",
-      "title": "Geometry Field",
-      "labels": "Geometry",
-      "slug": "use-geometry-field",
+      "title": "Basic Vector Search",
+      "labels": "Basic Vector Search",
+      "slug": "single-vector-search",
       "release_channel": "current",
-      "doc_token": "H2GHwE8umiuP6WkwjxPcQOfGn0e",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/H2GHwE8umiuP6WkwjxPcQOfGn0e",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/single-vector-search",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "single-vector-search",
+        "inputs_sha256": "3286974f1679967c23219592878acbe17724b109eab8ff4bfcd411a41c0c3b65",
+        "record": "generated/en/manifests/shared-pages/guides/single-vector-search.json"
+      },
       "reasons": [
-        "wiki node revision changed"
+        "shared inputs changed"
       ]
     },
     {
-      "record_id": "recvlPv5VDWiEw",
+      "record_id": "recvlPp3B7L5Gj",
       "table_id": "tblWv7PjNDsexddH",
       "table_name": "Development",
-      "title": "Multi-language Analyzers",
-      "labels": "Multi-language Analyzers",
-      "slug": "multi-language-analyzers",
+      "title": "Filtered Search",
+      "labels": "Filtered Search",
+      "slug": "filtered-search",
       "release_channel": "current",
-      "doc_token": "BnYLwepruiGNpwkJfBHcdrrOnOh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/BnYLwepruiGNpwkJfBHcdrrOnOh",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "filtered-search",
+        "inputs_sha256": "cc0ad70a55764cd3e2b9e1a2b963fe35e24d125b8303abeec1a4efe00210abe6",
+        "record": "generated/en/manifests/shared-pages/guides/filtered-search.json"
+      },
       "reasons": [
-        "wiki node revision changed"
+        "shared inputs changed"
       ]
     },
     {
-      "record_id": "reczz28axHoNBF5v",
+      "record_id": "recvlPp5huUFoy",
       "table_id": "tblWv7PjNDsexddH",
       "table_name": "Development",
-      "title": "Manage Snapshots (Console)",
+      "title": "Range Search",
+      "labels": "Range Search",
+      "slug": "range-search",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "range-search",
+        "inputs_sha256": "baba51ab3ecd81e0719bcf725cb133d0bef14db3eb3fad2606d10440f181ac84",
+        "record": "generated/en/manifests/shared-pages/guides/range-search.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPp6ZPf0yY",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Grouping Search",
+      "labels": "Grouping Search",
+      "slug": "grouping-search",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "grouping-search",
+        "inputs_sha256": "47afe931e70c3c9033743c63ba7aefc9609dedf0070f4a16ef848f129694d400",
+        "record": "generated/en/manifests/shared-pages/guides/grouping-search.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpiienCU8",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Query",
+      "labels": "Query",
+      "slug": "get-and-scalar-query",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/get-and-scalar-query",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "get-and-scalar-query",
+        "inputs_sha256": "5ca218ea0dbd673c57d0bb4322d497fde9999d0d7b7b77d7b66a05d454e09477",
+        "record": "generated/en/manifests/shared-pages/guides/get-and-scalar-query.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpnGdYFm8",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Basic Operators",
+      "labels": "Basic",
+      "slug": "basic-filtering-operators",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/basic-filtering-operators",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "basic-filtering-operators",
+        "inputs_sha256": "422fd9a671875fa11f9f34e28793cdc74a9089a936522f33eabc4a5a0ce1b8fc",
+        "record": "generated/en/manifests/shared-pages/guides/basic-filtering-operators.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpp7XvPZS",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Pattern Matching",
+      "labels": "Pattern Matching",
+      "slug": "pattern-match",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/pattern-match",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "pattern-match",
+        "inputs_sha256": "ef409156531accdf8c599cced86eccc3448a3d333d4af7ac6770d197722455d8",
+        "record": "generated/en/manifests/shared-pages/guides/pattern-match.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpqLltfoK",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Filter Templating",
+      "labels": "Template",
+      "slug": "filtering-templating",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtering-templating",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "filtering-templating",
+        "inputs_sha256": "21d5ae6045e4224dcc3d8ac6f724a446b21ce026a75ef8b437914fc4c25b026e",
+        "record": "generated/en/manifests/shared-pages/guides/filtering-templating.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpsbFNmVH",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "JSON Operators",
+      "labels": "JSON",
+      "slug": "json-filtering-operators",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-filtering-operators",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "json-filtering-operators",
+        "inputs_sha256": "c220d280fbac2fbff1deaff7c2ccfb2a8006b8d5e740184c9e9e0bfc95b5878e",
+        "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPptQJZwue",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "ARRAY Operators",
+      "labels": "Array",
+      "slug": "array-filtering-operators",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/array-filtering-operators",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "array-filtering-operators",
+        "inputs_sha256": "7251c01a0b46351b6c6ad76f9af101a93150d55e85c0be11cb9a59a740f5b068",
+        "record": "generated/en/manifests/shared-pages/guides/array-filtering-operators.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpvCPSjHn",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "StructArray Operators",
+      "labels": "StructArray",
+      "slug": "struct-array-filtering",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-filtering",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "struct-array-filtering",
+        "inputs_sha256": "eb092f3ad31429f7990e9429be9e96207cac5b19a8fccaa9e021a21d8652010d",
+        "record": "generated/en/manifests/shared-pages/guides/struct-array-filtering.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPpxxbPaVv",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Random Sampling",
+      "labels": "Random Sampling",
+      "slug": "ramdom-sampling",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ramdom-sampling",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "ramdom-sampling",
+        "inputs_sha256": "b02c8faab1abee35184c83b5bd3f66f0633693ab7136d7b3eacb92f7ddf084be",
+        "record": "generated/en/manifests/shared-pages/guides/ramdom-sampling.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPqEajVvUb",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Full Text Search",
+      "labels": "Full Text Search",
+      "slug": "full-text-search",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/full-text-search",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "full-text-search",
+        "inputs_sha256": "a0655ed6c00511613d4ed0a2dfe1143719b45df91c4dca75dd2ed2dee7d19651",
+        "record": "generated/en/manifests/shared-pages/guides/full-text-search.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPqGLmC059",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Text Match",
+      "labels": "Text Match",
+      "slug": "text-match",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/text-match",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "text-match",
+        "inputs_sha256": "75709947dbaf8f82f9315ae857d93048e0b6d456c69bfc1fde7e209d63797614",
+        "record": "generated/en/manifests/shared-pages/guides/text-match.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYaf8cCsm",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Basic Vector Search with StructArray",
+      "labels": "Basic Vector Search",
+      "slug": "search-with-struct-array",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "search-with-struct-array",
+        "inputs_sha256": "4c7cf68155fe014834011c0379c7c4b087d8672229ebc0d860b2cf94380d7472",
+        "record": "generated/en/manifests/shared-pages/guides/search-with-struct-array.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYazRHkb7",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Filtered Search with StructArray",
+      "labels": "Filtered Search",
+      "slug": "filtered-search-with-struct-arrays",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/filtered-search-with-struct-arrays",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "filtered-search-with-struct-arrays",
+        "inputs_sha256": "2b7fe7d36762e5f6554c53007b33f8dace071cfea9217c394514328cb4dc73fa",
+        "record": "generated/en/manifests/shared-pages/guides/filtered-search-with-struct-arrays.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYaHQq90e",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Range Search with StructArray",
+      "labels": "Range Search",
+      "slug": "range-search-with-struct-arrays",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/range-search-with-struct-arrays",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "range-search-with-struct-arrays",
+        "inputs_sha256": "bfb2ae16ce4513d24b024e178877e58269051b99430b6ba01d7dd854f043e7a3",
+        "record": "generated/en/manifests/shared-pages/guides/range-search-with-struct-arrays.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYaOEEiuv",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Grouping Search with StructArray",
+      "labels": "Grouping Search",
+      "slug": "grouping-search-with-struct-array",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/grouping-search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "grouping-search-with-struct-array",
+        "inputs_sha256": "a252337688d216ce08ee9e8545ddeeb0d0a878fa5d844be4fbc5aa1090738d01",
+        "record": "generated/en/manifests/shared-pages/guides/grouping-search-with-struct-array.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYaUTQk9R",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Hybrid Search with StructArray",
+      "labels": "Hybrid Search",
+      "slug": "hybrid-search-with-struct-array",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/hybrid-search-with-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "hybrid-search-with-struct-array",
+        "inputs_sha256": "f4c3669da4ab64c1d0392aa86d6b3ac4ea29d08e461af4aac0068c782d8dfef2",
+        "record": "generated/en/manifests/shared-pages/guides/hybrid-search-with-struct-array.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiYb14LJdy",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Search with EmbeddingLists: ColBERT and ColPali",
+      "labels": "ColBERT and ColPali",
+      "slug": "tutorial-colbert-colpali",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/tutorial-colbert-colpali",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "tutorial-colbert-colpali",
+        "inputs_sha256": "e9381ded14a2a8bc4abc5682533b831eb5c763d2abc4a6bb88602ac90f25bc05",
+        "record": "generated/en/manifests/shared-pages/guides/tutorial-colbert-colpali.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPqTR752sW",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Search Iterator",
+      "labels": "Search Iterator",
+      "slug": "with-iterators",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/with-iterators",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "with-iterators",
+        "inputs_sha256": "02661f7dc4caf47fb8b1d6bfca1e475a262b928df320dbdfee6e9a9916c5a003",
+        "record": "generated/en/manifests/shared-pages/guides/with-iterators.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPrgAAOJzT",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Use Partition Key",
+      "labels": "Partition Key (Namespace)",
+      "slug": "use-partition-key",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-partition-key",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-partition-key",
+        "inputs_sha256": "cc0ba470f88d93c0bf19cebec88d20e989441e5bb5ec070800b49d621fd53508",
+        "record": "generated/en/manifests/shared-pages/guides/use-partition-key.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPqj7tDVew",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Database in Serving Clusters",
       "labels": "",
-      "slug": "manage-snapshots-console",
-      "release_channel": "next",
-      "doc_token": "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PSK1wxf6Qi2EENkCjc2cyNBSn0g",
-      "reasons": [
-        "wiki node revision changed"
-      ]
-    },
-    {
-      "record_id": "recvlVUzSLcB1y",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Create Cluster",
-      "labels": "Create Cluster",
-      "slug": "create-cluster",
+      "slug": "database",
       "release_channel": "current",
-      "doc_token": "KrbjwFhy3iojF3k97XmcvvXMnW7",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KrbjwFhy3iojF3k97XmcvvXMnW7",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/database",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "database",
+        "inputs_sha256": "9f3250e9a650b1308c493748bc640a584fa622613f6aa2cca3643721b0d876b5",
+        "record": "generated/en/manifests/shared-pages/guides/database.json"
+      },
       "reasons": [
-        "wiki node revision changed"
+        "shared inputs changed"
       ]
     },
     {
-      "record_id": "reczz28brpObPLan",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Monitor On-Demand Clusters",
+      "record_id": "recvlPrrKKZqxc",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Collection Explained",
+      "labels": "Overview",
+      "slug": "manage-collections",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-collections",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "manage-collections",
+        "inputs_sha256": "85378c3d20238e581e0d8196a1f7ab8da62816f43d9f988c63da32878deca7ec",
+        "record": "generated/en/manifests/shared-pages/guides/manage-collections.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPs1hp3qSc",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Create a Collection",
+      "labels": "Managed Collection",
+      "slug": "manage-collections-sdks",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-collections-sdks",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "manage-collections-sdks",
+        "inputs_sha256": "1e68d4f3ff6f309063b041888879975682a6ed14512ae3ce6b02427c35fd7cab",
+        "record": "generated/en/manifests/shared-pages/guides/manage-collections-sdks.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPs8qTFnJf",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "View Collections",
+      "labels": "View",
+      "slug": "view-collections",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/view-collections",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "view-collections",
+        "inputs_sha256": "310e40533bfedafd24edfbf75cdf6292da1863155d95932597ca52c1c3837aa9",
+        "record": "generated/en/manifests/shared-pages/guides/view-collections.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPs9FBazpP",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Modify Collection",
+      "labels": "Modify",
+      "slug": "modify-collections",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/modify-collections",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "modify-collections",
+        "inputs_sha256": "871a0f9ca4110bfe8e88a57a013ff41783670044a2cc62afcc975ad7d1650c8d",
+        "record": "generated/en/manifests/shared-pages/guides/modify-collections.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsbs7JQy4",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Set Collection TTL",
+      "labels": "TTL",
+      "slug": "set-collection-ttl",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/set-collection-ttl",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "set-collection-ttl",
+        "inputs_sha256": "0621ece49581276c509dfcddc9be43f4dac8e93cd34b74983785e726a0cceb1b",
+        "record": "generated/en/manifests/shared-pages/guides/set-collection-ttl.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsgF6xRb2",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Load & Release",
+      "labels": "Load & Release",
+      "slug": "load-release-collections",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/load-release-collections",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "load-release-collections",
+        "inputs_sha256": "45ca791a4d86694dec409a0d7a1a2c2e9e466474862f9cc85c89ec1625cf147e",
+        "record": "generated/en/manifests/shared-pages/guides/load-release-collections.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsisxHlZC",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Manage Partitions",
+      "labels": "Partitions",
+      "slug": "manage-partitions",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-partitions",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "manage-partitions",
+        "inputs_sha256": "21bae768564609ebb9eab7fa1dda142ad5adb8571678109befbcce2da7450525",
+        "record": "generated/en/manifests/shared-pages/guides/manage-partitions.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsksPcET1",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Manage Aliases",
+      "labels": "Aliases",
+      "slug": "manage-aliases",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/manage-aliases",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "manage-aliases",
+        "inputs_sha256": "3392e5f9e188c6ac0d0e91d0b7faf95fd7b35518a31395376d2cfd563a149c42",
+        "record": "generated/en/manifests/shared-pages/guides/manage-aliases.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPso50Hw2Q",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Drop Collection",
+      "labels": "Drop",
+      "slug": "drop-collection",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/drop-collection",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "drop-collection",
+        "inputs_sha256": "edbf03d71b0532831492ac9b58d66db1dcbb7f5a5c29819c8bfd773d4b791cc4",
+        "record": "generated/en/manifests/shared-pages/guides/drop-collection.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsYLHP3xd",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Primary Field & AutoID",
+      "labels": "Primary Field",
+      "slug": "primary-field-auto-id",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/primary-field-auto-id",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "primary-field-auto-id",
+        "inputs_sha256": "aa4966066803a3722ba48be051e7008443a09ae26e0b8fea15c633320f7bf8f8",
+        "record": "generated/en/manifests/shared-pages/guides/primary-field-auto-id.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPt0fX4m9U",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Dense Vector",
+      "labels": "Dense Vector",
+      "slug": "use-dense-vector",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-dense-vector",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-dense-vector",
+        "inputs_sha256": "fb53b7325091c586ecf238cb4e2f401adb3720cf2e4bf2fc4713ac84751e187a",
+        "record": "generated/en/manifests/shared-pages/guides/use-dense-vector.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPt1KuBotc",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Binary Vector",
+      "labels": "Binary Vector",
+      "slug": "use-binary-vector",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-binary-vector",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-binary-vector",
+        "inputs_sha256": "860073a533e2c39c0acad3194952dbe565dc7e6a236b104d9ca4919fd2d6b6f1",
+        "record": "generated/en/manifests/shared-pages/guides/use-binary-vector.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPt3BHiutO",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Sparse Vector",
+      "labels": "Sparse Vector",
+      "slug": "use-sparse-vector",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-sparse-vector",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-sparse-vector",
+        "inputs_sha256": "1420c5d5538a6d75f0e846af39407dfee08041e393a174a77d8730f906074983",
+        "record": "generated/en/manifests/shared-pages/guides/use-sparse-vector.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPt5P3vHmN",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "VarChar Field",
+      "labels": "VarChar",
+      "slug": "use-string-field",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-string-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-string-field",
+        "inputs_sha256": "07059773bd1efeeb07637e82ac80219f95a0f09d727bbcf8882709bde42d7975",
+        "record": "generated/en/manifests/shared-pages/guides/use-string-field.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtalAvq5J",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Boolean & Number",
+      "labels": "Boolean & Number",
+      "slug": "use-number-field",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-number-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-number-field",
+        "inputs_sha256": "2a5f567a8c6410c4fa585856c670caa68602492c4870e80a466cbd496e73085a",
+        "record": "generated/en/manifests/shared-pages/guides/use-number-field.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtdaxUufo",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "JSON Field Overview",
+      "labels": "Overview",
+      "slug": "json-field-overview",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-field-overview",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "json-field-overview",
+        "inputs_sha256": "34266263dcdf26a419d1aee7f28f9875e8ce945e09226630704b6c710e628fd4",
+        "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtf0BFNBS",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "JSON Indexing",
+      "labels": "Indexing",
+      "slug": "json-indexing",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-indexing",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "json-indexing",
+        "inputs_sha256": "0704c2b5fb18e691633b98d3a984a9e5fd4b8cfeca705061d154e8676f4582ba",
+        "record": "generated/en/manifests/shared-pages/guides/json-indexing.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtgwWsj2G",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "JSON Shredding",
+      "labels": "Shredding",
+      "slug": "json-shredding",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/json-shredding",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "json-shredding",
+        "inputs_sha256": "5ef871a514223ce60e460f373ecc9620fe5177729fe102a5442934e9c412200f",
+        "record": "generated/en/manifests/shared-pages/guides/json-shredding.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtinkuviw",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Array Field",
+      "labels": "Array",
+      "slug": "use-array-fields",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-fields",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-array-fields",
+        "inputs_sha256": "0c5f927b206d129ff1bc7e5ef0299cee215be7dd63bb37510139344746f7f6f6",
+        "record": "generated/en/manifests/shared-pages/guides/use-array-fields.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiX4gMiGuY",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "StructArray Overview",
+      "labels": "Overview",
+      "slug": "use-array-of-structs",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/use-array-of-structs",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "use-array-of-structs",
+        "inputs_sha256": "4a99f0eb01e8c5ddab110cd327c955c24efe1f99452ebf60d896caa5508628e6",
+        "record": "generated/en/manifests/shared-pages/guides/use-array-of-structs.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiXcFCqTXW",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Create a StructArray Field",
       "labels": "",
-      "slug": "monitor-on-demand-cluster",
-      "release_channel": "next",
-      "doc_token": "NcIMw9y7Wi8O6BkRc7HcBbbrnPg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/NcIMw9y7Wi8O6BkRc7HcBbbrnPg",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "reczz28brpPAKIVD",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "On-Demand Metrics Reference",
-      "labels": "Metrics Reference",
-      "slug": "on-demand-metrics-reference",
-      "release_channel": "next",
-      "doc_token": "Yvpwwtoywix0B6k3phVc5pQ0nSf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Yvpwwtoywix0B6k3phVc5pQ0nSf",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "reczz28brpPpcRhF",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Understand On-Demand Compute Usage",
-      "labels": "Understand Usage",
-      "slug": "understand-on-demand-compute-usage",
-      "release_channel": "next",
-      "doc_token": "EOApwoWKPipHLHk7VKdci4QlnPc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/EOApwoWKPipHLHk7VKdci4QlnPc",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvlVWbzPeqAs",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Restore from Backup Files",
-      "labels": "Restore from Backup Files",
-      "slug": "restore-from-backup-files",
+      "slug": "create-struct-array",
       "release_channel": "current",
-      "doc_token": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/create-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "create-struct-array",
+        "inputs_sha256": "5b16e850708634fca3eb8c5dc25eace872f0600721adfec5477d4fa7000eccde",
+        "record": "generated/en/manifests/shared-pages/guides/create-struct-array.json"
+      },
       "reasons": [
-        "wiki node revision changed"
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiXeibUjFw",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Insert Data into StructArray Fields",
+      "labels": "",
+      "slug": "insert-struct-array",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "insert-struct-array",
+        "inputs_sha256": "6f20e61fec78bf926d5531a8ffa0ca3340417d7a860394a0484815c6e4b5094b",
+        "record": "generated/en/manifests/shared-pages/guides/insert-struct-array.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiXfJKVEi6",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Index StructArray Fields",
+      "labels": "",
+      "slug": "index-struct-array",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/index-struct-array",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "index-struct-array",
+        "inputs_sha256": "f3260c94b3fb50afbc1b675208ae89c9f7a3641c0589da445fd3d33ea296fa15",
+        "record": "generated/en/manifests/shared-pages/guides/index-struct-array.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvmiXheOIXXi",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "StructArray Limits",
+      "labels": "",
+      "slug": "struct-array-limits",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/struct-array-limits",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "struct-array-limits",
+        "inputs_sha256": "fbf3b0a406cae74ec0fc3bdc0d98b25079866667291620cf4f305a56745bcf73",
+        "record": "generated/en/manifests/shared-pages/guides/struct-array-limits.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtyb6yLAl",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Dynamic Field",
+      "labels": "Dynamic Field",
+      "slug": "enable-dynamic-field",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/enable-dynamic-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "enable-dynamic-field",
+        "inputs_sha256": "7ecbbf0f65037ee2639277beaae2b45a61c05626d1d05958090666f58a150b8e",
+        "record": "generated/en/manifests/shared-pages/guides/enable-dynamic-field.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtyEujTZ1",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Nullable Fields",
+      "labels": "Nullable Fields",
+      "slug": "nullable-fields",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/nullable-fields",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "nullable-fields",
+        "inputs_sha256": "21e8bfc0551bd927584334460983a4e5a57539e55a115e38bade782ba0f9656f",
+        "record": "generated/en/manifests/shared-pages/guides/nullable-fields.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtz1y4ReX",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Default Values",
+      "labels": "Default Values",
+      "slug": "default-fields",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/default-fields",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "default-fields",
+        "inputs_sha256": "6976254f2c0739271b7ce1c2d81a7aea056b503199bc6ef6225dc40f9b900ea3",
+        "record": "generated/en/manifests/shared-pages/guides/default-fields.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtzpXFjxH",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Alter Collection Field",
+      "labels": "Alter Field",
+      "slug": "alter-collection-field",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alter-collection-field",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alter-collection-field",
+        "inputs_sha256": "86db38c158520b7511b4ea70c1bc834880cd5aa36b65cbdd1c5425cf69c6902e",
+        "record": "generated/en/manifests/shared-pages/guides/alter-collection-field.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtzPnygUH",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Alter Collection Schema",
+      "labels": "Alter Schema (Managed Collection)",
+      "slug": "add-fields-to-an-existing-collection",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/add-fields-to-an-existing-collection",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "add-fields-to-an-existing-collection",
+        "inputs_sha256": "6b46a24ad98a1c42d6464e4ffe615e1e10ff1c16050274b2a8feb4f020b314c3",
+        "record": "generated/en/manifests/shared-pages/guides/add-fields-to-an-existing-collection.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvob1UVb2vLT",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Alter External Collection Schema",
+      "labels": "Alter Schema (External Collection)",
+      "slug": "alter-external-collection-schema",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alter-external-collection-schema",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alter-external-collection-schema",
+        "inputs_sha256": "7c183121cb5358eea131acb49938de0d68bd9bd568458c911e564fd2d87899cb",
+        "record": "generated/en/manifests/shared-pages/guides/alter-external-collection-schema.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtLE9aMJa",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Data Model Design with an Array of Structs",
+      "labels": "Data Model with Structs",
+      "slug": "schema-design-with-structs",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/schema-design-with-structs",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "schema-design-with-structs",
+        "inputs_sha256": "2cc921aa8c892ccecbb655065ef76a47bea8001ac0b6351fa65107ad2f730b43",
+        "record": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "reczz28azvR66R4a",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Scalar Index",
+      "labels": "Overview",
+      "slug": "scalar-index-overview",
+      "release_channel": "next",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/scalar-index-overview",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "scalar-index-overview",
+        "inputs_sha256": "26f1bd0da3a4f135f5c5c894563b36073bdfd8077924a806831790db7dc1adf7",
+        "record": "generated/en/manifests/shared-pages/guides/scalar-index-overview.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuupw8MTT",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "BITMAP",
+      "labels": "BITMAP",
+      "slug": "bitmap-index-type",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/bitmap-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "bitmap-index-type",
+        "inputs_sha256": "545942e603c216b6ab328a96af9670ad3003733801caf85b638cf9a69ecb31b3",
+        "record": "generated/en/manifests/shared-pages/guides/bitmap-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuxIa4nK7",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "INVERTED",
+      "labels": "INVERTED",
+      "slug": "inverted-index-type",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/inverted-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "inverted-index-type",
+        "inputs_sha256": "27afe11a061a0c9ea3ed0eb04bedcf45852f1eeca12d0813825d2cee8ee24045",
+        "record": "generated/en/manifests/shared-pages/guides/inverted-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuAMvtXHT",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "NGRAM",
+      "labels": "NGRAM",
+      "slug": "ngram-index-type",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ngram-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "ngram-index-type",
+        "inputs_sha256": "393b09706a5a58be491434757fb491d32e26db8e99d4f91293868da36226ece1",
+        "record": "generated/en/manifests/shared-pages/guides/ngram-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuEqbVGK6",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "RTREE",
+      "labels": "RTREE",
+      "slug": "rtree-index-type",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/rtree-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "rtree-index-type",
+        "inputs_sha256": "0da29d26e79725adf005bb3cd66404adf0e8f9506aba1e5c089ee7e052edf0af",
+        "record": "generated/en/manifests/shared-pages/guides/rtree-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuHlCSNKs",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "STL_SORT",
+      "labels": "STL_SORT",
+      "slug": "slt-sort-index-type",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/slt-sort-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "slt-sort-index-type",
+        "inputs_sha256": "1dd24fb34d11183f9eb206f3d23f8b4bac1bdfb238d5e8e74972dfce4a8e7674",
+        "record": "generated/en/manifests/shared-pages/guides/slt-sort-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "reczz28azxg3CJMK",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "TRIE",
+      "labels": "TRIE",
+      "slug": "trie-index-type",
+      "release_channel": "next",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/trie-index-type",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "trie-index-type",
+        "inputs_sha256": "f0337396fe897bec00fc08a4dad7af5ab8555e4f8eee7bb3eb29e04603fda1aa",
+        "record": "generated/en/manifests/shared-pages/guides/trie-index-type.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtOn6UqbP",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Insert Entities",
+      "labels": "Insert",
+      "slug": "insert-entities",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/insert-entities",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "insert-entities",
+        "inputs_sha256": "17ed41cd8c57332bf31b5e4e3d34aa3e9436de179f4b207632e6d540073108ba",
+        "record": "generated/en/manifests/shared-pages/guides/insert-entities.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtRh7nvjU",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Upsert Entities",
+      "labels": "Upsert",
+      "slug": "upsert-entities",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/upsert-entities",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "upsert-entities",
+        "inputs_sha256": "f0da0c0a136ec7cb8a2fe9d223b73012beb5b5f76cd3b9e3c8e6f7b8808a41e4",
+        "record": "generated/en/manifests/shared-pages/guides/upsert-entities.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPtUuUu4el",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Delete Entities",
+      "labels": "Delete",
+      "slug": "delete-entities",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/delete-entities",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "delete-entities",
+        "inputs_sha256": "d7747bf27e4afadd813e1ba962c3b73b605818edc3f673ee2afac993cb235388",
+        "record": "generated/en/manifests/shared-pages/guides/delete-entities.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUId1kLImN",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "BM25 Function",
+      "labels": "BM25 Function",
+      "slug": "bm25-function",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/bm25-function",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "bm25-function",
+        "inputs_sha256": "007c26b852bd0196990e77863d61deb89e76632a57a404fd7bf01f2757cca17a",
+        "record": "generated/en/manifests/shared-pages/guides/bm25-function.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWs3Xt0EG",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Weighted Ranker",
+      "labels": "Weighted Ranker",
+      "slug": "reranking-weighted-reranker",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/reranking-weighted-reranker",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "reranking-weighted-reranker",
+        "inputs_sha256": "56f6148d8d21e1976514626a65ea483588b8fa98a877f592a53da63c08e11e5a",
+        "record": "generated/en/manifests/shared-pages/guides/reranking-weighted-reranker.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWzUlvYoV",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "RRF Ranker",
+      "labels": "RRF Ranker",
+      "slug": "reranking-rrf",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/reranking-rrf",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "reranking-rrf",
+        "inputs_sha256": "599140ad342841e784844d028d237c65c2128163fa924f3df2b965f0bad37031",
+        "record": "generated/en/manifests/shared-pages/guides/reranking-rrf.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWBvd2QTv",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Boost Ranker",
+      "labels": "Boost Ranker",
+      "slug": "boost-ranker",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/boost-ranker",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "boost-ranker",
+        "inputs_sha256": "67c2f411944905fdb0f1bd0884ec63dc9839cfa292165237415e6dd3848daf9a",
+        "record": "generated/en/manifests/shared-pages/guides/boost-ranker.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWMyUPaS4",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Decay Ranker Overview",
+      "labels": "Decay Ranker Overview",
+      "slug": "decay-ranker-oveview",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/decay-ranker-oveview",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "decay-ranker-oveview",
+        "inputs_sha256": "7669e4a8207a9d0f8958abf62be5a856bd8e3a63c8b545e9167e09c024fa8beb",
+        "record": "generated/en/manifests/shared-pages/guides/decay-ranker-oveview.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWQKXwuqf",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Gaussian Decay",
+      "labels": "Gaussian Decay",
+      "slug": "gaussian-decay",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/gaussian-decay",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "gaussian-decay",
+        "inputs_sha256": "da3dddd93599f5ae569922c7a0ec2c53dc2a3422f3b739d47626450689bfcb5f",
+        "record": "generated/en/manifests/shared-pages/guides/gaussian-decay.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWT2D8Gjx",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Exponential Decay",
+      "labels": "Exponential Decay",
+      "slug": "exponential-decay",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/exponential-decay",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "exponential-decay",
+        "inputs_sha256": "b2219dd814de786e62f94fa29f45ebb0af42baa72fdf34e218f53c24331892ea",
+        "record": "generated/en/manifests/shared-pages/guides/exponential-decay.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlUWUQGODld",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Linear Decay",
+      "labels": "Linear Decay",
+      "slug": "linear-decay",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/linear-decay",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "linear-decay",
+        "inputs_sha256": "0b7a9a61a5ecbb86e02ecf371f3e3945cad566a73568b3eb65c8b9f0f25b2399",
+        "record": "generated/en/manifests/shared-pages/guides/linear-decay.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvbnOXxlM",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Standard Analyzer",
+      "labels": "Standard",
+      "slug": "standard-analyzer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/standard-analyzer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "standard-analyzer",
+        "inputs_sha256": "41c3f458bd3f72bda3bf17d9c22ff213567c4e54657ccf860670f448e2f336f7",
+        "record": "generated/en/manifests/shared-pages/guides/standard-analyzer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvdszHqaO",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "English",
+      "labels": "English",
+      "slug": "english-analyzer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/english-analyzer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "english-analyzer",
+        "inputs_sha256": "19476aac81e4658075e4e0edf72d7855d2a47a2b7f0f0a245e69cd53c5da22e6",
+        "record": "generated/en/manifests/shared-pages/guides/english-analyzer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvgjcQdII",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Chinese",
+      "labels": "Chinese",
+      "slug": "chinese-analyzer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/chinese-analyzer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "chinese-analyzer",
+        "inputs_sha256": "a8cd42483eff9e6d9b9841d2494f46043c281287510b3db4a7573e3dbc8e76b6",
+        "record": "generated/en/manifests/shared-pages/guides/chinese-analyzer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvhgnFFDA",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Standard Tokenizer",
+      "labels": "Standard",
+      "slug": "standard-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/standard-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "standard-tokenizer",
+        "inputs_sha256": "2689a4c87a4f5801a02c56b0a620006f705c4c6f47fea35db3a7e3941c768941",
+        "record": "generated/en/manifests/shared-pages/guides/standard-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvjOudf2Z",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Whitespace",
+      "labels": "Whitespace",
+      "slug": "whitespace-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/whitespace-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "whitespace-tokenizer",
+        "inputs_sha256": "63580ce000e8ea65102bcff44ac5ae7122c7420b32ee188899d0b223ffc0be0d",
+        "record": "generated/en/manifests/shared-pages/guides/whitespace-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvlBPwyMm",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Jieba",
+      "labels": "Jieba",
+      "slug": "jieba-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/jieba-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "jieba-tokenizer",
+        "inputs_sha256": "c763974a1764544cc56197b128a260a8e2f4b7a6d78a2dac077caaed162c4322",
+        "record": "generated/en/manifests/shared-pages/guides/jieba-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvni6z12G",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Lindera",
+      "labels": "Lindera",
+      "slug": "lindera-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/lindera-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "lindera-tokenizer",
+        "inputs_sha256": "26b1d321b7d9604f0575b0e6cf859e564d1a0e20869fa6f73b63737ef15dbdd4",
+        "record": "generated/en/manifests/shared-pages/guides/lindera-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvps6Vpde",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "ICU",
+      "labels": "ICU",
+      "slug": "icu-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/icu-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "icu-tokenizer",
+        "inputs_sha256": "2c5d6a671a2d084acc97b724d2e44bea8e7ac83475ca4267e389f1d3d26e45f0",
+        "record": "generated/en/manifests/shared-pages/guides/icu-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvrt6KTif",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Language Identifier",
+      "labels": "Language Identifier",
+      "slug": "language-identifier-tokenizer",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/language-identifier-tokenizer",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "language-identifier-tokenizer",
+        "inputs_sha256": "ede505d4de2d238db0bcae7e912db250525c7e72f532c9e209b649cde030ea10",
+        "record": "generated/en/manifests/shared-pages/guides/language-identifier-tokenizer.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvtPoZNRE",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Lowercase",
+      "labels": "Lowercase",
+      "slug": "lowercase-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/lowercase-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "lowercase-filter",
+        "inputs_sha256": "1abac344092ad2d5665bf5522d5c0a814befe7a17c08f71f438e5a9762696028",
+        "record": "generated/en/manifests/shared-pages/guides/lowercase-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvwdnURsZ",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "ASCII folding",
+      "labels": "ASCII folding",
+      "slug": "ascii-folding-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/ascii-folding-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "ascii-folding-filter",
+        "inputs_sha256": "8a309802672b9289ed8a9dbc26a7f76ad1405840fcbdeb41726792305c9a1188",
+        "record": "generated/en/manifests/shared-pages/guides/ascii-folding-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvxLc6exY",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Alphanumonly",
+      "labels": "Alphanumonly",
+      "slug": "alphanumonly-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/alphanumonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "alphanumonly-filter",
+        "inputs_sha256": "54a326899f23e901ba85d04a75f63d87b884f8ad7c7ac8576eb76709175ff341",
+        "record": "generated/en/manifests/shared-pages/guides/alphanumonly-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvzooBaHs",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Cnalphanumonly",
+      "labels": "Cnalphanumonly",
+      "slug": "cnalphanumonly-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cnalphanumonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cnalphanumonly-filter",
+        "inputs_sha256": "be6a4c8f74a0e58cc21d9d0aa42a79904441031859e8d785967c27d23358396a",
+        "record": "generated/en/manifests/shared-pages/guides/cnalphanumonly-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvBahthMV",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Cncharonly",
+      "labels": "Cncharonly",
+      "slug": "cncharonly-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/cncharonly-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "cncharonly-filter",
+        "inputs_sha256": "fc7dd9593c6c728fe859811df0f1708ca732220aebd84a30e21153f9e1631f97",
+        "record": "generated/en/manifests/shared-pages/guides/cncharonly-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvoRzF7kb5hZ",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Pinyin",
+      "labels": "pinyin",
+      "slug": "pinyin-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/pinyin-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "pinyin-filter",
+        "inputs_sha256": "69b65f81eba19eed87ebdc39086fe3cd930c25efa6762be36c693faec8baa14e",
+        "record": "generated/en/manifests/shared-pages/guides/pinyin-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvCRBemua",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Length",
+      "labels": "Length",
+      "slug": "length-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/length-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "length-filter",
+        "inputs_sha256": "cad67a96a4bc7e38472f79bad10f459105eb3aea3a4e30563cd98acc3749b1ca",
+        "record": "generated/en/manifests/shared-pages/guides/length-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvEwuN1gf",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Stop",
+      "labels": "Stop",
+      "slug": "stop-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/stop-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "stop-filter",
+        "inputs_sha256": "794d3307302af11667762ba968f4faba7eef276b5158018ad20ff2bb806aa1c7",
+        "record": "generated/en/manifests/shared-pages/guides/stop-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvGmAYglw",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Decompounder",
+      "labels": "Decompounder",
+      "slug": "decompounder-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/decompounder-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "decompounder-filter",
+        "inputs_sha256": "c1c5d2c0f4c2d557ef0fea88b8392eb20f3a76345a39c600814b7be3a0148e7f",
+        "record": "generated/en/manifests/shared-pages/guides/decompounder-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvI4UujsG",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Stemmer",
+      "labels": "Stemmer",
+      "slug": "stemmer-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/stemmer-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "stemmer-filter",
+        "inputs_sha256": "0c201882d627802a63f48047ad43c9e3add51024a7b5a954ec19bfc688b88774",
+        "record": "generated/en/manifests/shared-pages/guides/stemmer-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvJP0pbh9",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Remove Punct",
+      "labels": "Remove Punct",
+      "slug": "remove-punct-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/remove-punct-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "remove-punct-filter",
+        "inputs_sha256": "75cde729b61347abcb23c0c148c2f7878e159a79bae4d4e44a971fd957a559d0",
+        "record": "generated/en/manifests/shared-pages/guides/remove-punct-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPvLU6eZIJ",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Regex",
+      "labels": "Regex Analyzer Filter",
+      "slug": "regex-filter",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/regex-filter",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "regex-filter",
+        "inputs_sha256": "7f5266f4c707d3f1bb3484f10cd421df9e08831c1983cb70d31064cf7336d237",
+        "record": "generated/en/manifests/shared-pages/guides/regex-filter.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvlPnHgnRg7i",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Snapshots",
+      "labels": "Snapshots",
+      "slug": "snapshots",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/snapshots",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "snapshots",
+        "inputs_sha256": "50062220c70d5ab808d78c1d73415ce61c32babe445c135b332940d863b3208d",
+        "record": "generated/en/manifests/shared-pages/guides/snapshots.json"
+      },
+      "reasons": [
+        "shared inputs changed"
+      ]
+    },
+    {
+      "record_id": "recvm2lliV1DA6",
+      "table_id": "tblh7utKxg0dgdTo",
+      "table_name": "Architecture",
+      "title": "Implement Multi-tenancy",
+      "labels": "",
+      "slug": "multi-tenancy",
+      "release_channel": "current",
+      "doc_token": null,
+      "doc_link": "https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/multi-tenancy",
+      "source_kind": "shared-page",
+      "shared_page": {
+        "group": "guides",
+        "page": "multi-tenancy",
+        "inputs_sha256": "39af9709397e3953c8a7bcbc49ee828fc8938e9c4ce3e7b9b4f7a820cc4420ce",
+        "record": "generated/en/manifests/shared-pages/guides/multi-tenancy.json"
+      },
+      "reasons": [
+        "shared inputs changed"
       ]
     }
   ],
-  "changed_tokens": [
-    "BnYLwepruiGNpwkJfBHcdrrOnOh",
-    "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
-    "EOApwoWKPipHLHk7VKdci4QlnPc",
-    "H2GHwE8umiuP6WkwjxPcQOfGn0e",
-    "KrbjwFhy3iojF3k97XmcvvXMnW7",
-    "NcIMw9y7Wi8O6BkRc7HcBbbrnPg",
-    "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
-    "Yvpwwtoywix0B6k3phVc5pQ0nSf"
-  ],
+  "changed_tokens": [],
   "expanded_tokens": [
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe",
-    "BjHZwBkk0iFScik49QMc1Wwjndb",
+    "A4jhweVMMigHOpkwDlLcKo0SnFe",
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "B7SFwbn76iUM06kkYzBcffE8nYf",
+    "BClgwKlHaiushBkPPssclTkYnef",
+    "BJCjwpj8JizP0nkI11uci1pPndh",
+    "BYtDwHuOXiG7imkyIjHcWa6fnlb",
+    "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
     "BnYLwepruiGNpwkJfBHcdrrOnOh",
     "CK0ewQWC2iz6lakP0kscqogbnGh",
-    "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
-    "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
-    "DsqzwjegpiYSdtk1k75c1zXsnZc",
+    "CmR5wFcybi3iMokOJBxcXDQcntg",
+    "Dj2NwrlqTiYlmDkwfAbcJNWSntd",
     "EA2twSf5oiERMDkriKScU9GInc4",
-    "EO58wVRLpiTBXQkceRjccN28nrh",
-    "EOApwoWKPipHLHk7VKdci4QlnPc",
-    "ESVGwTkn8iLfUakSSrkc5dWJnye",
-    "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
+    "EAwdw2ZbtiBKttk66FTctUebn7f",
+    "EOxmwUDxMiy2cpkOfIsc1dYzn4c",
+    "EV41wG08BiOWW8kbo9xcTGoPnKd",
+    "Fighwx5zFiwaoIkV4q5cAJ1enDg",
+    "GBynwwkyBihIHukvJXfc76dMnth",
+    "GanXwLnJkiymKVkNPhecdi9MnGf",
     "H2GHwE8umiuP6WkwjxPcQOfGn0e",
     "H8MVwnjdgihp0hkRHHKcjBe9n5e",
-    "HDmKwGeGLi2P67kGdNXcigXDn3e",
     "HHXewT7wTiM1zqkySjHcMNX5n9b",
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-    "J274wT61xiEM4fkYeL8cMb4Pnbd",
-    "KkdswLx2bi4bgCkY6bEc7Do9neh",
-    "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
-    "KrbjwFhy3iojF3k97XmcvvXMnW7",
+    "IO4fwm5fJiroaoktKeIcbdkDnRb",
+    "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
+    "IxO5wZ1meiYrTckUPkQca9JOnbS",
+    "JPNiwF6rPiNe0pkx460cr321nTc",
+    "JaTxw9EtHivMv9kMSAnckG0vn1b",
+    "KTWtw4V6SiTpDMkeGMQc8lChn8b",
+    "KnnBwce9JifxvXkd070cvgUPnag",
+    "LRRVwYzxKioMiMk7cf6czQuhn7d",
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+    "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
     "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "NcIMw9y7Wi8O6BkRc7HcBbbrnPg",
-    "O1kHwD3jsioeD1km983cCRx7ndh",
+    "MYHwwhKtri4MMJku6BbcMjF4n1d",
+    "MocQwCCItiHYEbkkJtOcROPTnod",
+    "N6fZwCUXqiqoJEkFiVNcvDJEnnc",
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
+    "O2YiwLai5iSjT1k1WEsc06E8nEe",
+    "OFl9wHXpriM8aEkoONScpU1lnIf",
+    "OJVrwOiE4i3fFjk2J3NcneLznfh",
     "OZtawoDUci0CKokf9RlchvInnMf",
-    "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
-    "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
+    "PNj2w5fY9ifr82kbX8ucKgXAn0r",
+    "PV2bwNENViEjXWkOgzZcXoKHnce",
+    "PlX3wo82Di6oWVkg2ercRWCUnvV",
     "PmaowiSUaiTa8ckPMYJcqdRYnQg",
     "Pulhw06e5iXJTFkidFXcGbylnod",
-    "QUe4wFnNvifiufkXD9xcs0AAnSc",
-    "QuBiwrIJdiDw3ckVDKBcPofinfe",
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
-    "SOgiwzPxpisy8MkhtuecZqFbnaf",
-    "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+    "R33EwQchxiO3HKk4vPnce6vkntc",
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf",
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+    "V7xfwDariioU5GkcmfXctzSEnyc",
+    "Vs4YwNnvzitoQ8kunlGcWMJInbf",
     "WBONwyqFAi02DTkCG41c93wCn6e",
-    "Yvpwwtoywix0B6k3phVc5pQ0nSf",
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh",
-    "ZvSOwB7zkir7PjkzrOPciC5WnTe"
+    "WTsmwWdgOiKnwpkdZdScp093njh",
+    "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+    "XDoSwZodyigAEVkjkWfc9nsfnCg",
+    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "H2GHwE8umiuP6WkwjxPcQOfGn0e": [
-      "wiki node revision changed"
+    "shared:recvlPoTGW03Cp": [
+      "shared inputs changed"
     ],
-    "BnYLwepruiGNpwkJfBHcdrrOnOh": [
-      "wiki node revision changed"
+    "shared:recvlPp3B7L5Gj": [
+      "shared inputs changed"
     ],
-    "PSK1wxf6Qi2EENkCjc2cyNBSn0g": [
-      "wiki node revision changed"
+    "shared:recvlPp5huUFoy": [
+      "shared inputs changed"
     ],
-    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
-      "wiki node revision changed"
+    "shared:recvlPp6ZPf0yY": [
+      "shared inputs changed"
     ],
-    "NcIMw9y7Wi8O6BkRc7HcBbbrnPg": [
-      "new canonical record"
+    "shared:recvlPpiienCU8": [
+      "shared inputs changed"
     ],
-    "Yvpwwtoywix0B6k3phVc5pQ0nSf": [
-      "new canonical record"
+    "shared:recvlPpnGdYFm8": [
+      "shared inputs changed"
     ],
-    "EOApwoWKPipHLHk7VKdci4QlnPc": [
-      "new canonical record"
+    "shared:recvlPpp7XvPZS": [
+      "shared inputs changed"
     ],
-    "Dd6jwYIGiiz6HWkEPJqcpMA3n6g": [
-      "wiki node revision changed"
+    "shared:recvlPpqLltfoK": [
+      "shared inputs changed"
     ],
-    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
-      "outgoing reference from BnYLwepruiGNpwkJfBHcdrrOnOh"
+    "shared:recvlPpsbFNmVH": [
+      "shared inputs changed"
     ],
-    "H8MVwnjdgihp0hkRHHKcjBe9n5e": [
-      "outgoing reference from BnYLwepruiGNpwkJfBHcdrrOnOh"
+    "shared:recvlPptQJZwue": [
+      "shared inputs changed"
     ],
-    "JbPDwHqd0iZZSuk5tYicGqKbn9c": [
-      "outgoing reference from BnYLwepruiGNpwkJfBHcdrrOnOh"
+    "shared:recvlPpvCPSjHn": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPpxxbPaVv": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPqEajVvUb": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPqGLmC059": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYaf8cCsm": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYazRHkb7": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYaHQq90e": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYaOEEiuv": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYaUTQk9R": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiYb14LJdy": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPqTR752sW": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPrgAAOJzT": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPqj7tDVew": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPrrKKZqxc": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPs1hp3qSc": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPs8qTFnJf": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPs9FBazpP": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPsbs7JQy4": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPsgF6xRb2": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPsisxHlZC": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPsksPcET1": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPso50Hw2Q": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPsYLHP3xd": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPt0fX4m9U": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPt1KuBotc": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPt3BHiutO": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPt5P3vHmN": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtalAvq5J": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtdaxUufo": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtf0BFNBS": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtgwWsj2G": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtinkuviw": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiX4gMiGuY": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiXcFCqTXW": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiXeibUjFw": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiXfJKVEi6": [
+      "shared inputs changed"
+    ],
+    "shared:recvmiXheOIXXi": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtyb6yLAl": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtyEujTZ1": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtz1y4ReX": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtzpXFjxH": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtzPnygUH": [
+      "shared inputs changed"
+    ],
+    "shared:recvob1UVb2vLT": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtLE9aMJa": [
+      "shared inputs changed"
+    ],
+    "shared:reczz28azvR66R4a": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPuupw8MTT": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPuxIa4nK7": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPuAMvtXHT": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPuEqbVGK6": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPuHlCSNKs": [
+      "shared inputs changed"
+    ],
+    "shared:reczz28azxg3CJMK": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtOn6UqbP": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtRh7nvjU": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPtUuUu4el": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUId1kLImN": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWs3Xt0EG": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWzUlvYoV": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWBvd2QTv": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWMyUPaS4": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWQKXwuqf": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWT2D8Gjx": [
+      "shared inputs changed"
+    ],
+    "shared:recvlUWUQGODld": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvbnOXxlM": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvdszHqaO": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvgjcQdII": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvhgnFFDA": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvjOudf2Z": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvlBPwyMm": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvni6z12G": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvps6Vpde": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvrt6KTif": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvtPoZNRE": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvwdnURsZ": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvxLc6exY": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvzooBaHs": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvBahthMV": [
+      "shared inputs changed"
+    ],
+    "shared:recvoRzF7kb5hZ": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvCRBemua": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvEwuN1gf": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvGmAYglw": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvI4UujsG": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvJP0pbh9": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPvLU6eZIJ": [
+      "shared inputs changed"
+    ],
+    "shared:recvlPnHgnRg7i": [
+      "shared inputs changed"
+    ],
+    "shared:recvm2lliV1DA6": [
+      "shared inputs changed"
+    ],
+    "A4jhweVMMigHOpkwDlLcKo0SnFe": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "BClgwKlHaiushBkPPssclTkYnef": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "GanXwLnJkiymKVkNPhecdi9MnGf": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "IrQ2wm2oaiAWl4kqQhkc303Rnlg": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "KnnBwce9JifxvXkd070cvgUPnag": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
     "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to BnYLwepruiGNpwkJfBHcdrrOnOh"
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
     ],
-    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
-      "incoming reference to BnYLwepruiGNpwkJfBHcdrrOnOh"
+    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "MocQwCCItiHYEbkkJtOcROPTnod": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "OFl9wHXpriM8aEkoONScpU1lnIf": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "OJVrwOiE4i3fFjk2J3NcneLznfh": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "PV2bwNENViEjXWkOgzZcXoKHnce": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "RxUiwJ77WiFKZGkC8rEcLeopnTf": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe": [
+      "incoming reference to BaGlwzDmyiyVvVk6NurcFclInCd"
+    ],
+    "WTsmwWdgOiKnwpkdZdScp093njh": [
+      "incoming reference to CpBbwcJ87irHp0k9oCSc2RNIn3d"
+    ],
+    "Fighwx5zFiwaoIkV4q5cAJ1enDg": [
+      "incoming reference to JWZGw89MBiUDBNkhtGfcyyUcnsd"
+    ],
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
+      "incoming reference to LBbUwOGcwi1UMak3eE2cM1gvnUe"
+    ],
+    "BJCjwpj8JizP0nkI11uci1pPndh": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "BnYLwepruiGNpwkJfBHcdrrOnOh": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "CmR5wFcybi3iMokOJBxcXDQcntg": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "EAwdw2ZbtiBKttk66FTctUebn7f": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "EOxmwUDxMiy2cpkOfIsc1dYzn4c": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "GBynwwkyBihIHukvJXfc76dMnth": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "H8MVwnjdgihp0hkRHHKcjBe9n5e": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "LRRVwYzxKioMiMk7cf6czQuhn7d": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
+    ],
+    "PlX3wo82Di6oWVkg2ercRWCUnvV": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
     ],
     "Pulhw06e5iXJTFkidFXcGbylnod": [
-      "incoming reference to BnYLwepruiGNpwkJfBHcdrrOnOh"
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
     ],
-    "GLxhwO5vWiWkTBkoNCPcg4ahnbe": [
-      "outgoing reference from Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "WZe4w7lNji6RVHkR5alcrTw8nQ2": [
+      "incoming reference to RQTRwhOVPiwnwokqr4scAtyfnBf"
     ],
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
-      "outgoing reference from Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "N6fZwCUXqiqoJEkFiVNcvDJEnnc": [
+      "incoming reference to QVTnwVz2aifvSAkgomAc9KWRnHb"
     ],
-    "ESVGwTkn8iLfUakSSrkc5dWJnye": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
+      "incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd"
     ],
-    "HDmKwGeGLi2P67kGdNXcigXDn3e": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd": [
+      "incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd"
     ],
-    "HHXewT7wTiM1zqkySjHcMNX5n9b": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "R33EwQchxiO3HKk4vPnce6vkntc": [
+      "incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd"
     ],
-    "OZtawoDUci0CKokf9RlchvInnMf": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe": [
+      "incoming reference to QWqiwrgJViA5AJkv64VcgQX2nKd"
     ],
-    "WBONwyqFAi02DTkCG41c93wCn6e": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "B7SFwbn76iUM06kkYzBcffE8nYf": [
+      "incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic"
     ],
-    "ZvSOwB7zkir7PjkzrOPciC5WnTe": [
-      "incoming reference to Dd6jwYIGiiz6HWkEPJqcpMA3n6g"
+    "KTWtw4V6SiTpDMkeGMQc8lChn8b": [
+      "incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic"
     ],
-    "DjROwgK6ziCf7Rkoji6ccyEUnsg": [
-      "outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e"
+    "PNj2w5fY9ifr82kbX8ucKgXAn0r": [
+      "incoming reference to DtLVw8EUyi6MqMkXh3Cc3rfZnic"
     ],
-    "SOgiwzPxpisy8MkhtuecZqFbnaf": [
-      "outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e"
-    ],
-    "RlY2wylVQiZswikT0G2cBHVznTf": [
-      "outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e"
-    ],
-    "P3wrwSMNNihy8Vkf9p6cTsWYnTb": [
-      "outgoing reference from H2GHwE8umiuP6WkwjxPcQOfGn0e"
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
+      "incoming reference to EmcowmwYpiFbWgkmnqfcMf3knVc"
     ],
     "CK0ewQWC2iz6lakP0kscqogbnGh": [
-      "incoming reference to H2GHwE8umiuP6WkwjxPcQOfGn0e"
+      "incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg"
+    ],
+    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
+      "incoming reference to WMh8w3tbKiBhukk3ICMc4ctznEg"
+    ],
+    "IO4fwm5fJiroaoktKeIcbdkDnRb": [
+      "incoming reference to CemEwKryciMUepkgYWZcOw6wncb"
+    ],
+    "IxO5wZ1meiYrTckUPkQca9JOnbS": [
+      "incoming reference to CemEwKryciMUepkgYWZcOw6wncb"
+    ],
+    "MTqjwwUKhiyns4kGV7Lc7PRlnwb": [
+      "incoming reference to CemEwKryciMUepkgYWZcOw6wncb"
+    ],
+    "XDoSwZodyigAEVkjkWfc9nsfnCg": [
+      "incoming reference to CemEwKryciMUepkgYWZcOw6wncb"
+    ],
+    "Vs4YwNnvzitoQ8kunlGcWMJInbf": [
+      "incoming reference to D2ctwKZhNilLY0ke1vpcHL62n5G"
     ],
     "EA2twSf5oiERMDkriKScU9GInc4": [
-      "incoming reference to H2GHwE8umiuP6WkwjxPcQOfGn0e"
+      "incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg"
     ],
-    "EO58wVRLpiTBXQkceRjccN28nrh": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
+      "incoming reference to ARalwpaVDiCwDZkoSHtcPNgXnRg"
     ],
-    "DsqzwjegpiYSdtk1k75c1zXsnZc": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "BYtDwHuOXiG7imkyIjHcWa6fnlb": [
+      "incoming reference to NTwawtvYdiXTkukbss7ccw2RnXc"
     ],
-    "D1E4wLr5xiuHoFkJgblcHZ1FnLb": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "BcXMwUYQ3iD7mEkWKFhcU5PUnB5": [
+      "incoming reference to Neq4wR0EdiXokRkhXwbcMPfanCd"
     ],
-    "KmYgwHNOFiPQ9sk4bSDcMuIHnjC": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "JPNiwF6rPiNe0pkx460cr321nTc": [
+      "incoming reference to MBVVww2Zii8k6Bk77GJcXbZJnpf"
     ],
-    "QuBiwrIJdiDw3ckVDKBcPofinfe": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "WBONwyqFAi02DTkCG41c93wCn6e": [
+      "incoming reference to MBVVww2Zii8k6Bk77GJcXbZJnpf"
     ],
-    "UgqvwKh2QiKE1kkYNLJcaHt0nkg": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "JaTxw9EtHivMv9kMSAnckG0vn1b": [
+      "incoming reference to OVxRwZWxNi4pYrkdKxCcOuY2nf1"
     ],
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "H2GHwE8umiuP6WkwjxPcQOfGn0e": [
+      "incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg"
     ],
-    "J274wT61xiEM4fkYeL8cMb4Pnbd": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "OZtawoDUci0CKokf9RlchvInnMf": [
+      "incoming reference to DjROwgK6ziCf7Rkoji6ccyEUnsg"
     ],
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
+      "outgoing reference from UR9SwucAIiQ2TYkc9EucsgvSnng"
     ],
-    "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh": [
-      "outgoing reference from KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "V7xfwDariioU5GkcmfXctzSEnyc": [
+      "incoming reference to Oyy6w5DYJiVCMYkdduEc6eD9nZg"
     ],
-    "BjHZwBkk0iFScik49QMc1Wwjndb": [
-      "incoming reference to KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "Dj2NwrlqTiYlmDkwfAbcJNWSntd": [
+      "incoming reference to QZYhwcQhWigYTVkLnHeczkwYnZb"
     ],
-    "KkdswLx2bi4bgCkY6bEc7Do9neh": [
-      "incoming reference to KrbjwFhy3iojF3k97XmcvvXMnW7"
+    "O2YiwLai5iSjT1k1WEsc06E8nEe": [
+      "incoming reference to WMSvwXXz4iR7mZkGmUscF3Y1nxs"
     ],
-    "O1kHwD3jsioeD1km983cCRx7ndh": [
-      "incoming reference to KrbjwFhy3iojF3k97XmcvvXMnW7"
-    ],
-    "QUe4wFnNvifiufkXD9xcs0AAnSc": [
-      "outgoing reference from PSK1wxf6Qi2EENkCjc2cyNBSn0g"
+    "HHXewT7wTiM1zqkySjHcMNX5n9b": [
+      "incoming reference to XC1ow3jGBi7hVvkINtBcXhQ6n8g"
     ]
   },
   "warnings": [],
   "affected_tables": [
     "tbl9BeCMjBmalJVb",
-    "tblLMqwkNDtAEK5p",
     "tblWv7PjNDsexddH",
     "tblZMzoITXNsyKmQ",
-    "tblgHPdSvZP8gUz6",
     "tblh7utKxg0dgdTo"
   ],
   "current_table_targets": {
@@ -400,8 +2625,8 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-11-19T18:35:26.808Z",
-    "records": 408
+    "generated_at": "2026-11-23T02:56:18.117Z",
+    "records": 411
   },
   "source_scope": "partial"
 }
