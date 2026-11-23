@@ -119,7 +119,7 @@ import {parseLock} from '../../core/lock'
 import {guidesNextOutputPaths, validateGuidesPage, validateGuidesSource, guidesVariantNames} from './guides-batch-registry'
 import {resolveManualPublication} from '../../../manuals/registry'
 import {BatchDiagnosticsSchema, BatchManualSchema, BatchRawTreeSchema, BatchImagesSchema, BatchPageMaterialHeaderSchema, BatchClosureSchema, BatchMaterialsSchema,
-  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchCopyProofSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchRestoreProof, type BatchCopyProof} from './batch-collection-contract'
+  BatchDiscoveryCommitmentSchema, BatchEdgeSchema, BatchAtLockProofSchema, BatchCopyProofSchema, BatchRestoreProofSchema, BatchAdoptionCommitmentSchema, BatchEffectiveNamespaceSchema, BatchDispositionsSchema, BatchObligationSchema, BatchIntervalsSchema, parseBatchCanonical, type BatchMaterialWire, type BatchPageMaterialHeader, type BatchProjection, type BatchEdge, type BatchAtLockProof, type BatchRestoreProof, type BatchCopyProof} from './batch-collection-contract'
 import type {BatchDiscoveryReport} from '../../core/updates/batch-discovery'
 import type {AdoptionDependency, AnchorRelation, HeadingObservation, ReferenceObservation} from '../../core/updates/types'
 
@@ -294,7 +294,7 @@ export interface BatchClosureAnalysis {groups: {memberIds: string[]; seedKeys: s
   obligations: BatchObligation[]; reasons: string[]; namespace: {pageId: string; manual: string; path: string; role: 'oldNext' | 'target' | 'existing'; ref: BatchBlobRef}[]}
 /** Pure semantics over compact, already observed projections; this function cannot issue execution authority. */
 export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger: readonly BatchEdge[]; history: readonly {oid: string; parents: string[]}[];
-  pages: readonly BatchCompactPage[]; restorations?: ReadonlyMap<string, BatchRestoreProof>; copies?: ReadonlyMap<string, BatchCopyProof>}): BatchClosureAnalysis {
+  pages: readonly BatchCompactPage[]; atLocks?: ReadonlyMap<string, BatchAtLockProof>; restorations?: ReadonlyMap<string, BatchRestoreProof>; copies?: ReadonlyMap<string, BatchCopyProof>}): BatchClosureAnalysis {
   const {report, pages, ledger} = input, reasons = new Set<string>(), add = (reason: string) => reasons.add(reason)
   const byPage = new Map(pages.map(p => [p.header.pageId, p])), registry = report.pages.map(p => p.pageId).sort(compareUtf8)
   if (byPage.size !== pages.length || pages.some(p => !registry.includes(p.header.pageId))) add('BATCH_MATERIAL_PAGE_SET_INVALID')
@@ -311,6 +311,26 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     const proof = edge.restorationRef && input.restorations?.get(edge.restorationRef.sha256)
     return edge.associationResult === 'restored' && proof !== undefined && restoreEdgeMatches(proof, edge)
   }
+  const prPathReason = 'PR_PATH_REQUIRES_COLLECTOR'
+  const prPaths = report.dependencies.filter(clue => clue.reasons.includes(prPathReason))
+  const provedClues = new Set<typeof prPaths[number]>()
+  for (const edge of ledger) {
+    const ref = edge.atLockRef, proof = ref && input.atLocks?.get(ref.sha256)
+    if (!ref || !proof || edge.associationResult !== 'complete' || edge.introductionOid !== edge.commit || !edge.parent ||
+        !edge.seedKey?.startsWith('pr:') || !edge.newPath || edge.newPath !== edge.oldPath || !edge.newOid || !edge.oldOid ||
+        !edge.rangeIds.includes(proof.pageId) || report.pages.find(p => p.pageId === proof.pageId)?.sourceFile !== edge.newPath) continue
+    const certificate = canonicalBytes(proof)
+    if (certificate.length !== ref.bytes || batchSha256(certificate) !== ref.sha256) continue
+    const evidence = sorted(['at-lock:' + ref.sha256, 'pr-file:' + edge.seedKey.slice(3) + ':modified:' + edge.newOid])
+    const matches = prPaths.filter(clue => same(clue.pageIds, [proof.pageId]) && same(clue.seedKeys, [edge.seedKey]) &&
+      same(clue.paths, [edge.newPath]) && same(clue.evidence, evidence))
+    if (matches.length === 1) provedClues.add(matches[0])
+  }
+  const resolvedPaths = (pageId?: string) => {
+    const clues = pageId === undefined ? prPaths : prPaths.filter(clue => clue.pageIds.includes(pageId))
+    return clues.length > 0 && clues.every(clue => provedClues.has(clue))
+  }
+  if (prPaths.some(clue => !provedClues.has(clue))) add(prPathReason)
   // Provisional fragment hints are examined above selection; only actual consumed edge/seed evidence creates source connectivity.
   const obligations: BatchObligation[] = []
   for (const [index, edge] of ledger.entries()) {
@@ -362,7 +382,10 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   for (const obligation of obligations) if (obligation.status === 'held' && obligation.consumedPaths.length) required.add(root(obligation.pageId))
   const groups: BatchClosureAnalysis['groups'] = []
   const ignorable = new Set(['NO_DIRECT_SOURCE_CHANGE', 'FRAGMENT_REQUIRES_COLLECTOR', 'UNMAPPED_SOURCE_CHANGE', 'REPLAY_ONLY'])
-  for (const reason of report.reasons) if (!ignorable.has(reason) && reason !== 'UNKNOWN_COMMIT_ASSOCIATION') add(reason)
+  for (const reason of report.reasons) {
+    if (ignorable.has(reason) || reason === 'UNKNOWN_COMMIT_ASSOCIATION' || reason === prPathReason && resolvedPaths()) continue
+    add(reason)
+  }
   for (const key of sorted(required)) {
     const memberIds = registry.filter(id => root(id) === key), seedKeys = sorted(memberIds.flatMap(id => [...membership.get(id)!]))
     const dispositions: Disposition[] = []
@@ -371,7 +394,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
       if (configured.active !== true) held.add(configured.active === false ? 'INACTIVE_NECESSARY_PAGE' : 'ACTIVE_STATE_UNKNOWN')
       if (configured.published !== true) held.add(configured.published === false ? 'UNPUBLISHED_NECESSARY_PAGE' : 'PUBLISHED_STATE_UNKNOWN')
       for (const reason of configured.reasons) {
-        if (ignorable.has(reason)) continue
+        if (ignorable.has(reason) || reason === prPathReason && resolvedPaths(id)) continue
         if (reason === 'UNKNOWN_COMMIT_ASSOCIATION' && obligations.filter(o => o.pageId === id && o.status === 'consumed').length &&
             !obligations.some(o => o.pageId === id && o.status === 'held')) continue
         held.add(reason)
@@ -541,6 +564,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const restorations = new Map<string, BatchRestoreProof>()
     const copies = new Map<string, BatchCopyProof>()
+    const atLocks = new Map<string, BatchAtLockProof>()
     for (const edge of discovery.ledger) {
       const ref = edge.restorationRef
       if (ref && !restorations.has(ref.sha256)) restorations.set(ref.sha256,
@@ -548,8 +572,11 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       const copy = edge.copyRef
       if (copy && !copies.has(copy.sha256)) copies.set(copy.sha256,
         parseBatchCanonical(await operation.store.readBlob(copy), BatchCopyProofSchema))
+      const atLock = edge.atLockRef
+      if (atLock && !atLocks.has(atLock.sha256)) atLocks.set(atLock.sha256,
+        parseBatchCanonical(await operation.store.readBlob(atLock), BatchAtLockProofSchema))
     }
-    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations, copies})
+    const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations, copies, atLocks})
     if (currentBatchLifetime()) {
       const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.groups[0]?.memberIds ?? [],
         waitingGroups: analysis.groups.slice(1).map(g => ({memberIds: g.memberIds, componentIds: g.componentIds, seedKeys: g.seedKeys})),

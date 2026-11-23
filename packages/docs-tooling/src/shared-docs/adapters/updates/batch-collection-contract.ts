@@ -516,6 +516,8 @@ export const BatchAtLockProofSchema = z.strictObject({pageId: BatchPageIdSchema,
   detailRef: BatchBlobRefSchema, filesRef: BatchBlobRefSchema, associationRef: BatchBlobRefSchema,
 })
 
+export type BatchAtLockProof = z.infer<typeof BatchAtLockProofSchema>
+
 export const BatchEdgeSchema = z.strictObject({commit: GitShaSchema, parent: GitShaSchema.nullable(), oldPath: RepoPathSchema.nullable(), newPath: RepoPathSchema.nullable(),
   oldOid: GitShaSchema.nullable(), newOid: GitShaSchema.nullable(), oldMode: z.enum(['100644', '100755']).nullable(), newMode: z.enum(['100644', '100755']).nullable(),
   rangeIds: strings(BatchPageIdSchema), associationResult: z.enum(['complete', 'unknown', 'irrelevant', 'restored', 'copied']), introductionOid: GitShaSchema.nullable(),

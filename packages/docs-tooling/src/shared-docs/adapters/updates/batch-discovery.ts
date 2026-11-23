@@ -144,7 +144,7 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
 }
 
 interface PageRange { page: BatchPageObservation; members: Set<string>; fragments: Set<string>; interval: BatchInterval }
-// This discharges duplicate PR-file metadata, never the real ordinary merge edge.
+// This proves a repeated PR-file clue without discharging the ordinary merge edge.
 async function provePathAtLock(store: BatchGitStore, history: BatchHistory, range: PageRange, merge: BatchEdge, ledger: BatchEdge[]) {
   const {page, members} = range
   if (members.size > 128) return false
@@ -159,7 +159,9 @@ async function provePathAtLock(store: BatchGitStore, history: BatchHistory, rang
   for (const commit of members) {
     const after = await entry(commit)
     if (!after) return false
-    for (const parent of history.parents(commit)) {
+    const parents = history.parents(commit)
+    if (!parents.length) return false
+    for (const parent of parents) {
       const before = await entry(parent)
       if (!before) return false
       if (before.oid === after.oid && before.mode === after.mode) continue
@@ -517,7 +519,7 @@ next: ${page.oldNext}
       }
     }
     clue([page.pageId], [key], [file.path], certificate ? [ref, 'at-lock:' + certificate.sha256] : [ref],
-      certificate ? [] : ['PR_PATH_REQUIRES_COLLECTOR'])
+      ['PR_PATH_REQUIRES_COLLECTOR'])
   }
   const survivingTouches = new Map<PageRange, Set<string>>()
   for (const {range, commit, path, row} of intervalTouches) {
