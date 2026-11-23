@@ -145,6 +145,17 @@
       "fragment": "03-vector-operations.json"
     },
     {
+      "opKey": "post /v2/vectordb/collections/add_function_field",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c",
+      "firstSeenAt": "2026-11-23",
+      "classification": "deferred",
+      "reason": "Recursive upstream subtree defer (2026-11-23 human adjudication of the milvus-data-plane refresh @ 8e8036ce, PR #1414): `outputField` (upstream-modified) has a self-referential upstream schema with no finite mirror value. Hand-authored fragment updates are deferred to the function-field documentation pass; the mirror lane writes nothing for this node until then, and each refresh keeps reporting it for visibility.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "05-collection-operations-v2.json"
+    },
+    {
       "opKey": "post /v2/vectordb/collections/create",
       "source": "milvus-data-plane",
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
@@ -153,6 +164,17 @@
       "reason": "Bootstrap: upstream field(s) not covered by any scenario branch of a branched operation (milvus-data-plane spec at the pinned commit). Branch attribution is a human decision; this entry only records that the delta is known. Release-track attribution (2026-11-01): the operation itself is 2.6.x floor; the deferral is about scenario-branch field coverage, not version availability.",
       "owner": "rest-upstream-bootstrap",
       "decidedAt": "2026-10-28",
+      "fragment": "05-collection-operations-v2.json"
+    },
+    {
+      "opKey": "post /v2/vectordb/collections/fields/add",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c",
+      "firstSeenAt": "2026-11-23",
+      "classification": "deferred",
+      "reason": "Recursive upstream subtree defer (2026-11-23 human adjudication of the milvus-data-plane refresh @ 8e8036ce, PR #1414): `schema` (upstream-modified) has a self-referential upstream schema with no finite mirror value. Hand-authored fragment updates are deferred to the collection-schema documentation pass; the mirror lane writes nothing for this node until then, and each refresh keeps reporting it for visibility.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
       "fragment": "05-collection-operations-v2.json"
     },
     {
@@ -167,6 +189,17 @@
       "fragment": "05-collection-operations-v2.json"
     },
     {
+      "opKey": "post /v2/vectordb/collections/struct_fields/add",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c",
+      "firstSeenAt": "2026-11-23",
+      "classification": "deferred",
+      "reason": "Recursive upstream subtree defer (2026-11-23 human adjudication of the milvus-data-plane refresh @ 8e8036ce, PR #1414): `schema` (upstream-modified) has a self-referential upstream schema with no finite mirror value. Hand-authored fragment updates are deferred to the struct-field documentation pass; the mirror lane writes nothing for this node until then, and each refresh keeps reporting it for visibility.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "05-collection-operations-v2.json"
+    },
+    {
       "opKey": "post /v2/vectordb/entities/advanced_search",
       "source": "milvus-data-plane",
       "firstSeenPin": "6d833a672807e7c75c490c9383f68a42ed1142ea",
@@ -175,6 +208,28 @@
       "reason": "Confirmed public API per doc-team decision (2026-10-29). Adoption pending: author the fragment (and the zh-CN titles.json mapping) in a scheduled refresh; this entry records the known delta and the confirmed intent to document. Release-track attribution (2026-11-01, source-verified): no released track yet — route absent in v2.6.26 and v3.0.0-v3.0.5; exists only on master at the pinned commit. Re-check before writing the fragment.",
       "owner": "doc-team",
       "decidedAt": "2026-10-28"
+    },
+    {
+      "opKey": "post /v2/vectordb/entities/hybrid_search",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c",
+      "firstSeenAt": "2026-11-23",
+      "classification": "deferred",
+      "reason": "Recursive upstream subtree defer (2026-11-23 human adjudication of the milvus-data-plane refresh @ 8e8036ce, PR #1414): `searchAggregation` (upstream-added-field) and `search` (upstream-modified) carry self-referential upstream schemas (nested struct fields / sub-aggregations) with no finite mirror value. Hand-authored fragment updates are deferred to the hybrid-search documentation pass; the mirror lane writes nothing for these nodes until then, and each refresh keeps reporting them for visibility.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "04-vector-operations-v2.json"
+    },
+    {
+      "opKey": "post /v2/vectordb/entities/search",
+      "source": "milvus-data-plane",
+      "firstSeenPin": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c",
+      "firstSeenAt": "2026-11-23",
+      "classification": "deferred",
+      "reason": "Recursive upstream subtree defer (2026-11-23 human adjudication of the milvus-data-plane refresh @ 8e8036ce, PR #1414): `searchAggregation` (upstream-modified) has a self-referential upstream schema with no finite mirror value. Hand-authored fragment updates are deferred to the hybrid-search documentation pass; the mirror lane writes nothing for this node until then, and each refresh keeps reporting it for visibility.",
+      "owner": "doc-team",
+      "decidedAt": "2026-11-23",
+      "fragment": "04-vector-operations-v2.json"
     },
     {
       "opKey": "post /v2/vectordb/jobs/snapshot/export/describe",
