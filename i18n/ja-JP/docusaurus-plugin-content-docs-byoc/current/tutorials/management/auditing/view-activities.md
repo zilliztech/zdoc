@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # プラットフォーム監査ログ
@@ -91,6 +93,8 @@ import Procedures from '@site/src/components/Procedures';
 ### 転送の設定\{#configure-forwarding}
 
 次のデモでは、Amazon S3 統合を使用した設定を示します。
+
+<Supademo id="cmw2xvh8s041yqmuzkl534a4d" title=""  />
 
 <Procedures>
 

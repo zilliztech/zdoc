@@ -1001,9 +1001,9 @@
       "translatedAt": "2026-11-18T12:31:16.860Z"
     },
     "content/en/byoc/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "e231093153c952e9fa4fa2719466d8d7d1d4e35ad66cb000802d39cadd789a5b",
+      "sourceHash": "ee79a429e58e6283eee4a3c0c99608ced2ea9bea95bcb56f4629a1116bc62279",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/byoc/tutorials/management/auditing/audit-logs-ref.md": {
       "sourceHash": "67c7595c6e94dfdad6f3973df9ef4ec6a94b81e7e4cbeda6865962756c6c79af",
@@ -1011,14 +1011,14 @@
       "translatedAt": "2026-11-18T12:31:16.860Z"
     },
     "content/en/byoc/tutorials/management/auditing/audit-logs.md": {
-      "sourceHash": "f3d12d5db55964cc5546366ec2233fbf737c289b6ca4ad043e1c53f1f57f19b8",
+      "sourceHash": "88d7068019fd5cda612127636d23bcb6fe4f16eac538401bd865d60dd1e1754c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/audit-logs.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/byoc/tutorials/management/auditing/view-activities.md": {
-      "sourceHash": "66a411f4ae050e7be2fbc194228d3982027fdc0e5dbcec0e93a45748112ee347",
+      "sourceHash": "43d0ec03085993d4c86614adb8af27617b586aa90815e571bafd7619d49e53b1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/auditing/view-activities.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/byoc/tutorials/management/authentication/cluster-credentials.md": {
       "sourceHash": "26b0f49c69e781e1520b1d78a60496a0e1f6aeec51f84d09d2795cb6cc10fb8c",
@@ -1376,9 +1376,9 @@
       "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md": {
-      "sourceHash": "cf237e682892c51b5117b7e9c49f6edbe9ae77735f442f257d3ca4357eb487e5",
+      "sourceHash": "ab29b8fc647c76b36bac5ec190c984dbacb2c7ee9277ead2f2d9583fd0998070",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
       "sourceHash": "292d256d0ddfa25f4b34aa0a8eeca626f7cff696f47d0b88cb26d9005bc7ea2d",
@@ -1431,9 +1431,9 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/byoc/tutorials/management/slow-logs/configure-slow-logs.md": {
-      "sourceHash": "b9151d8fab9b04c0251839aa32018a0442096a81524d1911a6fbf418b35d86bb",
+      "sourceHash": "a6a4d7fa306470bfd3077a0df732fc7b893aa886473d60ea77e47f9c10236323",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/slow-logs/configure-slow-logs.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/byoc/tutorials/management/slow-logs/slow-log-reference.md": {
       "sourceHash": "94f2d919490f9cd3269a48f46063741c1d4c8d2c47d87ceb73488003891b41df",
@@ -2686,9 +2686,9 @@
       "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "c7bd7229815fe841936b761e170c1cf2225c199d0df716425d05944f9293eae3",
+      "sourceHash": "af0bb46f32672df4521617ac83f2643d5c232145b69f5ecf71b61c0e95531790",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs-ref.md": {
       "sourceHash": "96cb429bef49f28198758e1f798b7d75eca0596a15967ac223f8f42a7f91c886",
@@ -2696,14 +2696,14 @@
       "translatedAt": "2026-11-18T13:09:46.230Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs.md": {
-      "sourceHash": "58f7b8dab21e5507d99aab0c2706d41f0a9957f927f682b66274b84be13d90cf",
+      "sourceHash": "3579a0e1b70497ac57814dc8c7c03e3f2bd088d46e229691f2db41739afddfdd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/audit-logs.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/guides/tutorials/management/auditing/view-activities.md": {
-      "sourceHash": "c08b67233cafc10a8ecb0f0d9c56665b96065d960b7c1c379dd9a55f53fe97e2",
+      "sourceHash": "612ef3a1fa4dedb3700753c86e40bce89834fbc1c1d69f5f32d44806f8e00989",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/auditing/view-activities.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/guides/tutorials/management/authentication/cluster-credentials.md": {
       "sourceHash": "ca28ad2a28e7724cbd3b7636a3f3f8e9024c77273d055943ba05238fb8a3928b",
@@ -3141,9 +3141,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md": {
-      "sourceHash": "f0a01f13ed32c42ed28f11d2c2134340e663f672d2a4cfb4064356de0ac4f811",
+      "sourceHash": "6b41c4096a6c254642fcb78648489e4602d9a9d6672be45a92a2933bfc78f41c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring.md": {
       "sourceHash": "1512b0160d8439a77da505fbcbb5a206872b472c0662569c15f3335fac313991",
@@ -3271,9 +3271,9 @@
       "translatedAt": "2026-11-10T13:46:21.178Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
-      "sourceHash": "3aeb204c94b9f3d13bd8c1513bde5326e9ddc061bd065150ae5949095aacb3f0",
+      "sourceHash": "184944d20c90dc8643bc43e67e863eaa71f2104f75341bc9661ef381e5a4e4a2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/slow-logs/configure-slow-logs.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-23T11:43:48.679Z"
     },
     "content/en/guides/tutorials/management/slow-logs/slow-log-reference.md": {
       "sourceHash": "9d02e03fa3db9aeecf53cf53634e8db7f739a2c99db40680dd373fad6988c428",

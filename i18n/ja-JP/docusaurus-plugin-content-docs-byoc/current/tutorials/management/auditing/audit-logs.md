@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # VectorDB 監査ログ
@@ -50,6 +52,8 @@ VectorDB 監査ログを使用すると、検索、クエリ、コレクショ�
 ## 監査ログ転送を有効にする\{#enable-audit-log-forwarding}
 
 **パフォーマンスとコスト：** 監査ログは、クエリと書き込みのパフォーマンスに影響する可能性があり、監査ログの CU コストが発生します。有効にする前に、[監査ログのコスト](./audit-log-cost) を確認してください。
+
+<Supademo id="cmwa2w2pm068rqmfqew7gz7kh" title=""  />
 
 <Procedures>
 

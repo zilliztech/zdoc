@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # Slow Logs の設定
@@ -39,6 +41,8 @@ import Procedures from '@site/src/components/Procedures';
 スローログは、監査ログおよびアクセスログとは独立して構成します。スローログを構成するために、監査ログまたはアクセスログを無効にする必要はありません。統合を作成すると転送先が準備されます。以下の手順では、クラスターからの転送を有効にします。
 
 ## スローログ転送を有効にする\{#enable-slow-log-forwarding}
+
+<Supademo id="cmwa5r4vs07nwqmfqs04zwdz3" title=""  />
 
 <Procedures>
 
@@ -97,3 +101,4 @@ import Procedures from '@site/src/components/Procedures';
     - オブジェクトストレージの場合は、書き込み権限を確認し、構成したディレクトリを調べます。
 
     - HTTPS の場合は、レシーバーの可用性、認証設定、取り込みエラーを確認してください。
+

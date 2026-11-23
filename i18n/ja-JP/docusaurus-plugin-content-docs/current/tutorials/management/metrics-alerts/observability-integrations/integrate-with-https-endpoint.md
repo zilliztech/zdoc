@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # HTTPS エンドポイントとの連携
@@ -56,6 +58,8 @@ Zilliz Cloud ログを既存の監視システムまたはセキュリティシ�
 
 連携を作成するには、デモまたは以下の手順に従ってください。デモでは Bearer 認証を使用しています。サービスによっては異なる設定が必要になる場合があります。
 
+<Supademo id="cmw92iib60e7wqmiqdykjyr0l" title=""  />
+
 <Procedures>
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) でプロジェクトを選択し、**Integrations** を開きます。**HTTPS Endpoint** の下にある **+ Integration** をクリックします。
@@ -67,7 +71,7 @@ Zilliz Cloud ログを既存の監視システムまたはセキュリティシ�
     | Integration Name | 転送先を識別しやすい名前（例: `security-log-receiver`）を入力します。 |
     | HTTPS Endpoint URL | 受信サービスから提供されたログ取り込み URL 全体（例: `https://logs.example.com/ingest`）を入力します。プラットフォームのサインインページや Zilliz クラスターのエンドポイントではなく、取り込みインターフェースを使用してください。URL には、埋め込み認証情報や `#section` のようなフラグメントを含めることはできません。 |
 
-1. **サービスで認証ヘッダーが必要な場合**は、**Authentication Header** を有効にして、以下のフィールドに入力します。それ以外の場合は、無効のままにします。
+1. サービスで認証ヘッダーが必要な場合は、**Authentication Header** を有効にして、以下のフィールドに入力します。不要な場合は、無効のままにします。
 
     | フィールド | 説明 |
     | --- | --- |

@@ -18,6 +18,8 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # アクセスログの構成
@@ -40,6 +42,8 @@ import Procedures from '@site/src/components/Procedures';
     | ログ管理システムへのログ送信 | HTTPS 経由でログを受け付けるサービス、および URL と認証設定を備えた [HTTPS Endpoint 統合](./integrate-with-https-endpoint) |
 
 ## アクセスログ転送を有効にする\{#enable-access-log-forwarding}
+
+<Supademo id="cmwa4b8mn06pzqmfq90sv710t" title=""  />
 
 <Procedures>
 
@@ -102,3 +106,4 @@ import Procedures from '@site/src/components/Procedures';
     - オブジェクトストレージの場合は、書き込み権限を確認し、構成したディレクトリを調べてください。
 
     - HTTPS の場合は、レシーバーの可用性、認証設定、取り込みエラーを確認してください。
+
