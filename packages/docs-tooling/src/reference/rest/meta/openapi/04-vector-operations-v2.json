@@ -6082,9 +6082,14 @@
             "content": "<p>Include the <code>FLOAT_VECTOR</code> field in <code>outputFields</code> and add this header to your request:</p><pre><code>Accept-Type-Float-Vector-Encoding: base64</code></pre><p>For a field named <code>vector</code> containing <code>[1.0, -2.0]</code>, the response entity contains:</p><pre><code>{\"vector\": \"AACAPwAAAMA=\"}</code></pre><p>Decode the value in Python:</p><pre><code class=\"language-python\">import base64\nimport struct\n\nraw = base64.b64decode(\"AACAPwAAAMA=\")\nvector = list(struct.unpack(f\"&lt;{len(raw) // 4}f\", raw))\n# [1.0, -2.0]</code></pre>"
           }
         ],
-        "x-include-target": [
-          "milvus"
-        ],
+        "x-i18n": {
+          "zh-CN": {
+            "description": "控制非聚合结果中返回的 `FLOAT_VECTOR` 字段的响应编码,包括嵌套在 struct 数组中的字段。`array`(默认)返回由数字组成的 JSON 数组,`base64` 返回 Base64 字符串。其他向量类型、标量字段和 dynamic field 数组保持其现有表示形式。此 header 不改变请求数据的编码。\n\n该 header 不适用于 `searchAggregation` 结果。即使 header 为 `base64`,聚合 `topHits` 中的 `FLOAT_VECTOR` 字段仍保持其现有字符串表示形式,例如 `\"[0.1 0.2]\"`。\n\n使用 `base64` 时,每个字符串包含向量坐标的标准填充 Base64 编码,坐标按其原始顺序排列为 little-endian IEEE 754 float32 字节。先将字符串解码为字节,再将每四个字节解释为一个 little-endian float32 值。`base64` 模式会拒绝返回坐标中的 NaN 以及正无穷或负无穷。\n\n空向量值在两种模式下均保持为 JSON `null`。如果非空零长度向量进入序列化,在 `array` 模式下编码为 `[]`,在 `base64` 模式下编码为 `\"\"`。Milvus 仍要求向量维度为正。查询未返回的字段不会出现在响应实体中。\n\n取值区分大小写。省略或为空时使用 `array`;忽略值开头和结尾的空格或制表符。该 header 只能提供一次。不支持的取值、逗号分隔的取值列表或重复的 header 字段(即使取值相同)都会返回 HTTP 200,响应体为 `code: 1100`(参数无效)。"
+          },
+          "ja-JP": {
+            "description": "非集計結果で返される `FLOAT_VECTOR` フィールド(struct 配列にネストされたものを含む)のレスポンスエンコーディングを制御します。`array`(デフォルト)は数値の JSON 配列を、`base64` は Base64 文字列を返します。その他のベクトル型、スカラーフィールド、dynamic field の配列は既存の表現を維持します。このヘッダーはリクエストデータのエンコーディングを変更しません。\n\nこのヘッダーは `searchAggregation` の結果には適用されません。ヘッダーが `base64` であっても、集計 `topHits` 内の `FLOAT_VECTOR` フィールドは `\"[0.1 0.2]\"` のような既存の文字列表現を維持します。\n\n`base64` の場合、各文字列は、ベクトル座標を元の順序で little-endian IEEE 754 float32 バイトとして標準のパディング付き Base64 でエンコードしたものです。文字列をバイトにデコードし、4 バイトごとを little-endian float32 値として解釈してください。`base64` モードは、返される座標に含まれる NaN および正または負の無限大を拒否します。\n\nnull ベクトル値は両モードとも JSON `null` のままです。非 null の長さゼロのベクトルがシリアライズに達した場合、`array` モードでは `[]`、`base64` モードでは `\"\"` としてエンコードされます。Milvus では引き続きベクトルの次元は正である必要があります。クエリが返さないフィールドはレスポンスエンティティに現れません。\n\n値の大文字と小文字は区別されます。省略した場合または空の値は `array` として扱われ、値の前後の空白やタブは無視されます。このヘッダーは 1 回だけ指定してください。サポートされていない値、カンマ区切りの値のリスト、繰り返されたヘッダーフィールド(値が同じ場合でも)は、HTTP 200 とレスポンスボディ `code: 1100`(無効なパラメータ)を返します。"
+          }
+        },
         "x-added-at": "3.0.x",
         "x-last-modified": "3.0.x",
         "x-deprecated-since": null
