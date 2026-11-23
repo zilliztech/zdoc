@@ -909,6 +909,12 @@ test('upstream Go comments are harvested onto entries and never ride change.afte
     const upstream = treeUpstream()
     upstream.components.schemas.CollectionNameReq.properties.dbName['x-upstream-comment'] = 'DbName selects the database scope.'
     upstream.components.schemas.CollectionNameReq.properties.newField = {type: 'string', 'x-upstream-comment': 'NewField toggles the fast path.'}
+    // Validation literals ride the operation's bare $ref request-schema node
+    // — pre-resolution, exactly where the extractor attaches them.
+    upstream.paths['/v2/vectordb/collections/list'].post.requestBody.content['application/json'].schema['x-upstream-validation'] = [
+        'toProto: collectionName is required',
+        'toProto: projection must be an object',
+    ]
     const result = diffSpecifications({
         source: TREE_SOURCE,
         upstreamPin: SHA,
@@ -927,4 +933,25 @@ test('upstream Go comments are harvested onto entries and never ride change.afte
     // Entries without comments carry no upstreamComments key at all (byte-stable output)
     const uncommented = result.entries.filter(entry => !('upstreamComments' in entry))
     assert.ok(uncommented.length > 0, 'some entries carry no comment key at all')
+    // Validation literals are entry-level: every entry of the operation sees
+    // the same verbatim lines, and no marker survives into any value.
+    for (const entry of result.entries) {
+        assert.deepEqual(entry.upstreamValidation, ['toProto: collectionName is required', 'toProto: projection must be an object'])
+        assert.equal(JSON.stringify(entry.change.after).includes('x-upstream-validation'), false)
+    }
+})
+
+test('a spec-file upstream with no validation marker keeps diff output byte-stable', () => {
+    const upstream = treeUpstream()
+    delete upstream.paths['/v2/vectordb/collections/list'].post['x-milvus-handler']
+    delete upstream.paths['/v2/vectordb/collections/list'].post['x-milvus-request-struct']
+    const result = diffSpecifications({
+        source: SOURCE,
+        upstreamPin: SHA,
+        upstream,
+        fragments: new Map([['05-collection-operations-v2.json', treeFragment()]]),
+        ledger: EMPTY_LEDGER,
+        ruleset: RULESET,
+    })
+    for (const entry of result.entries) assert.equal('upstreamValidation' in entry, false)
 })

@@ -12,7 +12,10 @@
       "handler": "createCollection",
       "requestStruct": "CreateCollectionReq",
       "requestSchema": {
-        "$ref": "#/components/schemas/CreateCollectionReq"
+        "$ref": "#/components/schemas/CreateCollectionReq",
+        "x-upstream-validation": [
+          "toProto: quickSetup dimension must be greater than 0"
+        ]
       }
     },
     {

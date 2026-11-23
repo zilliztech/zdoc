@@ -42,6 +42,12 @@ const OPAQUE_KEY = 'x-milvus-opaque'
 // stripOpaqueMarkers keeps stripping it defensively so no tooling marker ever
 // rides into a fragment even if a future caller forgets to harvest first.
 const UPSTREAM_COMMENT_KEY = 'x-upstream-comment'
+// Entry-level sibling marker (the extractor's verbatim validation literals
+// from the request struct's receiver methods). The skeleton attaches it to
+// the operation's bare $ref request-schema node, which reference resolution
+// would swallow — so its harvest walks the RAW upstream node, and the same
+// defensive stripping applies.
+const UPSTREAM_VALIDATION_KEY = 'x-upstream-validation'
 
 function overlayOpaque(upstreamNode, localNode) {
     if (Array.isArray(upstreamNode)) {
@@ -74,7 +80,7 @@ function stripOpaqueMarkers(node) {
     if (!isPlainObject(node)) return node
     const result = {}
     for (const [key, child] of Object.entries(node)) {
-        if (key === OPAQUE_KEY || key === UPSTREAM_COMMENT_KEY) continue
+        if (key === OPAQUE_KEY || key === UPSTREAM_COMMENT_KEY || key === UPSTREAM_VALIDATION_KEY) continue
         result[key] = stripOpaqueMarkers(child)
     }
     return result
@@ -603,4 +609,34 @@ function stripScalarConstraints(value) {
     return result
 }
 
-module.exports = {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, undescribedNodes, hasDescription, isTranslationComplete, assertSchemaShape}
+// Entry-level harvest for the extractor's validation literals: flatten every
+// marker array in the RAW (pre-resolution) upstream subtree, document order,
+// deduped. Unlike the per-node comment harvest this is not path-keyed — the
+// lines describe the request struct's validation behavior as a whole.
+function harvestUpstreamValidation(node) {
+    const seen = new Set()
+    const lines = []
+    const walk = current => {
+        if (Array.isArray(current)) {
+            current.forEach(walk)
+            return
+        }
+        if (!isPlainObject(current)) return
+        if (Array.isArray(current[UPSTREAM_VALIDATION_KEY])) {
+            for (const line of current[UPSTREAM_VALIDATION_KEY]) {
+                const trimmed = typeof line === 'string' ? line.trim() : ''
+                if (trimmed && !seen.has(trimmed)) {
+                    seen.add(trimmed)
+                    lines.push(trimmed)
+                }
+            }
+        }
+        for (const child of Object.values(current)) {
+            if (child !== null && typeof child === 'object') walk(child)
+        }
+    }
+    walk(node)
+    return lines
+}
+
+module.exports = {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, harvestUpstreamValidation, assertMirrorValueBound, mirrorValueMatches, isDocOwnedKey, proseNodes, undescribedNodes, hasDescription, isTranslationComplete, assertSchemaShape}

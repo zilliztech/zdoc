@@ -56,6 +56,14 @@
           "description": "Grounding evidence only: the Go doc/trailing comment of the struct field this property came from. The diff harvests these onto its entries (upstreamComments) and strips the marker, so it never rides into a fragment.",
           "type": "string",
           "minLength": 1
+        },
+        "x-upstream-validation": {
+          "description": "Grounding evidence only: verbatim string literals from the request struct's receiver methods that mention one of its fields (validation vocabulary — accepted values, policies). Attached to the operation's request-schema node; the diff harvests these onto the entry (upstreamValidation) and strips the marker, so it never rides into a fragment.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
         }
       }
     },
