@@ -619,8 +619,8 @@
                             "description": "比較基準となる通常の整数フィールドの名前。書き込み値がこのフィールドの保存済み値と比較されます。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "onMissing": {
@@ -634,8 +634,8 @@
                             "description": "比較対象の保存済み値が存在しない場合のポリシー：`insert`（デフォルト、そのまま書き込む）、`skip`（行を破棄）、`error`（リクエストを拒否）。大文字・小文字は区別されません。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "op": {
@@ -649,8 +649,8 @@
                             "description": "保存済みの値に適用する比較：`gt`（より大きい）または `gte`（以上）。大文字・小文字は区別されません。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       }
                     },
@@ -663,8 +663,8 @@
                         "description": "条件付き書き込みの条件。insert エンドポイントは現在このフィールドを受け付けますが評価しません。条件付き書き込みは upsert エンドポイントでのみ有効です。"
                       }
                     },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
                   }
                 },
@@ -1328,8 +1328,8 @@
                             "description": "比較基準となる通常の整数フィールドの名前。書き込み値がこのフィールドの保存済み値と比較されます。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "onMissing": {
@@ -1343,8 +1343,8 @@
                             "description": "比較対象の保存済み値が存在しない場合のポリシー：`insert`（デフォルト、そのまま書き込む）、`skip`（行を破棄）、`error`（リクエストを拒否）。大文字・小文字は区別されません。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       },
                       "op": {
@@ -1358,8 +1358,8 @@
                             "description": "保存済みの値に適用する比較：`gt`（より大きい）または `gte`（以上）。大文字・小文字は区別されません。"
                           }
                         },
-                        "x-added-at": "2.6.x",
-                        "x-last-modified": "2.6.x",
+                        "x-added-at": "3.0.x",
+                        "x-last-modified": "3.0.x",
                         "x-deprecated-since": null
                       }
                     },
@@ -1372,8 +1372,8 @@
                         "description": "compare-and-set 書き込みを有効にします：`field` の書き込み値が保存済みの値に対して `op` の比較を満たす場合のみ行が書き込まれ、満たさない行はスキップされます。`field` は通常の整数フィールドである必要があります。この条件を設定すると部分更新として処理されます。"
                       }
                     },
-                    "x-added-at": "2.6.x",
-                    "x-last-modified": "2.6.x",
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
                   }
                 },
