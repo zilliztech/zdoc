@@ -795,7 +795,8 @@ def _batch_base(base):
             and pins['master'] == pins['trustedTools'] and DIGEST.fullmatch(pins['toolsetSha256']), 'BATCH_BASE_INVALID')
     origin = base['origin']
     if origin.get('kind') == 'observed':
-        batch_exact(origin, 'kind')
+        batch_exact(origin, 'kind purpose' if 'purpose' in origin else 'kind')
+        require('purpose' not in origin or origin['purpose'] == 'isolated-candidate', 'BATCH_BASE_INVALID')
     else:
         batch_exact(origin, 'kind fixtureSha256 replayClockMs')
         require(origin['kind'] == 'replay' and DIGEST.fullmatch(origin['fixtureSha256'])
@@ -994,7 +995,11 @@ def _batch_material(reader, retained, base):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
-    batch_exact(header, fields + (' detailRef' if base['origin']['kind'] == 'replay' and 'detailRef' in header else ''))
+    origin = base['origin']
+    isolated_candidate = origin['kind'] == 'observed' and origin.get('purpose') == 'isolated-candidate'
+    if isolated_candidate or (origin['kind'] == 'replay' and 'detailRef' in header):
+        fields += ' detailRef'
+    batch_exact(header, fields)
     require(header['kind'] == 'guides-batch-material-v1' and header['base'] == base
             and header['pageId'] == retained['pageId'] and batch_digest('material', header) == retained['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     for key, maximum in (('requestBytes', 32 * 1024**2), ('responseBytes', 128 * 1024**2)):

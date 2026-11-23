@@ -11,6 +11,7 @@ const repo = 'zilliztech/zdoc'
 const repoId = 660446555
 const page = 'json-field-overview'
 const lock = 'shared-docs/guides/pages/' + page + '/lock.yaml'
+const upstreamRepository = 'https://github.com/milvus-io/milvus-docs'
 const workflow = '.github/workflows/shared-guides-update.yml'
 const bot = 41898282
 const signer = 19864447
@@ -24,7 +25,7 @@ const number = value => {
   return n
 }
 
-export function context(env) {
+function workflowContext(env) {
   need(env.GITHUB_ACTIONS === 'true' && env.GITHUB_SERVER_URL === 'https://github.com' &&
     env.GITHUB_API_URL === 'https://api.github.com' && env.GITHUB_REPOSITORY === repo &&
     env.GITHUB_REPOSITORY_ID === String(repoId) && env.GITHUB_REF === 'refs/heads/master' &&
@@ -32,10 +33,23 @@ export function context(env) {
     env.GITHUB_WORKFLOW_REF === repo + '/' + workflow + '@refs/heads/master' &&
     env.GITHUB_JOB === 'write' && env.GITHUB_RUN_ATTEMPT === '1' &&
     ['schedule', 'workflow_dispatch'].includes(env.GITHUB_EVENT_NAME), 'Untrusted workflow context')
+  return {master:env.GITHUB_SHA,run:number(env.GITHUB_RUN_ID),attempt:1,event:env.GITHUB_EVENT_NAME}
+}
+
+export function context(env) {
+  const job = workflowContext(env)
   const digest = env.PREPARE_ARTIFACT_DIGEST
   need(typeof digest === 'string' && /^[a-f0-9]{64}$/.test(digest) && digest.length === 64, 'Invalid prepare artifact digest')
-  return { master:env.GITHUB_SHA, run:number(env.GITHUB_RUN_ID), attempt:1, event:env.GITHUB_EVENT_NAME,
-    artifact:number(env.PREPARE_ARTIFACT_ID), reportArtifact:number(env.REPORT_ARTIFACT_ID), digest }
+  return {...job,artifact:number(env.PREPARE_ARTIFACT_ID),reportArtifact:number(env.REPORT_ARTIFACT_ID),digest}
+}
+
+export function batchWriterContext(env) {
+  const job = workflowContext(env)
+  need(job.event === 'workflow_dispatch' && env.GITHUB_REF_PROTECTED === 'true', 'Batch writer requires an explicit run on protected master')
+  const {BATCH_ARTIFACT_DIGEST:digest,BATCH_HANDOFF_DIGEST:handoffDigest} = env
+  need([digest,handoffDigest].every(value => typeof value === 'string' && value.length === 64 && /^[a-f0-9]{64}$/.test(value)),
+    'Invalid batch artifact or witness digest')
+  return {...job,artifact:number(env.BATCH_ARTIFACT_ID),digest,handoffDigest}
 }
 
 export function gitReader(workspace, scratch) {
@@ -120,6 +134,89 @@ export async function authenticatePrepare(contract, transport, ctx) {
   const files = contract.parseRemoteZip(bytes)
   need([...files.keys()].sort().join(',') === members.join(','), 'Unexpected prepare archive membership')
   return new Map([...files].map(([key, value]) => [key,Buffer.from(value)]))
+}
+
+// The batch writer uses the same production write job and only accepts its
+// own successful batch-preparation job on the first attempt.
+export async function authenticateBatchPrepare(contract, transport, ctx) {
+  const jobName = 'prepare_batch'
+  const uploadName = 'Upload verified batch handoff'
+  const name = 'shared-guides-batch-handoff-' + number(ctx.run) + '-1'
+  const artifactId = number(ctx.artifact)
+  const limit = 2 * 1024 * 1024
+  need(ctx.attempt === 1 && oid(ctx.master) && ['schedule','workflow_dispatch'].includes(ctx.event) &&
+    /^[0-9a-f]{64}$/.test(ctx.digest ?? ''), 'Invalid batch prepare context')
+
+  async function get(suffix, maximum = limit, zip = false) {
+    const response = await transport({method:'GET',path:'/repos/' + repo + suffix,maximum,signal:AbortSignal.timeout(30000)})
+    need(response.status === 200 && response.body.length <= maximum && !response.headers?.link, 'Batch prepare evidence unavailable')
+    return zip ? Buffer.from(response.body) : contract.parseStrictJson(response.body)
+  }
+  const runPath = '/actions/runs/' + ctx.run
+  const attemptPath = runPath + '/attempts/1'
+  const artifactPath = '/actions/artifacts/' + artifactId
+  const [run, jobList, artifactList] = await Promise.all([
+    get(attemptPath),
+    get(attemptPath + '/jobs?per_page=100'),
+    get(runPath + '/artifacts?per_page=100')
+  ])
+  need(run.id === ctx.run && run.run_attempt === 1 && run.head_sha === ctx.master && run.head_branch === 'master' &&
+    run.event === ctx.event && run.status === 'in_progress' && run.conclusion === null && run.path === workflow &&
+    run.repository?.id === repoId && run.head_repository?.id === repoId, 'Batch prepare run identity changed')
+  function completeList(value, key) {
+    need(Array.isArray(value[key]) && value.total_count === value[key].length && value.total_count < 100,
+      'Incomplete batch prepare inventory')
+    return value[key]
+  }
+  const jobs = completeList(jobList,'jobs').filter(job => job.name === jobName)
+  const job = jobs[0]
+  need(jobs.length === 1 && job.run_id === ctx.run && job.run_attempt === 1 && job.head_sha === ctx.master &&
+    job.status === 'completed' && job.conclusion === 'success' && Array.isArray(job.steps), 'Batch prepare job not authenticated')
+  const uploads = job.steps.filter(step => step.name === uploadName)
+  const upload = uploads[0]
+  need(uploads.length === 1 && upload.status === 'completed' && upload.conclusion === 'success', 'Batch handoff upload not authenticated')
+  const [jobStart, jobEnd, uploadStart, uploadEnd] = [job.started_at,job.completed_at,upload.started_at,upload.completed_at].map(value => Date.parse(value))
+  need(jobStart <= uploadStart && uploadStart <= uploadEnd && uploadEnd <= jobEnd, 'Batch handoff upload window unknown')
+
+  function bindArtifact(artifact) {
+    const created = Date.parse(artifact.created_at)
+    const origin = artifact.workflow_run
+    need(artifact.id === artifactId && artifact.name === name && artifact.expired === false &&
+      Number.isSafeInteger(artifact.size_in_bytes) && artifact.size_in_bytes > 0 && artifact.size_in_bytes <= limit &&
+      artifact.digest === 'sha256:' + ctx.digest && created >= uploadStart && created <= uploadEnd &&
+      origin?.id === ctx.run && origin.head_sha === ctx.master && origin.head_branch === 'master' &&
+      origin.repository_id === repoId && origin.head_repository_id === repoId, 'Batch handoff artifact binding changed')
+    return artifact
+  }
+  const matches = completeList(artifactList,'artifacts').filter(artifact => artifact.name === name)
+  need(matches.length === 1, 'Missing or ambiguous batch handoff artifact')
+  const artifact = bindArtifact(matches[0])
+  const bytes = await get(artifactPath + '/zip',artifact.size_in_bytes,true)
+  need(bytes.length === artifact.size_in_bytes && hash(bytes) === ctx.digest, 'Downloaded batch handoff digest changed')
+  const after = bindArtifact(await get(artifactPath))
+  need(after.size_in_bytes === artifact.size_in_bytes && after.created_at === artifact.created_at, 'Batch handoff artifact changed after download')
+  const files = contract.parseBatchHandoffZip(bytes)
+  need(files.size === 1 && files.has('handoff.json'), 'Unexpected batch handoff archive members')
+  return Buffer.from(files.get('handoff.json'))
+}
+
+export async function inspectPreparedBatch(contract, transport, ctx, git) {
+  need(git.head === ctx.master && /^[0-9a-f]{64}$/.test(ctx.handoffDigest ?? ''), 'Batch writer checkout or raw witness identity invalid')
+  const bytes = await authenticateBatchPrepare(contract, transport, ctx)
+  const sha256 = hash(bytes)
+  need(sha256 === ctx.handoffDigest, 'Batch raw witness digest changed')
+  const {manifest} = contract.parseStrictJson(bytes)
+  const {pins} = manifest.base
+  need(pins.master === ctx.master && pins.trustedTools === git.head, 'Batch tool revision changed')
+  // The verified Actions archive binds the producer's measured toolset.
+  // Git objects and live authority are independently checked by the reader.
+  const result = await contract.inspectObservedBatchHandoff({
+    bytes, baseline:git.baseline,
+    expected:{ref:{path:'blobs/' + sha256,sha256,bytes:bytes.length},pins,executableClosure:manifest.toolset.executableClosure}
+  })
+  need(result.status === 'verified-witness' && result.observation === 'observed', 'Batch witness not authenticated')
+  await contract.verifyBatchFinalFreshness({...result.manifest.fetch,pins:result.manifest.base.pins},Date.now(),undefined,AbortSignal.timeout(180000))
+  return result
 }
 
 export async function material(contract, ctx, files, git) {
@@ -260,36 +357,82 @@ export async function verifySignature(api, git, contract, seal, s) {
   return {rawSha256:hash(raw),signatureSha256:hash(signature.signature),authorId:signature.authorActorId,signerId:signature.signerActorId}
 }
 
-export async function createDraft({api, candidate, fresh, form, verify, journal, provenance, waitRef = awaitRef}) {
-  const {seal, prep, unit, targetRef, stage, commit} = candidate
-  const owned = {}
-  const stageRef = sha => ({ref:stage,sha})
-  const viewer = (await api.graph('query{viewer{databaseId login}}')).viewer
-  need(viewer.databaseId === bot && viewer.login === 'github-actions[bot]', 'Wrong job token identity')
-  async function mutate(name, operation) {
+function writerMutation(fresh, journal, stage, targetRef, owned) {
+  return async (name, operation) => {
     await fresh(owned)
     journal({operation:name,state:'requested',stage,targetRef})
     const response = await operation()
     journal({operation:name,state:'acknowledged',responseDigest:hash(JSON.stringify(response))})
     return response
   }
-  // base_tree inherits all existing objects. Supplying the one fixed path materializes
-  // precisely the verified changed blob and directory spine without traversing history.
-  const tree = await mutate('create-tree',() => api.rest('/git/trees','POST',{base_tree:candidate.baseTree,
-    tree:[{path:lock,mode:'100644',type:'blob',content:candidate.after}]},201))
+}
+
+async function createRef(api, waitRef, mutate, operation, branch, sha) {
+  const ref = 'refs/heads/' + branch
+  const response = await mutate(operation,() => api.rest('/git/refs','POST',{ref,sha},201))
+  need(response.ref === ref && response.object.type === 'commit' && response.object.sha === sha, 'Unexpected new ref')
+  await waitRef(api,branch,sha)
+}
+
+/** @typedef {Readonly<{path: string, bytes: Uint8Array, sha256: string}>} VerifiedGuidesLockOverlay */
+
+/**
+ * The caller proves the next-only diff against the exact master and candidate trees.
+ * @param {string} baseTree
+ * @param {readonly VerifiedGuidesLockOverlay[]} overlays
+ */
+function lockTreeRequest(baseTree, overlays) {
+  // Reuse the revision envelope's 64 lock deltas and 128-byte subject identifier
+  // bounds. The aggregate tree request stays within the existing archive limit.
+  const requestLimit = 2 * 1024 * 1024
+  need(Array.isArray(overlays) && overlays.length > 0 && overlays.length <= 64, 'Invalid lock overlay count')
+  let previous = '', total = 0
+  const tree = []
+  for (const entry of overlays) {
+    need(entry && Object.keys(entry).length === 3 && ['path','bytes','sha256'].every(key => Object.hasOwn(entry,key)), 'Invalid lock overlay entry')
+    const {path,bytes,sha256} = entry
+    const match = typeof path === 'string' && /^shared-docs\/guides\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)\/lock\.yaml$/.exec(path)
+    need(match && match[0] === path && match[1].length <= 128 && previous < path, 'Invalid or noncanonical lock overlay path')
+    need(bytes instanceof Uint8Array && bytes.length > 0 && bytes.length <= 1024 * 1024, 'Invalid lock overlay byte count')
+    total += bytes.length
+    need(total <= requestLimit, 'Lock overlay byte limit exceeded')
+    const copy = Buffer.from(bytes), content = copy.toString('utf8')
+    need(hash(copy) === sha256 && Buffer.from(content,'utf8').equals(copy), 'Lock overlay bytes or digest changed')
+    tree.push({path,mode:'100644',type:'blob',content})
+    previous = path
+  }
+  const body = {base_tree:baseTree,tree}
+  need(Buffer.byteLength(JSON.stringify(body)) <= requestLimit, 'Lock overlay tree request exceeds limit')
+  return body
+}
+
+/**
+ * Stage and verify the exact K/S pair after the caller authenticates all candidate evidence.
+ * @param {object} options
+ * @param {readonly VerifiedGuidesLockOverlay[]} options.overlays
+ */
+export async function stageSignedCandidate({api, candidate, overlays, fresh, form, verify, journal, waitRef = awaitRef}) {
+  const {baseTree,stage,targetRef} = candidate
+  const seal = structuredClone(candidate.seal), commit = structuredClone(candidate.commit)
+  const stagingMatch = typeof stage === 'string' && /^shared-update-staging\/[a-f0-9]{64}$/.exec(stage)
+  need([baseTree,seal.master,seal.candidate,seal.candidateTree].every(oid) && commit.tree === seal.candidateTree &&
+    Array.isArray(commit.parents) && commit.parents.length === 1 && commit.parents[0] === seal.master &&
+    stagingMatch && stagingMatch[0] === stage,
+  'Invalid candidate tree, parent or staging identity')
+  const body = lockTreeRequest(baseTree,overlays)
+  const owned = {}
+  const mutate = writerMutation(fresh,journal,stage,targetRef,owned)
+  const viewer = (await api.graph('query{viewer{databaseId login}}')).viewer
+  need(viewer.databaseId === bot && viewer.login === 'github-actions[bot]', 'Wrong job token identity')
+  // base_tree inherits all other objects. Its resulting root must match the full
+  // independently verified candidate tree before creating any commit or ref.
+  const tree = await mutate('create-tree',() => api.rest('/git/trees','POST',body,201))
   need(tree.sha === seal.candidateTree, 'GitHub created another tree')
   const k = await mutate('create-candidate',() => api.rest('/git/commits','POST',commit,201))
   need(k.sha === seal.candidate && k.tree.sha === tree.sha && k.parents.length === 1 &&
     k.parents[0].sha === seal.master, 'GitHub created another candidate')
-  async function createRef(branch, sha) {
-    const ref = 'refs/heads/' + branch
-    const response = await mutate('create-' + (branch === stage ? 'staging' : 'target'),
-      () => api.rest('/git/refs','POST',{ref,sha},201))
-    need(response.ref === ref && response.object.type === 'commit' && response.object.sha === sha, 'Unexpected new ref')
-    await waitRef(api,branch,sha)
-  }
-  await createRef(stage,k.sha)
-  owned.ownedStage = stageRef(k.sha)
+  await createRef(api,waitRef,mutate,'create-staging',stage,k.sha)
+  owned.ownedStage = {ref:stage,sha:k.sha}
   const message = form({op:'seal',seal})
   need(message.status === 'encoded', 'Seal encoding failed')
   const result = await mutate('sign',() => api.graph(signMutation,{input:{branch:{repositoryNameWithOwner:repo,branchName:stage},
@@ -297,29 +440,93 @@ export async function createDraft({api, candidate, fresh, form, verify, journal,
   const s = result.createCommitOnBranch.commit.oid
   need(oid(s) && s !== k.sha, 'Unexpected signed commit identity')
   await waitRef(api,stage,s,k.sha)
-  owned.ownedStage = stageRef(s)
+  owned.ownedStage = {ref:stage,sha:s}
   const signed = await verify(seal,s)
-  provenance(s)
-  await createRef(targetRef,s)
-  owned.ownedHead = {ref:targetRef,sha:s}
+  return {candidate:k.sha,seal:s,signed,ownedStage:owned.ownedStage}
+}
+
+export async function createDraft({api, candidate, fresh, form, verify, journal, provenance, waitRef = awaitRef}) {
+  const {seal, prep, unit, targetRef, stage} = candidate
   const edit = unit.nextEdits[0]
-  const created = await mutate('open-draft',() => api.rest('/pulls','POST',{
-    head:targetRef,base:'master',draft:true,title:'Update the json-field-overview next lock',
+  const overlays = [{path:lock,bytes:Buffer.from(candidate.after,'utf8'),sha256:edit.afterBlob.sha256}]
+  const {candidate:k,seal:s,signed,ownedStage} = await stageSignedCandidate({api,candidate,overlays,fresh,form,verify,journal,waitRef})
+  provenance(s)
+  const prNumber = await openSignedDraft({api,fresh,journal,waitRef,targetRef,stage,ownedStage,s,master:seal.master,changeCount:1,
+    title:'Update the json-field-overview next lock',
     body:'Advance the Milvus source used by the next channel of the JSON Field Overview guide.\n\n' +
       'Current stays at `' + edit.before.current + '`. Next advances from `' + edit.before.next + '` to `' + edit.target + '`.\n\n' +
       impactSummary(candidate) + '\n\n' +
       'Prepared from master `' + seal.master + '` and dev `' + prep.dev + '`. Signed head `' + s + '`. ' +
       '[Preparation and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'
-  },201))
+  })
+  return {status:'created',repository:repo,prNumber,url:'https://github.com/' + repo + '/pull/' + prNumber,master:seal.master,
+    dev:prep.dev,target:edit.target,candidate:k,seal:s,...signed,stage,targetRef}
+}
+
+async function openSignedDraft({api,fresh,journal,waitRef,targetRef,stage,ownedStage,s,master,changeCount,title,body}) {
+  const owned = {ownedStage}
+  const mutate = writerMutation(fresh,journal,stage,targetRef,owned)
+  await createRef(api,waitRef,mutate,'create-target',targetRef,s)
+  owned.ownedHead = {ref:targetRef,sha:s}
+  const created = await mutate('open-draft',() => api.rest('/pulls','POST',{head:targetRef,base:'master',draft:true,title,body},201))
   const prNumber = number(created.number)
   const pr = await api.rest('/pulls/' + prNumber)
   need(pr.id === created.id && pr.number === prNumber && pr.state === 'open' && pr.draft === true && pr.merged === false &&
-    pr.user.id === bot && pr.changed_files === 1 && pr.base.repo.id === repoId && pr.head.repo.id === repoId &&
-    pr.base.ref === 'master' && pr.base.sha === seal.master && pr.head.ref === targetRef && pr.head.sha === s,
+    pr.user.id === bot && pr.changed_files === changeCount && pr.base.repo.id === repoId && pr.head.repo.id === repoId &&
+    pr.base.ref === 'master' && pr.base.sha === master && pr.head.ref === targetRef && pr.head.sha === s,
     'Draft PR readback differs')
   await fresh({...owned,ownedPull:{number:prNumber,...owned.ownedHead}})
-  return {status:'created',repository:repo,prNumber,url:'https://github.com/' + repo + '/pull/' + prNumber,master:seal.master,
-    dev:prep.dev,target:edit.target,candidate:k.sha,seal:s,...signed,stage,targetRef}
+  return prNumber
+}
+
+export function batchDraftMaterial(contract, ctx, witness) {
+  need(witness.status === 'verified-witness' && witness.observation === 'observed' && witness.writeEligible === false,
+    'Batch writer requires an observed verified witness')
+  const {manifest, plan, proof, objects, baseTree, upstream, nextLocks} = witness
+  const {master,dev,source} = manifest.base.pins
+  need(master === ctx.master && ctx.attempt === 1 && manifest.members.length > 0 &&
+    plan.disposition === 'candidate', 'Batch writer requires a complete candidate group')
+  const blobs = new Map(objects.filter(item => item.type === 'blob').map(item => [hash(item.bytes),item.bytes]))
+  const rawCommit = Buffer.from(objects.find(item => item.type === 'commit' && item.oid === proof.candidate).bytes)
+  const clock = /^committer Shared update local <shared-update-local@localhost> (\d+) \+0000$/m.exec(rawCommit.toString())
+  const messageStart = rawCommit.indexOf('\n\n')
+  need(clock && messageStart >= 0, 'Unrepresentable batch candidate commit')
+  const actor = {name:'Shared update local',email:'shared-update-local@localhost',
+    date:new Date(Number(clock[1]) * 1000).toISOString().replace('.000Z','+00:00')}
+  const commit = {tree:proof.candidateTree,parents:[master],author:actor,committer:actor,message:rawCommit.subarray(messageStart + 2).toString()}
+  const overlays = plan.nextEdits.map(edit => ({path:edit.before.path,bytes:blobs.get(edit.afterBlob.sha256),sha256:edit.afterBlob.sha256}))
+  const targetRef = 'shared-update/' + hash(contract.canonicalBytes({kind:'remote-guides-batch',group:manifest.groupSha256}))
+  const transactionId = hash(contract.canonicalBytes({kind:'remote-guides-batch-transaction-v2',repositoryId:repoId,master,dev,source,
+    run:ctx.run,attempt:ctx.attempt,binding:manifest.binding.digest,handoffSha256:ctx.handoffDigest,artifact:ctx.artifact,archiveSha256:ctx.digest}))
+  const seal = {kind:'shared-update-seal',schemaVersion:1,repositoryId:repoId,transactionId,unitKey:plan.unitKey,
+    planSha256:contract.digest('plan',plan),proofSha256:hash(contract.canonicalBytes(proof)),master,dev,preparedBase:proof.prepared.base,
+    candidate:proof.candidate,candidateTree:proof.candidateTree,previousSeal:null,preservedHumanHeads:[],runId:ctx.run,runAttempt:ctx.attempt}
+  return {manifest,unit:plan,proof,seal,baseTree,commit,overlays,upstream,nextLocks,targetRef,stage:'shared-update-staging/' + transactionId}
+}
+
+export async function createBatchDraft({api,candidate,fresh,form,verify,journal,provenance,waitRef = awaitRef}) {
+  const {manifest,seal,stage,targetRef,overlays,upstream,nextLocks} = candidate
+  const changes = [
+    ...upstream.pulls.map(pr => '- [milvus-io/milvus-docs#' + pr + '](' + upstreamRepository + '/pull/' + pr + ')'),
+    ...upstream.directCommits.map(commit => '- [`' + commit + '`](' + upstreamRepository + '/commit/' + commit + ') (direct commit)')
+  ]
+  const rows = nextLocks.map(({pageId,before,after}) =>
+    '| `' + pageId + '` | `' + before + '` | `' + after + '` | ' + (before === after ? 'Unchanged' : 'Advanced') + ' |')
+  const {master,dev,source} = manifest.base.pins
+  const draftBody = signed => ['Advance the next locks for one verified Milvus Guides batch to `' + source + '`.',
+    '','### Upstream changes','',...changes,
+    '','### Next locks','','| Page | Previous `next` | Proposed `next` | Result |','| --- | --- | --- | --- |',...rows,
+    '','Signed head `' + signed + '`.',
+    '[Qualification and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'].join('\n')
+  // K and its signed child have the same OID width. Reject a body too
+  // large to post before creating any Git objects or refs.
+  need(Buffer.byteLength(draftBody(seal.candidate)) <= 65536, 'Batch Draft body exceeds limit')
+  const {candidate:k,seal:s,signed,ownedStage} = await stageSignedCandidate({api,candidate,overlays,fresh,form,verify,journal,waitRef})
+  provenance(s,signed)
+  const prNumber = await openSignedDraft({api,fresh,journal,waitRef,targetRef,stage,ownedStage,s,master,changeCount:overlays.length,
+    title:'Update the shared Guides batch to ' + source.slice(0,8),body:draftBody(s)})
+  return {status:'created',repository:repo,prNumber,url:'https://github.com/' + repo + '/pull/' + prNumber,master,dev,target:source,
+    candidate:k,seal:s,...signed,stage,targetRef,groupSha256:manifest.groupSha256}
 }
 
 // A successful hold is possible only while every outbound operation was read-only.
@@ -351,20 +558,51 @@ async function main() {
   need(process.argv.length === 2, 'Writer accepts no command-line arguments')
   const token = process.env.GH_TOKEN, workspace = process.env.GITHUB_WORKSPACE, temp = process.env.RUNNER_TEMP
   const dest = process.env.WRITER_OUTPUT
+  const mode = process.env.SHARED_GUIDES_WRITER_MODE ?? 'pilot'
+  need(['pilot','batch'].includes(mode), 'Invalid writer mode')
   need(workspace === process.cwd() && resolve(temp) === temp && dest === join(temp,'shared-guides-writer'), 'Invalid job paths or token')
   mkdirSync(dest,{mode:0o700})
   const append = entry => appendFileSync(join(dest,'journal.ndjson'),JSON.stringify({run:process.env.GITHUB_RUN_ID,
-    attempt:process.env.GITHUB_RUN_ATTEMPT,master:process.env.GITHUB_SHA,artifactId:process.env.PREPARE_ARTIFACT_ID,
-    archiveSha256:process.env.PREPARE_ARTIFACT_DIGEST,...entry}) + '\n',{mode:0o600})
+    attempt:process.env.GITHUB_RUN_ATTEMPT,master:process.env.GITHUB_SHA,
+    artifactId:mode === 'batch' ? process.env.BATCH_ARTIFACT_ID : process.env.PREPARE_ARTIFACT_ID,
+    archiveSha256:mode === 'batch' ? process.env.BATCH_ARTIFACT_DIGEST : process.env.PREPARE_ARTIFACT_DIGEST,...entry}) + '\n',{mode:0o600})
   const write = (name,bytes) => writeFileSync(join(dest,name),bytes,{flag:'wx',mode:0o600})
   const result = await runWithJournal(async journal => {
-    const ctx = context(process.env)
+    const ctx = mode === 'batch' ? batchWriterContext(process.env) : context(process.env)
     need(typeof token === 'string' && token.length > 0, 'Job token unavailable')
     const contract = await import(pathToFileURL(join(temp,'writer-contract.mjs')))
-    const {discover} = await import('./discover.mjs')
+    const {discover,inspectBatchWriterScope} = await import('./discover.mjs')
     const git = gitReader(workspace,mkdtempSync(join(temp,'shared-guides-objects-')))
     need(git.head === ctx.master, 'Writer checkout differs from workflow head')
-    const files = await authenticatePrepare(contract,contract.createRemoteTransport({repositoryFullName:repo,token}),ctx)
+    const transport = contract.createRemoteTransport({repositoryFullName:repo,token})
+    if (mode === 'batch') {
+      const witness = await inspectPreparedBatch(contract,transport,ctx,git)
+      const candidate = batchDraftMaterial(contract,ctx,witness)
+      const {manifest,seal,overlays,stage,targetRef} = candidate
+      const expected = manifest.base.pins
+      const pageIds = manifest.members.map(member => member.pageId)
+      const changedPageIds = manifest.members.filter(member => member.disposition === 'advance').map(member => member.pageId)
+      need(changedPageIds.length === overlays.length, 'Batch advance list differs from overlays')
+      const fresh = async owned => {
+        await contract.verifyBatchFinalFreshness({...manifest.fetch,pins:expected},Date.now(),undefined,AbortSignal.timeout(180000))
+        const scope = await inspectBatchWriterScope({token,expected,pageIds,changedPageIds,target:targetRef,stage,...owned})
+        need(scope.status === 'clear' && scope.historyVerified, 'Batch writer paused: ' + scope.reasons.join(','))
+      }
+      const provenance = (s,signed) => {
+        const output = join(temp,'shared-guides-batch-producer')
+        mkdirSync(output,{mode:0o700})
+        const producer = {kind:'shared-guides-batch-producer',schemaVersion:2,seal:s,sealMetadata:seal,signed,
+          groupSha256:manifest.groupSha256,artifactId:ctx.artifact,archiveSha256:ctx.digest,handoffSha256:ctx.handoffDigest,
+          workflowDefinitionSha256:hash(git.baseFile(ctx.master,workflow))}
+        writeFileSync(join(output,'provenance.json'),contract.canonicalBytes(producer),{flag:'wx',mode:0o600})
+      }
+      const api = apiClient(token)
+      const draft = await createBatchDraft({api,candidate,fresh,form:contract.formalValidation,
+        verify:(metadata,s) => verifySignature(api,git,contract,metadata,s),journal,provenance})
+      write('draft.json',contract.canonicalBytes({...draft,artifactId:ctx.artifact,archiveSha256:ctx.digest}))
+      return draft
+    }
+    const files = await authenticatePrepare(contract,transport,ctx)
     const candidate = await material(contract,ctx,files,git)
     const {prep,unit} = candidate, edit = unit.nextEdits[0]
     const fresh = async owned => {

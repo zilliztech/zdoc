@@ -663,7 +663,8 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       trees: contract.batchSorted([...inventoryTrees], ([oid]) => oid).map(([oid, ref]) => ({oid, ref})),
       discovery: contract.batchSorted([...discovery], ([oid]) => oid).map(([oid, metadata]) => ({oid, metadata})),
     })
-    const detailRef = replay && object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
+    const includeDetail = replay !== undefined || contract.isIsolatedBatchCandidateOrigin(request.origin)
+    const detailRef = includeDetail && object(contract.BatchMaterialDetailSchema.parse({kind: 'guides-batch-material-detail-v1', pageId: request.pageId,
       configPaths: sorted([...consumedConfigurationPaths(request.pageId, ids, loaded.configuration.sharedDocs.pages.get(request.pageId)!.contentFiles?.keys() ?? [])]),
       targets: fixed.candidateNext.targets, observations: observations.map((o, i) => ({role: contract.batchRoles[i], commit: o.commit,
         buildLock: o.buildLock, engine: o.engine, localInputs: contract.batchSorted(o.localInputs, f => f.file), blocks: o.blocks,
