@@ -7,7 +7,7 @@ import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {collectorEnvironment, prepareContext, preparePaths, readBatchMeasurements, settleBatchPrepare} from './batch-prepare.mjs'
+import {batchDecisionSummary, collectorEnvironment, prepareContext, preparePaths, readBatchMeasurements, settleBatchPrepare} from './batch-prepare.mjs'
 
 const master = '1'.repeat(40)
 const producer = '2'.repeat(40)
@@ -191,6 +191,16 @@ test('projects only bounded page measurements and material progress from the own
   unlinkSync(path)
   symlinkSync(join(paths.evidence, 'blobs'), path)
   assert.throws(() => readBatchMeasurements(paths), /BATCH_PREPARE_MEASUREMENT/)
+})
+
+test('retains a held decision when its optional measurement cannot be read', t => {
+  const {paths} = fixture(t)
+  const decision = settleBatchPrepare(held(), paths, ctx)
+  assert.deepEqual(batchDecisionSummary(decision, paths), {status: 'held', reasons: ['STALE_MASTER']})
+  writeFileSync(join(paths.evidence, 'measurement.json'), 'invalid measurement', {mode: 0o600})
+  assert.deepEqual(batchDecisionSummary(decision, paths),
+    {status: 'held', reasons: ['STALE_MASTER'], measurementStatus: 'unavailable'})
+  assert.equal(existsSync(paths.upload), false)
 })
 
 test('rejects replay, mismatched measured data, CAS aliases, and tampering before upload', t => {

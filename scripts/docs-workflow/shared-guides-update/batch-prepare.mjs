@@ -165,6 +165,17 @@ export function readBatchMeasurements(paths) {
   return result
 }
 
+export function batchDecisionSummary(summary, paths) {
+  physicalDirectory(paths.root, 'BATCH_PREPARE_STAGE', true)
+  try {
+    const measurements = readBatchMeasurements(paths)
+    return measurements ? {...summary, measurements} : summary
+  } catch {
+    // The independently settled decision remains useful when diagnostics fail.
+    return {...summary, measurementStatus: 'unavailable'}
+  }
+}
+
 function readRetained(evidence, ref) {
   checkedReference(ref)
   return ownedBlob(join(evidence, ref.path), ref)
@@ -359,10 +370,9 @@ async function main(env) {
   }
   verifyStores(paths, ctx)
   const output = workflowOutputPath(env), collected = await collect(env, paths.workspace)
-  const measurements = readBatchMeasurements(paths)
   const result = settleBatchPrepare(collected, paths, ctx)
   const {handoffPath, handoffSha256, ...summary} = result
-  writeFileSync(join(paths.root, 'summary.json'), JSON.stringify({...summary, measurements}) + '\n', {flag: 'wx', mode: 0o600})
+  writeFileSync(join(paths.root, 'summary.json'), JSON.stringify(batchDecisionSummary(summary, paths)) + '\n', {flag: 'wx', mode: 0o600})
   let values = 'status=' + result.status + '\n'
   if (result.status === 'prepared') values += `handoff_path=${handoffPath}\nhandoff_sha256=${handoffSha256}\n`
   check(workflowOutputPath(env) === output, 'BATCH_PREPARE_WORKFLOW_OUTPUT')
