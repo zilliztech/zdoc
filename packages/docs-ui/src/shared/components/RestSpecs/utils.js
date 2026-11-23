@@ -189,6 +189,16 @@ const isObjectSchema = (schema) => schema.type === 'object' || (schema.type === 
 // non-object part is unwrapped. The wrapper's own description and metadata
 // document the usage site, so they win over the parts'. Any other mix has no
 // single meaning and is returned untouched.
+// The schema default row renders its value as a JSX child, and JSX drops
+// booleans, so `default: true` produced the label with an empty chip.
+// Stringify explicitly: booleans and scalars as text, objects and arrays as
+// their JSON literal rather than "[object Object]".
+export const formatSchemaDefault = (value) => {
+    if (value === undefined) return ''
+    if (typeof value === 'object') return JSON.stringify(value)
+    return String(value)
+}
+
 export const mergeAllOf = (schema) => {
     if (!schema || typeof schema !== 'object' || !Array.isArray(schema.allOf)) {
         return schema
