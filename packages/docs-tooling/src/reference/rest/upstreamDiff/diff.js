@@ -698,6 +698,15 @@ function diffSpecifications({source, upstreamPin, upstream, fragments, ledger, r
             continue
         }
         for (const fragmentRecord of fragmentOps.get(opKey)) {
+            // Same publication-target scoping as the fragment-only loop below:
+            // an operation the fragment only publishes on another target is
+            // adjudicated by the lane that publishes it, never mirrored here.
+            // Without this gate the cloud lane paired the milvus-only
+            // get_progress alias route (2026-11-21 refresh, PR #1405) and
+            // mirrored cloud-only request fields into it while erasing its
+            // hand-authored deprecated flag, even though nothing zilliz
+            // publishes reads that route.
+            if (!includesTarget(fragmentRecord.operation, source.publicationTarget)) continue
             entries.push(...diffOperationPair({
                 meta: {...meta, fragment: fragmentRecord.file},
                 upstreamDocument: upstreamRecord.document,
