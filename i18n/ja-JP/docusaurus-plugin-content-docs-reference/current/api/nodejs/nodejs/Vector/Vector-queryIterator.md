@@ -98,7 +98,7 @@ await milvusClient.queryIterator({
 
     **order_by_fields** のエイリアスです。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     特定のデータ型のデータを変換するカスタム関数です。
 

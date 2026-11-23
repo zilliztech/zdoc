@@ -59,7 +59,7 @@ await milvusClient.upsert({
 
     The name of an existing コレクション.
 
-- **data** (*RowData[]*) -
+- **data** (*[RowData](./Vector-RowData)[]*) -
 
     アップサートするデータです。各要素は、キーがコレクションのスキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。プライマリキーが既存のレコードと一致するエンティティは更新され、それ以外の場合は新しいエンティティが挿入されます。**data** または **fields_data** のいずれかを指定してください。
 
@@ -142,7 +142,7 @@ await milvusClient.upsert({
 - **timestamp** (*string*) -
 書き込みが可視になったハイブリッドタイムスタンプです。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 アップサートされた行に含まれるプライマリキーです。フィールドの完全なリファレンスについては、`insert()` のドキュメントを参照してください。
 

@@ -79,15 +79,15 @@ await milvusClient.describeUser({
 - **results** (*UserResult[]*) -
 **UserResult** オブジェクトのリストです。`describeUser()` の場合、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
 
-    - **user** (*User*) -
+    - **user** (*[User](./Authentication-User)*) -
 
-        ユーザーを識別する **User** オブジェクトです。
+        ユーザーを識別する **[User](./Authentication-User)** オブジェクトです。
 
-    - **roles** (*RoleEntity[]*) -
+    - **roles** (*[RoleEntity](./Authentication-RoleEntity)[]*) -
 
         このユーザーに割り当てられているロールのリストです。
 
-- **description** (*string*) -
+    - **description** (*string*) -
 
         ユーザーの説明です。
 

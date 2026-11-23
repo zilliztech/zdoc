@@ -61,13 +61,13 @@ await milvusClient.insert({
 
     The name of an existing コレクション.
 
-- **data** (*RowData[]*) -
+- **data** (*[RowData](./Vector-RowData)[]*) -
 
-    The data to insert into the current コレクション.
+    現在のコレクションに挿入するデータです。
 
-    The data to insert should be a dictionary that matches the スキーマ of the current コレクション or a list of such dictionaries. 
+    挿入するデータは、現在のコレクションのスキーマに一致する辞書、またはそのような辞書のリストである必要があります。 
 
-    The following code assumes that the スキーマ of the current コレクション has two fields named **id** and **ベクトル**. The former is the primary field and the latter is a field to hold 5-dimensional ベクトル embeddings.
+    以下のコードは、現在のコレクションのスキーマに **id** と **ベクトル** という 2 つのフィールドがあることを前提としています。前者は主フィールドで、後者は 5 次元のベクトル埋め込みを保持するフィールドです。
 
     ```javascript
     // A dictionary, or
@@ -178,7 +178,7 @@ await milvusClient.insert({
 - **timestamp** (*string*) -
 書き込みが可視になったハイブリッドタイムスタンプです。タイムトラベルクエリにはこの値を使用します。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
+- **IDs** (*[StringArrayId](./Vector-StringArrayId)* | *[NumberArrayId](./Vector-NumberArrayId)*) -
 
 挿入された行に割り当てられた主キーです。autoID コレクションの場合、Milvus がこれらの値を生成します。それ以外の場合、入力キーがそのまま返されます。
 

@@ -89,13 +89,13 @@ await milvusClient.search({
 
     この操作の対象となるベクトルフィールドの名前です。複数のベクトルフィールドを持つコレクションを検索する場合は必須です。
 
-- **data** (*SearchData* | *SearchData[]*) -
+- **data** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     ベクトル埋め込みのリストです。
 
     Milvus は、指定されたベクトル埋め込みに最も類似するベクトル埋め込みを検索します。
 
-- **vector** (*SearchData* | *SearchData[]*) -
+- **vector** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
 
     クエリベクトルに対する **data** のエイリアスです。
 
@@ -193,13 +193,13 @@ await milvusClient.search({
 
     最終結果で保持する小数点以下の桁数です。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     次のデータ型のデータを変換するためのカスタム関数です。
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
-    再ランキング戦略とそのカスタムパラメーターです。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。RerankerObj と [FunctionObject](./Collections-FunctionObject) を参照してください。
+    カスタムパラメーターを備えた再ランキング戦略です。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。詳しくは、[RerankerObj](./Vector-RerankerObj) および [FunctionObject](./Collections-FunctionObject) を参照してください。
 
 - **order_by_fields** (*OrderByFields*) -
 

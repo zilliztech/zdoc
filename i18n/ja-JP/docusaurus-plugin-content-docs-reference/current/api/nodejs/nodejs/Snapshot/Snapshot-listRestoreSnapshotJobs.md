@@ -73,9 +73,9 @@ RPC の実行を許可する時間をミリ秒単位で指定するオプショ�
 
 **パラメーター:**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -
+- **jobs** (*[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo)[]*) -
 
-要求されたデータベースおよびコレクションのフィルターに一致するリストアジョブのリストです。RestoreSnapshotJobInfo のフィールドの完全なリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
+要求されたデータベースフィルターとコレクションフィルターに一致するリストアジョブの一覧です。[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo) の完全なフィールドリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
 
 - **ResStatus**
 **ResStatus** オブジェクトです。

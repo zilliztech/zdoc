@@ -70,7 +70,7 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 **パラメーター:**
 
-- **info** (*RestoreSnapshotJobInfo*) -
+- **info** (*[RestoreSnapshotJobInfo](./Snapshot-RestoreSnapshotJobInfo)*) -
 
 復元ジョブの現在の状態です。
 

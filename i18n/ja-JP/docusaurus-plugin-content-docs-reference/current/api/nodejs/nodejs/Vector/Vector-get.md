@@ -99,7 +99,7 @@ await milvusClient.get({
 
     デフォルト値は **None** です。指定しない場合、すべての field が出力 field として選択されます。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     特定のデータ型のデータを変換するカスタム関数です。
 
@@ -166,3 +166,4 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
+

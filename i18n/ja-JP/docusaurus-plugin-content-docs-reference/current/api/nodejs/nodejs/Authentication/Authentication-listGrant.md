@@ -90,7 +90,7 @@ await milvusClient.listGrant(data)
 
 **パラメータ:**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*[GrantEntity](./Authentication-GrantEntity)[]*) -
 
     権限付与エンティティのリストです。各エンティティの構造は次のとおりです。
 
@@ -126,3 +126,4 @@ await milvusClient.listGrant(data)
    objectName: '*'
  });
 ```
+

@@ -73,7 +73,7 @@ await milvusClient.selectGrant({
 
 **パラメーター:**
 
-- **entities** (**GrantEntity[]**) -
+- **entities** (**[GrantEntity](./Authentication-GrantEntity)[]**) -
 
     ロールに付与された権限を表す権限付与エンティティのリストです。
 

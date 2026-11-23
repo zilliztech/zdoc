@@ -77,11 +77,11 @@ await milvusClient.searchIterator({
 
     検索対象のコレクションの名前です。
 
-- **data** (*SearchData | SearchData[]*) -
+- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
 
     クエリベクトルです。サポートされる型には、FloatVector（number[]）、BFloat16Vector（Uint8Array）、Float16Vector（Uint8Array）、BinaryVector（number[]）、SparseFloatVector があります。**data** または **ベクトル** のいずれかを指定してください。
 
-- **ベクトル** (*SearchData | SearchData[]*) -
+- **ベクトル** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
 
     クエリベクトルに対する **data** のエイリアスです。
 
@@ -171,11 +171,11 @@ await milvusClient.searchIterator({
 
     検索結果のハイライターです。
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
     再ランキング戦略とそのパラメーターです。サポートされている再ランカー種別の詳細は、`search()` を参照してください。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     BFloat16Vector や Float16Vector などの特殊なベクトルデータ型用のカスタムトランスフォーマーです。
 

@@ -75,7 +75,7 @@ await milvusClient.getCompactionState({
 
 **パラメータ:**
 
-- **state** (*CompactionState*) -
+- **state** (*[CompactionState](./Management-CompactionState)*) -
 
 Compaction の集約状態です。指定できる値は **UndefiedState**、**Executing**、**Completed** です。
 
@@ -124,3 +124,4 @@ const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });
 ```
+
