@@ -1,13 +1,13 @@
 import {createHash} from 'node:crypto'
 import {spawnSync} from 'node:child_process'
-import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync,
+import {existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, realpathSync, rmSync, unlinkSync,
   symlinkSync, writeFileSync} from 'node:fs'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {collectorEnvironment, prepareContext, preparePaths, settleBatchPrepare} from './batch-prepare.mjs'
+import {batchDecisionSummary, collectorEnvironment, prepareContext, preparePaths, readBatchMeasurements, settleBatchPrepare} from './batch-prepare.mjs'
 
 const master = '1'.repeat(40)
 const producer = '2'.repeat(40)
@@ -170,6 +170,36 @@ test('keeps holds, no group, and a no-op out of the upload directory', t => {
   assert.deepEqual(settleBatchPrepare(result, paths, ctx), {status: 'unchanged', pageCount: 2, changeCount: 0})
   assert.throws(() => settleBatchPrepare({...held(), localCandidate: result.localCandidate}, paths, ctx), /BATCH_PREPARE_RESULT/)
   assert.throws(() => settleBatchPrepare(held('held', ['credential=raw']), paths, ctx), /BATCH_PREPARE_RESULT/)
+  assert.equal(existsSync(paths.upload), false)
+})
+
+test('projects only bounded page measurements and material progress from the owned journal', t => {
+  const {paths} = fixture(t)
+  const path = join(paths.evidence, 'measurement.json')
+  assert.equal(readBatchMeasurements(paths), undefined)
+  const page = {pageId: 'example-a', elapsedMs: 800, responseBytes: 128 * 1024 ** 2, materialBytes: 500}
+  const failure = {phase: 'worker', pageId: 'example-b', completedPages: 1, phaseElapsedMs: 100}
+  const measurement = {kind: 'guides-batch-measurement-v1', observation: 'observed', elapsedMs: 1000,
+    pages: [{...page, path: '/private/evidence'}], materialFailure: {...failure, stderr: 'do not expose'}}
+  const save = value => writeFileSync(path, JSON.stringify(value), {mode: 0o600})
+  save(measurement)
+  assert.deepEqual(readBatchMeasurements(paths), {elapsedMs: 1000, pages: [page], materialFailure: failure})
+  save({...measurement, pages: [{...page, responseBytes: page.responseBytes + 1}]})
+  assert.throws(() => readBatchMeasurements(paths), /BATCH_PREPARE_MEASUREMENT/)
+  save({...measurement, materialFailure: {...failure, pageId: page.pageId}})
+  assert.throws(() => readBatchMeasurements(paths), /BATCH_PREPARE_MEASUREMENT/)
+  unlinkSync(path)
+  symlinkSync(join(paths.evidence, 'blobs'), path)
+  assert.throws(() => readBatchMeasurements(paths), /BATCH_PREPARE_MEASUREMENT/)
+})
+
+test('retains a held decision when its optional measurement cannot be read', t => {
+  const {paths} = fixture(t)
+  const decision = settleBatchPrepare(held(), paths, ctx)
+  assert.deepEqual(batchDecisionSummary(decision, paths), {status: 'held', reasons: ['STALE_MASTER']})
+  writeFileSync(join(paths.evidence, 'measurement.json'), 'invalid measurement', {mode: 0o600})
+  assert.deepEqual(batchDecisionSummary(decision, paths),
+    {status: 'held', reasons: ['STALE_MASTER'], measurementStatus: 'unavailable'})
   assert.equal(existsSync(paths.upload), false)
 })
 

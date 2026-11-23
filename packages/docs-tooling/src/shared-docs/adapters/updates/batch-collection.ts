@@ -22,7 +22,12 @@ interface Operation {
   replayFixtureBytes?: Uint8Array;
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
-const operationMeasurements = new WeakMap<EvidenceStore, {pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]}>()
+type MaterialPhase = 'discovery-retention' | 'launcher' | 'allocation' | 'worker' | 'page-retention' | 'projection' | 'closure'
+interface OperationMeasurement {
+  pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]
+  materialFailure?: {phase: MaterialPhase; pageId: string | null; completedPages: number; phaseElapsedMs: number}
+}
+const operationMeasurements = new WeakMap<EvidenceStore, OperationMeasurement>()
 // Only the active private finalizer can create this state; public records and
 // retained descriptors never restore it or authorize completion.
 const completionValidity = new WeakMap<EvidenceStore, {deadline: number; scanStartMs: number; origin: BatchOrigin}>()
@@ -478,6 +483,11 @@ async function retainStructured(operation: Operation, value: unknown) {
 }
 async function collectOperation(operation: Operation): Promise<BatchMaterialCollection> {
   const compactPages: BatchCompactPage[] = []
+  const measurement = operationMeasurements.get(operation.store)
+  let phase: MaterialPhase = 'discovery-retention'
+  let phaseStart = performance.now()
+  let pageId: string | null = null
+  const begin = (next: MaterialPhase) => {phase = next; phaseStart = performance.now()}
   try {
     const discovery = readBatchDiscoveryCapture(operation.discovery)
     for (const evidence of discovery.evidence) {
@@ -491,9 +501,12 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     const introductionOrderRef = await retainStructured(operation, discovery.introductionOrder)
     const discoveryObject = BatchDiscoveryCommitmentSchema.parse({base: operation.base, reportRef, edgeLedgerRef, introductionOrderRef})
     const discoveryDigest = batchDigest('discovery', discoveryObject), discoveryRef = await retainStructured(operation, discoveryObject)
+    begin('launcher')
     const launcher = batchContentLauncher(await prepareTrustedLauncher(operation.capture, operation.store))
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
     for (const page of batchSorted(discovery.report.pages, p => p.pageId)) {
+      pageId = page.pageId
+      begin('allocation')
       if (!operation.active) invalid()
       currentBatchLifetime()?.check()
       if (currentBatchLifetime()) {
@@ -502,18 +515,23 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           commits: [page.current, page.oldNext, operation.base.pins.source]})
       }
       const ticket = issueContent(operation, page.pageId), began = performance.now()
+      begin('worker')
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
+      begin('page-retention')
       const retained = await retainPage(operation, ticket, child)
-      operationMeasurements.get(operation.store)?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
       if (!operation.active) invalid()
+      begin('projection')
       const request = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)!.request
       const projected = compactMaterial(child.value, request)
       if (compactPages.length && !same(projected.existing.map(o => ({manual: o.manual, path: o.path, ref: o.ref})), compactPages[0].existing.map(o => ({manual: o.manual, path: o.path, ref: o.ref})))) invalid()
       compactPages.push(compactPages.length ? Object.freeze({...projected, existing: compactPages[0].existing}) : projected)
+      measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
       // No completed promise/response/large raw text table is cached across pages.
       // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
     }
+    pageId = null
+    begin('closure')
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const restorations = new Map<string, BatchRestoreProof>()
@@ -562,6 +580,9 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     return {status: 'material-complete', ticket, memberIds: immutable([...group.memberIds]), origin: operation.base.origin}
   } catch (error) {
     // No positive pointer or qualification result is produced by this read-only material slice.
+    // Report only coordinator-owned phase and registry metadata, never child stderr or exception text.
+    if (measurement) measurement.materialFailure = {phase, pageId, completedPages: compactPages.length,
+      phaseElapsedMs: Math.ceil(performance.now() - phaseStart)}
     const message = error instanceof Error ? error.message : ''
     return {status: 'held', reasons: [/^[A-Z][A-Z0-9_]*$/.test(message) ? message : 'BATCH_MATERIAL_COLLECTION_FAILED']}
   } finally {
@@ -1079,7 +1100,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
         }
         try {
           await settleBatchMeasurement(store, stopSampling, {observation, resources: batchResourceMeasurement(store) ?? null,
-            pages: operationMeasurements.get(store)?.pages ?? [], signedProducerCapacity: 'deferred'}, validate)
+            ...operationMeasurements.get(store), signedProducerCapacity: 'deferred'}, validate)
           // Repeat synchronously after the helper's final awaited resolution.
           // No awaited work remains before the live result is issued.
           validate()
