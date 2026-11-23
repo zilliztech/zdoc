@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promis
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { BatchGitStore, batchBudget, batchRenderCommitSet, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
+import { BatchGitStore, batchBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
 import { collectBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
@@ -25,6 +25,37 @@ async function repository() {
   }
   return { root, git, change }
 }
+
+it('exports duplicate and empty blobs in one bounded Git process and refuses replaced bytes', async () => {
+  const r = await repository()
+  await r.change('first.md', 'same\r\n')
+  await r.change('second.md', 'same\r\n')
+  const original = await r.change('empty.md', '')
+  const replaced = await r.change('first.md', 'else\r\n')
+  const exportRoot = await mkdtemp(join(tmpdir(), 'batch-export-')); roots.push(exportRoot)
+  const log = join(r.root, 'git-calls'), bin = join(r.root, 'bin')
+  const binary = execFileSync('which', ['git'], {encoding: 'utf8'}).trim()
+  const quote = (path: string) => "'" + path.replaceAll("'", "'\\''") + "'"
+  await mkdir(bin)
+  await writeFile(join(bin, 'git'), '#!/bin/sh\nprintf "%s\\n" "$*" >> ' + quote(log) + '\nexec ' + quote(binary) + ' "$@"\n', {mode: 0o700})
+  vi.stubEnv('PATH', bin + ':' + process.env.PATH)
+  try {
+    const selected = ['first.md', 'second.md', 'empty.md'], clean = join(exportRoot, 'clean')
+    await expect(exportBatchTree(r.root, original, selected, clean, exportRoot)).resolves.toBe(3)
+    expect(await readFile(join(clean, 'first.md'))).toEqual(Buffer.from('same\r\n'))
+    expect(await readFile(join(clean, 'second.md'))).toEqual(Buffer.from('same\r\n'))
+    expect((await readFile(join(clean, 'empty.md'))).length).toBe(0)
+    expect((await readFile(log, 'utf8')).split('\n').filter(line => line.endsWith('cat-file --batch'))).toHaveLength(1)
+
+    const loose = (commit: string) => {
+      const oid = r.git('rev-parse', commit + ':first.md')
+      return join(r.root, '.git/objects', oid.slice(0, 2), oid.slice(2))
+    }
+    await rm(loose(original)); await writeFile(loose(original), await readFile(loose(replaced)))
+    await expect(exportBatchTree(r.root, original, selected, join(exportRoot, 'corrupt'), exportRoot))
+      .rejects.toThrow('BATCH_EXPORT_BINDING_INVALID')
+  } finally {vi.unstubAllEnvs()}
+})
 
 it('binds exact bytes and both sides of changes across a merge DAG and overlapping intervals', async () => {
   const r = await repository(), base = await r.change('root.md', '  v1\r\n\n')
