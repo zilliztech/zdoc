@@ -4,10 +4,13 @@
 // RegisterRoutesToV2 (handler_v2.go) and the request structs of the same
 // package (request_v2.go) — into a deterministic skeleton JSON. The Node
 // rest-upstream diff consumes that skeleton for source-tree lock sources
-// (`--skeleton`), so the extractor only produces structural truth: paths,
-// methods, handler names, request field names, Go-level types, and
-// binding:"required" membership. Prose, response shapes, map value types, and
-// doc-layer constraints are deliberately out of scope (fragments win those).
+// (`--skeleton`), so the extractor produces structural truth (paths,
+// methods, handler names, request field names, Go-level types,
+// binding:"required" membership) plus two machine-derived grounding-evidence
+// kinds: the fields' Go comments (x-upstream-comment) and verbatim validation
+// literals from the request structs' receiver methods (x-upstream-validation).
+// Prose, response shapes, map value types, and doc-layer constraints are
+// deliberately out of scope (fragments win those).
 //
 // Run: go run extractor.go --dir <httpserver checkout dir> --out skeleton.json
 // Only the Go standard library is used so the file runs without a module.
@@ -74,6 +77,15 @@ type schema struct {
 	// the marker before the subtree rides anywhere else, so it never reaches
 	// a fragment.
 	Comment string `json:"x-upstream-comment,omitempty"`
+	// Validation carries verbatim string literals from the request struct's
+	// receiver methods that mention one of its fields — the upstream's own
+	// validation vocabulary (accepted enum values, row policies, forced
+	// flags). Grounding evidence only: the diff harvests it off the raw
+	// request-schema node (upstreamValidation) and the marker stripper keeps
+	// it out of any fragment. Validation is attached to the operation's bare
+	// $ref request-schema node, which reference resolution would otherwise
+	// swallow.
+	Validation []string `json:"x-upstream-validation,omitempty"`
 }
 
 type fieldDef struct {
@@ -84,8 +96,13 @@ type fieldDef struct {
 }
 
 type structDef struct {
-	fields []fieldDef
+	fields      []fieldDef
+	validations []string
 }
+
+// validationLimit caps a struct's recorded validation literals so a struct
+// with a huge error surface cannot bloat the skeleton.
+const validationLimit = 12
 
 type extractor struct {
 	files       []*ast.File
@@ -126,7 +143,127 @@ func loadPackage(dir string) (*extractor, error) {
 	if parsed == 0 {
 		return nil, fail("REST_UPSTREAM_EXTRACT_NO_GO_FILES", "%s contains no non-test Go files", dir)
 	}
+	// Second pass: receiver methods may live in a file other than their
+	// struct's declaration, so validation collection only runs once every
+	// struct is known.
+	for _, file := range ex.files {
+		ex.collectValidationMessages(file)
+	}
 	return ex, nil
+}
+
+// collectValidationMessages walks every method whose receiver is a known
+// struct and records the verbatim string literals of its body that mention
+// one of the struct's field names (the JSON form, which the declaration
+// collector already falls back to the Go field name for). These literals are
+// the upstream's own validation vocabulary — grounding evidence for
+// description drafting and human adjudication. Messages assembled by
+// concatenation contribute their literal fragments only: every recorded line
+// stays a verbatim fragment, never a paraphrase.
+func (ex *extractor) collectValidationMessages(file *ast.File) {
+	for _, decl := range file.Decls {
+		funcDecl, ok := decl.(*ast.FuncDecl)
+		if !ok || funcDecl.Body == nil || funcDecl.Recv == nil || len(funcDecl.Recv.List) != 1 {
+			continue
+		}
+		structName, ok := receiverStructName(funcDecl.Recv.List[0].Type)
+		if !ok {
+			continue
+		}
+		def, known := ex.structs[structName]
+		if !known {
+			continue
+		}
+		pattern, err := fieldNeedlePattern(def)
+		if err != nil {
+			continue
+		}
+		if pattern == nil {
+			continue
+		}
+		for _, literal := range stringLiterals(funcDecl.Body) {
+			if !pattern.MatchString(literal) {
+				continue
+			}
+			line := fmt.Sprintf("%s: %s", funcDecl.Name.Name, literal)
+			known := false
+			for _, existing := range def.validations {
+				if existing == line {
+					known = true
+					break
+				}
+			}
+			if !known {
+				def.validations = append(def.validations, line)
+			}
+		}
+	}
+}
+
+// receiverStructName accepts both pointer and value receivers.
+func receiverStructName(expr ast.Expr) (string, bool) {
+	if star, ok := expr.(*ast.StarExpr); ok {
+		expr = star.X
+	}
+	ident, ok := expr.(*ast.Ident)
+	if !ok {
+		return "", false
+	}
+	return ident.Name, true
+}
+
+// fieldNeedlePattern compiles the struct's JSON field names into one
+// case-insensitive word-boundary alternation, so a short name cannot match
+// inside an unrelated word (a `data` field must not match "database") while
+// separator-adjacent mentions ("writeCondition.op") still match.
+func fieldNeedlePattern(def *structDef) (*regexp.Regexp, error) {
+	names := make([]string, 0, len(def.fields))
+	for _, field := range def.fields {
+		if field.jsonName != "" {
+			names = append(names, regexp.QuoteMeta(strings.ToLower(field.jsonName)))
+		}
+	}
+	if len(names) == 0 {
+		return nil, nil
+	}
+	return regexp.Compile(`(?i)\b(` + strings.Join(names, `|`) + `)\b`)
+}
+
+// stringLiterals collects the interpreted string literals of a subtree in
+// ast (source) order, so a method's recorded lines are deterministic.
+func stringLiterals(node ast.Node) []string {
+	var literals []string
+	ast.Inspect(node, func(current ast.Node) bool {
+		literal, ok := current.(*ast.BasicLit)
+		if !ok || literal.Kind != token.STRING {
+			return true
+		}
+		value, err := strconv.Unquote(literal.Value)
+		if err != nil || value == "" {
+			return true
+		}
+		literals = append(literals, value)
+		return true
+	})
+	return literals
+}
+
+// requestSchemaWithEvidence attaches the request struct's collected
+// validation literals (deterministic order, capped) to the operation's bare
+// $ref request-schema node.
+func (ex *extractor) requestSchemaWithEvidence(structName string) *schema {
+	node := &schema{Ref: "#/components/schemas/" + structName}
+	def, known := ex.structs[structName]
+	if !known || len(def.validations) == 0 {
+		return node
+	}
+	lines := append([]string(nil), def.validations...)
+	sort.Strings(lines)
+	if len(lines) > validationLimit {
+		lines = lines[:validationLimit]
+	}
+	node.Validation = lines
+	return node
 }
 
 // collectDeclarations gathers package-level string constants (route path
@@ -601,7 +738,7 @@ func extractSkeleton(dir, repository, sourceDir, mountPrefix string) (*skeleton,
 			Handler:       name,
 			RequestStruct: structName,
 			Deprecated:    ex.routeDeprecated(call.Args[0]),
-			RequestSchema: &schema{Ref: "#/components/schemas/" + structName},
+			RequestSchema: ex.requestSchemaWithEvidence(structName),
 		})
 	}
 	if len(operations) == 0 {

@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape, undescribedNodes, harvestUpstreamComments} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, mergeMirrorProse, droppedLocalFieldPaths, droppedLocalKeys, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, mirrorValueMatches, assertMirrorValueBound, proseNodes, isTranslationComplete, assertSchemaShape, undescribedNodes, harvestUpstreamComments, harvestUpstreamValidation} = require('./mirror')
 
 test('opaque blind spots are local-authority boundaries: overlay substitutes the fragment, retirement walkers stop', () => {
     // The Go extractor marks generic maps / interface{} / json.RawMessage as
@@ -252,7 +252,7 @@ test('assertSchemaShape refuses the PR #964 monster classes', () => {
 // --- describe-lane support (2026-11-03) -------------------------------------
 
 test('stripOpaqueMarkers strips both tooling markers from every depth', () => {
-    assert.deepEqual(stripOpaqueMarkers({'x-milvus-opaque': true, 'x-upstream-comment': 'note', type: 'object',
+    assert.deepEqual(stripOpaqueMarkers({'x-milvus-opaque': true, 'x-upstream-comment': 'note', 'x-upstream-validation': ['toProto: op must be gt or gte'], type: 'object',
         properties: {ttl: {'x-upstream-comment': 'note', type: 'integer'}}}),
     {type: 'object', properties: {ttl: {type: 'integer'}}})
 })
@@ -299,4 +299,18 @@ test('harvestUpstreamComments uses the undescribedNodes path grammar', () => {
         leaf: 'leaf comment',
         'nested.inner': 'inner comment',
     })
+})
+
+test('harvestUpstreamValidation flattens entry-level marker arrays in document order, deduped', () => {
+    const raw = {$ref: '#/components/schemas/WriteConditionReq', 'x-upstream-validation': ['toProto: op must be gt or gte']}
+    assert.deepEqual(harvestUpstreamValidation(raw), ['toProto: op must be gt or gte'])
+    const nested = {requestBody: {content: {'application/json': {schema: {
+        'x-upstream-validation': ['toProto: op must be gt or gte', 'toProto: onMissing defaults to insert', '  toProto: op must be gt or gte  '],
+    }, properties: {inner: {'x-upstream-validation': ['toProto: onMissing must be insert, skip, or error']}}}}}}
+    assert.deepEqual(harvestUpstreamValidation(nested), [
+        'toProto: op must be gt or gte',
+        'toProto: onMissing defaults to insert',
+        'toProto: onMissing must be insert, skip, or error',
+    ])
+    assert.deepEqual(harvestUpstreamValidation({type: 'string'}), [])
 })
