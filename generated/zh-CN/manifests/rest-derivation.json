@@ -3,17 +3,17 @@
     "01-import-operations.json": "f60830d79ab12bad520d12e984676cc3f7b7d23c4ad61964234da0eea08bf669",
     "02-collection-operations.json": "ae8c57b09ca4891a59093be41c7ba417393a47a0b5572a0a68b00445789c6306",
     "03-vector-operations.json": "27bc31e809dd503fdb59fbb0e34e928f1e4345f8e8c866bdb7d5baef03ff21f2",
-    "04-vector-operations-v2.json": "4fcf4ae0693d3313f5ccc5805782111c415e51d8f0889bcdaa974e7d5bd500d4",
-    "05-collection-operations-v2.json": "c0d081401d8d790cb64b595ab25b65ffdc1977cc32ad315c1332f5dce71af7db",
-    "06-database-operations-v2.json": "0f026fcf29141ed7654db86e08d1d382cab1e1c23dcb3a542c50739f5548e276",
-    "07-index-operations-v2.json": "f12180fd9514a21bf07680dd01524ccae84066004abe2ad221e29530ffddec85",
+    "04-vector-operations-v2.json": "a1125dcc41bc85666982c482a4263372933a995e7f9454e3eea10fad1fa8411d",
+    "05-collection-operations-v2.json": "8d4630631408dc5255d31388313ffc2699426dfe1711e9cad30f963e7340085d",
+    "06-database-operations-v2.json": "6c78a736fb9461ebe793fb26f245b42f462ef1a7e1c29056388fbf94cca9ac03",
+    "07-index-operations-v2.json": "dff8198ab5c57bbbb2d09dd8b9a37b521dab174bcbfb7cfef8eefa1577f4909e",
     "08-partition-operations-v2.json": "77c60f81b12acef74f4d66608be12e4d3e7326aebe8c001d1beb29b0f0b8aef0",
     "09-role-operations-v2.json": "7930c706c3383437902b6c5237876a5bef066b5fa28429ee8a517a843c7d2701",
     "10-resource-group-v2.json": "f3d4eac7297051bbef158599a68ab0b1025a53b430e5584238aed9b5bc63a143",
     "11-import-operations-v2.json": "94d884b27c79f2b11992c45a42a38688060fdfc6ae859bac9f6254a41b831e3a",
     "12-alias-operations-v2.json": "d1bebc1a999ee919d99a2de2b2b1fd9268167a18a2644538061d6f46d8727f5a",
     "13-user-operations-v2.json": "10756aa34d80213352dda4fc6764e93d3970d2dae0ed120a62b898fb5ef26796",
-    "14-privilege-group-operations-v2.json": "49dca49765a511ca7bef376e00a552388a20bc7f272181bcb21309c1c83b89a7",
+    "14-privilege-group-operations-v2.json": "813768dc3ff8001dbfd026aff6b1140f44d08d9d0d21414f2a2b546288eb698d",
     "15-cloud-meta.json": "1596c95f7dc70cc08657b1320a3275efa82314f4976f2c9e2688cbf633ddf81a",
     "16-cluster-operations.json": "916016983ec04e58ee8779a406fbc322e9479eaac1fb8ffbac729d9e51d2b8ef",
     "17-pipeline-operations.json": "e4786d64b14d7678189a08b942fbf21a78669d62887e02dc409d68db8f3757a6",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-23T11:11:14.330Z",
+  "generatedAt": "2026-11-23T11:33:59.139Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "fa9506f13ba7414cf230831413229a11aaa9c7fd"
+  "toolingSha": "bb777f717e516b221d92b9fb54bd04d70e86d965"
 }
