@@ -154,7 +154,7 @@ function validateIndex(index, master) {
 function validateFrame(frame, index, indexRaw, indexRef, candidate) {
   check(shape(frame, ['manifest', 'documents', 'objects']) && Array.isArray(frame.documents) && Array.isArray(frame.objects) &&
     frame.documents.length > 0 && frame.objects.length > 0 &&
-    frame.documents.length <= 6 + 3 * index.pages.length &&
+    frame.documents.length <= 7 + 3 * index.pages.length &&
     frame.objects.length <= 5 + 2 * index.pages.filter(page => page.disposition === 'advance').length, 'BATCH_PREPARE_HANDOFF')
   const m = frame.manifest
   const p = index.base.pins
@@ -169,7 +169,7 @@ function validateFrame(frame, index, indexRaw, indexRef, candidate) {
     m.binding?.digest === candidate.bindingDigest && sameReference(m.binding.ref, candidate.binding) &&
     sameReference(m.plan, candidate.plan) && sameReference(m.proof, candidate.proof) &&
     Array.isArray(m.members) && m.members.length === index.pages.length, 'BATCH_PREPARE_HANDOFF')
-  const requiredDocuments = [indexRef, m.binding.ref, m.plan, m.proof, m.patch, m.qualification?.ref]
+  const requiredDocuments = [indexRef, index.closureRef, m.binding.ref, m.plan, m.proof, m.patch, m.qualification?.ref]
   for (const [i, page] of index.pages.entries()) {
     const retained = m.members[i]
     check(retained?.pageId === page.pageId && retained.disposition === page.disposition &&
@@ -193,6 +193,8 @@ function validateFrame(frame, index, indexRaw, indexRef, candidate) {
   const bindingRaw = document(m.binding.ref), binding = json(bindingRaw)
   check(binding?.kind === 'guides-batch-candidate-binding-v1' && sameReference(binding.index?.ref, indexRef) &&
     binding.index.digest === m.collection.indexDigest &&
+    sameReference(binding.closure?.ref, index.closureRef) && binding.closure.digest === m.groupSha256 &&
+    m.groupSha256 === hash(Buffer.concat([Buffer.from('zdoc/guides-batch/closure/v1\n'), document(index.closureRef)])) &&
     m.binding.digest === hash(Buffer.concat([Buffer.from('zdoc/guides-batch/candidate-binding/v1\n'), bindingRaw])) &&
     sameReference(binding.qualification?.ref, m.qualification.ref) &&
     sameReference(m.qualification.ref, checkedReference(index.qualifierRef)) &&

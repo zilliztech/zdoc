@@ -190,6 +190,8 @@ test('batch writer sends one signed Draft with two changed locks and one unchang
     '\nauthor Shared update local <shared-update-local@localhost> 1 +0000' +
     '\ncommitter Shared update local <shared-update-local@localhost> 1 +0000\n\nbatch revision\n')
   const witness = {status:'verified-witness',observation:'observed',writeEligible:false,manifest,proof,baseTree:candidate.baseTree,
+    upstream:{pulls:[3848,3850],directCommits:[tree]},
+    nextLocks:[{pageId:'page-a',before:master,after:k},{pageId:'page-b',before:dev,after:k},{pageId:'page-c',before:dev,after:dev}],
     objects:[{type:'commit',oid:k,bytes},...overlays.map(({bytes}) => ({type:'blob',bytes}))],
     plan:{disposition:'candidate',unitKey:'guides:batch',nextEdits:overlays.map(item => ({
       before:{path:item.path},afterBlob:{sha256:item.sha256},
@@ -211,6 +213,8 @@ test('batch writer sends one signed Draft with two changed locks and one unchang
   assert.deepEqual(fixture.calls,['tree','candidate','stage','sign','target','draft'])
   const blocked = scenario({batch:true,expectedOverlays:overlays,stopAt:1})
   await assert.rejects(run(blocked.hooks),/stale inputs/)
+  const large = {...material,upstream:{pulls:Array.from({length:1000},(_,i) => i+1),directCommits:[]}}
+  await assert.rejects(createBatchDraft({...blocked.hooks,candidate:{...large,stage,targetRef}}),/Draft body exceeds limit/)
   assert.deepEqual(blocked.calls,[])
 })
 
@@ -250,9 +254,12 @@ function scenario({stopAt,wrongTree,wrongK,badSeal,failAfter,brokenDraft,batch,e
       assert.equal(body.head,targetRef)
       assert.equal(body.draft,true)
       if (batch) {
-        assert.match(body.body,/page-a.*advance next/)
-        assert.match(body.body,/page-b.*advance next/)
-        assert.match(body.body,/page-c.*unchanged/)
+        assert.ok(body.body.includes('[milvus-io/milvus-docs#3848](https://github.com/milvus-io/milvus-docs/pull/3848)'))
+        assert.ok(body.body.includes('[milvus-io/milvus-docs#3850](https://github.com/milvus-io/milvus-docs/pull/3850)'))
+        assert.ok(body.body.includes('[`' + tree + '`](https://github.com/milvus-io/milvus-docs/commit/' + tree + ') (direct commit)'))
+        assert.ok(body.body.includes('| `page-a` | `' + master + '` | `' + k + '` | Advanced |'))
+        assert.ok(body.body.includes('| `page-b` | `' + dev + '` | `' + k + '` | Advanced |'))
+        assert.ok(body.body.includes('| `page-c` | `' + dev + '` | `' + dev + '` | Unchanged |'))
       } else {
         assert.match(body.body,/Prior next to proposed next \| changed \| changed/)
         assert.match(body.body,/runs\/15\/artifacts\/32/)

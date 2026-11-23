@@ -11,6 +11,7 @@ const repo = 'zilliztech/zdoc'
 const repoId = 660446555
 const page = 'json-field-overview'
 const lock = 'shared-docs/guides/pages/' + page + '/lock.yaml'
+const upstreamRepository = 'https://github.com/milvus-io/milvus-docs'
 const workflow = '.github/workflows/shared-guides-update.yml'
 const bot = 41898282
 const signer = 19864447
@@ -481,7 +482,7 @@ async function openSignedDraft({api,fresh,journal,waitRef,targetRef,stage,ownedS
 export function batchDraftMaterial(contract, ctx, witness) {
   need(witness.status === 'verified-witness' && witness.observation === 'observed' && witness.writeEligible === false,
     'Batch writer requires an observed verified witness')
-  const {manifest, plan, proof, objects, baseTree} = witness
+  const {manifest, plan, proof, objects, baseTree, upstream, nextLocks} = witness
   const {master,dev,source} = manifest.base.pins
   need(master === ctx.master && ctx.attempt === 1 && manifest.members.length > 0 &&
     plan.disposition === 'candidate', 'Batch writer requires a complete candidate group')
@@ -500,20 +501,30 @@ export function batchDraftMaterial(contract, ctx, witness) {
   const seal = {kind:'shared-update-seal',schemaVersion:1,repositoryId:repoId,transactionId,unitKey:plan.unitKey,
     planSha256:contract.digest('plan',plan),proofSha256:hash(contract.canonicalBytes(proof)),master,dev,preparedBase:proof.prepared.base,
     candidate:proof.candidate,candidateTree:proof.candidateTree,previousSeal:null,preservedHumanHeads:[],runId:ctx.run,runAttempt:ctx.attempt}
-  return {manifest,unit:plan,proof,seal,baseTree,commit,overlays,targetRef,stage:'shared-update-staging/' + transactionId}
+  return {manifest,unit:plan,proof,seal,baseTree,commit,overlays,upstream,nextLocks,targetRef,stage:'shared-update-staging/' + transactionId}
 }
 
 export async function createBatchDraft({api,candidate,fresh,form,verify,journal,provenance,waitRef = awaitRef}) {
-  const {manifest,seal,stage,targetRef,overlays} = candidate
+  const {manifest,seal,stage,targetRef,overlays,upstream,nextLocks} = candidate
+  const changes = [
+    ...upstream.pulls.map(pr => '- [milvus-io/milvus-docs#' + pr + '](' + upstreamRepository + '/pull/' + pr + ')'),
+    ...upstream.directCommits.map(commit => '- [`' + commit + '`](' + upstreamRepository + '/commit/' + commit + ') (direct commit)')
+  ]
+  const rows = nextLocks.map(({pageId,before,after}) =>
+    '| `' + pageId + '` | `' + before + '` | `' + after + '` | ' + (before === after ? 'Unchanged' : 'Advanced') + ' |')
+  const {master,dev,source} = manifest.base.pins
+  const draftBody = signed => ['Advance the next locks for one verified Milvus Guides batch to `' + source + '`.',
+    '','### Upstream changes','',...changes,
+    '','### Next locks','','| Page | Previous `next` | Proposed `next` | Result |','| --- | --- | --- | --- |',...rows,
+    '','Signed head `' + signed + '`.',
+    '[Qualification and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'].join('\n')
+  // K and its signed child have the same OID width. Reject a body too
+  // large to post before creating any Git objects or refs.
+  need(Buffer.byteLength(draftBody(seal.candidate)) <= 65536, 'Batch Draft body exceeds limit')
   const {candidate:k,seal:s,signed,ownedStage} = await stageSignedCandidate({api,candidate,overlays,fresh,form,verify,journal,waitRef})
   provenance(s,signed)
-  const {master,dev,source} = manifest.base.pins
-  const summary = manifest.members.map(member => '- `' + member.pageId + '` — ' + (member.disposition === 'advance' ? 'advance next' : 'unchanged'))
   const prNumber = await openSignedDraft({api,fresh,journal,waitRef,targetRef,stage,ownedStage,s,master,changeCount:overlays.length,
-    title:'Update the shared Guides batch to ' + source.slice(0,8),
-    body:['Advance the next locks for one verified Milvus Guides batch to `' + source + '`.',
-      '',...summary,'','Signed head `' + s + '`.',
-      '[Qualification and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'].join('\n')})
+    title:'Update the shared Guides batch to ' + source.slice(0,8),body:draftBody(s)})
   return {status:'created',repository:repo,prNumber,url:'https://github.com/' + repo + '/pull/' + prNumber,master,dev,target:source,
     candidate:k,seal:s,...signed,stage,targetRef,groupSha256:manifest.groupSha256}
 }

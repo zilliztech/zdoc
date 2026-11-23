@@ -6,16 +6,16 @@ import {CandidateSnapshotProofSchema, ContentMembersSchema, DigestSchema, GitSha
 import {METADATA_LIMITS} from '../../core/updates/metadata'
 import {captureUnitMaterial} from '../../core/updates/unit-plan'
 import {immutable} from '../../core/updates/types'
-import {BatchArtifactSchema, BatchBaseSchema, BatchBlobRefSchema, BatchCollectionIndexSchema, BatchCollectionPointerSchema, BatchCommitHistorySchema,
+import {BatchArtifactSchema, BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchCollectionPointerSchema, BatchCommitHistorySchema,
   BatchCountSchema, BatchMethodSchema, BatchPageIdSchema, BatchPinsSchema, BatchQualificationSchema, BatchRunSchema,
   batchDigest, batchRef, decodeBatchBlob, parseBatchCanonical, type BatchBlobRef} from './batch-collection-contract'
 import {inspectNewGuidesBatchCandidate} from './remote-transaction'
 
-// The ZIP contains one file. Inside it, count one manifest, six shared
+// The ZIP contains one file. Inside it, count one manifest, seven shared
 // documents, up to three documents per page, four common Git directories
 // and one commit, and a directory plus lock blob per changed page.
 export const BATCH_HANDOFF_LIMITS = Object.freeze({encodedBytes: 2 * 1024 ** 2, entryBytes: 1024 ** 2,
-  members: 12 + 3 * METADATA_LIMITS.subjects + 2 * METADATA_LIMITS.lockDeltas})
+  members: 13 + 3 * METADATA_LIMITS.subjects + 2 * METADATA_LIMITS.lockDeltas})
 
 type RawObject = {oid: string; type: 'blob' | 'tree' | 'commit'; bytes: Uint8Array}
 const gitObjectOid = (type: RawObject['type'], bytes: Uint8Array) => createHash('sha1').update(`${type} ${bytes.length}\0`).update(bytes).digest('hex')
@@ -149,6 +149,25 @@ async function inspectCompactHandoff<T extends 'observed' | 'replay'>({bytes, ba
     proof.trustedToolsetSha256 === manifest.toolset.sha256 && same(proof.executableClosure, manifest.toolset.executableClosure), 'BATCH_HANDOFF_PROOF')
   const ids = manifest.members.map(row => row.pageId)
   const dispositions = manifest.members.map(row => [row.pageId, row.disposition])
+  // The observed writer needs the exact selected closure. Older retained
+  // replay frames may predate the document and cannot authorize a write.
+  const upstream = {pulls: [] as number[], directCommits: [] as string[]}
+  if (observation === 'observed' || docs.has(binding.closure.ref.sha256)) {
+    const closure = value(binding.closure.ref, BatchClosureSchema)
+    check(batchDigest('closure', closure) === binding.closure.digest && same(closure.base, manifest.base) &&
+      closure.discoveryDigest === binding.discovery.digest && closure.allMaterialDigest === binding.materials.digest &&
+      same(closure.memberIds, ids) && closure.seedKeys.length > 0, 'BATCH_HANDOFF_CLOSURE')
+    for (const seed of closure.seedKeys) {
+      const match = /^pr:([1-9][0-9]*)$/.exec(seed)
+      if (match && match[0] === seed && Number.isSafeInteger(Number(match[1]))) upstream.pulls.push(Number(match[1]))
+      else {
+        const commit = /^commit:([a-f0-9]{40})$/.exec(seed)
+        check(commit && commit[0] === seed && GitShaSchema.safeParse(commit[1]).success, 'BATCH_HANDOFF_SOURCE')
+        upstream.directCommits.push(commit[1])
+      }
+    }
+    upstream.pulls.sort((a, b) => a - b)
+  }
   const edited = plan.nextEdits.map(edit => edit.subject.kind === 'guides-page' ? edit.subject.pageId : '').sort(compareUtf8)
   check(ordered(ids) && [index.pages, binding.pages].every(rows => same(rows.map(row => [row.pageId, row.disposition]), dispositions)) &&
     [index.receiptsRoot.pages, qualified.rows].every(rows => same(rows.map(row => row.pageId), ids)) &&
@@ -197,8 +216,16 @@ async function inspectCompactHandoff<T extends 'observed' | 'replay'>({bytes, ba
   const delta = await inspectNewGuidesBatchCandidate({master: pins.master, dev: pins.dev, sourceTarget: pins.source,
     trustedToolset: manifest.toolset, plan, proof, contexts, source, baseline})
   check(delta.rawDiff.equals(rawPatch) && same([...git.keys()], delta.objects.map(object => object.oid).sort(compareUtf8)), 'BATCH_HANDOFF_GIT_INVENTORY')
+  const edits = new Map(plan.nextEdits.map(edit => [edit.before.path, edit]))
+  const nextLocks = contexts.map(({lock}, i) => {
+    const before = qualified.rows[i].oldNext
+    const edit = edits.get(lock.path)
+    check(!edit || edit.before.next === before, 'BATCH_HANDOFF_LOCK_SUMMARY')
+    return {pageId: manifest.members[i].pageId, before, after: edit?.target ?? before}
+  })
   return {status: 'verified-witness' as const, observation, writeEligible: false as const, operations: [] as const,
     manifest: immutable(manifest), proof: immutable(proof), plan: immutable(plan),
+    upstream: immutable(upstream), nextLocks: immutable(nextLocks),
     baseTree: delta.baseTree, objects: delta.objects, rawPatch: delta.rawDiff}
 }
 

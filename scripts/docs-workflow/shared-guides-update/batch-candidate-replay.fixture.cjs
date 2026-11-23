@@ -204,6 +204,16 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   deepStrictEqual(verified.operations, [])
   deepStrictEqual(verified.proof, proof)
   deepStrictEqual(verified.plan, plan)
+  const closure = JSON.parse(await evidence.readBlob(binding.closure.ref))
+  const pullSeeds = closure.seedKeys.filter(seed => seed.startsWith('pr:')).map(seed => Number(seed.slice(3))).sort((a, b) => a - b)
+  const commitSeeds = closure.seedKeys.filter(seed => seed.startsWith('commit:')).map(seed => seed.slice('commit:'.length))
+  equal(pullSeeds.length + commitSeeds.length > 0, true)
+  deepStrictEqual(verified.upstream, {pulls: pullSeeds, directCommits: commitSeeds})
+  for (const row of verified.nextLocks) {
+    const edit = plan.nextEdits.find(edit => edit.subject.pageId === row.pageId)
+    if (edit) deepStrictEqual([row.before, row.after], [edit.before.next, edit.target])
+    else equal(row.before, row.after)
+  }
   deepStrictEqual(manifest.base, binding.base)
   equal(manifest.groupSha256, binding.closure.digest)
   deepStrictEqual(manifest.binding, {ref: candidate.binding, digest: candidate.bindingDigest})
@@ -218,6 +228,11 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   await rejects(() => inspectObservedBatchHandoff(input), /BATCH_HANDOFF_ORIGIN/)
   await rejects(() => inspectReplayBatchHandoff({...input, expected: {...expected, pins: {...pins, dev: pins.master}}}),
     /BATCH_HANDOFF_PINS/)
+
+  const legacy = canonicalBytes({...frame, documents: frame.documents.filter(item => item.ref.sha256 !== binding.closure.ref.sha256)})
+  const legacyResult = await inspectReplayBatchHandoff({...input, bytes: legacy, expected: {...expected, ref: batchRef(legacy)}})
+  deepStrictEqual(legacyResult.upstream, {pulls: [], directCommits: []})
+  deepStrictEqual(legacyResult.nextLocks, verified.nextLocks)
 
   const negatives = []
   async function tamper(name, mutate, reason) {
@@ -234,6 +249,12 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   await tamper('substituted report', changed => {
     changed.manifest.members[0].report = changed.manifest.members[1].report
   }, /BATCH_HANDOFF_MEMBERS/)
+  await tamper('substituted attribution closure', changed => {
+    const source = changed.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256)
+    const raw = Buffer.from(source.base64, 'base64').toString('utf8')
+    source.base64 = Buffer.from(raw.replace(/"(pr:|commit:)/, '"unverified:')).toString('base64')
+    equal(source.base64 === frame.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256).base64, false)
+  }, /BLOB_BINDING/)
   await tamper('extra document', changed => {
     const raw = Buffer.from('null')
     changed.documents.push({ref: batchRef(raw), base64: raw.toString('base64')})
@@ -254,7 +275,7 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   await write('compact-handoff-verification.json', {ref: result.handoff, candidate: verified.proof.candidate, tree: verified.proof.candidateTree,
     group: manifest.groupSha256, documents: frame.documents.length, objects: verified.objects.length,
     members: manifest.members.map(row => [row.pageId, row.disposition]), bytes: bytes.length,
-    rawPatchBytes: verified.rawPatch.length, observation: verified.observation, negatives})
+    rawPatchBytes: verified.rawPatch.length, observation: verified.observation, upstream: verified.upstream, nextLocks: verified.nextLocks, negatives})
 }
 
 async function replayDraft({f, options, inspectSignedBatchCandidate, binding, candidate, plan, evidence, qualification,

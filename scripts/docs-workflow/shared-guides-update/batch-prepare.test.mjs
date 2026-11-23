@@ -61,13 +61,17 @@ function fixture(t, {change = true, batchPages} = {}) {
   const reportRef = ref(Buffer.from('qualified report')), qualifierRef = doc('qualification'), disposition = change ? 'advance' : 'noop'
   const pages = batchPages?.map(pageId => ({pageId, disposition, reportRef})) ??
     [{pageId: 'example-a', disposition, reportRef}, {pageId: 'example-b', disposition: 'noop', reportRef}]
+  const closureRaw = Buffer.from(JSON.stringify({base,memberIds:pages.map(page => page.pageId),seedKeys:['pr:3848']}))
+  const closureRef = document(closureRaw)
+  const groupSha256 = hash(Buffer.concat([Buffer.from('zdoc/guides-batch/closure/v1\n'), closureRaw]))
   const index = {kind: 'guides-batch-collection-index-v1', base, run: {id: run - 100, attempt: 1, head: producer},
-    groupSha256: '7'.repeat(64), qualifierRef, pages, writeEligible: false, operations: []}
+    groupSha256, closureRef, qualifierRef, pages, writeEligible: false, operations: []}
   const {reference: indexRef, raw: indexRaw} = retain(index)
   document(indexRaw)
   const indexDigest = hash(Buffer.concat([Buffer.from('zdoc/guides-batch/index/v1\n'), indexRaw]))
   const bindingRaw = Buffer.from(JSON.stringify({kind: 'guides-batch-candidate-binding-v1', index: {ref: indexRef, digest: indexDigest},
-    qualification: {ref: qualifierRef}, pages: index.pages.map(page => ({pageId: page.pageId, disposition: page.disposition,
+    closure: {ref: closureRef,digest: groupSha256}, qualification: {ref: qualifierRef},
+    pages: index.pages.map(page => ({pageId: page.pageId, disposition: page.disposition,
       qualifiedReportRef: page.reportRef}))}))
   const localCandidate = {status: change ? 'candidate' : 'no-change', observation: 'observed',
     candidate: commit.oid, bindingDigest: hash(Buffer.concat([Buffer.from('zdoc/guides-batch/candidate-binding/v1\n'), bindingRaw])),
@@ -151,7 +155,7 @@ test('retains only the positively bound handoff and exposes only counts', t => {
 test('a 12-page candidate fits the same bounded transport with its full inventory', t => {
   const batchPages = Array.from({length:12},(_,i) => 'page-' + String(i).padStart(2,'0'))
   const {paths,result,frame,retain} = fixture(t,{batchPages})
-  assert.equal(1 + frame.documents.length + frame.objects.length,72)
+  assert.equal(1 + frame.documents.length + frame.objects.length,73)
   const tooMany = structuredClone(frame)
   tooMany.objects.push({oid:'1'.repeat(40),type:'tree',base64:'eA=='})
   assert.throws(() => settleBatchPrepare({...result,handoff:retain(tooMany).reference},paths,ctx), /BATCH_PREPARE_HANDOFF/)

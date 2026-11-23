@@ -323,7 +323,7 @@ it('bounds the compact candidate inventory by decoded entries, bytes and the fin
   expect(() => inventory.object({ oid, type: 'blob', bytes: raw })).toThrow('BATCH_HANDOFF_GIT_BINDING')
 
   const twelvePages = createBatchHandoffInventory()
-  for (let i = 0; i < 11 + 5 * 12; i++) {
+  for (let i = 0; i < 12 + 5 * 12; i++) {
     const bytes = Buffer.from(String(i))
     twelvePages.document(fixtureBlob(bytes), bytes)
   }

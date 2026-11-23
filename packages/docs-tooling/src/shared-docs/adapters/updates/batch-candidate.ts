@@ -361,7 +361,7 @@ async function buildCompactHandoff(input: CandidateLaunch, binding: Binding, can
     inventory.document(ref, raw)
     return ref
   }
-  for (const ref of [candidate.binding, binding.index.ref, binding.qualification.ref, candidate.plan, candidate.proof, proof.patch]) await retainRef(ref)
+  for (const ref of [candidate.binding, binding.index.ref, binding.qualification.ref, binding.closure.ref, candidate.plan, candidate.proof, proof.patch]) await retainRef(ref)
   const qualification = await read.value(binding.qualification.ref, BatchQualificationSchema)
   const members = []
   for (const [i, {collectedReport, history, ...facts}] of contexts.entries()) {
