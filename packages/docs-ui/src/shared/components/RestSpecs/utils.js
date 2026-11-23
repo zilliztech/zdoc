@@ -7,7 +7,9 @@ import { normalizeDocsLinkLocale, rewriteHtmlHrefAttributes } from '../../links/
 export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
     const condition = isControlPlane(endpoint, pubTarget, planeConfig)
 
-    var server = "https://api.cloud.zilliz.com";
+    // The Chinese site serves the control plane from the .cn mirror; the v1
+    // region branch below follows the same locale split.
+    var server = lang === "zh-CN" ? "https://api.cloud.zilliz.com.cn" : "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
     var prompt = isBeta(endpoint) ? i18n[lang]["admonition.control.plane.v2"] + i18n[lang]["admonition.beta.warning"] : i18n[lang]["admonition.control.plane.v2"]
 
