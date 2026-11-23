@@ -204,7 +204,7 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   deepStrictEqual(verified.operations, [])
   deepStrictEqual(verified.proof, proof)
   deepStrictEqual(verified.plan, plan)
-  const closure = JSON.parse(await evidence.readBlob(binding.closure.ref))
+  const closure = JSON.parse(Buffer.from(await evidence.readBlob(binding.closure.ref)).toString('utf8'))
   const pullSeeds = closure.seedKeys.filter(seed => seed.startsWith('pr:')).map(seed => Number(seed.slice(3))).sort((a, b) => a - b)
   const commitSeeds = closure.seedKeys.filter(seed => seed.startsWith('commit:')).map(seed => seed.slice('commit:'.length))
   equal(pullSeeds.length + commitSeeds.length > 0, true)
@@ -242,7 +242,7 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
     await rejects(() => inspectReplayBatchHandoff({...input, bytes: changedBytes, expected: {...expected, ref: batchRef(changedBytes)}}), reason)
     negatives.push(name)
   }
-  await tamper('missing noop', changed => changed.manifest.members.pop(), /BATCH_HANDOFF_MEMBERS/)
+  await tamper('missing noop', changed => changed.manifest.members.pop(), /BATCH_HANDOFF_CLOSURE/)
   await tamper('missing report', changed => {
     changed.documents = changed.documents.filter(item => item.ref.sha256 !== changed.manifest.members[0].report.sha256)
   }, /BATCH_HANDOFF_DOCUMENT/)
@@ -252,7 +252,7 @@ async function verifyCompactHandoff({result, evidence, candidate, binding, plan,
   await tamper('substituted attribution closure', changed => {
     const source = changed.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256)
     const raw = Buffer.from(source.base64, 'base64').toString('utf8')
-    source.base64 = Buffer.from(raw.replace(/"(pr:|commit:)/, '"unverified:')).toString('base64')
+    source.base64 = Buffer.from(raw.replace(/"(?:pr|commit):/, prefix => `"x${prefix.slice(2)}`)).toString('base64')
     equal(source.base64 === frame.documents.find(item => item.ref.sha256 === binding.closure.ref.sha256).base64, false)
   }, /BLOB_BINDING/)
   await tamper('extra document', changed => {
