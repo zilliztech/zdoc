@@ -1328,7 +1328,7 @@ export async function qualifyBatchLifecycle(data){
   const pins = [raw(apiRoot, {id: 660446555, full_name: 'zilliztech/zdoc'}), raw('repos/milvus-io/milvus-docs', {id: 267273319, full_name: 'milvus-io/milvus-docs'}),
     ...[['zilliztech/zdoc', 'master', a.commit], ['zilliztech/zdoc', 'dev', f.devCommit], ['milvus-io/milvus-docs', 'v3.0.x', target]].map(([repo, branch, sha]) => raw(`repos/${repo}/git/ref/heads/${branch}`, {ref: 'refs/heads/' + branch, object: {type: 'commit', sha}}))]
   const fixtureBytes = canonicalBytes({kind: 'guides-batch-replay-fixture-v1', root: dataRoot, pins,
-    acquisition: [raw(apiRoot + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}), ...rows.slice(0, 4)],
+    acquisition: [raw(apiRoot + '/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1', {workflow_runs: [run]}), ...rows.slice(0, 4)],
     qualification: [...rows, rows[6]], archives: {source: {id: 31, path: 'source.zip', bytes: sourceBytes.length, sha256: rawSha256(sourceBytes)}, publication: {id: 32, path: 'publication.zip', bytes: publicationBytes.length, sha256: rawSha256(publicationBytes)}}, images: []})
   const capture = await captureTrustedToolset(a), original = toolset.batchContentLauncher
   let admitted = 0, launchFailure: {message?: string; settlement?: unknown} | undefined

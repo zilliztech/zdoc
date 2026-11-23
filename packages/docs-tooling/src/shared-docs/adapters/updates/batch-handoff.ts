@@ -6,7 +6,7 @@ import {CandidateSnapshotProofSchema, ContentMembersSchema, DigestSchema, GitSha
 import {METADATA_LIMITS} from '../../core/updates/metadata'
 import {captureUnitMaterial} from '../../core/updates/unit-plan'
 import {immutable} from '../../core/updates/types'
-import {BatchArtifactSchema, BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchCollectionPointerSchema, BatchCommitHistorySchema,
+import {BatchArtifactSchema, BatchSelectionArtifactSchema, BatchBaseSchema, BatchBlobRefSchema, BatchClosureSchema, BatchCollectionIndexSchema, BatchCollectionPointerSchema, BatchCommitHistorySchema,
   BatchCountSchema, BatchMethodSchema, BatchPageIdSchema, BatchPinsSchema, BatchQualificationSchema, BatchRunSchema,
   batchDigest, batchRef, decodeBatchBlob, parseBatchCanonical, type BatchBlobRef} from './batch-collection-contract'
 import {inspectNewGuidesBatchCandidate} from './remote-transaction'
@@ -67,7 +67,7 @@ export const BatchCandidateBindingSchema = z.strictObject({
 })
 const toolset = z.strictObject({sha256: DigestSchema, executableClosure: BatchBlobRefSchema})
 const fetch = z.strictObject({run: BatchRunSchema, sourceJobId: BatchCountSchema.positive(), scanStartMs: BatchCountSchema,
-  sourceArtifact: BatchArtifactSchema, publicationArtifact: BatchArtifactSchema})
+  sourceArtifact: BatchArtifactSchema, publicationArtifact: BatchArtifactSchema, selectionArtifact: BatchSelectionArtifactSchema.optional()})
 const manifestSchema = z.strictObject({
   kind: z.literal('guides-batch-compact-handoff-v2'), base: BatchBaseSchema, collection: BatchCollectionPointerSchema,
   method: BatchMethodSchema, groupSha256: DigestSchema, fetch, binding: commitment, qualification: commitment,
@@ -137,7 +137,8 @@ async function inspectCompactHandoff<T extends 'observed' | 'replay'>({bytes, ba
     same(binding.method, manifest.method) && same(index.method, manifest.method) && manifest.method.trustedTools === pins.master &&
     manifest.method.producer === binding.run.head &&
     same(manifest.fetch, {run: binding.run, sourceJobId: qualified.rows[0].sourceJobId, scanStartMs: qualified.scanStartMs,
-      sourceArtifact: qualified.sourceArtifact, publicationArtifact: qualified.publicationArtifact}), 'BATCH_HANDOFF_QUALIFICATION')
+      sourceArtifact: qualified.sourceArtifact, publicationArtifact: qualified.publicationArtifact,
+      ...(qualified.selectionArtifact ? {selectionArtifact: qualified.selectionArtifact} : {})}), 'BATCH_HANDOFF_QUALIFICATION')
   check(same([index.discoveryRef, index.discoveryDigest, index.materialRoot, index.materialDigest, index.closureRef],
     [binding.discovery.ref, binding.discovery.digest, binding.materials.ref, binding.materials.digest, binding.closure.ref]) &&
     same(index.qualifierRef, binding.qualification.ref) && index.qualifierDigest === binding.qualification.digest &&

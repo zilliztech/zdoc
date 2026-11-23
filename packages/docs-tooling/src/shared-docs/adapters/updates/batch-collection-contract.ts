@@ -82,6 +82,7 @@ export type BatchScope = z.infer<typeof BatchScopeSchema>
 export const BatchMethodSchema = z.strictObject({kind: z.literal('fetch-producer-profile-v2'), trustedTools: GitShaSchema,
   producer: GitShaSchema, profileSha256: DigestSchema})
 export const BatchArtifactSchema = z.strictObject({id: BatchCountSchema.positive(), bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+export const BatchSelectionArtifactSchema = BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024)
 export const BatchOutputTupleSchema = z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema,
   oid: GitShaSchema, bytes: BatchCountSchema.max(BATCH_BLOB_LIMIT), sha256: DigestSchema})
 export const BatchQualificationRowSchema = z.strictObject({pageId: BatchPageIdSchema, materialDigest: DigestSchema,
@@ -96,7 +97,7 @@ export const BatchQualificationRowSchema = z.strictObject({pageId: BatchPageIdSc
 export type BatchQualificationRow = z.infer<typeof BatchQualificationRowSchema>
 export const BatchQualificationSchema = z.strictObject({kind: z.literal('guides-batch-qualification-v1'), base: BatchBaseSchema,
   run: BatchRunSchema, scopeDigest: DigestSchema, method: BatchMethodSchema, sourceArtifact: BatchArtifactSchema,
-  publicationArtifact: BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024), scanStartMs: BatchCountSchema,
+  publicationArtifact: BatchArtifactSchema.refine(a => a.bytes <= 1024 * 1024), selectionArtifact: BatchSelectionArtifactSchema.optional(), scanStartMs: BatchCountSchema,
   rows: z.array(BatchQualificationRowSchema).min(1).refine(v => ordered(v, r => r.pageId))})
 export type BatchQualification = z.infer<typeof BatchQualificationSchema>
 export const BatchReceiptsRootSchema = z.strictObject({base: BatchBaseSchema, scopeDigest: DigestSchema, qualifierRawSha256: DigestSchema,
@@ -131,16 +132,17 @@ export const BatchVerifyControlSchema = z.strictObject({kind: z.literal('guides-
   qualifierRef: BatchBlobRefSchema, qualifierDigest: DigestSchema, profileDigest: DigestSchema, receiptsRoot: BatchReceiptsRootSchema,
   indexRef: BatchBlobRefSchema, indexDigest: DigestSchema, rootIdentity: directoryIdentity, blobsIdentity: directoryIdentity})
 export type BatchVerifyControl = z.infer<typeof BatchVerifyControlSchema>
+const stagedArchive = z.strictObject({id: BatchCountSchema.positive(), path: localPath})
 export const BatchQualifierRequestSchema = z.strictObject({kind: z.literal('guides-batch-qualify-v1'), scope: BatchScopeSchema,
   sourceRepository: localPath, devRepository: localPath, temporaryRoot: localPath,
-  archives: z.strictObject({source: z.strictObject({id: BatchCountSchema.positive(), path: localPath}),
-    publication: z.strictObject({id: BatchCountSchema.positive(), path: localPath})})})
+  archives: z.strictObject({source: stagedArchive, publication: stagedArchive, selection: stagedArchive.optional()})})
 export type BatchQualifierRequest = z.infer<typeof BatchQualifierRequestSchema>
 const replayBody = z.strictObject({path: text.min(1), bytes: BatchCountSchema.positive().max(16 * 1024 * 1024), sha256: DigestSchema, base64: text})
 const replayFile = z.strictObject({path: RepoPathSchema, bytes: BatchCountSchema.positive().max(256 * 1024 * 1024), sha256: DigestSchema})
+const replayArchive = replayFile.extend({id: BatchCountSchema.positive()})
 export const BatchReplayFixtureSchema = z.strictObject({kind: z.literal('guides-batch-replay-fixture-v1'), root: localPath,
   discovery: z.array(replayBody).max(63).optional(), finalPass: z.array(replayBody).max(63).optional(), acquisition: z.array(replayBody).max(63), qualification: z.array(replayBody).max(63), pins: z.array(replayBody).max(5),
-  archives: z.strictObject({source: replayFile.extend({id: BatchCountSchema.positive()}), publication: replayFile.extend({id: BatchCountSchema.positive()})}),
+  archives: z.strictObject({source: replayArchive, publication: replayArchive, selection: replayArchive.optional()}),
   images: z.array(replayFile.extend({url: text.min(1)})).refine(v => ordered(v, i => i.url))})
 export type BatchReplayFixture = z.infer<typeof BatchReplayFixtureSchema>
 

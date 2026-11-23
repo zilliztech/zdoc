@@ -6,7 +6,7 @@ import {fileURLToPath, pathToFileURL} from 'node:url'
 
 const repositoryId = 660446555
 const fetchPath = '.github/workflows/fetch-docs.yml'
-const scheduledFetch = 'repos/zilliztech/zdoc/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'
+const latestFetch = 'repos/zilliztech/zdoc/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1'
 const summaryLimit = 64 * 1024 + 1
 const indexLimit = 16 * 1024 * 1024
 const pageResponseLimit = 128 * 1024 * 1024
@@ -14,14 +14,16 @@ const oid = /^[a-f0-9]{40}$/
 const digest = /^[a-f0-9]{64}$/
 const pageId = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
-export function previewScheduledFetch(value) {
+export function previewBatchFetch(value) {
   const runs = value?.workflow_runs
   const run = Array.isArray(runs) && runs.length === 1 ? runs[0] : null
   if (!Number.isSafeInteger(run?.id) || run.id < 1 || run.repository?.id !== repositoryId ||
       run.head_repository?.id !== repositoryId || run.workflow_id !== 83360731 || run.path !== fetchPath ||
-      run.head_branch !== 'master' || run.event !== 'schedule' || run.run_attempt !== 1 ||
-      typeof run.head_sha !== 'string' || !oid.test(run.head_sha)) return {status: 'held', reason: 'SCHEDULED_FETCH_UNOBSERVED'}
-  if (run.status !== 'completed' || run.conclusion !== 'success') return {status: 'held', reason: 'SCHEDULED_FETCH_UNAVAILABLE'}
+      run.head_branch !== 'master' || !['schedule', 'workflow_dispatch'].includes(run.event) || run.run_attempt !== 1 ||
+      (run.event === 'workflow_dispatch' && (!Number.isSafeInteger(run.actor?.id) || run.actor.id < 1 ||
+        run.triggering_actor?.id !== run.actor.id)) ||
+      typeof run.head_sha !== 'string' || !oid.test(run.head_sha)) return {status: 'held', reason: 'BATCH_FETCH_UNOBSERVED'}
+  if (run.status !== 'completed' || run.conclusion !== 'success') return {status: 'held', reason: 'BATCH_FETCH_UNAVAILABLE'}
   // This gate only avoids starting an expensive runner when the latest run
   // cannot qualify. The collector independently authenticates the evidence.
   return {status: 'check', runId: run.id, head: run.head_sha}
@@ -131,15 +133,15 @@ function run(args) {
   if (args.length === 1 && args[0] === 'preview') {
     let preview
     try {
-      const raw = execFileSync('gh', ['api', '--hostname', 'github.com', '--method', 'GET', scheduledFetch],
+      const raw = execFileSync('gh', ['api', '--hostname', 'github.com', '--method', 'GET', latestFetch],
         {stdio: ['ignore', 'pipe', 'pipe'], timeout: 25000, maxBuffer: 256 * 1024})
-      preview = previewScheduledFetch(JSON.parse(raw))
+      preview = previewBatchFetch(JSON.parse(raw))
     } catch {
-      preview = {status: 'held', reason: 'SCHEDULED_FETCH_UNOBSERVED'}
+      preview = {status: 'held', reason: 'BATCH_FETCH_UNOBSERVED'}
     }
     appendFileSync(process.env.GITHUB_OUTPUT, 'status=' + preview.status + '\n')
     const summary = preview.status === 'check'
-      ? 'Latest scheduled Fetch ' + preview.runId + ' finished successfully. Batch verification is pending.'
+      ? 'Latest normal Fetch ' + preview.runId + ' finished successfully. Batch verification is pending.'
       : 'Batch qualification paused (' + preview.reason + ').'
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n')
   } else if (args.length === 2 && args[0] === 'collect') collect(args[1])

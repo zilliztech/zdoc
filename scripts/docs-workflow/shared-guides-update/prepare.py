@@ -1576,16 +1576,22 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     for page in dispositions['pages']:
         batch_exact(page, 'pageId disposition beforeSha256 targetSha256 reasons')
         require(page['disposition'] in ('advance', 'noop') and page['reasons'] == [], 'BATCH_CLOSURE_INVALID')
-    q = reader.object(control['qualifierRef'], 'kind base run scopeDigest method sourceArtifact publicationArtifact scanStartMs rows')
+    q = reader.blob(control['qualifierRef'], parse=True)
+    selection_field = ' selectionArtifact' if type(q) is dict and 'selectionArtifact' in q else ''
+    batch_exact(q, 'kind base run scopeDigest method sourceArtifact publicationArtifact scanStartMs rows' + selection_field)
     require(q['kind'] == 'guides-batch-qualification-v1' and q['base'] == base and q['run'] == run and q['scopeDigest'] == control['scopeDigest']
             and batch_digest('qualifier', q) == control['qualifierDigest'], 'BATCH_QUALIFIER_BINDING_INVALID')
     method = validate_profile_method(q['method'], expected_kind='fetch-producer-profile-v2', master=pins['master'], producer=run['head'],
                                      observed_tool=pins['trustedTools'], expected_digest=control['profileDigest'])
-    for key, limit in (('sourceArtifact', 256 * 1024**2), ('publicationArtifact', 1024**2)):
+    artifact_limits = {'sourceArtifact': 256 * 1024**2, 'publicationArtifact': 1024**2}
+    if selection_field:
+        artifact_limits['selectionArtifact'] = 1024**2
+    for key, limit in artifact_limits.items():
         artifact_row = batch_exact(q[key], 'id bytes sha256')
         require(type(artifact_row['id']) is int and artifact_row['id'] > 0 and type(artifact_row['bytes']) is int
                 and 0 < artifact_row['bytes'] <= limit and DIGEST.fullmatch(artifact_row['sha256']), 'BATCH_ARTIFACT_INVALID')
-    require(q['sourceArtifact']['id'] != q['publicationArtifact']['id'] and type(q['scanStartMs']) is int and q['scanStartMs'] >= 0,
+    require(len({q[key]['id'] for key in artifact_limits}) == len(artifact_limits)
+            and type(q['scanStartMs']) is int and q['scanStartMs'] >= 0,
             'BATCH_ARTIFACT_INVALID')
     require([r['pageId'] for r in q['rows']] == members, 'BATCH_MEMBER_SET_INVALID')
     receipts = batch_exact(control['receiptsRoot'], 'base scopeDigest qualifierRawSha256 pages')
