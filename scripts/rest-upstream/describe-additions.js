@@ -242,10 +242,11 @@ async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, b
     const apiKey = process.env[apiKeyEnv]
     if (!apiKey) fail(`REST_UPSTREAM_DESCRIBE_API_KEY_MISSING: --api-key-env ${apiKeyEnv} is not set`)
     const upstreamCommentsByEntry = new Map((diff?.entries ?? []).map(entry => [entry.id, entry.upstreamComments ?? {}]))
+    const upstreamValidationByEntry = new Map((diff?.entries ?? []).map(entry => [entry.id, entry.upstreamValidation ?? []]))
     // Change-set entries carry opPath but not opKey; the diff entry has it.
     const opKeyByEntry = new Map((diff?.entries ?? []).map(entry => [entry.id, entry.opKey ?? null]))
     const referenceIndex = buildReferenceIndex(fragmentsDir)
-    const report = {model, describedEntries: 0, describedNodes: 0, degraded: [], grounding: {upstreamCommentsUsed: 0, referencesUsed: 0}}
+    const report = {model, describedEntries: 0, describedNodes: 0, degraded: [], grounding: {upstreamCommentsUsed: 0, referencesUsed: 0, upstreamValidationUsed: 0}}
 
     for (const entry of changeSet.entries) {
         if (!DESCRIBABLE_KINDS.has(entry.kind)) continue
@@ -260,11 +261,17 @@ async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, b
             const fieldName = pathFieldName(nodePath) || located.field || nodePath
             const upstreamComment = upstreamCommentsByEntry.get(entry.diffEntryId)?.[nodePath]
             const references = referencesFor(referenceIndex, fieldName)
+            // Entry-level validation vocabulary applies to every node of the
+            // entry: it documents the request struct's accepted values and
+            // policies, not one field's comment.
+            const upstreamValidation = upstreamValidationByEntry.get(entry.diffEntryId) ?? []
             if (upstreamComment) report.grounding.upstreamCommentsUsed += 1
             if (references.length > 0) report.grounding.referencesUsed += 1
+            if (upstreamValidation.length > 0) report.grounding.upstreamValidationUsed += 1
             const evidence = {p: nodePath, field: fieldName, ...nodeEvidence(node)}
             if (upstreamComment) evidence.upstreamComment = upstreamComment
             if (references.length > 0) evidence.references = references
+            if (upstreamValidation.length > 0) evidence.upstreamValidation = upstreamValidation
             return {node, evidence}
         })
 

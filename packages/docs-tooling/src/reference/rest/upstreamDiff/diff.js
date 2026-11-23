@@ -1,6 +1,6 @@
 const {isDeepStrictEqual} = require('node:util')
 const {attachLifecycleSuggestion, assertLifecycleSource, parseTrack} = require('./lifecycle')
-const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments} = require('./mirror')
+const {apiProjection, resolveSchemaDeep, pruneSiblingCoveredOmissions, droppedLocalFieldPaths, droppedLocalKeys, relaxedRequiredMembers, stripScalarConstraints, overlayOpaque, stripOpaqueMarkers, harvestUpstreamComments, harvestUpstreamValidation} = require('./mirror')
 
 // Branch-aware diff between a pinned upstream spec and the zdoc fragments.
 // Truth assignment (2026-10-30 merge model): STRUCTURE follows upstream
@@ -687,6 +687,13 @@ function diffSpecifications({source, upstreamPin, upstream, fragments, ledger, r
     for (const opKey of [...upstreamOps.keys()].sort()) {
         const upstreamRecord = upstreamOps.get(opKey)
         const meta = {opKey, fragment: undefined}
+        // The extractor's validation literals ride the operation's bare $ref
+        // request-schema node. Harvest them from the RAW operation once per
+        // operation so every entry of the operation — added-operation
+        // inventory entries included — carries the same verbatim evidence,
+        // regardless of how reference resolution treats the node itself.
+        const upstreamValidation = harvestUpstreamValidation(upstreamRecord.operation)
+        if (upstreamValidation.length > 0) meta.upstreamValidation = upstreamValidation
         const upstreamEvidencePath = `/paths/${encodePointerToken(upstreamRecord.endpoint)}/${upstreamRecord.method}`
         if (!fragmentOps.has(opKey)) {
             const ledgerEntry = ledger.entries.find(candidate => candidate.source === source.id && candidate.opKey === opKey)

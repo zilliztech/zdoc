@@ -164,6 +164,13 @@ function renderDiffMarkdown(diff) {
             ].filter(Boolean)
             lines.push(`- **${entry.category}** — ${where}: ${detail}${flags.length ? ` [${flags.join('; ')}]` : ''}`)
             lines.push(`  - id: \`${entry.id}\``)
+            // The extractor's verbatim validation literals (the upstream's
+            // own error vocabulary for this entry's request struct). The PR
+            // body embeds diff.md, so these are the adjudicator's "original
+            // words" for value judgments like accepted enum sets.
+            for (const line of entry.upstreamValidation ?? []) {
+                lines.push(`  - upstream validation: ${JSON.stringify(line)}`)
+            }
             if (change.kind === 'required' && entry.scope !== 'parameter') {
                 lines.push(`  - write: SCHEMA-level required — opPath = the fragment schema object containing \`${entry.field}\` plus \`/required\`; value = that schema's required ARRAY read from the fragment copy in fragments/, \`KEEPING its existing members\` (drop nothing) and ${change.after ? `appending \`${entry.field}\`` : `removing \`${entry.field}\``}. Order-insensitive; the applier derives and binds the expected array itself. Never write a boolean onto the field object.`)
             }

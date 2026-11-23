@@ -12,7 +12,10 @@
       "handler": "createCollection",
       "requestStruct": "CreateCollectionReq",
       "requestSchema": {
-        "$ref": "#/components/schemas/CreateCollectionReq"
+        "$ref": "#/components/schemas/CreateCollectionReq",
+        "x-upstream-validation": [
+          "toProto: quickSetup dimension must be greater than 0"
+        ]
       }
     },
     {
@@ -22,7 +25,10 @@
       "requestStruct": "JobIDReq",
       "deprecated": true,
       "requestSchema": {
-        "$ref": "#/components/schemas/JobIDReq"
+        "$ref": "#/components/schemas/JobIDReq",
+        "x-upstream-validation": [
+          "validate: jobId is required for the job"
+        ]
       }
     },
     {
