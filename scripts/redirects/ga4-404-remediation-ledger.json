@@ -367,6 +367,118 @@
       "status": "denylist",
       "note": "Literal wildcard request artifact, not a valid route.",
       "decided_at": "2026-11-20T04:40:02.796Z"
+    },
+    {
+      "from": "/reference/go/v2-Collection-Alias",
+      "status": "fixed",
+      "to": "/reference/go/go/v2-Collection-Alias",
+      "note": "GA4 window 7d: sdk-double-segment ladder (1 events / 1 users)",
+      "decided_at": "2026-11-21T03:24:13.757Z"
+    },
+    {
+      "from": "/docs/data-import).",
+      "status": "fixed",
+      "to": "/docs/data-import-zero-to-hero",
+      "note": "Trailing-paren artifact; the existing /docs/data-import rule resolves to data-import-zero-to-hero.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/filtered-search)",
+      "status": "fixed",
+      "to": "/docs/filtered-search",
+      "note": "Trailing-paren artifact; strip the suffix to the live filtered-search page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/free-serverless-clusters",
+      "status": "fixed",
+      "to": "/docs/free-and-serverless-clusters",
+      "note": "Dropped conjunction; sibling free-cluster aliases use this current page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/index-scalar-fields)",
+      "status": "fixed",
+      "to": "/docs/bitmap-index-type",
+      "note": "Trailing-paren artifact; existing index-scalar-fields and scalar-index rules resolve to bitmap-index-type.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/index-with-scalar-fields",
+      "status": "fixed",
+      "to": "/docs/bitmap-index-type",
+      "note": "Retired scalar-index slug variant; the sibling index-scalar-fields rule resolves to bitmap-index-type.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/manage-partitions)",
+      "status": "fixed",
+      "to": "/docs/manage-partitions",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/multi-tenancy)",
+      "status": "fixed",
+      "to": "/docs/multi-tenancy",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/replica",
+      "status": "fixed",
+      "to": "/docs/manual-scaling",
+      "note": "The existing /docs/manage-replica sibling maps to manual-scaling, which documents replica scaling.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/select-zilliz-cloud-edition",
+      "status": "fixed",
+      "to": "/docs/select-zilliz-cloud-service-plans",
+      "note": "Edition terminology is retired; sibling deployment-option and cluster-types aliases use this comparison page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/use-partition-key)",
+      "status": "fixed",
+      "to": "/docs/use-partition-key",
+      "note": "Trailing-paren artifact; strip the suffix to the live page.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities",
+      "status": "fixed",
+      "to": "/reference/restful/delete",
+      "note": "Legacy unversioned REST slug; the current V1 Delete page is /reference/restful/delete.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities-v1",
+      "status": "fixed",
+      "to": "/reference/restful/delete",
+      "note": "Legacy explicit-V1 slug; the current V1 Delete page is /reference/restful/delete.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/delete-entities-v2",
+      "status": "fixed",
+      "to": "/reference/restful/delete-v2",
+      "note": "Delete (V2) was renamed to delete-v2, matching the insert-entities-v2 rename precedent.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/reference/restful/query-org-daily-usage-v2",
+      "status": "fixed",
+      "to": "/reference/restful/query-daily-usage-v2",
+      "note": "The operation title shortened from organization daily usage to Query Daily Usage (V2).",
+      "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/releases",
+      "status": "fixed",
+      "to": "/docs/changelogs",
+      "note": "Release-notes family endpoint; /release-notes and /docs/release-notes already resolve to docs/changelogs.",
+      "decided_at": "2026-11-22T23:31:57.777Z"
     }
   ]
 }
