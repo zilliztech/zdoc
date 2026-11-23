@@ -15,9 +15,9 @@ import { createRemoteTransport } from '../../adapters/updates/remote-github'
 afterEach(() => {vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs()})
 const repository = 'repos/zilliztech/zdoc'
 
-it('reads only the exact scheduled Fetch selection over the stock transport and holds an unsuccessful run', async () => {
+it('reads only the exact latest normal Fetch selection over the stock transport and holds an unsuccessful run', async () => {
   const {evidence} = await stagingFixture()
-  const path = '/' + repository + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1'
+  const path = '/' + repository + '/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1'
   const token = 'synthetic-batch-token'
   const calls: unknown[] = []
   const server = createServer((_req, res) => {
@@ -37,18 +37,18 @@ it('reads only the exact scheduled Fetch selection over the stock transport and 
   }) as typeof httpsRequest)
   vi.stubEnv('GH_TOKEN', token)
 
-  await expect(acquireBatchRunLease(evidence)).rejects.toThrow('SCHEDULED_FETCH_UNAVAILABLE')
+  await expect(acquireBatchRunLease(evidence)).rejects.toThrow('BATCH_FETCH_UNAVAILABLE')
   const request = {method: 'GET', path, maximum: 1024, signal: AbortSignal.timeout(1000)} as const
   const transport = createRemoteTransport({repositoryFullName: 'zilliztech/zdoc', token})
   for (const rejected of [
     {...request, path: path.replace('fetch-docs.yml', 'fetch-guides-requested.yml')},
     {...request, path: path.replace('fetch-docs.yml', '83360731')},
     {...request, path: path.replace('branch=master', 'branch=dev')},
-    {...request, path: path.replace('event=schedule', 'event=workflow_dispatch')},
+    {...request, path: path.replace('?branch=', '?event=workflow_dispatch&branch=')},
     {...request, path: path.replace('per_page=1', 'per_page=2')},
-    {...request, path: path.replace('event=schedule&branch=master', 'branch=master&event=schedule')},
+    {...request, path: path.replace('?branch=', '?event=schedule&branch=')},
     {...request, path: path + '&page=1'},
-    {...request, path: path.replace('schedule', '%73chedule')},
+    {...request, path: path.replace('master', '%6daster')},
     {...request, method: 'POST'} as const,
     {...request, body: Buffer.from('unexpected')},
   ]) await expect(transport(rejected)).rejects.toThrow('ENDPOINT_INVALID')
@@ -75,7 +75,7 @@ it('rechecks both repositories over the stock transport and holds an unknown or 
     sourceArtifact: bindings[0], publicationArtifact: bindings[1], pins}
   const history = '?created=%3E%3D2026-08-23&per_page=100&page=1'
   const responses = new Map<string, unknown>([
-    [zdoc + '/actions/workflows/fetch-docs.yml/runs?event=schedule&branch=master&per_page=1', {workflow_runs: [run]}],
+    [zdoc + '/actions/workflows/fetch-docs.yml/runs?branch=master&per_page=1', {workflow_runs: [run]}],
     [zdoc, {id: 660446555, full_name: 'zilliztech/zdoc'}],
     [zdoc + '/actions/runs/123', run],
     [zdoc + '/actions/runs/123/attempts/1/jobs?per_page=100&page=1', {total_count: 1, jobs: [{

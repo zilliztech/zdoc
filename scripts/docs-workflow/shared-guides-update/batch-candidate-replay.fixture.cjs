@@ -9,9 +9,9 @@ const {execFileSync, spawnSync} = require('node:child_process')
 // Run against a clean committed checkout with the already-installed workspace dependencies.
 const cwd = path.resolve(__dirname, '../../..')
 const args = process.argv.slice(2)
-const flags = new Set(args.slice(2)), simulate = flags.has('--simulate-free-space'), compact = flags.has('--compact-handoff')
-if (args[0] !== '--out' || !args[1] || flags.size !== args.length - 2 || flags.size !== Number(simulate) + Number(compact)) {
-  throw Error('Usage: node batch-candidate-replay.fixture.cjs --out <fresh-directory> [--simulate-free-space] [--compact-handoff]')
+const flags = new Set(args.slice(2)), simulate = flags.has('--simulate-free-space'), compact = flags.has('--compact-handoff'), manual = flags.has('--manual-fetch')
+if (args[0] !== '--out' || !args[1] || flags.size !== args.length - 2 || flags.size !== Number(simulate) + Number(compact) + Number(manual)) {
+  throw Error('Usage: node batch-candidate-replay.fixture.cjs --out <fresh-directory> [--simulate-free-space] [--compact-handoff] [--manual-fetch]')
 }
 const lane = path.resolve(args[1]), out = path.join(lane, 'owned')
 const git = (root, ...args) => execFileSync('/usr/bin/git', ['-C', root, ...args], {
@@ -58,7 +58,7 @@ async function main() {
     return original
   }
   const {rawBatchLifecycleFixture} = load('testing/updates/fixtures/batch-qualification.ts')
-  const f = await rawBatchLifecycleFixture(lane, tools, {mixedTargets: true, mergedPull: true})
+  const f = await rawBatchLifecycleFixture(lane, tools, {mixedTargets: true, mergedPull: true, manualFetch: manual})
   const generated = path.join(f.tools, 'packages/chat-ui/dist')
   if (await fs.lstat(generated).then(() => true, () => false)) {
     await fs.rename(generated, path.join(lane, 'generated-chat-ui-dist'))
@@ -128,7 +128,7 @@ async function main() {
   const qualification = await value(binding.qualification.ref)
   const {verifyBatchFinalFreshness} = load('adapters/updates/batch-github.ts')
   await rejects(verifyBatchFinalFreshness({scanStartMs: qualification.scanStartMs, sourceJobId: qualification.rows[0].sourceJobId, run: qualification.run,
-    sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins: binding.base.pins},
+    sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, selectionArtifact: qualification.selectionArtifact, pins: binding.base.pins},
   qualification.scanStartMs + 37 * 3600_000, f.fixture.finalPass), /BATCH_FRESHNESS_EXPIRED/)
   const index = await value(binding.index.ref), closure = await value(binding.closure.ref)
   // The standalone graph probe reconstructs locator fields for the retained
@@ -308,7 +308,8 @@ async function replayDraft({f, options, inspectSignedBatchCandidate, binding, ca
     const target = git(f.upstream, 'rev-parse', 'refs/heads/v3.0.x').toString().trim()
     if (target !== pins.source) throw Error('BATCH_DRAFT_TRACK_CHANGED')
     await verifyBatchFinalFreshness({scanStartMs: qualification.scanStartMs, sourceJobId: qualification.rows[0].sourceJobId,
-      run: qualification.run, sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact, pins},
+      run: qualification.run, sourceArtifact: qualification.sourceArtifact, publicationArtifact: qualification.publicationArtifact,
+      selectionArtifact: qualification.selectionArtifact, pins},
     time, f.fixture.finalPass)
   }
 

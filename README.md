@@ -475,6 +475,9 @@ consumed-source change; the reviewed old-next and target inputs are currently
 identical. Scheduled-producer Check authentication and automatic triggering
 remain pending.
 
+For an on-demand production Guides batch, see
+[Qualify a production batch on demand](runbook/shared-guides-generation.md#qualify-a-production-batch-on-demand).
+
 ### Inspect shared Guides upstream changes without publishing
 
 The report-only command uses already acquired local Git repositories. Prepare
