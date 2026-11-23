@@ -11029,6 +11029,21 @@
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
           },
+          "indexType": {
+            "type": "string",
+            "description": "The type of the index to create",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "要创建的索引类型。"
+              },
+              "ja-JP": {
+                "description": "作成するインデックスのタイプです"
+              }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
+          },
           "params": {
             "description": "The index type and related settings. <include target=\"milvus\">For details, refer to [Vector Indexes](https://milvus.io/docs/index.md).</include><include target=\"zilliz\">For Zilliz Cloud clusters, you should always set `index_type` to `AUTOINDEX`.</include>",
             "x-i18n": {
@@ -11126,9 +11141,7 @@
           "zh-CN"
         ],
         "required": [
-          "metricType",
-          "fieldName",
-          "indexName"
+          "fieldName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",

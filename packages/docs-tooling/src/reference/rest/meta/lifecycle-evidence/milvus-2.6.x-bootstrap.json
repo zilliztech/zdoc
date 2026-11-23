@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2458,
+    "elements": 2460,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
     "modified": 11,
@@ -63827,6 +63827,58 @@
         "x-last-modified": "3.0.x",
         "x-deprecated-since": null
       }
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1upsert/post/requestBody/content/application~1json/schema/properties/fieldOps/items/properties/path",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "FieldPartialUpdateOpReq.Path"
+      },
+      "confidence": "high",
+      "rationale": "Path-based partial update parameter added to field ops in v2.6.22 (absent through v2.6.21)."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/IndexParams/properties/indexType",
+      "elementType": "schema-property",
+      "change": "baseline-floor",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "file": "internal/distributed/proxy/httpserver",
+        "symbol": null
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
     }
   ],
   "managedFloorPolicy": {
@@ -63837,7 +63889,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "fc85d2ea0d75f4299b5c834a381c54441b32cf9ddbfc0449874cf1a7c611bc91",
+    "fragmentInventorySha256": "0dfb65d9f37cff91d99efaadd947df619470397adb19ce779812a55eedc17260",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
