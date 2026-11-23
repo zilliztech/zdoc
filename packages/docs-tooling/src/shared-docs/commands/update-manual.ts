@@ -159,7 +159,9 @@ export async function manualUpdate(options: ManualUpdateOptions, write: (text: s
       // Zero-auto-adoption pairing: each unadjudicated addition rides behind a new exclude
       // entry, so the bump alone publishes nothing new. Adoption = a human removes the line.
       candidateManual = appendExclusions(shared.manualYaml, report.addedPending)
-      const context = { manuals: [shared.manualConfig.publish.manual], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC') }
+      // Re-validate with the same inputs as the first parse: milvus_values resolves against
+      // the group's Variables.json, and the parser fails closed on every key without them.
+      const context = { manuals: [shared.manualConfig.publish.manual], betaValues: DOC_HEADING_TAGS.filter(tag => tag !== 'BYOC'), variables: shared.variables }
       const validated = parseManualConfig(candidateManual, context)
       if ('errors' in validated) {
         for (const error of validated.errors) write(`${error.file}:${error.line ?? 1} ${error.code}: ${error.message}\n`)
