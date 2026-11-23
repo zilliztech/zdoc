@@ -166,6 +166,33 @@ it('appends under an existing exclude list, mirroring its indentation', async ()
     .toBe(originalManual.replace('exclude:\n  - Collections/DataType.md\n', 'exclude:\n  - Collections/DataType.md\n  - Extras/pointer.md\n'))
 })
 
+// The production node group carries milvus_values, so the pairing re-parse has to resolve
+// them against the group's Variables.json exactly like the first parse does.
+const VALUES_MANUAL = `${UPDATE_MANUAL}milvus_values:
+  example_endpoint: localhost:19530
+`
+
+it('re-validates the exclude-paired candidate with the group variables', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-values-'), {
+    manual: VALUES_MANUAL, variables: JSON.stringify({ example_endpoint: 'YOUR_CLUSTER_ENDPOINT' }) })
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  await write(demo.repo, `${sourceDir}/Extras/pointer.md`, '# pointer\n\nAdded upstream.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream adds pointer')
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  // Without the variables every milvus_values key reports CONFIG_MILVUS_VALUES_INVALID and
+  // the lane refuses to stage the candidate.
+  expect(output).not.toContain('CONFIG_MILVUS_VALUES_INVALID')
+  expect(code).toBe(0)
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report.addedPending).toEqual(['Extras/pointer.md'])
+  expect(await readFile(join(out, 'manual.yaml'), 'utf8'))
+    .toBe(VALUES_MANUAL.replace('  - Collections/DataType.md\n', '  - Collections/DataType.md\n  - Extras/pointer.md\n'))
+})
+
 it('publishes nothing for paired additions at the candidate build', async () => {
   const demo = await createManualDemo(await temp('manual-upd-pair-build-'))
   expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
