@@ -92,7 +92,7 @@ test('decideWorkflows plans exact inputs and skips covered workflows', () => {
   const pull = {headRefName: 'feat/x', headSha: HEAD_SHA, baseSha: BASE_SHA}
   const uncovered = decideWorkflows({pull, prNumber: 7, coverage: {[SITE_VALIDATION_WORKFLOW]: false, [SHARED_DOCS_VALIDATE_WORKFLOW]: false}, force: false})
   assert.deepEqual(uncovered, [
-    {workflow: SITE_VALIDATION_WORKFLOW, ref: null, inputs: {site: 'auto', source_ref: HEAD_SHA, publish: 'false'}, dispatchable: true, reason: DISPATCH_REASON},
+    {workflow: SITE_VALIDATION_WORKFLOW, ref: 'feat/x', inputs: {site: 'auto', source_ref: HEAD_SHA, publish: 'false'}, dispatchable: true, reason: DISPATCH_REASON},
     {workflow: SHARED_DOCS_VALIDATE_WORKFLOW, ref: 'feat/x', inputs: {pr_number: '7', source_sha: HEAD_SHA, base_sha: BASE_SHA}, dispatchable: true, reason: DISPATCH_REASON},
   ])
   const covered = decideWorkflows({pull, prNumber: 7, coverage: {[SITE_VALIDATION_WORKFLOW]: true, [SHARED_DOCS_VALIDATE_WORKFLOW]: false}, force: false})

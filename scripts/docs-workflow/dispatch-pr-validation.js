@@ -102,14 +102,21 @@ async function hasHeadRuns(fetchImpl, {apiBase, repository, token, workflow, hea
   return body.total_count > 0
 }
 
-// One decision per workflow. site-validation checks out its source_ref input
-// itself, so any dispatch ref works; shared-docs-validate pins
-// GITHUB_SHA == source_sha, so it must dispatch on the head branch.
+// One decision per workflow. BOTH workflows dispatch on the pull's head
+// branch: a dispatched run records the ref's tip as its head_sha, so a
+// master-ref dispatch is invisible to the run-exists check and would
+// re-dispatch on every --execute, and its concurrency group
+// (site-validation-refs/heads/master-auto) would collide with push-to-master
+// runs. shared-docs-validate additionally pins GITHUB_SHA == source_sha.
+// NOTE: until the site-validation base_sha dispatch input lands (#1434),
+// the dispatched site-validation run's content diff is empty (tooling and
+// contract surface only); pass base_sha once that input is on the default
+// branch to restore full content coverage.
 function decideWorkflows({pull, prNumber, coverage, force}) {
   return [
     {
       workflow: SITE_VALIDATION_WORKFLOW,
-      ref: null,
+      ref: pull.headRefName,
       inputs: {site: 'auto', source_ref: pull.headSha, publish: 'false'},
       covered: coverage[SITE_VALIDATION_WORKFLOW],
     },
@@ -153,7 +160,7 @@ function validatePlan(plan) {
       // exactly the plan's own identity — the validator exists so a wrong
       // dispatch is unrepresentable, not merely unlikely.
       const expected = entry.workflow === SITE_VALIDATION_WORKFLOW
-        ? {ref: null, inputs: {site: 'auto', source_ref: plan.headSha, publish: 'false'}}
+        ? {ref: plan.headRefName, inputs: {site: 'auto', source_ref: plan.headSha, publish: 'false'}}
         : entry.workflow === SHARED_DOCS_VALIDATE_WORKFLOW
           ? {ref: plan.headRefName, inputs: {pr_number: String(plan.prNumber), source_sha: plan.headSha, base_sha: plan.baseSha}}
           : null
