@@ -2,8 +2,8 @@ import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { posix } from 'node:path'
 import type { DiagnosticContext } from '../core/types'
-import { diagnostic, parseYaml } from '../core/yaml'
-import { classifyLink, collectReferences, imageDigest, isMilvusFilename } from '../core/links'
+import { diagnostic } from '../core/yaml'
+import { classifyLink, collectReferences, imageDigest } from '../core/links'
 import type { ImageContent, PreparedLinkInputs } from '../core/links'
 import type { MilvusDocsReader } from './types'
 import { GitMilvusDocsReader } from './git-milvus-docs-reader'
@@ -14,7 +14,9 @@ import type { ImageFetcher } from './images'
 import type { MilvusSeedPage } from '../core/links/seed'
 import { isMilvusPagePath } from '../core/links/milvus-page-path'
 
-export { isMilvusPagePath }
+import { milvusPageMetadata } from '../core/links/milvus-page-metadata'
+
+export { isMilvusPagePath, milvusPageMetadata }
 
 /** WP5-owned capabilities; shared WP3 interfaces stay unchanged. */
 export interface LinkInputReader extends MilvusDocsReader {
@@ -196,17 +198,6 @@ export class FakeLinkInputReader implements LinkInputReader {
     if (!Object.hasOwn(files, path)) throw new MilvusDocsReaderError('MISSING_FILE', `Regular file not found: ${commit}:${path}`)
     return Uint8Array.from(files[path])
   }
-}
-
-/** Shared with WP5's target lookup; invalid or deprecated IDs are not public targets. */
-export function milvusPageMetadata(path: string, content: string): { id: string; title: string } | undefined {
-  const front = /^---[ \t]*\r?\n([\s\S]*?)\r?\n(?:---|\.\.\.)[ \t]*(?:\r?\n|$)/.exec(content)
-  if (!front) return undefined
-  const parsed = parseYaml(front[1], 'LINK_TARGET_ABSENT', { file: path })
-  if ('errors' in parsed) return undefined
-  const meta = parsed.document.value as { id?: unknown; title?: unknown; deprecate?: unknown } | null
-  if (!meta || typeof meta.id !== 'string' || !isMilvusFilename(meta.id) || meta.deprecate) return undefined
-  return { id: meta.id, title: typeof meta.title === 'string' ? meta.title : '' }
 }
 
 /** Layout sources (source_dir) carry no front matter; the globally unique basename is the public ID. */
