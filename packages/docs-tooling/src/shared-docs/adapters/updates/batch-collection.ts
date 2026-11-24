@@ -9,6 +9,7 @@ import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorte
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
   type TrustedToolsetCapture} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
+import {BATCH_DEPENDENCY_PAGE_BYTES, buildBatchDependencyIndex} from './batch-dependency-index'
 import {restoreEdgeMatches} from './batch-restore-proof'
 import {copyEdgeMatches} from './batch-import-proof'
 import type {BatchGitHubTestSeam} from './batch-github'
@@ -621,6 +622,9 @@ const observedMaterialClosures = new WeakMap<object, SealedMaterialClosure>()
 const replayMaterialClosures = new WeakMap<object, SealedMaterialClosure>()
 export type BatchMaterialCollection = {status: 'held'; reasons: readonly string[]} | {status: 'no-group'; reasons: readonly []}
   | {status: 'material-complete'; ticket: BatchMaterialClosureTicket; memberIds: readonly string[]; origin: BatchOrigin}
+type DependencyExport = {
+  bytes: number; entries: (BatchBlobRef & {pageId: string; namespaceSha256: string})[]; unavailable: string[];
+}
 async function retainStructured(operation: Operation, value: unknown) {
   if (!operation.active) invalid()
   const bytes = canonicalBytes(value), ref = await writeOwnedBlob(operation.store, bytes)
@@ -629,7 +633,7 @@ async function retainStructured(operation: Operation, value: unknown) {
   if (!operation.active || !Buffer.from(observed).equals(Buffer.from(bytes))) invalid()
   return ref
 }
-async function collectOperation(operation: Operation): Promise<BatchMaterialCollection> {
+async function collectOperation(operation: Operation, dependencyExport?: DependencyExport): Promise<BatchMaterialCollection> {
   const compactPages: BatchCompactPage[] = []
   let verifiedNamespace: BatchBlobRef | undefined
   const measurement = operationMeasurements.get(operation.store)
@@ -707,6 +711,21 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - started),
             responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
             ...(authenticationMs === undefined ? {} : {authenticationMs})})
+          if (dependencyExport) {
+            try {
+              const namespaceRef = checked.config.namespaceRef
+              const bytes = canonicalBytes(buildBatchDependencyIndex(projected, {materialRef: retained.materialRef, namespaceRef}))
+              if (bytes.length > BATCH_DEPENDENCY_PAGE_BYTES || dependencyExport.bytes + bytes.length > 8 * 1024 * 1024) throw Error('DEPENDENCY_EXPORT_LIMIT')
+              const sha256 = batchSha256(bytes), path = `dependency-index-${sha256}.json`
+              await operation.store.writeJournal(path, bytes)
+              const reread = await operation.store.readJournal({path, sha256, bytes: bytes.length})
+              if (!operation.active || !Buffer.from(reread).equals(Buffer.from(bytes))) invalid()
+              dependencyExport.bytes += bytes.length
+              dependencyExport.entries.push({pageId: page.pageId, path, sha256, bytes: bytes.length, namespaceSha256: namespaceRef.sha256})
+            } catch {
+              dependencyExport.unavailable.push(page.pageId)
+            }
+          }
         },
       })
     } catch (error) {
@@ -1243,7 +1262,7 @@ export async function settleBatchMeasurement(store: EvidenceStore, stopSampling:
 }
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
-}, preparation?: CandidatePreparation): Promise<BatchHandoffResult> {
+}, preparation?: CandidatePreparation, dependencyExport?: DependencyExport): Promise<BatchHandoffResult> {
   const observation = replay ? 'replay' : 'observed'
   const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
@@ -1290,7 +1309,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
-      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined))
+      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined), dependencyExport)
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
       await checkpointBatchProgress(store, 'qualification')
@@ -1339,6 +1358,14 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
 }
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
+}
+/** Opt-in evidence export from the same measured pages. Missing rows grant no coverage. */
+export async function collectObservedGuidesBatchWithDependencyIndex(options: Parameters<typeof collectObservedGuidesBatch>[0]) {
+  const dependencyExport: DependencyExport = {bytes: 0, entries: [], unavailable: []}
+  const result = await collectCompleteBatch(options, undefined, undefined, dependencyExport)
+  return immutable({schema: 'guides-batch-dependency-export-v1', result,
+    entries: batchSorted(dependencyExport.entries, row => row.pageId), unavailable: sorted(dependencyExport.unavailable),
+    writeEligible: false, operations: []})
 }
 /** Internal entry prepares only a local candidate within the live measured collection. */
 export function prepareObservedIsolatedBatchCandidate(options: Parameters<typeof collectObservedGuidesBatch>[0]): Promise<BatchCollectionResult> {
