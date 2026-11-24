@@ -27,6 +27,7 @@ import { createGuidesReadSession, type GitFile } from './guides-read-session'
 import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
 import type { LinkInputReader } from '../links-input'
 import { MilvusDocsReaderError } from '../reader-errors'
+import { getHistoricalRenderView, isHistoricalRenderPoint, loadHistoricalRenderRules } from './historical-render'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
 const localPath = z.string().min(1).max(4096).refine(value => isAbsolute(value) && !/[\x00-\x1f\x7f]/.test(value), 'Expected an absolute local path')
@@ -661,7 +662,9 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const intervalObservations = []
     const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
     const historicalFragments = createHistoricalFragmentReader(sourceProof, rawBudget.remaining)
-    const historicalInventory = new AsyncLocalStorage<{commit: string; paths: ReadonlyMap<string, string>}>()
+    const rules = loadHistoricalRenderRules()
+    type View = {proof: import('./batch-collection-contract').BatchHistoricalView; bytes: Buffer}
+    const historicalInventory = new AsyncLocalStorage<{commit: string; paths: ReadonlyMap<string, string>; view?: View}>()
     const gitLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) => {
       const inventory = historicalInventory.getStore()
       return inventory?.commit === commit ? inventory.paths.get(path) : undefined
@@ -686,7 +689,13 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       },
       async readFile(commit, path) {
         if (!path.startsWith('site/en/')) return gitLinks.readFile(commit, path)
-        return (await sourceProof.read(snapshotOid(commit, path), 'blob')).toString('utf8')
+        const oid = snapshotOid(commit, path)
+        const view = historicalInventory.getStore()?.view
+        if (view && path === configured.sourceFile) {
+          if (view.proof.commit !== commit || view.proof.rawOid !== oid) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+          return view.bytes.toString('utf8')
+        }
+        return (await sourceProof.read(oid, 'blob')).toString('utf8')
       },
       async readPageMetadata(commit, path) {
         if (!path.startsWith('site/en/')) return milvusPageMetadata(path, await gitLinks.readFile(commit, path))
@@ -707,13 +716,18 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     }
     const collectHistoricalCandidate = createHistoricalCandidateCollector({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
       configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
-    async function retainHistoricalObservation(commit: string, sourceEntries: readonly GitFile[], o: PageObservation) {
+    async function retainHistoricalObservation(commit: string, sourceEntries: readonly GitFile[], o: PageObservation, view?: View) {
+      if (o.commit !== commit || o.sourceFile !== configured.sourceFile) throw Error('BATCH_OBSERVATION_BINDING_INVALID')
+      if (view && (!o.source || o.source.sha256 !== view.proof.viewRef.sha256 || o.source.text !== view.bytes.toString('utf8') ||
+          !o.files.some(f => f.file === o.sourceFile && f.sha256 === o.source!.sha256 && f.text === o.source!.text)))
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
         const raw = await reads.readCommitted(request.sourceRepository, sourceEntries, path), declared = o.files.find(f => f.file === path)
         const authenticated = await sourceProof.optionalFile(commit, path)
         if (authenticated && (!raw || !authenticated.bytes.equals(raw)) || !authenticated && raw) throw Error('BATCH_SOURCE_BYTES_INVALID')
-        if (declared && (!raw || rawSha256(raw) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(raw) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
+        const input = view && path === o.sourceFile ? view.bytes : raw
+        if (declared && (!raw || !input || rawSha256(input) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(input) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
         if (raw && (declared || path === o.sourceFile && o.source !== null)) entries.push({path, oid: sourceEntries.find(e => e.path === path)!.oid, ref: retain(raw)})
       }
       const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
@@ -731,6 +745,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       }
       for (const entry of entries) consumedPaths.add(entry.path)
       intervalObservations.push({commit, sourceFile: o.sourceFile, rawRef: object({commit, entries}),
+        ...(view ? {historicalView: view.proof} : {}),
         manuals, imagesRef: object(contract.batchRoles.map(role => ({role, images: contract.batchSorted(images, contract.batchImageKey)}))),
         diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []}),
         dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus})
@@ -744,14 +759,26 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         // Keep a complete, independent inventory and paired reads for every historical point.
         for (const commit of intermediates.slice(at, at + BATCH_HISTORICAL_WINDOW)) {
           const sourceEntries = await sourceInventory(commit)
-          window.push({commit, sourceEntries, paths: new Map(sourceEntries.map(entry => [entry.path, entry.oid]))})
+          const paths = new Map(sourceEntries.map(entry => [entry.path, entry.oid]))
+          let view: View | undefined
+          if (isHistoricalRenderPoint(rules, request.pageId, commit)) {
+            const rawOid = paths.get(configured.sourceFile)
+            if (!rawOid) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+            const point = {pageId: request.pageId, sourceFile: configured.sourceFile, commit, rawOid}
+            const raw = await sourceProof.read(rawOid, 'blob')
+            const rendered = getHistoricalRenderView(rules, point, raw)
+            if (!rendered) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+            view = {bytes: rendered.bytes, proof: {...point, rawSha256: rendered.rawSha256,
+              rulesSha256: rendered.rulesSha256, viewRef: retain(rendered.bytes)}}
+          }
+          window.push({commit, sourceEntries, paths, view})
         }
-        const rendered = await Promise.allSettled(window.map(({commit, paths}) =>
-          historicalInventory.run({commit, paths}, () => collectHistoricalCandidate(commit))))
+        const rendered = await Promise.allSettled(window.map(point =>
+          historicalInventory.run(point, () => collectHistoricalCandidate(point.commit))))
         for (let index = 0; index < window.length; index++) {
           const result = rendered[index], {commit, sourceEntries} = window[index]
           if (result.status === 'rejected') throw result.reason
-          await retainHistoricalObservation(commit, sourceEntries, result.value)
+          await retainHistoricalObservation(commit, sourceEntries, result.value, window[index].view)
         }
       }
     } finally {

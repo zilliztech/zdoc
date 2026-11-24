@@ -992,7 +992,137 @@ def _batch_render_commits(parents, current, old_next, target, legacy=False):
     return sorted((interval | {parent for point in interval for parent in parents[point]}) - {current, old_next, target})
 
 
-def _batch_material(reader, retained, base, *, collateral_history=None, source_traces=None):
+_HISTORICAL_VARIABLE_EDITS = {
+    ('Milvus', '{{var.product_name}}'),
+    ('root:Milvus', '{{var.example_token}}'),
+    ('localhost:19530', '{{var.example_endpoint}}'),
+    ('http://localhost:19530', '{{var.example_endpoint}}'),
+}
+
+
+def _batch_historical_rules(raw):
+    require(len(raw) <= 32768, 'BATCH_HISTORICAL_RULES_INVALID')
+    table = batch_exact(batch_parse(raw, canonical=False), 'kind rules')
+    require(table['kind'] == 'guides-historical-render-rules-v1' and type(table['rules']) is list and len(table['rules']) == 2,
+            'BATCH_HISTORICAL_RULES_INVALID')
+    index = {}
+    previous_page = ''
+    for rule in table['rules']:
+        batch_exact(rule, 'pageId sourceFile rawOid rawSha256 commits markedOid renderSha256 edits')
+        require(type(rule['pageId']) is str and re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', rule['pageId'])
+                and previous_page < rule['pageId'] and _batch_inventory_path(rule['sourceFile']).startswith('site/en/')
+                and rule['sourceFile'].endswith(('.md', '.mdx'))
+                and oid(rule['rawOid']) and oid(rule['markedOid']) and rule['rawOid'] != rule['markedOid']
+                and all(type(rule[k]) is str and DIGEST.fullmatch(rule[k]) for k in ('rawSha256', 'renderSha256')),
+                'BATCH_HISTORICAL_RULES_INVALID')
+        require(type(rule['edits']) is list and 0 < len(rule['edits']) <= 128, 'BATCH_HISTORICAL_RULES_INVALID')
+        previous_offset, previous_end = -1, 0
+        for edit in rule['edits']:
+            batch_exact(edit, 'offset before after')
+            offset = edit['offset']
+            require(type(offset) is int and previous_offset < offset <= _BATCH_MAX and offset >= previous_end
+                    and all(type(edit[k]) is str and len(edit[k].encode()) <= 128 for k in ('before', 'after')),
+                    'BATCH_HISTORICAL_RULES_INVALID')
+            marker = not edit['before'] and re.fullmatch(r'(?:<!-- doc:block:(?:start|end) id="[a-z0-9]+(?:-[a-z0-9]+)*" -->\n)+', edit['after'])
+            require(marker or (edit['before'], edit['after']) in _HISTORICAL_VARIABLE_EDITS, 'BATCH_HISTORICAL_RULES_INVALID')
+            previous_offset, previous_end = offset, offset + len(edit['before'].encode())
+        commits = rule['commits']
+        require(type(commits) is list and 0 < len(commits) <= 24 and all(oid(c) for c in commits),
+                'BATCH_HISTORICAL_RULES_INVALID')
+        for commit in batch_sorted(commits):
+            key = (rule['pageId'], commit)
+            require(key not in index, 'BATCH_HISTORICAL_RULES_INVALID')
+            index[key] = rule
+        previous_page = rule['pageId']
+    require(len(index) == 24, 'BATCH_HISTORICAL_RULES_INVALID')
+    return sha256(raw), index
+
+
+def _batch_load_historical_rules():
+    path = Path(__file__).with_name('historical-render-rules.json')
+    with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK), 'rb') as handle:
+        before = os.fstat(handle.fileno())
+        require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and 0 < before.st_size <= 32768,
+                'BATCH_HISTORICAL_RULES_INVALID')
+        raw = handle.read(32769)
+        identity = lambda st: (st.st_dev, st.st_ino, st.st_mode, st.st_size, st.st_mtime_ns, st.st_ctime_ns, st.st_nlink)
+        require(len(raw) == before.st_size and identity(before) == identity(os.fstat(handle.fileno())) == identity(path.lstat()),
+                'BATCH_HISTORICAL_RULES_INVALID')
+    return _batch_historical_rules(raw)
+
+
+def _batch_historical_metadata(content):
+    # These two pinned Git blobs use a plain filename and a double-quoted title.
+    # Accept only their unambiguous front-matter syntax.
+    front = re.match(rb'---\r?\n(.*?)\r?\n---\r?\n', content, re.DOTALL)
+    require(front, 'BATCH_HISTORICAL_METADATA_INVALID')
+    ids = re.findall(rb'^id: ([A-Za-z0-9_-]+\.md)\r?$', front[1], re.MULTILINE)
+    titles = re.findall(rb'^title: ("[^"\\\r\n]+")\r?$', front[1], re.MULTILINE)
+    require(len(ids) == len(titles) == 1, 'BATCH_HISTORICAL_METADATA_INVALID')
+    return dict(id=ids[0].decode(), title=json.loads(titles[0]))
+
+
+def _batch_verify_historical_view(reader, registry, config, endpoints, observation, raw_tree, discovery_metadata):
+    digest, rules = registry
+    page, commit, source = config['pageId'], observation['commit'], config['sourceFile']
+    rule = rules.get((page, commit))
+    if commit in endpoints or rule is None:
+        require('historicalView' not in observation, 'BATCH_HISTORICAL_VIEW_UNREGISTERED')
+        return
+    require(discovery_metadata is not None and 'historicalView' in observation and observation['sourceFile'] == source == rule['sourceFile']
+            and observation['outputStatus'] == observation['imageStatus'] == 'observed', 'BATCH_HISTORICAL_VIEW_REQUIRED')
+    witness = batch_exact(observation['historicalView'], 'rulesSha256 pageId sourceFile commit rawOid rawSha256 viewRef')
+    ref = batch_ref(witness['viewRef'])
+    require(witness == dict(rulesSha256=digest, pageId=page, sourceFile=source, commit=commit,
+                            rawOid=rule['rawOid'], rawSha256=rule['rawSha256'], viewRef=ref)
+            and ref['sha256'] == rule['renderSha256'], 'BATCH_HISTORICAL_VIEW_BINDING')
+    roots = [entry for entry in raw_tree['entries'] if entry['path'] == source]
+    require(len(roots) == 1 and roots[0]['oid'] == rule['rawOid'] and roots[0]['ref']['sha256'] == rule['rawSha256']
+            and roots[0]['ref']['bytes'] <= 1024**2,
+            'BATCH_HISTORICAL_VIEW_BINDING')
+    # The caller has independently linked these raw entries to the commit's authenticated Git tree.
+    original = reader.blob(roots[0]['ref'], raw_bytes=True)
+    require(sha256(original) == rule['rawSha256'] and hashlib.sha1(f'blob {len(original)}\0'.encode() + original).hexdigest() == rule['rawOid'],
+            'BATCH_HISTORICAL_VIEW_BINDING')
+    projected = bytearray()
+    cursor = 0
+    for edit in rule['edits']:
+        offset = edit['offset']
+        before = edit['before'].encode()
+        require(cursor <= offset <= len(original) and original.startswith(before, offset)
+                and (before or not offset or original[offset - 1] == 10), 'BATCH_HISTORICAL_VIEW_EDIT')
+        projected.extend(original[cursor:offset])
+        projected.extend(edit['after'].encode())
+        cursor = offset + len(before)
+    projected.extend(original[cursor:])
+    require(ref['bytes'] == len(projected) and sha256(projected) == rule['renderSha256']
+            and reader.blob(ref, raw_bytes=True) == projected, 'BATCH_HISTORICAL_VIEW_BINDING')
+    require(_batch_historical_metadata(original) == _batch_historical_metadata(projected) == discovery_metadata.get(rule['rawOid']),
+            'BATCH_HISTORICAL_METADATA_INVALID')
+    variables_file = next((row for row in config['files'] if row['path'] == 'shared-docs/guides/Variables.json'), None)
+    require(variables_file is not None, 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+    variables = batch_parse(reader.blob(variables_file['ref'], raw_bytes=True), canonical=False)
+    require(type(variables) is dict, 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+    required = {value.decode() for value in re.findall(rb'\{\{var\.([a-z0-9_]+)\}\}', projected)}
+    source_digests = {entry['path']: entry['ref']['sha256'] for entry in raw_tree['entries']}
+    dependencies = observation['dependencies']
+    for dep in batch_sorted(dependencies, lambda d: d['kind'] + ':' + d['identity']):
+        batch_exact(dep, 'kind identity state sha256')
+        require(dep['state'] == 'resolved' and type(dep['sha256']) is str and DIGEST.fullmatch(dep['sha256']),
+                'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+        if dep['kind'] == 'fragment':
+            require(source_digests.get(dep['identity']) == dep['sha256'], 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+        else:
+            require(dep['kind'] == 'variable', 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+            if dep['identity'] in required:
+                values = [v for k, v in variables.items() if k.lower() == dep['identity']]
+                require(len(values) == 1 and type(values[0]) is str and sha256(json.dumps(
+                    values[0], ensure_ascii=False).encode()) == dep['sha256'], 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+                required.remove(dep['identity'])
+    require(not required, 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
+
+
+def _batch_material(reader, retained, base, *, collateral_history=None, source_traces=None, historical_rules=None):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
@@ -1074,9 +1204,15 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
     if exact_history:
         _batch_verify_commit_proof(reader.blob(history['commitProofRef'], raw_bytes=True), parents)
     git_inventory = None
+    if historical_rules is None:
+        historical_rules = _batch_load_historical_rules()
+    discovery_metadata = None
     if compact:
         proof = reader.object(history['inventoryProofRef'], 'trees discovery', transient=True)
         git_inventory = _BatchGitInventory(reader, proof, parents)
+        if exact_history:
+            roots = {r['rawOid'] for (page, _), r in historical_rules[1].items() if page == header['pageId']}
+            discovery_metadata = {r['oid']: r['metadata'] for r in proof['discovery'] if r['oid'] in roots}
         del proof
     inventories = {}
     consumed = {config['sourceFile']} if config['sourceFile'].startswith('site/en/') else set()
@@ -1100,14 +1236,20 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         inventories[ref['sha256']] = lookup, value['absentPaths']
         return lookup
 
-    def manual(ref, expected):
-        value = reader.object(ref, 'manual path markdown output headings references')
+    def manual(ref, expected, historical=False):
+        fields = 'manual path markdown output headings references'
+        value = reader.object(ref, fields)
+        if historical and (not value['markdown'] or not value['output']):
+            # Earlier references can already have released the cached text below.
+            value = reader.object(ref, fields, transient=True)
         require(value['manual'] == expected['manual'] and value['path'] == expected['path'] and type(value['output']) is str
                 and type(value['markdown']) is str and type(value['headings']) is list and type(value['references']) is list, 'BATCH_MANUAL_INVALID')
+        if historical:
+            require(value['markdown'] and value['output'], 'BATCH_HISTORICAL_VIEW_BINDING')
         # Only identity/extent is reused after this validation. Drop large text.
         value['markdown'], value['output'] = '', ''
 
-    def images(ref):
+    def images(ref, historical_commit=None):
         value = reader.blob(ref, parse=True)
         require(type(value) is list and len(value) == 3, 'BATCH_IMAGE_INVALID')
         for index, group in enumerate(value):
@@ -1121,6 +1263,15 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                 seen_images.add(key)
                 require(image['ref']['sha256'] == image['observed']['sha256'] == image['emitted']['sha256']
                         and image['ref']['bytes'] == image['observed']['bytes'], 'BATCH_IMAGE_INVALID')
+                if historical_commit is not None:
+                    origin = image['origin']
+                    if origin['kind'] == 'repository':
+                        batch_exact(origin, 'kind commit path')
+                        require(origin['commit'] == historical_commit, 'BATCH_IMAGE_INVALID')
+                        batch_path(origin['path'])
+                    else:
+                        batch_exact(origin, 'kind uri policy')
+                        require(origin['kind'] == 'external' and origin['policy'] == 'paired-read', 'BATCH_IMAGE_INVALID')
                 reader.blob(image['ref'])
 
     commits = [header['current'], header['oldNext'], base['pins']['source']]
@@ -1136,12 +1287,20 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         trees.append(tree)
     batch_sorted(history['interval'], lambda o: o['commit'])
     for observation in history['interval']:
-        batch_exact(observation, 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus')
+        fields = 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus'
+        batch_exact(observation, fields + (' historicalView' if 'historicalView' in observation else ''))
         raw = raw_tree(observation['rawRef'], observation['commit'])
         listing = inventory(observation['inventoryRef'], observation['commit'])
         if git_inventory:
             require(all(listing(f['path']) == f['oid'] for f in raw['entries']), 'BATCH_SOURCE_INVALID')
             consumed.update(f['path'] for f in raw['entries'])
+        _batch_verify_historical_view(reader, historical_rules, config, commits, observation, raw, discovery_metadata)
+        historical_view = 'historicalView' in observation
+        if historical_view:
+            targets = sorted((row['manual'], row['path']) for row in header['targets'])
+            require(len(targets) == 2 and [row[0] for row in targets] == ['guides', 'guides-byoc']
+                    and sorted((row['manual'], row['path']) for row in observation['manuals']) == targets,
+                    'BATCH_HISTORICAL_VIEW_BINDING')
         diagnostics = reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
         errors = diagnostics['errors'] + diagnostics['rawErrors']
         deferred = (collateral_history is not None and observation['sourceFile'] == config['sourceFile']
@@ -1166,8 +1325,8 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                     and all(d['state'] == 'resolved' for d in observation['dependencies']), 'BATCH_INTERVAL_OBSERVATION_INVALID')
             for output in observation['manuals']:
                 batch_exact(output, 'manual path ref')
-                manual(output['ref'], output)
-        images(observation['imagesRef'])
+                manual(output['ref'], output, historical_view)
+        images(observation['imagesRef'], observation['commit'] if historical_view else None)
     if git_inventory:
         git_inventory.finish()
         require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
@@ -1785,11 +1944,13 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     all_ids = [p['pageId'] for p in materials['pages']]
     require(all_ids == sorted([p['pageId'] for p in report['pages']], key=lambda s: s.encode()), 'BATCH_REGISTRY_INVALID')
     headers, partial, traces = {}, {}, {}
+    historical_rules = _batch_load_historical_rules()
     for retained in materials['pages']:
         page_id = retained['pageId']
         deferred = set() if page_id not in members else None
         traces[page_id] = {}
-        header, registry = _batch_material(reader, retained, base, collateral_history=deferred, source_traces=traces[page_id])
+        header, registry = _batch_material(reader, retained, base, collateral_history=deferred,
+                                           source_traces=traces[page_id], historical_rules=historical_rules)
         if deferred:
             partial[page_id] = deferred
         require(registry == all_ids, 'BATCH_REGISTRY_INVALID')

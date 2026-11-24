@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+import base64
+from copy import deepcopy
 import json
 import io
 from contextlib import redirect_stdout
@@ -60,6 +62,94 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_historical_render_views_bind_exact_git_bytes_and_both_sides_of_each_edit(self):
+        registry = p._batch_load_historical_rules()
+        checkout = HERE.parents[2]
+        fixture = checkout / 'packages/docs-tooling/src/shared-docs/fixtures/historical-render'
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / 'blobs').mkdir()
+        root_fd, blobs_fd = (os.open(folder, os.O_RDONLY | os.O_DIRECTORY) for folder in (root, root / 'blobs'))
+        self.addCleanup(os.close, root_fd)
+        self.addCleanup(os.close, blobs_fd)
+        reader = p._BatchReader(root_fd, blobs_fd, dict(rootIdentity=p._BatchReader.identity(root_fd),
+                                                        blobsIdentity=p._BatchReader.identity(blobs_fd)))
+
+        def store(raw):
+            digest = p.sha256(raw)
+            path = 'blobs/' + digest
+            (root / path).write_bytes(raw)
+            return dict(path=path, sha256=digest, bytes=len(raw))
+
+        variables = (checkout / 'shared-docs/guides/Variables.json').read_bytes()
+        variable_ref = store(variables)
+        for rule in json.loads((HERE / 'historical-render-rules.json').read_bytes())['rules']:
+            page, source = rule['pageId'], rule['sourceFile']
+            config = dict(pageId=page, sourceFile=source, files=[dict(path='shared-docs/guides/Variables.json', ref=variable_ref)])
+            original = base64.b64decode((fixture / (page + '.md.base64')).read_bytes())
+            raw_ref = store(original)
+            raw = dict(entries=[dict(path=source, oid=rule['rawOid'], ref=raw_ref)])
+            view = original
+            for edit in reversed(rule['edits']):
+                offset, before = edit['offset'], edit['before'].encode()
+                self.assertEqual(view[offset:offset + len(before)], before)
+                view = view[:offset] + edit['after'].encode() + view[offset + len(before):]
+            view_ref = store(view)
+            self.assertEqual(view_ref['sha256'], rule['renderSha256'])
+            keys = ['product_name'] if page == 'manage-collections' else ['example_endpoint', 'example_token', 'product_name']
+            deps = [dict(kind='variable', identity=key, state='resolved', sha256=p.sha256(json.dumps(
+                json.loads(variables)[key], ensure_ascii=False).encode())) for key in keys]
+            for commit in rule['commits']:
+                witness = dict(pageId=page, sourceFile=source, commit=commit, rawOid=rule['rawOid'],
+                               rawSha256=raw_ref['sha256'], viewRef=view_ref, rulesSha256=registry[0])
+                observation = dict(commit=commit, sourceFile=source, historicalView=witness, dependencies=deps,
+                                   outputStatus='observed', imageStatus='observed')
+
+                metadata = {rule['rawOid']: dict(id=page + '.md', title=(
+                    'Collection Explained' if page == 'manage-collections' else 'Basic Vector Search'))}
+
+                def verify(obs=observation, cfg=config, tree=raw, pins=(CURRENT, DEV, SOURCE), discovery=metadata):
+                    return p._batch_verify_historical_view(reader, registry, cfg, pins, obs, tree, discovery)
+
+                verify()
+            foreign = {**observation, 'commit': MASTER}
+            no_view = {k: v for k, v in observation.items() if k != 'historicalView'}
+            verify(obs={**no_view, 'commit': MASTER})
+            verify(obs=no_view, pins=(commit, DEV, SOURCE))
+            invalid = [
+                dict(obs=foreign), dict(obs=no_view), dict(discovery=None),
+                dict(discovery={rule['rawOid']: dict(id=page + '.md', title='another title')}),
+                dict(cfg={**config, 'pageId': 'other'}), dict(cfg={**config, 'sourceFile': 'site/en/other.md'}),
+                dict(tree=dict(entries=[])), dict(tree=dict(entries=[{**raw['entries'][0], 'ref': view_ref}])),
+                dict(obs={**observation, 'outputStatus': 'error'}), dict(obs={**observation, 'dependencies': []}),
+                dict(cfg={**config, 'files': []}), dict(obs={**observation, 'dependencies': [{**deps[0], 'sha256': '0'*64}, *deps[1:]]}),
+                *(dict(pins=pins) for pins in ((commit, DEV, SOURCE), (CURRENT, commit, SOURCE), (CURRENT, DEV, commit))),
+                *(dict(obs={**observation, 'historicalView': {**witness, **change}}) for change in (
+                    dict(commit=MASTER), dict(rawOid=rule['markedOid']), dict(rawSha256=view_ref['sha256']),
+                    dict(rulesSha256='0'*64), dict(viewRef=raw_ref), dict(extra=True))),
+            ]
+            for change in invalid:
+                with self.subTest(page=page, change=change), self.assertRaises(p.Hold):
+                    verify(**change)
+            (root / view_ref['path']).write_bytes(b'x' * view_ref['bytes'])
+            with self.assertRaisesRegex(p.Hold, 'BATCH_BLOB_BINDING_INVALID'):
+                verify()
+
+    def test_historical_rules_reject_unreviewed_edit_shapes_and_ambiguous_point_keys(self):
+        table = json.loads((HERE / 'historical-render-rules.json').read_bytes())
+        for alter in (
+            lambda rule: rule.update(extra=True),
+            lambda rule: rule['commits'].insert(0, rule['commits'][0]),
+            lambda rule: rule['edits'][0].update(offset=True),
+            lambda rule: rule['edits'][0].update(after='unrelated replacement'),
+            lambda rule: rule['edits'][1].update(offset=rule['edits'][0]['offset']),
+        ):
+            changed = deepcopy(table)
+            alter(changed['rules'][0])
+            with self.subTest(alter=alter), self.assertRaises(p.Hold):
+                p._batch_historical_rules(json.dumps(changed).encode())
+
     def test_batch_independent_selection_rechecks_every_collateral_edge(self):
         pages = ['earlier', 'later-a', 'later-b']
         roots = [dict(sourceFile='site/en/' + page + '.md') for page in pages]
