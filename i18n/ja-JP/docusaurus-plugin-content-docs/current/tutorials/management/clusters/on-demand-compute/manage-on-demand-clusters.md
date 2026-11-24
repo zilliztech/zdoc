@@ -94,17 +94,17 @@ curl --request GET \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. 対象プロジェクトを開き、クラスターを含むリージョンを選択します。
 
-1. **On-Demand Compute > クラスター** に移動します。
+1. 左側のナビゲーションペインで **On-Demand** を展開し、**クラスター** を選択します。
 
-1. クラスター名、クラスター ID、ステータス、CU サイズ、エンドポイント、作成者、作成時刻を含むオンデマンドクラスターの一覧を確認します。
+1. 一覧でクラスターを見つけ、そのステータスを確認します。
 
 </Procedures>
 
 ## オンデマンドクラスターの詳細を確認する\{#check-the-details-of-an-on-demand-cluster}
 
-この操作を使用して、クラスター ID を指定して 1 つのオンデマンドクラスターを確認します。
+オンデマンドクラスターのステータスと構成を表示します。
 
 ### RESTful API を使用する\{#via-restful-api}
 
@@ -134,11 +134,11 @@ curl --request GET \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. 対象プロジェクトおよびリージョンの [オンデマンドクラスターの一覧](./manage-on-demand-clusters#via-web-console) を開きます。
 
-1. **On-Demand Compute > クラスター** に移動します。
+1. 確認するクラスターの名前を選択します。
 
-1. 対象クラスターをクリックして詳細を表示します。
+1. **Overview** タブで、クラスターのステータス、接続の詳細、コンピューティング設定を確認します。
 
 </Procedures>
 
@@ -187,15 +187,15 @@ curl --request GET \
 
     <Procedures>
 
-    1. 対象のオンデマンドクラスターに移動します。
+    1. クラスターの [Overview ページ](./manage-on-demand-clusters#via-web-console) を開きます。
 
-    1. **Actions** をクリックし、**Rename** を選択します。
+    1. **Actions** を開き、**Edit** を選択します。
 
-        ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
+        ![クラスターの Actions メニューの Edit。](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-in-the-cluster-actions-menu.png "クラスターの Actions メニューの Edit。")
 
-    1. クラスターの新しい名前を入力し、**Save** をクリックします。
+    1. **クラスター Name** に新しい名前を入力し、**Save** をクリックします。
 
-        ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
+        ![オンデマンドクラスターの編集ダイアログの クラスター Name と Save。](https://zdoc-images.s3.us-west-2.amazonaws.com/cluster-name-and-save-in-the-edit-on-demand-cluster-dialog.png "オンデマンドクラスターの編集ダイアログの Cluster Name と Save。")
 
     </Procedures>
 
@@ -232,15 +232,15 @@ curl --request GET \
 
     <Procedures>
 
-    1. 対象のオンデマンドクラスターに移動します。
+    1. クラスターの [Overview ページ](./manage-on-demand-clusters#via-web-console) を開きます。
 
-    1. 説明にカーソルを合わせ、**Edit description** アイコンをクリックします。
+    1. **Actions** を開き、**Edit** を選択します。
 
-        ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
+        ![クラスターの Actions メニューの Edit。](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-in-the-cluster-actions-menu.png "クラスターの Actions メニューの Edit。")
 
-    1. クラスターの新しい説明を入力し、**Save** をクリックします。
+    1. **Description** に新しい説明を入力し、**Save** をクリックします。
 
-        ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.s3.us-west-2.amazonaws.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
+        ![オンデマンドクラスターの編集ダイアログの Description と Save。](https://zdoc-images.s3.us-west-2.amazonaws.com/description-and-save-in-the-edit-on-demand-cluster-dialog.png "オンデマンドクラスターの編集ダイアログの Description と Save。")
 
     </Procedures>
 
@@ -289,9 +289,9 @@ curl --request GET \
 
     <Procedures>
 
-    1. 対象のオンデマンドクラスターに移動します。
+    1. クラスターの [Overview ページ](./manage-on-demand-clusters#via-web-console) を開きます。
 
-    1. 右上隅で **Actions** をクリックし、**Modify** を選択します。
+    1. **Actions** を開き、**Edit** を選択します。
 
     1. オンデマンドクラスターの以下の設定を変更できます。
 
@@ -299,7 +299,7 @@ curl --request GET \
 
         - 説明
 
-        - クエリ CU 数
+        - Query CU
 
         - 自動サスペンド
 
@@ -527,17 +527,17 @@ curl --request PATCH \
 
 <Procedures>
 
-1. 対象のオンデマンドクラスターに移動します。
+1. クラスターの [Overview ページ](./manage-on-demand-clusters#via-web-console) を開きます。
 
-1. **Actions** メニューを開き、**Manage Keep-warm** をクリックします。
+1. **Actions** を開き、**Edit Keep-warm** を選択します。
 
-1. **Enable Keep-warm Schedule** を有効にします。
+1. **Enable Schedule** をオンにします。
 
-1. **Schedule Rules** で、1 つ以上の毎週のルールを追加します。
+1. **Rules** で、最初のルールの曜日を選択します。
 
-1. 各ルールについて、繰り返し曜日、開始時刻、終了時刻を構成します。
+1. それらの曜日の **Start Time** と **End Time** を設定します。
 
-1. 次の移行時刻を確認します。
+1. 別の週次ルールを追加するには、**+ Rule** をクリックし、その曜日と時刻を設定します。
 
 1. **Save** をクリックします。
 
@@ -549,7 +549,7 @@ curl --request PATCH \
 
 ![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
 
-スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターがキープウォームの時間枠内にある場合、Zilliz Cloud は直ちにキープウォームモードを終了します。スケジュールによってオンデマンドクラスターはサスペンドされません。キープウォームスケジュールを無効化するには、以下に示すように **Enable Keep-warm Schedule** をオフにして **Save** をクリックします。
+スケジュールを無効化しても、構成済みのすべてのルールは保持されます。オンデマンドクラスターがキープウォームの時間枠内にある場合、Zilliz Cloud は直ちにキープウォームモードを終了します。スケジュールによってオンデマンドクラスターはサスペンドされません。スケジュールを無効化するには、**Actions** を開き、**Edit Keep-warm** を選択し、**Enable Schedule** をオフにして、**Save** をクリックします。
 
 ![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
 
@@ -588,13 +588,13 @@ curl --request DELETE \
 
 <Procedures>
 
-1. Zilliz Cloud コンソールで、対象プロジェクトを開きます。
+1. クラスターの [Overview ページ](./manage-on-demand-clusters#via-web-console) を開きます。
 
-1. **On-Demand Compute > Clusters** に移動します。
+1. **Actions** を開き、**Drop** を選択します。
 
-1. 対象のオンデマンドクラスターを選択します。
+1. 確認ダイアログで、表示されているとおりにクラスター名を入力します。
 
-1. クラスターを削除し、操作を確認します。
+1. **Drop** をクリックして確定します。
 
 </Procedures>
 

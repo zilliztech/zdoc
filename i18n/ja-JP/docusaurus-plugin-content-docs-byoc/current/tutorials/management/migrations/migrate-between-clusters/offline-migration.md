@@ -90,21 +90,23 @@ import Procedures from '@site/src/components/Procedures';
 
 ## はじめに\{#getting-started}
 
-以下のデモでは、オフライン移行の完全なプロセスを順を追って説明します。
+次のデモでは、2 つの Zilliz Cloud クラスター間でオフライン移行を実行する方法を示します。
 
-<Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
+<Supademo id="cmwudj94u04byqmmgbmfjzjd5" title=""  />
 
 <Procedures>
 
-1. 左側のナビゲーションペインで **Migrations** をクリックします。
+1. プロジェクトのサイドバーで、**Management** の下にある **Migrations** を選択します。
 
-1. **Zilliz to Zilliz Migration** カードで **Offline** をクリックします。
+1. **Zilliz to Zilliz Migration** カードで **Offline** を選択します。
 
-1. **Select Source Location** をクリックし、ソースの組織 > プロジェクト > クラスター > データベースを選択します。
+1. **Select Source Location** を開き、ソース組織、プロジェクト、クラスター、データベースを選択します。移行するコレクションを選択します。
 
-1. **Select Target Location** をクリックします。
+1. **Select Target Location** を開き、ターゲットクラスターとデータベースを選択します。選択したコレクションを確認し、**Next** をクリックします。
 
-1. **Migrate** をクリックします。
+1. **Index Build Level** ページでコレクションを選択し、そのインデックスを確認します。インデックスが作成された各 FloatVector、Float16Vector、BFloat16Vector フィールドに対して、**Capacity-first**、**Balanced**、**Precision-first** のいずれかを選択できます。3 つのレベルのストレージ容量と検索再現率を比較するには、[Tune Index Build Level](./tune-index-build-level) を参照してください。ウィザードには、利用可能な場合、ソースのビルドレベルが表示されます。デフォルトの移行ルールを使用するには、選択を変更しないでください。その他のインデックスには、これらのルールが自動的に適用されます。
+
+1. **Migrate** をクリックして移行を開始します。**Jobs** を開いて進行状況を追跡します。
 
 </Procedures>
 

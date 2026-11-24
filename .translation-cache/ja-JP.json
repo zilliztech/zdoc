@@ -1221,9 +1221,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "fdf3b706f43ce1c1d5cf07453faf3522c6fc0d75525bdefac18f3c04f406ee58",
+      "sourceHash": "49278bc68dd043806bb396aadc6eaf8665ca4b5d357053d858c213a33d8be39a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
       "sourceHash": "acd71b86a922da859e499280ef391c34c61480d99bf84c2d70d73110a94a1693",
@@ -1371,9 +1371,9 @@
       "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "243279fcbc9831802baaeb6d1a3f0caf3f0a4a27510f9532d91a0305526538b5",
+      "sourceHash": "eae842dd804c462edde5c8f789c4647bb418ac10fcac4a283bb8ed96c5573d87",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md": {
       "sourceHash": "ab29b8fc647c76b36bac5ec190c984dbacb2c7ee9277ead2f2d9583fd0998070",
@@ -1386,9 +1386,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "977bb62baa194c94fef617b9c57506004b9fc85b98427bb9885dd80a8d47316a",
+      "sourceHash": "61ddf53022adabfe93f77dada572571b1bb584d96481bd81c39273334c72e31e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-08-04T05:14:18.171Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "1421f3624620b0974015af4ff2813e52cd2a712daca5d4f2dd8532e089e8bea0",
@@ -1396,9 +1396,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
-      "sourceHash": "36107f260abe167cdd8b0a8b5df5d109bcfebcaceaba741b9b85174dfed27a27",
+      "sourceHash": "449d4356a7aabf02a47891a11a2adf0001a6269fcf3da01e417e8f38ff4ed25d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-      "translatedAt": "2026-11-10T13:08:08.036Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus.md": {
       "sourceHash": "34666328637a665930612b66aeb7ff96e87e3605a15a000c6ab5e9e6ee014d5a",
@@ -2436,9 +2436,9 @@
       "translatedAt": "2026-10-28T02:47:20.007Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/changelogs.md": {
-      "sourceHash": "aa93457a1f687e527b84e2b33c7df62b97e33a9fcd29186db6e230b2015c3fba",
+      "sourceHash": "0c0084143e4380f7d52ee52e32ad81705301f182717d42b2fc3f31b9878ef6f6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/release-notes/changelogs.md",
-      "translatedAt": "2026-11-11T16:50:08.974Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/get-started/release-notes/release-notes-008.md": {
       "sourceHash": "43022596b91c315086c6eba306c41aeb40b90066c41b3ab1eb1f5a5d98cf25ba",
@@ -2936,9 +2936,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md": {
-      "sourceHash": "61044f32362e9b5e9d89d66e6e6f1a65576096ebfb1cdce21773ef12a724db61",
+      "sourceHash": "70f5246e1a811e79a527109f65e8222a2c10bcba181b5fc50bf94accb09e0483",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters.md",
-      "translatedAt": "2026-11-10T13:30:20.760Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
       "sourceHash": "80ddbc01231a9edec8585e5df1da267baa63520155ac780745d029c90f939012",
@@ -2966,9 +2966,9 @@
       "translatedAt": "2026-11-11T12:07:36.534Z"
     },
     "content/en/guides/tutorials/management/cmek/azure-kms.md": {
-      "sourceHash": "402453bfb9ab718948245e6f7facd11f591113b2a88a898474523fa69cf134e5",
+      "sourceHash": "3c1fa9e68e346c1b77612bb05be3b467e13a63f78ad85cd87b5d80ff8f517b8f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cmek/azure-kms.md",
-      "translatedAt": "2026-11-12T04:42:08.344Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/cmek/cmek.md": {
       "sourceHash": "793e5dd13630be51d1b060f286f79c066e2780176c6c50ad45d5a5194b59925a",
@@ -2986,9 +2986,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "d0a40a424e50f68882c67059b643b5d00419d53daf0aacf903339363913eead8",
+      "sourceHash": "0eb35c727d36424f2f5e41b8ce13629a9f0ba3c5f336704121ed41b367708632",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-11-07T12:07:26.759Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",
@@ -3131,9 +3131,9 @@
       "translatedAt": "2026-11-10T13:46:21.178Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "bc8fcf3432af176aa1b35b4e29f483ba9e5266df96d5a914e0c805b91783841e",
+      "sourceHash": "b014829fd13dc2c7289c471cef00981d2b13e531b95900b5fcf0f43d3ed68301",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-06T12:08:43.171Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
       "sourceHash": "ad5f0d5c118aea2e638fe9e583c93786f36cefdbb98c60eb8aa2d5093ce4ede2",
@@ -3151,9 +3151,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "e4681d4c50ad57181f645c90bd6809f4eec742e9f9633751d12c327b2df71688",
+      "sourceHash": "00ed76c81745368f4c45939ed0dfce69b609ea5819908c363934ebd02a6c8e2e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-09-19T14:24:19.670Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "bba775f26464b2fa0d3b7377009c35ff130072e8b7815042f520763bd04b07ce",
@@ -3161,9 +3161,9 @@
       "translatedAt": "2026-08-04T05:07:56.962Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
-      "sourceHash": "d27b9cee3b5ab6fbb8692bfaf6ef096600502cfef7fe6016f5e14acb5bb71a78",
+      "sourceHash": "2d5fb3c5e43b3495d8504e12ef6f24498f26e07bfebda21e4cb92950b970874b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/offline-migration.md",
-      "translatedAt": "2026-11-10T13:46:21.178Z"
+      "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-between-clusters/zero-downtime-migration.md": {
       "sourceHash": "2a0064c0536dcdb34fb98b7add1b67e017e8a314472a531edb0e9fbeafc5aa58",

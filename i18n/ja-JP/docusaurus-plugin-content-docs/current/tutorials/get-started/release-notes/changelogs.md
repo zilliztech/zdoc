@@ -370,7 +370,7 @@ import Grid from '@site/src/components/Grid';
 
         - [🌎 Global クラスター](./global-cluster-explained)は、洗練されたプラットフォーム機能により、リージョン単位の災害復旧障害を完全にサポートするようになりました。
 
-        - 📈 よりきめ細かな[メトリクスがコレクションレベルで利用可能](./metrics-alerts-reference#cluster-and-collection-metrics)になりました。
+        - 📈 コレクションレベルで、より詳細な[メトリクス](./metrics-alerts-reference)が利用可能になりました。
 
         - 📋 [アクセスログ](./access-log-overview)がパブリックプレビューで利用できます。
 
@@ -1357,4 +1357,3 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
-

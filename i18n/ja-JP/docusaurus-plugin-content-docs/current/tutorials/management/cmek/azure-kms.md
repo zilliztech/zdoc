@@ -45,7 +45,7 @@ Microsoft Azure Key Vault Service は Microsoft Azure のマネージドサー�
 
 ## Azure Portal での準備\{#prepare-in-azure-portal}
 
-クラスターでデータを暗号化するための Zilliz Cloud CMEK を作成する際は、登録済みの Microsoft Entra アプリケーションと Microsoft Azure リソースグループの ID を指定する必要があります。このセクションでは、Azure Cloud Shell と Azure Portal でこれらを作成する方法について説明します。
+クラスターのデータ暗号化用に Zilliz Cloud CMEK を作成するには、登録済みの Microsoft Entra アプリケーションと Microsoft Azure キーコンテナーが必要です。このセクションでは、Azure Cloud Shell と Azure Portal でそれらを準備する方法について説明します。新しいリソースグループ、キーコンテナー、またはキーの作成は任意です。Azure RBAC 認可が有効な Premium キーコンテナーと、準拠した AES-256 oct-HSM キーがすでにある場合は、それらをそのまま再利用できます。
 
 <details>
 
@@ -63,7 +63,7 @@ Microsoft Azure Key Vault Service は Microsoft Azure のマネージドサー�
 
 1. ドロップダウンリストからサブスクリプションを選択し、リソースグループに名前を付けて、リージョンを選択します。
 
-    リソースグループ、キーコンテナー、暗号化キー、および Zilliz Cloud CMEK エントリには、<em>**同じリージョンを使用**</em>してください。
+    リソースグループの場所は、Azure がリソースのメタデータを保存する場所であるため、任意のリージョンを選択できます。
 
 1. **Review + create** をクリックします。
 
@@ -98,7 +98,7 @@ Entra アプリケーションも、このユースケースで認証資格情�
 
     **Help me choose** をクリックして、ニーズに合ったオプションを確認します。
 
-1. **Review + create** をクリックします。
+1. **Register** をクリックします。
 
 </Procedures>
 
@@ -114,7 +114,7 @@ az ad app create --display-name "$APP_NAME"
 
 ### キーコンテナーを作成する\{#create-a-key-vault}
 
-Azure Key Vault は、キー、シークレット、証明書を管理するために使用するクラウドサービスです。
+Azure Key Vault は、キー、シークレット、証明書を管理するためのクラウドサービスです。Azure RBAC 認可が有効な既存の Premium キーコンテナーを再利用するか、次のように新しいキーコンテナーを作成できます。
 
 ![WQmHw0X4IhAHOsbi9eNcZmalncb](https://zdoc-images.s3.us-west-2.amazonaws.com/WQmHw0X4IhAHOsbi9eNcZmalncb.png)
 
@@ -124,9 +124,7 @@ Azure Key Vault は、キー、シークレット、証明書を管理するた�
 
 1. ドロップダウンリストから前のセクションで作成したリソースグループを選択し、キーコンテナーに名前を付けて、リージョンを選択します。
 
-    リソースグループ、キーコンテナー、暗号化キー、および Zilliz Cloud CMEK エントリには、<em>**同じリージョンを使用**</em>してください。
-
-1. HSM ベースのキーを使用できるように、価格レベルを **Standard** から **Premium** に変更します。
+1. HSM で保護されたキーを使用するには、価格レベルを **Standard** から **Premium** に変更します。
 
 1. すべてのタブで、その他のオプションは既定の設定のままにします。
 
@@ -151,43 +149,57 @@ az keyvault create \
   --enable-rbac-authorization true
 ```
 
-キーコンテナーを作成した後でも、コンテナー内のキーを管理するために必要な権限が自動的に付与されない場合があります。次のコマンドを実行して、必要な権限を取得します。
+キー作成コマンドを実行する ID には、自分でキーコンテナーを作成した場合でも、キーコンテナーでキーを作成する権限が自動的に付与されないことがあります。次のいずれかの方法で、対象のキーコンテナーのスコープにおいて、その ID に **Key Vault Crypto Officer** ロールを付与するよう管理者に依頼してください。
 
-```bash
-az ad signed-in-user show --query id -o tsv
+- **Azure Portal**
 
-# Set your variables
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-RESOURCE_GROUP="<your-resource-group-name>"
-VAULT_NAME="my-zilliz-cmek-kv"
-ASSIGNEE="<your-email-or-app-id>" # The output from Step 1
+    対象のキーコンテナーを開き、左側のナビゲーションから **Access control (IAM)** を選択し、**+ Add** > **Add role assignment** をクリックして、キー作成コマンドを実行する ID に **Key Vault Crypto Officer** を割り当てます。
 
-# Assign the role
-az role assignment create \
-  --assignee "$ASSIGNEE" \
-  --role "Key Vault Crypto Officer" \
-  --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.KeyVault/vaults/$VAULT_NAME"
-```
+- **Azure CLI**
+
+    管理者として次のコマンドを実行します。
+
+    ```bash
+    # Get the Object ID of the identity that will run the create-key commands:
+    # - Signed-in user:    az ad signed-in-user show --query id -o tsv
+    # - Service principal: az ad sp show --id "<application-client-id>" --query id -o tsv
+    ASSIGNEE_OBJECT_ID="<object-id-of-the-identity-that-creates-keys>"
+    
+    # Build the scope of the target key vault from the Azure subscription and resource group:
+    SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+    RESOURCE_GROUP="<your-resource-group-name>"
+    VAULT_NAME="my-zilliz-cmek-kv"
+    
+    # Grant the role at the vault scope.
+    # Set --assignee-principal-type to "ServicePrincipal" if the assignee is a service principal.
+    az role assignment create \
+      --assignee-object-id "$ASSIGNEE_OBJECT_ID" \
+      --assignee-principal-type "User" \
+      --role "Key Vault Crypto Officer" \
+      --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.KeyVault/vaults/$VAULT_NAME"
+    ```
 
 </details>
 
-この手順の完了時には、次のすべての項目が揃っている必要があります。
+この手順の完了時には、使用場所別に以下の情報が揃っている必要があります。
 
-- Azure サブスクリプション ID とディレクトリ ID を取得していること。
+- Azure 側の操作向け
 
-- Azure リソースグループ名を確認していること。
+    Azure サブスクリプション ID、リソースグループ名、キーコンテナー名です。これらは、Azure でリソースを作成したり権限を付与したりするために使用します。
 
-- Microsoft Entra アプリケーション（クライアント）ID を取得していること。
+- Zilliz Cloud コンソール向け
 
-- Azure Key Vault 名を確認していること。
+    コンソールウィザードでは、対象のクラスターの **Region** を選択し、Microsoft Entra の **Application (client) ID**、**Directory (tenant) ID**、およびバージョンサフィックスなしの `https://<vault>.vault.azure.net/keys/<key>` 形式の **Key Identifier** を入力するよう求められます。
 
 ## Zilliz Cloud で Azure Key Vault キーを追加する\{#add-an-azure-key-vault-key-on-zilliz-cloud}
 
-Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Security** > **CMEK** を選択し、該当する Azure リージョンを持つプロジェクトのいずれかに移動して、**+ CMEK** をクリックし、**Add CMEK (Azure KMS)** ダイアログボックスの手順に従ってプロセスを完了します。
+Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、左側のナビゲーションペインで **Security** > **CMEK** を選択します。次に、該当する Azure リージョンを持つプロジェクトのいずれかに移動し、**Azure KMS** タブを開いて **Create CMEK** をクリックします。その後、**Add CMEK (Azure KMS)** ダイアログボックスで手順に従い、プロセスを完了します。
 
-開始する前に、手順で使用する Microsoft Entra アプリケーションを決める必要があります。Zilliz Cloud を使用して **Key Vault** キーを追加すると、利用可能な Entra アプリケーションが Zilliz Cloud に表示されます。**Existing Application** タブの **Select an Existing Application** ステップでドロップダウンリストを確認し、必要な IAM ロールが一覧に含まれているかを判断します。
+開始する前に、手順で使用する Microsoft Entra アプリケーションを決定します。同じプロジェクトおよびリージョンにすでに登録されているアプリケーションは、**Existing Application** タブの **Select an Existing Application** ステップのドロップダウンリストに表示されます。
 
-- 含まれている場合は、[既存のアプリを使用して Key Vault キーを追加する](./azure-kms#add-an-azure-key-vault-key-using-an-existing-app) に進みます。
+初めて登録する場合は **New Application** タブを使用します。これは、Microsoft Entra にすでに登録されているものの、現在のプロジェクトおよびリージョンにはまだ登録されていないアプリケーションにも適用されます。
+
+- 必要なアプリケーションが一覧に表示されている場合は、[既存のアプリを使用して Key Vault キーを追加する](./azure-kms#add-an-azure-key-vault-key-using-an-existing-app) に進みます。
 
 - 含まれていない場合は、[新しいアプリを使用して Key Vault キーを追加する](./azure-kms#add-an-azure-key-vault-key-using-a-new-app) に進みます。
 
@@ -207,7 +219,7 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     1. ドロップダウンリストから対象の Entra アプリケーション ID を選択します。
 
-    1. 以下に表示される **Application ID** と **Directory ID** を確認し、Next をクリックします。
+    1. 以下に表示される **Application (client) ID** と **Directory (tenant) ID** を確認し、**Next** をクリックします。
 
     </Procedures>
 
@@ -217,11 +229,12 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     <Procedures>
 
-    1. キーに名前を付け、所属するキーコンテナーを設定して新しいキーを作成し、指定されたコマンドを Azure Cloud Shell で実行します。
+    1. キーの名前と、そのキーが属するキーコンテナーを設定して新しいキーを作成し、指定されたコマンドを Azure Cloud Shell で実行します。コマンドを実行する前に、Azure CLI を実行する ID に、対象のキーコンテナーでキーを作成する権限があることを確認してください。
 
     1. コマンド出力に含まれるキー識別子を **Key Identifier** に入力します。
 
-        コマンドが失敗した場合、キーコンテナー内のキーを管理する権限がない可能性があります。その場合は、次のコマンドを実行して **Key Vault Crypto Officer** ロールを要求してください。詳細については、[キーコンテナーの作成](./azure-kms#create-a-key-vault) を参照してください。
+        キー識別子は、バージョンサフィックスなしの https://&lt;vault&gt;.vault.azure.net/keys/&lt;key&gt; 形式である必要があります。コマンド出力または Azure Portal からコピーしたアドレスがバージョンセグメントで終わっている場合は、貼り付ける前にその末尾セグメントを削除してください。バージョンサフィックス付きのキー識別子は拒否されます。
+        コマンドが権限エラーで失敗する場合は、対象のキーコンテナーのスコープで、コマンドを実行する ID に **Key Vault Crypto Officer** ロールを付与するよう管理者に依頼してください。詳細については、[キーコンテナーの作成](./azure-kms#create-a-key-vault) を参照してください。付与が有効になった後、元の ID でコマンドを再実行してください。
 
     1. **Next** をクリックします。
 
@@ -233,15 +246,15 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     <Procedures>
 
-    1. Azure Portal に移動し、キーコンテナーを探して、Zilliz Cloud コンソールに表示されているキー名をクリックします。
+    1. Azure Portal に移動し、**Key Vaults** を開き、対象のキーコンテナーを開いて、**Keys** をクリックし、Zilliz Cloud コンソールに表示されているキー名を開きます。
 
     1. 左側のナビゲーションで **Access Control (IAM)** を選択し、**+ Add** > **Add role assignment** をクリックします。
 
     1. **Role** タブで **Job function roles** をクリックし、**Key Vault Crypto User** を検索してロールを選択し、**Next** をクリックします。
 
-    1. **Members** タブで **User, group, or service principal** を選択し、**+ Select members** をクリックして、検索ボックスに Entra アプリケーション名を入力し、アプリケーションを選択して **Select** をクリックします。
+    1. **Members** タブで **User, group, or service principal** を選択し、**+ Select members** をクリックして、検索ボックスに Entra アプリケーション名を入力し、Entra アプリケーションのサービスプリンシパルを選択して、**Select** をクリックします。
 
-    1. **Review + assign** を 2 回クリックして、アプリケーションにロールを割り当てます。
+    1. **Review + assign** を 2 回クリックして、選択したキーのスコープでアプリケーションのサービスプリンシパルにロールを割り当てます。
 
     1. **This application has read, encrypt, and decrypt permissions on this key.** を選択します。
 
@@ -251,6 +264,8 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     </Procedures>
 
+    **注記**：これにより、対象のキーのスコープで、Entra アプリケーションのサービスプリンシパルに **Key Vault Crypto User** ロールが付与されます。これは、キーを作成する ID に対してキーコンテナーのスコープで付与される **Key Vault Crypto Officer** ロールとは別のものです。**Key Vault Crypto User** の代わりにカスタムロールを使用する場合、そのロールにはキーに対する読み取り、暗号化、および復号の権限を含める必要があります。
+
 </Procedures>
 
 ### 新しいアプリを使用して Azure Key Vault キーを追加する\{#add-an-azure-key-vault-key-using-a-new-app}
@@ -259,7 +274,7 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
 <Procedures>
 
-1. **Region** を選択し、**Select an Existing Application** で **Application (client) ID** と **Directory ID** を設定します。
+1. **Region** を選択し、Set Up the Application and Federated Credential で **Application (client) ID** と Directory (tenant) ID を設定します。
 
     ![IPTPw02X0hVb8Bb2W2LcYRS3ncc](https://zdoc-images.s3.us-west-2.amazonaws.com/IPTPw02X0hVb8Bb2W2LcYRS3ncc.png)
 
@@ -267,7 +282,7 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     1. ドロップダウンリストから対象のリージョンを選択します。
 
-    1. **Application (client) ID** と **Directory ID** を設定します。
+    1. **Application (client) ID** と **Directory (tenant) ID** を設定します。
 
     1. Azure Portal に移動し、Entra アプリケーションを探して、アプリケーション名をクリックします。
 
@@ -287,11 +302,13 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     <Procedures>
 
-    1. キーに名前を付け、所属するキーコンテナーを設定して新しいキーを作成し、指定されたコマンドを Azure Cloud Shell で実行します。
+    1. キーの名前と、そのキーが属するキーコンテナーを設定して新しいキーを作成し、指定されたコマンドを Azure Cloud Shell で実行します。コマンドを実行する前に、Azure CLI を実行する ID に、対象のキーコンテナーでキーを作成する権限があることを確認してください。
 
     1. コマンド出力に含まれるキー識別子を **Key Identifier** に入力します。
 
-        コマンドが失敗した場合、キーコンテナー内のキーを管理する権限がない可能性があります。その場合は、次のコマンドを実行して **Key Vault Crypto Officer** ロールを要求してください。詳細については、[キーコンテナーの作成](./azure-kms#create-a-key-vault) を参照してください。
+        キー識別子は、バージョンサフィックスなしの `https://<vault>.vault.azure.net/keys/<key>` 形式である必要があります。コマンド出力または Azure Portal からコピーしたアドレスがバージョンセグメントで終わっている場合は、貼り付ける前にその末尾セグメントを削除してください。バージョンサフィックス付きのキー識別子は拒否されます。
+
+        コマンドが権限エラーで失敗する場合は、対象のキーコンテナーのスコープで、コマンドを実行する ID に **Key Vault Crypto Officer** ロールを付与するよう管理者に依頼してください。詳細については、[キーコンテナーの作成](./azure-kms#create-a-key-vault) を参照してください。付与が有効になった後、元の ID でコマンドを再実行してください。
 
     1. **Next** をクリックします。
 
@@ -303,15 +320,15 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
 
     <Procedures>
 
-    1. Azure Portal に移動し、キーコンテナーを探して、Zilliz Cloud コンソールに表示されているキー名をクリックします。
+    1. Azure Portal に移動し、**Key Vaults** を開き、対象のキーコンテナーを開いて、**Keys** をクリックし、Zilliz Cloud コンソールに表示されているキー名を開きます。
 
     1. 左側のナビゲーションで **Access Control (IAM)** を選択し、**+ Add** > **Add role assignment** をクリックします。
 
     1. **Role** タブで **Job function roles** をクリックし、**Key Vault Crypto User** を検索してロールを選択し、**Next** をクリックします。
 
-    1. **Members** タブで **User, group, or service principal** を選択し、**+ Select members** をクリックして、検索ボックスに Entra アプリケーション名を入力し、アプリケーションを選択して **Select** をクリックします。
+    1. **Members** タブで **User, group, or service principal** を選択し、**+ Select members** をクリックして、検索ボックスに Entra アプリケーション名を入力し、Entra アプリケーションのサービスプリンシパルを選択して、**Select** をクリックします。
 
-    1. **Review + assign** を 2 回クリックして、アプリケーションにロールを割り当てます。
+    1. **Review + assign** を 2 回クリックして、選択したキーのスコープでアプリケーションのサービスプリンシパルにロールを割り当てます。
 
     1. **This application has read, encrypt, and decrypt permissions on this key.** を選択します。
 
@@ -320,6 +337,12 @@ Azure Key Vault キーを追加するには、[Zilliz Cloud コンソール](htt
     1. 検証に合格したら、**Add** をクリックします。
 
     </Procedures>
+
+    <Admonition type="info" title="Notes">
+
+    これにより、対象のキーのスコープで、Entra アプリケーションのサービスプリンシパルに **Key Vault Crypto User** ロールが付与されます。これは、キーを作成する ID に対してキーコンテナーのスコープで付与される **Key Vault Crypto Officer** ロールとは別のものです。**Key Vault Crypto User** の代わりにカスタムロールを使用する場合、そのロールにはキーに対する読み取り、暗号化、および復号の権限を含める必要があります。
+
+    </Admonition>
 
 </Procedures>
 
@@ -343,15 +366,15 @@ Zilliz Cloud コンソールで、追加した Azure Key Vault キーを表示�
 
 Zilliz Cloud は 10 分ごとに、一覧に表示されたキーの可用性をスキャンします。一覧に表示された KMS キーのステータスに関するプロジェクトアラートを作成することもできます。詳細については、[プロジェクトアラートの管理](./manage-project-alerts#create-a-project-alert) を参照してください。
 
-KMS キーが不要になったら、そのキーを使用しているクラスターがない場合に削除できます。
+KMS キーが不要になった場合は、それを使用するクラスターがなければ削除できます。
 
 ## Azure KMS キーを使用する\{#use-azure-kms-keys}
 
-Zilliz Cloud に KMS キーを追加すると、そのキーを使用して暗号化されたクラスターを作成し、バックアップと復元を行うことができます。
+Zilliz Cloud に KMS キーを追加すると、そのキーを使用して暗号化されたクラスターを作成し、バックアップおよび復元できるようになります。
 
 ### 暗号化されたクラスターを作成する\{#create-an-encrypted-cluster}
 
-クラスターを作成するリージョンで利用可能な KMS キーを選択して、クラスターを暗号化できます。
+クラスターを作成するリージョン内の KMS キーを選択します。
 
 ![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
 
@@ -365,7 +388,7 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 
 1. **Encryption at Rest with CMEK** を有効にし、既存の KMS キーを選択します。作成するクラスターと同じリージョンにある KMS キーのみ選択できます。
 
-1. 概要を確認してから、**Create Cluster** をクリックします。
+1. 概要を確認して、**Create クラスター** をクリックします。
 
     ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
@@ -386,3 +409,21 @@ KMS キーを追加すると、次の手順で暗号化されたクラスター�
 - このオプションを有効にすると、復元後に作成されるクラスターは、以下で指定する KMS キーを使用して暗号化されます。
 
 - このオプションを無効にすると、復元後に作成されるクラスターは暗号化されません。
+
+## FAQ\{#faq}
+
+### キー作成コマンドが「Failed to resolve ...」のようなエラーで失敗する\{#the-create-key-command-fails-with-an-error-like-failed-to-resolve}
+
+コマンド内のキーコンテナー名を解決できません。以下を確認してください。
+
+- Azure Portal で対象のキーコンテナーを開き、**Overview** ページで正確なキーコンテナー名と、そこから導かれる **Vault URI** を確認します。コマンドで正確な名前が使用されていることを確認してください。
+
+- Azure CLI を実行するターミナルがパブリック DNS 名を解決できることを確認してください。
+
+### キー作成コマンドが `ForbiddenByRbac` で失敗する\{#the-create-key-command-fails-with-forbiddenbyrbac}
+
+コマンドを実行する ID には、キーコンテナーでキーを作成するためのデータプレーン権限がありません。エラーメッセージに操作 `Microsoft.KeyVault/vaults/keys/create/action` が含まれている場合は、以下を確認してください。
+
+- 対象のキーコンテナーのスコープで、コマンドを実行する ID に **Key Vault Crypto Officer** ロールが付与されていることを確認してください。詳細については、[キーコンテナーの作成](./azure-kms#create-a-key-vault) を参照してください。
+
+- Azure のロールの割り当てが反映されるまでに数分かかる場合があります。付与が有効になるのを待ってから、元の ID でコマンドを再実行してください。

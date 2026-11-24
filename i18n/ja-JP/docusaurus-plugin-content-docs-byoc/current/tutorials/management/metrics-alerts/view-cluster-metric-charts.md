@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、クラスター レベルとコレクション レベルの両方でメトリクスを監視するためのダッシュボードを提供します。メトリックチャートでは、特定の時間範囲内におけるリソース使用量、1 秒あたりのクエリ数（QPS）、レイテンシ、およびデータ操作のパフォーマンスデータを確認できます。 | BYOC"
+description: "メトリクスチャートを使用すると、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用量を追跡できます。オンデマンドクラスターのチャートを表示するには、「オンデマンドクラスターの監視」を参照してください。 | BYOC"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
@@ -20,77 +20,56 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # メトリックチャートの表示
 
-Zilliz Cloud は、クラスター レベルとコレクション レベルの両方でメトリクスを監視するためのダッシュボードを提供します。メトリックチャートでは、特定の時間範囲内におけるリソース使用量、1 秒あたりのクエリ数（QPS）、レイテンシ、およびデータ操作のパフォーマンスデータを確認できます。
+メトリクスチャートを使用すると、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用量を追跡できます。オンデマンドクラスターのチャートを表示するには、[オンデマンドクラスターの監視](./monitor-on-demand-cluster) を参照してください。
 
-## クラスター メトリクスを表示する\{#view-cluster-metrics}
+## クラスターチャート\{#cluster-charts}
 
-クラスター全体のメトリクスを表示するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login)で対象のクラスターに移動し、**Metrics** タブを選択します。
+<Supademo id="cmwu34ytl00lmqmq1do1j6xfd" title=""  />
 
-Zilliz Cloud のメトリックチャートでは、リソース使用量、1 秒あたりのクエリ数（QPS）、リクエスト結果、およびデータ操作に関するパフォーマンスデータが提供され、特定の時間範囲内で詳細な分析を行えます。
+<Procedures>
 
-<Supademo id="cmn429im00fjyz3qmh6bt98w5" title=""  />
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) でプロジェクトを開き、**Serving Clusters**（サービングクラスター）を選択します。
 
-クラスターのメトリックチャートは、以下のグループに整理されています。
+1. 調査するクラスターを選択します。複数のクラスターでベクトル検索が遅い場合を調査しているときは、リストの上にある **Latency (P99)** を選択し、各行の **Search** 値を比較します。クラスター名を選択して **Metrics** を開くと、クラスター全体のチャートを表示できます。
 
-### Pod & container resources\{#pod-and-container-resources}
+1. 時間範囲を選択します。最近のアクティビティには相対時間範囲を使用するか、インシデントに合わせて開始時刻と終了時刻を入力します。同じタイムスタンプのメトリクスを比較するには、**Sync Tooltips** をオンにして、チャート内のデータポイントにカーソルを合わせます。
 
-Pod のリソース消費を効果的に追跡するには、**Metrics** タブを選択し、**Pod Resources** エリアを参照してください。ここでは、各 Pod の CPU、ストレージ、ネットワーク使用量を表示する簡潔なグラフを確認できます。利用可能なメトリクスの概要については、[Metrics Reference](./metrics-alerts-reference#pod-and-container-resources) を参照してください。
+1. Dedicated クラスターでは、**Key Metrics** から始め、次に以下から調査するチャートグループを選択します。利用可能なチャートはクラスタータイプによって異なります。
 
-### Resources\{#resources}
+    | チャートグループ | 確認するポイント |
+    | --- | --- |
+    | Performance | 検索が遅くなった場合は、同じ期間の検索レイテンシと検索 QPS を比較します。これにより、速度低下がトラフィックの変化と同時に発生したかどうかを確認できます。 |
+    | Resources | 速度低下中の CPU 負荷については Query CU Computation を確認します。クラスターがメモリまたはストレージの上限にどの程度近づいているかを確認するには、Query CU Capacity を確認します。 |
+    | Data | データ量の変化については Entity Count を、コレクション数の変化については Collection Count（コレクション数）を確認します。 |
 
-これらのチャートには、CU computation、CU capacity、ストレージを含む、クラスターのリソース使用状況が表示されます。リソースメトリクスの完全な一覧については、[Metrics Reference](./metrics-alerts-reference#resources) を参照してください。
+    定義、単位、クラスタータイプごとの利用可否については、リソースメトリクス、パフォーマンスメトリクス、データメトリクスを参照してください。
 
-### Performance\{#performance}
+</Procedures>
 
-これらのチャートには、QPS、レイテンシ、リクエスト失敗率、スループットを含む、クラスターのパフォーマンスが表示されます。パフォーマンスメトリクスの完全な一覧については、[Metrics Reference](./metrics-alerts-reference#performance) を参照してください。
+## コレクションチャート\{#collection-charts}
 
-### Data\{#data}
+これらのチャートは、サービングクラスター内の 1 つのコレクションのメトリクスを表示します。オンデマンドデータベース内のコレクションについては、[オンデマンドデータベースとコレクションのメトリクス](./on-demand-metrics-reference#on-demand-database-and-collection-metrics) を参照してください。
 
-これらのチャートには、コレクション数、エンティティ数、ロード済みエンティティ数を含む、クラスターのデータ状態が表示されます。データメトリクスの完全な一覧については、[Metrics Reference](./metrics-alerts-reference#data) を参照してください。
+<Supademo id="cmwu3bdzt00q6qmq1j8730zt5" title=""  />
 
-右側の **View Alerts Settings** をクリックすると、**Alert Settings** ページに移動し、アラートを管理するためのショートカットとして利用できます。
+<Procedures>
 
-## コレクション メトリクスを表示する\{#view-collection-metrics}
+1. **Serving Clusters**（サービングクラスター）を開き、アプリケーションにサービスを提供しているクラスターを見つけます。
 
-クラスター メトリクスの一部は **コレクション レベルでも** 利用でき、個々のコレクションにおけるパフォーマンスの問題の特定や容量計画に役立ちます。
+1. 調査するコレクションのメトリクスチャートを開きます。
 
-コレクション レベルのメトリクスを表示するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/login)で対象のコレクションに移動し、**Metrics** タブを選択します。
+    - 名前がわかっている場合は、クラスターを開き、リソースツリーでデータベースを展開してコレクション名を選択し、**Metrics** を開きます。
 
-<Supademo id="cmn42p79v0gcpz3qmql1xx412" title=""  />
+    - 先にコレクションを比較する場合は、**Cluster**（クラスター）列でクラスター名を確認します。名前のすぐ右、**ID** バッジの前にある小さなウィンドウ型のボタンをクリックします。**Collection Overview**（コレクションの概要）が開きます。 
 
-チャートのレイアウトと時間範囲のコントロールは、クラスターの **Metrics** タブにあるものと同じです。各チャートには、クラスター全体ではなく、選択したコレクションを対象範囲とした同じメトリクス定義が表示されます。
+        たとえば、**Latency (P99)** を選択して **Search** 値を比較し、検索が遅いコレクションを見つけます。その名前をクリックしてチャートを開きます。
 
-## カーブのウィンドウサイズを変更する\{#modify-curve-window-size}
+1. **Key Metrics** の下で、**QPS (Read)** を使用して、選択したコレクションが 1 秒あたりに受信した読み取りリクエスト数を確認します。
 
-**Metrics** タブでは、2 種類のウィンドウサイズを使用できます。
+    コレクションレベルのリクエストメトリクスについては、Performance を参照してください。エンティティ数については、Data を参照してください。
 
-- **Relative Range**: 現在時刻を基準にした、あらかじめ定義された時間範囲のセットから選択します。相対時間範囲を使用すると、特定の開始時刻と終了時刻を入力する必要がなく、定期的かつ便利にメトリクスを確認できます。選択肢は次のとおりです。
-
-    - 過去 10 分
-
-    - 過去 1 時間
-
-    - 過去 6 時間
-
-    - 過去 12 時間
-
-    - 過去 1 日
-
-    - 過去 1 週間
-
-    - 過去 1 か月
-
-- **Absolute Range**: 正確な開始時刻と終了時刻を入力します。絶対時間範囲を使用すると、表示するメトリクスをより細かく制御できます。
-
-    - 開始時刻と終了時刻の差は 10 分を超えている必要があります。
-
-## 関連トピック\{#related-topics}
-
-- [組織のアラートを管理する](./manage-organization-alerts)
-
-- [プロジェクトのアラートを管理する](./manage-project-alerts)
-
-- [Metrics & Alerts リファレンス](./metrics-alerts-reference)
-
+</Procedures>
