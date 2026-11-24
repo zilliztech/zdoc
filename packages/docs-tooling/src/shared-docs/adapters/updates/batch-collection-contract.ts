@@ -5,7 +5,7 @@ import {canonicalBytes, compareUtf8, isValidUnicode, parseStrictJson} from '../.
 import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/envelope'
 import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-git-object'
 import {isMilvusIgnoredPathComponent} from '../../core/links/milvus-page-path'
-import {milvusPageMetadata} from '../links-input'
+import {milvusPageMetadata} from '../../core/links/milvus-page-metadata'
 import {getHistoricalRenderView, isHistoricalRenderPoint, loadHistoricalRenderRules} from './historical-render'
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
