@@ -742,6 +742,10 @@ test('an unchanged seeded draft accepted via the marker keeps the agent-route re
     assert.ok(result.semanticSeedUnits >= 1);
     assert.ok(isConsistentSuccessfulReview(result.review));
     assert.deepEqual(result.validationErrors, []);
+    // The published draft is the untouched seeded draft: reused translations
+    // in place, the pending unit still byte-identical English.
+    const draft = fs.readFileSync(path.join(siteDir, item.targetPath), 'utf8');
+    assert.equal(draft, seeded.draft.endsWith('\n') ? seeded.draft : `${seeded.draft}\n`);
   });
 });
 
@@ -800,10 +804,12 @@ test('an unchanged draft without the marker gets a bounded nudge turn and then t
   });
 });
 
-test('the nudge prompt restates the two allowed outcomes', async () => {
-  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: '- **data** (*[SearchData](./Vector-SearchData)*) -'}], validatorCommand: 'node validator.js'}), /byte-identical to the pre-seeded draft/);
-  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: 'x'}], validatorCommand: 'node validator.js'}), new RegExp(NO_TRANSLATION_NEEDED_MARKER));
-  assert.match(buildUnchangedDraftRepairPrompt({item: jaFixture(), target: 'ja-JP', pendingUnits: [{id: 'document.1', kind: 'paragraph', source: 'x'}], validatorCommand: 'node validator.js'}), /Units still to translate/);
+test('the nudge prompt restates the two allowed outcomes', () => {
+  const prompt = buildUnchangedDraftRepairPrompt({pendingUnits: [{id: 'document.1', kind: 'paragraph', source: '- **data** (*[SearchData](./Vector-SearchData)*) -'}], validatorCommand: 'node validator.js'});
+  assert.match(prompt, /byte-identical to the pre-seeded draft/);
+  assert.match(prompt, new RegExp(NO_TRANSLATION_NEEDED_MARKER));
+  assert.match(prompt, /Units still to translate/);
+  assert.match(prompt, /document\.1/);
 });
 
 test('a nudge turn that claims the marker on an unchanged draft is accepted', async () => {
@@ -880,6 +886,13 @@ test('isIdentityTranslationUnit accepts production markup-only rows and rejects 
   assert.equal(isIdentityTranslationUnit(mk('See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).')), false);
   assert.equal(isIdentityTranslationUnit(mk('title: Limits', 'frontmatter-scalar')), false);
   assert.equal(isIdentityTranslationUnit(mk('## Request Syntax', 'heading')), false);
+  // Bold prose never passes, even lowercase: bold positions hold one plain
+  // token at most and the unit needs an identity signal outside bold.
+  assert.equal(isIdentityTranslationUnit(mk('**deprecated**')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**see below for details**')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**defaults to** `16`')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**data *see*')), false);
+  assert.equal(isIdentityTranslationUnit(mk('**SearchData**', 'table-cell')), false);
 });
 
 test('runAgenticFile splices markup-only pending units without a model call', async () => {
@@ -1043,6 +1056,39 @@ test('runAgenticTranslation consumes a semantic seed directory end to end', asyn
     assert.equal(translated.checkpoint.failed, 0);
     assert.equal(translated.results[0].status, 'translated');
     assert.ok(translated.results[0].semanticSeedUnits >= 1);
+  });
+});
+
+test('the run summary keeps verified-current and identity-current disjoint', async () => {
+  await withSite(async siteDir => {
+    const item = jaFixture();
+    write(siteDir, item.sourcePath, EN_LINK_SOURCE);
+    const seedDir = path.join(siteDir, 'tmp', 'semantic-seeds');
+    fs.mkdirSync(seedDir, {recursive: true});
+    const report = buildSeedReport({item, target: 'ja-JP', source: EN_LINK_SOURCE, published: JA_LINK_PUBLISHED});
+    fs.writeFileSync(path.join(seedDir, 'seed-0.json'), `${JSON.stringify(report)}\n`);
+    fs.writeFileSync(path.join(seedDir, 'summary.json'), `${JSON.stringify({
+      schemaVersion: 1,
+      kind: 'semantic-translation-seeds',
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: 'c'.repeat(40),
+      files: {[item.sourcePath]: {reportFile: 'seed-0.json', reason: null, seededUnits: report.entries.length}},
+    })}\n`);
+    const lines = [];
+    const translated = await runAgenticTranslation({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', sourceCheckpointSha: 'c'.repeat(40), items: [item]},
+      callCodex: async () => { throw new Error('model must not be called for markup-only pending units') },
+      concurrency: 1,
+      semanticSeedsDir: seedDir,
+      log: {log: message => lines.push(message)},
+    });
+    assert.equal(translated.results[0].identityPendingAccepted, true);
+    const summary = lines.find(line => /\[agentic-provider\] summary /.test(line));
+    assert.match(summary, /verified-current=0/);
+    assert.match(summary, /identity-current=1/);
   });
 });
 

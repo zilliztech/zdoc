@@ -85,28 +85,45 @@ const NO_TRANSLATION_NEEDED_LINE = new RegExp('^\\s*NO_TRANSLATION_NEEDED\\s*$',
 // (**data**), and any other word must be identifier-shaped (PascalCase with
 // at least two humps, camelCase, an underscore, a digit, or a single letter)
 // — so plain lowercase prose (see, options) and ALL-CAPS labels (REQUIRED)
-// always reject and fall back to the agent.
+// always reject and fall back to the agent. Bold positions additionally hold
+// at most ONE plain lowercase token (a parameter name, never a phrase) and
+// the unit must carry an identity signal outside bold markers — inline code,
+// a markdown link, or an identifier-shaped non-bold token — so fully-bold
+// prose cells (**deprecated**, **see below for details**) reject too.
 function isIdentityTranslationUnit(unit) {
   if (!unit || typeof unit.source !== 'string') return false
   if (unit.kind !== 'paragraph' && unit.kind !== 'table-cell') return false
   // Inline code is protected byte material in every locale, so it never
   // translates and cannot make a unit prose-shaped.
+  const hasProtectedSignal = /`[^`\n]*`/.test(unit.source) || /\]\([^)\n]*\)/.test(unit.source)
   const withoutCode = unit.source.replace(/`[^`\n]*`/g, ' ')
   // Markdown link destinations are protected bytes that may contain arbitrary
   // English words; drop them before the word scan. Parenthesized prose stays
   // and still counts against identity.
   const withoutLinkDestinations = withoutCode.replace(/\]\([^)\n]*\)/g, ']')
-  return withoutLinkDestinations.split('**').every((segment, index) => segmentHasOnlyIdentityTokens(segment, index % 2 === 1))
+  const segments = withoutLinkDestinations.split('**')
+  // A unit whose every letter lives inside bold markers has no identifier
+  // signal outside them: that is a fully-bold prose cell, not a parameter
+  // row, so it must go to the agent even when each bold token is lowercase.
+  if (!hasProtectedSignal && !segments.some((segment, index) => index % 2 === 0 && /[A-Za-z]/.test(segment))) return false
+  return segments.every((segment, index) => segmentHasOnlyIdentityTokens(segment, index % 2 === 1))
 }
 
 function segmentHasOnlyIdentityTokens(segment, boldPosition) {
+  if (boldPosition) {
+    // Bold positions hold parameter names: at most one plain lowercase
+    // token, never a phrase (**see below for details** rejects). Identifier-
+    // shaped bold tokens (PascalCase type names, db_name) go through the
+    // non-bold rules.
+    if (/^[a-z][a-z0-9_]*$/.test(segment.trim())) return true
+    return segmentHasOnlyIdentityTokens(segment, false)
+  }
   const remainder = segment.replace(/[A-Za-z][A-Za-z0-9_]*/g, token =>
-    isIdentifierShapedToken(token, boldPosition) ? ' ' : token)
+    isIdentifierShapedToken(token) ? ' ' : token)
   return !/[A-Za-z]/.test(remainder)
 }
 
-function isIdentifierShapedToken(token, boldPosition) {
-  if (boldPosition && /^[a-z][a-z0-9_]*$/.test(token)) return true
+function isIdentifierShapedToken(token) {
   return /^[A-Z]$/.test(token) ||
     /^[A-Z][a-z0-9]+[A-Z][A-Za-z0-9]*$/.test(token) ||
     /^[A-Za-z0-9]*_[A-Za-z0-9_]+$/.test(token) ||
@@ -352,7 +369,7 @@ Edit draft.md so the listed violations are gone. If you can run the validator, i
 // exact marker line from its reply. The nudge restates the two allowed
 // outcomes; a still-unchanged draft without the marker after it keeps failing
 // hard, so a lazy no-op cannot slip prose through.
-function buildUnchangedDraftRepairPrompt({item, target, pendingUnits, validatorCommand}) {
+function buildUnchangedDraftRepairPrompt({pendingUnits, validatorCommand}) {
   const boundedUnits = pendingUnits.slice(0, 60).map(unit => `- [${unit.id}] (${unit.kind}) ${String(unit.source).slice(0, 120).replaceAll('\n', ' ')}`).join('\n')
   return `Your previous turn left draft.md byte-identical to the pre-seeded draft while ${pendingUnits.length} unit(s) are still English, and your reply did not state the marker.
 
@@ -439,8 +456,9 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
       // the assembled draft may already satisfy the full deterministic gate. In
       // that case there is nothing to translate and the agent is skipped. Drafts
       // with "new" (changed or added) English units, and legacy seed summaries
-      // without classification metadata, always go to the agent: passing the
-      // gate alone would risk publishing untranslated prose.
+      // without classification metadata, go to the agent unless every pending
+      // unit passes the identity classifier below: passing the gate alone
+      // would risk publishing untranslated prose.
       //
       // Identity fast path: a "new" pending unit whose bytes are already the
       // correct published text (pure markup — a parameter row whose type
@@ -531,7 +549,7 @@ async function runAgenticFile({item, target, siteDir, callCodex, validate, maxRe
       attempts.length <= maxRepairTurns
     ) {
       log.log(`[agentic-provider] unchanged seeded draft without marker; nudging ${item.sourcePath} (${attempts.length}/${maxRepairTurns})`)
-      reply = await runTurn(`repair${attempts.length}`, buildUnchangedDraftRepairPrompt({item, target, pendingUnits: seeded.pendingUnits, validatorCommand}))
+      reply = await runTurn(`repair${attempts.length}`, buildUnchangedDraftRepairPrompt({pendingUnits: seeded.pendingUnits, validatorCommand}))
       attempts.push(`repair${attempts.length}`)
       log.log(`[agentic-provider] turn ${attempts.at(-1)} ${item.sourcePath}`)
     }
@@ -688,7 +706,10 @@ async function runAgenticTranslation({siteDir, manifest, callCodex, validate, ma
   const sourcePreflightFailed = results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
   const unchangedDrafts = results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
   const identityCurrent = results.filter(result => result?.status === 'translated' && result.identityPendingAccepted === true).length
-  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrent} unchanged-drafts=${unchangedDrafts} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed} identity-current=${identityCurrent}`)
+  // identity-current is a strict subset of the attempts-based verified-current
+  // tag; report the filtered route alone so the two counters stay disjoint.
+  const verifiedCurrentOnly = verifiedCurrent - identityCurrent
+  log.log(`[agentic-provider] summary translated=${translated} failed=${failed} seeded-full=${seededFull} verified-current=${verifiedCurrentOnly} unchanged-drafts=${unchangedDrafts} agent-files=${agentFiles} repair-turns=${repairTurns} source-preflight-failed=${sourcePreflightFailed} identity-current=${identityCurrent}`)
   if (usageTracker) {
     const usage = usageTracker.snapshot()
     log.log(`[agentic-provider] tokens turns=${usage.turns} input=${usage.inputTokens} cached=${usage.cachedInputTokens} cache-write=${usage.cacheWriteInputTokens} output=${usage.outputTokens} reasoning=${usage.reasoningOutputTokens}`)
@@ -877,6 +898,7 @@ async function main() {
   const usage = usageTracker.snapshot()
   const seededFull = report.results.filter(result => result?.status === 'translated' && result.semanticSeedUnits && Array.isArray(result.attempts) && result.attempts.length === 0).length
   const verifiedCurrent = report.results.filter(result => result?.status === 'translated' && Array.isArray(result.attempts) && result.attempts.length === 1 && result.attempts[0] === 'verified-current').length
+  const identityCurrent = report.results.filter(result => result?.status === 'translated' && result.identityPendingAccepted === true).length
   const sourcePreflightFailed = report.results.filter(result => result?.status === 'failed' && typeof result.error === 'string' && result.error.startsWith('source preflight:')).length
   const unchangedDrafts = report.results.filter(result => result?.status === 'translated' && result.unchangedDraftAccepted === true).length
   if (process.env.GITHUB_OUTPUT) {
@@ -893,7 +915,7 @@ async function main() {
   if (process.env.GITHUB_STEP_SUMMARY) {
     fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
       '### Agentic translation cost', '',
-      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent} — both without a model call; unchanged drafts accepted: ${unchangedDrafts}; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
+      `- Files: ${report.checkpoint.processed} (fully seeded: ${seededFull}, verified-current: ${verifiedCurrent - identityCurrent} incl. identity-current: ${identityCurrent} — all without a model call; unchanged drafts accepted: ${unchangedDrafts}; source-preflight failed: ${sourcePreflightFailed} — skipped the model because the source itself cannot pass the gates)`,
       `- Agent turns: ${usage.turns} (cached input: ${Math.round(usage.cachedInputTokens / 1000)}K tokens)`,
       `- Input tokens: **${usage.inputTokens.toLocaleString('en-US')}**`,
       `- Output tokens: **${usage.outputTokens.toLocaleString('en-US')}** (reasoning: ${usage.reasoningOutputTokens.toLocaleString('en-US')})`,
