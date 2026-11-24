@@ -46,10 +46,9 @@ export function context(env) {
 export function batchWriterContext(env) {
   const job = workflowContext(env)
   need(job.event === 'workflow_dispatch' && env.GITHUB_REF_PROTECTED === 'true', 'Batch writer requires an explicit run on protected master')
-  const {BATCH_ARTIFACT_DIGEST:digest,BATCH_HANDOFF_DIGEST:handoffDigest} = env
-  need([digest,handoffDigest].every(value => typeof value === 'string' && value.length === 64 && /^[a-f0-9]{64}$/.test(value)),
-    'Invalid batch artifact or witness digest')
-  return {...job,artifact:number(env.BATCH_ARTIFACT_ID),digest,handoffDigest}
+  const acceptedRun = number(env.BATCH_ACCEPTED_RUN_ID)
+  need(acceptedRun !== job.run, 'Batch acceptance must come from an earlier read-only run')
+  return {...job,acceptedRun,runNumber:number(env.GITHUB_RUN_NUMBER),actor:number(env.GITHUB_ACTOR_ID)}
 }
 
 export function gitReader(workspace, scratch) {
@@ -136,45 +135,61 @@ export async function authenticatePrepare(contract, transport, ctx) {
   return new Map([...files].map(([key, value]) => [key,Buffer.from(value)]))
 }
 
-// The batch writer uses the same production write job and only accepts its
-// own successful batch-preparation job on the first attempt.
+// The reference supplied by the dispatcher selects a GitHub run, never page data or artifact digests.
 export async function authenticateBatchPrepare(contract, transport, ctx) {
-  const jobName = 'prepare_batch'
-  const uploadName = 'Upload verified batch handoff'
-  const name = 'shared-guides-batch-handoff-' + number(ctx.run) + '-1'
-  const artifactId = number(ctx.artifact)
+  const accepted = number(ctx.acceptedRun)
+  need(accepted !== ctx.run && ctx.attempt === 1 && ctx.event === 'workflow_dispatch' && oid(ctx.master),
+    'Invalid batch acceptance context')
+  const name = 'shared-guides-batch-handoff-' + accepted + '-1'
   const limit = 2 * 1024 * 1024
-  need(ctx.attempt === 1 && oid(ctx.master) && ['schedule','workflow_dispatch'].includes(ctx.event) &&
-    /^[0-9a-f]{64}$/.test(ctx.digest ?? ''), 'Invalid batch prepare context')
 
   async function get(suffix, maximum = limit, zip = false) {
     const response = await transport({method:'GET',path:'/repos/' + repo + suffix,maximum,signal:AbortSignal.timeout(30000)})
     need(response.status === 200 && response.body.length <= maximum && !response.headers?.link, 'Batch prepare evidence unavailable')
     return zip ? Buffer.from(response.body) : contract.parseStrictJson(response.body)
   }
-  const runPath = '/actions/runs/' + ctx.run
+  const runPath = '/actions/runs/' + accepted
   const attemptPath = runPath + '/attempts/1'
-  const artifactPath = '/actions/artifacts/' + artifactId
-  const [run, jobList, artifactList] = await Promise.all([
-    get(attemptPath),
-    get(attemptPath + '/jobs?per_page=100'),
+  const [writer, run, jobList, artifactList] = await Promise.all([
+    get('/actions/runs/' + ctx.run), get(attemptPath), get(attemptPath + '/jobs?per_page=100'),
     get(runPath + '/artifacts?per_page=100')
   ])
-  need(run.id === ctx.run && run.run_attempt === 1 && run.head_sha === ctx.master && run.head_branch === 'master' &&
-    run.event === ctx.event && run.status === 'in_progress' && run.conclusion === null && run.path === workflow &&
-    run.repository?.id === repoId && run.head_repository?.id === repoId, 'Batch prepare run identity changed')
+  function boundRun(run, id) {
+    return run.id === id && run.run_attempt === 1 && run.head_sha === ctx.master && run.head_branch === 'master' &&
+      run.event === 'workflow_dispatch' && run.path === workflow && run.workflow_id === 414826845 &&
+      run.repository?.id === repoId && run.head_repository?.id === repoId && Number.isSafeInteger(run.actor?.id) &&
+      run.actor.id > 0 && run.triggering_actor?.id === run.actor.id
+  }
+  need(boundRun(writer, ctx.run) && writer.status === 'in_progress' && writer.conclusion === null &&
+    writer.run_number === ctx.runNumber && writer.actor.id === ctx.actor, 'Batch writer run identity changed')
+  function acceptedRun(raw) {
+    need(boundRun(raw, accepted) && raw.status === 'completed' && raw.conclusion === 'success' &&
+      Number.isSafeInteger(raw.run_number) && raw.run_number > 0 && raw.run_number < writer.run_number &&
+      raw.run_number === run.run_number && raw.actor.id === run.actor.id, 'Batch acceptance run identity changed')
+  }
+  acceptedRun(run)
   function completeList(value, key) {
     need(Array.isArray(value[key]) && value.total_count === value[key].length && value.total_count < 100,
       'Incomplete batch prepare inventory')
     return value[key]
   }
-  const jobs = completeList(jobList,'jobs').filter(job => job.name === jobName)
-  const job = jobs[0]
-  need(jobs.length === 1 && job.run_id === ctx.run && job.run_attempt === 1 && job.head_sha === ctx.master &&
-    job.status === 'completed' && job.conclusion === 'success' && Array.isArray(job.steps), 'Batch prepare job not authenticated')
-  const uploads = job.steps.filter(step => step.name === uploadName)
-  const upload = uploads[0]
-  need(uploads.length === 1 && upload.status === 'completed' && upload.conclusion === 'success', 'Batch handoff upload not authenticated')
+  const jobs = completeList(jobList,'jobs')
+  function completedJob(name, conclusion) {
+    const matches = jobs.filter(j => j.name === name)
+    const job = matches[0]
+    need(matches.length === 1 && job.run_id === accepted && job.run_attempt === 1 && job.head_sha === ctx.master &&
+      job.status === 'completed' && job.conclusion === conclusion, 'Batch acceptance job not authenticated')
+    return job
+  }
+  completedJob('write', 'skipped')
+  const job = completedJob('prepare_batch', 'success')
+  function passedStep(name) {
+    const steps = job.steps.filter(step => step.name === name)
+    need(steps.length === 1 && steps[0].status === 'completed' && steps[0].conclusion === 'success', 'Batch acceptance step not authenticated')
+    return steps[0]
+  }
+  passedStep('Confirm read-only batch acceptance')
+  const upload = passedStep('Upload verified batch handoff')
   const [jobStart, jobEnd, uploadStart, uploadEnd] = [job.started_at,job.completed_at,upload.started_at,upload.completed_at].map(value => Date.parse(value))
   need(jobStart <= uploadStart && uploadStart <= uploadEnd && uploadEnd <= jobEnd, 'Batch handoff upload window unknown')
 
@@ -183,28 +198,37 @@ export async function authenticateBatchPrepare(contract, transport, ctx) {
     const origin = artifact.workflow_run
     need(artifact.id === artifactId && artifact.name === name && artifact.expired === false &&
       Number.isSafeInteger(artifact.size_in_bytes) && artifact.size_in_bytes > 0 && artifact.size_in_bytes <= limit &&
-      artifact.digest === 'sha256:' + ctx.digest && created >= uploadStart && created <= uploadEnd &&
-      origin?.id === ctx.run && origin.head_sha === ctx.master && origin.head_branch === 'master' &&
+      artifact.digest === 'sha256:' + digest && created >= uploadStart && created <= uploadEnd &&
+      origin?.id === accepted && origin.head_sha === ctx.master && origin.head_branch === 'master' &&
       origin.repository_id === repoId && origin.head_repository_id === repoId, 'Batch handoff artifact binding changed')
     return artifact
   }
   const matches = completeList(artifactList,'artifacts').filter(artifact => artifact.name === name)
   need(matches.length === 1, 'Missing or ambiguous batch handoff artifact')
+  const artifactId = number(matches[0].id)
+  need(typeof matches[0].digest === 'string' && /^sha256:[0-9a-f]{64}$/.test(matches[0].digest), 'Invalid batch archive digest')
+  const digest = matches[0].digest.slice(7)
   const artifact = bindArtifact(matches[0])
+  const artifactPath = '/actions/artifacts/' + artifactId
   const bytes = await get(artifactPath + '/zip',artifact.size_in_bytes,true)
-  need(bytes.length === artifact.size_in_bytes && hash(bytes) === ctx.digest, 'Downloaded batch handoff digest changed')
-  const after = bindArtifact(await get(artifactPath))
-  need(after.size_in_bytes === artifact.size_in_bytes && after.created_at === artifact.created_at, 'Batch handoff artifact changed after download')
+  need(bytes.length === artifact.size_in_bytes && hash(bytes) === digest, 'Downloaded batch handoff digest changed')
+  // An attempt-specific URL remains readable after a rerun. Check the current run independently.
+  async function recheckAcceptance() {
+    const [latest, metadata] = await Promise.all([get(runPath), get(artifactPath)])
+    acceptedRun(latest)
+    const after = bindArtifact(metadata)
+    need(after.size_in_bytes === artifact.size_in_bytes && after.created_at === artifact.created_at, 'Batch handoff artifact changed after download')
+  }
+  await recheckAcceptance()
   const files = contract.parseBatchHandoffZip(bytes)
   need(files.size === 1 && files.has('handoff.json'), 'Unexpected batch handoff archive members')
-  return Buffer.from(files.get('handoff.json'))
+  const handoff = Buffer.from(files.get('handoff.json'))
+  return {bytes:handoff, artifact:artifactId, digest, handoffDigest:hash(handoff), recheckAcceptance}
 }
 
 export async function inspectPreparedBatch(contract, transport, ctx, git) {
-  need(git.head === ctx.master && /^[0-9a-f]{64}$/.test(ctx.handoffDigest ?? ''), 'Batch writer checkout or raw witness identity invalid')
-  const bytes = await authenticateBatchPrepare(contract, transport, ctx)
-  const sha256 = hash(bytes)
-  need(sha256 === ctx.handoffDigest, 'Batch raw witness digest changed')
+  need(git.head === ctx.master, 'Batch writer checkout identity invalid')
+  const {bytes,artifact,digest,handoffDigest:sha256,recheckAcceptance} = await authenticateBatchPrepare(contract, transport, ctx)
   const {manifest} = contract.parseStrictJson(bytes)
   const {pins} = manifest.base
   need(pins.master === ctx.master && pins.trustedTools === git.head, 'Batch tool revision changed')
@@ -216,7 +240,7 @@ export async function inspectPreparedBatch(contract, transport, ctx, git) {
   })
   need(result.status === 'verified-witness' && result.observation === 'observed', 'Batch witness not authenticated')
   await contract.verifyBatchFinalFreshness({...result.manifest.fetch,pins:result.manifest.base.pins},Date.now(),undefined,AbortSignal.timeout(180000))
-  return result
+  return {witness:result, artifact, digest, handoffDigest:sha256, recheckAcceptance}
 }
 
 export async function material(contract, ctx, files, git) {
@@ -497,11 +521,11 @@ export function batchDraftMaterial(contract, ctx, witness) {
   const overlays = plan.nextEdits.map(edit => ({path:edit.before.path,bytes:blobs.get(edit.afterBlob.sha256),sha256:edit.afterBlob.sha256}))
   const targetRef = 'shared-update/' + hash(contract.canonicalBytes({kind:'remote-guides-batch',group:manifest.groupSha256}))
   const transactionId = hash(contract.canonicalBytes({kind:'remote-guides-batch-transaction-v2',repositoryId:repoId,master,dev,source,
-    run:ctx.run,attempt:ctx.attempt,binding:manifest.binding.digest,handoffSha256:ctx.handoffDigest,artifact:ctx.artifact,archiveSha256:ctx.digest}))
+    run:ctx.run,attempt:ctx.attempt,acceptedRun:ctx.acceptedRun,binding:manifest.binding.digest,handoffSha256:ctx.handoffDigest,artifact:ctx.artifact,archiveSha256:ctx.digest}))
   const seal = {kind:'shared-update-seal',schemaVersion:1,repositoryId:repoId,transactionId,unitKey:plan.unitKey,
     planSha256:contract.digest('plan',plan),proofSha256:hash(contract.canonicalBytes(proof)),master,dev,preparedBase:proof.prepared.base,
     candidate:proof.candidate,candidateTree:proof.candidateTree,previousSeal:null,preservedHumanHeads:[],runId:ctx.run,runAttempt:ctx.attempt}
-  return {manifest,unit:plan,proof,seal,baseTree,commit,overlays,upstream,nextLocks,targetRef,stage:'shared-update-staging/' + transactionId}
+  return {manifest,unit:plan,proof,seal,baseTree,commit,overlays,upstream,nextLocks,acceptedRun:ctx.acceptedRun,targetRef,stage:'shared-update-staging/' + transactionId}
 }
 
 export async function createBatchDraft({api,candidate,fresh,form,verify,journal,provenance,waitRef = awaitRef}) {
@@ -517,7 +541,8 @@ export async function createBatchDraft({api,candidate,fresh,form,verify,journal,
     '','### Upstream changes','',...changes,
     '','### Next locks','','| Page | Previous `next` | Proposed `next` | Result |','| --- | --- | --- | --- |',...rows,
     '','Signed head `' + signed + '`.',
-    '[Qualification and writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'].join('\n')
+    '[Read-only acceptance](https://github.com/' + repo + '/actions/runs/' + number(candidate.acceptedRun) + ') · ' +
+    '[Writer evidence](https://github.com/' + repo + '/actions/runs/' + seal.runId + ').'].join('\n')
   // K and its signed child have the same OID width. Reject a body too
   // large to post before creating any Git objects or refs.
   need(Buffer.byteLength(draftBody(seal.candidate)) <= 65536, 'Batch Draft body exceeds limit')
@@ -564,8 +589,8 @@ async function main() {
   mkdirSync(dest,{mode:0o700})
   const append = entry => appendFileSync(join(dest,'journal.ndjson'),JSON.stringify({run:process.env.GITHUB_RUN_ID,
     attempt:process.env.GITHUB_RUN_ATTEMPT,master:process.env.GITHUB_SHA,
-    artifactId:mode === 'batch' ? process.env.BATCH_ARTIFACT_ID : process.env.PREPARE_ARTIFACT_ID,
-    archiveSha256:mode === 'batch' ? process.env.BATCH_ARTIFACT_DIGEST : process.env.PREPARE_ARTIFACT_DIGEST,...entry}) + '\n',{mode:0o600})
+    artifactId:mode === 'pilot' ? process.env.PREPARE_ARTIFACT_ID : undefined,
+    archiveSha256:mode === 'pilot' ? process.env.PREPARE_ARTIFACT_DIGEST : undefined,...entry}) + '\n',{mode:0o600})
   const write = (name,bytes) => writeFileSync(join(dest,name),bytes,{flag:'wx',mode:0o600})
   const result = await runWithJournal(async journal => {
     const ctx = mode === 'batch' ? batchWriterContext(process.env) : context(process.env)
@@ -576,14 +601,17 @@ async function main() {
     need(git.head === ctx.master, 'Writer checkout differs from workflow head')
     const transport = contract.createRemoteTransport({repositoryFullName:repo,token})
     if (mode === 'batch') {
-      const witness = await inspectPreparedBatch(contract,transport,ctx,git)
-      const candidate = batchDraftMaterial(contract,ctx,witness)
+      const {witness,artifact,digest,handoffDigest,recheckAcceptance} = await inspectPreparedBatch(contract,transport,ctx,git)
+      const acceptedEvidence = {acceptedRun:ctx.acceptedRun,acceptedAttempt:1,artifactId:artifact,archiveSha256:digest,handoffSha256:handoffDigest}
+      journal({state:'acceptance-verified',...acceptedEvidence})
+      const candidate = batchDraftMaterial(contract,{...ctx,artifact,digest,handoffDigest},witness)
       const {manifest,seal,overlays,stage,targetRef} = candidate
       const expected = manifest.base.pins
       const pageIds = manifest.members.map(member => member.pageId)
       const changedPageIds = manifest.members.filter(member => member.disposition === 'advance').map(member => member.pageId)
       need(changedPageIds.length === overlays.length, 'Batch advance list differs from overlays')
       const fresh = async owned => {
+        await recheckAcceptance()
         await contract.verifyBatchFinalFreshness({...manifest.fetch,pins:expected},Date.now(),undefined,AbortSignal.timeout(180000))
         const scope = await inspectBatchWriterScope({token,expected,pageIds,changedPageIds,target:targetRef,stage,...owned})
         need(scope.status === 'clear' && scope.historyVerified, 'Batch writer paused: ' + scope.reasons.join(','))
@@ -592,14 +620,14 @@ async function main() {
         const output = join(temp,'shared-guides-batch-producer')
         mkdirSync(output,{mode:0o700})
         const producer = {kind:'shared-guides-batch-producer',schemaVersion:2,seal:s,sealMetadata:seal,signed,
-          groupSha256:manifest.groupSha256,artifactId:ctx.artifact,archiveSha256:ctx.digest,handoffSha256:ctx.handoffDigest,
+          groupSha256:manifest.groupSha256,...acceptedEvidence,
           workflowDefinitionSha256:hash(git.baseFile(ctx.master,workflow))}
         writeFileSync(join(output,'provenance.json'),contract.canonicalBytes(producer),{flag:'wx',mode:0o600})
       }
       const api = apiClient(token)
       const draft = await createBatchDraft({api,candidate,fresh,form:contract.formalValidation,
         verify:(metadata,s) => verifySignature(api,git,contract,metadata,s),journal,provenance})
-      write('draft.json',contract.canonicalBytes({...draft,artifactId:ctx.artifact,archiveSha256:ctx.digest}))
+      write('draft.json',contract.canonicalBytes({...draft,...acceptedEvidence}))
       return draft
     }
     const files = await authenticatePrepare(contract,transport,ctx)
