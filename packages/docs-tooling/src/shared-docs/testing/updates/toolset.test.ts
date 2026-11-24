@@ -1064,7 +1064,7 @@ describe.skipIf(process.platform === 'linux').sequential('Guides worker owned se
 
 vi.mock('node:fs/promises', async importOriginal => {
   const actual = await importOriginal<typeof import('node:fs/promises')>()
-  return {...actual, open: vi.fn(actual.open), realpath: vi.fn(actual.realpath), readdir: vi.fn(actual.readdir)}
+  return {...actual, open: vi.fn(actual.open), realpath: vi.fn(actual.realpath)}
 })
 const fsPromisesOpen = vi.mocked(fsPromises.open).getMockImplementation()!
 const originalRealpath = vi.mocked(fsPromises.realpath).getMockImplementation()!
@@ -1105,7 +1105,9 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
     const gitPath = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding: 'utf8'}).trim()
     discover(gitPath, location)
     vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? binary : [binary, stdlib].includes(String(path)) ? String(path) : originalRealpath(path)) as typeof fsPromises.realpath)
-    const originalRead = vi.mocked(fsPromises.readdir).getMockImplementation()!
+    // Limit result recording to this fault probe. A suite-wide readdir spy
+    // retains every sibling list produced by the real evidence-store checks.
+    const originalRead = fsPromises.readdir
     const read = vi.spyOn(fsPromises, 'readdir').mockImplementation((async (path, ...args) => {
       if (String(path) === stdlib) throw new Error('MEASURE_STDLIB_SENTINEL')
       return (originalRead as Function)(path, ...args)
