@@ -13,5 +13,8 @@
  },
  "apikeys.delete-run": {
   "expect": "record"
+ },
+ "extra.pe.services": {
+  "expect": "record"
  }
 }
