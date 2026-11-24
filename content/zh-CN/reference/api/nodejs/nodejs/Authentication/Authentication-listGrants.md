@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出授予指定角色的权限。 | Node.js"
+description: "此操作会列出授予指定角色的权限。 | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
@@ -27,7 +27,7 @@ displayed_sidebar: nodeSidebar
 
 # listGrants()
 
-此操作列出授予指定角色的权限。
+此操作会列出授予指定角色的权限。
 
 ```javascript
 await milvusClient.listGrants(data)
@@ -45,17 +45,17 @@ await milvusClient.listGrants(data)
 
 **参数：**
 
-- **roleName** (*string*)  
+- **roleName** （*string*）  
 
-    目标角色名称
+    目标角色名称。
 
     如果将其设置为不存在的角色名称，可能会导致错误。
 
-- **db_name** (*string*)  
+- **db_name** （*string*）  
 
     目标角色所属的 Database 名称。
 
-- **timeout** (*number*) -
+- **timeout** （*number*） -
 
     此操作的超时时长。将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
 
@@ -74,24 +74,24 @@ await milvusClient.listGrants(data)
 
 **参数：**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** （*[GrantEntity](./Authentication-GrantEntity)[]*） -
 
 附加到所请求角色的授权列表。每个条目都将一项权限与目标对象以及授予该权限的主体配对。有关 **GrantEntity** 字段的完整参考，请参见 `describeRole()` 文档。
 
 - **ResStatus**
 一个 **ResStatus** 对象。
 
-    - **code** (*number*) -
+    - **code** （*number*） -
 
         表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
-    - **error_code** (*string* | *number*) -
+    - **error_code** （*string* | *number*） -
 
         表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) -
+    - **reason** （*string*） -
 
-        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 
 **异常：**
