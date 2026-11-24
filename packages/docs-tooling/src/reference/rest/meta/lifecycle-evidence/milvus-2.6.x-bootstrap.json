@@ -12,7 +12,7 @@
   },
   "summary": {
     "fragments": 16,
-    "elements": 2472,
+    "elements": 2509,
     "highConfidenceIncremental": 294,
     "managedFloor": 2048,
     "modified": 11,
@@ -11959,32 +11959,6 @@
     {
       "fragment": "04-vector-operations-v2.json",
       "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/groupingField",
-      "elementType": "schema-property",
-      "change": "baseline-floor",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "file": "internal/distributed/proxy/httpserver",
-        "symbol": null
-      },
-      "confidence": "managed-floor",
-      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
-    },
-    {
-      "fragment": "04-vector-operations-v2.json",
-      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/ignoreGrowing",
       "elementType": "schema-property",
       "change": "baseline-floor",
       "releaseTrack": "2.6.x",
@@ -23981,110 +23955,6 @@
     {
       "fragment": "05-collection-operations-v2.json",
       "jsonPointer": "/components/schemas/StructArraySubFieldDetails/properties/type",
-      "elementType": "schema-property",
-      "change": "added",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
-        "file": "internal/distributed/proxy/httpserver/request_v2.go",
-        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
-      },
-      "confidence": "high",
-      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
-    },
-    {
-      "fragment": "05-collection-operations-v2.json",
-      "jsonPointer": "/components/schemas/StructArraySubFieldSchema",
-      "elementType": "reusable-schema",
-      "change": "added",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
-        "file": "internal/distributed/proxy/httpserver/request_v2.go",
-        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
-      },
-      "confidence": "high",
-      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
-    },
-    {
-      "fragment": "05-collection-operations-v2.json",
-      "jsonPointer": "/components/schemas/StructArraySubFieldSchema/properties/dataType",
-      "elementType": "schema-property",
-      "change": "added",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
-        "file": "internal/distributed/proxy/httpserver/request_v2.go",
-        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
-      },
-      "confidence": "high",
-      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
-    },
-    {
-      "fragment": "05-collection-operations-v2.json",
-      "jsonPointer": "/components/schemas/StructArraySubFieldSchema/properties/elementTypeParams",
-      "elementType": "schema-property",
-      "change": "added",
-      "releaseTrack": "2.6.x",
-      "lifecycle": {
-        "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
-        "x-deprecated-since": null
-      },
-      "previousLifecycle": {},
-      "source": {
-        "repository": "milvus-io/milvus",
-        "baseTag": "v2.6.14",
-        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
-        "headTag": "v2.6.22",
-        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
-        "releaseBranch": "2.6",
-        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
-        "file": "internal/distributed/proxy/httpserver/request_v2.go",
-        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
-      },
-      "confidence": "high",
-      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
-    },
-    {
-      "fragment": "05-collection-operations-v2.json",
-      "jsonPointer": "/components/schemas/StructArraySubFieldSchema/properties/fieldName",
       "elementType": "schema-property",
       "change": "added",
       "releaseTrack": "2.6.x",
@@ -64261,6 +64131,1217 @@
         "x-last-modified": "3.0.x",
         "x-deprecated-since": null
       }
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "d540e0d567a18dcae32ba0da5c62504643a18420"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "d540e0d567a18dcae32ba0da5c62504643a18420"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/name",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/args",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items/properties/column",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/args/items/properties/literal",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/name",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/expr/properties/params",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/inputs",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/inputs/items",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/op",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/outputs",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/outputs/items",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/ops/items/properties/params",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "elementType": "schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "d540e0d567a18dcae32ba0da5c62504643a18420",
+          "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path.",
+      "addedBy": "/paths/~1v2~1vectordb~1entities~1search/post/requestBody/content/application~1json/schema/properties/functionChains",
+      "fragment": "04-vector-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1entities~1hybrid_search/post/requestBody/content/application~1json/schema/properties/search/items/properties/functionChains/items/properties/stage",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/paths/~1v2~1vectordb~1collections~1struct_fields~1add/post/requestBody/content/application~1json/schema/properties/schema/properties/fields/items",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/StructArrayFieldSchema/properties/fields/items",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "managed-floor",
+      "rationale": "Present in the earliest managed 2.6.x baseline; 2.6.x is a management floor and does not claim true first introduction."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/StructArrayFieldSchema/properties/nullable",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomCollectionSchema/properties/externalSource",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomCollectionSchema/properties/externalSpec",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/description",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/typeParams",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/fields",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/fields/items",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "d540e0d567a18dcae32ba0da5c62504643a18420"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/elementNullable",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/FieldSchema/properties/typeSchema",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/description",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/externalField",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "2.6.x",
+      "lifecycle": {
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v2.6.22",
+        "headCommit": "830fdd6806a057dd7d1ffd1b7b470df7e2af9186",
+        "releaseBranch": "2.6",
+        "commit": "317c6652545f9ae919f70b16b3d16b745691c555",
+        "file": "internal/distributed/proxy/httpserver/request_v2.go",
+        "symbol": "StructArrayFieldSchema / CollectionSchema.StructFields"
+      },
+      "confidence": "high",
+      "rationale": "Confirmed by the v2.6.14..v2.6.22 REST source diff and the cited introduction commit."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/typeParams",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/fields",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/fields/items",
+      "elementType": "items-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "d540e0d567a18dcae32ba0da5c62504643a18420"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/elementNullable",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/CustomFieldSchema/properties/typeSchema",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/TypeSchemaReq",
+      "elementType": "reusable-schema",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/TypeSchemaReq/properties/leafType",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/TypeSchemaReq/properties/arrayElement",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/TypeSchemaReq/properties/typeParams",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
+    },
+    {
+      "fragment": "05-collection-operations-v2.json",
+      "jsonPointer": "/components/schemas/TypeSchemaReq/properties/nullable",
+      "elementType": "schema-property",
+      "change": "added",
+      "releaseTrack": "3.0.x",
+      "lifecycle": {
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "previousLifecycle": {},
+      "source": {
+        "repository": "milvus-io/milvus",
+        "baseTag": "v2.6.14",
+        "baseCommit": "8222ecadcd947230af3bff2c61924cd1e4c6dd65",
+        "headTag": "v3.0.0",
+        "headCommit": "f46a0328558be155d11266a1a2b90602ccc9b366",
+        "commits": [
+          "437ea03bcaefab2e154b5f4f44e2b2fcb930edd9",
+          "21ee765cfe19e29f7bf7b4bb95e5a63c968f0e2b"
+        ],
+        "file": "internal/distributed/proxy/httpserver/request_v2.go; internal/distributed/proxy/httpserver/handler_v2.go; internal/distributed/proxy/httpserver/utils.go",
+        "symbol": "SearchReqV2 / HandlersV2.search / genFunctionChains / convertSearchAggregationReq",
+        "commit": "dc5b3d069a54eb95dc484af2cd8c547d1bd0879a"
+      },
+      "confidence": "high",
+      "rationale": "Function chains are converted and executed by the ordinary REST v2 search rerank path."
     }
   ],
   "managedFloorPolicy": {
@@ -64271,7 +65352,7 @@
   "reproducibility": {
     "capturedAt": "2026-08-15",
     "bridgeCommit": "cc5fc33c64a42714a341103f0d29f598fbe6e032",
-    "fragmentInventorySha256": "3021f9a9185195ac47ae921a7b88cbb5d4835e63b729b82ccc5b4f3f2be63edd",
+    "fragmentInventorySha256": "34cc786a992b3dcaf46b249c4628ffd0cdb7a06e37546b0c9a7fa62775aa3548",
     "generatorInputs": [
       {
         "path": ".claude/skills/api-reference-sync/scripts/fix-openapi-spec.js",
