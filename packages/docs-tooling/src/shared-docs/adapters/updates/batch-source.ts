@@ -12,14 +12,31 @@ export {BatchReadError, batchRenderCommitSet, stop} from './batch-git-object'
 export function safeReason(error: unknown, fallback: string) {
   return error instanceof BatchReadError ? error.message : fallback
 }
-export function batchBudget() {
-  const deadline = performance.now() + IO.inspectionMilliseconds
+function budgetUntil(deadline: () => number) {
   return { gitBytes: 0, apiBytes: 0, calls: 0,
     remaining() {
-      const ms = Math.floor(deadline - performance.now())
+      const ms = Math.floor(deadline() - performance.now())
       if (ms < 1) stop('OBSERVATION_DEADLINE')
       return Math.min(ms, IO.requestMilliseconds, currentBatchLifetime()?.check() ?? Infinity)
     } }
+}
+export function batchBudget() {
+  const deadline = performance.now() + IO.inspectionMilliseconds
+  return budgetUntil(() => deadline)
+}
+
+/** A page keeps one set of byte counters and a deadline below the worker watchdog. */
+export function batchPageBudget() {
+  const started = performance.now(), pageDeadline = started + 540_000
+  let phaseDeadline = started + IO.inspectionMilliseconds
+  const budget = budgetUntil(() => Math.min(pageDeadline, phaseDeadline))
+  return Object.assign(budget, {
+    beginPhase() {
+      const now = performance.now()
+      budget.remaining()
+      phaseDeadline = now + IO.inspectionMilliseconds
+    },
+  })
 }
 export type BatchBudget = ReturnType<typeof batchBudget>
 const traversalLimit = BATCH_TREE_VISITS

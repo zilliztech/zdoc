@@ -514,8 +514,8 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   }
   const object = (value: unknown) => retain(canonicalBytes(value))
   const reads = createGuidesReadSession(retain)
-  const {BatchGitStore, batchBudget, exportBatchTree, batchRenderCommitSet, BATCH_HISTORICAL_WINDOW} = await import('./batch-source')
-  const rawBudget = batchBudget()
+  const {BatchGitStore, batchPageBudget, exportBatchTree, batchRenderCommitSet, BATCH_HISTORICAL_WINDOW} = await import('./batch-source')
+  const rawBudget = batchPageBudget()
   const sourceProof = await BatchGitStore.open(request.sourceRepository, rawBudget)
   const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
   const devProof = repositoryRoot === request.devRepository ? configProof : await BatchGitStore.open(request.devRepository, rawBudget)
@@ -738,6 +738,8 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const intermediates = requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))
     try {
       for (let at = 0; at < intermediates.length; at += BATCH_HISTORICAL_WINDOW) {
+        // The previous window has settled and been retained. The page budget still applies.
+        rawBudget.beginPhase()
         const window = []
         // Keep a complete, independent inventory and paired reads for every historical point.
         for (const commit of intermediates.slice(at, at + BATCH_HISTORICAL_WINDOW)) {
@@ -755,6 +757,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     } finally {
       historicalInventory.disable()
     }
+    rawBudget.beginPhase()
     const allConsumed = sorted([...consumedPaths])
     const inventoryRefFor = async (commit: string) => {
       const descriptor = inventoryDescriptors.get(commit)
@@ -801,6 +804,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     contract.validateBatchWire(wire, request)
     await sourceProof.verify(); await configProof.verify(); if (devProof !== configProof) await devProof.verify()
     if ((await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.pins.source)).head !== request.pins.source) throw Error('BATCH_SOURCE_HEAD_INVALID')
+    rawBudget.remaining()
     return immutable(wire)
   } finally {reads.dispose(); payloads.clear(); imageBytes.clear(); await rm(temporary, {recursive: true, force: true})}
 }

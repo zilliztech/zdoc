@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, readFile, readdir, rm, symlink, writeFile } from 'node:
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { BatchGitStore, batchBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
+import { BatchGitStore, batchBudget, batchPageBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
 import { collectBatchDiscovery, observeBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import * as batchGitHub from '../../adapters/updates/batch-github'
@@ -15,6 +15,34 @@ import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
 afterEach(async () => { for (const path of roots.splice(0)) await rm(path, { recursive: true, force: true }) })
+
+it('bounds each page phase without restarting the page deadline or clearing its byte counters', () => {
+  const clock = vi.spyOn(performance, 'now').mockReturnValue(10_000)
+  try {
+    const discovery = batchBudget(), page = batchPageBudget(), expiredPhase = batchPageBudget()
+    expect(page.remaining()).toBe(30_000)
+    page.gitBytes = 1024
+    page.apiBytes = 2048
+    page.calls = 3
+
+    for (const elapsed of [119_000, 238_000, 357_000, 476_000]) {
+      clock.mockReturnValue(10_000 + elapsed)
+      expect(page.remaining()).toBe(1_000)
+      page.beginPhase()
+      expect(page.remaining()).toBe(30_000)
+    }
+    expect(page).toMatchObject({gitBytes: 1024, apiBytes: 2048, calls: 3})
+    expect(() => discovery.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => expiredPhase.beginPhase()).toThrow('OBSERVATION_DEADLINE')
+
+    clock.mockReturnValue(10_000 + 539_000)
+    expect(page.remaining()).toBe(1_000)
+    page.beginPhase()
+    clock.mockReturnValue(10_000 + 540_000)
+    expect(() => page.remaining()).toThrow('OBSERVATION_DEADLINE')
+  } finally { clock.mockRestore() }
+})
+
 async function repository() {
   const root = await mkdtemp(join(tmpdir(), 'batch-raw-git-')); roots.push(root)
   const git = (...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
