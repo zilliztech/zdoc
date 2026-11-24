@@ -82,7 +82,7 @@ await milvusClient.listImportTasks({
 - **tasks** (*GetImportStateResponse[]*) -
 インポートタスク記述子のリスト。各エントリには、タスクの状態、行数、セグメント ID、作成タイムスタンプが含まれます。
 
-    - **state** (*ImportState*) -
+    - **state** (*[ImportState](./DataImport-ImportState)*) -
 
         タスクの状態。可能な値は **ImportPending**、**ImportFailed**、**ImportStarted**、**ImportPersisted**、**ImportCompleted**、および **ImportFailedAndCleaned** です。
 

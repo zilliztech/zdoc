@@ -6571,9 +6571,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md": {
-      "sourceHash": "e28e15a20c01ee19722bd8468432b1e5c29ab524aa688f3c06b37713536d306a",
+      "sourceHash": "b9238cd9c10be5506201d12b6f2f0dd9eb38440fbae285e164541065d8547195",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-24T00:47:15.124Z"
     },
     "content/en/reference/api/nodejs/nodejs/Database/Database-alterDatabase.md": {
       "sourceHash": "5715e2094c2e0474b4948d7c85ce8a0bc163a3367ac9380ea6eff2f754f5aca7",
