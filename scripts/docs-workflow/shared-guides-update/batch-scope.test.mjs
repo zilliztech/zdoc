@@ -20,6 +20,9 @@ test('requires immutable pins and unique, positive PR numbers', () => {
     assert.throws(() => cli.parseArgs([...args, bad]), /Usage/)
   }
   assert.throws(() => cli.parseArgs([...args, '3842', '--pulls', '3861']), /Usage/)
+  assert.equal(cli.parseArgs([...args, '3842', '--verify-page', 'alter-collection-field']).verifyPage, 'alter-collection-field')
+  assert.throws(() => cli.parseArgs([...args, '3842', '--verify-page', '../outside']), /Usage/)
+  assert.throws(() => cli.parseArgs([...args, '3842', '--verify-page', 'one', '--verify-page', 'two']), /Usage/)
   assert.throws(() => cli.parseArgs(['--master','master',...args.slice(2),'3842']), /Usage/)
 })
 

@@ -32,7 +32,7 @@ function material(): DependencyIndexMaterial {
   }
 }
 
-const expected = {pins, namespaceSha256: namespaceRef.sha256, pageId: 'a', sourceFile, current, oldNext, origin: 'observed' as const}
+const expected = {pins, namespaceSha256: namespaceRef.sha256, pageId: 'a', sourceFile, current, oldNext, materialDigest: sha(15), origin: 'observed' as const}
 
 function encode(page: DependencyIndexMaterial) {
   const row = buildBatchDependencyIndex(page, {namespaceRef, materialRef})
@@ -70,7 +70,7 @@ it('rejects substituted bytes, pins, namespace, lock or origin and cannot infer 
   expect(() => readBatchDependencyIndex(modified, identity)).toThrow('DEPENDENCY_INDEX_DIGEST_CHANGED')
   for (const replacement of [{pins: {...pins, source: oid(99)}}, {pins: {...pins, trustedTools: oid(91)}},
     {pins: {...pins, toolsetSha256: sha(95)}}, {pins: {...pins, dev: oid(97)}}, {namespaceSha256: sha(96)},
-    {oldNext: oid(98)}, {origin: 'replay' as const}]) {
+    {oldNext: oid(98)}, {sourceFile: 'site/en/other.md'}, {materialDigest: sha(98)}, {origin: 'replay' as const}]) {
     expect(() => readBatchDependencyIndex(bytes, {...identity, ...replacement})).toThrow('DEPENDENCY_INDEX_BINDING_CHANGED')
   }
   expect(sourceReadFromIndex(readBatchDependencyIndex(bytes, identity), oid(99), fragment)).toBe('unknown')
@@ -88,17 +88,37 @@ it('discharges only the authenticated source obligation against exact edge endpo
     history: page.history.map(row => ({...row, tree: row.oid})),
     edges: [{parent: oldNext, commit: target, changes: [{path: fragment, before: null, after: oid(21), beforeMode: null, afterMode: '100644'}]}],
   }
-  expect(classifyWithBatchDependencyIndexes(input, [verified]).pages[0]).toMatchObject({sourceObligations: 'disjoint', disposition: 'unknown',
+  const contextFor = (sha256: string) => ({
+    trustedTools: pins.trustedTools, toolsetSha256: pins.toolsetSha256, namespaceSha256: namespaceRef.sha256,
+    pages: new Map([['a', {sha256, materialDigest: page.materialDigest}]]),
+  })
+  const context = contextFor(identity.sha256)
+  expect(classifyWithBatchDependencyIndexes(input, [verified], context).pages[0]).toMatchObject({sourceObligations: 'disjoint', disposition: 'unknown',
     evidence: expect.arrayContaining([`dependency-index:${identity.sha256}`])})
-  expect(classifyWithBatchDependencyIndexes(input, [row]).pages[0].sourceObligations).toBe('possible-fragment')
-  expect(classifyWithBatchDependencyIndexes({...input, pins: {...input.pins, dev: oid(101)}}, [verified]).pages[0].sourceObligations).toBe('possible-fragment')
+  expect(classifyWithBatchDependencyIndexes(input, [row], context).pages[0].sourceObligations).toBe('possible-fragment')
+  expect(classifyWithBatchDependencyIndexes({...input, pins: {...input.pins, dev: oid(101)}}, [verified], context).pages[0].sourceObligations).toBe('possible-fragment')
+  const renamedSource = {...input, pages: input.pages.map(p => ({...p, sourceFile: 'site/en/renamed.md'}))}
+  expect(classifyWithBatchDependencyIndexes(renamedSource, [verified], context).pages[0].sourceObligations).toBe('possible-fragment')
+  for (const replacement of [
+    {trustedTools: oid(90)}, {toolsetSha256: sha(91)}, {namespaceSha256: sha(92)}, {pages: new Map()},
+    {pages: new Map([['b', {sha256: identity.sha256, materialDigest: page.materialDigest}]])},
+    {pages: new Map([['a', {sha256: identity.sha256, materialDigest: sha(93)}]])}, contextFor(sha(94)),
+  ]) {
+    const result = classifyWithBatchDependencyIndexes(input, [verified], {...context, ...replacement}).pages[0]
+    expect(result.sourceObligations).toBe('possible-fragment')
+    expect(result.evidence).not.toContain('dependency-index:' + identity.sha256)
+  }
   const targetRead = {path: fragment, oid: oid(22), ref: oldRef}
   page.sourceSnapshots.find(row => row.commit === target)!.consumed.push(targetRead)
   const wrong = encode(page)
-  expect(classifyWithBatchDependencyIndexes(input, [readBatchDependencyIndex(wrong.bytes, wrong.identity)]).pages[0].sourceObligations).toBe('possible-fragment')
+  expect(classifyWithBatchDependencyIndexes(input, [readBatchDependencyIndex(wrong.bytes, wrong.identity)],
+    contextFor(wrong.identity.sha256)).pages[0].sourceObligations).toBe('possible-fragment')
   targetRead.oid = oid(21)
   const matching = encode(page)
-  expect(classifyWithBatchDependencyIndexes(input, [readBatchDependencyIndex(matching.bytes, matching.identity)]).pages[0]).toMatchObject({
+  const matchingContext = contextFor(matching.identity.sha256)
+  const matchingIndex = readBatchDependencyIndex(matching.bytes, matching.identity)
+  expect(classifyWithBatchDependencyIndexes(input, [matchingIndex], matchingContext).pages[0]).toMatchObject({
     sourceObligations: 'hit', disposition: 'full', evidence: expect.arrayContaining([`dependency-index:${matching.identity.sha256}`]),
   })
+  expect(classifyWithBatchDependencyIndexes(input, [matchingIndex], context).pages[0].sourceObligations).toBe('possible-fragment')
 })

@@ -79,7 +79,7 @@ export function buildBatchDependencyIndex(page: DependencyIndexMaterial, refs: {
 
 interface ExpectedIndex {
   sha256: string; pins: BatchPins; namespaceSha256: string; origin: 'observed' | 'replay';
-  pageId: string; sourceFile: string; current: string; oldNext: string;
+  pageId: string; sourceFile: string; current: string; oldNext: string; materialDigest: string;
 }
 const readIndexes = new WeakMap<object, string>()
 
@@ -91,7 +91,8 @@ export function readBatchDependencyIndex(bytes: Uint8Array, expected: ExpectedIn
   const pins = BatchPinsSchema.parse(expected.pins)
   if (Object.keys(pins).some(key => pins[key as keyof BatchPins] !== row.base.pins[key as keyof BatchPins]) ||
       row.base.origin.kind !== expected.origin || 'purpose' in row.base.origin || row.namespaceRef.sha256 !== expected.namespaceSha256 || row.pageId !== expected.pageId ||
-      row.sourceFile !== expected.sourceFile || row.current !== expected.current || row.oldNext !== expected.oldNext) throw Error('DEPENDENCY_INDEX_BINDING_CHANGED')
+      row.sourceFile !== expected.sourceFile || row.current !== expected.current || row.oldNext !== expected.oldNext ||
+      row.materialDigest !== expected.materialDigest) throw Error('DEPENDENCY_INDEX_BINDING_CHANGED')
   const result = immutable(row)
   readIndexes.set(result, expected.sha256)
   return result
@@ -106,8 +107,13 @@ export function sourceReadFromIndex(index: Index, commit: string, path: string):
   return point?.state === 'observed' && inModel ? 'absent' : 'unknown'
 }
 
-/** Apply only authenticated raw document evidence. The scope report remains advisory. */
-export function classifyWithBatchDependencyIndexes(input: BatchScopeInput, indexes: readonly Index[]) {
+interface ScopeIndexContext {
+  trustedTools: string; toolsetSha256: string; namespaceSha256: string;
+  pages: ReadonlyMap<string, {sha256: string; materialDigest: string}>;
+}
+
+/** The caller supplies the tool identity and page commitments for this report independently of the reopened indexes. */
+export function classifyWithBatchDependencyIndexes(input: BatchScopeInput, indexes: readonly Index[], expected: ScopeIndexContext) {
   const byPage = new Map<string, Index | null>()
   for (const index of indexes) {
     if (readIndexes.has(index) && index.base.origin.kind === 'observed') {
@@ -117,8 +123,12 @@ export function classifyWithBatchDependencyIndexes(input: BatchScopeInput, index
   const unknown = {state: 'unknown'} as const
   return classifyBatchScopeWithReadIndex(input, (page, pins, commit, path, oid) => {
     const index = byPage.get(page.pageId)
+    const commitment = expected.pages.get(page.pageId)
     if (!index || index.base.pins.master !== pins.master || index.base.pins.dev !== pins.dev || index.base.pins.source !== pins.source ||
-        index.sourceFile !== page.sourceFile || index.current !== page.current || index.oldNext !== page.oldNext) return unknown
+        index.base.pins.trustedTools !== expected.trustedTools || index.base.pins.toolsetSha256 !== expected.toolsetSha256 ||
+        index.namespaceRef.sha256 !== expected.namespaceSha256 || !commitment || commitment.sha256 !== readIndexes.get(index) ||
+        commitment.materialDigest !== index.materialDigest || index.sourceFile !== page.sourceFile ||
+        index.current !== page.current || index.oldNext !== page.oldNext) return unknown
     const state = sourceReadFromIndex(index, commit, path)
     if (state === 'unknown') return unknown
     if (state === 'read' && !index.points.find(point => point.commit === commit)?.reads.some(read => read.path === path && read.oid === oid)) return unknown

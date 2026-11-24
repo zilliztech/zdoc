@@ -623,7 +623,9 @@ const replayMaterialClosures = new WeakMap<object, SealedMaterialClosure>()
 export type BatchMaterialCollection = {status: 'held'; reasons: readonly string[]} | {status: 'no-group'; reasons: readonly []}
   | {status: 'material-complete'; ticket: BatchMaterialClosureTicket; memberIds: readonly string[]; origin: BatchOrigin}
 type DependencyExport = {
-  bytes: number; entries: (BatchBlobRef & {pageId: string; namespaceSha256: string})[]; unavailable: string[];
+  bytes: number
+  entries: {pageId: string; path: string; bytes: number; sha256: string; namespaceSha256: string; materialDigest: string}[]
+  unavailable: string[]
 }
 async function retainStructured(operation: Operation, value: unknown) {
   if (!operation.active) invalid()
@@ -721,7 +723,7 @@ async function collectOperation(operation: Operation, dependencyExport?: Depende
               const reread = await operation.store.readJournal({path, sha256, bytes: bytes.length})
               if (!operation.active || !Buffer.from(reread).equals(Buffer.from(bytes))) invalid()
               dependencyExport.bytes += bytes.length
-              dependencyExport.entries.push({pageId: page.pageId, path, sha256, bytes: bytes.length, namespaceSha256: namespaceRef.sha256})
+              dependencyExport.entries.push({pageId: page.pageId, path, sha256, bytes: bytes.length, namespaceSha256: namespaceRef.sha256, materialDigest: projected.materialDigest})
             } catch {
               dependencyExport.unavailable.push(page.pageId)
             }

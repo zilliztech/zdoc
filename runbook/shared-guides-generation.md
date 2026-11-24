@@ -245,6 +245,18 @@ evidence. The separate `sourceCounts` summarize root and fragment dependencies.
 The report has `writeEligible: false`. Use the production qualification below
 to obtain an acceptance ID and the exact set of locks eligible for a Draft.
 
+For a page whose membership is still uncertain, add `--verify-page PAGE_ID`
+to the same command. This checks one page's current, old next and target
+outputs and its bounded historical range. Inspect `membership.decision` for
+the page's contribution to the batch and any published routes that still need
+checking against candidate outputs.
+
+To retain versioned dependency evidence while performing a measured collection,
+add `--dependency-index` to `batch-collect.mjs --source-repo DIR --out FRESH_DIR`.
+The opt-in summary lists each completed page's journal, material digest and
+namespace digest. Save the summary with its producing run. A missing journal
+leaves that page's dependency coverage unknown.
+
 ## Qualify a production batch on demand
 
 Use [fetch lark docs](../.github/workflows/fetch-docs.yml) on protected `master`.

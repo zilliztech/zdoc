@@ -24,7 +24,8 @@ export interface ScopePageResult {
   pageId: string; sourceFile: string; current: string; oldNext: string; target: string
   disposition: Disposition; reasons: string[]; evidence: string[]; intervalEdges: number; selectedEdges: number
   sourceObligations: 'hit' | 'possible-fragment' | 'disjoint' | 'unknown'
-  crossPage: 'published-reference' | 'unproven' | 'no-upstream-change'; otherInputs: 'unproven' | 'no-upstream-change'
+  crossPage: 'published-reference' | 'unproven' | 'no-upstream-change' | 'stable-published-route'
+  otherInputs: 'unproven' | 'no-upstream-change' | 'page-history-observed'
 }
 export interface BatchScopeReport {
   schema: 'guides-batch-scope-v1'; pins: ScopePins; seeds: ScopeSeed[]; writeEligible: false
