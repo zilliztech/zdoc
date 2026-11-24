@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { escapeNonHtmlTags } from '../../../mdx/index'
 import { parseYaml } from '../yaml'
 import type { Channel, SharedDocsError } from '../types'
 import { componentImportLine, componentImports, componentOrder } from '../site/components'
@@ -10,6 +11,17 @@ import type { GeneratedRegion, MergeBlock, MergeEmission, MergeInput, MergeNote,
 export { alignBlocks } from './align'
 export { segmentMarkdown } from './segment'
 export type * from './types'
+
+// Upstream manuals write TypeScript generics and one-shot PascalCase type
+// references in prose (e.g. `*Promise<SearchResults<T>>*`) that the MDX patcher
+// accepts and escapes at finalize time. Apply the same deterministic escape
+// before channel segmentation so the segmenter never rejects prose its own MDX
+// layer compiles. Front matter is skipped exactly like the finalize patcher.
+const frontMatter = /^---[ \t]*\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/
+function escapeProseMarkup(markdown: string): string {
+  const front = frontMatter.exec(markdown)?.[0] ?? ''
+  return front + escapeNonHtmlTags(markdown.slice(front.length))
+}
 
 const newlines = /\r\n|\r|\n/g
 const terminated = (text: string) => /[\r\n]$/.test(text)
@@ -118,8 +130,8 @@ interface Retained { block: MergeBlock; channel: Channel; other?: MergeBlock }
 
 /** Pure merge over already adapted channel bytes. No I/O, MDX finalization or source rewriting. */
 export function mergeMarkdown(input: MergeInput): MergeResult {
-  const current = { ...input.current, context: { ...input.context, ...input.current.context, channel: 'current' as const } }
-  const next = { ...input.next, context: { ...input.context, ...input.next.context, channel: 'next' as const } }
+  const current = { ...input.current, markdown: escapeProseMarkup(input.current.markdown), context: { ...input.context, ...input.current.context, channel: 'current' as const } }
+  const next = { ...input.next, markdown: escapeProseMarkup(input.next.markdown), context: { ...input.context, ...input.next.context, channel: 'next' as const } }
   const selected = input.releaseChannel === 'next' ? 'next' : input.releaseChannel === 'retire-in-next' ? 'current' : undefined
   if (current.markdown === next.markdown) {
     const visibleInputs = selected ? [selected === 'current' ? current : next] : [current, next]
