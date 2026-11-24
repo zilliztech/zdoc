@@ -401,7 +401,8 @@ jobs:
           GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh pr create \
             --repo "$GITHUB_REPOSITORY" --base "$BASE_REF" --head "$branch" "${draft_args[@]}" \
             --title "shared-docs: $MODE $GROUP to $TRACK ${candidate:0:12}" \
-            --body-file "$RUNNER_TEMP/shared-docs-pr-body.md" | tee "$RUNNER_TEMP/shared-docs-pr-url"
+            --body-file "$RUNNER_TEMP/shared-docs-pr-body.md" \
+            --label 'shared-docs-lane' | tee "$RUNNER_TEMP/shared-docs-pr-url"
           printf 'Pull request: %s\n' "$(cat "$RUNNER_TEMP/shared-docs-pr-url")" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Summarize the lane outcome
