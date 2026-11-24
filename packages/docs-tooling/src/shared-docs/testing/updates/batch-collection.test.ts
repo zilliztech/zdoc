@@ -260,6 +260,66 @@ it('reuses fixed Dev across historical builds without changing either manual or 
   expect(next).toEqual((await ordinary(changed)).pages[0].candidateNext)
   expect(next.manuals).not.toEqual(once.manuals)
 }, 120000)
+
+it('renders the approved intermediate input for both manuals and keeps its independently verified Git root', async () => {
+  const rules = await import('../../adapters/updates/historical-render')
+  const {BatchRawTreeSchema, BatchManualSchema} = await import('../../adapters/updates/batch-collection-contract')
+  const f = await simpleFixture()
+  const pageId = 'build-pipeline', sourceFile = 'site/en/build-pipeline.md'
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({product_name: 'Zilliz Cloud'}))
+  await f.configChange()
+  const original = '---\nid: build-pipeline.md\ntitle: Source\nsummary: Source fixture\n---\n## Source\nMilvus displays rows.\n'
+  const commit = await f.sourceChange(sourceFile, original)
+  const untouched = await f.sourceChange('outside.txt', 'same page blob at an unregistered commit')
+  await f.sourceChange(sourceFile, original.replace('Milvus displays', 'The service displays'))
+  const request = await f.request(pageId)
+  const rawOid = await git(f.repo, 'rev-parse', `${commit}:${sourceFile}`)
+  const view = Buffer.from(original.replace('Milvus displays', '{{var.product_name}} displays'))
+  // Only the registration is synthetic. Git, both channel builders, the wire and its reader are real.
+  const covered = new Set([f.baseline, commit, request.pins.source])
+  const lookup = vi.spyOn(rules, 'isHistoricalRenderPoint').mockImplementation((_registry, page, sha) => page === pageId && covered.has(sha))
+  const projection = vi.spyOn(rules, 'getHistoricalRenderView').mockImplementation((registry, point, raw) => {
+    expect(point).toMatchObject({pageId, sourceFile, commit, rawOid})
+    expect(Buffer.from(raw).toString()).toBe(original)
+    return {bytes: view, rawSha256: batchSha256(raw), renderSha256: batchSha256(view), rulesSha256: registry.rulesSha256, ruleId: 'fixture'}
+  })
+  onTestFinished(() => {lookup.mockRestore(); projection.mockRestore()})
+  const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const checked = validateBatchWire(wire, request)
+  const row = checked.history.interval.find(item => item.commit === commit)!
+  const get = (ref: ReturnType<typeof batchRef>) => decodeBatchBlob(ref, wire.blobs.find(blob => blob.ref.sha256 === ref.sha256)!.base64)
+  const raw = parseBatchCanonical(get(row.rawRef), BatchRawTreeSchema).entries.find(entry => entry.path === sourceFile)!
+  expect(raw.oid).toBe(rawOid)
+  expect(get(raw.ref).toString()).toBe(original)
+  expect(row.historicalView).toEqual({pageId, sourceFile, commit, rawOid, rawSha256: raw.ref.sha256,
+    rulesSha256: rules.historicalRenderRulesSha256, viewRef: batchRef(view)})
+  expect(get(row.historicalView!.viewRef)).toEqual(view)
+  expect(row.outputStatus).toBe('observed')
+  expect(row.manuals.map(item => item.manual).sort()).toEqual(['guides', 'guides-byoc'])
+  for (const manual of row.manuals) expect(parseBatchCanonical(get(manual.ref), BatchManualSchema).output).toContain('Zilliz Cloud displays rows')
+  const unregistered = checked.history.interval.find(item => item.commit === untouched)
+  expect(unregistered).toBeDefined()
+  expect(unregistered?.historicalView).toBeUndefined()
+  expect(checked.history.interval.some(item => item.commit === f.baseline || item.commit === request.pins.source)).toBe(false)
+  for (const mutate of [
+    (o: typeof row) => {delete o.historicalView},
+    (o: typeof row) => {o.historicalView!.viewRef = raw.ref},
+    (o: typeof row) => {o.historicalView!.commit = request.pins.source},
+    (o: typeof row) => {o.historicalView!.rulesSha256 = '0'.repeat(64)},
+    (o: typeof row) => {o.dependencies = o.dependencies.filter(dep => dep.identity !== 'product_name')},
+    (o: typeof row) => {o.manuals.pop()},
+    (o: typeof row) => {o.imageStatus = 'unavailable'},
+    (o: typeof row) => {o.outputStatus = 'error'},
+  ]) {
+    const modified = structuredClone(wire), history = structuredClone(checked.history)
+    mutate(history.interval.find(observation => observation.commit === commit)!)
+    const body = Buffer.from(canonicalBytes(history)), ref = batchRef(body)
+    modified.material.historyRef = ref
+    modified.blobs.push({ref, base64: body.toString('base64')})
+    modified.blobs.sort((a, b) => a.ref.sha256.localeCompare(b.ref.sha256))
+    expect(() => validateBatchWire(modified, request)).toThrow('BATCH_HISTORICAL_RENDER_UNPROVEN')
+  }
+}, 120000)
 it('finds a fragment consumed only during an intervening source edit', async () => {
   const f = await simpleFixture(), original = await (await import('node:fs/promises')).readFile(join(f.repo, 'site/en/build-pipeline.md'), 'utf8')
   await f.sourceChange('site/en/fragments/transient.md', 'Temporary dependency.\n')
