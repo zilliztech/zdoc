@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {AFTER_ENDPOINT_MARKER, chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf, splitAfterEndpoint} from './utils.js';
+import {AFTER_ENDPOINT_MARKER, chooseParamExample, formatSchemaDefault, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf, splitAfterEndpoint} from './utils.js';
 import {i18n} from './i18n.js';
 
 const planeConfig = {
@@ -266,5 +266,21 @@ describe('RestSpecs i18n key parity', () => {
       const missing = Object.keys(i18n['en-US']).filter(key => !(key in i18n[locale]));
       expect(missing).toEqual([]);
     }
+  });
+});
+
+describe('RestSpecs schema default formatting', () => {
+  it('stringifies scalars so JSX does not drop boolean defaults', () => {
+    expect(formatSchemaDefault(true)).toBe('true');
+    expect(formatSchemaDefault(false)).toBe('false');
+    expect(formatSchemaDefault(10)).toBe('10');
+    expect(formatSchemaDefault('COSINE')).toBe('COSINE');
+    expect(formatSchemaDefault(null)).toBe('null');
+  });
+
+  it('renders objects and arrays as JSON literals and blanks undefined', () => {
+    expect(formatSchemaDefault(['id', 'distance'])).toBe('["id","distance"]');
+    expect(formatSchemaDefault({autoId: false})).toBe('{"autoId":false}');
+    expect(formatSchemaDefault(undefined)).toBe('');
   });
 });
