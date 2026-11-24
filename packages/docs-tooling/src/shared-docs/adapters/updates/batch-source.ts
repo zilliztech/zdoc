@@ -12,13 +12,14 @@ export {BatchReadError, batchRenderCommitSet, stop} from './batch-git-object'
 export function safeReason(error: unknown, fallback: string) {
   return error instanceof BatchReadError ? error.message : fallback
 }
+function remainingMilliseconds(deadline: number, requestLimit: number) {
+  const ms = Math.floor(deadline - performance.now())
+  if (ms < 1) stop('OBSERVATION_DEADLINE')
+  return Math.min(ms, requestLimit, currentBatchLifetime()?.check() ?? Infinity)
+}
 function budgetUntil(deadline: () => number) {
   return { gitBytes: 0, apiBytes: 0, calls: 0,
-    remaining() {
-      const ms = Math.floor(deadline() - performance.now())
-      if (ms < 1) stop('OBSERVATION_DEADLINE')
-      return Math.min(ms, IO.requestMilliseconds, currentBatchLifetime()?.check() ?? Infinity)
-    } }
+    remaining() { return remainingMilliseconds(deadline(), IO.requestMilliseconds) } }
 }
 export function batchBudget() {
   const deadline = performance.now() + IO.inspectionMilliseconds
@@ -29,8 +30,10 @@ export function batchBudget() {
 export function batchPageBudget() {
   const started = performance.now(), pageDeadline = started + 540_000
   let phaseDeadline = started + IO.inspectionMilliseconds
-  const budget = budgetUntil(() => Math.min(pageDeadline, phaseDeadline))
+  const deadline = () => Math.min(pageDeadline, phaseDeadline)
+  const budget = budgetUntil(deadline)
   return Object.assign(budget, {
+    remainingImageTime() { return remainingMilliseconds(deadline(), 120_000) },
     beginPhase() {
       const now = performance.now()
       budget.remaining()

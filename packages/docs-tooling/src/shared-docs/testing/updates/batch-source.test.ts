@@ -21,13 +21,19 @@ it('bounds each page phase without restarting the page deadline or clearing its 
   try {
     const discovery = batchBudget(), page = batchPageBudget(), expiredPhase = batchPageBudget()
     expect(page.remaining()).toBe(30_000)
+    expect(page.remainingImageTime()).toBe(120_000)
     page.gitBytes = 1024
     page.apiBytes = 2048
     page.calls = 3
 
+    clock.mockReturnValue(70_000)
+    expect(page.remainingImageTime()).toBe(60_000)
+    expect(page.remaining()).toBe(30_000)
+
     for (const elapsed of [119_000, 238_000, 357_000, 476_000]) {
       clock.mockReturnValue(10_000 + elapsed)
       expect(page.remaining()).toBe(1_000)
+      expect(page.remainingImageTime()).toBe(1_000)
       page.beginPhase()
       expect(page.remaining()).toBe(30_000)
     }
@@ -38,8 +44,10 @@ it('bounds each page phase without restarting the page deadline or clearing its 
     clock.mockReturnValue(10_000 + 539_000)
     expect(page.remaining()).toBe(1_000)
     page.beginPhase()
+    expect(page.remainingImageTime()).toBe(1_000)
     clock.mockReturnValue(10_000 + 540_000)
     expect(() => page.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => page.remainingImageTime()).toThrow('OBSERVATION_DEADLINE')
   } finally { clock.mockRestore() }
 })
 

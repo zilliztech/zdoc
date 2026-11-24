@@ -520,7 +520,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
   const devProof = repositoryRoot === request.devRepository ? configProof : await BatchGitStore.open(request.devRepository, rawBudget)
   const temporary = await mkdtemp(join(tmpdir(), 'batch-content-'))
-  const imageBytes = createBatchImageCapture(contract.BATCH_BLOB_LIMIT, Math.floor(contract.BATCH_WIRE_LIMIT * 3 / 4), rawBudget.remaining)
+  const imageBytes = createBatchImageCapture(contract.BATCH_BLOB_LIMIT, Math.floor(contract.BATCH_WIRE_LIMIT * 3 / 4), rawBudget.remainingImageTime)
   const fetcher = request.origin.kind === 'observed' ? imageBytes : {async fetch(url: string) {
     if (!replay?.fetcher) throw Error('BATCH_REPLAY_IMAGE_UNAVAILABLE')
     return imageBytes.retain(Uint8Array.from(await replay.fetcher.fetch(url)))
