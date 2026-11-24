@@ -2,11 +2,56 @@
 import { mkdtemp, readFile, realpath, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { expect, it, onTestFinished } from 'vitest'
+import { expect, it, onTestFinished, vi } from 'vitest'
 import { createBuildDemo, git, write, externalImage, imageBytes } from '../build/demo'
 import { FakeImageFetcher } from '../../adapters/images'
-import { collectGuidesWithDependencies, collectGuidesWorker, type GuidesCollectionResult } from '../../adapters/updates/guides-provider'
+import { collectGuidesWithDependencies, collectGuidesWorker, createBatchImageCapture, type GuidesCollectionResult } from '../../adapters/updates/guides-provider'
 import { digest } from '../../core/updates/canonical'
+it('cancels oversized and overlapping image streams and keeps duplicate reads independent', async () => {
+  const oversizedCanceled = vi.fn(), overlapCanceled = vi.fn()
+  let resume!: () => void, pending!: () => void, started = false
+  const gate = new Promise<void>(resolve => {resume = resolve})
+  const inFlight = new Promise<void>(resolve => {pending = resolve})
+  const downloads = vi.fn((url: string) => {
+    switch (new URL(url).pathname) {
+      case '/oversized':
+        return new Response(new ReadableStream({start: c => c.enqueue(new Uint8Array(5)), cancel: oversizedCanceled}))
+      case '/left':
+        return new Response(new ReadableStream({
+          pull(controller) {
+            if (!started) {
+              started = true
+              controller.enqueue(new Uint8Array([1, 2, 3]))
+            } else {
+              pending()
+              return gate.then(() => controller.close())
+            }
+          },
+        }, {highWaterMark: 0}))
+      case '/right':
+        return new Response(new ReadableStream({start: c => c.enqueue(new Uint8Array(4)), cancel: overlapCanceled}))
+      default: return new Response(new Uint8Array([7]))
+    }
+  })
+  vi.stubGlobal('fetch', downloads)
+  try {
+    const capture = createBatchImageCapture(4, 5, () => 1_000)
+    await expect(capture.fetch('https://example.com/oversized')).rejects.toThrow('BATCH_WIRE_BYTE_LIMIT')
+    expect(oversizedCanceled).toHaveBeenCalledOnce()
+    const left = capture.fetch('https://example.com/left')
+    await inFlight
+    await expect(capture.fetch('https://example.com/right')).rejects.toThrow('BATCH_WIRE_BYTE_LIMIT')
+    expect(overlapCanceled).toHaveBeenCalledOnce()
+    resume()
+    await expect(left).resolves.toEqual(Buffer.from([1, 2, 3]))
+    await expect(capture.fetch('https://example.com/small')).resolves.toEqual(Buffer.from([7]))
+    await expect(capture.fetch('https://example.com/small')).resolves.toEqual(Buffer.from([7]))
+    expect(downloads.mock.calls.filter(([url]) => url.endsWith('/small'))).toHaveLength(2)
+  } finally {
+    resume()
+    vi.unstubAllGlobals()
+  }
+})
 it('rejects worker authority overrides before collection', async () => {
   await expect(collectGuidesWorker({ authority: { eligible: true } })).rejects.toThrow()
 })
@@ -340,7 +385,7 @@ it.each(['remove-sibling', 'change-sibling-content'])('compares only consumed co
   } finally { await f.dispose() }
 }, 120_000)
 
-import { describe, vi, afterEach } from 'vitest'
+import { describe, afterEach } from 'vitest'
 import * as toolsetApi from '../../adapters/updates/toolset'
 import * as evidenceApi from '../../adapters/updates/evidence'
 import * as materialApi from '../../core/updates/unit-plan'

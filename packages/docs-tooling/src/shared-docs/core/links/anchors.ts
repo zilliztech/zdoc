@@ -8,6 +8,21 @@ export function withoutFrontMatter(markdown: string): string {
     match => match.replace(/[^\r\n]/g, ' '))
 }
 
+/** Preserve UTF-16 offsets when filling opaque ranges. */
+export function maskMarkdownRanges(source: string, ranges: readonly (readonly [number, number])[]): string {
+  if (!ranges.length) return source
+  let at = 0
+  const pieces: string[] = []
+  for (const [start, end] of [...ranges].sort((a, b) => a[0] - b[0])) {
+    if (end <= at) continue
+    const from = Math.max(start, at)
+    pieces.push(source.slice(at, from), source.slice(from, end).replace(/[^\r\n]/g, ' '))
+    at = end
+  }
+  pieces.push(source.slice(at))
+  return pieces.join('')
+}
+
 /** Mask code and opaque HTML without changing source offsets or line numbers. */
 export function analysisMarkdown(markdown: string): string {
   let source = withoutFrontMatter(markdown.replace(/\r(?!\n)/g, '\n'))
@@ -41,10 +56,8 @@ export function analysisMarkdown(markdown: string): string {
     offset += line.length + 1
   }
   if (open >= 0) ranges.push([start, source.length + 1])
-  const mask = (start: number, end: number) => {
-    source = source.slice(0, start) + source.slice(start, end).replace(/[^\r\n]/g, ' ') + source.slice(end)
-  }
-  for (const [start, end] of ranges) mask(start, end)
+  source = maskMarkdownRanges(source, ranges)
+  if (!source.includes('<')) return source
   const md = new MarkdownIt({ html: true })
   const htmlRule = md.inline.ruler.__rules__.find(rule => rule.name === 'html_inline')!.fn
   const opaque: [number, number][] = []
@@ -64,8 +77,7 @@ export function analysisMarkdown(markdown: string): string {
     return ok
   })
   md.inline.parse(source, md, {}, [])
-  for (const [start, end] of opaque) mask(start, end)
-  return source
+  return maskMarkdownRanges(source, opaque)
 }
 
 /** Render only visible inline text, keeping literal operators and decoding entities. */
@@ -93,6 +105,7 @@ export interface ExplicitAnchor { id: string; line: number }
 /** Static IDs retained by the HTML anchor/disclosure elements in Cloud MDX. */
 export function collectExplicitAnchors(markdown: string): ExplicitAnchor[] {
   const source = analysisMarkdown(markdown)
+  if (!source.includes('<')) return []
   const md = new MarkdownIt({ html: true })
   const anchors: ExplicitAnchor[] = []
   const htmlRule = md.inline.ruler.__rules__.find(rule => rule.name === 'html_inline')!.fn
@@ -117,16 +130,23 @@ export function collectExplicitAnchors(markdown: string): ExplicitAnchor[] {
 
 export function resolveAnchor(markdown: string, anchor: string,
   allowCloudFallback = false): { id?: string; ambiguous?: boolean } {
+  return createAnchorResolver(markdown)(anchor, allowCloudFallback)
+}
+
+export function createAnchorResolver(markdown: string) {
   const headings = collectHeadings(markdown)
-  const explicit = collectExplicitAnchors(markdown).filter(item => item.id === anchor)
-  if (explicit.length > 1 || (explicit.length && headings.some(heading => heading.cloud === anchor))) return { ambiguous: true }
-  if (explicit.length) return { id: anchor }
-  const milvus = headings.find(heading => heading.milvus === anchor)
-  if (milvus) return { id: milvus.cloud }
-  // Manual-layout same-page fragments may carry the lowercase cloud slug directly; the
-  // deduped id stays positional (a fragment naming a taken slug still resolves nowhere).
-  if (allowCloudFallback && headings.some(heading => heading.cloud === anchor)) return { id: anchor }
-  return {}
+  const explicit = collectExplicitAnchors(markdown)
+  return (anchor: string, allowCloudFallback = false): { id?: string; ambiguous?: boolean } => {
+    const ids = explicit.filter(item => item.id === anchor)
+    if (ids.length > 1 || (ids.length && headings.some(heading => heading.cloud === anchor))) return { ambiguous: true }
+    if (ids.length) return { id: anchor }
+    const milvus = headings.find(heading => heading.milvus === anchor)
+    if (milvus) return { id: milvus.cloud }
+    // Manual-layout same-page fragments may carry the lowercase cloud slug directly; the
+    // deduped id stays positional (a fragment naming a taken slug still resolves nowhere).
+    if (allowCloudFallback && headings.some(heading => heading.cloud === anchor)) return { id: anchor }
+    return {}
+  }
 }
 
 export function collectHeadings(markdown: string): Heading[] {

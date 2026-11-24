@@ -43,6 +43,18 @@ describe('committed Milvus bulk input', () => {
     expect(prepared.targets.get('schema.md')).toBe(pages[0].markdown)
     expect(prepared.targets.get('public.md')).toContain('title: Other')
     expect(prepared.targets.get('deprecated.md')).toBeNull()
+    const indexedRead = vi.fn((sha: string, path: string) => reader.readFile(sha, path))
+    const indexed = await prepareLinkInputs('[s](schema.md) [p](public.md) [d](deprecated.md)', 'site/en/userGuide/other.md',
+      commit, {
+        listFiles: reader.listFiles.bind(reader), isAncestor: reader.isAncestor.bind(reader), isOnBranch: reader.isOnBranch.bind(reader),
+        readBytes: reader.readBytes.bind(reader), readFile: indexedRead,
+        async readPageMetadata(_commit, path) {
+          const source = pages.find(page => page.path === path)
+          return source && milvusPageMetadata(path, source.markdown)
+        },
+      }, new FakeImageFetcher(new Map()))
+    expect(indexed).toEqual(prepared)
+    expect(indexedRead.mock.calls).toEqual([[commit, pages[0].path], [commit, 'site/en/userGuide/other.md']])
     expect(await reader.readFiles(commit, [])).toEqual(new Map())
     for (const path of ['../bad', 'site/en/missing.md', 'site/en/reference']) {
       await expect(reader.readFiles(commit, [path])).rejects.toThrow()

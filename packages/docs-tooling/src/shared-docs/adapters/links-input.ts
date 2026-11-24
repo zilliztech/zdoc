@@ -20,6 +20,7 @@ export { isMilvusPagePath }
 export interface LinkInputReader extends MilvusDocsReader {
   listFiles(commit: string, directory: string): Promise<string[]>
   readBytes(commit: string, path: string): Promise<Uint8Array>
+  readPageMetadata?(commit: string, path: string): Promise<ReturnType<typeof milvusPageMetadata>>
 }
 const gitOutputLimit = 32 * 1024 * 1024
 const historicalLinkCacheBytes = 24 * 1024 * 1024
@@ -233,12 +234,20 @@ async function readTargetIndex(commit: string, reader: LinkInputReader, wanted: 
   // WP8 may batch target reads across pages and channels with git cat-file --batch.
   for (const path of (await reader.listFiles(commit, sourceRoot)).sort()) {
     if (!isMilvusPagePath(path, sourceRoot)) continue
-    const content = await reader.readFile(commit, path)
-    const meta = layout?.sourceRoot ? layoutPageMetadata(path) : milvusPageMetadata(path, content)
-    if (!meta || targets.get(meta.id) !== null) continue
-    targets.set(meta.id, content)
+    if (reader.readPageMetadata && !layout?.sourceRoot) {
+      const meta = await reader.readPageMetadata(commit, path)
+      if (meta && targets.get(meta.id) === null) targets.set(meta.id, await reader.readFile(commit, path))
+    } else {
+      const content = await reader.readFile(commit, path)
+      const meta = layout?.sourceRoot ? layoutPageMetadata(path) : milvusPageMetadata(path, content)
+      if (meta && targets.get(meta.id) === null) targets.set(meta.id, content)
+    }
   }
   return targets
+}
+
+export async function readMilvusPageMetadata(reader: LinkInputReader, commit: string, path: string) {
+  return reader.readPageMetadata ? reader.readPageMetadata(commit, path) : milvusPageMetadata(path, await reader.readFile(commit, path))
 }
 
 export async function prepareLinkInputs(markdown: string, sourceFile: string, commit: string,
