@@ -94,17 +94,17 @@ Example response:
 
 <Procedures>
 
-1. In the Zilliz Cloud console, open the target project.
+1. Open the target project and select the region that contains your clusters.
 
-1. Go to **On-Demand Compute > Clusters**.
+1. In the left navigation, expand **On-Demand** and select **Clusters**.
 
-1. Review the on-demand cluster list, including cluster name, cluster ID, status, CU size, endpoint, creator, and creation time.
+1. Find the cluster in the list and check its status.
 
 </Procedures>
 
 ## Check the details of an on-demand cluster\{#check-the-details-of-an-on-demand-cluster}
 
-Use this operation to inspect one on-demand cluster by cluster ID.
+View the status and configuration of an on-demand cluster.
 
 ### Via RESTful API\{#via-restful-api}
 
@@ -134,11 +134,11 @@ Example response:
 
 <Procedures>
 
-1. In the Zilliz Cloud console, open the target project.
+1. Open the [list of on-demand clusters](./manage-on-demand-clusters#via-web-console) for your project and region.
 
-1. Go to **On-Demand Compute > Clusters**.
+1. Select the name of the cluster you want to inspect.
 
-1. Click the target cluster to view its details.
+1. On the **Overview** tab, review the cluster status, connection details, and compute settings.
 
 </Procedures>
 
@@ -187,15 +187,15 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     <Procedures>
 
-    1. Navigate to your target on-demand cluster.
+    1. Open the cluster’s [Overview page](./manage-on-demand-clusters#via-web-console).
 
-    1. Click on **Actions** and then select **Rename**.
+    1. Open **Actions** and select **Edit**.
 
-        ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
+        ![Edit in the cluster Actions menu.](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-in-the-cluster-actions-menu.png "Edit in the cluster Actions menu.")
 
-    1. Enter the new name of the cluster and click on **Save**.
+    1. In **Cluster Name**, enter the new name and click **Save**.
 
-        ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
+        ![Cluster Name and Save in the Edit On-demand Cluster dialog.](https://zdoc-images.s3.us-west-2.amazonaws.com/cluster-name-and-save-in-the-edit-on-demand-cluster-dialog.png "Cluster Name and Save in the Edit On-demand Cluster dialog.")
 
     </Procedures>
 
@@ -232,15 +232,15 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     <Procedures>
 
-    1. Navigate to your target on-demand cluster.
+    1. Open the cluster’s [Overview page](./manage-on-demand-clusters#via-web-console).
 
-    1. Hover on the description and click on the **Edit description** icon.
+    1. Open **Actions** and select **Edit**.
 
-        ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
+        ![Edit in the cluster Actions menu.](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-in-the-cluster-actions-menu.png "Edit in the cluster Actions menu.")
 
-    1. Enter the new description of the cluster and click on **Save**.
+    1. In **Description**, enter the new description and click **Save**.
 
-        ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.s3.us-west-2.amazonaws.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
+        ![Description and Save in the Edit On-demand Cluster dialog.](https://zdoc-images.s3.us-west-2.amazonaws.com/description-and-save-in-the-edit-on-demand-cluster-dialog.png "Description and Save in the Edit On-demand Cluster dialog.")
 
     </Procedures>
 
@@ -289,9 +289,9 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
     <Procedures>
 
-    1. Navigate to your target on-demand cluster.
+    1. Open the cluster’s [Overview page](./manage-on-demand-clusters#via-web-console).
 
-    1. In the upper right corner, click on **Actions** and then select **Modify**.
+    1. Open **Actions** and select **Edit**.
 
     1. You can modify the following settings of the on-demand cluster:
 
@@ -299,7 +299,7 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
         - Description
 
-        - Number of Query CUs
+        - Query CU
 
         - Auto Suspend
 
@@ -527,17 +527,17 @@ Example response:
 
 <Procedures>
 
-1. Navigate to your target on-demand cluster.
+1. Open the cluster’s [Overview page](./manage-on-demand-clusters#via-web-console).
 
-1. Open the **Actions** menu and click **Manage Keep-warm**.
+1. Open **Actions** and select **Edit Keep-warm**.
 
-1. Turn on **Enable Keep-warm Schedule**.
+1. Turn on **Enable Schedule**.
 
-1. In **Schedule Rules**, add one or more weekly rules.
+1. Under **Rules**, select the days for the first rule.
 
-1. For each rule, configure the repeat days, start time, and end time.
+1. Set the **Start Time** and **End Time** for those days.
 
-1. Review the next transition time.
+1. To add another weekly rule, click **+ Rule** and set its days and times.
 
 1. Click **Save**.
 
@@ -549,7 +549,7 @@ If the on-demand cluster is currently in a keep-warm window, the page shows a se
 
 ![IF04w32RNhEbr7b8OBUcM8n3nnc](https://zdoc-images.s3.us-west-2.amazonaws.com/IF04w32RNhEbr7b8OBUcM8n3nnc.png)
 
-Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster. To disable a keep-warm schedule, turn off **Enable Keep-warm Schedule** and click **Save** as shown below.
+Disabling a schedule keeps all configured rules. If the on-demand cluster is in a keep-warm window, Zilliz Cloud exits keep-warm mode immediately. The schedule does not suspend the on-demand cluster. To disable the schedule, open **Actions**, select **Edit Keep-warm**, turn off **Enable Schedule**, and click **Save**.
 
 ![OzydwQkLjhVsoBbckHzciUAbnmc](https://zdoc-images.s3.us-west-2.amazonaws.com/OzydwQkLjhVsoBbckHzciUAbnmc.png)
 
@@ -588,13 +588,13 @@ Example response:
 
 <Procedures>
 
-1. In the Zilliz Cloud console, open the target project.
+1. Open the cluster’s [Overview page](./manage-on-demand-clusters#via-web-console).
 
-1. Go to **On-Demand Compute > Clusters**.
+1. Open **Actions** and select **Drop**.
 
-1. Select the target on-demand cluster.
+1. In the confirmation dialog, enter the cluster name exactly as shown.
 
-1. Drop the cluster and confirm the operation.
+1. Click **Drop** to confirm.
 
 </Procedures>
 

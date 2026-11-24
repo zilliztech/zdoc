@@ -1136,7 +1136,7 @@ curl --request POST \
 
 ### Usage alerts\{#usage-alerts}
 
-It is recommended to monitor [cost metrics](./metrics-alerts-reference#organization-level-metrics) and configure alert thresholds to catch abnormal spending early — particularly in the following scenarios:
+It is recommended to monitor [cost metrics](./metrics-alerts-reference) and configure alert thresholds to catch abnormal spending early — particularly in the following scenarios:
 
 - Newly launched clusters, to verify that actual costs match expectations
 

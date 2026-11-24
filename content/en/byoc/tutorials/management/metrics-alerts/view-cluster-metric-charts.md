@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers dashboards for monitoring metrics at both the cluster and collection level. The metric charts provide performance data on resource usage, queries per second (QPS), latency, and data operations within a specific time range. | BYOC"
+description: "Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection. To view charts for an on-demand cluster, see Monitor On-Demand Clusters. | BYOC"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
@@ -20,77 +20,56 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # View Metric Charts
 
-Zilliz Cloud offers dashboards for monitoring metrics at both the cluster and collection level. The metric charts provide performance data on resource usage, queries per second (QPS), latency, and data operations within a specific time range.
+Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection. To view charts for an on-demand cluster, see [Monitor On-Demand Clusters](./monitor-on-demand-cluster).
 
-## View cluster metrics\{#view-cluster-metrics}
+## Cluster charts\{#cluster-charts}
 
-To view cluster-wide metrics, navigate to your cluster in the [Zilliz Cloud console](https://cloud.zilliz.com/login) and select the **Metrics** tab.
+<Supademo id="cmwu34ytl00lmqmq1do1j6xfd" title=""  />
 
-Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
+<Procedures>
 
-<Supademo id="cmn429im00fjyz3qmh6bt98w5" title=""  />
+1. Open your project in the [Zilliz Cloud console](https://cloud.zilliz.com/login) and select **Serving Clusters**.
 
-Cluster metric charts are organized into the following groups:
+1. Choose the cluster you want to inspect. If you are investigating slow vector searches across several clusters, select **Latency (P99)** above the list and compare the **Search** value in each row. Select the cluster name and open **Metrics** to see its cluster-wide charts.
 
-### Pod & container resources\{#pod-and-container-resources}
+1. Choose the time range. Use a relative range for recent activity or enter a start and end time to match an incident. To compare metrics at the same timestamp, turn on **Sync Tooltips** and hover over a data point in a chart.
 
-To effectively track pod resource consumption, select the **Metrics** tab and refer to the **Pod Resources** area. Here, you'll find succinct graphs that display CPU, storage, and network usage for each pod. For a quick overview of available metrics, refer to [Metrics Reference](./metrics-alerts-reference#pod-and-container-resources).
+1. On a Dedicated cluster, start with **Key Metrics**, then choose a chart group below to investigate. Available charts depend on the cluster type.
 
-### Resources\{#resources}
+    | Chart group | What to look for |
+    | --- | --- |
+    | Performance | If searches slowed down, compare search latency and search QPS over the same period. This shows whether the slowdown coincided with a change in traffic. |
+    | Resources | Check Query CU Computation for CPU pressure during the slowdown. Check Query CU Capacity to see how close the cluster is to its memory or storage limit. |
+    | Data | Check Entity Count for changes in data volume, or Collection Count for changes in the number of collections. |
 
-These charts show the cluster's resource usage, including CU computation, CU capacity, and storage. For a full list of resource metrics, refer to [Metrics Reference](./metrics-alerts-reference#resources).
+    For definitions, units, and availability by cluster type, see resource metrics, performance metrics, and data metrics.
 
-### Performance\{#performance}
+</Procedures>
 
-These charts show cluster performance, including QPS, latency, request failure rates, and throughput. For a full list of performance metrics, refer to [Metrics Reference](./metrics-alerts-reference#performance).
+## Collection charts\{#collection-charts}
 
-### Data\{#data}
+These charts show metrics for one collection in a serving cluster. For collections in an on-demand database, see [On-demand database and collection metrics](./on-demand-metrics-reference#on-demand-database-and-collection-metrics).
 
-These charts show the cluster's data status, including the number of collections, entities, and loaded entities. For a full list of data metrics, refer to [Metrics Reference](./metrics-alerts-reference#data).
+<Supademo id="cmwu3bdzt00q6qmq1j8730zt5" title=""  />
 
-Clicking **View Alerts Settings** on the right will redirect you to the **Alert Settings** page, offering a shortcut to manage your alerts.
+<Procedures>
 
-## View collection metrics\{#view-collection-metrics}
+1. Open **Serving Clusters** and locate the cluster that serves your application.
 
-A subset of cluster metrics is also available **at the collection level**, helping you pinpoint performance issues and plan capacity for individual collections.
+1. Open the metric charts for the collection you want to inspect.
 
-To view collection-level metrics, navigate to a collection in the [Zilliz Cloud console](https://cloud.zilliz.com/login) and select the **Metrics** tab.
+    - If you know its name, open the cluster, expand its database in the resource tree, select the collection name, and open **Metrics**.
 
-<Supademo id="cmn42p79v0gcpz3qmql1xx412" title=""  />
+    - To compare collections first, find the cluster name in the **Cluster** column. Click the small window-shaped button immediately to the right of the name, before the **ID** badge. This opens **Collection Overview**. 
 
-The chart layout and time range controls are identical to those on the cluster **Metrics** tab. Each chart shows the same metric definition scoped to the selected collection rather than the entire cluster.
+        For example, select **Latency (P99)** and compare the **Search** values to find a collection with slow searches. Click its name to open its charts.
 
-## Modify curve window size\{#modify-curve-window-size}
+1. Under **Key Metrics**, use **QPS (Read)** to see how many read requests per second the selected collection received.
 
-The **Metrics** tab allows for two types of window sizes.
+    For collection-level request metrics, see Performance. For entity counts, see Data.
 
-- **Relative Range**: Choose from a set of pre-defined time periods relative to your current time. Using relative time ranges allows you to check metrics in a periodical and convenient way, without needing to enter the specific start and end time. Your choices include:
-
-    - Last 10 minutes
-
-    - Last hour
-
-    - Last 6 hours
-
-    - Last 12 hours
-
-    - Last day
-
-    - Last week
-
-    - Last month
-
-- **Absolute Range**: Enter the exact start time and end time. Using absolute range allows you to control the metrics you see in a more fine-tuned way.
-
-    - The time difference between the start and the end time should be greater than 10 minutes.
-
-## Related topics\{#related-topics}
-
-- [Manage Organization Alerts](./manage-organization-alerts)
-
-- [Manage Project Alerts](./manage-project-alerts)
-
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
-
+</Procedures>

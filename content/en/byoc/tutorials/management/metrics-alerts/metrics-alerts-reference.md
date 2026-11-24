@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud organizes metrics into the following levels | BYOC"
+description: "This page describes organization metrics and metrics for serving clusters and their collections. | BYOC"
 type: origin
 token: KnnBwce9JifxvXkd070cvgUPnag
 sidebar_position: 1
@@ -20,235 +20,78 @@ import Admonition from '@theme/Admonition';
 
 # Metrics Reference
 
-Zilliz Cloud organizes metrics into the following levels:
+This page describes organization metrics and metrics for serving clusters and their collections.
 
-- **Organization-level metrics**: Reflect account-wide status (e.g., license credits, usage) across all projects.
+## Organization metrics\{#organization-metrics}
 
-- **Cluster-level metrics**: Reflect resource usage, performance, and data within individual clusters.
+Organization metrics cover license validity, licensed CPU core usage, and billing across all projects in the organization. Monetary values are in US dollars.
 
-- **Collection-level metrics**: A subset of cluster metrics broken down per collection, helping you pinpoint performance issues and plan capacity for individual collections.
+| Metric | Description |
+| --- | --- |
+| License Validity (day) | Days remaining before the organization license expires. The renewal threshold is fewer than 60 days. An expired license can restrict cluster creation and scaling. |
+| License Core Usage (%) | CPU cores in use as a percentage of licensed cores. Values above 70% indicate approaching capacity. At 100%, all licensed cores are in use. |
+| Usage Amount in the Past Day (&#36;) | Total usage charges over the past day. |
+| Credit Validity (day) | Days until free credits expire. |
+| Remaining Credits (&#36;) | Balance of unused free credits. |
+| Credit Card Validity (day) | Days until the saved payment card expires. |
+| Advance Pay Balance (&#36;) | Funds remaining in the advance payment account. |
 
-<Admonition type="info" title="Notes">
+## Serving cluster metrics\{#serving-cluster-metrics}
 
-Most metrics support alerts. An alert evaluates a metric against a condition (operator + threshold) over a time window and notifies you when it’s met. For configuration, refer to [Manage Organization Alerts](./manage-organization-alerts) and [Manage Project Alerts](./manage-project-alerts).
-
-</Admonition>
-
-## Organization-level metrics\{#organization-level-metrics}
-
-Organization-level metrics help you track license-related issues across all projects in an organization.
-
-<table>
-   <tr>
-     <th><p>Metric</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended action</p></th>
-   </tr>
-   <tr>
-     <td><p>License Validity (day)</p></td>
-     <td><p>Remaining days before the organization license expires.</p></td>
-     <td><ul><li><p><strong>&lt; 60 days</strong>: start renewal process.</p></li><li><p><strong>Expired</strong>: renew/upgrade immediately to restore full functionality (e.g., cluster creation/scale-up).</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p>License Core Usage (%)</p></td>
-     <td><p>Percentage of used CPU cores vs. total licensed cores.</p></td>
-     <td><ul><li><p><strong>&gt;</strong> <strong>70%</strong>: assess future needs and plan renewal/upgrade.</p></li><li><p><strong>100%</strong>: renew/upgrade immediately to avoid disruption.</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p>Usage Amount in the Past Day (&#36;)</p></td>
-     <td><p>Cumulative usage charges over a the past day.</p></td>
-     <td><p>Monitor vs. budget; optimize usage or adjust budget as needed.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit Validity (day)</p></td>
-     <td><p>Days left before free credits expire.</p></td>
-     <td><p>Use or extend credits before expiry.</p></td>
-   </tr>
-   <tr>
-     <td><p>Remaining Credits (&#36;)</p></td>
-     <td><p>Balance of free credits.</p></td>
-     <td><p>Top up when low to maintain account functionality.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit Card Validity (day)</p></td>
-     <td><p>Days until the saved card expires.</p></td>
-     <td><p>Update or replace card before expiry to avoid payment failures.</p></td>
-   </tr>
-   <tr>
-     <td><p>Advance Pay Balance (&#36;)</p></td>
-     <td><p>Remaining pre-paid funds.</p></td>
-     <td><p>Add funds when low to prevent service interruption.</p></td>
-   </tr>
-</table>
-
-## Cluster and collection metrics\{#cluster-and-collection-metrics}
-
-These metrics describe resource usage, performance, and data within individual clusters. Metrics marked with **✦** are also available at the collection level. You can access collection-level metrics from the collection detail page in the Console, via the [Prometheus endpoint](./prometheus-monitoring), or through the RESTful API.
-
-<Admonition type="info" title="Notes">
-
-The **Availability** column lists the compute resources that support each metric:
-
-- **Serving Clusters only**: The metric is available only for Serving Clusters. The value lists the supported Serving Cluster deployment options. **All** means all Serving Cluster deployment options. For details, refer to  [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans).
-
-- **On-Demand Compute databases**: Only a subset of collection-level metrics is available. Supported metrics include **QPS (Read)**, **Search NQ per Second**, **Latency (Read)**, **Request Failure Rate (Read)**, and **Entity Count**. These metrics are available in the Console. Prometheus export is not supported for On-Demand Compute database metrics in this release.
-
-</Admonition>
+These metrics apply to clusters listed under **Serving Clusters** in the console. Cluster-level values cover the entire cluster. Collection-level values cover one collection. The charts available in the console depend on the cluster type.
 
 ### Pod & container resources\{#pod-and-container-resources}
 
-| Metric | Description | Availability | Recommended action |
-| --- | --- | --- | --- |
-| CPU Usage (core) | The number of CPU cores used by pods. | BYOC | Track trends; investigate sustained growth or spikes. |
-| CPU Usage Rate for Limit (%) | The percentage of the pod CPU usage in the value of limit. | BYOC | If trending up, optimize workloads or increase limits. |
-| Memory Usage (MB) | The memory usage of containers in the pod (with cache excluded). | BYOC | Investigate steady growth or suspected leaks. |
-| Memory Usage Rate for Limit (%) | The percentage of the pod memory usage in the value of limit. | BYOC | Optimize memory or raise limits if consistently high. |
-| Network Inbound Flow (Mbps) | The network inbound flow of pod. | BYOC | Watch for congestion; validate bandwidth sizing. |
-| Network Outbound Flow (Mbps) | The network outbound flow of pod. | BYOC | Watch for congestion; validate bandwidth sizing. |
+These BYOC metrics measure CPU, memory, and network usage for pods and their containers.
+
+| Metric | Description |
+| --- | --- |
+| CPU Usage (core) | CPU cores used by pods. |
+| CPU Usage Rate for Limit (%) | Pod CPU usage as a percentage of the pod’s CPU limit. |
+| Memory Usage (MB) | Memory used by containers in the pod, excluding cache. |
+| Memory Usage Rate for Limit (%) | Pod memory usage as a percentage of the pod’s memory limit. |
+| Network Inbound Flow (Mbps) | Incoming network traffic to the pod, in megabits per second. |
+| Network Outbound Flow (Mbps) | Outgoing network traffic from the pod, in megabits per second. |
 
 ### Resources\{#resources}
 
-| Metric | Description | Availability | Recommended action |
-| --- | --- | --- | --- |
-| Query CU Computation (%) | Measures how heavily query execution is using CPU resources. It is calculated from QueryNode CPU usage relative to its CPU limit. | **Serving Clusters only**: Dedicated / BYOC | A sustained high value means query execution is CPU-bound. Zilliz Cloud may [scale out replicas](./plan-cluster-scaling) to increase parallel query processing capacity. |
-| Query CU Capacity (%) | Measures how close the current Query CU is to its capacity limit. It uses the higher of two signals: memory used by loaded data, and stored data size relative to the cluster storage quota. | **Serving Clusters only**: Dedicated / BYOC | A sustained high value indicates that the current Query CU size may not have enough capacity. If auto scaling is enabled, Zilliz Cloud may [scale up query CU](./plan-cluster-scaling) to provide more capacity. |
-| Total Query CU (count) | The total query CU in the current cluster. It is calculated as the product of the numbers of cluster query CU and replica. (Eg. If your cluster has 2 Query CUs and 2 Replicas, the Total Query CU displayed here is 4.) | **Serving Clusters only**: Dedicated / BYOC | Track to identify query-CU scaling events. |
-| Replica (count) | The number of cluster replicas. | **Serving Clusters only**: Dedicated / BYOC | Track to identify replica scaling events. |
-| Storage (GB) | The total amount of persistent storage consumed by data and indexes. | **Serving Clusters only**: All | [Configure alerts](./manage-project-alerts) for monitoring storage usage. |
+These metrics measure the entire cluster. Query CU and replica metrics apply to BYOC clusters.
+
+| Metric | Description |
+| --- | --- |
+| Query CU Computation (%) | Query-node CPU usage as a percentage of its CPU limit. A sustained high value indicates that query execution is approaching the available CPU limit. |
+| Query CU Capacity (%) | The higher of the percentage of memory used by loaded data and the percentage of the cluster storage quota in use. A sustained high value means that at least one of these resources is nearing its limit. |
+| Total Query CU (count) | Query CUs per replica multiplied by the number of replicas. Two query CUs per replica and two replicas give four total query CUs. |
+| Replica (count) | Number of replicas in the cluster. |
+| Storage (GB) | Persistent storage used by data and indexes. *Applies to all serving cluster types.* |
 
 ### Performance\{#performance}
 
-<table>
-   <tr>
-     <th><p>Metric</p></th>
-     <th><p>Description</p></th>
-     <th><p>Availability</p></th>
-     <th><p>Recommended action</p></th>
-   </tr>
-   <tr>
-     <td><p>QPS (Read) ✦</p></td>
-     <td><p>The number of read requests (search and query) per second.</p></td>
-     <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
-   </tr>
-   <tr>
-     <td><p>QPS (Write) ✦</p></td>
-     <td><p>The number of write requests (insert, bulk insert, upsert, and delete) per second.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search NQ per Second ✦</p></td>
-     <td><p>The number of query vectors that each search request carries per second.</p></td>
-     <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
-   </tr>
-   <tr>
-     <td><p>Write Throughput (Entities/sec) ✦</p></td>
-     <td><p>Measures the number of entities written per second across all write operations (insert, upsert, bulk insert, and delete).</p></td>
-     <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
-   </tr>
-   <tr>
-     <td><p>Latency (Read) (ms) ✦</p></td>
-     <td><p>The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
-     <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><ul><li></li></ul></td>
-   </tr>
-   <tr>
-     <td><p>Latency (Write) (ms) ✦</p></td>
-     <td><p>The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><ul><li></li></ul></td>
-   </tr>
-   <tr>
-     <td><p>Request Failure Rate (Read) (%) ✦</p></td>
-     <td><p>The percentage of all failed read requests in all requests per second.</p></td>
-     <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring read request failure rate.</p></td>
-   </tr>
-   <tr>
-     <td><p>Request Failure Rate (Write) (%) ✦</p></td>
-     <td><p>The percentage of all failed write requests in all requests per second.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring write request failure rate.</p></td>
-   </tr>
-   <tr>
-     <td><p>Slow Query Count (counts/min) ✦</p></td>
-     <td><p>The number of queries that take an unusually long time to execute.</p><p>By default, queries with a latency exceeding 5 seconds are considered slow queries.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
-     <td><p>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster Write Performance Capacity (%)</p></td>
-     <td><p>Cluster write performance capacity = Current rate of write operations/write rate limit. When it exceeds 80%, it is recommended to reduce the rate of your write operations (insert and upsert).</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
-     <td><p>If the current rate is too high (suggested to be over 80%), it is recommended that you lower the write rate.</p></td>
-   </tr>
-   <tr>
-     <td><p>Number of Flush Operations (counts/min)</p></td>
-     <td><p>The number of flush operations on a cluster.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
-     <td><p>Performing flush operations too frequently can negatively impact the overall performance of the cluster. For more information, refer to <a href="./limits#flush">Zilliz Cloud Limits</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p>Cache Hit Rate (%)</p></td>
-     <td><p>The average cache hit rate of all queries in the cluster, calculated as: Cache hit rate per query = (Total scanned data − Cold data scanned) / Total scanned data.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Tiered-storage) / BYOC</p><p><em>&ast;This metric is only available to tiered-storage clusters compatible with Milvus 2.6.x. To access this metric, <a href="http://support.zilliz.com">contact us</a> to upgrade your cluster Milvus version.</em></p></td>
-     <td><p>Track to identify cluster query performance.</p></td>
-   </tr>
-</table>
+Unless an entry specifies a restriction, these metrics apply to all serving cluster types at both the cluster and collection levels.
+
+| Metric | Description |
+| --- | --- |
+| QPS (Read) | Read requests per second, broken down by operation. Each request counts once, even if it contains multiple query vectors. |
+| QPS (Write) | Write requests per second across insert, bulk insert, upsert, and delete operations. |
+| Search NQ per Second | Number of query vectors carried by search requests per second. One search request can carry multiple vectors. |
+| Write Throughput (Entities/sec) | Entities written per second across write operations. A single write request can affect multiple entities. |
+| Latency (Read) (ms) | Average or 99th-percentile (P99) time from sending a read request to receiving its response. |
+| Latency (Write) (ms) | Average or 99th-percentile (P99) time from sending a write request to receiving its response. |
+| Request Failure Rate (Read) (%) | Reported failure rate for read requests, including searches and queries, expressed as a percentage. |
+| Request Failure Rate (Write) (%) | Reported failure rate for write requests, expressed as a percentage. |
+| Slow Query Count (counts/min) | Slow queries per minute. By default, a query is slow when latency exceeds five seconds. *Available on BYOC clusters.* |
+| Cluster Write Performance Capacity (%) | Current write rate as a percentage of the cluster’s write rate limit. If the value exceeds 80%, consider reducing the write rate. *Cluster level only. Available on BYOC clusters.* |
+| Number of Flush Operations (counts/min) | Number of flush operations per minute. Frequent flushes can reduce cluster performance. *Cluster level only. Available on BYOC clusters.* ([Zilliz Cloud Limits](./limits#flush)) |
+| Cache Hit Rate (%) | Average cache hit rate across queries. The hit rate for each query is (total data scanned − cold data scanned) / total data scanned. *Cluster level only. BYOC clusters with tiered storage and Milvus 2.6.x.* |
 
 ### Data\{#data}
 
-<table>
-   <tr>
-     <th><p>Metric</p></th>
-     <th><p>Description</p></th>
-     <th><p>Availability</p></th>
-     <th><p>Recommended action</p></th>
-   </tr>
-   <tr>
-     <td><p>Collection Count</p></td>
-     <td><p>The number of collections created in a cluster.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p>Monitor growth; enforce per-project limits if needed.</p></td>
-   </tr>
-   <tr>
-     <td><p>Entity Count ✦</p></td>
-     <td><p>The total number of entities inserted into the cluster or collection, including both single inserts and bulk inserts.</p></td>
-     <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p>Investigate unexpected growth; plan storage and indexing.</p></td>
-   </tr>
-   <tr>
-     <td><p>Loaded Entities (Approx.) ✦</p></td>
-     <td><p>The approximate number of entities loaded (actively served).</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated / BYOC</p></td>
-     <td><p>For a more accurate and real-time value, please refer to the 'Loaded Entities' value on the collection overview page or use <a href="./single-vector-search">count(&ast;)</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p>Number of Unloaded Collections</p></td>
-     <td><p>The number of unloaded collections in a cluster.</p></td>
-     <td><p><strong>Serving Clusters only</strong>: Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
-     <td><p>Load critical collections; review memory headroom.</p></td>
-   </tr>
-</table>
+These metrics count collections and entities. Unless an entry specifies otherwise, they apply to the entire cluster across all serving cluster types.
 
-### Others\{#others}
-
-| Metric | Description | Availability | Recommended action |
-| --- | --- | --- | --- |
-| Cluster is Abnormal | When the target cluster's status is abnormal. | **Serving Clusters only**: Dedicated (Enterprise or  Business Critical) / BYOC | Investigate the cluster status and take measures accordingly. |
-| CMEK is Unavailable | When one of your KMS keys added to Zilliz Cloud becomes unavailable. | **Serving Clusters only**: Dedicated (Enterprise or  Business Critical) / BYOC | Check your KMS keys to determine whether the reported key is still available. |
-| Writes to Cluster Are Disabled | When writes to the target cluster are disabled due to an error or protection mechanism. | **Serving Clusters only**: Dedicated (Enterprise or  Business Critical) / BYOC | Check the cluster status, recent configuration or maintenance operations, and any related alerts, then resolve the root cause and restore write capability. |
-| Access Logs Forwarding is Abnormal | When access logs cannot be forwarded normally to the configured storage integration. | **Serving Clusters only**: Dedicated (Enterprise or  Business Critical) | Check the log forwarding configuration, destination service status, network connectivity, and related credentials or permissions, then resolve the issue and verify that log forwarding resumes. |
-| Audit Logs Forwarding is Abnormal | When audit logs cannot be forwarded normally to the configured storage integration. | **Serving Clusters only**: Dedicated (Enterprise or  Business Critical) | Check the log forwarding configuration, destination service status, network connectivity, and related credentials or permissions, then resolve the issue and verify that log forwarding resumes. |
-
-## Related topics\{#related-topics}
-
-- [View Cluster Metric Charts](./view-cluster-metric-charts)
-
-- [Manage Organization Alerts](./manage-organization-alerts)
-
-- [Manage Project Alerts](./manage-project-alerts)
+| Metric | Description |
+| --- | --- |
+| Collection Count | Number of collections in the cluster. |
+| Entity Count | Number of entities inserted into the cluster or collection, including single and bulk inserts. *Also available for an individual collection.* |
+| Loaded Entities (Approx.) | Approximate number of loaded entities. *BYOC clusters. Also available for an individual collection.* |
+| Number of Unloaded Collections | Number of collections in the cluster that are currently unloaded. *Available on BYOC clusters.* |
 

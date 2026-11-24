@@ -124,21 +124,23 @@ Keep the source cluster available until you confirm that the migrated data is co
 
 ## Getting started\{#getting-started}
 
-The following demo walks you through the complete offline migration process:
+The following demo shows how to run an offline migration between two Zilliz Cloud clusters.
 
-<Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
+<Supademo id="cmwudj94u04byqmmgbmfjzjd5" title=""  />
 
 <Procedures>
 
-1. In the left navigation pane, click on **Migrations**.
+1. In the project sidebar, under **Management**, select **Migrations**.
 
-1. Click on **Offline** on the **Zilliz to Zilliz Migration** card.
+1. On the **Zilliz to Zilliz Migration** card, select **Offline**.
 
-1. Click on **Select Source Location**. And then select the source organization > project > cluster > database.
+1. Open **Select Source Location** and choose the source organization, project, cluster, and database. Select the collections you want to migrate.
 
-1. Click on **Select Target Location**.
+1. Open **Select Target Location** and choose the target cluster and database. Review the selected collections, then click **Next**.
 
-1. Click on **Migrate**.
+1. On the **Index Build Level** page, select a collection to review its indexes. You can choose **Capacity-first**, **Balanced**, or **Precision-first** for each indexed FloatVector, Float16Vector, or BFloat16Vector field. To compare the storage capacity and search recall of the three levels, see [Tune Index Build Level](./tune-index-build-level). The wizard shows the source build level when available. To use the default migration rules, leave the selection unchanged. Other indexes follow those rules automatically.
+
+1. Click **Migrate** to start the migration. Open **Jobs** to track its progress.
 
 </Procedures>
 

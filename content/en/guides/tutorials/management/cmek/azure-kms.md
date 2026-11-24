@@ -45,7 +45,7 @@ For details on how encryption works and its scope, refer to [this section](./cme
 
 ## Prepare in Azure Portal\{#prepare-in-azure-portal}
 
-When creating a Zilliz Cloud CMEK for data encryption in your clusters, you need to provide the IDs of a registered Microsoft Entra application and a Microsoft Azure resource group. In this section, you will learn how to create them in Azure Cloud Shell and the Azure Portal. 
+When creating a Zilliz Cloud CMEK for data encryption in your clusters, you need a registered Microsoft Entra application and a Microsoft Azure key vault. In this section, you will learn how to prepare them in Azure Cloud Shell and the Azure Portal. Creating a new resource group, key vault, or key is on demand: if you already have a Premium key vault with Azure RBAC authorization enabled and a compliant AES-256 oct-HSM key, you can reuse them directly.
 
 <details>
 
@@ -63,7 +63,7 @@ A resource group is a container that holds related resources for an Azure soluti
 
 1. Select a subscription from the dropdown list, name the resource group, and choose a region.
 
-    <em>**Use the same region**</em> for the resource group, the key vault, encryption keys, and the Zilliz Cloud CMEK entry.
+    The location of a resource group is where Azure stores the resource metadata, so you can choose any region.
 
 1. Click **Review + create**.
 
@@ -98,7 +98,7 @@ An Entra application is also a container that is used to hold authentication cre
 
     Click **Help me choose** to find the option that matches your needs.
 
-1. Click **Review + create**.
+1. Click **Register**.
 
 </Procedures>
 
@@ -114,7 +114,7 @@ az ad app create --display-name "$APP_NAME"
 
 ### Create a key vault\{#create-a-key-vault}
 
-Azure Key Vault is a cloud service used to manage keys, secrets, and certificates.
+Azure Key Vault is a cloud service for managing keys, secrets, and certificates. You can reuse an existing Premium key vault with Azure RBAC authorization enabled, or create a new one as follows:
 
 ![WQmHw0X4IhAHOsbi9eNcZmalncb](https://zdoc-images.s3.us-west-2.amazonaws.com/WQmHw0X4IhAHOsbi9eNcZmalncb.png)
 
@@ -124,9 +124,7 @@ Azure Key Vault is a cloud service used to manage keys, secrets, and certificate
 
 1. Select a resource group created in the above section from the dropdown list, name the key vault, and choose a region.
 
-    <em>**Use the same region**</em> for the resource group, the key vault, encryption keys, and the Zilliz Cloud CMEK entry.
-
-1. Change the pricing tier from **Standard** to **Premium**, so that we can use HSM-backed keys.
+1. Change the pricing tier from **Standard** to **Premium** to use HSM-backed keys.
 
 1. Keep the default settings for other options on all the tabs.
 
@@ -151,43 +149,57 @@ az keyvault create \
   --enable-rbac-authorization true
 ```
 
-You may not automatically have the necessary permissions needed to manage keys in the vault, even after you create it. Run the following command to obtain the necessary permissions.
+The identity running the create-key commands may not automatically have permission to create keys in the vault, even if you created the vault yourself. Ask your administrator to grant the **Key Vault Crypto Officer** role to that identity, at the scope of the target key vault, using either of the following ways:
 
-```bash
-az ad signed-in-user show --query id -o tsv
+- **Azure Portal**
 
-# Set your variables
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-RESOURCE_GROUP="<your-resource-group-name>"
-VAULT_NAME="my-zilliz-cmek-kv"
-ASSIGNEE="<your-email-or-app-id>" # The output from Step 1
+    Open the target key vault, choose **Access control (IAM)** from the left navigation, click **+ Add** > **Add role assignment**, and assign **Key Vault Crypto Officer** to the identity that runs the create-key commands.
 
-# Assign the role
-az role assignment create \
-  --assignee "$ASSIGNEE" \
-  --role "Key Vault Crypto Officer" \
-  --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.KeyVault/vaults/$VAULT_NAME"
-```
+- **Azure CLI**
+
+    Run the following commands as an administrator.
+
+    ```bash
+    # Get the Object ID of the identity that will run the create-key commands:
+    # - Signed-in user:    az ad signed-in-user show --query id -o tsv
+    # - Service principal: az ad sp show --id "<application-client-id>" --query id -o tsv
+    ASSIGNEE_OBJECT_ID="<object-id-of-the-identity-that-creates-keys>"
+    
+    # Build the scope of the target key vault from the Azure subscription and resource group:
+    SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+    RESOURCE_GROUP="<your-resource-group-name>"
+    VAULT_NAME="my-zilliz-cmek-kv"
+    
+    # Grant the role at the vault scope.
+    # Set --assignee-principal-type to "ServicePrincipal" if the assignee is a service principal.
+    az role assignment create \
+      --assignee-object-id "$ASSIGNEE_OBJECT_ID" \
+      --assignee-principal-type "User" \
+      --role "Key Vault Crypto Officer" \
+      --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.KeyVault/vaults/$VAULT_NAME"
+    ```
 
 </details>
 
-At the end of this step, you should have all of the following:
+At the end of this step, you should have the following information, split by where it is used:
 
-- Your Azure Subscription ID and Directory ID.
+- For Azure-side operations
 
-- Your Azure resource group name.
+    Your Azure Subscription ID, resource group name, and key vault name. You use them to create resources or grant permissions in Azure.
 
-- Your Microsoft Entra application (client) ID.
+- For the Zilliz Cloud console
 
-- Your Azure Key Vault name.
+    The console wizard asks you to select a **Region** for the target cluster and fill in your Microsoft Entra **Application (client) ID**, **Directory (tenant) ID**, and a **Key Identifier** in the form `https://<vault>.vault.azure.net/keys/<key>` without a version suffix.
 
 ## Add an Azure Key Vault key on Zilliz Cloud\{#add-an-azure-key-vault-key-on-zilliz-cloud}
 
-To add an Azure Key Vault key, log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), choose **Security** > **CMEK** from the left navigation pane, go into one of your projects with an applicable Azure region, click **+ CMEK**, and follow the steps in the **Add CMEK (Azure KMS)** dialog box to complete the process. 
+To add an Azure Key Vault key, log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login), choose **Security** > **CMEK** from the left navigation pane, go into one of your projects with an applicable Azure region, open the **Azure KMS** tab, and click **Create CMEK**. Then follow the steps in the **Add CMEK (Azure KMS)** dialog box to complete the process.
 
-Before you start, you need to determine the Microsoft Entra Application to use during the procedure. Available Entra applications will be listed in Zilliz Cloud once you use it to add **Key Vault** keys. Check the drop-down list in the **Select an Existing Application** step in the **Existing Application** tab and determine whether the IAM role you need is listed.
+Before you start, determine the Microsoft Entra application to use during the procedure. Applications that have already been registered in the same project and region are listed in the drop-down list in the **Select an Existing Application** step in the **Existing Application** tab. 
 
-- If yes, go to [Add a Key Vault key using an existing app](./azure-kms#add-an-azure-key-vault-key-using-an-existing-app).
+First-time registrations go to the **New Application** tab, which also applies to an application already registered in Microsoft Entra but has not yet been registered in the current project and region.
+
+- If the application you need is listed, go to [Add a Key Vault key using an existing app](./azure-kms#add-an-azure-key-vault-key-using-an-existing-app).
 
 - Otherwise, go to [Add a Key Vault key using a new app](./azure-kms#add-an-azure-key-vault-key-using-a-new-app).
 
@@ -207,7 +219,7 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     1. Select the target Entra Application ID from the drop-down list.
 
-    1. Review the **Application ID** and **Directory ID** displayed below, and click Next.
+    1. Review the **Application (client) ID** and **Directory (tenant) ID** displayed below, and click Next.
 
     </Procedures>
 
@@ -217,11 +229,12 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     <Procedures>
 
-    1. Create a new key by setting its name and the key vault it belongs to, then run the given command in Azure Cloud Shell.
+    1. Create a new key by setting its name and the key vault it belongs to, then run the given command in Azure Cloud Shell. Make sure the identity that runs Azure CLI is allowed to create keys in the target key vault before running the command.
 
     1. Fill the key identifier included in the command output back into **Key Identifier**.
 
-        If the command fails, you may not have the permissions to manage keys in the key vault. In that case, run the following command to request the **Key Vault Crypto Officer** role. For details, refer to [Create a key vault](./azure-kms#create-a-key-vault).
+        The key identifier must be in the form https://&lt;vault&gt;.vault.azure.net/keys/&lt;key&gt; without a version suffix. If the address copied from the command output or the Azure Portal ends with a version segment, remove that trailing segment before pasting; a key identifier with a version suffix is rejected.
+        If the command fails with a permission error, ask your administrator to grant the **Key Vault Crypto Officer** role to the identity that runs the command, at the scope of the target key vault. For details, refer to [Create a key vault](./azure-kms#create-a-key-vault). Rerun the command with the original identity after the grant takes effect.
 
     1. Click **Next**.
 
@@ -233,15 +246,15 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     <Procedures>
 
-    1. Go to the Azure Portal, locate your Key Vault and click the key name displayed in the Zilliz Cloud console.
+    1. Go to the Azure Portal, open **Key Vaults**, open the target vault, click **Keys**, and open the key name displayed in the Zilliz Cloud console.
 
     1. Choose **Access Control (IAM)** from the left navigation and click **+ Add** > **Add role assignment**.
 
     1. In the **Role** tab, click **Job function roles**, search for **Key Vault Crypto User**, select the role, and click **Next**.
 
-    1. In the **Members** tab, select **User, group, or service principal**, click **+ Select members**, enter your Entra application name in the search box, select the application, and click **Select**.
+    1. In the **Members** tab, select **User, group, or service principal**, click **+ Select members**, enter your Entra application name in the search box, select the service principal of your Entra application, and click **Select**.
 
-    1. Click **Review + assign** twice to assign the role to the application.
+    1. Click **Review + assign** twice to assign the role to the application's service principal at the scope of the selected key.
 
     1. Select **This application has read, encrypt, and decrypt permissions on this key.**
 
@@ -251,6 +264,8 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     </Procedures>
 
+    **Note**: This grants the **Key Vault Crypto User** role to the service principal of your Entra application at the scope of the target key. It is separate from the **Key Vault Crypto Officer** role granted at the vault scope for the identity that creates keys. If you use a custom role instead of **Key Vault Crypto User**, the role must include the read, encrypt, and decrypt permissions on the key.
+
 </Procedures>
 
 ### Add an Azure Key Vault key using a new app\{#add-an-azure-key-vault-key-using-a-new-app}
@@ -259,7 +274,7 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
 <Procedures>
 
-1. Select **Region**, set **Application (client) ID** and **Directory ID** in **Select an Existing Application**.
+1. Select **Region**, set **Application (client) ID** and Directory (tenant) ID in Set Up the Application and Federated Credential.
 
     ![IPTPw02X0hVb8Bb2W2LcYRS3ncc](https://zdoc-images.s3.us-west-2.amazonaws.com/IPTPw02X0hVb8Bb2W2LcYRS3ncc.png)
 
@@ -267,7 +282,7 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     1. Select the target region from the drop-down list.
 
-    1. Set the **Application (client) ID** and **Directory ID**.
+    1. Set the **Application (client) ID** and **Directory (tenant) ID**.
 
     1. Go to the Azure Portal, locate your Entra application, and click the application name.
 
@@ -287,11 +302,13 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     <Procedures>
 
-    1. Create a new key by setting its name and the key vault it belongs to, then run the given command in Azure Cloud Shell.
+    1. Create a new key by setting its name and the key vault it belongs to, then run the given command in Azure Cloud Shell. Make sure the identity that runs Azure CLI is allowed to create keys in the target key vault before running the command.
 
     1. Fill the key identifier included in the command output back into **Key Identifier**.
 
-        If the command fails, you may not have the permissions to manage keys in the key vault. In that case, run the following command to request the **Key Vault Crypto Officer** role. For details, refer to [Create a key vault](./azure-kms#create-a-key-vault).
+        The key identifier must be in the form `https://<vault>.vault.azure.net/keys/<key>` without a version suffix. If the address copied from the command output or the Azure Portal ends with a version segment, remove that trailing segment before pasting; a key identifier with a version suffix is rejected.
+
+        If the command fails with a permission error, ask your administrator to grant the **Key Vault Crypto Officer** role to the identity that runs the command, at the scope of the target key vault. For details, refer to [Create a key vault](./azure-kms#create-a-key-vault). Rerun the command with the original identity after the grant takes effect.
 
     1. Click **Next**.
 
@@ -303,15 +320,15 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
 
     <Procedures>
 
-    1. Go to the Azure Portal, locate your Key Vault and click the key name displayed in the Zilliz Cloud console.
+    1. Go to the Azure Portal, open **Key Vaults**, open the target vault, click **Keys**, and open the key name displayed in the Zilliz Cloud console.
 
     1. Choose **Access Control (IAM)** from the left navigation and click **+ Add** > **Add role assignment**.
 
     1. In the **Role** tab, click **Job function roles**, search for **Key Vault Crypto User**, select the role, and click **Next**.
 
-    1. In the **Members** tab, select **User, group, or service principal**, click **+ Select members**, enter your Entra application name in the search box, select the application, and click **Select**.
+    1. In the **Members** tab, select **User, group, or service principal**, click **+ Select members**, enter your Entra application name in the search box, select the service principal of your Entra application, and click **Select**.
 
-    1. Click **Review + assign** twice to assign the role to the application.
+    1. Click **Review + assign** twice to assign the role to the application's service principal at the scope of the selected key.
 
     1. Select **This application has read, encrypt, and decrypt permissions on this key.**
 
@@ -320,6 +337,12 @@ If the drop-down list in **Select an Existing Application** on the **Existing Ap
     1. Once the validation passes, click **Add**.
 
     </Procedures>
+
+    <Admonition type="info" title="Notes">
+
+    This grants the **Key Vault Crypto User** role to the service principal of your Entra application at the scope of the target key. It is separate from the **Key Vault Crypto Officer** role granted at the vault scope for the identity that creates keys. If you use a custom role instead of **Key Vault Crypto User**, the role must include the read, encrypt, and decrypt permissions on the key.
+
+    </Admonition>
 
 </Procedures>
 
@@ -343,15 +366,15 @@ You can view the added Azure Key Vault keys on the Zilliz Cloud console.
 
 Zilliz Cloud will scan the availability of the listed keys every 10 minutes. You can also create project alerts regarding the status of the listed KMS keys. For details, refer to [Manage Project Alerts](./manage-project-alerts#create-a-project-alert).
 
-When a KMS key is no longer needed, you can delete it if any clusters do not use it.
+When a KMS key is no longer needed, you can delete it if no clusters use it.
 
 ## Use Azure KMS keys\{#use-azure-kms-keys}
 
-Once you have added a KMS key to Zilliz Cloud, you can use it to create encrypted clusters and to back up and restore them.
+Once you add a KMS key to Zilliz Cloud, you can use it to create encrypted clusters and to back up and restore them.
 
 ### Create an encrypted cluster\{#create-an-encrypted-cluster}
 
-You can select a KMS key available in the region where you want to create the cluster to encrypt it.
+Select a KMS key in the region where you want to create the cluster.
 
 ![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
 
@@ -386,4 +409,22 @@ The restoration procedure from an encrypted backup is almost the same as a norma
 - When this option is enabled, the cluster created after the restoration is encrypted using the KMS key specified below.
 
 - When this option is disabled, the cluster created after the restoration is unencrypted.
+
+## FAQ\{#faq}
+
+### The create-key command fails with an error like "Failed to resolve ..."\{#the-create-key-command-fails-with-an-error-like-failed-to-resolve}
+
+The key vault name in the command cannot be resolved. Check the following:
+
+- Open the target key vault in the Azure Portal and verify the exact vault name on the **Overview** page, along with the **Vault URI** derived from it. Make sure the command uses the exact name.
+
+- Confirm that the terminal where you run Azure CLI can resolve public DNS names.
+
+### The create-key command fails with `ForbiddenByRbac`\{#the-create-key-command-fails-with-forbiddenbyrbac}
+
+The identity that runs the command lacks the data-plane permission to create keys in the vault. If the error message contains the operation `Microsoft.KeyVault/vaults/keys/create/action`, check the following:
+
+- The **Key Vault Crypto Officer** role is granted to the identity that runs the command, at the scope of the target key vault. For details, refer to [Create a key vault](./azure-kms#create-a-key-vault).
+
+- Azure role assignments can take a few minutes to propagate. Wait for the grant to take effect and rerun the command with the original identity.
 

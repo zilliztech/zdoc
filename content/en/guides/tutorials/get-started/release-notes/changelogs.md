@@ -370,7 +370,7 @@ Last updated: Nov 11, 2026
 
         - [🌎 Global cluster](./global-cluster-explained) now fully supports regional disaster recovery failure with refined platform capabilities.
 
-        - 📈 More fine-grained [metrics are available at the collection level](./metrics-alerts-reference#cluster-and-collection-metrics).
+        - 📈 More fine-grained [metrics are available at the collection level](./metrics-alerts-reference).
 
         - 📋 [Access logs](./access-log-overview) are available in Public Preview.
 
