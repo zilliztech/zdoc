@@ -307,6 +307,9 @@ it('renders the approved intermediate input for both manuals and keeps its indep
     (o: typeof row) => {o.historicalView!.commit = request.pins.source},
     (o: typeof row) => {o.historicalView!.rulesSha256 = '0'.repeat(64)},
     (o: typeof row) => {o.dependencies = o.dependencies.filter(dep => dep.identity !== 'product_name')},
+    (o: typeof row) => {o.manuals.pop()},
+    (o: typeof row) => {o.imageStatus = 'unavailable'},
+    (o: typeof row) => {o.outputStatus = 'error'},
   ]) {
     const modified = structuredClone(wire), history = structuredClone(checked.history)
     mutate(history.interval.find(observation => observation.commit === commit)!)

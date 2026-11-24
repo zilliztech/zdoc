@@ -1245,11 +1245,11 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         require(value['manual'] == expected['manual'] and value['path'] == expected['path'] and type(value['output']) is str
                 and type(value['markdown']) is str and type(value['headings']) is list and type(value['references']) is list, 'BATCH_MANUAL_INVALID')
         if historical:
-            require(value['markdown'] and value['output'], 'BATCH_HISTORICAL_VIEW_BINDING')
+            require(value['markdown'].strip() and value['output'].strip(), 'BATCH_HISTORICAL_VIEW_BINDING')
         # Only identity/extent is reused after this validation. Drop large text.
         value['markdown'], value['output'] = '', ''
 
-    def images(ref, historical_commit=None):
+    def images(ref, historical_commit=None, git_lookup=None):
         value = reader.blob(ref, parse=True)
         require(type(value) is list and len(value) == 3, 'BATCH_IMAGE_INVALID')
         for index, group in enumerate(value):
@@ -1267,8 +1267,8 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                     origin = image['origin']
                     if origin['kind'] == 'repository':
                         batch_exact(origin, 'kind commit path')
-                        require(origin['commit'] == historical_commit, 'BATCH_IMAGE_INVALID')
-                        batch_path(origin['path'])
+                        require(origin['commit'] == historical_commit
+                                and git_lookup(batch_path(origin['path'])) == reader.blob(image['ref'])[1], 'BATCH_IMAGE_INVALID')
                     else:
                         batch_exact(origin, 'kind uri policy')
                         require(origin['kind'] == 'external' and origin['policy'] == 'paired-read', 'BATCH_IMAGE_INVALID')
@@ -1326,7 +1326,7 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
             for output in observation['manuals']:
                 batch_exact(output, 'manual path ref')
                 manual(output['ref'], output, historical_view)
-        images(observation['imagesRef'], observation['commit'] if historical_view else None)
+        images(observation['imagesRef'], observation['commit'] if historical_view else None, listing)
     if git_inventory:
         git_inventory.finish()
         require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
