@@ -5,6 +5,7 @@ const yaml = require('js-yaml')
 const {serializeDocument, assertCanonicalBytes, listFragmentFiles, loadCanonicalFragments} = require('./formatter')
 const {loadRestUpstreamLock, findLockSource} = require('./lock')
 const {loadRestUpstreamLedger} = require('./ledger')
+const {loadRestUpstreamAdjudications} = require('./adjudications')
 const {downgradeDocument} = require('./oasDowngrade')
 const {diffSpecifications} = require('./diff')
 const {loadChangeSet, diffDigestOf} = require('./changeSet')
@@ -29,6 +30,7 @@ const REST_ROOT = path.join(__dirname, '..')
 const DEFAULTS = {
     lock: path.join(REST_ROOT, 'meta', 'upstream', 'rest-upstream-lock.json'),
     ledger: path.join(REST_ROOT, 'meta', 'upstream', 'ledger.json'),
+    adjudications: path.join(REST_ROOT, 'meta', 'upstream', 'adjudications.json'),
     rules: path.join(REST_ROOT, 'meta', 'upstream', 'refresh-rules.json'),
     fragments: path.join(REST_ROOT, 'meta', 'openapi'),
     titles: path.join(REST_ROOT, 'meta', 'titles.json'),
@@ -328,6 +330,7 @@ function registerPrepareCommand(command) {
         .option('--allow-empty-drift', 'Stage even when no substantive drift exists (rehearsal escape hatch)', false)
         .option('--lock <path>', 'Lock file path', DEFAULTS.lock)
         .option('--ledger <path>', 'Ledger file path', DEFAULTS.ledger)
+        .option('--adjudications <path>', 'Semantic adjudications file to stage for the decision/describe stages (validated when present, skipped when absent)', DEFAULTS.adjudications)
         .option('--rules <path>', 'Refresh ruleset path', DEFAULTS.rules)
         .option('--titles <path>', 'titles.json path', DEFAULTS.titles)
         .option('--fragments <dir>', 'Fragment directory', DEFAULTS.fragments)
@@ -344,6 +347,12 @@ function registerPrepareCommand(command) {
             for (const fileName of touchedFiles) {
                 if (!fragments.has(fileName)) fail('REST_UPSTREAM_PREPARE_FRAGMENT_MISSING', fileName)
             }
+            // Fail closed before the paid stages, not inside them: an
+            // adjudications file that exists but breaks its contract stops
+            // prepare here; a repository that predates the file stages without
+            // it (the consumers stay inert).
+            const stagedAdjudicationsPath = fs.existsSync(opts.adjudications) ? opts.adjudications : null
+            if (stagedAdjudicationsPath) loadRestUpstreamAdjudications(stagedAdjudicationsPath)
             const manifest = prepareRestUpstreamStaging({
                 stagingDir: opts.staging,
                 repositoryRoot: REPOSITORY_ROOT,
@@ -357,6 +366,7 @@ function registerPrepareCommand(command) {
                 titlesPath: opts.titles,
                 ledgerPath: opts.ledger,
                 lockPath: opts.lock,
+                adjudicationsPath: stagedAdjudicationsPath,
             })
             console.log(`staged ${touchedFiles.length} fragment(s), ${drift.length} substantive drift entr(ies) -> ${opts.staging}`)
             console.log(`diff ${manifest.diffDigest}`)
@@ -392,11 +402,13 @@ function registerAssembleCommand(command) {
         .option('--reports <file>', 'Human-review lists output path (prose drift, retirements, unplaced fields, pending confirmations)', null)
         .option('--fragments <dir>', 'Fragment copies the loci resolve against', DEFAULTS.fragments)
         .option('--ledger <path>', 'Ledger for cross-track retirement attribution: operations the ledger records only under another source move to the cross-track report list', DEFAULTS.ledger)
+        .option('--adjudications <path>', 'Semantic adjudications backing the stance-citation gate (inert when the file is absent)', DEFAULTS.adjudications)
         .action(opts => {
             const diff = JSON.parse(fs.readFileSync(opts.diff, 'utf8'))
             const decisions = loadDecisions(opts.decisions)
             const branchPlan = opts.branchPlan ? parseBranchPlanFile(opts.branchPlan) : null
             const ledger = opts.ledger ? loadRestUpstreamLedger(opts.ledger) : null
+            const adjudications = opts.adjudications ? loadRestUpstreamAdjudications(opts.adjudications) : null
             const fragmentsDir = opts.fragments
             const fragmentCache = new Map()
             const fragmentLoader = fileName => {
@@ -407,7 +419,7 @@ function registerAssembleCommand(command) {
                 }
                 return fragmentCache.get(fileName)
             }
-            const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader, branchPlan, ledger})
+            const {changeSet, reports} = assembleChangeSet({diffDocument: diff, decisions, fragmentLoader, branchPlan, ledger, adjudications})
             fs.mkdirSync(path.dirname(path.resolve(opts.out)), {recursive: true})
             fs.writeFileSync(opts.out, serializeDocument(changeSet))
             if (opts.reports) fs.writeFileSync(opts.reports, serializeDocument(reports))
@@ -415,7 +427,7 @@ function registerAssembleCommand(command) {
             const tally = Object.entries(stances).sort(([left], [right]) => left.localeCompare(right)).map(([action, count]) => `${action}=${count}`).join(', ')
             console.log(`assembled ${changeSet.entries.length} entr(ies) from ${decisions.length} decision(s) (${tally}); `
                 + `auto lanes: ${reports.placementsApplied.length} placed, ${reports.unplaced.length} unplaced, ${reports.pendingConfirmation.length} pending confirmation; `
-                + `reports: ${reports.descriptionDrift.length} prose, ${reports.deletions.length} retirement(s), ${reports.crossTrackDeletions.length} cross-track retirement(s) -> ${opts.out}`)
+                + `reports: ${reports.descriptionDrift.length} prose, ${reports.deletions.length} retirement(s), ${reports.crossTrackDeletions.length} cross-track retirement(s), ${reports.adjudicationDeviations.length} adjudication deviation(s) -> ${opts.out}`)
         })
 }
 

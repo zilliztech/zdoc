@@ -21,6 +21,7 @@ const Ajv2020 = require('ajv/dist/2020')
 const {diffDigestOf} = require('./changeSet')
 const {mergeMirrorProse, undescribedNodes} = require('./mirror')
 const {buildPlacementRecords, validatePlacements, branchLabelsForScope} = require('./branchPlan')
+const {applicableAdjudications} = require('./adjudications')
 
 const decisionsSchema = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'contracts', 'rest-upstream-decisions.schema.json'), 'utf8'))
 const validateDecision = new Ajv2020({allErrors: true, strict: false}).compile(decisionsSchema)
@@ -68,6 +69,7 @@ function decisionShapeError(decision) {
     if (decision.action === 'ledger' && decision.override !== undefined) return 'ledger decisions carry no override'
     if (decision.action === 'skip' && decision.override !== undefined) return 'skip decisions carry no override'
     if (decision.override !== true && decision.overrideReason !== undefined) return 'overrideReason without override'
+    if (decision.deviationReason !== undefined && decision.adjudication === undefined) return 'deviationReason without adjudication'
     return null
 }
 
@@ -376,6 +378,7 @@ function buildReports() {
         rejectedPlacements: [],
         reorganizations: [],
         missingDescriptions: [],
+        adjudicationDeviations: [],
     }
 }
 
@@ -403,7 +406,7 @@ function reportDeletion(reports, entry, kind, source, ledger, field) {
     else reports.deletions.push(line)
 }
 
-function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan = null, ledger = null}) {
+function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan = null, ledger = null, adjudications = null}) {
     validateDecisions(decisions)
     const byId = new Map(diffDocument.entries.map(entry => [entry.id, entry]))
     // Invented decision ids are the hallucination path: every stance must cite
@@ -424,6 +427,27 @@ function assembleChangeSet({diffDocument, decisions, fragmentLoader, branchPlan 
     const reports = buildReports()
     reports.rejectedPlacements = placementValidation.rejected
     reports.reorganizations = branchPlan?.reorganizations ?? []
+    // Prior-adjudication citation gate (2026-11-23 design, 2026-11-25 review
+    // condition 2): a settled field-level adjudication changes what a stance
+    // must cite, not who decides. An adopt/ledger stance on an entry governed
+    // by a fresh adjudication must cite its key, and contradicting the facts
+    // additionally carries deviationReason — a silent stance flip cannot pass.
+    // Omitted stances keep routing to human review, and stale adjudications
+    // never gate: their questions re-open in the PR body instead.
+    if (adjudications) {
+        for (const decision of decisions) {
+            const entry = byId.get(decision.diffEntryId)
+            const applicable = applicableAdjudications(adjudications, diffDocument.source, entry)
+            if (decision.deviationReason !== undefined) {
+                reports.adjudicationDeviations.push({id: decision.diffEntryId,
+                    adjudication: decision.adjudication ?? null, reason: decision.deviationReason})
+            }
+            if (applicable.keys.size === 0 || !['adopt', 'ledger'].includes(decision.action)) continue
+            if (decision.adjudication === undefined || !applicable.keys.has(decision.adjudication)) {
+                fail('REST_UPSTREAM_ADJUDICATION_UNCITED', `${decision.diffEntryId}: prior adjudication(s) ${[...applicable.keys].join(', ')} govern this entry; cite one via "adjudication" and add "deviationReason" when contradicting the recorded facts`)
+            }
+        }
+    }
     const entries = []
 
     for (const entry of diffDocument.entries) {
