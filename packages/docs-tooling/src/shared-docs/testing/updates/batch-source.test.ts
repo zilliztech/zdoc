@@ -1,10 +1,10 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
-import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
+import { mkdtemp, mkdir, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { BatchGitStore, batchBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
+import { BatchGitStore, batchBudget, batchPageBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
 import { collectBatchDiscovery, observeBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
 import * as batchGitHub from '../../adapters/updates/batch-github'
@@ -15,6 +15,42 @@ import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
 afterEach(async () => { for (const path of roots.splice(0)) await rm(path, { recursive: true, force: true }) })
+
+it('bounds each page phase without restarting the page deadline or clearing its byte counters', () => {
+  const clock = vi.spyOn(performance, 'now').mockReturnValue(10_000)
+  try {
+    const discovery = batchBudget(), page = batchPageBudget(), expiredPhase = batchPageBudget()
+    expect(page.remaining()).toBe(30_000)
+    expect(page.remainingImageTime()).toBe(120_000)
+    page.gitBytes = 1024
+    page.apiBytes = 2048
+    page.calls = 3
+
+    clock.mockReturnValue(70_000)
+    expect(page.remainingImageTime()).toBe(60_000)
+    expect(page.remaining()).toBe(30_000)
+
+    for (const elapsed of [119_000, 238_000, 357_000, 476_000]) {
+      clock.mockReturnValue(10_000 + elapsed)
+      expect(page.remaining()).toBe(1_000)
+      expect(page.remainingImageTime()).toBe(1_000)
+      page.beginPhase()
+      expect(page.remaining()).toBe(30_000)
+    }
+    expect(page).toMatchObject({gitBytes: 1024, apiBytes: 2048, calls: 3})
+    expect(() => discovery.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => expiredPhase.beginPhase()).toThrow('OBSERVATION_DEADLINE')
+
+    clock.mockReturnValue(10_000 + 539_000)
+    expect(page.remaining()).toBe(1_000)
+    page.beginPhase()
+    expect(page.remainingImageTime()).toBe(1_000)
+    clock.mockReturnValue(10_000 + 540_000)
+    expect(() => page.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => page.remainingImageTime()).toThrow('OBSERVATION_DEADLINE')
+  } finally { clock.mockRestore() }
+})
+
 async function repository() {
   const root = await mkdtemp(join(tmpdir(), 'batch-raw-git-')); roots.push(root)
   const git = (...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -58,6 +94,16 @@ it('exports duplicate and empty blobs in one bounded Git process and refuses rep
   } finally {vi.unstubAllEnvs()}
 })
 
+it('rejects a linked export ancestor before creating any external directory', async () => {
+  const r = await repository(), commit = await r.change('nested/page.md', 'contents')
+  const root = await mkdtemp(join(tmpdir(), 'batch-export-')); roots.push(root)
+  const outside = await mkdtemp(join(tmpdir(), 'batch-export-outside-')); roots.push(outside)
+  const destination = join(root, 'redirect')
+  await symlink(outside, destination)
+  await expect(exportBatchTree(r.root, commit, ['nested'], destination, root)).rejects.toThrow('BATCH_EXPORT_INVALID')
+  expect(await readdir(outside)).toEqual([])
+})
+
 it('binds exact bytes and both sides of changes across a merge DAG and overlapping intervals', async () => {
   const r = await repository(), base = await r.change('root.md', '  v1\r\n\n')
   r.git('checkout', '-b', 'side'); const side = await r.change('fragments/part.md', 'part')
@@ -71,6 +117,31 @@ it('binds exact bytes and both sides of changes across a merge DAG and overlappi
   expect(await store.delta(base, main)).toEqual([{ path: 'root.md', before: r.git('rev-parse', base + ':root.md'),
     after: r.git('rev-parse', main + ':root.md'), beforeMode: '100644', afterMode: '100644' }])
   expect(await store.delta(main, target)).toMatchObject([{ path: 'fragments/part.md', before: null }])
+})
+
+it('prefetches immutable inventory objects and preserves the full proof for every commit', async () => {
+  const r = await repository(), before = await r.change('site/en/userGuide/root.md', 'Before\r\n')
+  const after = await r.change('site/en/userGuide/root.md', 'After\n')
+  const unchanged = await r.change('site/zh/other.md', 'Unrelated\n')
+  const original = await BatchGitStore.open(r.root, batchBudget())
+  const prefetched = await BatchGitStore.open(r.root, batchBudget())
+  const points = [before, after, unchanged]
+  await prefetched.prefetchSourceInventoryTrees(points)
+  for (const point of points) {
+    const expected = new Map<string, Buffer>(), actual = new Map<string, Buffer>()
+    const inventory = await prefetched.sourceInventory(point, (oid, bytes) => actual.set(oid, bytes))
+    expect(inventory).toEqual(await original.sourceInventory(point, (oid, bytes) => expected.set(oid, bytes)))
+    expect(actual).toEqual(expected)
+  }
+  const oldOid = r.git('rev-parse', before + ':site/en/userGuide/root.md')
+  const newOid = r.git('rev-parse', after + ':site/en/userGuide/root.md')
+  expect(await prefetched.readVerifiedBlobs([oldOid, newOid, oldOid])).toEqual(new Map([
+    [oldOid, Buffer.from('Before\r\n')], [newOid, Buffer.from('After\n')],
+  ]))
+  const corrupt = await BatchGitStore.open(r.root, batchBudget())
+  const loose = (oid: string) => join(r.root, '.git/objects', oid.slice(0, 2), oid.slice(2))
+  await rm(loose(oldOid)); await writeFile(loose(oldOid), await readFile(loose(newOid)))
+  await expect(corrupt.readVerifiedBlobs([oldOid, newOid])).rejects.toThrow('GIT_OBJECT_INVALID')
 })
 
 it.each(['commit', 'tree', 'blob'])('rejects different raw %s bytes stored at a requested object ID', async kind => {
@@ -144,9 +215,9 @@ it('measures the exact Git interval and all its parents through shared authentic
   vi.stubEnv('PATH', bin + ':' + process.env.PATH)
   try {
     expect(await measureBatchRenderFragments(r.root, [current, oldNext, target])).toEqual({
-      bytes: intermediate.length, count: 9, snapshots: 3 + 2 + changed.length,
+      bytes: 4 * intermediate.length, count: 12, snapshots: 3 + 2 + changed.length,
       endpoints: {bytes: 12, count: 9},
-      sequential: [
+      intermediates: [
         {commit: ancestor, bytes: 4, count: 3},
         {commit: restored, bytes: 4, count: 3},
         ...changed.map(commit => ({commit, bytes: intermediate.length, count: 3})),

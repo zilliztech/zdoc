@@ -147,6 +147,8 @@ it('strictly rejects unknown and duplicate local request fields before any outpu
   expect(()=>parseLocalUpdateRequest(Buffer.from(JSON.stringify(f.request).replace('"schemaVersion":1','"schemaVersion":1,"schemaVersion":1')))).toThrow('INVALID_LOCAL_REQUEST')
   await expect(f.runner.plan({...f.request,provider:'fixture'},join(f.root,'bad-output'))).rejects.toThrow('INVALID_LOCAL_REQUEST')
 })
+// The hosted isolated gate has measured the real Git plan phase alone at 15 seconds.
+// Give both phases time to complete before checking the exact read counts and repository state.
 it('freshly plans and prepares real local material while preserving input repositories',async()=>{
   const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'prepared')
   const state=async()=>Promise.all([git(f.repository,'show-ref'),git(f.repository,'count-objects','-v'),git(f.source,'show-ref'),git(f.source,'count-objects','-v')])
@@ -173,7 +175,7 @@ it('freshly plans and prepares real local material while preserving input reposi
   expect(reads.get(snapshot.closure.path)).toBe(5)
   expect(f.counts()).toEqual({collections:4,accessReads:8})
   await f.mark('snapshot-read-observations',{reads:Object.fromEntries(reads),...f.counts()})
-},15_000)
+},45_000)
 
 it.each(['sha256','bytes'] as const)('rejects conflicting snapshot ref %s before acquiring prepare output',async field=>{
   const f=await fixture(),plan=join(f.root,'plan'),output=join(f.root,'conflicting-ref'),before=await originalState(f)

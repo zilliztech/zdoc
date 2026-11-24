@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto'
 import { diagnostic, parseYaml } from '../yaml'
-import { collectHeadings, resolveAnchor } from './anchors'
+import { collectHeadings, createAnchorResolver } from './anchors'
 import { linkCandidates } from './candidates'
 import { classifyLink, isMilvusUrl } from './map'
 import { collectReferences } from './references'
@@ -30,6 +30,15 @@ export function rewriteLinksAndImages(input: RewriteInput) {
   const images: ImageRecord[] = []
   const edits = new Map<number, { end: number; url: string }>()
   const refs = collectReferences(input.markdown)
+  const anchorResolvers = new Map<string, ReturnType<typeof createAnchorResolver>>()
+  function resolveAnchor(source: string, anchor: string, cloudFallback?: boolean) {
+    let resolve = anchorResolvers.get(source)
+    if (!resolve) {
+      resolve = createAnchorResolver(source)
+      anchorResolvers.set(source, resolve)
+    }
+    return resolve(anchor, cloudFallback)
+  }
   const context = { ...input.context, file: input.context.file ?? input.sourceFile }
   const fail = (ref: LinkRef, code: string, message: string, detail?: unknown) => {
     errors.push({ ...diagnostic(code, message, context, ref.line), detail })

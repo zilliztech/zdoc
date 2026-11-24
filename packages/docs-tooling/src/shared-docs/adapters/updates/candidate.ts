@@ -15,7 +15,7 @@ import { createZdocContentReader } from '../zdoc-content'
 import type { FixedVersions } from '../../core/updates/types'
 import type { toMdx } from '../mdx'
 import type { InspectionReader } from '../types'
-import type { GitLinkInputReader } from '../links-input'
+import type { LinkInputReader } from '../links-input'
 /** Report-only isolation over a private committed export. Production parsing/build contracts stay strict. */
 export async function readReportConfiguration(directory: string, repositoryRoot: string, pageIds: readonly string[]) {
   const complete = await readUpdateConfiguration(directory, repositoryRoot)
@@ -60,12 +60,13 @@ function createCandidateDevInputs(dev: string) {
 
 async function withCandidateServices<T>(input: CandidateSource, use: (services: CandidateServices) => Promise<T>,
   historical?: {devInputs: ReturnType<typeof createCandidateDevInputs>; finalizeMdx: typeof toMdx;
-    fragments?: Pick<InspectionReader, 'withFragments'>; links?: GitLinkInputReader}) {
+    fragments?: Pick<InspectionReader, 'withFragments'>; links?: LinkInputReader}) {
   const git = new GitMilvusDocsReader(input.repo)
   const reader = createBuildReader(input.repo, {
     readFile: (commit, path) => git.readFile(commit, path),
     trackedHead: async () => input.target, isOnBranch: commit => git.isAncestor(commit, input.target),
-    isAncestor: (a, b) => git.isAncestor(a, b), withFragments: (commit, use) => (historical?.fragments ?? git).withFragments(commit, use),
+    isAncestor: (a, b) => (historical?.links ?? git).isAncestor(a, b),
+    withFragments: (commit, use) => (historical?.fragments ?? git).withFragments(commit, use),
   }, historical?.links)
   const {guides, zdoc} = historical?.devInputs ?? createCandidateDevInputs(input.dev)
   // The cached promise must also be observed if source collection fails before build.
@@ -101,7 +102,7 @@ export async function collectCandidate(input: CandidateSource & {current: string
 /** One batch page owns one bounded, private Dev export. Share its validated
  * namespace and front matter; each commit still gets fresh source/build state. */
 export function createHistoricalCandidateCollector(input: Omit<CandidateSource, 'invalidPageIds' | 'target'>, finalizeMdx: typeof toMdx,
-  fragments?: Pick<InspectionReader, 'withFragments'>, links?: GitLinkInputReader) {
+  fragments?: Pick<InspectionReader, 'withFragments'>, links?: LinkInputReader) {
   let devInputs: ReturnType<typeof createCandidateDevInputs> | undefined
   return (target: string) => {
     if (!devInputs) {
