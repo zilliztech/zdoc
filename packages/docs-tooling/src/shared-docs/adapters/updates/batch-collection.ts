@@ -88,7 +88,7 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   const retained: RetainedPage = immutable({pageId: launch.request.pageId, ...receipt, materialRef, materialDigest: batchDigest('material', checked.header)})
   if (operation.pages.has(retained.pageId)) invalid()
   operation.pages.set(retained.pageId, retained); launch.state = 'settled'; operation.outstanding.delete(ticket)
-  return retained
+  return {retained, checked}
 }
 
 /** Unexported constructors keep replay captures in a separate nominal family. */
@@ -149,8 +149,8 @@ function existingOutput(bytes: Uint8Array, manual: string, path: string, ref: Ba
   return {manual, path, route, ref, headings, references: collectReferences(text).links}
 }
 /** Shared projection is data only. Production calls it only after actual child settlement and CAS re-read. */
-function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): BatchCompactPage {
-  const checked = validateBatchWire(wire, request), {header, config, projection, namespace, trees, inventories, inventoriesByRef, history: historyBody} = checked
+function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof validateBatchWire>, verifiedOutputs?: BatchCompactPage['existing']): BatchCompactPage {
+  const {header, config, projection, namespace, trees, inventories, inventoriesByRef, history: historyBody} = checked
   const bySha = new Map(wire.blobs.map(b => [b.ref.sha256, b]))
   const read = (ref: BatchBlobRef) => {const b = bySha.get(ref.sha256); if (!b) invalid(); return decodeBatchBlob(ref, b.base64)}
   const body = <T>(ref: BatchBlobRef, schema: import('zod').z.ZodType<T>) => parseBatchCanonical(read(ref), schema)
@@ -236,7 +236,10 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   }
   const activeRow = active.pages.find(p => p.page === header.pageId), row = records.length === 1 ? records[0] : undefined
   if (!activeRow) ownershipReasons.add('INACTIVE_NECESSARY_PAGE')
-  const nextOutputs = row && guidesNextOutputPaths(header.pageId, activeRow?.record, header.targets, row, snapshot.targets_built, snapshot.records)
+  const nextOutputs = row && guidesNextOutputPaths(header.pageId, activeRow?.record, header.targets, {
+    release_channel: row.release_channel, record_id: row.record_id, slug: row.slug,
+    output_paths: row.output_paths, publish_targets: row.publish_targets,
+  }, snapshot.targets_built, snapshot.records)
   if (nextOutputs?.every((path, index) => namespace.outputs.some(o => o.path === path && o.manual === header.targets[index].manual))) {
     ownershipReasons.add('UNPUBLISHED_NECESSARY_PAGE')
   } else {
@@ -251,7 +254,7 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
       }
     }
   }
-  const existing = namespace.outputs.map(o => {
+  const existing = verifiedOutputs ?? namespace.outputs.map(o => {
     const bytes = read(o.ref)
     if (blobOid(bytes) !== o.oid) invalid()
     return existingOutput(bytes, o.manual, o.path, o.ref)
@@ -284,7 +287,7 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
 /** Explicitly non-authoritative projection for pure semantic fixture tests. */
 export function projectBatchMaterialFixture(wire: BatchMaterialWire, request: BatchRenderRequest) {
   if (request.origin.kind !== 'replay') throw Error('BATCH_REPLAY_ORIGIN_REQUIRED')
-  return compactMaterial(wire, request)
+  return compactMaterial(wire, validateBatchWire(wire, request))
 }
 
 export interface BatchObligation {pageId: string; range: {from: string; to: string}; edge: string; seedKey: string | null;
@@ -511,6 +514,7 @@ async function retainStructured(operation: Operation, value: unknown) {
 }
 async function collectOperation(operation: Operation): Promise<BatchMaterialCollection> {
   const compactPages: BatchCompactPage[] = []
+  let verifiedNamespace: BatchBlobRef | undefined
   const measurement = operationMeasurements.get(operation.store)
   let phase: MaterialPhase = 'discovery-retention'
   let phaseStart = performance.now()
@@ -547,13 +551,14 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
       begin('page-retention')
-      const retained = await retainPage(operation, ticket, child)
+      const {retained, checked} = await retainPage(operation, ticket, child)
       if (!operation.active) invalid()
       begin('projection')
-      const request = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)!.request
-      const projected = compactMaterial(child.value, request)
-      if (compactPages.length && !same(projected.existing.map(o => ({manual: o.manual, path: o.path, ref: o.ref})), compactPages[0].existing.map(o => ({manual: o.manual, path: o.path, ref: o.ref})))) invalid()
-      compactPages.push(compactPages.length ? Object.freeze({...projected, existing: compactPages[0].existing}) : projected)
+      // The verified ref binds every output's path, Git object and bytes to this exact dev tree.
+      if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
+      const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
+      verifiedNamespace ??= checked.config.namespaceRef
+      compactPages.push(projected)
       measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
       // No completed promise/response/large raw text table is cached across pages.
       // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.

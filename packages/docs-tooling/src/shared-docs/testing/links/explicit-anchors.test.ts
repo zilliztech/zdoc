@@ -1,7 +1,23 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
 import { collectExplicitAnchors, rewriteLinksAndImages } from '../../core/links'
+import { analysisMarkdown } from '../../core/links/anchors'
+import { collectReferences } from '../../core/links/references'
 import { input } from './helpers'
+
+it('keeps UTF-16 offsets and line numbers after many fences and opaque HTML spans', () => {
+  const fence = ['```', '[隐😀](hidden.md)', '```'].join('\r\n')
+  const hidden = '<script>[hidden](hidden.md)</script>'
+  const suffix = '<details id="visible"><summary>Notes</summary></details>\r\n[Read](visible.md)'
+  const source = `${fence}\r\n${hidden}\r\n`.repeat(149) + `${fence}\r${hidden}\r\n` + suffix
+  const masked = analysisMarkdown(source)
+  expect(masked.length).toBe(source.length)
+  expect(masked.slice(-suffix.length)).toBe(suffix)
+  expect(collectExplicitAnchors(source)).toEqual([{id: 'visible', line: 601}])
+  const {links} = collectReferences(source)
+  expect(links).toMatchObject([{url: 'visible.md', line: 602, start: source.indexOf('visible.md')}])
+  expect(links).toHaveLength(1)
+})
 
 it('keeps explicit anchor and disclosure IDs while rewriting heading fragments', () => {
   const markdown = '# Guide\n\n<a id="Compatibility-reference"></a>\n\n## Cast types\n\n<details id="Supported-filters">\n<summary>Filter details</summary>\n\nReference.\n\n</details>\n\n[cast](#Compatibility-reference) [filter](#Supported-filters) [heading](#Cast-types)'
