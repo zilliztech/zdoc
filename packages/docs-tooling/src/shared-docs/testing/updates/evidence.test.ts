@@ -220,6 +220,54 @@ describe('fresh bounded ancestor checks', () => {
 
 
 describe('concurrent content-addressed evidence writes', () => {
+  it('reads each retained page blob once and refuses to repair missing or changed repeats', async () => {
+    const {root, repo} = await fixture()
+    const out = join(root, 'page-evidence'), bytes = Buffer.from('page evidence')
+    const sha256 = createHash('sha256').update(bytes).digest('hex')
+    const ref = {path: `blobs/${sha256}`, sha256, bytes: bytes.length}
+    const path = join(out, ref.path)
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    const opens: number[] = []
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual,
+      open: (...args: Parameters<typeof actual.open>) => {
+        if (args[0] === path && typeof args[1] === 'number') opens.push(args[1])
+        return actual.open(...args)
+      },
+    }))
+    try {
+      const {initializeEvidence, createPageBlobRetainer, bindBatchResources, batchCasCategory, batchResourceMeasurement} = await import('../../adapters/updates/evidence')
+      const store = await initializeEvidence({root: out, repositories: [repo], owner: 'batch'})
+      expect(() => createPageBlobRetainer({...store})).toThrow(/owned/)
+      bindBatchResources(store, 2)
+      batchCasCategory(store, 'page')
+      const retain = createPageBlobRetainer(store)
+      const create = constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | constants.O_NOFOLLOW
+      const read = constants.O_RDONLY | constants.O_NOFOLLOW
+      expect(await retain(bytes)).toEqual(ref)
+      expect(opens.splice(0)).toEqual([create, read])
+      expect(await retain(Uint8Array.from(bytes))).toEqual(ref)
+      expect(opens.splice(0)).toEqual([read])
+      expect(batchResourceMeasurement(store)).toMatchObject({distinctBlobs: 1, casBytes: {page: bytes.length}})
+
+      const replacement = join(root, 'replacement')
+      await writeFile(replacement, Buffer.alloc(bytes.length, 120))
+      await rename(replacement, path)
+      await expect(retain(bytes)).rejects.toThrow(/SHA-256/)
+      expect(opens.splice(0)).toEqual([read])
+      await unlink(path)
+      await expect(retain(bytes)).rejects.toMatchObject({code: 'ENOENT'})
+      expect(opens).toEqual([])
+      await expect(lstat(path)).rejects.toMatchObject({code: 'ENOENT'})
+      await writeFile(replacement, bytes)
+      await symlink(replacement, path)
+      await expect(retain(bytes)).rejects.toThrow(/Unsafe/)
+      expect(opens).toEqual([])
+    } finally {
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  }, 30000)
+
   it.each(['complete', 'tamper', 'fail'] as const)('orders same-path writers until the first write %s without caching trust', async mode => {
     const {root, repo} = await fixture(), out = join(root, 'concurrent')
     const bytes = Buffer.from('same immutable evidence'), path = join(out, 'blobs', createHash('sha256').update(bytes).digest('hex'))
@@ -369,5 +417,43 @@ it('refuses an edit-restore intermediate fragment peak before its actual materia
     expect(materialize).not.toHaveBeenCalled()
     expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
     expect(git(repo, 'show-ref') + git(repo, 'count-objects', '-v')).toBe(before)
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})
+
+it('reserves both live workers even when their exports and fragment trees are identical', async () => {
+  const {root, repo} = await fixture()
+  for (const path of ['shared-docs/guides/source.yaml', 'content/en/guides/page.mdx', 'site/en/fragments/a/b/page.md']) {
+    await mkdir(dirname(join(repo, path)), {recursive: true})
+    await writeFile(join(repo, path), 'x')
+  }
+  git(repo, 'add', '.')
+  git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'shared inputs')
+  const head = git(repo, 'rev-parse', 'HEAD'), page = [head, head, head]
+  const inputs = {masterRepository: repo, master: head, devRepository: repo, dev: head, sourceRepository: repo}
+  const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  // With only 200 KiB above the floor, one page fits including directory
+  // metadata. Both workers could pass separate checks against this same sample.
+  let bsize = 4096n, bavail = (1024n ** 3n + 200n * 1024n) / bsize
+  vi.resetModules()
+  vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail, bsize})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'window-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'window'})
+    evidence.bindBatchResources(store, 2)
+    const single = await source.reserveBatchContentAllocation(store, {...inputs, commits: page})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page])).resolves.toEqual({...single, fragments: [single.fragments]})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    // A large allocation unit isolates the 3 GiB transient cap from the free-space floor.
+    bsize = 64n * 1024n ** 2n
+    bavail = 256n
+    await expect(source.reserveBatchContentWindow(store, inputs, [page])).resolves.toMatchObject({fragments: [single.fragments]})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).rejects.toThrow('BATCH_TRANSIENT_LIMIT')
+    bsize = 4096n
+    bavail = 2n * 1024n ** 3n / bsize
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).resolves.toEqual({...single, fragments: [single.fragments, single.fragments]})
+    for (const invalid of [[], [page, page, page], [[head]]]) {
+      await expect(source.reserveBatchContentWindow(store, inputs, invalid)).rejects.toThrow('BATCH_CONTENT_WINDOW_INVALID')
+    }
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
   } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
 })
