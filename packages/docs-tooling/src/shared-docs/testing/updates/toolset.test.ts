@@ -438,32 +438,39 @@ it('reverifies a closure larger than one batch Git output ceiling on supported h
   await expect(withBatchLifetime(() => verifyTrustedToolset(capture))).resolves.toBeUndefined()
 })
 
-describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
-  it('bounds concurrent small-file reads in committed and installed material', async () => {
-    const a = await fixture()
-    const paths = [join(a.root, 'scripts'), join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti')]
-    for (const directory of paths) {
-      for (let index = 0; index < 12; index++) await put(directory, `window-${index}.js`, `// file ${index}\n`)
-    }
-    a.commit = commitAll(a.root)
-    const active = [0, 0], peak = [0, 0]
-    const originalOpen = vi.mocked(fsPromises.open).getMockImplementation()!
-    vi.mocked(fsPromises.open).mockImplementation((async (path, ...args) => {
-      const group = paths.indexOf(dirname(String(path)))
-      if (group === -1 || !String(path).includes('/window-')) return originalOpen(path, ...args)
-      peak[group] = Math.max(peak[group], ++active[group])
-      try {
-        await new Promise(resolve => setTimeout(resolve, 20))
-        return await originalOpen(path, ...args)
-      } finally {active[group]--}
-    }) as typeof fsPromises.open)
+it('bounds concurrent small-file reads in committed and installed material on supported hosts and refuses Linux before reading', async () => {
+  if (process.platform === 'linux') {
+    const calls = vi.mocked(fsPromises.open).mock.calls.length
+    await expectLinuxCaptureRefusal()
+    expect(vi.mocked(fsPromises.open).mock.calls).toHaveLength(calls)
+    return
+  }
+  const a = await fixture()
+  const paths = [join(a.root, 'scripts'), join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti')]
+  for (const directory of paths) {
+    for (let index = 0; index < 12; index++) await put(directory, `window-${index}.js`, `// file ${index}\n`)
+  }
+  a.commit = commitAll(a.root)
+  const active = [0, 0], peak = [0, 0]
+  const originalOpen = vi.mocked(fsPromises.open).getMockImplementation()!
+  vi.mocked(fsPromises.open).mockImplementation((async (path, ...args) => {
+    const group = paths.indexOf(dirname(String(path)))
+    if (group === -1 || !String(path).includes('/window-')) return originalOpen(path, ...args)
+    peak[group] = Math.max(peak[group], ++active[group])
     try {
-      const capture = await captureTrustedToolset(a)
-      expect(capture.closure.entries.filter(entry => /\/window-\d+\.js$/.test(entry.path))).toHaveLength(24)
-      expect(peak.every(count => count > 1 && count <= 8)).toBe(true)
-      expect(active).toEqual([0, 0])
-    } finally {vi.mocked(fsPromises.open).mockImplementation(originalOpen)}
-  })
+      await new Promise(resolve => setTimeout(resolve, 20))
+      return await originalOpen(path, ...args)
+    } finally {active[group]--}
+  }) as typeof fsPromises.open)
+  try {
+    const capture = await captureTrustedToolset(a)
+    expect(capture.closure.entries.filter(entry => /\/window-\d+\.js$/.test(entry.path))).toHaveLength(24)
+    expect(peak.every(count => count > 1 && count <= 8)).toBe(true)
+    expect(active).toEqual([0, 0])
+  } finally {vi.mocked(fsPromises.open).mockImplementation(originalOpen)}
+})
+
+describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
   it('captures actual committed bytes, app-local pnpm files and runtime; survives relocation; detects dependency tamper', async () => {
     const a = await fixture(), b = await fixture()
     const first = await captureTrustedToolset(a), second = await captureTrustedToolset(b)
@@ -1293,9 +1300,11 @@ export function collectBatchPageMaterial(data){
     expect(authenticationMs).toBeGreaterThan(0)
     expect(authenticationMs).toBeLessThanOrEqual(observedMs)
   }
-  expect(phases).toEqual([...f.ids].sort().flatMap(pageId => [
-    {pageId, phase: 'launch-authentication'}, {pageId, phase: 'render-worker'},
-  ]))
+  expect(phases).toHaveLength(2 * f.ids.length)
+  for (const pageId of f.ids) {
+    expect(phases.filter(row => row.pageId === pageId).map(row => row.phase))
+      .toEqual(['launch-authentication', 'render-worker'])
+  }
   expect(result).toMatchObject({status: 'material-complete', memberIds: ['build-pipeline'], origin: {kind: 'replay'}})
   if (result.status !== 'material-complete') throw Error(JSON.stringify(result))
   expect(JSON.stringify(result.ticket)).toBe('{}')
