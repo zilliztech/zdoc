@@ -5,7 +5,7 @@ import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { test } from 'node:test'
 import { authenticateBatchPrepare, authenticatePrepare, batchDraftMaterial, batchWriterContext, context, createBatchDraft,
   createDraft, gitReader, inspectPreparedBatch, material, producerBundle, runWithJournal, stageSignedCandidate, verifySignature } from './write.mjs'
@@ -29,6 +29,18 @@ const env = {GITHUB_ACTIONS:'true',GITHUB_SERVER_URL:'https://github.com',GITHUB
   GITHUB_JOB:'write',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'15',GITHUB_EVENT_NAME:'schedule',
   PREPARE_ARTIFACT_ID:'31',REPORT_ARTIFACT_ID:'32',PREPARE_ARTIFACT_DIGEST:'4'.repeat(64)}
 
+test('both CLI writer branches resolve their journal and result variables', () => {
+  const ts = createRequire(import.meta.url)('typescript')
+  const pathname = fileURLToPath(new URL('./write.mjs', import.meta.url))
+  const program = ts.createProgram([pathname], {
+    allowJs:true, checkJs:true, noEmit:true, skipLibCheck:true, module:ts.ModuleKind.NodeNext,
+    target:ts.ScriptTarget.ES2022
+  })
+  const errors = program.getSemanticDiagnostics(program.getSourceFile(pathname))
+    .filter(d => [2304,2552,2448,18004].includes(d.code))
+  assert.deepEqual(errors.map(d => ts.flattenDiagnosticMessageText(d.messageText,'\n')), [])
+})
+
 test('writer accepts only the original run on the fixed production workflow and repository',() => {
   assert.equal(context(env).master,master)
   for (const [key,value] of Object.entries({GITHUB_RUN_ATTEMPT:'2',GITHUB_EVENT_NAME:'pull_request',GITHUB_SHA:'bad',
@@ -37,14 +49,14 @@ test('writer accepts only the original run on the fixed production workflow and 
     assert.throws(() => context({...env,[key]:value}))
 })
 
-test('batch writer requires an explicit first dispatch plus both staging digests on protected master',() => {
-  const batch = {...env,GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_PROTECTED:'true',BATCH_ARTIFACT_ID:'31',
-    BATCH_ARTIFACT_DIGEST:'6'.repeat(64),BATCH_HANDOFF_DIGEST:'5'.repeat(64)}
-  assert.equal(batchWriterContext(batch).handoffDigest,batch.BATCH_HANDOFF_DIGEST)
+test('batch writer accepts only an earlier read-only run reference on protected master',() => {
+  const batch = {...env,GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REF_PROTECTED:'true',GITHUB_RUN_NUMBER:'20',
+    GITHUB_ACTOR_ID:'123',BATCH_ACCEPTED_RUN_ID:'14'}
+  assert.equal(batchWriterContext(batch).acceptedRun,14)
   for (const [key,value] of Object.entries({GITHUB_EVENT_NAME:'schedule',GITHUB_REF_PROTECTED:'false',GITHUB_RUN_ATTEMPT:'2',
-    BATCH_ARTIFACT_ID:'031',BATCH_ARTIFACT_DIGEST:'0'.repeat(65),BATCH_HANDOFF_DIGEST:''})) {
+    GITHUB_ACTOR_ID:'',GITHUB_RUN_NUMBER:'x',BATCH_ACCEPTED_RUN_ID:'014'}))
     assert.throws(() => batchWriterContext({...batch,[key]:value}))
-  }
+  assert.throws(() => batchWriterContext({...batch,BATCH_ACCEPTED_RUN_ID:batch.GITHUB_RUN_ID}))
 })
 
 function prepareEvidence() {
@@ -89,22 +101,28 @@ test('authenticate the prepare job and exact current-run archive, including ever
 function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
   const bytes = Buffer.from('batch ZIP')
   const digest = createHash('sha256').update(bytes).digest('hex')
-  const ctx = {master,run:15,attempt:1,event:'schedule',artifact:31,digest}
+  const ctx = {master,run:16,acceptedRun:15,actor:123,runNumber:20,attempt:1,event:'workflow_dispatch'}
   const origin = {id:15,head_sha:master,head_branch:'master',repository_id:660446555,head_repository_id:660446555}
-  const run = {...origin,run_attempt:1,event:'schedule',status:'in_progress',conclusion:null,path:'.github/workflows/shared-guides-update.yml',
+  const run = {...origin,run_number:19,run_attempt:1,event:'workflow_dispatch',status:'completed',conclusion:'success',
+    workflow_id:414826845,actor:{id:456},triggering_actor:{id:456},path:'.github/workflows/shared-guides-update.yml',
     repository:{id:660446555},head_repository:{id:660446555}}
   const step = {name:'Upload verified batch handoff',status:'completed',conclusion:'success',
     started_at:'2026-11-20T13:03:00Z',completed_at:'2026-11-20T13:03:06Z'}
   const job = {name:'prepare_batch',run_id:15,run_attempt:1,head_sha:master,status:'completed',conclusion:'success',
     started_at:'2026-11-20T13:00:00Z',completed_at:'2026-11-20T13:03:09Z',steps:[step]}
+  const marker = {...step,name:'Confirm read-only batch acceptance'}
+  job.steps.push(marker)
+  const priorWrite = {...job,name:'write',conclusion:'skipped',steps:[]}
+  const current = {...run,id:16,run_number:20,status:'in_progress',conclusion:null,actor:{id:123},triggering_actor:{id:123}}
+  const latest = structuredClone(run)
   const artifact = {id:31,name:'shared-guides-batch-handoff-15-1',expired:false,digest:'sha256:' + digest,size_in_bytes:bytes.length,
     created_at:'2026-11-20T13:03:01Z',workflow_run:origin}
   const after = structuredClone(artifact)
   const members = new Map([['handoff.json',payload]])
-  const jobs = {total_count:1,jobs:[job]}
+  const jobs = {total_count:2,jobs:[job,priorWrite]}
   const artifacts = {total_count:1,artifacts:[artifact]}
   const responses = new Map([
-    ['/actions/runs/15/attempts/1',run], ['/actions/runs/15/attempts/1/jobs?per_page=100',jobs],
+    ['/actions/runs/16',current], ['/actions/runs/15',latest], ['/actions/runs/15/attempts/1',run], ['/actions/runs/15/attempts/1/jobs?per_page=100',jobs],
     ['/actions/runs/15/artifacts?per_page=100',artifacts], ['/actions/artifacts/31/zip',bytes],
     ['/actions/artifacts/31',after]
   ])
@@ -120,17 +138,29 @@ function batchPrepareEvidence(payload = Buffer.from('bound handoff')) {
     return {status:200,body:Buffer.isBuffer(response) ? response : Buffer.from(JSON.stringify(response))}
   }
   const authenticate = () => authenticateBatchPrepare(contract,transport,ctx)
-  return {run,job,step,artifact,after,payload,members,artifacts,responses,authenticate,calls,contract,transport,ctx}
+  return {run,job,step,marker,current,latest,priorWrite,artifact,after,payload,members,artifacts,responses,authenticate,calls,contract,transport,ctx}
 }
 
 test('batch writer verifies provenance of the handoff upload and rereads metadata after downloading',async () => {
   const fixture = batchPrepareEvidence()
-  assert.deepEqual(await fixture.authenticate(),fixture.payload)
-  assert.deepEqual(fixture.calls.slice(-2),['/actions/artifacts/31/zip','/actions/artifacts/31'])
+  const accepted = await fixture.authenticate()
+  assert.deepEqual(accepted.bytes,fixture.payload)
+  fixture.latest.run_attempt = 2
+  await assert.rejects(accepted.recheckAcceptance, /acceptance run identity/)
+  assert.ok(fixture.calls.indexOf('/actions/artifacts/31/zip') < fixture.calls.indexOf('/actions/artifacts/31'))
   for (const [change,error] of [
     [f => { f.run.path = '.github/workflows/shared-guides-batch-qualify.yml' }, /run identity/],
     [f => { f.job.name = 'prepare' }, /job not authenticated/],
-    [f => { f.step.conclusion = 'skipped' }, /upload not authenticated/],
+    [f => { f.step.conclusion = 'skipped' }, /step not authenticated/],
+    [f => { f.marker.conclusion = 'skipped' }, /step not authenticated/],
+    [f => { f.latest.run_attempt = 2 }, /acceptance run identity/],
+    [f => { f.priorWrite.conclusion = 'success' }, /job not authenticated/],
+    [f => { f.run.status = 'in_progress' }, /acceptance run identity/],
+    [f => { f.run.head_sha = dev }, /acceptance run identity/],
+    [f => { f.run.workflow_id++ }, /acceptance run identity/],
+    [f => { f.run.run_number = f.current.run_number }, /acceptance run identity/],
+    [f => { f.latest.triggering_actor.id++ }, /acceptance run identity/],
+    [f => { f.current.actor.id++ }, /writer run identity/],
     [f => { f.artifact.created_at = '2026-11-20T13:01:00Z' }, /artifact binding/],
     [f => { f.artifact.workflow_run.head_repository_id = 1 }, /artifact binding/],
     [f => { f.artifacts.artifacts.push({...f.artifact,id:32}); f.artifacts.total_count++ }, /ambiguous/],
@@ -152,7 +182,7 @@ test('joins hosted artifact provenance, independent Git inspection and live Fetc
   const manifest = {base:{pins},toolset:{executableClosure},fetch}
   const payload = Buffer.from(JSON.stringify({manifest}))
   const fixture = batchPrepareEvidence(payload)
-  const ctx = {...fixture.ctx,handoffDigest:createHash('sha256').update(payload).digest('hex')}
+  const ctx = fixture.ctx, handoffDigest = createHash('sha256').update(payload).digest('hex')
   const baseline = {}
   const stages = []
   const verified = {status:'verified-witness',observation:'observed',manifest}
@@ -160,7 +190,7 @@ test('joins hosted artifact provenance, independent Git inspection and live Fetc
     inspectObservedBatchHandoff(input) {
       stages.push('reader')
       assert.deepEqual(input,{bytes:payload,baseline,expected:{pins,executableClosure,
-        ref:{path:'blobs/' + ctx.handoffDigest,sha256:ctx.handoffDigest,bytes:payload.length}}})
+        ref:{path:'blobs/' + handoffDigest,sha256:handoffDigest,bytes:payload.length}}})
       return verified
     },
     verifyBatchFinalFreshness(input,now,replay,signal) {
@@ -172,9 +202,10 @@ test('joins hosted artifact provenance, independent Git inspection and live Fetc
   const inspect = (request = ctx, git = {head:master,baseline}) => inspectPreparedBatch(contract,fixture.transport,request,git)
   await assert.rejects(inspect(ctx,{head:dev,baseline}), /checkout/)
   assert.equal(fixture.calls.length,0)
-  await assert.rejects(inspect({...ctx,handoffDigest:'f'.repeat(64)}), /raw witness digest/)
-  assert.deepEqual(stages,[])
-  assert.deepEqual(await inspect(),verified)
+  const admitted = await inspect()
+  assert.equal(admitted.handoffDigest,handoffDigest)
+  assert.equal(admitted.artifact,31)
+  assert.deepEqual(admitted.witness,verified)
   assert.deepEqual(stages,['reader','fresh'])
   contract.verifyBatchFinalFreshness = () => { throw Error('BATCH_FINAL_RUN_CHANGED') }
   await assert.rejects(inspect(), /BATCH_FINAL_RUN_CHANGED/)
@@ -183,7 +214,7 @@ test('joins hosted artifact provenance, independent Git inspection and live Fetc
 test('batch writer sends one signed Draft with two changed locks and one unchanged member',async () => {
   const overlays = [overlay(lockPath('page-a')),overlay(lockPath('page-b'))]
   const members = ['page-a','page-b','page-c'].map((pageId,i) => ({pageId,disposition:i === 2 ? 'noop' : 'advance'}))
-  const ctx = {master,run:15,attempt:1,artifact:31,digest:'1'.repeat(64),handoffDigest:'2'.repeat(64)}
+  const ctx = {master,run:15,acceptedRun:14,attempt:1,artifact:31,digest:'1'.repeat(64),handoffDigest:'2'.repeat(64)}
   const manifest = {members,base:{pins:{master,dev,source:k}},groupSha256:'3'.repeat(64),binding:{digest:'4'.repeat(64)}}
   const proof = {candidate:k,candidateTree:tree,prepared:{base:master}}
   const bytes = Buffer.from('tree ' + tree + '\nparent ' + master +

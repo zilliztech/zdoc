@@ -1152,6 +1152,9 @@ it('passes the measured bootstrap capability on supported hosts and refuses Linu
     const full = 'packages/docs-tooling/src/shared-docs/' + path
     await put(a.root, full, await readFile(join(process.cwd(), full), 'utf8'))
   }
+  for (const path of ['packages/docs-tooling/src/manuals/registry.ts', 'packages/docs-tooling/src/manuals/schema.ts']) {
+    await put(a.root, path, await readFile(join(process.cwd(), path), 'utf8'))
+  }
   await put(a.root, 'packages/docs-ui/src/shared/utils/docHeadingTags.ts', await readFile(join(process.cwd(), 'packages/docs-ui/src/shared/utils/docHeadingTags.ts'), 'utf8'))
   await put(a.root, 'shared-docs/guides/pages/json-field-overview/lock.yaml', `schema_version: 1\ncurrent: ${'a'.repeat(40)}\nnext: ${'a'.repeat(40)}\n`)
   await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `

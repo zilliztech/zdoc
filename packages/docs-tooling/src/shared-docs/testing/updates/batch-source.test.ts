@@ -1,12 +1,13 @@
 // @vitest-environment node
 import { execFileSync } from 'node:child_process'
-import { mkdtemp, mkdir, readFile, rm, symlink, writeFile } from 'node:fs/promises'
+import { mkdtemp, mkdir, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { BatchGitStore, batchBudget, batchRenderCommitSet, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
+import { BatchGitStore, batchBudget, batchPageBudget, batchRenderCommitSet, exportBatchTree, measureBatchRenderFragments } from '../../adapters/updates/batch-source'
 
-import { collectBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import { collectBatchDiscovery, observeBatchDiscovery, readBatchDiscoveryCapture, replayBatchDiscovery } from '../../adapters/updates/batch-discovery'
+import * as batchGitHub from '../../adapters/updates/batch-github'
 import { guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { validateSharedSnapshotRecord } from '../../core/handoff/source-state'
 import { canonicalBytes } from '../../core/updates/canonical'
@@ -14,6 +15,42 @@ import type { RemoteTransport } from '../../adapters/updates/remote-github'
 
 const roots: string[] = []
 afterEach(async () => { for (const path of roots.splice(0)) await rm(path, { recursive: true, force: true }) })
+
+it('bounds each page phase without restarting the page deadline or clearing its byte counters', () => {
+  const clock = vi.spyOn(performance, 'now').mockReturnValue(10_000)
+  try {
+    const discovery = batchBudget(), page = batchPageBudget(), expiredPhase = batchPageBudget()
+    expect(page.remaining()).toBe(30_000)
+    expect(page.remainingImageTime()).toBe(120_000)
+    page.gitBytes = 1024
+    page.apiBytes = 2048
+    page.calls = 3
+
+    clock.mockReturnValue(70_000)
+    expect(page.remainingImageTime()).toBe(60_000)
+    expect(page.remaining()).toBe(30_000)
+
+    for (const elapsed of [119_000, 238_000, 357_000, 476_000]) {
+      clock.mockReturnValue(10_000 + elapsed)
+      expect(page.remaining()).toBe(1_000)
+      expect(page.remainingImageTime()).toBe(1_000)
+      page.beginPhase()
+      expect(page.remaining()).toBe(30_000)
+    }
+    expect(page).toMatchObject({gitBytes: 1024, apiBytes: 2048, calls: 3})
+    expect(() => discovery.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => expiredPhase.beginPhase()).toThrow('OBSERVATION_DEADLINE')
+
+    clock.mockReturnValue(10_000 + 539_000)
+    expect(page.remaining()).toBe(1_000)
+    page.beginPhase()
+    expect(page.remainingImageTime()).toBe(1_000)
+    clock.mockReturnValue(10_000 + 540_000)
+    expect(() => page.remaining()).toThrow('OBSERVATION_DEADLINE')
+    expect(() => page.remainingImageTime()).toThrow('OBSERVATION_DEADLINE')
+  } finally { clock.mockRestore() }
+})
+
 async function repository() {
   const root = await mkdtemp(join(tmpdir(), 'batch-raw-git-')); roots.push(root)
   const git = (...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
@@ -25,6 +62,47 @@ async function repository() {
   }
   return { root, git, change }
 }
+
+it('exports duplicate and empty blobs in one bounded Git process and refuses replaced bytes', async () => {
+  const r = await repository()
+  await r.change('first.md', 'same\r\n')
+  await r.change('second.md', 'same\r\n')
+  const original = await r.change('empty.md', '')
+  const replaced = await r.change('first.md', 'else\r\n')
+  const exportRoot = await mkdtemp(join(tmpdir(), 'batch-export-')); roots.push(exportRoot)
+  const log = join(r.root, 'git-calls'), bin = join(r.root, 'bin')
+  const binary = execFileSync('which', ['git'], {encoding: 'utf8'}).trim()
+  const quote = (path: string) => "'" + path.replaceAll("'", "'\\''") + "'"
+  await mkdir(bin)
+  await writeFile(join(bin, 'git'), '#!/bin/sh\nprintf "%s\\n" "$*" >> ' + quote(log) + '\nexec ' + quote(binary) + ' "$@"\n', {mode: 0o700})
+  vi.stubEnv('PATH', bin + ':' + process.env.PATH)
+  try {
+    const selected = ['first.md', 'second.md', 'empty.md'], clean = join(exportRoot, 'clean')
+    await expect(exportBatchTree(r.root, original, selected, clean, exportRoot)).resolves.toBe(3)
+    expect(await readFile(join(clean, 'first.md'))).toEqual(Buffer.from('same\r\n'))
+    expect(await readFile(join(clean, 'second.md'))).toEqual(Buffer.from('same\r\n'))
+    expect((await readFile(join(clean, 'empty.md'))).length).toBe(0)
+    expect((await readFile(log, 'utf8')).split('\n').filter(line => line.endsWith('cat-file --batch'))).toHaveLength(1)
+
+    const loose = (commit: string) => {
+      const oid = r.git('rev-parse', commit + ':first.md')
+      return join(r.root, '.git/objects', oid.slice(0, 2), oid.slice(2))
+    }
+    await rm(loose(original)); await writeFile(loose(original), await readFile(loose(replaced)))
+    await expect(exportBatchTree(r.root, original, selected, join(exportRoot, 'corrupt'), exportRoot))
+      .rejects.toThrow('BATCH_EXPORT_BINDING_INVALID')
+  } finally {vi.unstubAllEnvs()}
+})
+
+it('rejects a linked export ancestor before creating any external directory', async () => {
+  const r = await repository(), commit = await r.change('nested/page.md', 'contents')
+  const root = await mkdtemp(join(tmpdir(), 'batch-export-')); roots.push(root)
+  const outside = await mkdtemp(join(tmpdir(), 'batch-export-outside-')); roots.push(outside)
+  const destination = join(root, 'redirect')
+  await symlink(outside, destination)
+  await expect(exportBatchTree(r.root, commit, ['nested'], destination, root)).rejects.toThrow('BATCH_EXPORT_INVALID')
+  expect(await readdir(outside)).toEqual([])
+})
 
 it('binds exact bytes and both sides of changes across a merge DAG and overlapping intervals', async () => {
   const r = await repository(), base = await r.change('root.md', '  v1\r\n\n')
@@ -39,6 +117,31 @@ it('binds exact bytes and both sides of changes across a merge DAG and overlappi
   expect(await store.delta(base, main)).toEqual([{ path: 'root.md', before: r.git('rev-parse', base + ':root.md'),
     after: r.git('rev-parse', main + ':root.md'), beforeMode: '100644', afterMode: '100644' }])
   expect(await store.delta(main, target)).toMatchObject([{ path: 'fragments/part.md', before: null }])
+})
+
+it('prefetches immutable inventory objects and preserves the full proof for every commit', async () => {
+  const r = await repository(), before = await r.change('site/en/userGuide/root.md', 'Before\r\n')
+  const after = await r.change('site/en/userGuide/root.md', 'After\n')
+  const unchanged = await r.change('site/zh/other.md', 'Unrelated\n')
+  const original = await BatchGitStore.open(r.root, batchBudget())
+  const prefetched = await BatchGitStore.open(r.root, batchBudget())
+  const points = [before, after, unchanged]
+  await prefetched.prefetchSourceInventoryTrees(points)
+  for (const point of points) {
+    const expected = new Map<string, Buffer>(), actual = new Map<string, Buffer>()
+    const inventory = await prefetched.sourceInventory(point, (oid, bytes) => actual.set(oid, bytes))
+    expect(inventory).toEqual(await original.sourceInventory(point, (oid, bytes) => expected.set(oid, bytes)))
+    expect(actual).toEqual(expected)
+  }
+  const oldOid = r.git('rev-parse', before + ':site/en/userGuide/root.md')
+  const newOid = r.git('rev-parse', after + ':site/en/userGuide/root.md')
+  expect(await prefetched.readVerifiedBlobs([oldOid, newOid, oldOid])).toEqual(new Map([
+    [oldOid, Buffer.from('Before\r\n')], [newOid, Buffer.from('After\n')],
+  ]))
+  const corrupt = await BatchGitStore.open(r.root, batchBudget())
+  const loose = (oid: string) => join(r.root, '.git/objects', oid.slice(0, 2), oid.slice(2))
+  await rm(loose(oldOid)); await writeFile(loose(oldOid), await readFile(loose(newOid)))
+  await expect(corrupt.readVerifiedBlobs([oldOid, newOid])).rejects.toThrow('GIT_OBJECT_INVALID')
 })
 
 it.each(['commit', 'tree', 'blob'])('rejects different raw %s bytes stored at a requested object ID', async kind => {
@@ -112,9 +215,9 @@ it('measures the exact Git interval and all its parents through shared authentic
   vi.stubEnv('PATH', bin + ':' + process.env.PATH)
   try {
     expect(await measureBatchRenderFragments(r.root, [current, oldNext, target])).toEqual({
-      bytes: intermediate.length, count: 9, snapshots: 3 + 2 + changed.length,
+      bytes: 4 * intermediate.length, count: 12, snapshots: 3 + 2 + changed.length,
       endpoints: {bytes: 12, count: 9},
-      sequential: [
+      intermediates: [
         {commit: ancestor, bytes: 4, count: 3},
         {commit: restored, bytes: 4, count: 3},
         ...changed.map(commit => ({commit, bytes: intermediate.length, count: 3})),
@@ -150,6 +253,7 @@ async function inventoryFixture(scenario: string) {
   // include prepare-source-data.md, while primary-field.md has identical lock/target bytes.
   const sync = scenario.startsWith('3707-'), secondParent = scenario === 'second-parent-lock', restore = scenario === 'merged-restoration'
   const lockSideCopy = scenario === 'bound-lock-side-copy'
+  const atLock = scenario.startsWith('pr-path-at-lock')
   const sourcePath = sync ? 'site/en/userGuide/schema/primary-field.md' : 'site/en/a.md'
   const prPath = sync ? 'site/en/userGuide/data-import/prepare-source-data.md' : restore ? 'site/en/owned.md' : lockSideCopy ? 'site/en/b.md' : sourcePath
   async function stageSecondRoot(bytes: string) {
@@ -157,10 +261,11 @@ async function inventoryFixture(scenario: string) {
     await writeFile(join(source.root, 'site/en/b.md'), bytes)
     source.git('add', 'site/en/b.md')
   }
-  if (scenario === 'api-failed' || lockSideCopy) await stageSecondRoot('old b')
-  let old = await source.change(sourcePath, scenario === 'fragment' ? '{{fragments/shared.md}}' : 'hello\n')
+  if (scenario === 'api-failed' || lockSideCopy || atLock) await stageSecondRoot('old b')
+  const consumesFragment = scenario === 'fragment' || scenario === 'next-required-fragment'
+  let old = await source.change(sourcePath, consumesFragment ? '{{fragments/shared.md}}' : 'hello\n')
   const unrelated = await source.change('unmapped', 'unrelated')
-  let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = ''
+  let t: string, topic = '', syncCommit = '', firstRestore = '', syncedBase = '', postLock = ''
   if (sync) {
     source.git('checkout', '-b', 'topic'); await source.change(prPath, 'topic edit')
     source.git('checkout', 'main'); syncedBase = await source.change(sourcePath, 'base version')
@@ -177,6 +282,23 @@ async function inventoryFixture(scenario: string) {
     firstRestore = await source.change(sourcePath, 'An intermediate change.\n')
     topic = await source.change(sourcePath, 'hello\n')
     source.git('checkout', 'main'); source.git('merge', '--no-ff', 'topic', '-m', 'Merge an edit and revert')
+    t = source.git('rev-parse', 'HEAD')
+  } else if (atLock) {
+    source.git('checkout', '-b', 'topic')
+    old = await source.change(sourcePath, 'locked feature bytes')
+    if (scenario.endsWith('restore')) {
+      await source.change(sourcePath, 'intermediate change')
+      await source.change(sourcePath, 'locked feature bytes')
+    }
+    topic = postLock = await source.change('site/en/owned.md', 'post-lock PR change')
+    if (scenario.endsWith('root')) {
+      const tree = source.git('rev-parse', topic + '^{tree}')
+      const unrelatedRoot = source.git('commit-tree', tree, '-m', 'independent history root')
+      topic = source.git('commit-tree', tree, '-p', topic, '-p', unrelatedRoot, '-m', 'join independent history')
+      source.git('update-ref', 'refs/heads/topic', topic)
+    }
+    source.git('checkout', 'main')
+    source.git('merge', '--no-ff', 'topic', '-m', 'Join the already pinned feature branch')
     t = source.git('rev-parse', 'HEAD')
   } else if (lockSideCopy) {
     source.git('checkout', '-b', 'topic'); old = topic = await source.change(prPath, 'ordinary PR change')
@@ -200,11 +322,24 @@ async function inventoryFixture(scenario: string) {
   await put(grouped + 'source.yaml', { schema_version: 1, repository: 'https://github.com/milvus-io/milvus-docs', track: 'v3.0.x' })
   for (const id of ids) {
     const prefix = grouped + 'pages/' + id + '/'
-    await put(prefix + 'page.yaml', { schema_version: 1, source: { file: (scenario === 'api-failed' || lockSideCopy) && id === 'b' ? 'site/en/b.md' : sourcePath }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
+    const root = (scenario === 'api-failed' || lockSideCopy || atLock) && id === 'b' ? 'site/en/b.md' : sourcePath
+    await put(prefix + 'page.yaml', atLock ?
+      `schema_version: 1
+source:
+  file: ${root}
+publish:
+  - manual: guides
+    path: tutorials/${id}
+` :
+      { schema_version: 1, source: { file: root }, publish: [{ manual: 'guides', path: 'tutorials/' + id }] })
     if (id === 'a' && scenario.startsWith('variant-')) await put(prefix + scenario, 'unsupported')
-    const next = id === 'b' && (scenario === '3707-copy-origin' || lockSideCopy) ? syncedBase : id === 'b' &&
-      !['inactive-member', 'api-failed', '3707-base-import'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
-    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', { schema_version: 1, current: lockSideCopy ? unrelated : old, next })
+    const next = atLock ? old : id === 'b' && (scenario === '3707-copy-origin' || lockSideCopy) ? syncedBase : id === 'b' &&
+      !['inactive-member', 'api-failed', '3707-base-import', 'next-required-fragment'].includes(scenario) ? t : scenario === 'clean' ? unrelated : old
+    if (id !== 'b' || scenario !== 'bad-registry') await put(prefix + 'lock.yaml', atLock ?
+      `schema_version: 1
+current: ${old}
+next: ${next}
+` : { schema_version: 1, current: lockSideCopy ? unrelated : old, next })
   }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'registry'); const m = zdoc.git('rev-parse', 'HEAD')
   const active = ids.map(page => ({ page, record: 'rec-' + page, feishu_token: null, anchors: {}, activated_in: '123' }))
@@ -222,12 +357,17 @@ async function inventoryFixture(scenario: string) {
   if (scenario === 'record-mismatch') records[0].record_id = 'other-record'
   if (scenario === 'output-mismatch') records[0].output_paths.push('content/en/byoc/tutorials/a.md')
   if (scenario === 'channel-mismatch') records[0].release_channel = 'next'
+  if (scenario.startsWith('next-')) records[1].release_channel = 'next'
+  if (scenario === 'next-record-mismatch') records[1].record_id = 'other-record'
   if (scenario === 'invalid-snapshot') records[0].shared_page.inputs_sha256 = 'bad'
   const ordinary = scenario.endsWith('-claim') ? [{ record_id: 'ordinary', slug: 'ordinary', placement_type: 'canonical',
-    release_channel: scenario === 'ordinary-current-claim' ? 'current' : 'next', doc_token: 'ordinary-token',
-    output_paths: [...records[0].output_paths] }] : []
+    release_channel: scenario.endsWith('current-claim') ? 'current' : 'next', doc_token: 'ordinary-token',
+    output_paths: [...records[scenario.startsWith('next-') ? 1 : 0].output_paths] }] : []
   await put(guidesSnapshotPath, { manual: 'guides', schema_version: 3, build_env: 'uat', source_branch: 'dev', targets_built: ['zilliz.saas'], records: [...records, ...ordinary] })
-  for (const id of ids) if (scenario !== 'missing-output' || id !== 'a') await put('content/en/guides/tutorials/' + id + '.md', 'published')
+  for (const id of ids) {
+    if ((scenario === 'missing-output' && id === 'a') || (scenario === 'next-missing-output' && id === 'b')) continue
+    await put('content/en/guides/tutorials/' + id + '.md', 'published')
+  }
   zdoc.git('add', '.'); zdoc.git('commit', '-m', 'snapshot'); const d = zdoc.git('rev-parse', 'HEAD')
   await put(grouped + 'pages/a/page.yaml', 'invalid uncommitted config')
   let rounds = 0
@@ -237,20 +377,20 @@ async function inventoryFixture(scenario: string) {
     if (path === '/repos/zilliztech/zdoc') rounds++
     const branch = path.split('/heads/')[1]
     const pr = { number: sync ? 3707 : 5, id: 55, state: 'closed', merged_at: '2026-01-01T00:00:00Z', merged: true,
-      base: { repo, ref: 'v3.0.x', sha: restore ? unrelated : syncedBase || old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
-      merge_commit_sha: t, commits: restore ? 2 : 1, changed_files: scenario === '3707-later-edit' ? 2 : 1 }
+      base: { repo, ref: 'v3.0.x', sha: restore || atLock ? unrelated : syncedBase || old }, head: { repo: null, sha: topic || 'f'.repeat(40) },
+      merge_commit_sha: t, commits: restore ? 2 : 1, changed_files: scenario === '3707-later-edit' || atLock ? 2 : 1 }
     let data: unknown
     if (branch) data = { ref: 'refs/heads/' + branch, object: { type: 'commit', sha: branch === 'master' ? m : branch === 'dev'
       ? scenario === 'missing-dev' ? 'd'.repeat(40) : d : scenario === 'ref-moved' && rounds > 1 ? unrelated : t } }
     else if (path.includes('/commits/')) {
       if (scenario === 'api-failed' && path.includes(t)) return { status: 500, headers: {}, body: Buffer.from('private-token') }
       data = scenario === 'merged' && path.includes(t) || lockSideCopy && (path.includes(t) || path.includes(topic)) ||
-        sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ||
+        atLock && (path.includes(t) || path.includes(topic) || path.includes(postLock)) || sync && (path.includes(syncCommit) || path.includes(topic) || path.includes(t)) ||
         restore && (path.includes(firstRestore) || path.includes(topic) || path.includes(t)) ? [pr] : []
     } else if (path.endsWith('/pulls/' + pr.number)) data = pr
     else if (path.includes('/files?')) {
-      const filenames = scenario === '3707-later-edit' ? [prPath, sourcePath] : [prPath]
-      data = filenames.map(filename => ({ filename, sha: source.git('rev-parse', t + ':' + filename), status: 'modified' }))
+      const filenames = atLock ? [sourcePath, 'site/en/owned.md'] : scenario === '3707-later-edit' ? [prPath, sourcePath] : [prPath]
+      data = filenames.map(filename => ({ filename, sha: source.git('rev-parse', t + ':' + filename), status: atLock && filename !== sourcePath ? 'added' : 'modified' }))
     }
     else data = path.endsWith('zdoc') ? { id: 660446555, full_name: 'zilliztech/zdoc' } : repo
     return { status: 200, body: Buffer.from(JSON.stringify(data)), headers: {} }
@@ -259,6 +399,35 @@ async function inventoryFixture(scenario: string) {
     tools: old }, { transport })
   return { run, t, old, m, d, unrelated, records, source, zdoc, transport, sourcePath, syncCommit, firstRestore, topic, syncedBase, rounds: () => rounds }
 }
+
+it('stops observed discovery on master drift before opening the registry', async () => {
+  const f = await inventoryFixture('direct')
+  const create = batchGitHub.createBatchGitHub
+  const isolated = vi.spyOn(batchGitHub, 'createBatchGitHub').mockImplementation((budget, _seam, mode) =>
+    create(budget, {transport: f.transport}, mode))
+  try {
+    await expect(observeBatchDiscovery({zdocRepository: join(f.zdoc.root, 'missing'), sourceRepository: f.source.root, tools: f.d}))
+      .rejects.toThrow('OBSERVED_REF_MOVED')
+    expect(f.rounds()).toBe(1)
+  } finally {isolated.mockRestore()}
+})
+
+it.each(['next-collateral', 'next-required-fragment', 'channel-mismatch', 'next-record-mismatch', 'next-current-claim', 'next-ordinary-claim', 'next-missing-output'])(
+  'classifies an independently bound NEXT release without making it eligible (%s)', async scenario => {
+    const f = await inventoryFixture(scenario), report = await f.run()
+    const page = report.pages.find(row => row.pageId === (scenario === 'channel-mismatch' ? 'a' : 'b'))!
+    expect(page).toMatchObject({active: true, published: scenario === 'next-missing-output' ? null : false})
+    if (scenario === 'next-collateral') {
+      expect(page.reasons).toEqual(['NO_DIRECT_SOURCE_CHANGE'])
+      expect(report.reasons).not.toContain('PUBLISHED_RECORD_MISMATCH')
+      expect(report.groups.map(group => group.pageIds)).toEqual([['a']])
+    } else if (scenario === 'channel-mismatch' || scenario === 'next-required-fragment') {
+      expect(page.reasons).toContain('UNPUBLISHED_NECESSARY_PAGE')
+      expect(report.reasons).not.toContain('PUBLISHED_RECORD_MISMATCH')
+      if (scenario === 'next-required-fragment') expect(report.groups.map(group => group.pageIds)).toEqual([['a', 'b']])
+    } else if (scenario === 'next-missing-output') expect(report.reasons).toContain('PUBLISHED_OUTPUT_UNAVAILABLE')
+    else expect(report.reasons).toContain('PUBLISHED_RECORD_MISMATCH')
+  })
 
 it('retains both edges of a verified merged-branch edit and revert and rejects edited retained proofs', async () => {
   const f = await inventoryFixture('merged-restoration')
@@ -273,7 +442,49 @@ it('retains both edges of a verified merged-branch edit and revert and rejects e
   await verifyRetainedCertificates(view, 'restored')
 }, 30_000)
 
-async function verifyRetainedCertificates(view: ReturnType<typeof readBatchDiscoveryCapture>, kind: 'copied' | 'restored', obligations = 2) {
+
+it.each(['pr-path-at-lock', 'pr-path-at-lock-restore', 'pr-path-at-lock-root'])('checks the full locked path interval (%s)', async scenario => {
+  const f = await inventoryFixture(scenario)
+  const view = readBatchDiscoveryCapture(await replayBatchDiscovery(
+    {zdocRepository: f.zdoc.root, sourceRepository: f.source.root, tools: f.m},
+    {fixtureBytes: Buffer.from(scenario), replayClockMs: 0}, {transport: f.transport}))
+  const joinEdge = view.ledger.find(edge => edge.commit === f.t && edge.newPath === f.sourcePath)!
+  expect(joinEdge).toMatchObject({associationResult: 'complete', seedKey: 'pr:5', parent: f.unrelated, rangeIds: ['a', 'b']})
+  const hint = view.report.dependencies.find(dep => dep.pageIds.includes('a') && dep.paths.includes(f.sourcePath)
+    && dep.reasons.includes('PR_PATH_REQUIRES_COLLECTOR'))!
+  expect(hint.reasons).toEqual(['PR_PATH_REQUIRES_COLLECTOR'])
+  expect(view.report.reasons).toContain('PR_PATH_REQUIRES_COLLECTOR')
+  if (scenario !== 'pr-path-at-lock') {
+    expect(joinEdge.atLockRef).toBeUndefined()
+    expect(hint.evidence.some(e => e.startsWith('at-lock:'))).toBe(false)
+    if (scenario.endsWith('restore')) expect(view.ledger.filter(e => e.newPath === f.sourcePath)).toHaveLength(3)
+    return
+  }
+  expect(hint.evidence).toContain('at-lock:' + joinEdge.atLockRef?.sha256)
+  expect(view.report.pages.find(p => p.pageId === 'a')?.seedKeys).toContain('pr:5')
+  await verifyRetainedCertificates(view, 'at-lock', 2)
+  const {analyzeBatchClosure} = await import('../../adapters/updates/batch-collection')
+  const {BatchAtLockProofSchema, parseBatchCanonical} = await import('../../adapters/updates/batch-collection-contract')
+  const proofRef = joinEdge.atLockRef!
+  const proofBytes = view.evidence.find(e => e.ref.sha256 === proofRef.sha256)!.bytes
+  const verified = parseBatchCanonical(proofBytes, BatchAtLockProofSchema)
+  const facts = {report: view.report, ledger: view.ledger, history: view.introductionOrder, pages: []}
+  const reason = 'PR_PATH_REQUIRES_COLLECTOR'
+  expect(analyzeBatchClosure(facts).reasons).toContain(reason)
+  expect(analyzeBatchClosure({...facts, atLocks: new Map([[proofRef.sha256, {...verified, pageId: 'b'}]])}).reasons).toContain(reason)
+  expect(analyzeBatchClosure({...facts, atLocks: new Map([[proofRef.sha256, {...verified, detailRef: verified.filesRef}]])}).reasons).toContain(reason)
+  const atLocks = new Map([[proofRef.sha256, verified]])
+  const covered = analyzeBatchClosure({...facts, atLocks})
+  expect(covered.reasons).not.toContain(reason)
+  expect(covered.reasons).toContain('COLLATERAL_OBSERVATION_UNAVAILABLE')
+  expect(covered.obligations.some(o => o.seedKey === 'pr:5' && o.supportRefs.some(r => r.sha256 === proofRef.sha256))).toBe(true)
+  const report = {...view.report, dependencies: [...view.report.dependencies,
+    {...hint, evidence: hint.evidence.filter(e => !e.startsWith('at-lock:'))}]}
+  expect(analyzeBatchClosure({...facts, report, atLocks}).reasons).toContain(reason)
+
+}, 20_000)
+
+async function verifyRetainedCertificates(view: ReturnType<typeof readBatchDiscoveryCapture>, kind: 'copied' | 'restored' | 'at-lock', obligations = 2) {
   const dir = await mkdtemp(join(tmpdir(), 'batch-retained-restore-'))
   roots.push(dir)
   await mkdir(join(dir, 'blobs'))
@@ -287,16 +498,17 @@ root = sys.argv[1]
 data = json.load(open(sys.argv[2]))
 kind = sys.argv[3]
 fd, blobs = (os.open(path, os.O_RDONLY) for path in (root, os.path.join(root,'blobs')))
-def verify(ledger):
+def verify(ledger, report=data['report']):
     reader = p._BatchReader(fd, blobs, {'rootIdentity': p._BatchReader.identity(fd), 'blobsIdentity': p._BatchReader.identity(blobs)})
-    return p._batch_verify_source_edge_proofs(reader, data['report'], ledger, data['history'])
+    return p._batch_verify_source_edge_proofs(reader, report, ledger, data['history'])
 assert len(verify(data['ledger'])) == int(sys.argv[4])
+if kind == 'at-lock': p._batch_require_pr_path_proofs(data['report'], verify(data['ledger']))
 for mutation in ('drop-peer', 'wrong-mode', 'rename', 'wrong-range', 'wrong-parent'):
     ledger = copy.deepcopy(data['ledger'])
-    indexes = [i for i,e in enumerate(ledger) if e['associationResult'] == kind]
+    indexes = [i for i,e in enumerate(ledger) if ('atLockRef' in e if kind == 'at-lock' else e['associationResult'] == kind)]
     row = ledger[indexes[0]]
     if mutation == 'drop-peer':
-        if kind == 'restored': ledger.pop(indexes[1])
+        if kind in ('restored', 'at-lock'): ledger.pop(indexes[-1])
         else:
             origin = next(edge for edge in ledger if edge['newPath'] == row['newPath'] and edge['associationResult'] == 'complete')
             ledger.remove(origin)
@@ -307,6 +519,53 @@ for mutation in ('drop-peer', 'wrong-mode', 'rename', 'wrong-range', 'wrong-pare
     try: verify(ledger)
     except p.Hold as e: assert str(e) == 'BATCH_SOURCE_EDGE_PROOF_INVALID'
     else: raise AssertionError(mutation)
+if kind == 'at-lock':
+    for mutation in ('missing-certificate', 'missing-clue', 'remove-marker-and-certificate', 'remove-clue-and-certificate',
+                     'corrupt-certificate', 'drop-registry-page', 'drop-collateral-range',
+                     'wrong-page', 'rehashed-wrong-page-and-source', 'wrong-lock', 'shortened-history'):
+        ledger = copy.deepcopy(data['ledger'])
+        report = copy.deepcopy(data['report'])
+        row = next(e for e in ledger if 'atLockRef' in e)
+        clue = next(c for c in report['dependencies'] if any(e.startswith('at-lock:') for e in c['evidence']))
+        if mutation == 'missing-certificate': del row['atLockRef']
+        if mutation == 'missing-clue': report['dependencies'].remove(clue)
+        if mutation in ('remove-marker-and-certificate', 'remove-clue-and-certificate'):
+            del row['atLockRef']
+            clue['evidence'] = [e for e in clue['evidence'] if not e.startswith('at-lock:')]
+            if mutation == 'remove-clue-and-certificate': report['dependencies'].remove(clue)
+        if mutation == 'corrupt-certificate':
+            cert_path = os.path.join(root, row['atLockRef']['path'])
+            with open(cert_path, 'rb') as fixture: original = fixture.read()
+            with open(cert_path, 'wb') as fixture: fixture.write(b'!' + original[1:])
+        if mutation == 'drop-registry-page':
+            row['rangeIds'].remove('b')
+            report['pages'] = [page for page in report['pages'] if page['pageId'] != 'b']
+        if mutation == 'drop-collateral-range': row['rangeIds'].remove('b')
+        if mutation == 'wrong-page': clue['pageIds'] = ['b']
+        if mutation == 'rehashed-wrong-page-and-source':
+            # Update the commitment digest and both refs to authenticate different bytes.
+            original = row['atLockRef']
+            body = json.load(open(os.path.join(root, original['path'])))
+            body['pageId'] = 'b'
+            clue['pageIds'] = ['b']
+            next(page for page in report['pages'] if page['pageId'] == 'b')['sourceFile'] = row['newPath']
+            forged = p.batch_canonical(body)
+            digest = p.sha256(forged)
+            path = f'blobs/{digest}'
+            with open(os.path.join(root, path), 'wb') as out: out.write(forged)
+            row['atLockRef'] = {'path': path, 'sha256': digest, 'bytes': len(forged)}
+            clue['evidence'] = sorted(e if not e.startswith('at-lock:') else f'at-lock:{digest}' for e in clue['evidence'])
+        if mutation == 'wrong-lock':
+            next(page for page in report['pages'] if page['pageId'] == 'a')['oldNext'] = report['pins']['source']
+        if mutation == 'shortened-history':
+            next(c for c in data['history'] if c['oid'] == row['commit'])['parents'].pop()
+        try: p._batch_require_pr_path_proofs(report, verify(ledger, report))
+        except p.Hold as e:
+            assert str(e) == ('BATCH_BLOB_BINDING_INVALID' if mutation == 'corrupt-certificate' else 'BATCH_SOURCE_EDGE_PROOF_INVALID')
+        else: raise AssertionError(mutation)
+        finally:
+            if mutation == 'corrupt-certificate':
+                with open(cert_path, 'wb') as fixture: fixture.write(original)
 `
   expect(() => execFileSync('python3', ['-B', '-c', python, dir, spec, kind, String(obligations)], {
     cwd: join(process.cwd(), 'scripts/docs-workflow/shared-guides-update'), timeout: 15_000,

@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, mergeAllOf, formatSchemaDefault, getExampleLabel, getResponseEntries, getDefaultResponseStatus, getLocalizedDescription, splitAfterEndpoint, isControlPlane, getTokenPlaceholder, isRenderableExample, isVisibleInChannel } from './utils.js'
 import { useRuntimeReleaseChannel } from '../../utils/releaseChannel.ts';
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
@@ -310,7 +310,9 @@ const Items = ({ name, description, obj, required, lang, target }) => {
 }
 
 const Primitive = ({ name, obj, required, lang, target }) => {
-    const { type, format, minimum, maximum, defaultValue } = obj;
+    // OpenAPI carries the default on the `default` key; the old destructure
+    // read a `defaultValue` key that never exists, so this row never rendered.
+    const { type, format, minimum, maximum, default: defaultValue } = obj;
     const description = obj["x-i18n"]?.[lang]?.description ? obj["x-i18n"][lang].description : obj.description
     const example = obj["x-i18n"]?.[lang]?.example ? obj["x-i18n"][lang].example : obj.example
     const enums = obj.enum ? obj.enum : []
@@ -334,9 +336,9 @@ const Primitive = ({ name, obj, required, lang, target }) => {
                     { maximum &&<span className={styles.label}>{obj.exclusiveMaximum ? `\< ${maximum}` : `\≤ ${maximum}`}</span>}
                 </div> }
                 { enums.length > 0 && <Enums enums={enums} defaultValue={defaultValue} lang={lang} target={target} /> }
-                { defaultValue && <div>
-                    <span className={styles.paramExample}>{i18n[lang]['label.default.value']}</span>
-                    <span className={styles.label}>{defaultValue}</span>
+                { defaultValue !== undefined && <div>
+                    <span className={styles.paramExample}>{i18n[lang]['label.default']}</span>
+                    <span className={styles.label}>{formatSchemaDefault(defaultValue)}</span>
                 </div> }
                 { (example === 0 || isRenderableExample(example)) && <div>
                     <span className={styles.paramExample}>{i18n[lang]['label.example.value']}</span>

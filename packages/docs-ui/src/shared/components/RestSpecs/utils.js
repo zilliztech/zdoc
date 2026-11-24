@@ -7,7 +7,9 @@ import { normalizeDocsLinkLocale, rewriteHtmlHrefAttributes } from '../../links/
 export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
     const condition = isControlPlane(endpoint, pubTarget, planeConfig)
 
-    var server = "https://api.cloud.zilliz.com";
+    // The Chinese site serves the control plane from the .cn mirror; the v1
+    // region branch below follows the same locale split.
+    var server = lang === "zh-CN" ? "https://api.cloud.zilliz.com.cn" : "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
     var prompt = isBeta(endpoint) ? i18n[lang]["admonition.control.plane.v2"] + i18n[lang]["admonition.beta.warning"] : i18n[lang]["admonition.control.plane.v2"]
 
@@ -187,6 +189,16 @@ const isObjectSchema = (schema) => schema.type === 'object' || (schema.type === 
 // non-object part is unwrapped. The wrapper's own description and metadata
 // document the usage site, so they win over the parts'. Any other mix has no
 // single meaning and is returned untouched.
+// The schema default row renders its value as a JSX child, and JSX drops
+// booleans, so `default: true` produced the label with an empty chip.
+// Stringify explicitly: booleans and scalars as text, objects and arrays as
+// their JSON literal rather than "[object Object]".
+export const formatSchemaDefault = (value) => {
+    if (value === undefined) return ''
+    if (typeof value === 'object') return JSON.stringify(value)
+    return String(value)
+}
+
 export const mergeAllOf = (schema) => {
     if (!schema || typeof schema !== 'object' || !Array.isArray(schema.allOf)) {
         return schema

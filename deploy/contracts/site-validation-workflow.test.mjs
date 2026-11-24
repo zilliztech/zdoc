@@ -70,7 +70,11 @@ test('site validation never triggers pull_request runs for dev sync-bot PRs', as
   // them, and discards them as failed when the sync workflow merges, so a dev
   // pull_request trigger can only ever produce a red phantom run. The sync
   // workflow validates its exact candidate through workflow_dispatch instead.
-  assert.deepEqual(parsed.on.pull_request.branches, ['master']);
+  // Beyond master, the allowlist names the two stacking bases so a follow-up
+  // PR (base = another feature or refresh branch) gets PR-attached CI; dev
+  // and its prefixes must stay absent for the sync-bot reason above.
+  assert.deepEqual(parsed.on.pull_request.branches, ['master', 'feat/**', 'rest-upstream-refresh/**']);
+  assert.ok(parsed.on.pull_request.branches.every(branch => branch !== 'dev' && !branch.startsWith('dev/')));
   assert.deepEqual(parsed.on.push.branches, ['dev', 'master']);
 });
 

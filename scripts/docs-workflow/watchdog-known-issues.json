@@ -184,7 +184,7 @@
       "schedule": "hourly (~24 runs/day)",
       "fetch": "artifact",
       "fetchDetail": "Only failed runs matter: download the artifact and read realFailures. Do not trust conclusion alone.",
-      "steadyState": "Real failures are either already-merged PR history or transient zero-job startup faults the watchdog itself re-runs.",
+      "steadyState": "Real failures are either already-merged PR history, transient zero-job startup faults the watchdog itself re-runs, or failures of the watchdog's own hourly PR-coverage dispatches (event workflow_dispatch, dispatched on an open PR's head branch since 2026-11-23 — a failing one is real validation signal for that PR, not watchdog breakage).",
       "knownIssues": [
         {
           "id": "site-validation-merged-pr-history",

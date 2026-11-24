@@ -15,6 +15,8 @@ const script = fileURLToPath(import.meta.url)
 const handoffLimit = 2 * 1024 ** 2
 const memberLimit = 1024 ** 2
 const resultLimit = 65536
+const pageResponseLimit = 128 * 1024 ** 2
+const materialPhases = new Set(['discovery-retention', 'launcher', 'allocation', 'worker', 'page-retention', 'projection', 'closure'])
 const fixedEnvironment = {PATH: '/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin', LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false'}
 const gitEnvironment = {...fixedEnvironment, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
   GIT_NO_REPLACE_OBJECTS: '1', GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_ALLOW_PROTOCOL: ''}
@@ -28,6 +30,8 @@ const validText = value => typeof value === 'string' && !/[\x00-\x1f\x7f]/.test(
 const digest = value => typeof value === 'string' && value.length === 64 && /^[a-f0-9]{64}$/.test(value)
 const oid = value => typeof value === 'string' && value.length === 40 && /^[a-f0-9]{40}$/.test(value) && !/^0+$/.test(value)
 const positive = n => Number.isSafeInteger(n) && n > 0
+const count = n => Number.isSafeInteger(n) && n >= 0
+const pageId = id => typeof id === 'string' && id.length <= 255 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value)
 const shape = (value, names) => isRecord(value) && Object.keys(value).length === names.length &&
   names.every(name => Object.hasOwn(value, name))
@@ -102,13 +106,13 @@ function sameReference(a, b) {
   return ref.path === b.path && ref.sha256 === b.sha256 && ref.bytes === b.bytes
 }
 
-function ownedBlob(path, ref) {
+function ownedBytes(path, bytes) {
   const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK)
   try {
     const stat = fstatSync(fd)
     check(stat.isFile() && stat.uid === process.getuid() && stat.nlink === 1 && (stat.mode & 0o022) === 0 &&
-      stat.size === ref.bytes, 'BATCH_PREPARE_BLOB_IDENTITY')
-    const raw = Buffer.alloc(ref.bytes + 1)
+      stat.size === bytes, 'BATCH_PREPARE_BLOB_IDENTITY')
+    const raw = Buffer.alloc(bytes + 1)
     let read = 0
     while (read < raw.length) {
       const count = readSync(fd, raw, read, raw.length - read, null)
@@ -116,12 +120,59 @@ function ownedBlob(path, ref) {
       read += count
     }
     const after = lstatSync(path)
-    check(read === ref.bytes && stat.dev === after.dev && stat.ino === after.ino && stat.size === after.size &&
-      stat.mtimeMs === after.mtimeMs && stat.ctimeMs === after.ctimeMs && hash(raw.subarray(0, read)) === ref.sha256,
+    check(read === bytes && stat.dev === after.dev && stat.ino === after.ino && stat.size === after.size &&
+      stat.mtimeMs === after.mtimeMs && stat.ctimeMs === after.ctimeMs,
       'BATCH_PREPARE_BLOB_BINDING')
     return raw.subarray(0, read)
   } finally {
     closeSync(fd)
+  }
+}
+
+function ownedBlob(path, ref) {
+  const raw = ownedBytes(path, ref.bytes)
+  check(hash(raw) === ref.sha256, 'BATCH_PREPARE_BLOB_BINDING')
+  return raw
+}
+
+// Only project bounded public fields from the settled evidence into the
+// decision artifact. No log, worker text, local path or capability leaves here.
+export function readBatchMeasurements(paths) {
+  const path = join(paths.evidence, 'measurement.json')
+  physicalDirectory(paths.root, 'BATCH_PREPARE_STAGE', true)
+  let stat
+  try { stat = lstatSync(path) }
+  catch (error) { if (error.code === 'ENOENT') return undefined; throw error }
+  physicalDirectory(paths.evidence, 'BATCH_PREPARE_EVIDENCE', true)
+  check(stat.isFile() && positive(stat.size) && stat.size <= resultLimit, 'BATCH_PREPARE_MEASUREMENT')
+  const value = json(ownedBytes(path, stat.size))
+  check(value?.kind === 'guides-batch-measurement-v1' && value.observation === 'observed' &&
+    Array.isArray(value.pages) && count(value.elapsedMs), 'BATCH_PREPARE_MEASUREMENT')
+  const seen = new Set()
+  const pages = value.pages.map(({pageId: id, elapsedMs, responseBytes, materialBytes}) => {
+    check(pageId(id) && !seen.has(id) && count(elapsedMs) && positive(responseBytes) && responseBytes <= pageResponseLimit &&
+      positive(materialBytes) && materialBytes <= 64 * 1024 ** 2, 'BATCH_PREPARE_MEASUREMENT')
+    seen.add(id)
+    return {pageId: id, elapsedMs, responseBytes, materialBytes}
+  })
+  const result = {elapsedMs: value.elapsedMs, pages}
+  if (value.materialFailure !== undefined) {
+    const {phase, pageId: id, completedPages, phaseElapsedMs} = value.materialFailure
+    check(materialPhases.has(phase) && (id === null || pageId(id) && !seen.has(id)) &&
+      completedPages === pages.length && count(phaseElapsedMs), 'BATCH_PREPARE_MEASUREMENT')
+    result.materialFailure = {phase, pageId: id, completedPages, phaseElapsedMs}
+  }
+  return result
+}
+
+export function batchDecisionSummary(summary, paths) {
+  physicalDirectory(paths.root, 'BATCH_PREPARE_STAGE', true)
+  try {
+    const measurements = readBatchMeasurements(paths)
+    return measurements ? {...summary, measurements} : summary
+  } catch {
+    // The independently settled decision remains useful when diagnostics fail.
+    return {...summary, measurementStatus: 'unavailable'}
   }
 }
 
@@ -318,9 +369,10 @@ async function main(env) {
     return
   }
   verifyStores(paths, ctx)
-  const output = workflowOutputPath(env), result = settleBatchPrepare(await collect(env, paths.workspace), paths, ctx)
+  const output = workflowOutputPath(env), collected = await collect(env, paths.workspace)
+  const result = settleBatchPrepare(collected, paths, ctx)
   const {handoffPath, handoffSha256, ...summary} = result
-  writeFileSync(join(paths.root, 'summary.json'), JSON.stringify(summary) + '\n', {flag: 'wx', mode: 0o600})
+  writeFileSync(join(paths.root, 'summary.json'), JSON.stringify(batchDecisionSummary(summary, paths)) + '\n', {flag: 'wx', mode: 0o600})
   let values = 'status=' + result.status + '\n'
   if (result.status === 'prepared') values += `handoff_path=${handoffPath}\nhandoff_sha256=${handoffSha256}\n`
   check(workflowOutputPath(env) === output, 'BATCH_PREPARE_WORKFLOW_OUTPUT')

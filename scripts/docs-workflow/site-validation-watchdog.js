@@ -7,12 +7,38 @@
 // reruns always succeed). Real validation failures always carry jobs, so a
 // completed failure with no jobs is unambiguously the transient shape. This
 // watchdog re-runs exactly those runs so nobody retries them by hand.
+//
+// It also closes the two known PR-attached coverage gaps (2026-11-23): a
+// stacked PR (base ≠ master) fires no pull_request triggers at all unless
+// its base branch is on the workflows' allowlist, and a synchronize event
+// occasionally creates no runs. For every open pull whose head SHA has no
+// run of a validation workflow yet, the watchdog dispatches that workflow
+// on the pull's HEAD BRANCH with the API-provided SHAs — the recipe the
+// shared-docs lane already uses (shared-docs-lock.yml's manual dispatch).
+// The head-branch ref is load-bearing for BOTH workflows: a dispatched run
+// records the ref's tip as its head_sha, so a dispatch on master would be
+// invisible to the next tick's hasHeadRuns(head_sha) check and re-dispatch
+// forever; on the head branch the run is attributable to the pull and the
+// concurrency group (site-validation-refs/heads/<branch>-auto) stays
+// per-pull instead of colliding with push-to-master runs.
+//
+// A dispatched run counts as coverage even when its conclusion is
+// 'cancelled': hasHeadRuns has no conclusion filter. That is deliberate —
+// a cancelled native PR run implies a superseding run in the same
+// concurrency group, and filtering cancellations out would re-dispatch on
+// top of live queued runs. The known residual: a cancelled dispatched run
+// leaves the pull "covered" with no completed validation until its next PR
+// event (rare; the next synchronize/reopened event re-fires natively).
 
 const fs = require('node:fs')
 const path = require('node:path')
 
 const MAX_AGE_MS_DEFAULT = 24 * 60 * 60 * 1000
 const WORKFLOW_FILE = 'site-validation.yml'
+const PULLS_PAGE_SIZE = 100
+const PULLS_MAX_PAGES = 10
+const EXACT_SHA_PATTERN = /^[0-9a-f]{40}$/
+const COVERAGE_WORKFLOWS = Object.freeze(['site-validation.yml', 'shared-docs-validate.yml'])
 
 function safeOutputPath(value, root = process.cwd()) {
   if (!value || path.isAbsolute(value) || /[\r\n\0]/.test(value)) throw new Error('--output must be a safe repository-relative path')
@@ -41,17 +67,19 @@ function createGitHubAdapter({repository, token, fetch = globalThis.fetch}) {
   if (!token) throw new Error('GITHUB_TOKEN is required')
   if (typeof fetch !== 'function') throw new Error('fetch implementation is required')
   const base = `https://api.github.com/repos/${repository}`
-  async function request(endpoint, method = 'GET') {
+  async function request(endpoint, method = 'GET', body) {
     const response = await fetch(`${base}${endpoint}`, {
       method,
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
+        ...(body === undefined ? {} : {'Content-Type': 'application/json'}),
       },
+      ...(body === undefined ? {} : {body: JSON.stringify(body)}),
     })
-    const body = response.status === 204 ? null : await response.json().catch(() => null)
-    return {status: response.status, ok: response.ok, body}
+    const responseBody = response.status === 204 ? null : await response.json().catch(() => null)
+    return {status: response.status, ok: response.ok, body: responseBody}
   }
   return {
     async listCompletedValidationRuns(perPage = 50) {
@@ -73,6 +101,38 @@ function createGitHubAdapter({repository, token, fetch = globalThis.fetch}) {
       }
       throw new Error(`Failed to rerun run ${runId}: HTTP ${response.status}`)
     },
+    // Fail-closed on partial or malformed identity: the dispatch recipe
+    // below is only as safe as the SHAs it reads, so anything that is not an
+    // exact lowercase 40-hex stops the coverage pass.
+    async listOpenPulls() {
+      const pulls = []
+      for (let page = 1; page <= PULLS_MAX_PAGES; page += 1) {
+        const response = await request(`/pulls?state=open&per_page=${PULLS_PAGE_SIZE}&page=${page}`)
+        if (!response.ok) throw new Error(`Failed to list open pulls: HTTP ${response.status}`)
+        if (!Array.isArray(response.body)) throw new Error('Open pulls listing is not a list')
+        for (const pull of response.body) {
+          if (typeof pull?.head?.ref !== 'string' || pull.head.ref.length === 0
+            || typeof pull?.head?.sha !== 'string' || !EXACT_SHA_PATTERN.test(pull.head.sha)
+            || typeof pull?.base?.sha !== 'string' || !EXACT_SHA_PATTERN.test(pull.base.sha)
+            || typeof pull?.base?.ref !== 'string' || pull.base.ref.length === 0) {
+            throw new Error('Open pulls listing carries an entry without exact head/base identity')
+          }
+          pulls.push({number: pull.number, headRefName: pull.head.ref, headSha: pull.head.sha, baseSha: pull.base.sha, baseRefName: pull.base.ref})
+        }
+        if (response.body.length < PULLS_PAGE_SIZE) return pulls
+      }
+      throw new Error(`More than ${PULLS_MAX_PAGES * PULLS_PAGE_SIZE} open pulls; refusing a partial coverage pass`)
+    },
+    async hasHeadRuns(workflow, headSha) {
+      const response = await request(`/actions/workflows/${workflow}/runs?head_sha=${headSha}&per_page=1`)
+      if (!response.ok) throw new Error(`Failed to list ${workflow} runs for ${headSha.slice(0, 7)}: HTTP ${response.status}`)
+      if (!Number.isSafeInteger(response.body?.total_count)) throw new Error(`Runs listing for ${workflow} carries no total_count`)
+      return response.body.total_count > 0
+    },
+    async dispatchValidation(workflow, {ref, inputs}) {
+      const response = await request(`/actions/workflows/${workflow}/dispatches`, 'POST', {ref, inputs})
+      if (!response.ok) throw new Error(`Failed to dispatch ${workflow}: HTTP ${response.status}`)
+    },
   }
 }
 
@@ -93,6 +153,67 @@ function selectStartupFailures({runs, jobCountByRunId, now = Date.now(), maxAgeM
   return Object.freeze({
     startupFailures: Object.freeze(startupFailures),
     realFailures: Object.freeze(realFailures),
+  })
+}
+
+// The dispatch recipe per uncovered (pull, workflow) pair. BOTH workflows
+// ride the pull's head branch: the dispatched run's head_sha is the ref's
+// tip, so this is what makes the next tick's hasHeadRuns(head_sha) find the
+// run (dispatch on master would re-dispatch forever) and keeps the
+// site-validation concurrency group per-pull instead of colliding with
+// push-to-master. site-validation's new base_sha dispatch input restores the
+// content diff (otherwise the dispatched run would compare the head against
+// itself and skip every content job); shared-docs-validate additionally
+// pins GITHUB_SHA == source_sha for dispatch runs.
+function coverageDispatchPlan(pull, workflow) {
+  if (workflow === 'shared-docs-validate.yml') {
+    return {workflow, ref: pull.headRefName, inputs: {pr_number: String(pull.number), source_sha: pull.headSha, base_sha: pull.baseSha}}
+  }
+  return {workflow, ref: pull.headRefName, inputs: {site: 'auto', source_ref: pull.headSha, base_sha: pull.baseSha, publish: 'false'}}
+}
+
+function selectUncoveredPulls({pulls, coverageByWorkflow}) {
+  return pulls.flatMap(pull => COVERAGE_WORKFLOWS
+    .filter(workflow => !coverageByWorkflow.get(workflow)?.has(pull.headSha))
+    .map(workflow => ({number: pull.number, headRefName: pull.headRefName, headSha: pull.headSha, workflow})))
+}
+
+async function runPullCoveragePass({adapter}) {
+  const openPulls = await adapter.listOpenPulls()
+  // The only pull requests against dev are GITHUB_TOKEN sync-bot PRs: their
+  // pull_request runs are held for approval and discarded as failed at merge,
+  // and the sync workflow validates its exact candidate via workflow_dispatch
+  // itself. Dispatching "missing" validations for them would only produce
+  // redundant phantom-adjacent runs (same reason the workflows' trigger
+  // allowlist omits dev).
+  const pulls = openPulls.filter(pull => pull.baseRefName !== 'dev')
+  const skippedDevBots = openPulls.length - pulls.length
+  const coverageByWorkflow = new Map()
+  for (const workflow of COVERAGE_WORKFLOWS) {
+    const covered = new Set()
+    for (const pull of pulls) {
+      if (await adapter.hasHeadRuns(workflow, pull.headSha)) covered.add(pull.headSha)
+    }
+    coverageByWorkflow.set(workflow, covered)
+  }
+  const uncovered = selectUncoveredPulls({pulls, coverageByWorkflow})
+  const dispatched = []
+  const notDispatched = []
+  for (const entry of uncovered) {
+    const plan = coverageDispatchPlan(entry, entry.workflow)
+    try {
+      await adapter.dispatchValidation(plan.workflow, {ref: plan.ref, inputs: plan.inputs})
+      dispatched.push({pull: entry.number, workflow: entry.workflow, head: entry.headSha.slice(0, 7)})
+    } catch (error) {
+      notDispatched.push({pull: entry.number, workflow: entry.workflow, reason: String(error?.message || error).slice(0, 200)})
+    }
+  }
+  return Object.freeze({
+    openPulls: openPulls.length,
+    skippedDevBotPulls: skippedDevBots,
+    uncoveredCount: uncovered.length,
+    dispatched: Object.freeze(dispatched),
+    notDispatched: Object.freeze(notDispatched),
   })
 }
 
@@ -126,6 +247,8 @@ function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
     `rerun_count=${result.rerun?.length ?? 0}`,
     `not_rerunnable_count=${result.notRerunnable?.length ?? 0}`,
     `real_failure_count=${result.realFailures?.length ?? 0}`,
+    `coverage_dispatched_count=${result.coverage?.dispatched?.length ?? 0}`,
+    `coverage_not_dispatched_count=${result.coverage?.notDispatched?.length ?? 0}`,
     '',
   ].join('\n'), 'utf8')
 }
@@ -136,7 +259,29 @@ async function main(argv = process.argv.slice(2), environment = process.env) {
   let result
   try {
     const adapter = createGitHubAdapter({repository: args.repository, token: environment.GITHUB_TOKEN})
-    result = await runSiteValidationWatchdog({adapter})
+    const rerun = await runSiteValidationWatchdog({adapter})
+    try {
+      const coverage = await runPullCoveragePass({adapter})
+      result = {
+        ok: true,
+        checkedCompletedRuns: rerun.checkedCompletedRuns,
+        rerun: rerun.rerun,
+        notRerunnable: rerun.notRerunnable,
+        realFailures: rerun.realFailures,
+        coverage,
+      }
+    } catch (error) {
+      // The rerun pass already took its side effects; a coverage-pass throw
+      // must not erase that evidence from the artifact and outputs.
+      result = {
+        ok: false,
+        reason: `site validation watchdog failure: coverage pass: ${error.message}`,
+        checkedCompletedRuns: rerun.checkedCompletedRuns,
+        rerun: rerun.rerun,
+        notRerunnable: rerun.notRerunnable,
+        realFailures: rerun.realFailures,
+      }
+    }
   } catch (error) {
     result = {ok: false, reason: `site validation watchdog failure: ${error.message}`}
   }
@@ -155,12 +300,16 @@ if (require.main === module) {
 }
 
 module.exports = {
+  COVERAGE_WORKFLOWS,
   MAX_AGE_MS_DEFAULT,
   WORKFLOW_FILE,
   appendGitHubOutputs,
+  coverageDispatchPlan,
   createGitHubAdapter,
   main,
+  runPullCoveragePass,
   runSiteValidationWatchdog,
   safeOutputPath,
   selectStartupFailures,
+  selectUncoveredPulls,
 }

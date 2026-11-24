@@ -119,6 +119,21 @@
       "reason": "REST reference rendering must select localized operation and schema text while preserving source-language fallbacks, render allOf schemas as the single schema they denote (merged properties/required), and keep a combinator left with one option by target/language filtering visible outside any tab group."
     },
     {
+      "id": "publication-adapters-zh-cn",
+      "paths": [
+        "packages/publication-adapters/src/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/publication-adapters/src/registry.test.ts packages/publication-adapters/src/zh-CN/normalizer.test.ts packages/publication-adapters/src/zh-CN/restReplacements.test.ts"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "zh-CN publication adapters rewrite REST publication bodies (endpoint hosts, providers, regions, storage schemes) and must apply only to the zh-CN REST manual, stay idempotent, and preserve frontmatter, tables, and hostile-host continuation guards."
+    },
+    {
       "id": "docs-ui-doc-links",
       "paths": [
         "packages/docs-ui/src/shared/links/**"
@@ -317,6 +332,7 @@
         "node --test scripts/rest-upstream/translate-additions.test.js",
         "node --test scripts/rest-upstream/refresh-lifecycle-inventory.test.js",
         "node --test scripts/rest-upstream/assert-track-projection.test.js",
+        "node --test scripts/rest-upstream/verify-rest-meta.test.js",
         "node --test scripts/rest-upstream/webcontent-sync-drift.test.js"
       ],
       "harnesses": [
@@ -1330,6 +1346,23 @@
         "git diff --check"
       ],
       "reason": "The hourly dispatcher counts pending translation work through the producer's own selection mechanism, keeps a task-list artifact, and dispatches at most one budgeted producer run per cycle; armed cycles gate on a source build of current dev (blocking only on dispatch-set source attribution), back off units after repeated failed dispatches, and alert through their own Feishu mute variable. It never owns the production queue and stops without dispatching on any ambiguity."
+    },
+    {
+      "id": "pr-validation-dispatch-tooling",
+      "paths": [
+        "scripts/docs-workflow/dispatch-pr-validation.js",
+        "scripts/docs-workflow/dispatch-pr-validation.test.js"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/dispatch-pr-validation.test.js"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "The dispatcher plans (and with --execute dispatches) site-validation and shared-docs-validate for a pull request head that lacks them — the stacked-PR and missed-synchronize coverage gaps. Head/base SHAs always come from the GitHub API (never typed), shared-docs-validate dispatches on the head branch because its identity step pins GITHUB_SHA == source_sha, and already-covered heads are skipped unless --force."
     },
     {
       "id": "site-validation-watchdog",

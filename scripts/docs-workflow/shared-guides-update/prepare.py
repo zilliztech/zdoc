@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import urllib.request
+import urllib.parse
 import zipfile
 import io
 import time
@@ -991,7 +992,7 @@ def _batch_render_commits(parents, current, old_next, target, legacy=False):
     return sorted((interval | {parent for point in interval for parent in parents[point]}) - {current, old_next, target})
 
 
-def _batch_material(reader, retained, base):
+def _batch_material(reader, retained, base, *, collateral_history=None, source_traces=None):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
@@ -1042,6 +1043,11 @@ def _batch_material(reader, retained, base):
             batch_exact(entry, 'path oid ref')
             batch_path(entry['path'])
             require(reader.blob(entry['ref'])[1] == entry['oid'], 'BATCH_SOURCE_INVALID')
+        if source_traces is not None:
+            paths = {entry['path']: entry['oid'] for entry in tree['entries']}
+            prior = source_traces.setdefault(commit, {})
+            require(all(path not in prior or prior[path] == value for path, value in paths.items()), 'BATCH_SOURCE_INVALID')
+            prior.update(paths)
         return tree
 
     # Histories and their tree index can be large. Keep their parsed forms only
@@ -1136,11 +1142,32 @@ def _batch_material(reader, retained, base):
         if git_inventory:
             require(all(listing(f['path']) == f['oid'] for f in raw['entries']), 'BATCH_SOURCE_INVALID')
             consumed.update(f['path'] for f in raw['entries'])
-        for output in observation['manuals']:
-            batch_exact(output, 'manual path ref')
-            manual(output['ref'], output)
+        diagnostics = reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
+        errors = diagnostics['errors'] + diagnostics['rawErrors']
+        deferred = (collateral_history is not None and observation['sourceFile'] == config['sourceFile']
+                    and any(entry['path'] == config['sourceFile'] for entry in raw['entries'])
+                    and observation['outputStatus'] == 'error' and observation['imageStatus'] == 'unavailable'
+                    and observation['dependencies'] == [] and not diagnostics['reasons'] and errors
+                    and all(e['code'] in ('TRANSFORM_TARGET_NOT_FOUND', 'PRODUCT_NAME_FOUND') for e in errors))
+        if deferred:
+            require([{k: row[k] for k in ('manual', 'path')} for row in observation['manuals']] == header['targets'],
+                    'BATCH_COLLATERAL_HISTORY_INVALID')
+            for row in observation['manuals']:
+                batch_exact(row, 'manual path ref')
+                leaf = reader.object(row['ref'], 'manual path markdown output headings references')
+                require(leaf == dict(manual=row['manual'], path=row['path'], markdown='', output=None,
+                                     headings=[], references=[]), 'BATCH_COLLATERAL_HISTORY_INVALID')
+            require(reader.blob(observation['imagesRef'], parse=True) ==
+                    [dict(role=role, images=[]) for role in ('current', 'oldNext', 'target')], 'BATCH_COLLATERAL_HISTORY_INVALID')
+            collateral_history.add(observation['commit'])
+        else:
+            require(observation['outputStatus'] == observation['imageStatus'] == 'observed'
+                    and not errors and not diagnostics['reasons']
+                    and all(d['state'] == 'resolved' for d in observation['dependencies']), 'BATCH_INTERVAL_OBSERVATION_INVALID')
+            for output in observation['manuals']:
+                batch_exact(output, 'manual path ref')
+                manual(output['ref'], output)
         images(observation['imagesRef'])
-        reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
     if git_inventory:
         git_inventory.finish()
         require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
@@ -1191,12 +1218,16 @@ def _batch_material(reader, retained, base):
 
 def _batch_verify_source_edge_proofs(reader, report, ledger, history):
     """Validate narrow merged feature exceptions from retained raw evidence."""
-    pairs, copies = {}, []
+    pairs, copies, at_locks = {}, [], []
     fields = 'commit parent oldPath newPath oldOid newOid oldMode newMode rangeIds associationResult introductionOid seedKey evidenceRefs evidence reasons'
     for index, edge in enumerate(ledger):
         restored = edge.get('associationResult') == 'restored'
         copied = edge.get('associationResult') == 'copied'
-        batch_exact(edge, fields + (' restorationRef' if restored else ' copyRef' if copied else ''))
+        at_lock = 'atLockRef' in edge
+        require(not at_lock or edge['associationResult'] == 'complete', 'BATCH_SOURCE_EDGE_PROOF_INVALID')
+        batch_exact(edge, fields + (' restorationRef' if restored else ' copyRef' if copied else ' atLockRef' if at_lock else ''))
+        if at_lock:
+            at_locks.append((index, edge))
         for ref in edge['evidenceRefs']:
             reader.blob(ref)
         if restored:
@@ -1204,13 +1235,14 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
             pairs.setdefault(proof_ref['sha256'], []).append((index, edge))
         if copied:
             copies.append((index, edge))
-    if not pairs and not copies:
+    at_lock_clues = [clue for clue in report['dependencies'] if any(e.startswith('at-lock:') for e in clue['evidence'])]
+    if not pairs and not copies and not at_locks and not at_lock_clues:
         return {}
 
     def checked(condition):
         require(condition, 'BATCH_SOURCE_EDGE_PROOF_INVALID')
 
-    checked(len(history) <= 50_000 and len(pairs) + len(copies) <= 1000)
+    checked(len(history) <= 50_000 and len(pairs) + len(copies) + len(at_locks) <= 1000)
     graph = {}
     for entry in batch_sorted(history, lambda row: row['oid']):
         batch_exact(entry, 'oid parents')
@@ -1254,17 +1286,28 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
             ancestor_sets[key] = seen
         return ancestor_sets[key]
 
-    def file(git, c, path):
-        tree = commit(git, c)[0]
+    def tree_entries(git, oid_at_tree):
+        key = git['sha256'], oid_at_tree
+        if key not in trees:
+            ref = git_ref(git, oid_at_tree, 'tree')
+            trees[key] = reader.blob(ref, git_kind='tree', git_oid=oid_at_tree)
+        return trees[key]
+
+    def path_identity(git, c, path, source=True):
+        if source:
+            tree = commit(git, c)[0]
+        else:
+            tree = reader.blob(git_ref(git, c, 'commit'), git_kind='commit', git_oid=c)[0]
         identity = b'40000', tree
         for name in path.split('/'):
             checked(identity[0] == b'40000')
-            key = git['sha256'], identity[1]
-            if key not in trees:
-                ref = git_ref(git, identity[1], 'tree')
-                trees[key] = reader.blob(ref, git_kind='tree', git_oid=identity[1])
-            identity = trees[key].get(name)
+            identity = tree_entries(git, identity[1]).get(name)
             checked(identity is not None)
+        return identity
+
+    def file(git, c, path, source=True):
+        identity = path_identity(git, c, path, source)
+        checked(identity[0] in (b'100644', b'100755'))
         ref = git_ref(git, identity[1], 'blob')
         checked(reader.blob(ref)[1] == identity[1])
         return identity
@@ -1285,14 +1328,19 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
                 and type(pull['merged_at']) is str and bool(pull['merged_at']) and pull['head']['sha'] == head
                 and pull['base']['ref'] == 'v3.0.x' and fixed_repository(pull))
 
-    def pull_observation(proof, path, merge, head, earlier, edge):
+    def pull_observation(proof, path, merge, head, earlier, edge, expected_blob=None):
         number = proof['number']
         direct = reply(proof['detailRef'], f'/pulls/{number}', edge['evidence'])
         files = reply(proof['filesRef'], f'/pulls/{number}/files?per_page=100&page=1', edge['evidence'])
         checked(related(direct, number, head) and direct['merged'] is True and direct['merge_commit_sha'] == merge and direct['base']['sha'] in earlier)
         checked(type(files) is list and type(direct['changed_files']) is int and len(files) == direct['changed_files'] < 100)
         names = [batch_path(item['filename']) for item in files]
-        checked(len(set(names)) == len(names) and path not in names)
+        checked(len(set(names)) == len(names))
+        if expected_blob is None:
+            checked(path not in names)
+        else:
+            matched = [item for item in files if item['filename'] == path]
+            checked(len(matched) == 1 and matched[0]['status'] == 'modified' and matched[0]['sha'] == expected_blob)
         for item in files:
             previous = item.get('previous_filename')
             if previous is not None:
@@ -1479,12 +1527,127 @@ def _batch_verify_source_edge_proofs(reader, report, ledger, history):
         label = f"{index}:{edge['parent']}:{edge['commit']}:{path}"
         for c in coverage:
             obligations[(c['pageId'], label)] = edge
+    verified_registries = set()
+
+    def verify_registry(git):
+        key = git['sha256']
+        if key in verified_registries:
+            return
+        master = report['pins']['master']
+        root = 'shared-docs/guides/pages'
+        mode, tree = path_identity(git, master, root, source=False)
+        checked(mode == b'40000')
+        configured = tree_entries(git, tree)
+        checked(set(configured) == set(pages) and all(mode == b'40000' for mode, _ in configured.values()))
+        for page_id, page in pages.items():
+            checked(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', page_id) and oid(page['current']) and oid(page['oldNext']))
+            prefix = f'{root}/{page_id}/'
+            def config_bytes(name):
+                _, object_id = file(git, master, prefix + name, source=False)
+                return reader.blob(git_ref(git, object_id, 'blob'), raw_bytes=True)
+            lock = lock_bytes(page['current'], page['oldNext'])
+            checked(config_bytes('lock.yaml') in (lock, lock[:-1]))
+            # Only plain source stanzas can authorize this narrow proof.
+            try:
+                config = config_bytes('page.yaml').decode('utf-8', errors='strict')
+            except UnicodeDecodeError:
+                checked(False)
+            body = [line for line in config.splitlines() if line.strip() and not line.lstrip().startswith('#')]
+            top = [i for i, line in enumerate(body) if not line.startswith(' ')]
+            names = []
+            for i in top:
+                match = re.fullmatch(r'(schema_version|source|metadata|publish|transforms):.*', body[i])
+                checked(match is not None)
+                names.append(match[1])
+            checked(top and top[0] == 0 and len(names) == len(set(names)) and {'schema_version', 'source', 'publish'} <= set(names))
+            idx = names.index('source')
+            first, last = top[idx], top[idx+1] if idx+1 < len(top) else len(body)
+            source_file = page['sourceFile']
+            checked(batch_path(source_file).startswith('site/en/') and re.fullmatch(r'[A-Za-z0-9_./-]+', source_file)
+                    and body[first:last] == ['source:', f'  file: {source_file}'])
+        verified_registries.add(key)
+
+    pages = {page['pageId']: page for page in report['pages']}
+    checked(len(pages) == len(report['pages']) and len(at_lock_clues) == len(at_locks))
+    verified_copies = {}
+    for (page_id, _), edge in obligations.items():
+        if edge['associationResult'] == 'copied':
+            key = (page_id, edge['commit'], edge['parent'], edge['newPath'])
+            verified_copies.setdefault(key, []).append(edge)
+    for index, edge in at_locks:
+        ref = batch_ref(edge['atLockRef'])
+        proof = reader.object(ref, 'pageId detailRef filesRef associationRef')
+        page = pages.get(proof['pageId'])
+        checked(page is not None and proof['pageId'] in edge['rangeIds'] and len(edge['evidenceRefs']) == 1 and not edge['reasons'])
+        path = batch_path(edge['newPath'])
+        checked(path == page['sourceFile'] == edge['oldPath'] and edge['oldOid'] != edge['newOid']
+                and edge['oldMode'] in ('100644', '100755') and edge['newMode'] in ('100644', '100755'))
+        git = edge['evidenceRefs'][0]
+        merge, base = edge['commit'], edge['parent']
+        parents = commit(git, merge)[1]
+        checked(len(parents) == 2 and parents[0] == base)
+        head = parents[1]
+        seed = seeds.get(edge['seedKey'])
+        checked(seed is not None and seed['kind'] == 'pr' and seed['pr']['mergeCommit'] == edge['introductionOid'] == merge)
+        number = seed['pr']['number']
+        checked(type(number) is int and number > 0 and edge['seedKey'] == f'pr:{number}')
+        verify_registry(git)
+        reachable = ancestors(git, target)
+        checked(all(row['oldNext'] in reachable and row['current'] in ancestors(git, row['oldNext']) for row in pages.values()))
+        expected_range_ids = sorted(page_id for page_id, row in pages.items() if merge not in ancestors(git, row['oldNext']))
+        checked(edge['rangeIds'] == expected_range_ids)
+        old = page['oldNext']
+        members = reachable - ancestors(git, old)
+        checked(old in reachable and 0 < len(members) <= 128 and merge in members and head in members
+                and old in ancestors(git, head) and old not in ancestors(git, base))
+        carried = edge['newMode'].encode(), edge['newOid']
+        values = {}
+        def value(c):
+            if c not in values:
+                values[c] = file(git, c, path)
+            return values[c]
+        checked(all(value(c) == carried for c in (old, head, merge, target))
+                and value(base) == (edge['oldMode'].encode(), edge['oldOid']))
+        direct = pull_observation({**proof, 'number': number}, path, merge, head, {base}, edge, carried[1])
+        check_association(proof['associationRef'], edge, direct, head)
+        for child in members:
+            parents = commit(git, child)[1]
+            checked(parents)
+            for parent in parents:
+                before, after = value(parent), value(child)
+                if before == after or (child, parent) == (merge, base):
+                    continue
+                matches = verified_copies.get((proof['pageId'], child, parent, path), [])
+                checked(len(matches) == 1 and before == (matches[0]['oldMode'].encode(), matches[0]['oldOid'])
+                        and after == (matches[0]['newMode'].encode(), matches[0]['newOid']))
+        evidence = sorted([f'at-lock:{ref["sha256"]}', f'pr-file:{number}:modified:{carried[1]}'])
+        matching = [clue for clue in at_lock_clues if clue == {'pageIds': [proof['pageId']], 'seedKeys': [edge['seedKey']],
+                    'paths': [path], 'evidence': evidence, 'reasons': ['PR_PATH_REQUIRES_COLLECTOR']}]
+        checked(len(matching) == 1)
+        at_lock_clues.remove(matching[0])
+        # The certificate does not discharge the ordinary source transition.
+        # Require the same per-page raw consumption obligations at verification.
+        for page_id in edge['rangeIds']:
+            label = f'{index}:{base}:{merge}:{path}'
+            checked((page_id, label) not in obligations)
+            obligations[(page_id, label)] = edge
+    checked(not at_lock_clues)
     return obligations
 
 
-def _batch_verify_proved_edge_obligation(reader, obligation, header, edge):
+def _batch_require_pr_path_proofs(report, proved):
+    reason = 'PR_PATH_REQUIRES_COLLECTOR'
+    pending = [clue for clue in report['dependencies'] if reason in clue['reasons']]
+    require(reason not in report['reasons'] or pending, 'BATCH_SOURCE_EDGE_PROOF_INVALID')
+    certified = {f"at-lock:{edge['atLockRef']['sha256']}" for edge in proved.values() if 'atLockRef' in edge}
+    for clue in pending:
+        markers = [entry for entry in clue['evidence'] if entry.startswith('at-lock:')]
+        require(len(markers) == 1 and markers[0] in certified, 'BATCH_SOURCE_EDGE_PROOF_INVALID')
+
+
+def _batch_verify_proved_edge_obligation(reader, obligation, header, edge, deferred=False):
     reason = 'BATCH_SOURCE_EDGE_PROOF_INVALID'
-    subtype = edge.get('restorationRef') or edge['copyRef']
+    subtype = edge.get('restorationRef') or edge.get('copyRef') or edge['atLockRef']
     require(obligation['range'] == {'from': header['oldNext'], 'to': header['base']['pins']['source']}
             and obligation['seedKey'] == edge['seedKey']
             and obligation['supportRefs'] == sorted(edge['evidenceRefs'] + [subtype], key=lambda r: r['sha256']), reason)
@@ -1501,10 +1664,90 @@ def _batch_verify_proved_edge_obligation(reader, obligation, header, edge):
             consumed = [entry for entry in raw['entries'] if entry['path'] == edge['newPath']]
             require(len(consumed) <= 1 and all(entry['oid'] == oid_at_path for entry in consumed), reason)
             used = used or bool(consumed)
+    if deferred:
+        require(obligation['consumedPaths'] == ([edge['newPath']] if used else []), reason)
+        return
     copied = edge['associationResult'] == 'copied'
     require(obligation['status'] == ('consumed' if used and not copied else 'irrelevant')
             and obligation['reason'] == ('EXACT_UPSTREAM_COPY' if copied else 'ACTUAL_CONSUMED_PATH' if used else 'COMPLETE_CONSUMPTION_ABSENCE')
             and obligation['consumedPaths'] == ([edge['newPath']] if used else []), reason)
+
+
+def _batch_isolated_obligations(ledger, pages, traces, partial, members, selected_seeds):
+    """Independently verify all source edges when accepting collateral failures.
+    Every document edge incident on a partial trace is a possible dependency."""
+    roots = {page['sourceFile'] for page in pages}
+    expected, connected = {}, {}
+    member_seeds = set()
+    reason = 'BATCH_COLLATERAL_EDGE_UNPROVEN'
+    def document_path(path):
+        return path.startswith('site/en/') and (path.endswith(('.md', '.mdx')) or
+               path.startswith('site/en/fragments/') or path in roots)
+
+    for index, edge in enumerate(ledger):
+        paths = (edge['oldPath'], edge['newPath'])
+        changed = [p for p in paths if p is not None]
+        if any(not document_path(p) for p in changed):
+            require(all(not partial.get(page, set()).intersection((edge['parent'], edge['commit']))
+                        for page in edge['rangeIds']), reason)
+        if not any(document_path(p) for p in changed):
+            continue
+        require(edge['associationResult'] in ('complete', 'restored', 'copied'), reason)
+        for page in edge['rangeIds']:
+            reads = traces[page]
+            parent, commit = edge['parent'], edge['commit']
+            require(commit in reads and (parent is None or parent in reads), reason)
+            before = reads[parent].get(paths[0]) if parent and paths[0] else None
+            after = reads[commit].get(paths[1]) if paths[1] else None
+            require((not before or before == edge['oldOid']) and (not after or after == edge['newOid']), reason)
+            consumed = sorted({p for p, oid_at_path in zip(paths, (before, after)) if oid_at_path})
+            stopped = partial.get(page, ())
+            if edge['associationResult'] == 'copied':
+                status, why = 'irrelevant', 'EXACT_UPSTREAM_COPY'
+            elif parent in stopped or commit in stopped:
+                status, why = 'held', 'INCOMPLETE_HISTORICAL_READS'
+            elif consumed:
+                status, why = 'consumed', 'ACTUAL_CONSUMED_PATH'
+            else:
+                status, why = 'irrelevant', 'COMPLETE_CONSUMPTION_ABSENCE'
+            if status != 'irrelevant':
+                seed = edge['seedKey']
+                require(seed and edge['introductionOid'] and edge['evidence'] and edge['evidenceRefs'], reason)
+                connected.setdefault(seed, set()).add(page)
+                if page in members:
+                    require(status == 'consumed', reason)
+                    member_seeds.add(seed)
+            label = f"{index}:{parent or 'root'}:{commit}:{paths[1] or paths[0]}"
+            expected[(page, label)] = (status, why, edge['seedKey'], consumed)
+    require(member_seeds == selected_seeds and all(not group.intersection(members) or group <= members
+            for group in connected.values()), reason)
+    return expected
+
+
+def _batch_verify_adoption_boundary(reader, headers, members):
+    """Recheck possible cross-component anchor adoption from all target outputs."""
+    projections = {page: reader.blob(header['projectionRef'], parse=True) for page, header in headers.items()}
+    for source, projection in projections.items():
+        for manual in projection['observations'][2]['manuals']:
+            output = reader.blob(manual['ref'], parse=True)
+            for reference in output['references']:
+                url = reference['url']
+                if '#' not in url or re.match(r'^(?:[a-z][a-z0-9+.-]*:|//)', url, re.I):
+                    continue
+                try:
+                    parts = urllib.parse.urlsplit(urllib.parse.urljoin('https://batch.invalid/' + source, url))
+                    require(not re.search(r'%(?![0-9a-fA-F]{2})', parts.path + '#' + parts.fragment), 'BATCH_COLLATERAL_ROUTE_UNPROVEN')
+                    route = urllib.parse.unquote(parts.path, errors='strict').removeprefix('/')
+                    fragment = urllib.parse.unquote(parts.fragment, errors='strict')
+                except (ValueError, UnicodeError):
+                    raise Hold('BATCH_COLLATERAL_ROUTE_UNPROVEN')
+                if route not in projections or (source in members) == (route in members):
+                    continue
+                for relation in projections[route]['promotionAnchors']:
+                    if relation['manual'] == manual['manual']:
+                        require(relation['status'] == 'confirmed' and
+                                not (relation['kind'] == 'renamed' and relation.get('after', {}).get('anchor') == fragment),
+                                'BATCH_COLLATERAL_ADOPTION_UNPROVEN')
 
 
 def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
@@ -1533,16 +1776,22 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     ledger = reader.blob(discovery['edgeLedgerRef'], parse=True)
     history = reader.blob(discovery['introductionOrderRef'], parse=True)
     proved = _batch_verify_source_edge_proofs(reader, report, ledger, history)
-    source_proof_refs = {(edge.get('restorationRef') or edge['copyRef'])['sha256'] for edge in proved.values()}
+    _batch_require_pr_path_proofs(report, proved)
+    source_proof_refs = {(edge.get('restorationRef') or edge.get('copyRef') or edge['atLockRef'])['sha256'] for edge in proved.values()}
     source_proof_keys = set(proved)
     materials = reader.object(control['materialRoot'], 'base pages')
     require(materials['base'] == base and batch_digest('materials', materials) == control['materialDigest'], 'BATCH_MATERIAL_BINDING_INVALID')
     batch_sorted(materials['pages'], lambda p: p['pageId'])
     all_ids = [p['pageId'] for p in materials['pages']]
     require(all_ids == sorted([p['pageId'] for p in report['pages']], key=lambda s: s.encode()), 'BATCH_REGISTRY_INVALID')
-    headers = {}
+    headers, partial, traces = {}, {}, {}
     for retained in materials['pages']:
-        header, registry = _batch_material(reader, retained, base)
+        page_id = retained['pageId']
+        deferred = set() if page_id not in members else None
+        traces[page_id] = {}
+        header, registry = _batch_material(reader, retained, base, collateral_history=deferred, source_traces=traces[page_id])
+        if deferred:
+            partial[page_id] = deferred
         require(registry == all_ids, 'BATCH_REGISTRY_INVALID')
         headers[retained['pageId']] = header
     closure = reader.object(control['closureRef'], 'base discoveryDigest allMaterialDigest memberIds consideredPageIds componentIds seedKeys intervalRefs obligationRefs adoptionRef namespaceRef dispositionsRef')
@@ -1552,18 +1801,28 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
         interval = reader.object(ref, 'base pageId intervals historyRef')
         require(interval['base'] == base and interval['pageId'] in members, 'BATCH_CLOSURE_INVALID')
         require(interval['historyRef'] == headers[interval['pageId']]['historyRef'], 'BATCH_CLOSURE_INVALID')
+    expected_edges = (_batch_isolated_obligations(ledger, report['pages'], traces, partial, set(members), set(closure['seedKeys']))
+                      if partial else None)
+    if len(members) < len(headers):
+        _batch_verify_adoption_boundary(reader, headers, set(members))
     for ref in closure['obligationRefs']:
         obligation = reader.object(ref, 'base pageId range edge seedKey status consumedPaths supportRefs reason')
-        require(obligation['base'] == base and obligation['pageId'] in all_ids and obligation['status'] in ('consumed', 'irrelevant'), 'BATCH_CLOSURE_INVALID')
+        require(obligation['base'] == base and obligation['pageId'] in all_ids, 'BATCH_CLOSURE_INVALID')
         key = obligation['pageId'], obligation['edge']
+        if expected_edges is not None:
+            require(expected_edges.pop(key, None) == (obligation['status'], obligation['reason'], obligation['seedKey'],
+                                                       obligation['consumedPaths']), 'BATCH_COLLATERAL_EDGE_UNPROVEN')
+        else:
+            require(obligation['status'] in ('consumed', 'irrelevant'), 'BATCH_CLOSURE_INVALID')
         proved_edge = proved.pop(key, None)
         if proved_edge:
-            _batch_verify_proved_edge_obligation(reader, obligation, headers[obligation['pageId']], proved_edge)
+            _batch_verify_proved_edge_obligation(reader, obligation, headers[obligation['pageId']], proved_edge, deferred=obligation['status'] == 'held')
         else:
             require(key not in source_proof_keys and not any(support['sha256'] in source_proof_refs for support in obligation['supportRefs']),
                     'BATCH_SOURCE_EDGE_PROOF_INVALID')
         for support in obligation['supportRefs']:
             reader.blob(support)
+    require(not expected_edges, 'BATCH_COLLATERAL_EDGE_UNPROVEN')
     require(not proved, 'BATCH_SOURCE_EDGE_PROOF_INVALID')
     adoption = reader.object(closure['adoptionRef'], 'base dependencies')
     namespace = reader.object(closure['namespaceRef'], 'base destinations')

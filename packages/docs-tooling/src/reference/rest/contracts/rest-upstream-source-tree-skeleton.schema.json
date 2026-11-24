@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://zilliz.com/contracts/rest-upstream-source-tree-skeleton.schema.json",
   "title": "REST Upstream Source-Tree Skeleton",
-  "description": "Structural skeleton extracted deterministically from a pinned source checkout (design §6.1). Carries API truth only: routes, handler names, request field names, Go-level types, and binding-required membership. Prose, response shapes, and doc-layer constraints are out of scope.",
+  "description": "Skeleton extracted deterministically from a pinned source checkout (design §6.1). Carries API truth (routes, handler names, request field names, Go-level types, binding-required membership) plus two machine-derived grounding-evidence markers (x-upstream-comment, x-upstream-validation) that the diff harvests onto its entries and strips. Prose, response shapes, and doc-layer constraints are out of scope.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "extractedFrom", "operations", "components"],
@@ -56,6 +56,14 @@
           "description": "Grounding evidence only: the Go doc/trailing comment of the struct field this property came from. The diff harvests these onto its entries (upstreamComments) and strips the marker, so it never rides into a fragment.",
           "type": "string",
           "minLength": 1
+        },
+        "x-upstream-validation": {
+          "description": "Grounding evidence only: verbatim string literals from the request struct's receiver methods that mention one of its fields (validation vocabulary — accepted values, policies). Attached to the operation's request-schema node; the diff harvests these onto the entry (upstreamValidation) and strips the marker, so it never rides into a fragment.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
         }
       }
     },

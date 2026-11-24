@@ -245,6 +245,24 @@ reported reason and the producer's retained selection, source, and publication
 artifacts before continuing. The daily single-page pilot uses scheduled Fetch
 evidence.
 
+The selector keeps pages linked by the same upstream change or a proven
+dependency in one group. It first looks for a complete group with at least
+two advancing locks, then a multi-page group with one advancing lock. A group
+with a known historical rendering failure can wait while a
+separate group advances, provided the evidence accounts for their shared
+inputs and references. An unresolved dependency between the groups pauses
+selection. Each Draft contains the pages from one accepted group.
+
+To create the Draft, open the completed read-only run of **Shared Guides
+upstream update**. Check that **Confirm read-only batch acceptance** succeeded.
+Review the selected pages in the handoff manifest and the lock changes in its
+plan. Keep the run ID shown in the URL. Dispatch the same workflow on
+`master` with `scope=batch`, `create_draft=true`, and that ID in
+`accepted_run_id`. The writer authenticates the archived handoff from the
+first attempt and rechecks the live inputs before using that candidate.
+A changed input requires a new read-only run. To check repeat delivery, use
+the same accepted run ID and check the writer's result and the open PR list.
+
 ## Manual target Check validation and finalization
 
 The single-page target Check path uses two independently dispatched runs on

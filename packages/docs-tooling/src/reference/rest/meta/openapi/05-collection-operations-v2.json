@@ -633,7 +633,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CollectionCommons"
+                "type": "object",
+                "properties": {
+                  "dbName": {
+                    "type": "string",
+                    "description": "The name of the database which the collection belongs to. Setting this to a non-existing database results in an error. If not specified, the default database applies.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Database 名称。设置为不存在的 Database 会导致错误。如果未指定，则使用默认 Database。"
+                      },
+                      "ja-JP": {
+                        "description": "collection が属する database の名前です。存在しない database に設定するとエラーになります。指定しない場合は、default database が適用されます。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  },
+                  "collectionName": {
+                    "type": "string",
+                    "description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Collection 名称。设置为不存在的 Collection 会导致错误。"
+                      },
+                      "ja-JP": {
+                        "description": "対象の collection の名前です。\n存在しない collection に設定するとエラーになります。"
+                      }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
+                  }
+                },
+                "required": [
+                  "collectionName"
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null,
+                "description": "The request body for flushing a collection, which requires `collectionName`.",
+                "x-i18n": {
+                  "zh-CN": {
+                    "description": "Flush Collection 的请求体，必须提供 `collectionName`。"
+                  },
+                  "ja-JP": {
+                    "description": "collection を flush するリクエストボディです。`collectionName` が必要です。"
+                  }
+                }
               },
               "example": {
                 "collectionName": "test_collection"
@@ -5594,8 +5641,7 @@
                 "required": [
                   "collectionName",
                   "function",
-                  "outputField",
-                  "indexParams"
+                  "outputField"
                 ],
                 "x-added-at": "3.0.x",
                 "x-last-modified": "3.0.x",
@@ -6669,8 +6715,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "propertyKeys"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
@@ -7230,17 +7275,17 @@
           },
           "dimension": {
             "type": "integer",
-            "description": "The number of dimensions a vector value should have.\nThis is required if **idType** of this field is set to **FloatVector** or **BinaryVector**.",
+            "description": "The number of dimensions a vector value should have.\nThis is required if **vectorFieldType** is set to **FloatVector** or **BinaryVector**.",
             "x-i18n": {
               "zh-CN": {
-                "description": "向量值的维度数。\n若该字段的 **idType** 为 **FloatVector** 或 **BinaryVector**，则该字段为必填项。"
+                "description": "向量值的维度数。\n若 **vectorFieldType** 为 **FloatVector** 或 **BinaryVector**，则该字段为必填项。"
               },
               "ja-JP": {
-                "description": "ベクトル値が持つべき次元数。\nこのフィールドの **idType** が **FloatVector** または **BinaryVector** に設定されている場合に必須です。"
+                "description": "ベクトル値が持つべき次元数。\n**vectorFieldType** が **FloatVector** または **BinaryVector** に設定されている場合に必須です。"
               }
             },
             "x-added-at": "2.6.x",
-            "x-last-modified": "2.6.x",
+            "x-last-modified": "3.0.x",
             "x-deprecated-since": null
           },
           "metricType": {
@@ -7410,8 +7455,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "dimension"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
@@ -9291,8 +9335,7 @@
           }
         },
         "required": [
-          "collectionName",
-          "properties"
+          "collectionName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",
@@ -10986,6 +11029,21 @@
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null
           },
+          "indexType": {
+            "type": "string",
+            "description": "The type of the index to create",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "要创建的索引类型。"
+              },
+              "ja-JP": {
+                "description": "作成するインデックスのタイプです"
+              }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
+          },
           "params": {
             "description": "The index type and related settings. <include target=\"milvus\">For details, refer to [Vector Indexes](https://milvus.io/docs/index.md).</include><include target=\"zilliz\">For Zilliz Cloud clusters, you should always set `index_type` to `AUTOINDEX`.</include>",
             "x-i18n": {
@@ -11083,9 +11141,7 @@
           "zh-CN"
         ],
         "required": [
-          "metricType",
-          "fieldName",
-          "indexName"
+          "fieldName"
         ],
         "x-added-at": "2.6.x",
         "x-last-modified": "2.6.x",

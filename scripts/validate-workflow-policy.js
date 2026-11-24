@@ -318,8 +318,16 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       JSON.stringify(workflow.on?.pull_request?.types) !== JSON.stringify(['opened', 'synchronize', 'reopened', 'ready_for_review'])) {
     fail('must keep the explicit PR-only lock / PR-and-dispatch validation triggers')
   }
-  if (JSON.stringify(workflow.on?.pull_request?.branches) !== JSON.stringify(['master'])) {
-    fail('PR triggers must target only master')
+  // Validation targets master plus the stacking bases (see site-validation.yml):
+  // a follow-up PR whose base is another feature or refresh branch otherwise
+  // never fires the triggers at all. The lock stays master-only. dev must stay
+  // absent in both — the only dev PRs are the GITHUB_TOKEN sync-bot PRs whose
+  // pull_request runs are phantom by design.
+  const allowedPrBranches = lock ? ['master'] : ['master', 'feat/**', 'rest-upstream-refresh/**']
+  const branchMessage = lock ? 'PR triggers must target only master' : 'PR triggers must target master and the stacking bases, never dev'
+  if (JSON.stringify(workflow.on?.pull_request?.branches) !== JSON.stringify(allowedPrBranches) ||
+      workflow.on?.pull_request?.branches?.some(branch => branch === 'dev' || String(branch).startsWith('dev/'))) {
+    fail(branchMessage)
   }
   if (workflow.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(workflow.env || {})) ||
       Object.values(jobs).some(job => job.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(job.env || {}))) ||
@@ -797,7 +805,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           classifierCheckout?.with?.['fetch-depth'] !== 2 ||
           classifierCheckout?.with?.['sparse-checkout'] !== 'deploy/contracts' ||
           String(comparisonFetch?.if || '').trim() !== "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}" ||
-          comparisonFetch?.env?.BASE_SHA !== '${{ github.event.pull_request.base.sha || github.event.before || github.sha }}' ||
+          comparisonFetch?.env?.BASE_SHA !== '${{ inputs.base_sha || github.event.pull_request.base.sha || github.event.before || github.sha }}' ||
           !/\[\[ "\$BASE_SHA" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(comparisonRun) ||
           !/\[\[ ! "\$BASE_SHA" =~ \^0\{40\}\$ \]\][\s\S]*git cat-file -e "\$BASE_SHA\^\{commit\}"/.test(comparisonRun) ||
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {

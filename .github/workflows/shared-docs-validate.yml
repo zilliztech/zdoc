@@ -2,8 +2,10 @@ name: shared docs validate
 run-name: shared-docs-validate ${{ inputs.request_id || github.event.pull_request.number }}
 
 on:
+  # master plus the two stacking bases (see site-validation.yml): a stacked
+  # PR never fires these triggers on a base the allowlist omits.
   pull_request:
-    branches: [master]
+    branches: [master, 'feat/**', 'rest-upstream-refresh/**']
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:

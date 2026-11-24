@@ -1,5 +1,6 @@
 import {describe, expect, it} from 'vitest';
-import {AFTER_ENDPOINT_MARKER, chooseParamExample, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf, splitAfterEndpoint} from './utils.js';
+import {AFTER_ENDPOINT_MARKER, chooseParamExample, formatSchemaDefault, getBaseUrl, getDefaultResponseStatus, getLocalizedDescription, getResponseEntries, getTokenPlaceholder, textFilter, isRenderableExample, mergeAllOf, splitAfterEndpoint} from './utils.js';
+import {i18n} from './i18n.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -42,6 +43,22 @@ describe('RestSpecs plane configuration', () => {
       });
       expect(getTokenPlaceholder(endpoint, 'zilliz', planeConfig)).toBe('YOUR_API_KEY');
     }
+  });
+
+  it('serves the Chinese control plane from the .cn mirror while global locales keep the global host', () => {
+    expect(getBaseUrl('/v2/vectordb/jobs/import/create', 'zh-CN', 'zilliz', planeConfig)).toMatchObject({
+      server: 'https://api.cloud.zilliz.com.cn',
+      children: 'export BASE_URL="https://api.cloud.zilliz.com.cn"',
+    });
+    expect(getBaseUrl('/v2/clusters', 'ja-JP', 'zilliz', planeConfig)).toMatchObject({
+      server: 'https://api.cloud.zilliz.com',
+    });
+  });
+
+  it('keeps the Chinese data-plane branch on the locale-neutral cluster endpoint template', () => {
+    expect(getBaseUrl('/v2/vectordb/entities/search', 'zh-CN', 'zilliz', planeConfig)).toMatchObject({
+      server: 'https://${CLUSTER_ENDPOINT}',
+    });
   });
 
   it('keeps target-specific examples on the same publication branch', () => {
@@ -240,5 +257,30 @@ describe('mergeAllOf', () => {
     const schema = {type: 'object', properties: {}};
     expect(mergeAllOf(schema)).toBe(schema);
     expect(mergeAllOf(undefined)).toBeUndefined();
+  });
+});
+
+describe('RestSpecs i18n key parity', () => {
+  it('keeps every English key translated in zh-CN and ja-JP', () => {
+    for (const locale of ['zh-CN', 'ja-JP']) {
+      const missing = Object.keys(i18n['en-US']).filter(key => !(key in i18n[locale]));
+      expect(missing).toEqual([]);
+    }
+  });
+});
+
+describe('RestSpecs schema default formatting', () => {
+  it('stringifies scalars so JSX does not drop boolean defaults', () => {
+    expect(formatSchemaDefault(true)).toBe('true');
+    expect(formatSchemaDefault(false)).toBe('false');
+    expect(formatSchemaDefault(10)).toBe('10');
+    expect(formatSchemaDefault('COSINE')).toBe('COSINE');
+    expect(formatSchemaDefault(null)).toBe('null');
+  });
+
+  it('renders objects and arrays as JSON literals and blanks undefined', () => {
+    expect(formatSchemaDefault(['id', 'distance'])).toBe('["id","distance"]');
+    expect(formatSchemaDefault({autoId: false})).toBe('{"autoId":false}');
+    expect(formatSchemaDefault(undefined)).toBe('');
   });
 });

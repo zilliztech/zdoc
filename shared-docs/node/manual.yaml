@@ -444,6 +444,175 @@ metadata:
       - cloud
       - updateUser()
       - nodejs30
+  Authentication/alterRole.md:
+    beta: false
+    description: This operation alters the description of an existing role.
+    sidebar_position: 30
+    type: docx
+    token: Fvw0dyRalo2ceVxdY4Fcf9uTnBg
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - alter role
+      - role
+      - rbac
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - alterRole()
+      - nodejs30
+  Authentication/addPrivilegesToGroup.md:
+    description: This operation adds privileges to a specific privilege group in Milvus.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - add privileges
+      - privilege group
+      - rbac
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addPrivilegesToGroup()
+      - nodejs30
+  Authentication/backupRBAC.md:
+    description: This operation backs up the current RBAC configurations.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - backup
+      - backup rbac
+      - rbac
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - backupRBAC()
+      - nodejs30
+  Authentication/createPrivilegeGroup.md:
+    description: This operation creates a new privilege group.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - create privilege group
+      - privilege group
+      - rbac
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - createPrivilegeGroup()
+      - nodejs30
+  Authentication/restoreRBAC.md:
+    description: This operation restores RBAC configurations from a backup.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - restore
+      - restore rbac
+      - rbac
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - restoreRBAC()
+      - nodejs30
+  Authentication/GrantEntity.md:
+    description: Describes one privilege grant with its object, privilege, role, and grantor.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - grant entity
+      - privilege
+      - grant
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Authentication/PrivelegeGroup.md:
+    description: Describes a named set of privileges.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - privilege group
+      - privileges
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Authentication/PrivilegeEntity.md:
+    description: Describes one privilege by name.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - privilege entity
+      - privilege
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Authentication/RBACMeta.md:
+    description: Describes the full RBAC state carried by privilege backup and restore operations.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - rbac meta
+      - rbac
+      - backup
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Authentication/RoleEntity.md:
+    description: Describes a role, including its name and optional description.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - role entity
+      - role
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Authentication/User.md:
+    description: Describes a user by name.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - user
+      - users
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Client/MilvusClient.md:
     beta: false
     description: A MilvusClient instance represents a Node.js client that connects to a specific Zilliz Cloud cluster.
@@ -1719,6 +1888,21 @@ metadata:
       - cloud
       - listImportTasks()
       - nodejs30
+  DataImport/ImportState.md:
+    description: Represents the state of a bulk-import task.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - import state
+      - bulk import
+      - import job
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Database/alterDatabase.md:
     beta: false
     description: This operation modifies database properties, such as setting or deleting configuration key-value pairs.
@@ -1878,6 +2062,63 @@ metadata:
       - zilliz cloud
       - cloud
       - useDatabase()
+      - nodejs30
+  FileResources/addFileResource.md:
+    beta: PUBLIC
+    description: This operation adds a named file resource to Milvus metadata.
+    sidebar_position: 1
+    type: docx
+    token: RnyUdtGbFoIC7AxyhmNcbudYnhb
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - file resource
+      - analyzer
+      - dictionary
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - addFileResource()
+      - nodejs30
+  FileResources/listFileResources.md:
+    beta: PUBLIC
+    description: This operation lists the file resources registered in Milvus metadata.
+    sidebar_position: 2
+    type: docx
+    token: GK8hdiDs8olcOtxu0BKc89Vxn0b
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - file resource
+      - analyzer
+      - dictionary
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - listFileResources()
+      - nodejs30
+  FileResources/removeFileResource.md:
+    beta: PUBLIC
+    description: This operation removes a named file resource from Milvus metadata.
+    sidebar_position: 3
+    type: docx
+    token: TfFQdwR7borsLfxiwdCcXoKvnth
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - file resource
+      - analyzer
+      - dictionary
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - removeFileResource()
       - nodejs30
   Management/IndexType.md:
     beta: false
@@ -2399,6 +2640,50 @@ metadata:
       - cloud
       - releaseCollection()
       - nodejs30
+  Management/getCompactionStateWithPlans.md:
+    description: This operation gets the compaction states of a targeted compaction ID, including merge plans showing which segments will be combined.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - compaction
+      - compaction state
+      - merge plans
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getCompactionStateWithPlans()
+      - nodejs30
+  Management/CompactionState.md:
+    description: Represents the state of a compaction task.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - compaction state
+      - compaction
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Management/IndexDescription.md:
+    description: Describes one index on a collection, as returned by index-description operations.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - index description
+      - index
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Partitions/createPartition.md:
     beta: false
     description: This operation creates a partition in the target collection.
@@ -2739,6 +3024,21 @@ metadata:
       - cloud
       - unpinSnapshotData()
       - nodejs30
+  Snapshot/RestoreSnapshotJobInfo.md:
+    description: Describes the information of a snapshot restore job.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - snapshot restore
+      - restore job
+      - snapshot
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Vector/count.md:
     beta: false
     description: This operation counts the number of entities that match the specified filtering expression.
@@ -2958,6 +3258,143 @@ metadata:
       - cloud
       - upsert()
       - nodejs30
+  Vector/deleteEntities.md:
+    description: This operation deletes entities from a collection using a boolean expression or a filter.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - delete entities
+      - delete
+      - boolean expression
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - deleteEntities()
+      - nodejs30
+  Vector/getMetric.md:
+    description: This operation gets metric information from the Milvus system, including system info, statistics, or logs.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - metrics
+      - system info
+      - get metric
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - getMetric()
+      - nodejs30
+  Vector/FunctionScore.md:
+    beta: PUBLIC
+    description: Describes a function-score reranking configuration for search.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - function score
+      - rerank
+      - search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/NumberArrayId.md:
+    description: A primary-key ID list given as numbers.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - number array id
+      - primary key
+      - id list
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/OutputTransformers.md:
+    description: Describes the per-datatype transformer functions applied to search results before they are returned.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - output transformer
+      - transformer
+      - search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/RerankerObj.md:
+    description: Describes a reranker configuration for search.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - reranker
+      - rerank
+      - search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/RowData.md:
+    description: One data row for insert or upsert, keyed by field name.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - row data
+      - insert
+      - upsert
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/SearchData.md:
+    description: A search target entry in one of the supported search input forms.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - search data
+      - search
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
+  Vector/StringArrayId.md:
+    description: A primary-key ID list given as strings.
+    type: origin
+    added_since: v3.0.x
+    last_modified: v3.0.x
+    deprecate_since: false
+    notebook: false
+    keywords:
+      - string array id
+      - primary key
+      - id list
+      - zilliz
+      - zilliz cloud
+      - cloud
+      - nodejs30
   Authentication/:
     sidebar_position: 7
   Client/:
@@ -2969,6 +3406,8 @@ metadata:
     sidebar_position: 3
   Database/:
     sidebar_position: 8
+  FileResources/:
+    sidebar_position: 11
   Management/:
     sidebar_position: 4
   Partitions/:
@@ -2981,42 +3420,16 @@ metadata:
     title: Volume
     sidebar_position: 10
 exclude:
-  - FileResources/
   - ResourceGroup/
   - About.md
-  - Authentication/GrantEntity.md
-  - Authentication/PrivelegeGroup.md
-  - Authentication/PrivilegeEntity.md
-  - Authentication/RBACMeta.md
-  - Authentication/RoleEntity.md
-  - Authentication/User.md
-  - Authentication/addPrivilegesToGroup.md
-  - Authentication/alterRole.md
-  - Authentication/backupRBAC.md
-  - Authentication/createPrivilegeGroup.md
   - Authentication/grantPrivilege.md
-  - Authentication/restoreRBAC.md
   - Authentication/revokePrivilege.md
-  - DataImport/ImportState.md
-  - Management/CompactionState.md
-  - Management/IndexDescription.md
   - Management/SegmentLevel.md
   - Management/SegmentState.md
-  - Management/getCompactionStateWithPlans.md
   - Management/getPersistentSegmentInfo.md
   - Management/getQuerySegmentInfo.md
   - Management/loadBalance.md
-  - Snapshot/RestoreSnapshotJobInfo.md
-  - Vector/FunctionScore.md
-  - Vector/NumberArrayId.md
   - Vector/OrderByFields.md
-  - Vector/OutputTransformers.md
-  - Vector/RerankerObj.md
-  - Vector/RowData.md
-  - Vector/SearchData.md
-  - Vector/StringArrayId.md
-  - Vector/deleteEntities.md
-  - Vector/getMetric.md
 milvus_values:
   endpoint: "'localhost:19530'"
   token: root:Milvus
