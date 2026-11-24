@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { analysisMarkdown, headingText } from './anchors'
+import { analysisMarkdown, headingText, maskMarkdownRanges } from './anchors'
 import type { ImageRef, LinkRef } from './types'
 
 /** Use Markdown rules for recognition, retaining the original destination offsets. */
@@ -60,17 +60,24 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
   })
   const tokens = []
   blocks.block.parse(source, blocks, env, tokens)
-  let masked = source
-  for (const [start, end] of masks) masked = masked.slice(0, start)
-    + masked.slice(start, end).replace(/[^\r\n]/g, ' ') + masked.slice(end)
+  const masked = maskMarkdownRanges(source, masks)
   const links: LinkRef[] = []
   const images: ImageRef[] = []
   const containers: { name: string; ignored: boolean }[] = []
   const ignored = () => containers.some(item => item.ignored)
+  function lineForOffset(offset: number) {
+    let first = 0, last = lines.length
+    while (first < last) {
+      const middle = (first + last) >>> 1
+      if (lines[middle] <= offset) first = middle + 1
+      else last = middle
+    }
+    return first
+  }
   const add = (image: boolean, url: string, span: { start: number; end: number }, occurrence: number, text = '',
     extras: Partial<LinkRef> = {}) => {
     const collection = image ? images : links
-    const ref = { url, ...span, line: source.slice(0, occurrence).split('\n').length, ...extras }
+    const ref = { url, ...span, line: lineForOffset(occurrence), ...extras }
     collection.push(ref)
     if (!image) onLink?.(ref, text)
   }

@@ -17,7 +17,7 @@ import type { MergeNote, MergeOrigin, MergeOutput } from '../core/merge'
 import { inspectPage } from './inspect-page'
 import type { InspectedChannel } from './inspect-page'
 import { GitMilvusDocsReader } from './git-milvus-docs-reader'
-import { GitLinkInputReader, milvusPageMetadata, prepareLinkInputs } from './links-input'
+import { GitLinkInputReader, prepareLinkInputs, readMilvusPageMetadata } from './links-input'
 import type { LinkInputReader } from './links-input'
 import type { ImageFetcher } from './images'
 import { toMdx } from './mdx'
@@ -91,8 +91,9 @@ export function createBuildReader(repository: string, inspection: InspectionRead
     return heads.get(branch)!
   }
   return {
+    readPageMetadata: links.readPageMetadata?.bind(links),
     async readFile(commit, path) {
-      await warm(commit)
+      if (!links.readPageMetadata) await warm(commit)
       const id = key(commit, path)
       if (!texts.has(id)) texts.set(id, links.readFile(commit, path))
       return texts.get(id)!
@@ -193,6 +194,7 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
         const reads: ImagePreparation['reads'] = []
         const reader: LinkInputReader = {
           readFile: (commit, path) => input.reader.readFile(commit, path),
+          readPageMetadata: input.reader.readPageMetadata?.bind(input.reader),
           listFiles: (commit, path) => input.reader.listFiles(commit, path),
           isOnBranch: (commit, branch) => input.reader.isOnBranch(commit, branch),
           isAncestor: (ancestor, descendant) => input.reader.isAncestor(ancestor, descendant),
@@ -240,8 +242,7 @@ export function createBuildRuntime(input: { sharedDocs: SharedDocsInputs; reader
           // Every link lookup reduces to the basename, so cloud pages key the same way.
           let id = page.cloud ? basename(page.cloud.logical) : basename(page.config.source.file)
           try {
-            const meta = page.cloud ? undefined
-              : milvusPageMetadata(page.config.source.file, await input.reader.readFile(commit, page.config.source.file))
+            const meta = page.cloud ? undefined : await readMilvusPageMetadata(input.reader, commit, page.config.source.file)
             if (meta) id = meta.id
             else if (!page.cloud && !layout) throw new Error(`Shared page ${pageId} has no usable public front-matter ID at ${commit}:${page.config.source.file}`)
           }

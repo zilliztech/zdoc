@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto'
 import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises'
+import { AsyncLocalStorage } from 'node:async_hooks'
 import { tmpdir } from 'node:os'
 import { isAbsolute, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -25,6 +25,8 @@ import { openWorkerMetadataReader } from './guides-metadata-broker'
 import { publicGuidesReads, stageGuidesArchives, type LifecycleAcquisitionCode } from './guides-lifecycle-transport'
 import { createGuidesReadSession, type GitFile } from './guides-read-session'
 import { isMilvusPagePath, milvusPageMetadata } from '../links-input'
+import type { LinkInputReader } from '../links-input'
+import { MilvusDocsReaderError } from '../reader-errors'
 
 const toolingRoot = fileURLToPath(new URL('../../../../../../', import.meta.url))
 const localPath = z.string().min(1).max(4096).refine(value => isAbsolute(value) && !/[\x00-\x1f\x7f]/.test(value), 'Expected an absolute local path')
@@ -440,6 +442,52 @@ export class GuidesCollectionHold extends Error {
   constructor(readonly subject: Subject, readonly diagnostics: GuidesCollectionResult['holds']) { super('GUIDES_ENVELOPE_UNAVAILABLE: see complete retained inventory and diagnostics') }
 }
 
+/** One bounded capture for the fixed batch worker, shared by its history window. */
+export function createBatchImageCapture(individualByteLimit: number, combinedByteLimit: number, remaining: () => number) {
+  const imageBytes = new Map<string, Uint8Array>()
+  let retainedImageBytes = 0, pendingImageBytes = 0
+  function retain(bytes: Uint8Array) {
+    if (bytes.length > individualByteLimit) throw Error('BATCH_CAS_BLOB_LIMIT')
+    const sha = rawSha256(bytes)
+    if (!imageBytes.has(sha)) {
+      if (retainedImageBytes + bytes.length > combinedByteLimit) throw Error('BATCH_WIRE_BYTE_LIMIT')
+      retainedImageBytes += bytes.length
+      imageBytes.set(sha, bytes)
+    }
+    return bytes
+  }
+  async function download(url: string) {
+    const parsed = new URL(url)
+    if (!['http:', 'https:'].includes(parsed.protocol)) throw Error('Expected an HTTP(S) image URL')
+    const response = await fetch(url, {signal: AbortSignal.timeout(remaining())})
+    if (!response.ok || !response.body) {
+      await response.body?.cancel()
+      throw Error(`Image download returned HTTP ${response.status}`)
+    }
+    const reader = response.body.getReader(), chunks: Uint8Array[] = []
+    let bytes = 0, complete = false
+    try {
+      for (;;) {
+        remaining()
+        const next = await reader.read()
+        if (next.done) {complete = true; break}
+        bytes += next.value.byteLength
+        pendingImageBytes += next.value.byteLength
+        if (bytes > individualByteLimit || retainedImageBytes + pendingImageBytes > combinedByteLimit)
+          throw Error('BATCH_WIRE_BYTE_LIMIT')
+        chunks.push(next.value)
+      }
+      return retain(Buffer.concat(chunks, bytes))
+    } finally {
+      chunks.length = 0
+      pendingImageBytes -= bytes
+      if (!complete) await reader.cancel().catch(() => undefined)
+      reader.releaseLock()
+    }
+  }
+  return {fetch: download, retain, get: imageBytes.get.bind(imageBytes), clear() {imageBytes.clear(); retainedImageBytes = 0}}
+}
+
 /** A fixed, separately selected content entry. It neither calls reportUpdates nor qualifies a lifecycle. */
 export async function collectBatchPageMaterial(data: unknown, replay?: {repositoryRoot: string; fetcher?: import('../images').ImageFetcher}) {
   const contract = await import('./batch-collection-contract')
@@ -466,16 +514,16 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
   }
   const object = (value: unknown) => retain(canonicalBytes(value))
   const reads = createGuidesReadSession(retain)
-  const {BatchGitStore, batchBudget, exportBatchTree, batchRenderCommitSet} = await import('./batch-source')
-  const rawBudget = batchBudget()
+  const {BatchGitStore, batchPageBudget, exportBatchTree, batchRenderCommitSet, BATCH_HISTORICAL_WINDOW} = await import('./batch-source')
+  const rawBudget = batchPageBudget()
   const sourceProof = await BatchGitStore.open(request.sourceRepository, rawBudget)
   const configProof = await BatchGitStore.open(repositoryRoot, rawBudget)
   const devProof = repositoryRoot === request.devRepository ? configProof : await BatchGitStore.open(request.devRepository, rawBudget)
   const temporary = await mkdtemp(join(tmpdir(), 'batch-content-'))
-  const imageBytes = new Map<string, Uint8Array>()
-  const originalFetcher = replay?.fetcher ?? (request.origin.kind === 'replay' ? {async fetch(_url: string): Promise<Uint8Array> {throw Error('BATCH_REPLAY_IMAGE_UNAVAILABLE')}} : new HttpImageFetcher(120_000))
-  const fetcher = {async fetch(url: string) {
-    const bytes = Uint8Array.from(await originalFetcher.fetch(url)); imageBytes.set(rawSha256(bytes), bytes); return bytes
+  const imageBytes = createBatchImageCapture(contract.BATCH_BLOB_LIMIT, Math.floor(contract.BATCH_WIRE_LIMIT * 3 / 4), rawBudget.remainingImageTime)
+  const fetcher = request.origin.kind === 'observed' ? imageBytes : {async fetch(url: string) {
+    if (!replay?.fetcher) throw Error('BATCH_REPLAY_IMAGE_UNAVAILABLE')
+    return imageBytes.retain(Uint8Array.from(await replay.fetcher.fetch(url)))
   }}
   try {
     await resolveCommit(repositoryRoot, request.pins.master)
@@ -522,12 +570,12 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       if (!inventoryDescriptors.has(commit)) {
         inventoryDescriptors.set(commit, {treeOid: snapshot.treeOid, commitRef: retain(snapshot.commitBytes)})
       }
-      for (const entry of entries) {
-        if (!isMilvusPagePath(entry.path) || discovery.has(entry.oid)) continue
+      const newPages = entries.filter(entry => isMilvusPagePath(entry.path) && !discovery.has(entry.oid))
+      const pageBlobs = await sourceProof.readVerifiedBlobs(newPages.map(entry => entry.oid))
+      for (const entry of newPages) {
+        if (discovery.has(entry.oid)) continue
         rawBudget.remaining()
-        const bytes = await reads.readCommitted(request.sourceRepository, [entry], entry.path)
-        if (!bytes || createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex') !== entry.oid) throw Error('BATCH_SOURCE_BYTES_INVALID')
-        discovery.set(entry.oid, milvusPageMetadata(entry.path, new TextDecoder('utf8', {fatal: true}).decode(bytes)) ?? null)
+        discovery.set(entry.oid, milvusPageMetadata(entry.path, new TextDecoder('utf8', {fatal: true}).decode(pageBlobs.get(entry.oid)!)) ?? null)
       }
       return entries
     }
@@ -577,22 +625,24 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const devFiles = await reads.inventory(request.devRepository, request.pins.dev, ['content/en/guides', 'content/en/byoc', snapshotPath, activePath])
     const proofDev = [...await devProof.inventory(request.pins.dev, 'content/en/guides'), ...await devProof.inventory(request.pins.dev, 'content/en/byoc')]
     if (!equal(devFiles.filter(f => f.path.startsWith('content/en/')), contract.batchSorted(proofDev, f => f.path))) throw Error('BATCH_DEV_INVENTORY_INVALID')
-    const retainedDev = async (path: string) => {
-      const bytes = await reads.readCommitted(request.devRepository, devFiles, path)
-      if (!bytes || !(await devProof.file(request.pins.dev, path)).bytes.equals(bytes)) throw Error('BATCH_DEV_MATERIAL_UNAVAILABLE')
-      return retain(bytes)
+    const manifestPaths = [activePath, snapshotPath]
+    for (const path of manifestPaths) {
+      const file = devFiles.find(entry => entry.path === path)
+      if (!file || file.oid !== await devProof.regularOid(request.pins.dev, path)) throw Error('BATCH_DEV_MATERIAL_UNAVAILABLE')
     }
+    const namespaceFiles = devFiles.filter(f => /^(content\/en\/(guides|byoc))\/.+\.mdx?$/.test(f.path))
+    const devBlobs = await devProof.readVerifiedBlobs([...namespaceFiles, ...devFiles.filter(file => manifestPaths.includes(file.path))].map(file => file.oid))
     const namespaceOutputs = []
-    for (const file of devFiles.filter(f => /^(content\/en\/(guides|byoc))\/.+\.mdx?$/.test(f.path))) {
-      namespaceOutputs.push({manual: file.path.startsWith('content/en/guides/') ? 'guides' : 'guides-byoc', path: file.path, oid: file.oid, ref: await retainedDev(file.path)})
+    for (const file of namespaceFiles) {
+      namespaceOutputs.push({manual: file.path.startsWith('content/en/guides/') ? 'guides' : 'guides-byoc', path: file.path, oid: file.oid, ref: retain(devBlobs.get(file.oid)!)})
     }
-    const namespaceRef = object({commit: request.pins.dev, activeRef: await retainedDev(activePath), snapshotRef: await retainedDev(snapshotPath),
+    const retainedManifest = (path: string) => retain(devBlobs.get(devFiles.find(file => file.path === path)!.oid)!)
+    const namespaceRef = object({commit: request.pins.dev, activeRef: retainedManifest(activePath), snapshotRef: retainedManifest(snapshotPath),
       outputs: contract.batchSorted(namespaceOutputs, o => `${o.manual}:${o.path}`)})
+    const configBlobs = await configProof.readVerifiedBlobs(configFiles.map(file => file.oid))
     const configRefs = []
     for (const file of configFiles) {
-      const raw = (await reads.readCommitted(repositoryRoot, configFiles, file.path))!
-      if (!(await configProof.file(request.pins.master, file.path)).bytes.equals(raw)) throw Error('BATCH_CONFIG_BYTES_INVALID')
-      configRefs.push({path: file.path, oid: file.oid, ref: retain(raw)})
+      configRefs.push({path: file.path, oid: file.oid, ref: retain(configBlobs.get(file.oid)!)})
     }
     const configRef = object({pageId: request.pageId, sourceFile: configured.sourceFile, repository: source.config.repository, track: source.config.track, registry, files: configRefs, namespaceRef})
     const lockPath = `shared-docs/guides/pages/${request.pageId}/lock.yaml`
@@ -606,21 +656,58 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const sourceHistory = await sourceProof.history(request.pins.source)
     const commitHistory = sourceHistory.records()
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
+    await sourceProof.prefetchSourceInventoryTrees(requiredCommits)
     const commitProofRef = retain(sourceProof.commitProof(commitHistory))
     const intervalObservations = []
     const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
     const historicalFragments = createHistoricalFragmentReader(sourceProof, rawBudget.remaining)
-    let historicalInventory: {commit: string; paths: ReadonlyMap<string, string>} | undefined
-    const historicalLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) =>
-      historicalInventory?.commit === commit ? historicalInventory.paths.get(path) : undefined)
+    const historicalInventory = new AsyncLocalStorage<{commit: string; paths: ReadonlyMap<string, string>}>()
+    const gitLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) => {
+      const inventory = historicalInventory.getStore()
+      return inventory?.commit === commit ? inventory.paths.get(path) : undefined
+    })
+    function snapshotPaths(commit: string) {
+      rawBudget.remaining()
+      const inventory = historicalInventory.getStore()
+      if (inventory?.commit !== commit) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+      return inventory.paths
+    }
+    function snapshotOid(commit: string, path: string) {
+      const oid = snapshotPaths(commit).get(path)
+      if (oid === undefined) throw new MilvusDocsReaderError('MISSING_FILE', `Regular file not found: ${commit}:${path}`)
+      return oid
+    }
+    // This reader exists for the current, independently verified history point.
+    // Lookup uses the authenticated inventory, while rendered reads still check their raw Git OIDs.
+    const historicalLinks: LinkInputReader = {
+      async listFiles(commit, directory) {
+        if (directory !== 'site/en' && !directory.startsWith('site/en/')) return gitLinks.listFiles(commit, directory)
+        return [...snapshotPaths(commit).keys()].filter(path => path === directory || path.startsWith(directory + '/')).sort()
+      },
+      async readFile(commit, path) {
+        if (!path.startsWith('site/en/')) return gitLinks.readFile(commit, path)
+        return (await sourceProof.read(snapshotOid(commit, path), 'blob')).toString('utf8')
+      },
+      async readPageMetadata(commit, path) {
+        if (!path.startsWith('site/en/')) return milvusPageMetadata(path, await gitLinks.readFile(commit, path))
+        const oid = snapshotOid(commit, path)
+        const meta = discovery.get(oid)
+        if (meta !== undefined) return meta ? {...meta} : undefined
+        return milvusPageMetadata(path, (await sourceProof.read(oid, 'blob')).toString('utf8'))
+      },
+      readBytes: gitLinks.readBytes.bind(gitLinks),
+      isOnBranch: gitLinks.isOnBranch.bind(gitLinks),
+      async isAncestor(ancestor, descendant) {
+        if (ancestor === descendant && historicalInventory.getStore()?.commit === ancestor) {
+          rawBudget.remaining()
+          return true
+        }
+        return gitLinks.isAncestor(ancestor, descendant)
+      },
+    }
     const collectHistoricalCandidate = createHistoricalCandidateCollector({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
       configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
-    for (const commit of requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))) {
-      // One launch still renders only this page. Intervening roots/fragments cannot hide behind restored endpoint bytes.
-      const sourceEntries = await sourceInventory(commit)
-      historicalInventory = {commit, paths: new Map(sourceEntries.map(entry => [entry.path, entry.oid]))}
-      const o = await collectHistoricalCandidate(commit)
-      historicalInventory = undefined
+    async function retainHistoricalObservation(commit: string, sourceEntries: readonly GitFile[], o: PageObservation) {
       const entries = []
       for (const path of sorted([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))) {
         const raw = await reads.readCommitted(request.sourceRepository, sourceEntries, path), declared = o.files.find(f => f.file === path)
@@ -648,6 +735,29 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []}),
         dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus})
     }
+    const intermediates = requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))
+    try {
+      for (let at = 0; at < intermediates.length; at += BATCH_HISTORICAL_WINDOW) {
+        // The previous window has settled and been retained. The page budget still applies.
+        rawBudget.beginPhase()
+        const window = []
+        // Keep a complete, independent inventory and paired reads for every historical point.
+        for (const commit of intermediates.slice(at, at + BATCH_HISTORICAL_WINDOW)) {
+          const sourceEntries = await sourceInventory(commit)
+          window.push({commit, sourceEntries, paths: new Map(sourceEntries.map(entry => [entry.path, entry.oid]))})
+        }
+        const rendered = await Promise.allSettled(window.map(({commit, paths}) =>
+          historicalInventory.run({commit, paths}, () => collectHistoricalCandidate(commit))))
+        for (let index = 0; index < window.length; index++) {
+          const result = rendered[index], {commit, sourceEntries} = window[index]
+          if (result.status === 'rejected') throw result.reason
+          await retainHistoricalObservation(commit, sourceEntries, result.value)
+        }
+      }
+    } finally {
+      historicalInventory.disable()
+    }
+    rawBudget.beginPhase()
     const allConsumed = sorted([...consumedPaths])
     const inventoryRefFor = async (commit: string) => {
       const descriptor = inventoryDescriptors.get(commit)
@@ -694,6 +804,7 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     contract.validateBatchWire(wire, request)
     await sourceProof.verify(); await configProof.verify(); if (devProof !== configProof) await devProof.verify()
     if ((await sourceEndpoints(request.sourceRepository, source.config.repository, source.config.track, request.pins.source)).head !== request.pins.source) throw Error('BATCH_SOURCE_HEAD_INVALID')
+    rawBudget.remaining()
     return immutable(wire)
   } finally {reads.dispose(); payloads.clear(); imageBytes.clear(); await rm(temporary, {recursive: true, force: true})}
 }

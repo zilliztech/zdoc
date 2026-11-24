@@ -269,9 +269,23 @@ export async function acquireLocalIdentity(environment: NodeJS.ProcessEnv): Prom
     userIndex:index(outputs[3]),groupIndex:index(outputs[4]),credentials:{uid:process.getuid(),euid:process.geteuid(),gid:process.getgid(),egid:process.getegid(),groups:process.getgroups().sort((a,b)=>a-b)} }
 }
 
+/** Keep observations fresh and ordered without serializing independent filesystem reads. */
+async function* inspectAccessWindows<T, Result>(inputs: Iterable<T>, inspect: (input: T) => Promise<Result>) {
+  const ordered = [...inputs], window = 8
+  for (let offset = 0; offset < ordered.length; offset += window) {
+    currentBatchLifetime()?.check()
+    // A failed read must not leave another read from this window running.
+    const results = await Promise.allSettled(ordered.slice(offset, offset + window).map(inspect))
+    for (const result of results) {
+      if (result.status === 'rejected') throw result.reason
+      yield result.value
+    }
+  }
+}
+
 async function recheckAccess(evidence: AccessEvidence) {
-  for (const [path, pin] of evidence.pins) {
-    const now = await lstat(path, {bigint:true})
+  for await (const [pin, now] of inspectAccessWindows(evidence.pins, async ([path, pin]) =>
+    [pin, await lstat(path, {bigint: true})] as const)) {
     if (String(now.dev) !== pin.dev || String(now.ino) !== pin.ino || Number(now.mode) !== pin.mode || Number(now.uid) !== pin.uid || Number(now.gid) !== pin.gid) throw new Error('Trusted access identity changed')
   }
 }
@@ -324,11 +338,20 @@ async function resolveSymlinkHops(path: string): Promise<string[]> {
 
 async function inspectAccess(material: Map<string, string>, environment: NodeJS.ProcessEnv): Promise<AccessEvidence> {
   const paths = new Set<string>(), materialPaths = new Set(material.keys())
-  for (const full of material.keys()) for (const start of await resolveSymlinkHops(full)) for (let path = start; ; path = dirname(path)) { if (paths.has(path)) break; paths.add(path); if (dirname(path) === path) break }
+  for await (const hops of inspectAccessWindows(material.keys(), resolveSymlinkHops)) {
+    for (const start of hops) {
+      for (let path = start; ; path = dirname(path)) {
+        if (paths.has(path)) break
+        paths.add(path)
+        if (dirname(path) === path) break
+      }
+    }
+  }
   const pins: AccessEvidence['pins'] = new Map(), files = new Set<string>(), writableGroups = new Set<number>()
-  for (const path of paths) {
+  for await (const [path, raw] of inspectAccessWindows(paths, async path => {
     if (/[\x00-\x1f\x7f]/.test(path)) throw new Error('Unsupported access path')
-    const raw = await lstat(path, {bigint:true})
+    return [path, await lstat(path, {bigint: true})] as const
+  })) {
     const st = { dev:String(raw.dev),ino:String(raw.ino),mode:Number(raw.mode),uid:Number(raw.uid),gid:Number(raw.gid),isFile:()=>raw.isFile(),isDirectory:()=>raw.isDirectory(),isSymbolicLink:()=>raw.isSymbolicLink() }
     if (!safeOwner(st.uid) || !(st.isFile() || st.isDirectory() || st.isSymbolicLink())) throw new Error(`Unsafe access owner/type: ${path}`)
     // Symlink mode is not writable target authority; its parent and resolved target are inspected.
