@@ -15,6 +15,10 @@ on:
         description: Create a draft when a new lock update is verified
         type: boolean
         default: false
+      accepted_run_id:
+        description: Successful read-only upstream update run to use for a batch Draft
+        type: string
+        required: false
   pull_request:
     branches: [master]
     paths:
@@ -178,11 +182,24 @@ jobs:
     outputs:
       status: ${{ steps.fetch.outputs.status }}
     steps:
+      - name: Validate batch dispatch inputs
+        env:
+          CREATE_DRAFT: ${{ inputs.create_draft }}
+          ACCEPTED_RUN_ID: ${{ inputs.accepted_run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$CREATE_DRAFT" == true ]]; then
+            [[ "$ACCEPTED_RUN_ID" =~ ^[1-9][0-9]*$ ]] || { echo 'Supply the successful read-only batch run ID.' >&2; exit 1; }
+          else
+            [[ -z "$ACCEPTED_RUN_ID" ]] || { echo 'Leave the accepted run ID empty for qualification.' >&2; exit 1; }
+          fi
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
       - id: fetch
+        if: ${{ !inputs.create_draft }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/docs-workflow/shared-guides-update/batch-qualify-workflow.mjs preview
@@ -196,11 +213,6 @@ jobs:
       contents: read
       actions: read
       pull-requests: read
-    outputs:
-      status: ${{ steps.prepare.outputs.status }}
-      artifact_id: ${{ steps.upload.outputs.artifact-id }}
-      artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
-      handoff_digest: ${{ steps.prepare.outputs.handoff_sha256 }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -253,9 +265,12 @@ jobs:
           path: ${{ steps.prepare.outputs.handoff_path }}
           if-no-files-found: error
           retention-days: 30
+      - name: Confirm read-only batch acceptance
+        if: success() && !inputs.create_draft && steps.prepare.outputs.status == 'prepared' && steps.upload.outcome == 'success'
+        run: echo 'Read-only batch handoff uploaded.'
 
   write:
-    needs: [prepare, prepare_batch]
+    needs: [prepare, prepare_batch, preview_batch]
     if: >-
       !cancelled() &&
       github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
@@ -264,7 +279,7 @@ jobs:
         (needs.prepare.result == 'success' && needs.prepare.outputs.status == 'prepared' &&
           (github.event_name == 'schedule' ||
             (github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot' && inputs.create_draft))) ||
-        (needs.prepare_batch.result == 'success' && needs.prepare_batch.outputs.status == 'prepared' &&
+        (needs.preview_batch.result == 'success' && needs.prepare_batch.result == 'skipped' &&
           github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && inputs.create_draft && github.ref_protected)
       )
     runs-on: ubuntu-24.04
@@ -298,9 +313,7 @@ jobs:
           PREPARE_ARTIFACT_ID: ${{ needs.prepare.outputs.artifact_id }}
           PREPARE_ARTIFACT_DIGEST: ${{ needs.prepare.outputs.artifact_digest }}
           SHARED_GUIDES_WRITER_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && 'batch' || 'pilot' }}
-          BATCH_ARTIFACT_ID: ${{ needs.prepare_batch.outputs.artifact_id }}
-          BATCH_ARTIFACT_DIGEST: ${{ needs.prepare_batch.outputs.artifact_digest }}
-          BATCH_HANDOFF_DIGEST: ${{ needs.prepare_batch.outputs.handoff_digest }}
+          BATCH_ACCEPTED_RUN_ID: ${{ inputs.accepted_run_id }}
           WRITER_OUTPUT: ${{ runner.temp }}/shared-guides-writer
         run: node scripts/docs-workflow/shared-guides-update/write.mjs
       - name: Retain the signed producer receipt

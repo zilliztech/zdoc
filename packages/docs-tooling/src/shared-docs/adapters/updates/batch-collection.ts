@@ -137,6 +137,7 @@ export interface BatchCompactPage {
   ownershipReasons: string[]; promotionAnchors: AnchorRelation[]; history: {oid: string; parents: string[]}[]; reasons: string[];
   existing: {manual: string; path: string; route: string | null; ref: BatchBlobRef; headings: string[]; references: ReferenceObservation[]}[];
   sourceSnapshots: {commit: string; consumed: {path: string; oid: string; ref: BatchBlobRef}[]}[];
+  deferredHistory: {commit: string; reasons: string[]}[]
   registryIds: string[]
 }
 function existingOutput(bytes: Uint8Array, manual: string, path: string, ref: BatchBlobRef) {
@@ -236,7 +237,10 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   }
   const activeRow = active.pages.find(p => p.page === header.pageId), row = records.length === 1 ? records[0] : undefined
   if (!activeRow) ownershipReasons.add('INACTIVE_NECESSARY_PAGE')
-  const nextOutputs = row && guidesNextOutputPaths(header.pageId, activeRow?.record, header.targets, row, snapshot.targets_built, snapshot.records)
+  const nextOutputs = row && guidesNextOutputPaths(header.pageId, activeRow?.record, header.targets, {
+    release_channel: row.release_channel, record_id: row.record_id, slug: row.slug,
+    output_paths: row.output_paths, publish_targets: row.publish_targets,
+  }, snapshot.targets_built, snapshot.records)
   if (nextOutputs?.every((path, index) => namespace.outputs.some(o => o.path === path && o.manual === header.targets[index].manual))) {
     ownershipReasons.add('UNPUBLISHED_NECESSARY_PAGE')
   } else {
@@ -260,9 +264,26 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
     projection.observations[i].dependencies.some(d => d.kind === 'fragment' && d.identity === e.path)).map(e => ({path: e.path, sha256: e.ref.sha256, bytes: e.ref.bytes}))}))
   const sourceSnapshots = [...new Map(trees.map(t => [t.commit, {commit: t.commit, consumed: t.entries}])).values()]
   const allTrees = [...trees], allInventories = [...inventories]
+  const deferredHistory: BatchCompactPage['deferredHistory'] = []
   for (const o of historyBody.interval) {
     const tree = body(o.rawRef, BatchRawTreeSchema), inventory = inventoriesByRef.get(o.inventoryRef.sha256)!, diagnostics = body(o.diagnosticsRef, BatchDiagnosticsSchema)
     allTrees.push(tree); allInventories.push(inventory); sourceSnapshots.push({commit: o.commit, consumed: tree.entries})
+    const errors = [...diagnostics.errors, ...diagnostics.rawErrors]
+    // Only a known transformation failure with an authenticated root can be isolated.
+    // Its raw read trace is a lower bound. Every incident source edge is masked below.
+    const nativePlaceholder = o.outputStatus === 'error' && o.imageStatus === 'unavailable' && o.manuals.length === header.targets.length && header.targets.every(target => {
+      const m = o.manuals.find(m => m.manual === target.manual && m.path === target.path)
+      if (!m) return false
+      const leaf = body(m.ref, BatchManualSchema)
+      return leaf.output === null && leaf.markdown === '' && !leaf.headings.length && !leaf.references.length
+    })
+    if (o.sourceFile === config.sourceFile && tree.entries.some(entry => entry.path === config.sourceFile) &&
+        o.outputStatus === 'error' && o.imageStatus === 'unavailable' && nativePlaceholder && !o.dependencies.length &&
+        !diagnostics.reasons.length && errors.length && errors.every(e => ['TRANSFORM_TARGET_NOT_FOUND', 'PRODUCT_NAME_FOUND'].includes(e.code)) &&
+        body(o.imagesRef, BatchImagesSchema).every(group => !group.images.length)) {
+      deferredHistory.push({commit: o.commit, reasons: sorted(['INTERMEDIATE_OBSERVATION_INCOMPLETE', ...errors.map(e => e.code)])})
+      continue
+    }
     if (o.sourceFile !== config.sourceFile || o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved') ||
         o.manuals.length !== header.targets.length || header.targets.some(t => o.manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) add('INTERMEDIATE_OBSERVATION_INCOMPLETE')
     for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
@@ -278,7 +299,7 @@ function compactMaterial(wire: BatchMaterialWire, request: BatchRenderRequest): 
   for (const inventory of allInventories) for (const path of fullUnion) if (!inventory.oidOf(path) && !inventory.absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
   if (header.oldNext === header.base.pins.source && !same(rawTrees[1].entries, rawTrees[2].entries)) add('SOURCE_SAME_SHA_BYTES_MISMATCH')
   return immutable({header, materialDigest: batchDigest('material', header), sourceFile: config.sourceFile, consumedPaths: fullUnion, sourceSnapshots,
-    rawTrees, observations, ownershipReasons: sorted(ownershipReasons), promotionAnchors: projection.promotionAnchors, history, reasons: sorted(reasons), existing,
+    rawTrees, observations, ownershipReasons: sorted(ownershipReasons), promotionAnchors: projection.promotionAnchors, history, reasons: sorted(reasons), existing, deferredHistory,
     registryIds: config.registry.map(p => p.pageId)})
 }
 /** Explicitly non-authoritative projection for pure semantic fixture tests. */
@@ -291,7 +312,7 @@ export interface BatchObligation {pageId: string; range: {from: string; to: stri
   status: 'consumed' | 'irrelevant' | 'held'; consumedPaths: string[]; supportRefs: BatchBlobRef[]; reason: string}
 interface Disposition {pageId: string; disposition: 'advance' | 'noop' | 'held'; beforeSha256: string; targetSha256: string; reasons: string[]}
 export interface BatchClosureAnalysis {groups: {memberIds: string[]; seedKeys: string[]; componentIds: string[]; adoption: AdoptionDependency[]; dispositions: Disposition[]}[];
-  obligations: BatchObligation[]; reasons: string[]; namespace: {pageId: string; manual: string; path: string; role: 'oldNext' | 'target' | 'existing'; ref: BatchBlobRef}[]}
+  selected: BatchClosureAnalysis['groups'][number] | null; obligations: BatchObligation[]; reasons: string[]; namespace: {pageId: string; manual: string; path: string; role: 'oldNext' | 'target' | 'existing'; ref: BatchBlobRef}[]}
 /** Pure semantics over compact, already observed projections; this function cannot issue execution authority. */
 export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger: readonly BatchEdge[]; history: readonly {oid: string; parents: string[]}[];
   pages: readonly BatchCompactPage[]; atLocks?: ReadonlyMap<string, BatchAtLockProof>; restorations?: ReadonlyMap<string, BatchRestoreProof>; copies?: ReadonlyMap<string, BatchCopyProof>}): BatchClosureAnalysis {
@@ -304,6 +325,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     if (!same(page.registryIds, registry) || !same(page.header.base.pins.master, report.pins.master) || page.header.base.pins.dev !== report.pins.dev || page.header.base.pins.source !== report.pins.source) add('BATCH_REGISTRY_BINDING_INVALID')
     for (const reason of page.reasons) add(reason)
   }
+  const uncertainCommits = new Map(pages.map(page => [page.header.pageId, new Set(page.deferredHistory.map(o => o.commit))]))
   const parent = new Map(registry.map(id => [id, id])), root = (id: string): string => parent.get(id) === id ? id : root(parent.get(id)!)
   const union = (a: string, b: string) => {if (!parent.has(a) || !parent.has(b)) {add('UNKNOWN_CLOSURE_PAGE'); return}; const [x, y] = [root(a), root(b)].sort(compareUtf8); parent.set(y, x)}
   const membership = new Map<string, Set<string>>(registry.map(id => [id, new Set<string>()]))
@@ -335,7 +357,16 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   const obligations: BatchObligation[] = []
   for (const [index, edge] of ledger.entries()) {
     const sourcePath = edge.newPath ?? edge.oldPath!
-    if (![edge.oldPath, edge.newPath].some(path => path?.startsWith('site/en/') && (/\.mdx?$/.test(path) || path.startsWith('site/en/fragments/') || report.pages.some(p => p.sourceFile === path)))) continue
+    const pathsToCheck = [edge.oldPath, edge.newPath].filter((p): p is string => p !== null)
+    const documentPath = (path: string) => path.startsWith('site/en/') &&
+      (/\.mdx?$/.test(path) || path.startsWith('site/en/fragments/') || report.pages.some(p => p.sourceFile === path))
+    // The source gate's doc/fragment model does not authenticate arbitrary
+    // Variables.json, image or other file consumption at a stopped render.
+    if (pathsToCheck.some(path => !documentPath(path)) && edge.rangeIds.some(id => {
+      const stopped = uncertainCommits.get(id)
+      return stopped?.has(edge.commit) || edge.parent !== null && stopped?.has(edge.parent)
+    })) add('COLLATERAL_INPUT_UNPROVEN')
+    if (!pathsToCheck.some(documentPath)) continue
     const copy = edge.copyRef && input.copies?.get(edge.copyRef.sha256)
     const verifiedCopy = edge.associationResult === 'copied' && copy !== undefined && copyEdgeMatches(copy, edge)
     for (const rangeId of edge.rangeIds) {
@@ -357,6 +388,15 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         status = 'held'; for (const reason of edge.reasons) add(reason); add('SOURCE_ASSOCIATION_UNPROVEN')
       }
       if (status !== 'held' && verifiedCopy) status = 'irrelevant'
+      const partialTrace = uncertainCommits.get(rangeId)
+      const uncertain = !!partialTrace && (partialTrace.has(edge.commit) || (edge.parent !== null && partialTrace.has(edge.parent)))
+      if (uncertain && status !== 'held' && !verifiedCopy) {
+        // Even an empty read set could hide a consumer. Connect this page to
+        // every possible owner before taking the transitive component closure.
+        if (!edge.seedKey || !edge.introductionOid || !edge.evidence.length || !edge.evidenceRefs.length) add('SOURCE_ASSOCIATION_UNPROVEN')
+        else membership.get(rangeId)!.add(edge.seedKey)
+        status = 'held'
+      }
       if (status === 'consumed') {
         if (!edge.seedKey || !edge.introductionOid || !edge.evidence.length || !edge.evidenceRefs.length) {status = 'held'; add('SOURCE_ASSOCIATION_UNPROVEN')}
         else membership.get(rangeId)!.add(edge.seedKey)
@@ -365,7 +405,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
       obligations.push({pageId: rangeId, range: {from: configured.oldNext, to: configured.target}, edge: `${index}:${edge.parent ?? 'root'}:${edge.commit}:${sourcePath}`,
         seedKey: edge.seedKey, status, consumedPaths: sorted(paths),
         supportRefs: subtype ? batchSorted([...edge.evidenceRefs, subtype], r => r.sha256) : edge.evidenceRefs,
-        reason: status === 'held' ? 'SOURCE_OBLIGATION_UNPROVEN' : verifiedCopy ? 'EXACT_UPSTREAM_COPY' :
+        reason: status === 'held' && uncertain ? 'INCOMPLETE_HISTORICAL_READS' : status === 'held' ? 'SOURCE_OBLIGATION_UNPROVEN' : verifiedCopy ? 'EXACT_UPSTREAM_COPY' :
           status === 'consumed' ? 'ACTUAL_CONSUMED_PATH' : 'COMPLETE_CONSUMPTION_ABSENCE'})
     }
   }
@@ -382,7 +422,13 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   for (const obligation of obligations) if (obligation.status === 'held' && obligation.consumedPaths.length) required.add(root(obligation.pageId))
   const groups: BatchClosureAnalysis['groups'] = []
   const ignorable = new Set(['NO_DIRECT_SOURCE_CHANGE', 'FRAGMENT_REQUIRES_COLLECTOR', 'UNMAPPED_SOURCE_CHANGE', 'REPLAY_ONLY'])
+  const localOwnership = new Set(['INACTIVE_NECESSARY_PAGE', 'UNPUBLISHED_NECESSARY_PAGE'])
   for (const reason of report.reasons) {
+    // Discovery aggregates page and seed diagnostics. Only a positive lifecycle
+    // fact attributed to a known page can be scoped to that page's component.
+    if (localOwnership.has(reason) && report.pages.some(p => p.reasons.includes(reason) &&
+        (reason === 'INACTIVE_NECESSARY_PAGE' ? p.active === false : p.published === false)) &&
+        ![...report.seeds, ...report.dependencies].some(entry => entry.reasons.includes(reason))) continue
     if (ignorable.has(reason) || reason === 'UNKNOWN_COMMIT_ASSOCIATION' || reason === prPathReason && resolvedPaths()) continue
     add(reason)
   }
@@ -400,7 +446,10 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         held.add(reason)
       }
       if (configured.oldNext !== configured.target && !configured.intervals.some(i => i.from === configured.oldNext && i.to === configured.target && i.evidence.length && i.association === 'complete')) held.add('SOURCE_INTERVAL_UNPROVEN')
-      for (const reason of held) add(reason)
+      // Unknown discovery/ownership evidence remains global. A positively known
+      // inactive/unpublished page can wait with its entire connected component.
+      for (const reason of held) if (!localOwnership.has(reason)) add(reason)
+      for (const row of page?.deferredHistory ?? []) for (const reason of row.reasons) held.add(reason)
       const before = page?.rawTrees[1].entries ?? [], target = page?.rawTrees[2].entries ?? []
       dispositions.push({pageId: id, beforeSha256: batchSha256(canonicalBytes(before)), targetSha256: batchSha256(canonicalBytes(target)), reasons: sorted(held),
         disposition: held.size ? 'held' : configured.oldNext !== configured.target && !same(before, target) ? 'advance' : 'noop'})
@@ -428,8 +477,10 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     const next = ready[0]; remaining.delete(next); orderedGroups.push(groups[next])
   }
   const namespace: BatchClosureAnalysis['namespace'] = []
+  let outsideRouteUnknown = false
   for (const group of orderedGroups) {
-    const namespaceReasons = new Set<string>(), namespaceAdd = (reason: string) => {namespaceReasons.add(reason); add(reason)}
+    const namespaceReasons = new Set<string>()
+    const namespaceAdd = (reason: string, local = false) => {namespaceReasons.add(reason); if (!local) add(reason)}
     const selected = new Set(group.memberIds), destinations = new Map<string, {pageId: string; manual: string; path: string; ref: BatchBlobRef; headings: string[]; references: readonly ReferenceObservation[]; role: 'oldNext' | 'target' | 'existing'}[]>()
     const append = (route: string, target: typeof destinations extends Map<string, (infer D)[]> ? D : never) => {const key = `${target.manual}:${route}`, all = destinations.get(key) ?? []; all.push(target); destinations.set(key, all)}
     for (const page of pages) if (selected.has(page.header.pageId)) {
@@ -456,7 +507,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         const matches = destinations.get(`${manual.manual}:${route}`) ?? []
         if (matches.length !== 1) {namespaceAdd(matches.length ? 'EFFECTIVE_NAMESPACE_AMBIGUOUS' : 'EFFECTIVE_DESTINATION_UNAVAILABLE'); continue}
         const target = matches[0]
-        if (anchor !== undefined && (!anchor || target.headings.filter(h => h === anchor).length !== 1)) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED')
+        if (anchor !== undefined && (!anchor || target.headings.filter(h => h === anchor).length !== 1)) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED', selected.has(target.pageId))
         if (target.role === 'existing') namespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role: 'existing', ref: target.ref})
       }
     }
@@ -471,7 +522,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         resolved = new URL(reference.url, `${localOrigin}/${output.route}`)
         if (resolved.origin !== localOrigin) continue
         route = decodeURIComponent(resolved.pathname).replace(/^\//, '')
-      } catch { continue } // No resolved member route: an unrelated preexisting link.
+      } catch { outsideRouteUnknown = true; continue }
       const key = `${output.manual}:${route}`
       if (!memberRoutes.has(key)) continue
       namespace.push({pageId: output.route!, manual: output.manual, path: output.path, role: 'existing', ref: output.ref})
@@ -486,7 +537,42 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     }
     if (namespaceReasons.size) for (const disposition of group.dispositions) {disposition.disposition = 'held'; disposition.reasons = sorted([...disposition.reasons, ...namespaceReasons])}
   }
-  return immutable({groups: orderedGroups, obligations, reasons: sorted(reasons), namespace})
+  for (const group of orderedGroups) {
+    if (group.memberIds.length === pages.length || group.dispositions.some(d => d.disposition === 'held')) continue
+    const members = new Set(group.memberIds)
+    for (const page of projected) for (const manual of page.manuals) for (const ref of manual.references) {
+      if (!ref.url.includes('#') || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(ref.url)) continue
+      let route: string, anchor: string
+      try {
+        const url = new URL(ref.url, 'https://batch.invalid/' + page.pageId)
+        route = decodeURIComponent(url.pathname).slice(1)
+        anchor = decodeURIComponent(url.hash.slice(1))
+      } catch { add('COLLATERAL_ROUTE_UNPROVEN'); continue }
+      if (members.has(page.pageId) === members.has(route)) continue
+      // The exact pair matcher uses the literal fragment. A URL-encoded rename
+      // or an advisory relation can still represent an unresolved adoption edge.
+      if (byPage.get(route)?.promotionAnchors.some(a => a.manual === manual.manual &&
+          (a.status !== 'confirmed' || a.kind === 'renamed' && a.after?.anchor === anchor))) {
+        for (const disposition of group.dispositions) {
+          disposition.disposition = 'held'
+          disposition.reasons = sorted([...disposition.reasons, 'ADOPTION_DEPENDENCY_UNPROVEN'])
+        }
+      }
+    }
+  }
+  const bypassingHeld = pages.some(p => p.deferredHistory.length) || orderedGroups.some(g => g.dispositions.some(d => d.disposition === 'held'))
+  // Unclassified published routes cannot prove the absence of an incoming
+  // link for a batch that would bypass a held component.
+  if (bypassingHeld && (outsideRouteUnknown || pages[0]?.existing.some(output => !output.route))) add('COLLATERAL_ROUTE_UNPROVEN')
+  const ready = orderedGroups.filter(group => group.dispositions.every(d => d.disposition !== 'held'))
+  const advances = ready.filter(g => g.dispositions.some(d => d.disposition === 'advance'))
+  const multiEdit = advances.find(g => g.dispositions.filter(d => d.disposition === 'advance').length >= 2)
+  const selected = reasons.size ? null : multiEdit ?? advances.find(g => g.memberIds.length > 1) ?? advances[0] ?? ready[0] ?? null
+  if (!selected) {
+    for (const page of pages) for (const row of page.deferredHistory) for (const reason of row.reasons) add(reason)
+    for (const group of orderedGroups) for (const d of group.dispositions) for (const reason of d.reasons) add(reason)
+  }
+  return immutable({groups: orderedGroups, selected, obligations, reasons: sorted(reasons), namespace})
 }
 
 declare const materialClosureBrand: unique symbol
@@ -578,8 +664,10 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     }
     const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations, copies, atLocks})
     if (currentBatchLifetime()) {
-      const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.groups[0]?.memberIds ?? [],
-        waitingGroups: analysis.groups.slice(1).map(g => ({memberIds: g.memberIds, componentIds: g.componentIds, seedKeys: g.seedKeys})),
+      const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.selected?.memberIds ?? [],
+        waitingGroups: analysis.groups.filter(g => g !== analysis.selected).map(g => ({memberIds: g.memberIds,
+          componentIds: g.componentIds, seedKeys: g.seedKeys, heldPages: g.dispositions.filter(d => d.disposition === 'held')
+            .map(d => ({pageId: d.pageId, reasons: d.reasons}))})),
         consideredMembers: sorted(operation.pages.keys()), unmappedChanges: discovery.report.changes.filter(c => !c.pageIds?.length),
         deletedPaths: sorted(discovery.ledger.filter(e => e.newPath === null).map(e => e.oldPath!)), reasons: analysis.reasons, writeEligible: false, operations: []})
       if (diagnostics.length > 65536) throw Error('BATCH_SUMMARY_LIMIT')
@@ -587,8 +675,8 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       await operation.store.writeJournal('groups.json', diagnostics)
     }
     if (analysis.reasons.length) return {status: 'held', reasons: analysis.reasons}
-    if (!analysis.groups.length) return {status: 'no-group', reasons: []}
-    const group = analysis.groups[0]
+    const group = analysis.selected
+    if (!group) return {status: 'no-group', reasons: []}
     const materialObject = BatchMaterialsSchema.parse({base: operation.base, pages: batchSorted([...operation.pages.values()], p => p.pageId)})
     const materialDigest = batchDigest('materials', materialObject), materialRoot = await retainStructured(operation, materialObject)
     const intervalRefs = []
