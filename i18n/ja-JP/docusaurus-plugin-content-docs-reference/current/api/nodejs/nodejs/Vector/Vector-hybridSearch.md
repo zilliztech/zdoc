@@ -70,13 +70,13 @@ await milvusClient.hybridSearch({
 
     **[必須]**
 
-    検索対象のコレクション名です。
+    検索対象のコレクションの名前です。
 
 - **data** (*HybridSearchSingleReq[]*) -
 
     **[必須]**
 
-    ベクトルフィールドごとに1つずつ指定するサブ検索リクエストのリストです。各要素は、単一ベクトルのサブ検索のクエリベクトルと対象フィールドを定義します。フィールドの完全なリファレンスについては、後述の HybridSearchSingleReq セクションを参照してください。
+    ベクトルフィールドごとに 1 つずつ指定するサブ検索リクエストのリストです。各要素は、単一ベクトルのサブ検索のクエリベクトルと対象フィールドを定義します。フィールドの完全なリファレンスについては、後述の HybridSearchSingleReq セクションを参照してください。
 
 - **limit** (*number*) -
 
@@ -106,7 +106,7 @@ await milvusClient.hybridSearch({
 
     ベクトル間の類似度を測定するために使用するメトリックタイプです。
 
-- **rerank** (*RerankerObj* | *[FunctionObject](./Collections-FunctionObject)* | *FunctionScore*) -
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
 
     複数のサブ検索の結果を統合するための再ランキング戦略です。再ランキングパラメーターの完全なスキーマについては、`search()` を参照してください。
 
@@ -120,7 +120,7 @@ await milvusClient.hybridSearch({
 
 - **ignore_growing** (*boolean*) -
 
-    検索中に growing セグメントをスキップするかどうかです。
+    検索中に増加中のセグメントをスキップするかどうかです。
 
 - **group_by_field** (*string*) -
 
@@ -142,7 +142,7 @@ await milvusClient.hybridSearch({
 
     最終スコアで保持する小数点以下の桁数です。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     BFloat16Vector や Float16Vector などの特殊なベクトルデータ型用のカスタムトランスフォーマーです。
 
@@ -174,7 +174,7 @@ await milvusClient.hybridSearch({
 
 **例外:**
 
-- **エラー**
+- **Error**
 
     この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
@@ -184,7 +184,7 @@ await milvusClient.hybridSearch({
 
 **パラメーター:**
 
-- **data** (*SearchData*) -
+- **data** (*[SearchData](./Vector-SearchData)*) -
 
     **[必須]**
 
@@ -210,13 +210,13 @@ await milvusClient.hybridSearch({
 
 - **ignore_growing** (*boolean*) -
 
-    このサブ検索中に growing セグメントをスキップするかどうかです。
+    このサブ検索中に増加中のセグメントをスキップするかどうかです。
 
 - **group_by_field** (*string*) -
 
     このサブ検索内の多様性を確保するために、指定したフィールドで結果をグループ化します。
 
-- **transformers** (*OutputTransformers*) -
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     BFloat16Vector や Float16Vector などの特殊なベクトル型用のカスタムトランスフォーマーです。
 
