@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-24T10:13:45.915Z",
+  "generatedAt": "2026-11-24T15:17:47.712Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "7b83a7a7b04c25736a9da7680293ff7d0bb08d42"
+  "toolingSha": "f7e283f72fb69e35b4692f19a79861cf004f724a"
 }
