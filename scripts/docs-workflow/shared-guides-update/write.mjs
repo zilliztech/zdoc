@@ -38,6 +38,7 @@ function workflowContext(env) {
 
 export function context(env) {
   const job = workflowContext(env)
+  need(job.event === 'workflow_dispatch', 'Pilot writer requires a manual run')
   const digest = env.PREPARE_ARTIFACT_DIGEST
   need(typeof digest === 'string' && /^[a-f0-9]{64}$/.test(digest) && digest.length === 64, 'Invalid prepare artifact digest')
   return {...job,artifact:number(env.PREPARE_ARTIFACT_ID),reportArtifact:number(env.REPORT_ARTIFACT_ID),digest}
@@ -45,7 +46,7 @@ export function context(env) {
 
 export function batchWriterContext(env) {
   const job = workflowContext(env)
-  need(job.event === 'workflow_dispatch' && env.GITHUB_REF_PROTECTED === 'true', 'Batch writer requires an explicit run on protected master')
+  need(env.GITHUB_REF_PROTECTED === 'true', 'Batch writer requires protected master')
   const {BATCH_ARTIFACT_DIGEST:digest,BATCH_HANDOFF_DIGEST:handoffDigest} = env
   need([digest,handoffDigest].every(value => typeof value === 'string' && value.length === 64 && /^[a-f0-9]{64}$/.test(value)),
     'Invalid batch artifact or witness digest')

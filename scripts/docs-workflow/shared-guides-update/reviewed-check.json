@@ -21,7 +21,7 @@
       "actorId": 105278390,
       "workflowId": 414826845,
       "workflowPath": ".github/workflows/shared-guides-update.yml",
-      "workflowDefinitionSha256": "35516496047a5c2197c1cf5100e57e263f426ec01122ae474c9fe45096c4997d",
+      "workflowDefinitionSha256": "438741410fccf7a77c473b866bd856abce4c0872369f586f4193f1ddfe411481",
       "event": "workflow_dispatch"
     },
     "validator": {

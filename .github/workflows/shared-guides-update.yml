@@ -1,9 +1,10 @@
 name: Shared Guides upstream update
-run-name: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && 'Shared Guides batch upstream update' || 'json-field-overview upstream update' }}
+run-name: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch')) && 'Shared Guides batch upstream update' || 'json-field-overview upstream update' }}
 
 on:
   schedule:
-    - cron: '37 6 * * *'
+    # Leave time for the 10:00 UTC scheduled Fetch to finish.
+    - cron: '37 14 * * *'
   workflow_dispatch:
     inputs:
       scope:
@@ -51,8 +52,7 @@ jobs:
 
   discover:
     if: >-
-      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
-      (github.event_name != 'workflow_dispatch' || inputs.scope == 'pilot') &&
+      github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot' &&
       github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
       github.ref == 'refs/heads/master' && github.run_attempt == 1
     runs-on: ubuntu-24.04
@@ -83,8 +83,12 @@ jobs:
           jq -r '"Discovery: " + .status + " " + (.reasons | join(", "))' "$RUNNER_TEMP/discovery.json" >> "$GITHUB_STEP_SUMMARY"
 
   history_checkpoint:
-    needs: discover
-    if: needs.discover.outputs.history_verified == 'true'
+    needs: [discover, preview_batch]
+    if: >-
+      !cancelled() && (
+        (needs.discover.result == 'success' && needs.discover.outputs.history_verified == 'true') ||
+        (needs.preview_batch.result == 'success' && needs.preview_batch.outputs.history_verified == 'true')
+      )
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     permissions: {}
@@ -167,7 +171,7 @@ jobs:
 
   preview_batch:
     if: >-
-      github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' &&
+      (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch')) &&
       github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
       github.ref == 'refs/heads/master' && github.ref_protected && github.run_attempt == 1
     runs-on: ubuntu-24.04
@@ -177,12 +181,20 @@ jobs:
       actions: read
     outputs:
       status: ${{ steps.fetch.outputs.status }}
+      history_verified: ${{ steps.history.outputs.history_verified }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+      - id: history
+        name: Check earlier writer attempts
+        if: github.event_name == 'schedule' || inputs.create_draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/docs-workflow/shared-guides-update/discover.mjs --batch-history
       - id: fetch
+        if: steps.history.outputs.history_verified == 'true' || (github.event_name == 'workflow_dispatch' && !inputs.create_draft)
         env:
           GH_TOKEN: ${{ github.token }}
         run: node scripts/docs-workflow/shared-guides-update/batch-qualify-workflow.mjs preview
@@ -262,10 +274,9 @@ jobs:
       github.ref == 'refs/heads/master' && github.run_attempt == 1 &&
       (
         (needs.prepare.result == 'success' && needs.prepare.outputs.status == 'prepared' &&
-          (github.event_name == 'schedule' ||
-            (github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot' && inputs.create_draft))) ||
-        (needs.prepare_batch.result == 'success' && needs.prepare_batch.outputs.status == 'prepared' &&
-          github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && inputs.create_draft && github.ref_protected)
+          github.event_name == 'workflow_dispatch' && inputs.scope == 'pilot' && inputs.create_draft) ||
+        (needs.prepare_batch.result == 'success' && needs.prepare_batch.outputs.status == 'prepared' && github.ref_protected &&
+          (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && inputs.create_draft)))
       )
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -273,6 +284,8 @@ jobs:
       actions: read
       contents: write
       pull-requests: write
+    env:
+      SHARED_GUIDES_WRITER_MODE: ${{ (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.scope == 'batch')) && 'batch' || 'pilot' }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -297,14 +310,13 @@ jobs:
           REPORT_ARTIFACT_ID: ${{ needs.prepare.outputs.report_artifact_id }}
           PREPARE_ARTIFACT_ID: ${{ needs.prepare.outputs.artifact_id }}
           PREPARE_ARTIFACT_DIGEST: ${{ needs.prepare.outputs.artifact_digest }}
-          SHARED_GUIDES_WRITER_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'batch' && 'batch' || 'pilot' }}
           BATCH_ARTIFACT_ID: ${{ needs.prepare_batch.outputs.artifact_id }}
           BATCH_ARTIFACT_DIGEST: ${{ needs.prepare_batch.outputs.artifact_digest }}
           BATCH_HANDOFF_DIGEST: ${{ needs.prepare_batch.outputs.handoff_digest }}
           WRITER_OUTPUT: ${{ runner.temp }}/shared-guides-writer
         run: node scripts/docs-workflow/shared-guides-update/write.mjs
       - name: Retain the signed producer receipt
-        if: success() && steps.writer.outputs.status == 'created' && (github.event_name == 'schedule' || inputs.scope == 'pilot')
+        if: success() && steps.writer.outputs.status == 'created' && env.SHARED_GUIDES_WRITER_MODE == 'pilot'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-update-producer
@@ -312,7 +324,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Retain the signed batch producer receipt
-        if: success() && steps.writer.outputs.status == 'created' && github.event_name == 'workflow_dispatch' && inputs.scope == 'batch'
+        if: success() && steps.writer.outputs.status == 'created' && env.SHARED_GUIDES_WRITER_MODE == 'batch'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shared-guides-batch-producer-v2
