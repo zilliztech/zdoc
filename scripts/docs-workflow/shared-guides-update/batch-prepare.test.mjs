@@ -193,6 +193,24 @@ test('projects only bounded page measurements and material progress from the own
   assert.throws(() => readBatchMeasurements(paths), /BATCH_PREPARE_MEASUREMENT/)
 })
 
+test('retains last page progress on a deadline without treating it as a terminal measurement or handoff', t => {
+  const {paths} = fixture(t)
+  const decision = settleBatchPrepare(held('held', ['BATCH_OPERATION_DEADLINE']), paths, ctx)
+  const page = {pageId: 'example-a', elapsedMs: 470, responseBytes: 1024, materialBytes: 512}
+  const lastProgress = {phase: 'worker', pageId: 'example-b', elapsedMs: 650, totalPages: 3, pages: [page]}
+  const save = overrides => writeFileSync(join(paths.evidence, 'progress.json'), JSON.stringify({
+    kind: 'guides-batch-progress-v1', observation: 'observed', ...lastProgress, secret: 'omit', ...overrides,
+  }), {mode: 0o600})
+  save({})
+  assert.deepEqual(batchDecisionSummary(decision, paths), {...decision, lastProgress})
+  assert.deepEqual(batchDecisionSummary({status: 'unchanged'}, paths), {status: 'unchanged'})
+  for (const bad of [{observation: 'replay'}, {totalPages: 1}, {pageId: page.pageId}, {phase: 'arbitrary'}]) {
+    save(bad)
+    assert.deepEqual(batchDecisionSummary(decision, paths), {...decision, measurementStatus: 'unavailable'})
+  }
+  assert.equal(existsSync(paths.upload), false)
+})
+
 test('retains a held decision when its optional measurement cannot be read', t => {
   const {paths} = fixture(t)
   const decision = settleBatchPrepare(held(), paths, ctx)

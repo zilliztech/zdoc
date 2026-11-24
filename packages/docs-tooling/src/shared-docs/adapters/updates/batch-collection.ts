@@ -23,11 +23,30 @@ interface Operation {
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
 type MaterialPhase = 'discovery-retention' | 'launcher' | 'allocation' | 'worker' | 'page-retention' | 'projection' | 'closure'
+type ProgressPhase = MaterialPhase | 'capture' | 'discovery' | 'qualification' | 'candidate'
 interface OperationMeasurement {
+  observation: 'observed' | 'replay'
+  started: number
+  totalPages: number | null
   pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]
   materialFailure?: {phase: MaterialPhase; pageId: string | null; completedPages: number; phaseElapsedMs: number}
 }
 const operationMeasurements = new WeakMap<EvidenceStore, OperationMeasurement>()
+// An interrupted sampler cannot produce terminal measurements. Keep a small
+// last-known snapshot in a separate owned journal that never grants authority.
+async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhase, pageId: string | null = null) {
+  const measurement = operationMeasurements.get(store)
+  if (!measurement) return
+  const {observation, started, pages, totalPages} = measurement
+  try {
+    const bytes = canonicalBytes({kind: 'guides-batch-progress-v1', observation, phase, pageId, totalPages,
+      elapsedMs: Math.ceil(performance.now() - started), pages})
+    if (bytes.length <= 65536) await store.writeJournal('progress.json', bytes)
+  } catch {
+    // Preserve the last complete atomic snapshot on a deadline or I/O failure.
+    // Allocation, collection and final admission retain their own checks.
+  }
+}
 // Only the active private finalizer can create this state; public records and
 // retained descriptors never restore it or authorize completion.
 const completionValidity = new WeakMap<EvidenceStore, {deadline: number; scanStartMs: number; origin: BatchOrigin}>()
@@ -602,8 +621,13 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
   let phase: MaterialPhase = 'discovery-retention'
   let phaseStart = performance.now()
   let pageId: string | null = null
-  const begin = (next: MaterialPhase) => {phase = next; phaseStart = performance.now()}
+  const begin = async (next: MaterialPhase) => {
+    phase = next
+    phaseStart = performance.now()
+    await checkpointBatchProgress(operation.store, phase, pageId)
+  }
   try {
+    await begin('discovery-retention')
     const discovery = readBatchDiscoveryCapture(operation.discovery)
     for (const evidence of discovery.evidence) {
       const stored = await writeOwnedBlob(operation.store, evidence.bytes)
@@ -616,12 +640,12 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     const introductionOrderRef = await retainStructured(operation, discovery.introductionOrder)
     const discoveryObject = BatchDiscoveryCommitmentSchema.parse({base: operation.base, reportRef, edgeLedgerRef, introductionOrderRef})
     const discoveryDigest = batchDigest('discovery', discoveryObject), discoveryRef = await retainStructured(operation, discoveryObject)
-    begin('launcher')
+    await begin('launcher')
     const launcher = batchContentLauncher(await prepareTrustedLauncher(operation.capture, operation.store))
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
     for (const page of batchSorted(discovery.report.pages, p => p.pageId)) {
       pageId = page.pageId
-      begin('allocation')
+      await begin('allocation')
       if (!operation.active) invalid()
       currentBatchLifetime()?.check()
       if (currentBatchLifetime()) {
@@ -630,13 +654,13 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           commits: [page.current, page.oldNext, operation.base.pins.source]})
       }
       const ticket = issueContent(operation, page.pageId), began = performance.now()
-      begin('worker')
+      await begin('worker')
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
-      begin('page-retention')
+      await begin('page-retention')
       const {retained, checked} = await retainPage(operation, ticket, child)
       if (!operation.active) invalid()
-      begin('projection')
+      await begin('projection')
       // The verified ref binds every output's path, Git object and bytes to this exact dev tree.
       if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
       const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
@@ -647,7 +671,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
     }
     pageId = null
-    begin('closure')
+    await begin('closure')
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const restorations = new Map<string, BatchRestoreProof>()
@@ -1099,10 +1123,29 @@ function sampleBatchOperation(root: string) {
   const worker = new Worker(`
     const {parentPort,workerData}=require('node:worker_threads');
     const {execFile}=require('node:child_process'),{promisify}=require('node:util');
-    const {lstat,readdir}=require('node:fs/promises'),{join}=require('node:path');
+    const {lstatSync,readdirSync}=require('node:fs'),{join}=require('node:path');
+    const {setImmediate:yieldTurn}=require('node:timers/promises');
     const exec=promisify(execFile),start=performance.now(),groups=new Set();
     let stopped=false,rssWork,diskWork,lastRss=start,lastDisk=start,rssCount=0,diskCount=0,rssPeak=0,diskPeak=0,rssGap=0,diskGap=0,errors=0;
-    async function disk(){let size=0,count=0;async function visit(path){if(++count>100000)throw Error('entries');const st=await lstat(path);size+=st.blocks*512+4096;if(st.isDirectory())for(const name of await readdir(path))await visit(join(path,name));}await visit(workerData.root);return size;}
+    // Batch local metadata reads on the sampler's own thread. Yield frequently
+    // so disk measurements never monopolize the RSS and stop callbacks.
+    async function disk(){
+      let size=0,count=0,path=workerData.root,nextYield=performance.now()+4;
+      const parents=[];
+      while(path!==undefined){
+        if(++count>100000)throw Error('entries');
+        const st=lstatSync(path);
+        size+=st.blocks*512+4096;
+        if(st.isDirectory())parents.push({path,names:readdirSync(path)[Symbol.iterator]()});
+        path=undefined;
+        while(path===undefined&&parents.length){
+          const parent=parents.at(-1),next=parent.names.next();
+          if(next.done)parents.pop();else path=join(parent.path,next.value);
+        }
+        if(count%128===0||performance.now()>=nextYield){await yieldTurn();nextYield=performance.now()+4;}
+      }
+      return size;
+    }
     function tick(){if(stopped)return;
       if(!rssWork)rssWork=(async()=>{const {stdout}=await exec('/bin/ps',['-axo','pid=,ppid=,pgid=,rss='],{env:{PATH:'/usr/bin:/bin',LC_ALL:'C'},timeout:1000,maxBuffer:4*1024*1024});
         const now=performance.now();rssGap=Math.max(rssGap,Math.ceil(now-lastRss));lastRss=now;rssCount++;
@@ -1170,7 +1213,9 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       const fs = await statfs(parent, {bigint: true})
       checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, 8192, 4)
       store = await initializeEvidence({root: out, repositories: [repository, source], owner: 'guides-batch-' + observation, maxBytes: 64 * 1024 * 1024})
-      operationMeasurements.set(store, {pages: []})
+      const measurement: OperationMeasurement = {observation, started: performance.now(), pages: [], totalPages: null}
+      operationMeasurements.set(store, measurement)
+      await checkpointBatchProgress(store, 'capture')
       stopSampling = sampleBatchOperation(store.root)
       const commit = await resolveCommit(repository), capture = replay?.capture ?? await captureTrustedToolset({root: repository, commit, cwd: repository})
       currentBatchLifetime()!.check()
@@ -1188,21 +1233,25 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
           return {status: 200, headers: {}, body: bytes}
         }}
       }
+      await checkpointBatchProgress(store, 'discovery')
       const discovery = replay ? await replayBatchDiscovery(input, {fixtureBytes: replay.fixtureBytes, replayClockMs: replay.replayClockMs}, immutableTransport!) : await observeBatchDiscovery(input)
       currentBatchLifetime()!.check()
       const pages = readBatchDiscoveryCapture(discovery).report.pages.length
+      measurement.totalPages = pages
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
       const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined))
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
+      await checkpointBatchProgress(store, 'qualification')
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true, preparation)
       if (qualified.status === 'held') return result('held', qualified.reasons)
       try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
       collectedIndex = qualified.indexRef
       if (!preparation) return result('collected', [], qualified.indexRef)
+      await checkpointBatchProgress(store, 'candidate')
       const {candidate: localCandidate, handoff, checkPaths} = await buildCompletedCandidate(qualified, observation, preparation)
       checkCandidatePaths = checkPaths
       assertCompletionValidity(store)
@@ -1221,8 +1270,9 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
           checkCandidatePaths?.()
         }
         try {
+          const measurement = operationMeasurements.get(store)!
           await settleBatchMeasurement(store, stopSampling, {observation, resources: batchResourceMeasurement(store) ?? null,
-            ...operationMeasurements.get(store), signedProducerCapacity: 'deferred'}, validate)
+            pages: measurement.pages, ...(measurement.materialFailure && {materialFailure: measurement.materialFailure}), signedProducerCapacity: 'deferred'}, validate)
           // Repeat synchronously after the helper's final awaited resolution.
           // No awaited work remains before the live result is issued.
           validate()
