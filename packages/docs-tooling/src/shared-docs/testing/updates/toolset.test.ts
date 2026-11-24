@@ -1231,6 +1231,25 @@ export function collectBatchPageMaterial(data){
 `)
   a.commit = commitAll(a.root)
   const capture = await captureTrustedToolset(a), original = toolset.batchContentLauncher
+  const consume = batch.consumeBatchContentLaunch
+  const phases: {pageId: string; phase: string}[] = []
+  const timings: {authenticationMs: number; observedMs: number}[] = []
+  const consumeSpy = vi.spyOn(batch, 'consumeBatchContentLaunch').mockImplementation((...args) => {
+    const launch = consume(...args), pageId = launch.request.pageId
+    let started = 0
+    return {...launch,
+      async authenticating() {
+        phases.push({pageId, phase: 'launch-authentication'})
+        await launch.authenticating()
+        started = performance.now()
+      },
+      async renderWorkerStarted(authenticationMs) {
+        timings.push({authenticationMs, observedMs: Math.ceil(performance.now() - started)})
+        phases.push({pageId, phase: 'render-worker'})
+        await launch.renderWorkerStarted(authenticationMs)
+      },
+    }
+  })
   const probes = vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
     const fixed = original(launcher)
     return {...fixed, async runReplayBatchContent(ticket, signal) {
@@ -1244,7 +1263,14 @@ export function collectBatchPageMaterial(data){
   const out = join(a.root, '.claude', 'measured-batch')
   const result = await batch.collectReplayBatchMaterial({capture, sourceRepository: f.repo, zdocRepository: f.root, out,
     fixtureBytes: canonicalBytes({frames, imageManifest: []}), replayClockMs: 0}, {transport: f.transport})
-  probes.mockRestore()
+    .finally(() => { probes.mockRestore(); consumeSpy.mockRestore() })
+  for (const {authenticationMs, observedMs} of timings) {
+    expect(authenticationMs).toBeGreaterThan(0)
+    expect(authenticationMs).toBeLessThanOrEqual(observedMs)
+  }
+  expect(phases).toEqual([...f.ids].sort().flatMap(pageId => [
+    {pageId, phase: 'launch-authentication'}, {pageId, phase: 'render-worker'},
+  ]))
   expect(result).toMatchObject({status: 'material-complete', memberIds: ['build-pipeline'], origin: {kind: 'replay'}})
   if (result.status !== 'material-complete') throw Error(JSON.stringify(result))
   expect(JSON.stringify(result.ticket)).toBe('{}')
