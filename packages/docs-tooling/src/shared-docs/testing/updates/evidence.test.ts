@@ -220,6 +220,54 @@ describe('fresh bounded ancestor checks', () => {
 
 
 describe('concurrent content-addressed evidence writes', () => {
+  it('reads each retained page blob once and refuses to repair missing or changed repeats', async () => {
+    const {root, repo} = await fixture()
+    const out = join(root, 'page-evidence'), bytes = Buffer.from('page evidence')
+    const sha256 = createHash('sha256').update(bytes).digest('hex')
+    const ref = {path: `blobs/${sha256}`, sha256, bytes: bytes.length}
+    const path = join(out, ref.path)
+    const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+    const opens: number[] = []
+    vi.resetModules()
+    vi.doMock('node:fs/promises', () => ({...actual,
+      open: (...args: Parameters<typeof actual.open>) => {
+        if (args[0] === path && typeof args[1] === 'number') opens.push(args[1])
+        return actual.open(...args)
+      },
+    }))
+    try {
+      const {initializeEvidence, createPageBlobRetainer, bindBatchResources, batchCasCategory, batchResourceMeasurement} = await import('../../adapters/updates/evidence')
+      const store = await initializeEvidence({root: out, repositories: [repo], owner: 'batch'})
+      expect(() => createPageBlobRetainer({...store})).toThrow(/owned/)
+      bindBatchResources(store, 2)
+      batchCasCategory(store, 'page')
+      const retain = createPageBlobRetainer(store)
+      const create = constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | constants.O_NOFOLLOW
+      const read = constants.O_RDONLY | constants.O_NOFOLLOW
+      expect(await retain(bytes)).toEqual(ref)
+      expect(opens.splice(0)).toEqual([create, read])
+      expect(await retain(Uint8Array.from(bytes))).toEqual(ref)
+      expect(opens.splice(0)).toEqual([read])
+      expect(batchResourceMeasurement(store)).toMatchObject({distinctBlobs: 1, casBytes: {page: bytes.length}})
+
+      const replacement = join(root, 'replacement')
+      await writeFile(replacement, Buffer.alloc(bytes.length, 120))
+      await rename(replacement, path)
+      await expect(retain(bytes)).rejects.toThrow(/SHA-256/)
+      expect(opens.splice(0)).toEqual([read])
+      await unlink(path)
+      await expect(retain(bytes)).rejects.toMatchObject({code: 'ENOENT'})
+      expect(opens).toEqual([])
+      await expect(lstat(path)).rejects.toMatchObject({code: 'ENOENT'})
+      await writeFile(replacement, bytes)
+      await symlink(replacement, path)
+      await expect(retain(bytes)).rejects.toThrow(/Unsafe/)
+      expect(opens).toEqual([])
+    } finally {
+      vi.doUnmock('node:fs/promises'); vi.resetModules()
+    }
+  }, 30000)
+
   it.each(['complete', 'tamper', 'fail'] as const)('orders same-path writers until the first write %s without caching trust', async mode => {
     const {root, repo} = await fixture(), out = join(root, 'concurrent')
     const bytes = Buffer.from('same immutable evidence'), path = join(out, 'blobs', createHash('sha256').update(bytes).digest('hex'))

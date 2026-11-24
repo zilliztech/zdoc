@@ -92,7 +92,7 @@ export interface EvidenceStore {
   readJournal(ref: BlobRef): Promise<Uint8Array>
   readMaterial(material: { path: string; sha256: string; bytes: number }, ref: BlobRef): Promise<Uint8Array>
 }
-const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void>; writeBlob: (bytes: Uint8Array) => Promise<BlobRef> }>()
+const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void>; writeBlob: EvidenceStore['writeBlob']; readBlob: EvidenceStore['readBlob'] }>()
 /** Filesystem-only discovery avoids an ambient Git executable before launcher ownership exists. */
 async function gitMetadataDirectories(repository: string): Promise<string[]> {
   const dot = join(repository,'.git'), stat = await identityStat(dot).catch(error=>{if(missing(error))return null;throw error})
@@ -242,7 +242,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       await rename(temporary, target); ownedJournals.set(path, await identityStat(target)); await verify()
     },
   }
-  evidenceStores.set(store, { root, verify, writeBlob: store.writeBlob }); return store
+  evidenceStores.set(store, { root, verify, writeBlob: store.writeBlob, readBlob }); return store
 }
 
 /** Capability-checked, exclusive directory for task-owned launcher material. */
@@ -261,6 +261,27 @@ export async function writeOwnedBlob(store: EvidenceStore, bytes: Uint8Array): P
   const owned = evidenceStores.get(store)
   if (!owned) throw new Error('Evidence store is not independently owned')
   await owned.verify(); return owned.writeBlob(bytes)
+}
+
+/** One collection retains its page payloads in order. Every occurrence authenticates the actual CAS file. */
+export function createPageBlobRetainer(store: EvidenceStore) {
+  const owned = evidenceStores.get(store)
+  if (!owned) throw new Error('Evidence store is not independently owned')
+  const persisted = new Set<string>()
+  return async (bytes: Uint8Array): Promise<BlobRef> => {
+    currentBatchLifetime()?.check()
+    const sha256 = rawSha256(bytes)
+    const ref = {path: `blobs/${sha256}`, sha256, bytes: bytes.byteLength}
+    if (!persisted.has(sha256)) {
+      const stored = await writeOwnedBlob(store, bytes)
+      if (stored.path !== ref.path || stored.sha256 !== sha256 || stored.bytes !== ref.bytes) throw Error('BATCH_CAS_BINDING_INVALID')
+    }
+    // A settled ref can only be read back. A missing or changed file must stop collection.
+    await owned.readBlob(ref)
+    currentBatchLifetime()?.check()
+    persisted.add(sha256)
+    return ref
+  }
 }
 
 import {statfs} from 'node:fs/promises'

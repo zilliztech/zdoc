@@ -3,7 +3,7 @@ import {runBatchPagePipeline} from './batch-page-pipeline'
 import {fileURLToPath} from 'node:url'
 import {canonicalBytes} from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
-import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
+import {createPageBlobRetainer, writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
 import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, isIsolatedBatchCandidateOrigin, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
@@ -99,7 +99,7 @@ export function replayBatchContentData(ticket: BatchContentTicket, capture: Trus
   return launch.operation.replayFixtureBytes && Uint8Array.from(launch.operation.replayFixtureBytes)
 }
 /** Retain only bytes delivered by the exact successfully settled child; the whole wire is never a CAS blob. */
-async function retainPage(operation: Operation, ticket: BatchContentTicket, child: BatchMeasuredChild) {
+async function retainPage(operation: Operation, ticket: BatchContentTicket, child: BatchMeasuredChild, retainBlob: ReturnType<typeof createPageBlobRetainer>) {
   const launch = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)
   if (!launch || launch.operation !== operation || launch.state !== 'running' || !operation.active) invalid()
   batchCasCategory(operation.store, 'page')
@@ -112,10 +112,8 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   for (const payload of wire.blobs) {
     if (!operation.active) invalid()
     const bytes = decodeBatchBlob(payload.ref, payload.base64)
-    const stored = await writeOwnedBlob(operation.store, bytes)
+    const stored = await retainBlob(bytes)
     if (!operation.active || stored.sha256 !== payload.ref.sha256 || stored.bytes !== payload.ref.bytes) invalid()
-    const reread = await operation.store.readBlob(stored)
-    if (!operation.active || batchSha256(reread) !== stored.sha256 || reread.length !== stored.bytes) invalid()
   }
   const materialBytes = canonicalBytes(checked.header), materialRef = await writeOwnedBlob(operation.store, materialBytes)
   if (!operation.active) invalid()
@@ -661,6 +659,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     const launcher = batchContentLauncher(await prepareTrustedLauncher(operation.capture, operation.store))
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
     const registry = batchSorted(discovery.report.pages, p => p.pageId)
+    const retainBlob = createPageBlobRetainer(operation.store)
     let workerFailure: {pageId: string; started: number} | undefined
     try {
       await runBatchPagePipeline(registry, {
@@ -698,7 +697,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           pageId = page.pageId
           if (!operation.active) invalid()
           await begin('page-retention')
-          const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child)
+          const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child, retainBlob)
           if (!operation.active) invalid()
           await begin('projection')
           if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
