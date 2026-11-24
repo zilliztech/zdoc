@@ -23,24 +23,24 @@ interface Operation {
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
 type MaterialPhase = 'discovery-retention' | 'launcher' | 'allocation' | 'worker' | 'page-retention' | 'projection' | 'closure'
-type ProgressPhase = MaterialPhase | 'capture' | 'discovery' | 'qualification' | 'candidate'
+type ProgressPhase = MaterialPhase | 'launch-authentication' | 'render-worker' | 'capture' | 'discovery' | 'qualification' | 'candidate'
 interface OperationMeasurement {
   observation: 'observed' | 'replay'
   started: number
   totalPages: number | null
-  pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]
+  pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number; authenticationMs?: number}[]
   materialFailure?: {phase: MaterialPhase; pageId: string | null; completedPages: number; phaseElapsedMs: number}
 }
 const operationMeasurements = new WeakMap<EvidenceStore, OperationMeasurement>()
 // An interrupted sampler cannot produce terminal measurements. Keep a small
 // last-known snapshot in a separate owned journal that never grants authority.
-async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhase, pageId: string | null = null) {
+async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhase, pageId: string | null = null, authenticationMs?: number) {
   const measurement = operationMeasurements.get(store)
   if (!measurement) return
   const {observation, started, pages, totalPages} = measurement
   try {
     const bytes = canonicalBytes({kind: 'guides-batch-progress-v1', observation, phase, pageId, totalPages,
-      elapsedMs: Math.ceil(performance.now() - started), pages})
+      elapsedMs: Math.ceil(performance.now() - started), pages, ...(authenticationMs === undefined ? {} : {authenticationMs})})
     if (bytes.length <= 65536) await store.writeJournal('progress.json', bytes)
   } catch {
     // Preserve the last complete atomic snapshot on a deadline or I/O failure.
@@ -58,7 +58,7 @@ function assertCompletionValidity(store: EvidenceStore) {
   if (performance.now() >= validity.deadline || now - validity.scanStartMs > 36 * 3600_000 || validity.scanStartMs - now > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
 }
 
-interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'}
+interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'; authenticationMs?: number}
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
   if (!operation.active || operation.issued.has(pageId) || !readBatchDiscoveryCapture(operation.discovery).report.pages.some(p => p.pageId === pageId)) invalid()
@@ -74,7 +74,16 @@ export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: T
   if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') invalid()
   // The claim precedes every await, including module/tool verification in the launcher.
   launch.state = 'running'
-  return launch.request
+  // These private notifications can record timings for this page only. They
+  // never alter the ticket state, the authenticated material or any receipt.
+  return {
+    request: launch.request,
+    authenticating: () => checkpointBatchProgress(store, 'launch-authentication', launch.request.pageId),
+    renderWorkerStarted: (authenticationMs: number) => {
+      launch.authenticationMs = authenticationMs
+      return checkpointBatchProgress(store, 'render-worker', launch.request.pageId, authenticationMs)
+    },
+  }
 }
 export function replayBatchContentData(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore): Uint8Array | undefined {
   const launch = replayLaunches.get(ticket)
@@ -107,7 +116,7 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   const retained: RetainedPage = immutable({pageId: launch.request.pageId, ...receipt, materialRef, materialDigest: batchDigest('material', checked.header)})
   if (operation.pages.has(retained.pageId)) invalid()
   operation.pages.set(retained.pageId, retained); launch.state = 'settled'; operation.outstanding.delete(ticket)
-  return {retained, checked}
+  return {retained, checked, authenticationMs: launch.authenticationMs}
 }
 
 /** Unexported constructors keep replay captures in a separate nominal family. */
@@ -658,7 +667,7 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
       if (!operation.active) invalid()
       await begin('page-retention')
-      const {retained, checked} = await retainPage(operation, ticket, child)
+      const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child)
       if (!operation.active) invalid()
       await begin('projection')
       // The verified ref binds every output's path, Git object and bytes to this exact dev tree.
@@ -666,7 +675,8 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
       const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
       verifiedNamespace ??= checked.config.namespaceRef
       compactPages.push(projected)
-      measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
+      measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
+        ...(authenticationMs === undefined ? {} : {authenticationMs})})
       // No completed promise/response/large raw text table is cached across pages.
       // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
     }

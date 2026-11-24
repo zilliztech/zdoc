@@ -17,8 +17,8 @@ const memberLimit = 1024 ** 2
 const resultLimit = 65536
 const pageResponseLimit = 128 * 1024 ** 2
 const materialPhases = new Set(['discovery-retention', 'launcher', 'allocation', 'worker', 'page-retention', 'projection', 'closure'])
-const progressPhases = new Set([...materialPhases, 'capture', 'discovery', 'qualification', 'candidate'])
-const pagePhases = new Set(['allocation', 'worker', 'page-retention', 'projection'])
+const progressPhases = new Set([...materialPhases, 'launch-authentication', 'render-worker', 'capture', 'discovery', 'qualification', 'candidate'])
+const pagePhases = new Set(['launch-authentication', 'render-worker', 'allocation', 'worker', 'page-retention', 'projection'])
 const fixedEnvironment = {PATH: '/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin', LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false'}
 const gitEnvironment = {...fixedEnvironment, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
   GIT_NO_REPLACE_OBJECTS: '1', GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_ALLOW_PROTOCOL: ''}
@@ -151,11 +151,12 @@ function readDiagnostic(paths, journal, kind) {
   check(value?.kind === kind && value.observation === 'observed' &&
     Array.isArray(value.pages) && count(value.elapsedMs), 'BATCH_PREPARE_MEASUREMENT')
   const seen = new Set()
-  const pages = value.pages.map(({pageId: id, elapsedMs, responseBytes, materialBytes}) => {
+  const pages = value.pages.map(({pageId: id, elapsedMs, responseBytes, materialBytes, authenticationMs}) => {
     check(pageId(id) && !seen.has(id) && count(elapsedMs) && positive(responseBytes) && responseBytes <= pageResponseLimit &&
       positive(materialBytes) && materialBytes <= 64 * 1024 ** 2, 'BATCH_PREPARE_MEASUREMENT')
     seen.add(id)
-    return {pageId: id, elapsedMs, responseBytes, materialBytes}
+    check(authenticationMs === undefined || count(authenticationMs) && authenticationMs <= elapsedMs, 'BATCH_PREPARE_MEASUREMENT')
+    return {pageId: id, elapsedMs, responseBytes, materialBytes, ...(authenticationMs === undefined ? {} : {authenticationMs})}
   })
   return {value, seen, pages}
 }
@@ -183,7 +184,10 @@ function readLastProgress(paths) {
   check(progressPhases.has(phase) && (pagePhases.has(phase) ? pageId(id) && !seen.has(id) : id === null) &&
     (discovering ? totalPages === null && pages.length === 0 : count(totalPages) && pages.length + Number(id !== null) <= totalPages),
     'BATCH_PREPARE_MEASUREMENT')
-  return {phase, pageId: id, elapsedMs, totalPages, pages}
+  const {authenticationMs} = value
+  check(phase === 'render-worker' ? count(authenticationMs) && authenticationMs <= elapsedMs : authenticationMs === undefined,
+    'BATCH_PREPARE_MEASUREMENT')
+  return {phase, pageId: id, elapsedMs, totalPages, pages, ...(authenticationMs === undefined ? {} : {authenticationMs})}
 }
 
 export function batchDecisionSummary(summary, paths) {

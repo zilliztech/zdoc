@@ -196,15 +196,20 @@ test('projects only bounded page measurements and material progress from the own
 test('retains last page progress on a deadline without treating it as a terminal measurement or handoff', t => {
   const {paths} = fixture(t)
   const decision = settleBatchPrepare(held('held', ['BATCH_OPERATION_DEADLINE']), paths, ctx)
-  const page = {pageId: 'example-a', elapsedMs: 470, responseBytes: 1024, materialBytes: 512}
+  const page = {pageId: 'example-a', elapsedMs: 470, responseBytes: 1024, materialBytes: 512, authenticationMs: 300}
   const lastProgress = {phase: 'worker', pageId: 'example-b', elapsedMs: 650, totalPages: 3, pages: [page]}
   const save = overrides => writeFileSync(join(paths.evidence, 'progress.json'), JSON.stringify({
     kind: 'guides-batch-progress-v1', observation: 'observed', ...lastProgress, secret: 'omit', ...overrides,
   }), {mode: 0o600})
   save({})
   assert.deepEqual(batchDecisionSummary(decision, paths), {...decision, lastProgress})
+  for (const update of [{phase: 'launch-authentication'}, {phase: 'render-worker', authenticationMs: 180}]) {
+    save(update)
+    assert.deepEqual(batchDecisionSummary(decision, paths), {...decision, lastProgress: {...lastProgress, ...update}})
+  }
   assert.deepEqual(batchDecisionSummary({status: 'unchanged'}, paths), {status: 'unchanged'})
-  for (const bad of [{observation: 'replay'}, {totalPages: 1}, {pageId: page.pageId}, {phase: 'arbitrary'}]) {
+  for (const bad of [{observation: 'replay'}, {totalPages: 1}, {pageId: page.pageId}, {phase: 'arbitrary'},
+    {phase: 'render-worker'}, {phase: 'launch-authentication', authenticationMs: 1}, {pages: [{...page, authenticationMs: 471}]}]) {
     save(bad)
     assert.deepEqual(batchDecisionSummary(decision, paths), {...decision, measurementStatus: 'unavailable'})
   }
