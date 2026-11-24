@@ -808,7 +808,25 @@ it.each(['error', 'early-exit'] as const)('settles a failed sampler (%s) and ret
     await expect(batch.collectReplayGuidesBatch({sourceRepository: f.repo, zdocRepository: f.root, out,
       capture: {} as never, fixtureBytes: Buffer.from('{}'), replayClockMs: 0})).resolves.toMatchObject({status: 'held', reasons: ['BATCH_SAMPLER_FAILED'], index: null, writeEligible: false, operations: []})
     expect(exited).toBe(true)
+    const fs = await import('node:fs/promises')
+    expect(JSON.parse(await fs.readFile(join(out, 'progress.json'), 'utf8'))).toMatchObject({
+      kind: 'guides-batch-progress-v1', observation: 'replay', phase: 'capture', pageId: null, totalPages: null, pages: [],
+    })
+    await expect(fs.stat(join(out, 'measurement.json'))).rejects.toMatchObject({code: 'ENOENT'})
   } finally {vi.doUnmock('node:worker_threads'); vi.resetModules()}
+})
+
+it('samples allocated disk from the real evidence root independently of a held collection', async () => {
+  const fs = await import('node:fs/promises'), f = await fixture()
+  const out = await fs.realpath(await mkdtemp(join(tmpdir(), 'batch-sampler-disk-')))
+  const {collectReplayGuidesBatch} = await import('../../adapters/updates/batch-collection')
+  const result = await collectReplayGuidesBatch({sourceRepository: f.repo, zdocRepository: f.root, out,
+    capture: {} as never, fixtureBytes: Buffer.from('{}'), replayClockMs: 0})
+  expect(result).toMatchObject({status: 'held', writeEligible: false, operations: [], index: null})
+  const measurement = JSON.parse(await fs.readFile(join(out, 'measurement.json'), 'utf8'))
+  expect(measurement.diskSamples).toBeGreaterThan(0)
+  expect(measurement.sampledAllocatedDiskHighWaterBytes).toBeGreaterThanOrEqual(4 * 4096)
+  expect(measurement.intervalMs).toBe(100)
 })
 
 it('rejects excessive implicit tar parents before any batch extraction tree write', async () => {

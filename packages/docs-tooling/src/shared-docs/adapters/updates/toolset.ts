@@ -1135,15 +1135,19 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   }
   async function runBatchContent(ticket: import('./batch-collection').BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
     // Consumption is synchronous before the first await.
-    const request = consumeBatchContentLaunch(ticket, value, evidence, kind)
+    const launch = consumeBatchContentLaunch(ticket, value, evidence, kind), {request} = launch
     signal?.throwIfAborted()
     const input = canonicalBytes(request)
     if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
+    await launch.authenticating()
+    const authenticationStart = performance.now()
     await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    const authenticationMs = Math.ceil(performance.now() - authenticationStart)
     const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
     const replayData = kind === 'replay' ? replayBatchContentData(ticket, value, evidence) ?? new Uint8Array() : undefined
     if (replayData && replayData.length > workerLimit) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData)
+    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData, undefined,
+      () => launch.renderWorkerStarted(authenticationMs))
     immutable(child.value)
     measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
     return child as BatchMeasuredChild
@@ -1358,11 +1362,13 @@ export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticke
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>},
+  onWorkerStarted?: () => Promise<void>): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', descriptors?.parent ?? (replayInput !== undefined ? 'pipe' : 'ignore')], detached: true})
   const readerLifetime = new AbortController(), publicationLifetime = new AbortController()
+  let startedProgress: Promise<void> | undefined
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
   let brokerFailed = false
@@ -1422,7 +1428,15 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   try {
     child.on('spawn', guarded(() => {
       if (replayInput !== undefined) {const pipes: readonly (Readable | Writable | null)[] = child.stdio; const replayPipe = pipes[6] as Writable; replayPipe.on('error', guarded(fail)); replayPipe.end(replayInput)}
-      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)} }))
+      receipt.born = true; birthDone()
+      if (!primary) {
+        inputHash.update(input); inputBytes += input.length
+        descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)
+        // The OS emitted spawn and the real request has been submitted. Record
+        // this after launch so no asynchronous I/O separates verification and spawn.
+        startedProgress = onWorkerStarted?.()
+      }
+    }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
     child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
@@ -1530,6 +1544,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     for (const timer of timers) cleanup('clear-timer', () => clearTimeout(timer))
     terminal = true
   }
+  // Finish the optional atomic snapshot before the coordinator journals the next phase.
+  if (startedProgress) await startedProgress
   if (contentRequest && receipt.cleanupErrors.length) primary ??= new Error('BATCH_LAUNCH_BINDING_INVALID')
   if (primary) throw Object.assign(new Error((primary as Error).message, {cause: primary}), {settlement: receipt})
   return response!

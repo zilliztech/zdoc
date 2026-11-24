@@ -17,6 +17,8 @@ const memberLimit = 1024 ** 2
 const resultLimit = 65536
 const pageResponseLimit = 128 * 1024 ** 2
 const materialPhases = new Set(['discovery-retention', 'launcher', 'allocation', 'worker', 'page-retention', 'projection', 'closure'])
+const progressPhases = new Set([...materialPhases, 'launch-authentication', 'render-worker', 'capture', 'discovery', 'qualification', 'candidate'])
+const pagePhases = new Set(['launch-authentication', 'render-worker', 'allocation', 'worker', 'page-retention', 'projection'])
 const fixedEnvironment = {PATH: '/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin', LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false'}
 const gitEnvironment = {...fixedEnvironment, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null',
   GIT_NO_REPLACE_OBJECTS: '1', GIT_NO_LAZY_FETCH: '1', GIT_TERMINAL_PROMPT: '0', GIT_ALLOW_PROTOCOL: ''}
@@ -137,8 +139,8 @@ function ownedBlob(path, ref) {
 
 // Only project bounded public fields from the settled evidence into the
 // decision artifact. No log, worker text, local path or capability leaves here.
-export function readBatchMeasurements(paths) {
-  const path = join(paths.evidence, 'measurement.json')
+function readDiagnostic(paths, journal, kind) {
+  const path = join(paths.evidence, journal)
   physicalDirectory(paths.root, 'BATCH_PREPARE_STAGE', true)
   let stat
   try { stat = lstatSync(path) }
@@ -146,15 +148,23 @@ export function readBatchMeasurements(paths) {
   physicalDirectory(paths.evidence, 'BATCH_PREPARE_EVIDENCE', true)
   check(stat.isFile() && positive(stat.size) && stat.size <= resultLimit, 'BATCH_PREPARE_MEASUREMENT')
   const value = json(ownedBytes(path, stat.size))
-  check(value?.kind === 'guides-batch-measurement-v1' && value.observation === 'observed' &&
+  check(value?.kind === kind && value.observation === 'observed' &&
     Array.isArray(value.pages) && count(value.elapsedMs), 'BATCH_PREPARE_MEASUREMENT')
   const seen = new Set()
-  const pages = value.pages.map(({pageId: id, elapsedMs, responseBytes, materialBytes}) => {
+  const pages = value.pages.map(({pageId: id, elapsedMs, responseBytes, materialBytes, authenticationMs}) => {
     check(pageId(id) && !seen.has(id) && count(elapsedMs) && positive(responseBytes) && responseBytes <= pageResponseLimit &&
       positive(materialBytes) && materialBytes <= 64 * 1024 ** 2, 'BATCH_PREPARE_MEASUREMENT')
     seen.add(id)
-    return {pageId: id, elapsedMs, responseBytes, materialBytes}
+    check(authenticationMs === undefined || count(authenticationMs) && authenticationMs <= elapsedMs, 'BATCH_PREPARE_MEASUREMENT')
+    return {pageId: id, elapsedMs, responseBytes, materialBytes, ...(authenticationMs === undefined ? {} : {authenticationMs})}
   })
+  return {value, seen, pages}
+}
+
+export function readBatchMeasurements(paths) {
+  const diagnostic = readDiagnostic(paths, 'measurement.json', 'guides-batch-measurement-v1')
+  if (!diagnostic) return undefined
+  const {value, seen, pages} = diagnostic
   const result = {elapsedMs: value.elapsedMs, pages}
   if (value.materialFailure !== undefined) {
     const {phase, pageId: id, completedPages, phaseElapsedMs} = value.materialFailure
@@ -165,11 +175,31 @@ export function readBatchMeasurements(paths) {
   return result
 }
 
+function readLastProgress(paths) {
+  const diagnostic = readDiagnostic(paths, 'progress.json', 'guides-batch-progress-v1')
+  if (!diagnostic) return undefined
+  const {value, seen, pages} = diagnostic
+  const {phase, pageId: id, elapsedMs, totalPages} = value
+  const discovering = phase === 'capture' || phase === 'discovery'
+  check(progressPhases.has(phase) && (pagePhases.has(phase) ? pageId(id) && !seen.has(id) : id === null) &&
+    (discovering ? totalPages === null && pages.length === 0 : count(totalPages) && pages.length + Number(id !== null) <= totalPages),
+    'BATCH_PREPARE_MEASUREMENT')
+  const {authenticationMs} = value
+  check(phase === 'render-worker' ? count(authenticationMs) && authenticationMs <= elapsedMs : authenticationMs === undefined,
+    'BATCH_PREPARE_MEASUREMENT')
+  return {phase, pageId: id, elapsedMs, totalPages, pages, ...(authenticationMs === undefined ? {} : {authenticationMs})}
+}
+
 export function batchDecisionSummary(summary, paths) {
   physicalDirectory(paths.root, 'BATCH_PREPARE_STAGE', true)
   try {
     const measurements = readBatchMeasurements(paths)
-    return measurements ? {...summary, measurements} : summary
+    if (measurements) return {...summary, measurements}
+    if (summary.status === 'held') {
+      const lastProgress = readLastProgress(paths)
+      if (lastProgress) return {...summary, lastProgress}
+    }
+    return summary
   } catch {
     // The independently settled decision remains useful when diagnostics fail.
     return {...summary, measurementStatus: 'unavailable'}
