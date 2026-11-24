@@ -439,6 +439,31 @@ it('reverifies a closure larger than one batch Git output ceiling on supported h
 })
 
 describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
+  it('bounds concurrent small-file reads in committed and installed material', async () => {
+    const a = await fixture()
+    const paths = [join(a.root, 'scripts'), join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti')]
+    for (const directory of paths) {
+      for (let index = 0; index < 12; index++) await put(directory, `window-${index}.js`, `// file ${index}\n`)
+    }
+    a.commit = commitAll(a.root)
+    const active = [0, 0], peak = [0, 0]
+    const originalOpen = vi.mocked(fsPromises.open).getMockImplementation()!
+    vi.mocked(fsPromises.open).mockImplementation((async (path, ...args) => {
+      const group = paths.indexOf(dirname(String(path)))
+      if (group === -1 || !String(path).includes('/window-')) return originalOpen(path, ...args)
+      peak[group] = Math.max(peak[group], ++active[group])
+      try {
+        await new Promise(resolve => setTimeout(resolve, 20))
+        return await originalOpen(path, ...args)
+      } finally {active[group]--}
+    }) as typeof fsPromises.open)
+    try {
+      const capture = await captureTrustedToolset(a)
+      expect(capture.closure.entries.filter(entry => /\/window-\d+\.js$/.test(entry.path))).toHaveLength(24)
+      expect(peak.every(count => count > 1 && count <= 8)).toBe(true)
+      expect(active).toEqual([0, 0])
+    } finally {vi.mocked(fsPromises.open).mockImplementation(originalOpen)}
+  })
   it('captures actual committed bytes, app-local pnpm files and runtime; survives relocation; detects dependency tamper', async () => {
     const a = await fixture(), b = await fixture()
     const first = await captureTrustedToolset(a), second = await captureTrustedToolset(b)

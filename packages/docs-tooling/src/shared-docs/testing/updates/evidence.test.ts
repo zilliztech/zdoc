@@ -371,3 +371,41 @@ it('refuses an edit-restore intermediate fragment peak before its actual materia
     expect(git(repo, 'show-ref') + git(repo, 'count-objects', '-v')).toBe(before)
   } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
 })
+
+it('reserves both live workers even when their exports and fragment trees are identical', async () => {
+  const {root, repo} = await fixture()
+  for (const path of ['shared-docs/guides/source.yaml', 'content/en/guides/page.mdx', 'site/en/fragments/a/b/page.md']) {
+    await mkdir(dirname(join(repo, path)), {recursive: true})
+    await writeFile(join(repo, path), 'x')
+  }
+  git(repo, 'add', '.')
+  git(repo, '-c', 'user.name=Test', '-c', 'user.email=test@example.test', 'commit', '-qm', 'shared inputs')
+  const head = git(repo, 'rev-parse', 'HEAD'), page = [head, head, head]
+  const inputs = {masterRepository: repo, master: head, devRepository: repo, dev: head, sourceRepository: repo}
+  const actual = await vi.importActual<typeof import('node:fs/promises')>('node:fs/promises')
+  // With only 200 KiB above the floor, one page fits including directory
+  // metadata. Both workers could pass separate checks against this same sample.
+  let bsize = 4096n, bavail = (1024n ** 3n + 200n * 1024n) / bsize
+  vi.resetModules()
+  vi.doMock('node:fs/promises', () => ({...actual, statfs: async () => ({bavail, bsize})}))
+  try {
+    const evidence = await import('../../adapters/updates/evidence'), source = await import('../../adapters/updates/batch-source')
+    const out = join(root, 'window-budget'), store = await evidence.initializeEvidence({root: out, repositories: [repo], owner: 'window'})
+    evidence.bindBatchResources(store, 2)
+    const single = await source.reserveBatchContentAllocation(store, {...inputs, commits: page})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page])).resolves.toEqual({...single, fragments: [single.fragments]})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).rejects.toThrow('BATCH_FREE_SPACE_FLOOR')
+    // A large allocation unit isolates the 3 GiB transient cap from the free-space floor.
+    bsize = 64n * 1024n ** 2n
+    bavail = 256n
+    await expect(source.reserveBatchContentWindow(store, inputs, [page])).resolves.toMatchObject({fragments: [single.fragments]})
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).rejects.toThrow('BATCH_TRANSIENT_LIMIT')
+    bsize = 4096n
+    bavail = 2n * 1024n ** 3n / bsize
+    await expect(source.reserveBatchContentWindow(store, inputs, [page, page])).resolves.toEqual({...single, fragments: [single.fragments, single.fragments]})
+    for (const invalid of [[], [page, page, page], [[head]]]) {
+      await expect(source.reserveBatchContentWindow(store, inputs, invalid)).rejects.toThrow('BATCH_CONTENT_WINDOW_INVALID')
+    }
+    expect((await actual.readdir(out)).sort()).toEqual(['.owner.json', 'blobs'])
+  } finally {vi.doUnmock('node:fs/promises'); vi.resetModules()}
+})

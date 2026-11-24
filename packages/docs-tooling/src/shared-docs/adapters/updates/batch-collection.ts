@@ -1,4 +1,5 @@
 import {randomBytes} from 'node:crypto'
+import {runBatchPagePipeline} from './batch-page-pipeline'
 import {fileURLToPath} from 'node:url'
 import {canonicalBytes} from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
@@ -32,6 +33,7 @@ interface OperationMeasurement {
   materialFailure?: {phase: MaterialPhase; pageId: string | null; completedPages: number; phaseElapsedMs: number}
 }
 const operationMeasurements = new WeakMap<EvidenceStore, OperationMeasurement>()
+const progressWrites = new WeakMap<EvidenceStore, Promise<void>>()
 // An interrupted sampler cannot produce terminal measurements. Keep a small
 // last-known snapshot in a separate owned journal that never grants authority.
 async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhase, pageId: string | null = null, authenticationMs?: number) {
@@ -41,7 +43,13 @@ async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhas
   try {
     const bytes = canonicalBytes({kind: 'guides-batch-progress-v1', observation, phase, pageId, totalPages,
       elapsedMs: Math.ceil(performance.now() - started), pages, ...(authenticationMs === undefined ? {} : {authenticationMs})})
-    if (bytes.length <= 65536) await store.writeJournal('progress.json', bytes)
+    if (bytes.length > 65536) return
+    // Freeze the snapshot at the notification. Different children may report
+    // concurrently, but the owned journal has exactly one writer at a time.
+    const previous = progressWrites.get(store) ?? Promise.resolve()
+    const write = previous.then(() => store.writeJournal('progress.json', bytes))
+    progressWrites.set(store, write.catch(() => {}))
+    await write
   } catch {
     // Preserve the last complete atomic snapshot on a deadline or I/O failure.
     // Allocation, collection and final admission retain their own checks.
@@ -652,33 +660,65 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     await begin('launcher')
     const launcher = batchContentLauncher(await prepareTrustedLauncher(operation.capture, operation.store))
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
-    for (const page of batchSorted(discovery.report.pages, p => p.pageId)) {
-      pageId = page.pageId
-      await begin('allocation')
-      if (!operation.active) invalid()
-      currentBatchLifetime()?.check()
-      if (currentBatchLifetime()) {
-        await reserveBatchContentAllocation(operation.store, {masterRepository: operation.capture.root, master: operation.base.pins.master,
-          devRepository: operation.devRepository, dev: operation.base.pins.dev, sourceRepository: operation.sourceRepository,
-          commits: [page.current, page.oldNext, operation.base.pins.source]})
+    const registry = batchSorted(discovery.report.pages, p => p.pageId)
+    let workerFailure: {pageId: string; started: number} | undefined
+    try {
+      await runBatchPagePipeline(registry, {
+        signal: currentBatchLifetime()?.signal,
+        async preflight(window) {
+          pageId = window[0].pageId
+          await begin('allocation')
+          if (!operation.active) invalid()
+          const lifetime = currentBatchLifetime()
+          if (lifetime) {
+            lifetime.check()
+            await reserveBatchContentWindow(operation.store, {
+              masterRepository: operation.capture.root, master: operation.base.pins.master,
+              devRepository: operation.devRepository, dev: operation.base.pins.dev,
+              sourceRepository: operation.sourceRepository,
+            }, window.map(page => [page.current, page.oldNext, operation.base.pins.source]))
+          }
+          await begin('worker')
+        },
+        async launch(page, signal) {
+          const started = performance.now()
+          try {
+            signal.throwIfAborted()
+            const ticket = issueContent(operation, page.pageId)
+            const child = operation.base.origin.kind === 'observed'
+              ? await launcher.runObservedBatchContent(ticket, signal)
+              : await launcher.runReplayBatchContent(ticket, signal)
+            return {ticket, child, started}
+          } catch (error) {
+            if (!signal.aborted) workerFailure ??= {pageId: page.pageId, started}
+            throw error
+          }
+        },
+        async retain(page, {ticket, child, started}) {
+          pageId = page.pageId
+          if (!operation.active) invalid()
+          await begin('page-retention')
+          const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child)
+          if (!operation.active) invalid()
+          await begin('projection')
+          if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
+          const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
+          verifiedNamespace ??= checked.config.namespaceRef
+          compactPages.push(projected)
+          measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - started),
+            responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
+            ...(authenticationMs === undefined ? {} : {authenticationMs})})
+        },
+      })
+    } catch (error) {
+      if (workerFailure) {
+        phase = 'worker'
+        pageId = workerFailure.pageId
+        phaseStart = workerFailure.started
+      } else if (measurement?.pages.some(page => page.pageId === pageId)) {
+        pageId = null
       }
-      const ticket = issueContent(operation, page.pageId), began = performance.now()
-      await begin('worker')
-      const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
-      if (!operation.active) invalid()
-      await begin('page-retention')
-      const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child)
-      if (!operation.active) invalid()
-      await begin('projection')
-      // The verified ref binds every output's path, Git object and bytes to this exact dev tree.
-      if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
-      const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
-      verifiedNamespace ??= checked.config.namespaceRef
-      compactPages.push(projected)
-      measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
-        ...(authenticationMs === undefined ? {} : {authenticationMs})})
-      // No completed promise/response/large raw text table is cached across pages.
-      // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
+      throw error
     }
     pageId = null
     await begin('closure')
@@ -1119,7 +1159,7 @@ import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCat
 import {statfs, realpath} from 'node:fs/promises'
 import {resolve, relative, isAbsolute} from 'node:path'
 import {Worker} from 'node:worker_threads'
-import {reserveBatchContentAllocation} from './batch-source'
+import {reserveBatchContentWindow} from './batch-source'
 export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
   status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null;
   localCandidate?: import('./batch-candidate').LocalBatchCandidate}>
