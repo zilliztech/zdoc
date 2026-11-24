@@ -429,7 +429,7 @@ function captureFileWindow<T>(read: (file: T, maximum: number) => Promise<() => 
     pending = []
     for await (const retain of inspectAccessWindows(window, file => read(file, parallelCaptureFileLimit))) retain()
   }
-  return {flush, async read(file: T, size: number) {
+  return {flush, async read(file: T, size: number | bigint) {
     if (size > parallelCaptureFileLimit) {
       await flush()
       const retain = await read(file, limit)
