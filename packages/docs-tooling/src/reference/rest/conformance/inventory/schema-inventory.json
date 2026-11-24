@@ -5,7 +5,7 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "59b321927f80",
+  "04-vector-operations-v2.json": "6565fcaa35a9",
   "05-collection-operations-v2.json": "889a358910b3",
   "06-database-operations-v2.json": "6c78a736fb94",
   "07-index-operations-v2.json": "653db572c7df",
@@ -2249,23 +2249,13 @@
       {
        "name": "data",
        "in": "body",
-       "type": "oneOf",
+       "type": "array",
        "required": false,
-       "branches": [
-        {
-         "type": "object",
-         "fields": [],
-         "required": []
-        },
-        {
-         "type": "array",
-         "items": {
-          "type": "object",
-          "fields": [],
-          "required": []
-         }
-        }
-       ]
+       "items": {
+        "type": "object",
+        "fields": [],
+        "required": []
+       }
       },
       {
        "name": "partitionName",
@@ -2482,10 +2472,13 @@
       {
        "name": "data",
        "in": "body",
-       "type": "object",
-       "required": [],
-       "fields": [],
-       "dynamic": true
+       "type": "array",
+       "required": false,
+       "items": {
+        "type": "object",
+        "fields": [],
+        "required": []
+       }
       },
       {
        "name": "partialUpdate",
@@ -3211,15 +3204,6 @@
           "required": false
          },
          {
-          "name": "stage",
-          "in": "body",
-          "type": "string",
-          "required": false,
-          "enum": [
-           "FunctionChainStageL2Rerank"
-          ]
-         },
-         {
           "name": "ops",
           "in": "body",
           "type": "array",
@@ -3228,23 +3212,11 @@
            "type": "object",
            "fields": [
             {
-             "name": "op",
-             "in": "body",
-             "type": "string",
-             "required": false
-            },
-            {
              "name": "expr",
              "in": "body",
              "type": "object",
              "required": [],
              "fields": [
-              {
-               "name": "name",
-               "in": "body",
-               "type": "string",
-               "required": false
-              },
               {
                "name": "args",
                "in": "body",
@@ -3270,6 +3242,12 @@
                }
               },
               {
+               "name": "name",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
                "name": "params",
                "in": "body",
                "type": "object",
@@ -3287,6 +3265,12 @@
              "items": {
               "type": "string"
              }
+            },
+            {
+             "name": "op",
+             "in": "body",
+             "type": "string",
+             "required": false
             },
             {
              "name": "outputs",
@@ -3308,6 +3292,12 @@
            ],
            "required": []
           }
+         },
+         {
+          "name": "stage",
+          "in": "body",
+          "type": "string",
+          "required": false
          }
         ],
         "required": []
@@ -3874,16 +3864,6 @@
        "required": [],
        "fields": [
         {
-         "name": "strategy",
-         "in": "body",
-         "type": "string",
-         "required": false,
-         "enum": [
-          "rrf",
-          "weighted"
-         ]
-        },
-        {
          "name": "params",
          "in": "body",
          "type": "object",
@@ -3895,6 +3875,16 @@
            "type": "integer",
            "required": false
           }
+         ]
+        },
+        {
+         "name": "strategy",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "rrf",
+          "weighted"
          ]
         }
        ]
