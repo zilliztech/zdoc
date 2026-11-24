@@ -60,6 +60,48 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_batch_independent_selection_rechecks_every_collateral_edge(self):
+        pages = ['earlier', 'later-a', 'later-b']
+        roots = [dict(sourceFile='site/en/' + page + '.md') for page in pages]
+        def edge(path, parent, commit, seed):
+            return dict(oldPath=path, newPath=path, parent=parent, commit=commit, rangeIds=pages,
+                        oldOid='old', newOid='new', associationResult='complete',
+                        introductionOid=commit, seedKey=seed, evidence=['git'], evidenceRefs=['ref'])
+        history = [edge(roots[0]['sourceFile'], 'one', 'two', 'early'),
+                   edge(roots[1]['sourceFile'], 'three', 'four', 'later'),
+                   edge(roots[2]['sourceFile'], 'three', 'four', 'later')]
+        traces = {page: {commit: {root['sourceFile']: 'old' if commit in ('one', 'three') else 'new'}
+                        for commit in ('one', 'two', 'three', 'four')} for page, root in zip(pages, roots)}
+        def verify(ledger):
+            return p._batch_isolated_obligations(ledger, roots, traces, {'earlier': {'two'}}, {'later-a', 'later-b'}, {'later'})
+        evidence = verify(history)
+        self.assertEqual(len(evidence), 9)
+        self.assertEqual(evidence[('earlier', '0:one:two:site/en/earlier.md')][0], 'held')
+        self.assertEqual(evidence[('later-b', '2:three:four:site/en/later-b.md')][0], 'consumed')
+        for suspect in [dict(history[0], seedKey='later'), dict(history[0], associationResult='unknown'),
+                        edge('site/en/Variables.json', 'one', 'two', 'early'),
+                        edge('assets/image.png', 'one', 'two', 'early')]:
+            with self.subTest(suspect=suspect), self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_EDGE_UNPROVEN'):
+                verify([*history, suspect])
+
+    def test_batch_adoption_boundary_checks_decoded_cross_component_anchor(self):
+        refs = dict(producer=dict(observations=[{}, {}, dict(manuals=[dict(manual='guides', ref='link')])],
+                                  promotionAnchors=[]),
+                    target=dict(observations=[{}, {}, dict(manuals=[])], promotionAnchors=[
+                        dict(kind='renamed', status='confirmed', manual='guides', after=dict(anchor='new-heading'))]),
+                    link=dict(references=[]))
+        headers = {key: dict(projectionRef=key) for key in ('producer', 'target')}
+        reader = Mock()
+        reader.blob.side_effect = lambda ref, parse: refs[ref]
+        refs['link']['references'] = [dict(url='./target#unchanged')]
+        p._batch_verify_adoption_boundary(reader, headers, {'target'})
+        refs['link']['references'] = [dict(url='./target#new%2Dheading')]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ADOPTION_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'target'})
+        refs['link']['references'] = [dict(url='./target#%ZZ')]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ROUTE_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'target'})
+
     def test_observed_batch_material_rejects_replay_detail_field(self):
         reader = Mock()
         reader.blob.return_value = dict.fromkeys(

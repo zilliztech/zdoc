@@ -130,7 +130,8 @@ it('collects a real one-page content frame without lifecycle or an eligible enve
 
 import * as batch from '../../adapters/updates/batch-collection'
 import {replayBatchDiscovery, readBatchDiscoveryCapture} from '../../adapters/updates/batch-discovery'
-import {write, git} from '../build/demo'
+import {write, git, pageYaml} from '../build/demo'
+import {collectReferences} from '../../core/links'
 
 it('closes a fragment-only seed with two real nested consumers absent from the public groups', async () => {
   const f = await fixture()
@@ -541,6 +542,84 @@ it('orders independent complete components by authenticated introduction history
   const {result} = await observeClosure(f)
   expect(result.reasons).toEqual([])
   expect(result.groups.map(g => g.memberIds)).toEqual([['shared-target'], ['build-pipeline']])
+}, 120000)
+
+it('selects a complete two-edit component before a solo page, including when that page has a local anchor failure', async () => {
+  const f = await simpleFixture()
+  const fs = await import('node:fs/promises')
+  const id = 'side-guide'
+  const ids = [...f.ids, id].sort()
+  const baseline = await f.sourceChange('site/en/side-guide.md', '---\nid: side-guide.md\ntitle: Side\nsummary: Side guide\n---\n## Side\n')
+  await write(f.sharedDocs, 'pages/side-guide/page.yaml', pageYaml('site/en/side-guide.md', 'tutorials/side-guide'))
+  for (const page of ids) await write(f.sharedDocs, `pages/${page}/lock.yaml`, JSON.stringify({schema_version: 1, current: baseline, next: baseline}))
+  await f.configChange()
+  const activePath = 'generated/en/manifests/shared-pages/guides/active.json'
+  const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json'
+  const active = JSON.parse(await fs.readFile(join(f.dev, activePath), 'utf8'))
+  active.pages.push({...active.pages[0], page: id, record: 'rec-' + id})
+  await write(f.dev, activePath, JSON.stringify(active))
+  const snapshot = JSON.parse(await fs.readFile(join(f.dev, snapshotPath), 'utf8'))
+  snapshot.records.push(JSON.parse(JSON.stringify(snapshot.records[0]).replaceAll('build-pipeline', id)))
+  await write(f.dev, snapshotPath, JSON.stringify(snapshot))
+  for (const path of snapshot.records.at(-1).output_paths) {
+    const existing = await fs.readFile(join(f.dev, path.replace(id, 'build-pipeline')), 'utf8')
+    await write(f.dev, path, existing.replaceAll('build-pipeline', id))
+  }
+  await git(f.dev, 'add', '.'); await git(f.dev, 'commit', '-qm', 'publish side guide')
+  const dev = await git(f.dev, 'rev-parse', 'HEAD')
+  await git(f.root, 'fetch', '--no-write-fetch-head', '--no-tags', f.dev, dev)
+  await f.append('site/en/source-target.md', '\nEarliest solo change.\n')
+  await fs.appendFile(join(f.repo, 'site/en/side-guide.md'), '\nSecond page of the same change.\n')
+  await f.append('site/en/build-pipeline.md', '\nFirst page of the same change.\n')
+  const pinned = {...f, ids, baseline, devCommit: dev,
+    request: async (page = ids[0]) => {const request = await f.request(page); return {...request, pins: {...request.pins, dev}}},
+    transport: async (input: Parameters<typeof f.transport>[0]) => input.path === '/repos/zilliztech/zdoc/git/ref/heads/dev'
+      ? {status: 200, headers: {}, body: Buffer.from(JSON.stringify({ref: 'refs/heads/dev', object: {type: 'commit', sha: dev}}))} : f.transport(input)}
+  const {discovery, pages, result} = await observeClosure(pinned)
+  expect(result.reasons).toEqual([])
+  expect(result.groups.map(g => g.memberIds)).toEqual([['shared-target'], ['build-pipeline', id]])
+  expect(result.selected?.dispositions.map(d => d.disposition)).toEqual(['advance', 'advance'])
+  const withLink = (url: string) => {
+    const modified = pages.map(p => p.header.pageId !== 'shared-target' ? p : {...p, observations: p.observations.map(o => o.role !== 'target'
+      ? o : {...o, manuals: o.manuals.map(m => ({...m, references: collectReferences(`[broken](${url})`).links}))})})
+    return batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: modified})
+  }
+  expect(withLink('#missing').selected?.memberIds).toEqual(['build-pipeline', id])
+  expect(withLink('./unknown-page#missing').selected).toBeNull()
+  const encoded = pages.map(p => p.header.pageId === 'build-pipeline'
+    ? {...p, promotionAnchors: [{axis: 'current-to-candidate-next' as const, before: {anchor: 'old', text: 'Old', line: 1},
+      after: {anchor: 'new-heading', text: 'New heading', line: 1}, status: 'confirmed' as const, kind: 'renamed' as const,
+      manual: 'guides', path: 'tutorials/build-pipeline', reason: 'stable block'}]}
+    : p.header.pageId === 'shared-target' ? {...p, ownershipReasons: ['INACTIVE_NECESSARY_PAGE'],
+      observations: p.observations.map(o => o.role === 'target' ? {...o, manuals: o.manuals.map(m =>
+        ({...m, references: collectReferences('[adopt](./build-pipeline#new%2Dheading)').links}))} : o)}
+    : p)
+  const uncertain = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: encoded})
+  expect(uncertain.selected).toBeNull()
+  expect(uncertain.reasons).toContain('ADOPTION_DEPENDENCY_UNPROVEN')
+}, 120000)
+
+it('isolates a stopped historical transform while retaining every incident edge as a possible dependency', async () => {
+  const f = await simpleFixture()
+  const root = 'site/en/source-target.md'
+  const original = await (await import('node:fs/promises')).readFile(join(f.repo, root), 'utf8')
+  const stopped = await f.sourceChange(root, original + '\nMilvus is a database.\n')
+  await f.sourceChange(root, original + '\nCorrected target wording.\n')
+  await f.append('site/en/build-pipeline.md', '\nIndependent change from a later seed.\n')
+  const {discovery, pages, result} = await observeClosure(f)
+  expect(pages.find(p => p.header.pageId === 'shared-target')?.deferredHistory.map(h => h.commit)).toContain(stopped)
+  expect(result.reasons).toEqual([])
+  expect(result.selected?.memberIds).toEqual(['build-pipeline'])
+  expect(result.groups.find(g => g.memberIds.includes('shared-target'))?.dispositions[0].disposition).toBe('held')
+  const stoppedEdge = discovery.ledger.find(e => e.commit === stopped)!
+  const recheck = (ledger: typeof discovery.ledger) => batch.analyzeBatchClosure({
+    report: discovery.report, ledger, history: discovery.introductionOrder, pages})
+  const candidateSeed = result.selected!.seedKeys[0]
+  const shared = discovery.ledger.map(e => e === stoppedEdge ? {...e, seedKey: candidateSeed} : e)
+  expect(recheck(shared).selected).toBeNull()
+  const variable = {...stoppedEdge, oldPath: 'site/en/Variables.json', newPath: 'site/en/Variables.json'}
+  expect(recheck([...discovery.ledger, variable]).reasons).toContain('COLLATERAL_INPUT_UNPROVEN')
+  expect(recheck(discovery.ledger.map(e => e === stoppedEdge ? {...e, associationResult: 'unknown'} : e)).reasons).toContain('SOURCE_ASSOCIATION_UNPROVEN')
 }, 120000)
 
 it('does not attach a seed through a fragment consumed only before the oldNext interval', async () => {
