@@ -54,6 +54,13 @@ test('shape rejects duplicates, unevidenced facts, and unknown decisions', () =>
         /REST_UPSTREAM_ADJUDICATIONS_FACT_UNEVIDENCED/)
     assert.throws(() => assertAdjudicationsShape({schemaVersion: 1, adjudications: [adjudication({decision: 'adopt'})]}),
         /REST_UPSTREAM_ADJUDICATIONS_SCHEMA_INVALID/)
+    // response/operation scopes are dead vocabulary: response entries are
+    // addressed by HTTP status (not nameable in fieldPath) and operation
+    // entries carry no field, while the key omits responseStatus.
+    assert.throws(() => assertAdjudicationsShape({schemaVersion: 1, adjudications: [adjudication({scope: 'response'})]}),
+        /REST_UPSTREAM_ADJUDICATIONS_SCHEMA_INVALID/)
+    assert.throws(() => assertAdjudicationsShape({schemaVersion: 1, adjudications: [adjudication({scope: 'operation'})]}),
+        /REST_UPSTREAM_ADJUDICATIONS_SCHEMA_INVALID/)
     assert.throws(() => parseRestUpstreamAdjudications('{nope'),
         /REST_UPSTREAM_ADJUDICATIONS_MALFORMED_JSON/)
 })

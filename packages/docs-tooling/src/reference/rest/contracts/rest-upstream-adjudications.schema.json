@@ -14,7 +14,10 @@
     "isoDate": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
     "sourceId": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
     "opKey": {"type": "string", "pattern": "^(get|put|post|delete|patch|options|head|trace) /[^\\s]+$"},
-    "scope": {"enum": ["requestBody", "response", "parameter", "operation"]},
+    "scope": {
+      "enum": ["requestBody", "parameter"],
+      "description": "Request-shape facts only. Response-scope diff entries are addressed by HTTP status code (their diff field is the status, which the fieldPath grammar cannot name) and operation-scope entries carry no field at all; the canonical key deliberately omits responseStatus, so response facts would over-match across statuses."
+    },
     "fieldPath": {
       "type": "string",
       "description": "Dot path of the adjudicated leaf relative to the operation schema, first segment = the diff entry's top-level field (parameter scope: the bare parameter name). Required: this file never records operation-level verdicts — the ledger owns those.",
@@ -60,7 +63,7 @@
           "type": "array",
           "minItems": 1,
           "items": {"type": "string", "minLength": 1},
-          "description": "Literals the upstream payload must still contain for the fact to count as confirmed this round; when the matched drift entry carries upstream bytes and any literal is missing, the adjudication degrades to stale and the question re-opens. Absent = the cheap staleness check cannot run and the entry stays applicable (decidedAt still renders in the PR body)."
+          "description": "Literals the upstream payload must still contain for the fact to count as confirmed this round; when the matched drift entry carries upstream bytes and any literal is missing, the adjudication degrades to stale and the question re-opens. Absent = the cheap staleness check cannot run and the entry stays applicable (the decide report and the refresh PR body still carry decidedAt plus the evidence PR per key)."
         },
         "evidence": {"$ref": "#/$defs/evidence"},
         "decidedAt": {"$ref": "#/$defs/isoDate"},

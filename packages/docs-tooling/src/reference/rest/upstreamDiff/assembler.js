@@ -68,6 +68,9 @@ function decisionShapeError(decision) {
     }
     if (decision.action === 'ledger' && decision.override !== undefined) return 'ledger decisions carry no override'
     if (decision.action === 'skip' && decision.override !== undefined) return 'skip decisions carry no override'
+    // A skip routes to human review and cites nothing: an adjudication key on a
+    // skip would render as "aligned" in the PR body while deciding nothing.
+    if (decision.action === 'skip' && decision.adjudication !== undefined) return 'skip decisions carry no adjudication'
     if (decision.override !== true && decision.overrideReason !== undefined) return 'overrideReason without override'
     if (decision.deviationReason !== undefined && decision.adjudication === undefined) return 'deviationReason without adjudication'
     return null

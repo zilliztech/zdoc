@@ -581,6 +581,8 @@ test('a recorded deviation keeps its cited key and lands in the deviations repor
     assert.deepEqual(reports.adjudicationDeviations,
         [{id: DB_NAME_CONSTRAINT_ID, adjudication: key, reason: 'upstream extended the accepted set beyond the recorded facts'}])
     assert.notEqual(decisionShapeError({diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt', deviationReason: 'why'}), null)
+    // a skip cites nothing: the key would render as "aligned" while deciding nothing
+    assert.notEqual(decisionShapeError({diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'skip', adjudication: key}), null)
 })
 
 test('the citation gate stays inert without adjudications and never gates skips', () => {

@@ -190,6 +190,16 @@ function candidateAdjudicationAnnotation(applicable) {
     return parts.length ? ` ${parts.join(' ')}` : ''
 }
 
+// Per-key metadata the PR body renders next to each applied, deviated, or
+// stale key (2026-11-25 review condition 4: the human reviewer sees decidedAt
+// and the evidence PR, not just the canonical-key string).
+function adjudicationKeyDetails(entry) {
+    return {decidedAt: entry.decidedAt, pr: entry.evidence.pr,
+        ...(entry.evidence.commentUrl ? {commentUrl: entry.evidence.commentUrl} : {})}
+}
+
+const sortKeyEntries = (left, right) => (left[0] < right[0] ? -1 : left[0] > right[0] ? 1 : 0)
+
 async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, reportPath = null, adjudicationsPath = null, minCoverage = DEFAULT_MIN_COVERAGE, timeoutMs = DEFAULT_TIMEOUT_MS, retries = DEFAULT_RETRIES, fetchImpl = globalThis.fetch}) {
     if (!diffPath || !outPath || !baseUrl || !apiKeyEnv || !model) fail(usage())
     const apiKey = process.env[apiKeyEnv]
@@ -272,14 +282,23 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
         }
         accepted.push(...stances)
         const staleKeys = new Set()
+        const keyDetails = new Map()
         for (const applicable of applicableById.values()) {
-            for (const entry of applicable?.stale ?? []) staleKeys.add(canonicalKey(entry))
+            for (const entry of applicable?.stale ?? []) {
+                const key = canonicalKey(entry)
+                staleKeys.add(key)
+                keyDetails.set(key, adjudicationKeyDetails(entry))
+            }
+            for (const entry of applicable?.fresh ?? []) {
+                keyDetails.set(canonicalKey(entry), adjudicationKeyDetails(entry))
+            }
         }
         batches.push({fragment, candidates: candidates.length, omittableByRule: omittableCount, stanceBase: coverageBase, stances: stances.length, coverage, attempts, rejected,
             adjudications: {
                 applied: stances.filter(stance => stance.adjudication !== undefined && stance.deviationReason === undefined).length,
                 deviated: stances.filter(stance => stance.deviationReason !== undefined).length,
                 stale: [...staleKeys].sort(),
+                details: Object.fromEntries([...keyDetails].sort(sortKeyEntries)),
             }})
     }
     fs.mkdirSync(path.dirname(path.resolve(outPath)), {recursive: true})
@@ -293,6 +312,7 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
             applied: batches.reduce((total, batch) => total + batch.adjudications.applied, 0),
             deviated: batches.reduce((total, batch) => total + batch.adjudications.deviated, 0),
             stale: [...new Set(batches.flatMap(batch => batch.adjudications.stale))].sort(),
+            details: Object.fromEntries(batches.flatMap(batch => Object.entries(batch.adjudications.details)).sort(sortKeyEntries)),
         },
     }
     if (reportPath) {

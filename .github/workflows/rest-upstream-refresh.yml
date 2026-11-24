@@ -634,6 +634,11 @@ jobs:
           const unplacedShown = head(assembleReports.unplaced, 30)
           const pendingShown = head(assembleReports.pendingConfirmation, 20)
           const proseLine = entry => `- ${entry.templateProse ? '[template copy] ' : ''}\`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''}${entry.branch ? ` (${entry.branch})` : ''}: ${JSON.stringify(entry.before)} → ${JSON.stringify(entry.after)}`
+          // Per-key provenance from the decide report (2026-11-25 review
+          // condition 4): the reviewer sees decidedAt and the evidence PR next
+          // to every applied, deviated, or stale key, not just the key string.
+          const priorDetails = report?.summary?.adjudications?.details ?? {}
+          const priorMeta = key => priorDetails[key] ? ` (decided ${priorDetails[key].decidedAt}, PR #${priorDetails[key].pr})` : ''
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
@@ -743,9 +748,9 @@ jobs:
             decisions.some(decision => decision.adjudication !== undefined) || (report?.summary?.adjudications?.stale?.length ?? 0) > 0
               ? [
                   ...decisions.filter(decision => decision.adjudication !== undefined).map(decision => decision.deviationReason !== undefined
-                    ? `- \`${decision.diffEntryId}\` — DEVIATION from \`${decision.adjudication}\`: ${decision.deviationReason}`
-                    : `- \`${decision.diffEntryId}\` → ${decision.action}, aligned with \`${decision.adjudication}\``),
-                  ...(report?.summary?.adjudications?.stale ?? []).map(key => `- \`${key}\` went STALE this round — the recorded literals no longer hold in the upstream payload; re-adjudicated above or still waiting in Decisions required`),
+                    ? `- \`${decision.diffEntryId}\` — DEVIATION from \`${decision.adjudication}\`${priorMeta(decision.adjudication)}: ${decision.deviationReason}`
+                    : `- \`${decision.diffEntryId}\` → ${decision.action}, aligned with \`${decision.adjudication}\`${priorMeta(decision.adjudication)}`),
+                  ...(report?.summary?.adjudications?.stale ?? []).map(key => `- \`${key}\`${priorMeta(key)} went STALE this round — the recorded literals no longer hold in the upstream payload; re-adjudicated above or still waiting in Decisions required`),
                 ].join('\n')
               : '- none',
             '',

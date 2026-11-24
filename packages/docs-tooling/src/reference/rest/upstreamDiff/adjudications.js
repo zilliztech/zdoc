@@ -101,7 +101,8 @@ function upstreamPayloadOf(diffEntry) {
 // adjudication degrades to stale and the question re-opens for human
 // adjudication instead of auto-aligning. Absence of payload is not evidence of
 // staleness: the check simply cannot run, so the entry stays applicable (the
-// PR body still renders decidedAt and the evidence pin for the reviewer).
+// decide report carries decidedAt plus the evidence PR per key, which the
+// refresh PR body renders for the reviewer).
 function isStaleAgainst(adjudication, payloadText) {
     if (!adjudication.specLiterals || typeof payloadText !== 'string') return false
     return adjudication.specLiterals.some(literal => !payloadText.includes(literal))

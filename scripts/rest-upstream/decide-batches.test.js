@@ -469,6 +469,9 @@ test('decide-batches injects prior adjudications into the prompt and accepts cit
         assert.equal(summary.adjudications.deviated, 0)
         const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
         assert.equal(report.summary.adjudications.applied, 1)
+        // per-key provenance (2026-11-25 review condition 4): the PR body
+        // renders decidedAt + the evidence PR next to every applied key
+        assert.deepEqual(report.summary.adjudications.details[key], {decidedAt: '2026-11-23', pr: 1414})
     } finally {
         delete process.env.DECIDE_TEST_KEY
     }
@@ -503,6 +506,8 @@ test('a stale prior adjudication stops gating and is reported for re-adjudicatio
         assert.deepEqual(summary.adjudications.stale, [key])
         const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
         assert.deepEqual(report.summary.adjudications.stale, [key])
+        // stale keys keep their provenance too: the PR body renders it next to the stale marker
+        assert.deepEqual(report.summary.adjudications.details[key], {decidedAt: '2026-11-23', pr: 1414})
     } finally {
         delete process.env.DECIDE_TEST_KEY
     }
