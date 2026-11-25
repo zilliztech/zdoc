@@ -23,6 +23,11 @@ test('requires immutable pins and unique, positive PR numbers', () => {
   assert.equal(cli.parseArgs([...args, '3842', '--verify-page', 'alter-collection-field']).verifyPage, 'alter-collection-field')
   assert.throws(() => cli.parseArgs([...args, '3842', '--verify-page', '../outside']), /Usage/)
   assert.throws(() => cli.parseArgs([...args, '3842', '--verify-page', 'one', '--verify-page', 'two']), /Usage/)
+  assert.deepEqual(cli.parseArgs([...args, '3842', '--verify-pages', 'one,two']).verifyPages, ['one','two'])
+  for (const invalid of ['one', 'one,one', 'one,../two', 'one,']) {
+    assert.throws(() => cli.parseArgs([...args, '3842', '--verify-pages', invalid]), /Usage/)
+  }
+  assert.throws(() => cli.parseArgs([...args, '3842', '--verify-page', 'one', '--verify-pages', 'two,three']), /Usage/)
   assert.throws(() => cli.parseArgs(['--master','master',...args.slice(2),'3842']), /Usage/)
 })
 

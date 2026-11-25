@@ -3,7 +3,7 @@ import {cp, mkdtemp, rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {expect, it, onTestFinished} from 'vitest'
-import {applyPageMembershipWitness, inspectBatchScopePage, membershipDecision, preparationClasses} from '../../adapters/updates/batch-scope-membership'
+import {applyPageMembershipWitness, inspectBatchScopePage, membershipDecision, noRegisteredFragmentPeer, preparationClasses} from '../../adapters/updates/batch-scope-membership'
 import type {BatchScopeReport, ScopePage} from '../../core/updates/batch-scope'
 import {createBuildDemo, git, write} from '../build/demo'
 
@@ -25,11 +25,30 @@ it('never promotes partial, duplicate, held, or consumed history, or a possible 
   expect(membershipDecision({...base,adoptionIndependent:false})).toBe(false)
 })
 
+it('proves self, external and unregistered fragments only against the complete same-manual registry', () => {
+  const own = {pageId:'alpha',manual:'guides',path:'tutorials/alpha'}
+  const peer = {pageId:'beta',manual:'guides',path:'tutorials/beta'}
+  const byoc = {pageId:'gamma',manual:'guides-byoc',path:'tutorials/gamma'}
+  const ids = ['alpha','beta','gamma'], targets = [own,peer,byoc]
+  const unchanged = [{status:'confirmed',kind:'unchanged'}] as const
+  const refs = (...urls: string[]) => [{manual:own.manual,path:own.path,references:urls.map(url => ({url}))}]
+  const local = refs('#self','./alpha#section','./other-cloud-page#info','https://example.test/beta#info','//example.test/beta#info','./gamma#byoc')
+  expect(noRegisteredFragmentPeer('alpha',ids,targets,unchanged,local)).toBe(true)
+  for (const url of ['./beta#section','../beta#section','./gamma?x=1#section','./%ZZ#section','#','https://[broken#s','./other#%ZZ']) {
+    expect(noRegisteredFragmentPeer('alpha',ids,targets,unchanged,refs(url))).toBe(false)
+  }
+  expect(noRegisteredFragmentPeer('alpha',ids,targets,[{status:'advisory',kind:'unchanged'}],local)).toBe(false)
+  expect(noRegisteredFragmentPeer('alpha',ids,targets,[{status:'confirmed',kind:'renamed'}],local)).toBe(false)
+  expect(noRegisteredFragmentPeer('alpha',ids,[own,byoc],unchanged,local)).toBe(false)
+  expect(noRegisteredFragmentPeer('alpha',['alpha','alpha','gamma'],targets,unchanged,local)).toBe(false)
+  expect(noRegisteredFragmentPeer('alpha',ids,targets,unchanged,[])).toBe(false)
+})
+
 it('applies only the live page certificate to the same pins and complete published output coverage', async () => {
   const root = await mkdtemp(join(tmpdir(),'scope-membership-test-'))
   onTestFinished(() => rm(root,{recursive:true,force:true}))
   const demo = await createBuildDemo(root), pageId = 'build-pipeline'
-  await write(demo.repo,'site/en/build-pipeline.md','---\nid: build-pipeline.md\ntitle: Build Pipeline\nsummary: Scope fixture.\n---\n\n# Build Pipeline\n\n## Section\n\nPlain text.\n')
+  await write(demo.repo,'site/en/build-pipeline.md','---\nid: build-pipeline.md\ntitle: Build Pipeline\nsummary: Scope fixture.\n---\n\n# Build Pipeline\n\n## Section\n\n[This section](#Section).\n')
   await git(demo.repo,'commit','-qam','Plain page')
   const oldNext = await git(demo.repo,'rev-parse','HEAD')
   await write(demo.sharedDocs,'pages/build-pipeline/lock.yaml',JSON.stringify({schema_version:1,current:oldNext,next:oldNext}))
@@ -47,7 +66,7 @@ it('applies only the live page certificate to the same pins and complete publish
   const options = {zdocRepository:demo.dev,sourceRepository:demo.repo,pageId,pins}
   const witness = await inspectBatchScopePage({...options, verifyHistory:true})
   expect(witness, JSON.stringify(witness)).toMatchObject({status:'excluded-from-source-and-adoption',actualHistoricalRenders:2,
-    sourceAndAdoptionNonmember:true,namespace:'requires-selected-group-and-pinned-dev', productionQualified:false})
+    sourceAndAdoptionNonmember:true,adoption:{independent:true,basis:'NO_REGISTERED_FRAGMENT_PEER'},namespace:'requires-selected-group-and-pinned-dev', productionQualified:false})
   const page: ScopePage = {pageId,current:oldNext,oldNext,sourceFile:'site/en/build-pipeline.md',evidence:[]}
   const row = (id: string) => ({...page,pageId:id,target:source,disposition:'unknown' as const,reasons:['DEPENDENCY_CLOSURE_UNPROVEN'],
     selectedEdges:0,intervalEdges:3,sourceObligations:'disjoint' as const,crossPage:'unproven' as const,otherInputs:'unproven' as const})

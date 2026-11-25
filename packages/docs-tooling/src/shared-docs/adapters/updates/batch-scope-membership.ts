@@ -10,8 +10,8 @@ import {resolveManualPublication} from '../../../manuals/registry'
 import type {BatchScopeReport, ScopePage} from '../../core/updates/batch-scope'
 import {parseLock} from '../../core/lock'
 import {analyzeUpdates} from '../../core/updates/impact'
-import {selectedAdoptionScope} from '../../core/updates/units'
-import type {PageObservation} from '../../core/updates/types'
+import {referencesPage, selectedAdoptionScope} from '../../core/updates/units'
+import type {AnchorRelation, PageIdentity, PageObservation} from '../../core/updates/types'
 import {GitShaSchema} from '../../core/updates/envelope'
 import {guidesSnapshotPath} from '../guides-snapshot'
 import {createHistoricalMdxFinalizer} from '../mdx'
@@ -46,6 +46,37 @@ function observed(o: PageObservation) {
     o.dependencies.every(d => d.state === 'resolved') && o.targets.length > 0 && o.manuals.length === o.targets.length && o.manuals.every(m => typeof m.output === 'string') &&
     o.targets.every(t => o.manuals.filter(m => t.manual === m.manual && t.path === m.path).length === 1)
 }
+/** Narrow the conservative fragment flag only on the diagnostic path. The three observed roles
+ * and unique publication identities have already passed selectedAdoptionScope. Noncanonical local
+ * spellings remain unknown, even when the exact adoption matcher does not recognize them. */
+export function noRegisteredFragmentPeer(pageId: string, registeredIds: readonly string[], targets: readonly PageIdentity[],
+  promotion: readonly Pick<AnchorRelation, 'status' | 'kind'>[],
+  manuals: readonly {manual: string; path: string; references: readonly {url: string}[]}[]): boolean {
+  const ids = new Set(registeredIds), represented = new Set(targets.map(t => t.pageId))
+  if (!ids.has(pageId) || ids.size !== registeredIds.length || represented.size !== ids.size ||
+      [...ids].some(id => !represented.has(id)) || !promotion.every(a => a.status === 'confirmed' && a.kind === 'unchanged')) return false
+  const own = targets.filter(t => t.pageId === pageId)
+  if (manuals.length !== own.length || own.some(t => manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) return false
+  for (const manual of manuals) for (const {url} of manual.references) {
+    if (!url.includes('#')) continue
+    const [destination, anchor, extra] = url.split('#')
+    if (!anchor || extra !== undefined || /[\s\\]/.test(url)) return false
+    try {
+      // Reject malformed escapes in either part, including otherwise-external addresses.
+      decodeURIComponent(url)
+      if (/^(?:https?:\/\/|\/\/)/i.test(url)) {
+        const external = new URL(url, 'https://guides-batch.invalid/')
+        if (!external.hostname) return false
+        continue
+      }
+    } catch {return false}
+    if (destination && !/^(?:\.\/|\/)?[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(destination)) return false
+    const from = {pageId, manual:manual.manual, path:manual.path}
+    if (targets.some(to => to.pageId !== pageId && referencesPage(from, to, url))) return false
+  }
+  return true
+}
+
 function sourceReads(o: PageObservation) {
   return [...new Set([o.sourceFile, ...o.files.map(f => f.file)].filter(path => path.startsWith('site/en/')))].sort()
 }
@@ -176,13 +207,18 @@ export async function inspectBatchScopePage(options: {pins: Pins; pageId: string
     const valid = roleResults.every(observed)
     if (valid) for (const o of roleResults) await verifyReadBytes(store, o)
     const identities = [...shared.pages].flatMap(([id, p]) => p.config.publish.map(t => ({pageId: id, ...t})))
-    const adoption = valid ? selectedAdoptionScope(fixed, analyzeUpdates(inputs).pages[0], identities) : null
+    const impact = valid ? analyzeUpdates(inputs).pages[0] : null
+    const adoption = impact ? selectedAdoptionScope(fixed, impact, identities) : null
+    const peerless = !!impact && !!adoption && !adoption.independent && adoption.peers.size === 0 &&
+      noRegisteredFragmentPeer(pageId, ids, identities, impact.promotion.anchors, fixed.candidateNext.manuals)
+    const adoptionIndependent = adoption?.independent === true || peerless
     const endpoints = roleResults.map((o, i) => ({role: ['current', 'oldNext', 'target'][i], commit: o.commit,
       observed: observed(o), reasons: [...new Set([...o.errors,...o.rawErrors].map(d => d.code))].sort(),
       sourceReads: sourceReads(o), manuals: o.manuals.map(m => ({manual: m.manual, path: m.path,
         fragmentReferences: m.references.filter(r => r.url.includes('#')).length,
         markdownSha256: hash(m.markdown), outputSha256: m.output === undefined ? null : hash(m.output)}))}))
-    const header = {...base, endpoints, adoption: adoption ? {independent: adoption.independent, possiblePeers: [...adoption.peers].sort()} : null}
+    const header = {...base, endpoints, adoption: adoption ? {independent: adoptionIndependent, formalIndependent: adoption.independent, possiblePeers: [...adoption.peers].sort(),
+      basis: peerless ? 'NO_REGISTERED_FRAGMENT_PEER' : 'SELECTED_ADOPTION_SCOPE'} : null}
     // An adopted variant or a commit-specific historic view changes the root bytes presented to the preparer.
     const rules = loadHistoricalRenderRules()
     if (!valid || page.variants && Object.keys(page.variants).length ||
@@ -229,13 +265,13 @@ export async function inspectBatchScopePage(options: {pins: Pins; pageId: string
       edges.push({parent, child, state:changed.length ? 'changed' as const : 'unchanged' as const, paths:changed.sort()})
     }
     const reasons = []
-    if (!adoption?.independent) reasons.push('ADOPTION_INDEPENDENCE_UNPROVEN')
+    if (!adoptionIndependent) reasons.push('ADOPTION_INDEPENDENCE_UNPROVEN')
     if (edges.some(e=>e.state==='unproven')) reasons.push('SOURCE_PREPARATION_UNPROVEN')
     if (edges.some(e=>e.state==='changed')) reasons.push('CONSUMED_SOURCE_CHANGED')
     if (witnesses.some(w => w.points.length > 1)) reasons.push('INTERMEDIATE_RESOLUTION_AND_RENDER_UNOBSERVED')
     if (witnesses.some(w => !w.observed)) reasons.push('INTERMEDIATE_OBSERVATION_INCOMPLETE')
     if (roleResults.some(o => o.images.length) || witnesses.some(w => w.hasImages)) reasons.push('IMAGE_EVIDENCE_REQUIRES_FULL_COLLECTOR')
-    const exclusion = membershipDecision({adoptionIndependent: adoption?.independent === true,
+    const exclusion = membershipDecision({adoptionIndependent,
       actualCommits: witnesses.filter(w => w.observed).map(w => w.representative), requiredCommits: intermediate,
       edges: edges.map(e => e.state), reasons})
     const zdoc = await BatchGitStore.open(zdocRepository, batchBudget())
