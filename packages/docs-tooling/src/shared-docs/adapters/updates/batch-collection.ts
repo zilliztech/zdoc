@@ -1,8 +1,9 @@
 import {randomBytes} from 'node:crypto'
+import {runBatchPagePipeline} from './batch-page-pipeline'
 import {fileURLToPath} from 'node:url'
 import {canonicalBytes} from '../../core/updates/canonical'
 import {immutable} from '../../core/updates/types'
-import {writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
+import {createPageBlobRetainer, writeOwnedBlob, initializeEvidence, type EvidenceStore} from './evidence'
 import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorted, decodeBatchBlob, isIsolatedBatchCandidateOrigin, validateBatchWire,
   type BatchRenderRequest, type BatchBase, type BatchOrigin, type RetainedPage, type BatchBlobRef} from './batch-collection-contract'
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
@@ -23,11 +24,37 @@ interface Operation {
   pages: Map<string, RetainedPage>; issued: Set<string>; outstanding: Set<BatchContentTicket>
 }
 type MaterialPhase = 'discovery-retention' | 'launcher' | 'allocation' | 'worker' | 'page-retention' | 'projection' | 'closure'
+type ProgressPhase = MaterialPhase | 'launch-authentication' | 'render-worker' | 'capture' | 'discovery' | 'qualification' | 'candidate'
 interface OperationMeasurement {
-  pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number}[]
+  observation: 'observed' | 'replay'
+  started: number
+  totalPages: number | null
+  pages: {pageId: string; elapsedMs: number; responseBytes: number; materialBytes: number; authenticationMs?: number}[]
   materialFailure?: {phase: MaterialPhase; pageId: string | null; completedPages: number; phaseElapsedMs: number}
 }
 const operationMeasurements = new WeakMap<EvidenceStore, OperationMeasurement>()
+const progressWrites = new WeakMap<EvidenceStore, Promise<void>>()
+// An interrupted sampler cannot produce terminal measurements. Keep a small
+// last-known snapshot in a separate owned journal that never grants authority.
+async function checkpointBatchProgress(store: EvidenceStore, phase: ProgressPhase, pageId: string | null = null, authenticationMs?: number) {
+  const measurement = operationMeasurements.get(store)
+  if (!measurement) return
+  const {observation, started, pages, totalPages} = measurement
+  try {
+    const bytes = canonicalBytes({kind: 'guides-batch-progress-v1', observation, phase, pageId, totalPages,
+      elapsedMs: Math.ceil(performance.now() - started), pages, ...(authenticationMs === undefined ? {} : {authenticationMs})})
+    if (bytes.length > 65536) return
+    // Freeze the snapshot at the notification. Different children may report
+    // concurrently, but the owned journal has exactly one writer at a time.
+    const previous = progressWrites.get(store) ?? Promise.resolve()
+    const write = previous.then(() => store.writeJournal('progress.json', bytes))
+    progressWrites.set(store, write.catch(() => {}))
+    await write
+  } catch {
+    // Preserve the last complete atomic snapshot on a deadline or I/O failure.
+    // Allocation, collection and final admission retain their own checks.
+  }
+}
 // Only the active private finalizer can create this state; public records and
 // retained descriptors never restore it or authorize completion.
 const completionValidity = new WeakMap<EvidenceStore, {deadline: number; scanStartMs: number; origin: BatchOrigin}>()
@@ -39,7 +66,7 @@ function assertCompletionValidity(store: EvidenceStore) {
   if (performance.now() >= validity.deadline || now - validity.scanStartMs > 36 * 3600_000 || validity.scanStartMs - now > 5 * 60_000) throw Error('BATCH_FRESHNESS_EXPIRED')
 }
 
-interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'}
+interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'; authenticationMs?: number}
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
   if (!operation.active || operation.issued.has(pageId) || !readBatchDiscoveryCapture(operation.discovery).report.pages.some(p => p.pageId === pageId)) invalid()
@@ -55,7 +82,16 @@ export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: T
   if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') invalid()
   // The claim precedes every await, including module/tool verification in the launcher.
   launch.state = 'running'
-  return launch.request
+  // These private notifications can record timings for this page only. They
+  // never alter the ticket state, the authenticated material or any receipt.
+  return {
+    request: launch.request,
+    authenticating: () => checkpointBatchProgress(store, 'launch-authentication', launch.request.pageId),
+    renderWorkerStarted: (authenticationMs: number) => {
+      launch.authenticationMs = authenticationMs
+      return checkpointBatchProgress(store, 'render-worker', launch.request.pageId, authenticationMs)
+    },
+  }
 }
 export function replayBatchContentData(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore): Uint8Array | undefined {
   const launch = replayLaunches.get(ticket)
@@ -63,7 +99,7 @@ export function replayBatchContentData(ticket: BatchContentTicket, capture: Trus
   return launch.operation.replayFixtureBytes && Uint8Array.from(launch.operation.replayFixtureBytes)
 }
 /** Retain only bytes delivered by the exact successfully settled child; the whole wire is never a CAS blob. */
-async function retainPage(operation: Operation, ticket: BatchContentTicket, child: BatchMeasuredChild) {
+async function retainPage(operation: Operation, ticket: BatchContentTicket, child: BatchMeasuredChild, retainBlob: ReturnType<typeof createPageBlobRetainer>) {
   const launch = (operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)
   if (!launch || launch.operation !== operation || launch.state !== 'running' || !operation.active) invalid()
   batchCasCategory(operation.store, 'page')
@@ -76,10 +112,8 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   for (const payload of wire.blobs) {
     if (!operation.active) invalid()
     const bytes = decodeBatchBlob(payload.ref, payload.base64)
-    const stored = await writeOwnedBlob(operation.store, bytes)
+    const stored = await retainBlob(bytes)
     if (!operation.active || stored.sha256 !== payload.ref.sha256 || stored.bytes !== payload.ref.bytes) invalid()
-    const reread = await operation.store.readBlob(stored)
-    if (!operation.active || batchSha256(reread) !== stored.sha256 || reread.length !== stored.bytes) invalid()
   }
   const materialBytes = canonicalBytes(checked.header), materialRef = await writeOwnedBlob(operation.store, materialBytes)
   if (!operation.active) invalid()
@@ -88,7 +122,7 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   const retained: RetainedPage = immutable({pageId: launch.request.pageId, ...receipt, materialRef, materialDigest: batchDigest('material', checked.header)})
   if (operation.pages.has(retained.pageId)) invalid()
   operation.pages.set(retained.pageId, retained); launch.state = 'settled'; operation.outstanding.delete(ticket)
-  return {retained, checked}
+  return {retained, checked, authenticationMs: launch.authenticationMs}
 }
 
 /** Unexported constructors keep replay captures in a separate nominal family. */
@@ -602,8 +636,13 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
   let phase: MaterialPhase = 'discovery-retention'
   let phaseStart = performance.now()
   let pageId: string | null = null
-  const begin = (next: MaterialPhase) => {phase = next; phaseStart = performance.now()}
+  const begin = async (next: MaterialPhase) => {
+    phase = next
+    phaseStart = performance.now()
+    await checkpointBatchProgress(operation.store, phase, pageId)
+  }
   try {
+    await begin('discovery-retention')
     const discovery = readBatchDiscoveryCapture(operation.discovery)
     for (const evidence of discovery.evidence) {
       const stored = await writeOwnedBlob(operation.store, evidence.bytes)
@@ -616,38 +655,72 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
     const introductionOrderRef = await retainStructured(operation, discovery.introductionOrder)
     const discoveryObject = BatchDiscoveryCommitmentSchema.parse({base: operation.base, reportRef, edgeLedgerRef, introductionOrderRef})
     const discoveryDigest = batchDigest('discovery', discoveryObject), discoveryRef = await retainStructured(operation, discoveryObject)
-    begin('launcher')
+    await begin('launcher')
     const launcher = batchContentLauncher(await prepareTrustedLauncher(operation.capture, operation.store))
     // Until a checked dependency index exists, every M registry page is a potentially joining probe.
-    for (const page of batchSorted(discovery.report.pages, p => p.pageId)) {
-      pageId = page.pageId
-      begin('allocation')
-      if (!operation.active) invalid()
-      currentBatchLifetime()?.check()
-      if (currentBatchLifetime()) {
-        await reserveBatchContentAllocation(operation.store, {masterRepository: operation.capture.root, master: operation.base.pins.master,
-          devRepository: operation.devRepository, dev: operation.base.pins.dev, sourceRepository: operation.sourceRepository,
-          commits: [page.current, page.oldNext, operation.base.pins.source]})
+    const registry = batchSorted(discovery.report.pages, p => p.pageId)
+    const retainBlob = createPageBlobRetainer(operation.store)
+    let workerFailure: {pageId: string; started: number} | undefined
+    try {
+      await runBatchPagePipeline(registry, {
+        signal: currentBatchLifetime()?.signal,
+        async preflight(window) {
+          pageId = window[0].pageId
+          await begin('allocation')
+          if (!operation.active) invalid()
+          const lifetime = currentBatchLifetime()
+          if (lifetime) {
+            lifetime.check()
+            await reserveBatchContentWindow(operation.store, {
+              masterRepository: operation.capture.root, master: operation.base.pins.master,
+              devRepository: operation.devRepository, dev: operation.base.pins.dev,
+              sourceRepository: operation.sourceRepository,
+            }, window.map(page => [page.current, page.oldNext, operation.base.pins.source]))
+          }
+          await begin('worker')
+        },
+        async launch(page, signal) {
+          const started = performance.now()
+          try {
+            signal.throwIfAborted()
+            const ticket = issueContent(operation, page.pageId)
+            const child = operation.base.origin.kind === 'observed'
+              ? await launcher.runObservedBatchContent(ticket, signal)
+              : await launcher.runReplayBatchContent(ticket, signal)
+            return {ticket, child, started}
+          } catch (error) {
+            if (!signal.aborted) workerFailure ??= {pageId: page.pageId, started}
+            throw error
+          }
+        },
+        async retain(page, {ticket, child, started}) {
+          pageId = page.pageId
+          if (!operation.active) invalid()
+          await begin('page-retention')
+          const {retained, checked, authenticationMs} = await retainPage(operation, ticket, child, retainBlob)
+          if (!operation.active) invalid()
+          await begin('projection')
+          if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
+          const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
+          verifiedNamespace ??= checked.config.namespaceRef
+          compactPages.push(projected)
+          measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - started),
+            responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
+            ...(authenticationMs === undefined ? {} : {authenticationMs})})
+        },
+      })
+    } catch (error) {
+      if (workerFailure) {
+        phase = 'worker'
+        pageId = workerFailure.pageId
+        phaseStart = workerFailure.started
+      } else if (measurement?.pages.some(page => page.pageId === pageId)) {
+        pageId = null
       }
-      const ticket = issueContent(operation, page.pageId), began = performance.now()
-      begin('worker')
-      const child = operation.base.origin.kind === 'observed' ? await launcher.runObservedBatchContent(ticket, currentBatchLifetime()?.signal) : await launcher.runReplayBatchContent(ticket, currentBatchLifetime()?.signal)
-      if (!operation.active) invalid()
-      begin('page-retention')
-      const {retained, checked} = await retainPage(operation, ticket, child)
-      if (!operation.active) invalid()
-      begin('projection')
-      // The verified ref binds every output's path, Git object and bytes to this exact dev tree.
-      if (verifiedNamespace && !same(verifiedNamespace, checked.config.namespaceRef)) invalid()
-      const projected = compactMaterial(child.value, checked, compactPages[0]?.existing)
-      verifiedNamespace ??= checked.config.namespaceRef
-      compactPages.push(projected)
-      measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - began), responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes})
-      // No completed promise/response/large raw text table is cached across pages.
-      // The frozen wire leaves scope here; neither the operation nor a completed promise retains it.
+      throw error
     }
     pageId = null
-    begin('closure')
+    await begin('closure')
     batchCasCategory(operation.store, 'other')
     if (operation.outstanding.size || operation.pages.size !== discovery.report.pages.length) invalid()
     const restorations = new Map<string, BatchRestoreProof>()
@@ -1085,7 +1158,7 @@ import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCat
 import {statfs, realpath} from 'node:fs/promises'
 import {resolve, relative, isAbsolute} from 'node:path'
 import {Worker} from 'node:worker_threads'
-import {reserveBatchContentAllocation} from './batch-source'
+import {reserveBatchContentWindow} from './batch-source'
 export type BatchCollectionResult = Readonly<{kind: 'guides-batch-collection-v1'; observation: 'observed' | 'replay';
   status: 'collected' | 'held' | 'no-group'; writeEligible: false; operations: readonly []; reasons: readonly string[]; index: BatchBlobRef | null;
   localCandidate?: import('./batch-candidate').LocalBatchCandidate}>
@@ -1099,10 +1172,29 @@ function sampleBatchOperation(root: string) {
   const worker = new Worker(`
     const {parentPort,workerData}=require('node:worker_threads');
     const {execFile}=require('node:child_process'),{promisify}=require('node:util');
-    const {lstat,readdir}=require('node:fs/promises'),{join}=require('node:path');
+    const {lstatSync,readdirSync}=require('node:fs'),{join}=require('node:path');
+    const {setImmediate:yieldTurn}=require('node:timers/promises');
     const exec=promisify(execFile),start=performance.now(),groups=new Set();
     let stopped=false,rssWork,diskWork,lastRss=start,lastDisk=start,rssCount=0,diskCount=0,rssPeak=0,diskPeak=0,rssGap=0,diskGap=0,errors=0;
-    async function disk(){let size=0,count=0;async function visit(path){if(++count>100000)throw Error('entries');const st=await lstat(path);size+=st.blocks*512+4096;if(st.isDirectory())for(const name of await readdir(path))await visit(join(path,name));}await visit(workerData.root);return size;}
+    // Batch local metadata reads on the sampler's own thread. Yield frequently
+    // so disk measurements never monopolize the RSS and stop callbacks.
+    async function disk(){
+      let size=0,count=0,path=workerData.root,nextYield=performance.now()+4;
+      const parents=[];
+      while(path!==undefined){
+        if(++count>100000)throw Error('entries');
+        const st=lstatSync(path);
+        size+=st.blocks*512+4096;
+        if(st.isDirectory())parents.push({path,names:readdirSync(path)[Symbol.iterator]()});
+        path=undefined;
+        while(path===undefined&&parents.length){
+          const parent=parents.at(-1),next=parent.names.next();
+          if(next.done)parents.pop();else path=join(parent.path,next.value);
+        }
+        if(count%128===0||performance.now()>=nextYield){await yieldTurn();nextYield=performance.now()+4;}
+      }
+      return size;
+    }
     function tick(){if(stopped)return;
       if(!rssWork)rssWork=(async()=>{const {stdout}=await exec('/bin/ps',['-axo','pid=,ppid=,pgid=,rss='],{env:{PATH:'/usr/bin:/bin',LC_ALL:'C'},timeout:1000,maxBuffer:4*1024*1024});
         const now=performance.now();rssGap=Math.max(rssGap,Math.ceil(now-lastRss));lastRss=now;rssCount++;
@@ -1170,7 +1262,9 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       const fs = await statfs(parent, {bigint: true})
       checkBatchAllocation({available: Number(fs.bavail * fs.bsize), blockSize: Number(fs.bsize), existing: 0}, 8192, 4)
       store = await initializeEvidence({root: out, repositories: [repository, source], owner: 'guides-batch-' + observation, maxBytes: 64 * 1024 * 1024})
-      operationMeasurements.set(store, {pages: []})
+      const measurement: OperationMeasurement = {observation, started: performance.now(), pages: [], totalPages: null}
+      operationMeasurements.set(store, measurement)
+      await checkpointBatchProgress(store, 'capture')
       stopSampling = sampleBatchOperation(store.root)
       const commit = await resolveCommit(repository), capture = replay?.capture ?? await captureTrustedToolset({root: repository, commit, cwd: repository})
       currentBatchLifetime()!.check()
@@ -1188,21 +1282,25 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
           return {status: 200, headers: {}, body: bytes}
         }}
       }
+      await checkpointBatchProgress(store, 'discovery')
       const discovery = replay ? await replayBatchDiscovery(input, {fixtureBytes: replay.fixtureBytes, replayClockMs: replay.replayClockMs}, immutableTransport!) : await observeBatchDiscovery(input)
       currentBatchLifetime()!.check()
       const pages = readBatchDiscoveryCapture(discovery).report.pages.length
+      measurement.totalPages = pages
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
       const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined))
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
+      await checkpointBatchProgress(store, 'qualification')
       const qualified = await qualifyMaterialTicket(material.ticket, observation, true, preparation)
       if (qualified.status === 'held') return result('held', qualified.reasons)
       try {assertCompletionValidity(store)} catch {return result('held', ['PUBLICATION_OUTCOME_UNCONFIRMED'])}
       publicationConfirmed = true
       collectedIndex = qualified.indexRef
       if (!preparation) return result('collected', [], qualified.indexRef)
+      await checkpointBatchProgress(store, 'candidate')
       const {candidate: localCandidate, handoff, checkPaths} = await buildCompletedCandidate(qualified, observation, preparation)
       checkCandidatePaths = checkPaths
       assertCompletionValidity(store)
@@ -1221,8 +1319,9 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
           checkCandidatePaths?.()
         }
         try {
+          const measurement = operationMeasurements.get(store)!
           await settleBatchMeasurement(store, stopSampling, {observation, resources: batchResourceMeasurement(store) ?? null,
-            ...operationMeasurements.get(store), signedProducerCapacity: 'deferred'}, validate)
+            pages: measurement.pages, ...(measurement.materialFailure && {materialFailure: measurement.materialFailure}), signedProducerCapacity: 'deferred'}, validate)
           // Repeat synchronously after the helper's final awaited resolution.
           // No awaited work remains before the live result is issued.
           validate()

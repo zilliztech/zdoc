@@ -24,7 +24,7 @@ source code.
 | `diff/cross-track.mjs` | fragments vs v2.6.26/v3.0.5 route skeletons vs live verdicts (feeds the version-track decision) |
 | `runner/cell_round.sh` | One round on milvus-cell: create-per-round → helm per anchor → probe → **delete-after** (no idle). User's own vCluster is only woken, never deleted |
 | `runner/uat_round.sh` | One round on UAT3 from `.env` `ZILLIZ_UAT3_*` (control plane + dataplane with endpoint discovery + stale sweep) |
-| `reports/<date>/` | Per-round evidence: results JSON, image digests, diffs, generated reports (first round: `2026-11-01`) |
+| `reports/<date>/` | Per-round evidence (results JSON, image digests, diffs, generated reports). **Local-only by default**: `reports/.gitignore` keeps every date directory out of the repo except the `2026-11-01` archive baseline, which `reports/2026-11-01/archive.test.js` pins. Commit per-round files only when they carry adjudication-worthy evidence for a fix, via `git add -f` in the fixing PR |
 
 ## Discipline
 

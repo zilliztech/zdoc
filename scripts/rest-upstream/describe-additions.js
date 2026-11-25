@@ -32,6 +32,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const {undescribedNodes, hasDescription} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'upstreamDiff', 'mirror'))
+const {applicableAdjudications, canonicalKey, loadRestUpstreamAdjudications} = require(path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest', 'upstreamDiff', 'adjudications'))
 const {chatCompletionsUrl, parseModelContent, parseArgs} = require('./decide-batches')
 
 const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000
@@ -44,7 +45,7 @@ const REFERENCE_LIMIT = 2
 const PLACEHOLDER_PATTERNS = /\b(to be added|tbd|todo|coming soon|placeholder)\b/i
 
 function usage() {
-    return 'Usage: node scripts/rest-upstream/describe-additions.js --change-set <path> --out <file> --base-url <url> --api-key-env <NAME> --model <id> [--report <path>] [--diff <path>] [--fragments <dir>] [--timeout-ms 300000] [--retries 3]'
+    return 'Usage: node scripts/rest-upstream/describe-additions.js --change-set <path> --out <file> --base-url <url> --api-key-env <NAME> --model <id> [--report <path>] [--diff <path>] [--adjudications <path>] [--fragments <dir>] [--timeout-ms 300000] [--retries 3]'
 }
 
 function fail(message) {
@@ -237,7 +238,7 @@ function entrySubtree(entry) {
 // Returns {changeSet, report}: the change set with descriptions filled on
 // prose-less mirror/addition nodes, minus nothing — degraded nodes simply stay
 // undescribed and ride the report back to the PR body.
-async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, baseUrl, apiKeyEnv, model, timeoutMs = DEFAULT_TIMEOUT_MS, retries = DEFAULT_RETRIES, fetchImpl = globalThis.fetch}) {
+async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, adjudicationsPath = null, baseUrl, apiKeyEnv, model, timeoutMs = DEFAULT_TIMEOUT_MS, retries = DEFAULT_RETRIES, fetchImpl = globalThis.fetch}) {
     if (!changeSet || !baseUrl || !apiKeyEnv || !model) fail(usage())
     const apiKey = process.env[apiKeyEnv]
     if (!apiKey) fail(`REST_UPSTREAM_DESCRIBE_API_KEY_MISSING: --api-key-env ${apiKeyEnv} is not set`)
@@ -245,8 +246,17 @@ async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, b
     const upstreamValidationByEntry = new Map((diff?.entries ?? []).map(entry => [entry.id, entry.upstreamValidation ?? []]))
     // Change-set entries carry opPath but not opKey; the diff entry has it.
     const opKeyByEntry = new Map((diff?.entries ?? []).map(entry => [entry.id, entry.opKey ?? null]))
+    // Settled field-level facts (2026-11-23 design): fresh prior adjudications
+    // ground the entry's nodes the same way upstreamValidation does — entry
+    // level, every node — so the drafted prose cannot re-draft a vocabulary a
+    // human adjudication already corrected. Stale adjudications are excluded
+    // by the same verdict the decision stage uses.
+    const adjudications = adjudicationsPath ? loadRestUpstreamAdjudications(adjudicationsPath) : null
+    const priorAdjudicationsByEntry = new Map(adjudications && diff
+        ? diff.entries.map(entry => [entry.id, applicableAdjudications(adjudications, changeSet.source, entry).fresh])
+        : [])
     const referenceIndex = buildReferenceIndex(fragmentsDir)
-    const report = {model, describedEntries: 0, describedNodes: 0, degraded: [], grounding: {upstreamCommentsUsed: 0, referencesUsed: 0, upstreamValidationUsed: 0}}
+    const report = {model, describedEntries: 0, describedNodes: 0, degraded: [], grounding: {upstreamCommentsUsed: 0, referencesUsed: 0, upstreamValidationUsed: 0, priorAdjudicationsUsed: 0}}
 
     for (const entry of changeSet.entries) {
         if (!DESCRIBABLE_KINDS.has(entry.kind)) continue
@@ -265,13 +275,20 @@ async function describeChangeSet({changeSet, diff = null, fragmentsDir = null, b
             // entry: it documents the request struct's accepted values and
             // policies, not one field's comment.
             const upstreamValidation = upstreamValidationByEntry.get(entry.diffEntryId) ?? []
+            const priorAdjudications = priorAdjudicationsByEntry.get(entry.diffEntryId) ?? []
             if (upstreamComment) report.grounding.upstreamCommentsUsed += 1
             if (references.length > 0) report.grounding.referencesUsed += 1
             if (upstreamValidation.length > 0) report.grounding.upstreamValidationUsed += 1
+            if (priorAdjudications.length > 0) report.grounding.priorAdjudicationsUsed += 1
             const evidence = {p: nodePath, field: fieldName, ...nodeEvidence(node)}
             if (upstreamComment) evidence.upstreamComment = upstreamComment
             if (references.length > 0) evidence.references = references
             if (upstreamValidation.length > 0) evidence.upstreamValidation = upstreamValidation
+            if (priorAdjudications.length > 0) {
+                evidence.priorAdjudications = priorAdjudications.map(record => ({
+                    key: canonicalKey(record), decision: record.decision, facts: record.facts, decidedAt: record.decidedAt,
+                }))
+            }
             return {node, evidence}
         })
 
@@ -328,6 +345,7 @@ async function main() {
         changeSet,
         diff,
         fragmentsDir: args.get('fragments') ?? null,
+        adjudicationsPath: args.get('adjudications') ?? null,
         baseUrl: args.get('base-url'),
         apiKeyEnv: args.get('api-key-env'),
         model: args.get('model'),

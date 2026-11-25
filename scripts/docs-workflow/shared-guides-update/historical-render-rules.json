@@ -1,0 +1,458 @@
+{
+  "kind": "guides-historical-render-rules-v1",
+  "rules": [
+    {
+      "pageId": "manage-collections",
+      "sourceFile": "site/en/userGuide/collections/manage-collections.md",
+      "rawOid": "96b63252500343008ae5eb48dd9870f27f354f7b",
+      "rawSha256": "deb4014ad7b40ccf2265b818953a896cf3de5dfb9f991cedeabb00d7cb899430",
+      "commits": [
+        "155fa4413d2e0b87f9ca239341dc9903e2774bb9",
+        "3477fded989eb10a9affb279d474023b9bdd6700"
+      ],
+      "markedOid": "a4e5df64b7e76fe2e0d6b99cfdef209418e1df5a",
+      "renderSha256": "ef6c570e9dc06c9032df5713169a92f1f79fa06e924e3efce0e5735f30ff8a42",
+      "edits": [
+        {
+          "offset": 379,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 2674,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 2906,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"index-intro\" -->\n"
+        },
+        {
+          "offset": 3099,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"index-intro\" -->\n"
+        },
+        {
+          "offset": 3643,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 4215,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 5196,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 5809,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 6537,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 6650,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 6886,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 7541,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"consistency-level-details\" -->\n"
+        },
+        {
+          "offset": 7634,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"consistency-level-details\" -->\n"
+        }
+      ]
+    },
+    {
+      "pageId": "single-vector-search",
+      "sourceFile": "site/en/userGuide/search-query-get/single-vector-search.md",
+      "rawOid": "a754ed24c0e7e946bf8c513a92c720c98d8e87be",
+      "rawSha256": "53f3e7ae6d9ef48224eb991d939512909d1add0e7edc0e68a454a8baa23bec38",
+      "commits": [
+        "088b7d49a53b14d9650a65b173fce5397fb1927e",
+        "155fa4413d2e0b87f9ca239341dc9903e2774bb9",
+        "1a884882adad779497d0571a03ca0bde4524c736",
+        "2c5b6b285a7d0a9f3ae80fe63d1bbbfb6d946e85",
+        "3477fded989eb10a9affb279d474023b9bdd6700",
+        "3b46129432a2ab66bb89ad9d8727b1b1852f4078",
+        "3c00c06c1e3e4e98365573394ba06e0c43c4bd17",
+        "4eca38769172896a16c3931d1d8d8b0738e0d9bc",
+        "51684e6d1656e29e453c28caa4b46c5f95f50ce3",
+        "6221ec5846333badf8a980767121c73a107944b7",
+        "69bf0f286d406f9a8b531fbb08cdb634524a93ec",
+        "6b8eb4affb796a3ba694032083582d431ed93458",
+        "8d6905f2cc13ec9336c7cd430e74be9cb2bc4bbe",
+        "a2fb0034c34a82a7563a7797cb756fa6ca960eab",
+        "a4c7b615830512bb509ce21fb1f43c256cfd6200",
+        "a5209e7c2c733ea19a20d0d7a8c65c9f829253c0",
+        "aa6ab6500d546b12056b50a5beed0aa192b31b3c",
+        "c91afa6360916b532e79ebac6678f66064272df0",
+        "d0a6e6adf343cfb5b352daa359e7aeab5cf5f30d",
+        "d59f0ac0e3991862b91d5d70738f0ebc656b045f",
+        "d66cf987a4162cfab61db5200a31d57523ec2a25",
+        "f30e224ebfcaf79f511d1fed44680cd3f22988fc"
+      ],
+      "markedOid": "47e3ed67daf52dad97881fdf287fb4b26720bc52",
+      "renderSha256": "000671ac4554556c065c9f0d264d5663c89738e62cf739f69ed50bf921eda7ca",
+      "edits": [
+        {
+          "offset": 529,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 2050,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 2101,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 2323,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"single-vector-search-toc\" -->\n"
+        },
+        {
+          "offset": 2944,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"single-vector-search-toc\" -->\n"
+        },
+        {
+          "offset": 3146,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 3345,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 3500,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-single\" -->\n"
+        },
+        {
+          "offset": 3792,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 3828,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 4972,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 5013,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 6198,
+          "before": "localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 6225,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 7115,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 7155,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 7879,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 7905,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 8959,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 8997,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 9773,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-single\" -->\n"
+        },
+        {
+          "offset": 9774,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 11108,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 11208,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-bulk\" -->\n"
+        },
+        {
+          "offset": 16652,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 16690,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 17979,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-bulk\" -->\n"
+        },
+        {
+          "offset": 17980,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-primary-key-heading\" -->\n"
+        },
+        {
+          "offset": 18018,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-primary-key-heading\" -->\n"
+        },
+        {
+          "offset": 18140,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-primary-key\" -->\n"
+        },
+        {
+          "offset": 21025,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 21176,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 21369,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-primary-key\" -->\n"
+        },
+        {
+          "offset": 21849,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-partition\" -->\n"
+        },
+        {
+          "offset": 26065,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 26103,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 26936,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-partition\" -->\n"
+        },
+        {
+          "offset": 26979,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 27337,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-output-fields\" -->\n"
+        },
+        {
+          "offset": 32102,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 32140,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 33074,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-output-fields\" -->\n"
+        },
+        {
+          "offset": 33075,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-sort-heading\" -->\n"
+        },
+        {
+          "offset": 33130,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-sort-heading\" -->\n"
+        },
+        {
+          "offset": 33143,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 33496,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 33711,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-sort-single\" -->\n"
+        },
+        {
+          "offset": 37725,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-sort-single\" -->\n"
+        },
+        {
+          "offset": 37771,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 37854,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 37942,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 37994,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-sort-multi\" -->\n"
+        },
+        {
+          "offset": 42620,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-sort-multi\" -->\n"
+        },
+        {
+          "offset": 42689,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 44305,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-limit-offset\" -->\n"
+        },
+        {
+          "offset": 47895,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 47933,
+          "before": "root:Milvus",
+          "after": "{{var.example_token}}"
+        },
+        {
+          "offset": 48392,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-limit-offset\" -->\n"
+        },
+        {
+          "offset": 49106,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-timezone\" -->\n"
+        },
+        {
+          "offset": 52583,
+          "before": "http://localhost:19530",
+          "after": "{{var.example_endpoint}}"
+        },
+        {
+          "offset": 52902,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-timezone\" -->\n"
+        },
+        {
+          "offset": 52903,
+          "before": "",
+          "after": "<!-- doc:block:start id=\"basic-vector-search-enhancing\" -->\n"
+        },
+        {
+          "offset": 53176,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 53317,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 53821,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 54019,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 55802,
+          "before": "Milvus",
+          "after": "{{var.product_name}}"
+        },
+        {
+          "offset": 57067,
+          "before": "",
+          "after": "<!-- doc:block:end id=\"basic-vector-search-enhancing\" -->\n"
+        }
+      ]
+    }
+  ]
+}
