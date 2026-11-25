@@ -398,6 +398,7 @@ List<Float> queryVector = Arrays.asList(0.11f, 0.40f, 0.19f, 0.64f, 0.30f);
 ```go
 import (
     "context"
+    "fmt"
     "log"
 
     "github.com/milvus-io/milvus/client/v3/entity"
@@ -913,6 +914,12 @@ result = client.search(
     # highlight-next-line
     search_aggregation=aggregation,
 )
+for bucket in result.agg_buckets[0]:
+    print(bucket)
+# Output:
+# AggregationBucket(key=[{'field_name': 'brand', 'field_id': 103, 'value': 'Brand B'}], count=1, metrics={'min_price': 159.99, 'product_count': 1, 'avg_price': 159.99}, hits=0, sub_groups=0)
+# AggregationBucket(key=[{'field_name': 'brand', 'field_id': 103, 'value': 'Brand A'}], count=1, metrics={'min_price': 129.99, 'product_count': 1, 'avg_price': 129.99}, hits=0, sub_groups=0)
+# AggregationBucket(key=[{'field_name': 'brand', 'field_id': 103, 'value': 'Brand C'}], count=1, metrics={'min_price': 119.99, 'product_count': 1, 'avg_price': 119.99}, hits=0, sub_groups=0)
 ```
 
 </TabItem>
@@ -931,6 +938,13 @@ SearchResp result = client.search(SearchReq.builder()
         .build());
 
 List<AggregationBucket> buckets = result.getAggregationBuckets().get(0);
+for (AggregationBucket bucket : buckets) {
+    System.out.println(bucket);
+}
+// Output:
+// AggregationBucket{key=[KeyEntry{fieldId=103, fieldName='brand', value=Brand B}], count=1, metrics={min_price=159.99, product_count=1, avg_price=159.99}, hits=[], subGroups=[]}
+// AggregationBucket{key=[KeyEntry{fieldId=103, fieldName='brand', value=Brand A}], count=1, metrics={min_price=129.99, product_count=1, avg_price=129.99}, hits=[], subGroups=[]}
+// AggregationBucket{key=[KeyEntry{fieldId=103, fieldName='brand', value=Brand C}], count=1, metrics={min_price=119.99, product_count=1, avg_price=119.99}, hits=[], subGroups=[]}
 ```
 
 </TabItem>
@@ -951,6 +965,13 @@ if err != nil {
 }
 
 buckets := resultSets[0].AggregationBuckets
+for _, bucket := range buckets {
+    fmt.Println(bucket)
+}
+// Output:
+// {[{brand 103 Brand B}] 1 map[avg_price:159.99 min_price:159.99 product_count:1] [] []}
+// {[{brand 103 Brand A}] 1 map[avg_price:129.99 min_price:129.99 product_count:1] [] []}
+// {[{brand 103 Brand C}] 1 map[avg_price:119.99 min_price:119.99 product_count:1] [] []}
 ```
 
 </TabItem>
@@ -969,6 +990,8 @@ let result = client.search(
         .build()?,
 ).await?;
 println!("{:?}", result.results().get_agg_buckets());
+// Output:
+// [[AggregationBucket { key: [BucketKeyEntry { field_id: 103, field_name: "brand", value: String("Brand B") }], count: 1, metrics: {"avg_price": Double(159.99), "product_count": Int(1), "min_price": Double(159.99)}, hits: [], sub_groups: [] }, AggregationBucket { key: [BucketKeyEntry { field_id: 103, field_name: "brand", value: String("Brand A") }], count: 1, metrics: {"product_count": Int(1), "min_price": Double(129.99), "avg_price": Double(129.99)}, hits: [], sub_groups: [] }, AggregationBucket { key: [BucketKeyEntry { field_id: 103, field_name: "brand", value: String("Brand C") }], count: 1, metrics: {"product_count": Int(1), "avg_price": Double(119.99), "min_price": Double(119.99)}, hits: [], sub_groups: [] }]]
 ```
 
 </TabItem>
@@ -988,6 +1011,16 @@ status = client->Search(milvus::SearchRequest()
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+const auto& buckets = search_resp.AggregationBuckets()[0];
+for (const auto& bucket : buckets) {
+    std::cout << bucket.key[0].value.dump() << ": count=" << bucket.count
+              << ", avg_price=" << bucket.metrics.at("avg_price").dump()
+              << ", min_price=" << bucket.metrics.at("min_price").dump() << std::endl;
+}
+// Output:
+// "Brand B": count=1, avg_price=159.99, min_price=159.99
+// "Brand A": count=1, avg_price=129.99, min_price=129.99
+// "Brand C": count=1, avg_price=119.99, min_price=119.99
 ```
 
 </TabItem>
@@ -1006,6 +1039,13 @@ const result = await client.search({
 });
 
 const buckets = result.agg_buckets;
+for (const bucket of buckets) {
+  console.log(bucket.key[0].value, bucket.count, bucket.metrics);
+}
+// Output:
+// Brand B 1 { min_price: 159.99, product_count: '1', avg_price: 159.99 }
+// Brand A 1 { avg_price: 129.99, min_price: 129.99, product_count: '1' }
+// Brand C 1 { product_count: '1', avg_price: 119.99, min_price: 119.99 }
 ```
 
 </TabItem>
@@ -1028,6 +1068,14 @@ var result = await client.SearchAsync(new SearchReq
 });
 
 var buckets = result.AggregationBuckets?.FirstOrDefault();
+foreach (var bucket in buckets)
+{
+    Console.WriteLine($"{bucket.Key[0].Value}: count={bucket.Count}, avg_price={bucket.Metrics["avg_price"]}, min_price={bucket.Metrics["min_price"]}");
+}
+// Output:
+// Brand B: count=1, avg_price=159.99, min_price=159.99
+// Brand A: count=1, avg_price=129.99, min_price=129.99
+// Brand C: count=1, avg_price=119.99, min_price=119.99
 ```
 
 </TabItem>
@@ -1052,6 +1100,8 @@ curl --request POST \
       "order": [{"key": "avg_price", "direction": "desc"}, {"key": "_key", "direction": "asc"}]
     }
   }'
+# Output:
+# {"aggTopks":[3],"code":0,"cost":0,"data":[{"buckets":[{"count":1,"hits":[],"key":[{"fieldId":103,"fieldName":"brand","value":"Brand B"}],"metrics":{"avg_price":159.99,"min_price":159.99,"product_count":1},"subGroups":[]},{"count":1,"hits":[],"key":[{"fieldId":103,"fieldName":"brand","value":"Brand A"}],"metrics":{"avg_price":129.99,"min_price":129.99,"product_count":1},"subGroups":[]},{"count":1,"hits":[],"key":[{"fieldId":103,"fieldName":"brand","value":"Brand C"}],"metrics":{"avg_price":119.99,"min_price":119.99,"product_count":1},"subGroups":[]}]}]}
 ```
 
 </TabItem>
