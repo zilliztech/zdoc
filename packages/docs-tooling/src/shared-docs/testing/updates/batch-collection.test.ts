@@ -1041,3 +1041,36 @@ it('limits equivalent render inputs to the plain page declaration and independen
     expect(batchEquivalentSourceBytes(Buffer.from(text), values, [])).toBe(false)
   expect(batchEquivalentSourceBytes(template, Buffer.from('{"product_name":"![remote](x)"}'), [dep])).toBe(false)
 })
+
+it('persists closure groups.json diagnostics above 64 KiB while still enforcing BATCH_GROUPS_DIAGNOSTICS_LIMIT', async () => {
+  const fs = await import('node:fs/promises')
+  const {initializeEvidence, bindBatchResources, withBatchLifetime} = await import('../../adapters/updates/evidence')
+  const {BATCH_GROUPS_DIAGNOSTICS_LIMIT, writeBatchGroupsDiagnostics} = await import('../../adapters/updates/batch-collection')
+  expect(BATCH_GROUPS_DIAGNOSTICS_LIMIT).toBe(16 * 1024 * 1024)
+  const root = await fs.realpath(await mkdtemp(join(tmpdir(), 'batch-groups-diag-')))
+  const store = await initializeEvidence({root, repositories: [], owner: 'groups-diag'})
+  bindBatchResources(store, 1)
+  const unmappedChanges = Array.from({length: 600}, (_, index) => ({
+    path: `site/en/unrelated/section-${String(index).padStart(4, '0')}/page.md`,
+    status: 'changed',
+    previousPath: null,
+    evidence: ['pr#3842', 'pr#3861'],
+    pageIds: [],
+    kind: 'other',
+  }))
+  await withBatchLifetime(async () => {
+    const written = await writeBatchGroupsDiagnostics(store, {
+      kind: 'guides-batch-groups-v1',
+      unmappedChanges,
+      writeEligible: false,
+      operations: [],
+    })
+    expect(written.length).toBeGreaterThan(65536)
+    expect(written.length).toBeLessThan(BATCH_GROUPS_DIAGNOSTICS_LIMIT)
+    expect(JSON.parse(await fs.readFile(join(root, 'groups.json'), 'utf8')).unmappedChanges).toHaveLength(600)
+    await expect(writeBatchGroupsDiagnostics(store, {
+      kind: 'guides-batch-groups-v1',
+      overflow: 'x'.repeat(BATCH_GROUPS_DIAGNOSTICS_LIMIT),
+    })).rejects.toThrow('BATCH_SUMMARY_LIMIT')
+  })
+})
