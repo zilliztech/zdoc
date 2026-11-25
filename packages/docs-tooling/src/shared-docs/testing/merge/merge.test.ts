@@ -237,3 +237,55 @@ describe('pure two-version wrapper emitter', () => {
   })
 
 })
+
+describe('prose markup escape before segmentation', () => {
+  // Byte shapes taken from the real upstream node SDK v3.0.x pages whose
+  // bare TS generics previously failed segmentation in PR #1462.
+  it('escapes upstream prose generics before segmentation and emits finalize-identical bytes', () => {
+    const current = '**RETURNS:**\n\n*Promise<DescribeSnapshotResponse>*\n\nThis method returns a promise that resolves to a **DescribeSnapshotResponse** object.\n'
+    const next = '**RETURNS:**\n\n*Promise<SearchResults<T>>*\n\nThis method returns a promise that resolves to a **SearchResults<T>** object.\n'
+    const result = merge(current, next)
+    expect(result.markdown).toContain('*Promise&lt;DescribeSnapshotResponse&gt;*')
+    expect(result.markdown).toContain('*Promise&lt;SearchResults&lt;T&gt;&gt;*')
+    expect(result.markdown).toContain('**SearchResults&lt;T&gt;**')
+    lint(result.markdown)
+  })
+
+  it('normalizes equal prose-generic channels through the unchanged-byte path', () => {
+    const source = '**RETURNS:**\n\n*Promise<FlushResult>*\n'
+    const result = merge(source, source)
+    expect(result.unchanged).toBe(true)
+    expect(result.markdown).toBe('**RETURNS:**\n\n*Promise&lt;FlushResult&gt;*\n')
+  })
+
+  it('leaves front matter untouched while escaping body prose', () => {
+    const current = '---\ntitle: Flush\ndescription: Returns Promise<FlushResult> objects.\n---\n\nRETURNS\n\n*Promise<FlushResult>*\n'
+    const next = current.replace('RETURNS', 'Return value')
+    const result = merge(current, next)
+    expect(result.markdown).toContain('description: Returns Promise<FlushResult> objects.')
+    expect(result.markdown).toContain('*Promise&lt;FlushResult&gt;*')
+  })
+
+  it('escapes one-shot PascalCase type references with no component usage', () => {
+    const current = 'The response is a <DescribeSnapshotResponse> object.\n'
+    const next = current.replace('response', 'result')
+    const result = merge(current, next)
+    expect(result.markdown).toContain('&lt;DescribeSnapshotResponse&gt;')
+    lint(result.markdown)
+  })
+
+  it('still rejects unclosed real component tags after the prose escape', () => {
+    const result = mergeMarkdown({ current: input('<Tabs>\n\nPanel\n', 'current'), next: input('Other\n', 'next') })
+    expect(result).toMatchObject({ errors: [expect.objectContaining({ code: 'ADAPT_UNSUPPORTED_MARKUP', message: expect.stringContaining('Tabs') })] })
+    expect(result).not.toHaveProperty('markdown')
+  })
+
+  it('keeps component imports resolvable for tags the escape preserves', () => {
+    const source = "import Tabs from '@theme/Tabs';\n\n<Tabs>\n\nPromise<X> prose inside a component body\n\n</Tabs>\n"
+    const result = merge(source, source)
+    expect(result.components).toEqual(['Tabs'])
+    expect(result.markdown).toContain('<Tabs>')
+    expect(result.markdown).toContain('Promise&lt;X&gt;')
+  })
+
+})
