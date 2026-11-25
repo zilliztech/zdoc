@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "メトリクスチャートを使用すると、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用量を追跡できます。オンデマンドクラスターのチャートを表示するには、「オンデマンドクラスターの監視」を参照してください。 | Cloud"
+description: "メトリクスチャートを使用して、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用状況を追跡できます。 | Cloud"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # メトリクスチャートの表示
 
-メトリクスチャートを使用すると、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用量を追跡できます。オンデマンドクラスターのチャートを表示するには、[オンデマンドクラスターの監視](./monitor-on-demand-cluster) を参照してください。
+メトリクスチャートを使用して、サービングクラスターまたは個々のコレクションのトラフィック、レイテンシ、リソース使用状況を追跡できます。
 
 ## クラスターチャート\{#cluster-charts}
 
@@ -46,13 +46,13 @@ import Procedures from '@site/src/components/Procedures';
     | リソース | 速度低下中の CPU 負荷については Query CU Computation を確認します。クラスターがメモリまたはストレージの上限にどの程度近づいているかを確認するには、Query CU Capacity を確認します。 |
     | データ | データ量の変化については Entity Count を、コレクション数の変化については Collection Count（コレクション数）を確認します。 |
 
-    定義、単位、クラスタータイプごとの利用可否については、リソースメトリクス、パフォーマンスメトリクス、データメトリクスを参照してください。
+    定義、単位、クラスタータイプ別の可用性については、[resource metrics](./metrics-alerts-reference#resources)、[performance metrics](./metrics-alerts-reference#performance)、[data metrics](./metrics-alerts-reference#data) を参照してください。
 
 </Procedures>
 
 ## コレクションチャート\{#collection-charts}
 
-これらのチャートは、サービングクラスター内の 1 つのコレクションのメトリクスを表示します。オンデマンドデータベース内のコレクションについては、[オンデマンドデータベースとコレクションのメトリクス](./on-demand-metrics-reference#on-demand-database-and-collection-metrics) を参照してください。
+これらのチャートには、サービングクラスター内の 1 つのコレクションのメトリクスが表示されます。
 
 <Supademo id="cmwu3bdzt00q6qmq1j8730zt5" title=""  />
 
@@ -70,6 +70,6 @@ import Procedures from '@site/src/components/Procedures';
 
 1. **Key Metrics** の下で、**QPS (Read)** を使用して、選択したコレクションが 1 秒あたりに受信した読み取りリクエスト数を確認します。
 
-    コレクションレベルのリクエストメトリクスについては、Performance を参照してください。エンティティ数については、Data を参照してください。
+    コレクションレベルのリクエストメトリクスについては、[Performance](./metrics-alerts-reference#performance) を参照してください。エンティティ数については、[Data](./metrics-alerts-reference#data) を参照してください。
 
 </Procedures>

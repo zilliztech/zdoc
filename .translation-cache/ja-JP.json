@@ -1371,9 +1371,9 @@
       "translatedAt": "2026-11-10T13:08:08.036Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "eae842dd804c462edde5c8f789c4647bb418ac10fcac4a283bb8ed96c5573d87",
+      "sourceHash": "276c918d73377907f4b8ccf69bc7b9ff887f3df2a86d3d3c160c0bf23267d52e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-24T11:59:48.651Z"
+      "translatedAt": "2026-11-25T05:43:59.613Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/observability-integrations/integrate-with-https-endpoint.md": {
       "sourceHash": "ab29b8fc647c76b36bac5ec190c984dbacb2c7ee9277ead2f2d9583fd0998070",
@@ -1386,9 +1386,9 @@
       "translatedAt": "2026-09-19T14:01:58.853Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "61ddf53022adabfe93f77dada572571b1bb584d96481bd81c39273334c72e31e",
+      "sourceHash": "52367bdfd37b06fac9f7112738b762c450746aa96784c59e22f0299216dfc948",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-11-24T11:59:48.651Z"
+      "translatedAt": "2026-11-25T05:43:59.613Z"
     },
     "content/en/byoc/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "1421f3624620b0974015af4ff2813e52cd2a712daca5d4f2dd8532e089e8bea0",
@@ -2306,9 +2306,9 @@
       "translatedAt": "2026-11-09T13:49:19.042Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots-console.md": {
-      "sourceHash": "785557e1624ca7b22169662fb8ae48f0e4258fba9f95f2773250ad063f4a2731",
+      "sourceHash": "3f9ae6c7e81fa39e95b5f07ef69b5338a96981cc63121e1ffc88c20563b906a3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/manage-snapshots-console.md",
-      "translatedAt": "2026-11-23T03:50:36.587Z"
+      "translatedAt": "2026-11-25T05:43:59.613Z"
     },
     "content/en/guides/tutorials/development/snapshots/manage-snapshots.md": {
       "sourceHash": "b2c8fafff3b340130ac13d0520ab3b359e19df7fe1495f9cee095cc10728cb84",
@@ -3131,9 +3131,9 @@
       "translatedAt": "2026-11-10T13:46:21.178Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/metrics-alerts-reference.md": {
-      "sourceHash": "b014829fd13dc2c7289c471cef00981d2b13e531b95900b5fcf0f43d3ed68301",
+      "sourceHash": "ef0d9d0ff36bb7b7c777b13c0ec82094d1d24d112e2bde437a552a6e7893b5f8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/metrics-alerts-reference.md",
-      "translatedAt": "2026-11-24T11:59:48.651Z"
+      "translatedAt": "2026-11-25T05:43:59.613Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog.md": {
       "sourceHash": "ad5f0d5c118aea2e638fe9e583c93786f36cefdbb98c60eb8aa2d5093ce4ede2",
@@ -3151,9 +3151,9 @@
       "translatedAt": "2026-09-19T14:24:19.670Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/view-cluster-metric-charts.md": {
-      "sourceHash": "00ed76c81745368f4c45939ed0dfce69b609ea5819908c363934ebd02a6c8e2e",
+      "sourceHash": "a3e338c71c19604e6a51ce34a3c2050b769297c5d531414580b046f604a8a2de",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-alerts/view-cluster-metric-charts.md",
-      "translatedAt": "2026-11-24T11:59:48.651Z"
+      "translatedAt": "2026-11-25T05:43:59.613Z"
     },
     "content/en/guides/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
       "sourceHash": "bba775f26464b2fa0d3b7377009c35ff130072e8b7815042f520763bd04b07ce",
