@@ -223,7 +223,7 @@ During a scaling job, Zilliz Cloud continues to bill the cluster based on the pr
 
 - On-demand clusters scale automatically and do not require auto-scaling configuration.
 
-- Replica scaling requires a minimum Query CU configuration of 4 CUs.
+- Replica scaling requires a minimum Query CU configuration of 8 CUs.
 
 - Query CU × replica has an upper limit. For details, see [Zilliz Cloud Limits](./limits#replicas).
 

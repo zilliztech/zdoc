@@ -129,7 +129,7 @@ In other words, you are not billed for the target configuration until the scalin
 
 Review the following limits before configuring scaling.
 
-- Replica scaling requires a minimum Query CU configuration of 4 CUs.
+- Replica scaling requires a minimum Query CU configuration of 8 CUs.
 
 - Query CU × replica has an upper limit. For details, see [Zilliz Cloud Limits](./limits#replicas).
 

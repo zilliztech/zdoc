@@ -79,7 +79,7 @@ A request may skip a phase if the required resources are already ready. Retries 
 
 The **Compute** phase is the time the selected request waited. If the request arrived after a compute activation had already started, its wait is shorter than the duration of the full activation. Multiple requests can wait for the same activation.
 
-The request-level **Execute** phase starts after dequeue. Its boundary differs from the aggregate execution-duration metric, which accumulates top-level execution attempts and includes scheduling and internal retries. Neither should be interpreted as pure QueryNode compute time.
+The request-level **Execute** phase starts after dequeue. Its boundary differs from the aggregate execution-duration metric, which accumulates top-level execution attempts and includes scheduling and internal retries. Neither should be interpreted as pure compute time.
 
 ## Inspect a run\{#inspect-a-run}
 
@@ -103,6 +103,6 @@ Run counts reflect recorded, associated requests. They are not billing figures. 
 
 ## Interpret readiness and missing data\{#interpret-readiness-and-missing-data}
 
-**Compute readiness** is measured from the start of an activation until the QueryNode is ready and has joined the resource group. **Collection readiness** is measured from the start of an activation until a particular collection is queryable; it includes compute startup. One activation can produce multiple collection-readiness samples. A queryable collection does not necessarily mean its cache is warm.
+**Compute readiness** is measured from the start of an activation until the compute resource is ready and has joined the resource group. **Collection readiness** is measured from the start of an activation until a particular collection is queryable; it includes compute startup. One activation can produce multiple collection-readiness samples. A queryable collection does not necessarily mean its cache is warm.
 
 Request records are written asynchronously and may be delayed or incomplete. If records are unavailable or marked incomplete, do not interpret an empty list or a zero count as proof that no requests occurred. In-progress requests can change state while you inspect the list. Requests rejected before recording begins are outside the request history.

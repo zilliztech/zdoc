@@ -86,11 +86,33 @@ Contact [Zilliz Support](http://support.zilliz.com) to request access to these f
 
 <Admonition type="info" title="Notes">
 
-Upgrade your cluster Milvus version to access these features.
+Upgrade your cluster Milvus version to access the following features. For details, see [Upgrade cluster for preview features](/docs/manage-cluster#upgrade-cluster-for-preview-features).
 
 </Admonition>
 
-- [On-demand compute](./on-demand-cluster)
+- ORDER BY in [queries](/docs/get-and-scalar-query) and [searches](/docs/single-vector-search)
+
+- [Query aggregation](/docs/get-and-scalar-query)
+
+- [Search Aggregation](/docs/search-aggregation)
+
+- [Regular expression filtering](/docs/pattern-match)
+
+- [Membership Match filtering](/docs/membership-match)
+
+- [MinHash Function](/docs/minhash-function)
+
+- [`TEXT`](/docs/use-text-field)[ data type](/docs/use-text-field)
+
+- [Add a Function and its field to an existing collection](/docs/add-fields-to-an-existing-collection)
+
+- [Drop fields and Functions](/docs/add-fields-to-an-existing-collection)
+
+- [StructArray element-level search](/docs/use-array-of-structs)
+
+- [StructArray match filters](/docs/struct-array-filtering)
+
+- [Entity-level TTL](/docs/set-collection-ttl)
 
 ### Deprecation notice\{#deprecation-notice}
 

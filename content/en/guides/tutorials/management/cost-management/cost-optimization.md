@@ -89,7 +89,7 @@ Zilliz Cloud offers several plans that affect features and scaling limits:
 | Feature | Standard | Enterprise | Business Critical |
 | --- | --- | --- | --- |
 | Max CU | 32 CU | 256 CU | 512 CU |
-| Replica Limit | Query CU × Repl ≤ 32 | Query CU × Repl ≤ 256 | Query CU × Repl ≤ 512 |
+| Replica Limit | Query CU × Replica ≤ 32 | Query CU × Replica ≤ 256 | Query CU × Replica ≤ 512 |
 | SLA | 0.999 | 0.9995 | 0.9999 |
 | Multi-AZ | Single AZ | Optional | Enabled by Default |
 | RBAC | Basic | Custom Roles + Audit | Full + SOC2/HIPAA |
@@ -1056,7 +1056,7 @@ For details, see [Manual Scaling](./manual-scaling).
 
 - When scaling down, data volume must be below 80% of the new CU capacity
 
-- Below 12 CU, only Query CU can be adjusted; above 12 CU, Query CU and Replicas can be adjusted independently
+- Below 8 CU, only Query CU can be adjusted; above 8 CU, Query CU and Replicas can be adjusted independently
 
 **Recommendation:** Use dynamic scaling for unpredictable traffic; use scheduled scaling for regular traffic patterns. The two can be combined.
 
