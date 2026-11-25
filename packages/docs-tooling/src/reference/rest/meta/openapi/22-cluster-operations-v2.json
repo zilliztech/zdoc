@@ -2379,7 +2379,16 @@
                                   }
                                 },
                                 {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "A string value representing the status of the cluster.",
+                                  "x-i18n": {
+                                    "zh-CN": {
+                                      "description": "表示集群状态的字符串值。"
+                                    },
+                                    "ja-JP": {
+                                      "description": "クラスタのステータスを表す文字列値。"
+                                    }
+                                  }
                                 }
                               ],
                               "description": "Current status of the cluster.",
@@ -2389,6 +2398,20 @@
                                 },
                                 "ja-JP": {
                                   "description": "クラスターの現在のステータス。"
+                                }
+                              }
+                            },
+                            "milvusVersion": {
+                              "type": "string",
+                              "description": "Milvus version family of the running cluster. Omitted when the version is unavailable.",
+                              "example": "2.6.x",
+                              "pattern": "^[0-9]+\\.[0-9]+\\.x$",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "集群当前运行的 Milvus 版本系列。版本不可用时不返回。"
+                                },
+                                "ja-JP": {
+                                  "description": "実行中のクラスタの Milvus バージョンファミリー。バージョンが利用できない場合は省略されます。"
                                 }
                               }
                             },

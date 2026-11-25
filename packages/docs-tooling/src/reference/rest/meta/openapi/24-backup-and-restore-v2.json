@@ -3126,6 +3126,55 @@
                         "description": "復元された Cluster の説明。最大 255 文字。"
                       }
                     }
+                  },
+                  "version": {
+                    "type": "object",
+                    "description": "Explicit version from the options for this backup and the source cluster's region. Mutually exclusive with restoreVersionPolicy. Omit to use the existing version policy behavior.",
+                    "properties": {
+                      "milvusVersion": {
+                        "type": "string",
+                        "description": "Milvus version family with x as the patch placeholder.",
+                        "example": "2.6.x",
+                        "pattern": "^[0-9]+\\.[0-9]+\\.x$",
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "Milvus 版本系列，使用 x 作为补丁版本占位符。"
+                          },
+                          "ja-JP": {
+                            "description": "x をパッチのプレースホルダーとする Milvus バージョンファミリー。"
+                          }
+                        }
+                      },
+                      "channel": {
+                        "type": "string",
+                        "description": "GA and PUBLIC_PREVIEW select the latest eligible patch in the major version and channel. ORIGIN restores the exact version recorded in the backup; its major version must match the backup. ORIGIN is available only for restore, subject to backup compatibility and the original-version restore window.",
+                        "enum": [
+                          "GA",
+                          "PUBLIC_PREVIEW",
+                          "ORIGIN"
+                        ],
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "GA 和 PUBLIC_PREVIEW 选择大版本和通道内最新可用版本；ORIGIN 精确恢复备份记录的原版本，大版本须与备份一致，且受备份兼容性和原版本恢复窗口限制。"
+                          },
+                          "ja-JP": {
+                            "description": "GA および PUBLIC_PREVIEW は、メジャーバージョンとチャネル内で最新の適合するパッチを選択します。ORIGIN はバックアップに記録された正確なバージョンをリストアします。そのメジャーバージョンはバックアップと一致する必要があります。ORIGIN はリストア専用であり、バックアップの互換性と元バージョンのリストア期間に従います。"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "channel",
+                      "milvusVersion"
+                    ],
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "从该备份在源集群地域的候选中选择目标版本。与 restoreVersionPolicy 互斥，省略时沿用版本策略。"
+                      },
+                      "ja-JP": {
+                        "description": "このバックアップのオプションで指定された明示的なバージョンと、ソースクラスターのリージョン。restoreVersionPolicy とは排他的です。省略すると既存のバージョンポリシーの動作を使用します。"
+                      }
+                    }
                   }
                 },
                 "required": [

@@ -21,15 +21,15 @@
     "19-extract-load-and-transform-v2.json": "d94b1ce6f5d11e3a92b188f2e6aba5a63e1479303eb2bef69bb0871928bca8ac",
     "20-volume-operations-v2.json": "b81e8c51da3b2e8ad8dc22eae7ade4c65b878665b7583808b0c61068c69bb022",
     "21-project-operations-v2.json": "ac3db53599f7731947ced1d3d92617fd476e2306fbad5b82a4ab4fc5def4ae84",
-    "22-cluster-operations-v2.json": "a279c133fb076379ffed7e09813a3a38b7d7ffb618296d5f32adfffe203cb1ee",
+    "22-cluster-operations-v2.json": "96d0d9d11cef536f09d8db001cc3beb58ada2740f2450cf4be22004e539fdbd8",
     "23-cloud-migration-v2.json": "b5bb01e8bf7cb79e82256b0c445f8ef804a7ecea51fb67b0a5e0b4293ef6d2df",
-    "24-backup-and-restore-v2.json": "9150f577738437441f1f01d352a8bf73df88a518a75e73c97909fcd59f5b1389",
+    "24-backup-and-restore-v2.json": "ff9aebb65bc193d0e250116cc1a4b4795521abd992dc0b76c25e690e8424e84d",
     "25-metrics-and-alerts-v2.json": "8291ec548711c7f72c1d5f9c07026149a7e94336390c6ee407e75d4d73678754",
     "26-cloud-job-v2.json": "ced1a80f1f949cfded2d5150f3358bcae411e856806d446fa560e4ba683bffe2",
     "27-invoices-v2.json": "e6d0377f311f3c0ff45e63857fd98c02f936b41b4c01e7190eb1dfb1633836a7",
     "28-usage-v2.json": "846526bc2445ba058d1ee46b8fd3add656e2222e8066b94c4ba2422e7c17282c",
     "29-on-demand-compute-v2.json": "575ed891c53db6dd77375642432c0d62520788dbd9a1f5c6e867daadcf772395",
-    "30-global-clusters.json": "45194586adcbc8da302b1feff7df1e8caf2837c8d94bbe7ef9a35e30bd64d4a2",
+    "30-global-clusters.json": "157a7c52817822ead0196f864d7c165411d11ec1304cfdcd13dbb5fa2add8caa",
     "31-storage-integration-v2.json": "c046a25cf0248f48d12e73eec15d0f4501a8fe50105b713898f26b03138030f0",
     "32-spark-job-v2.json": "e02b883ff93381ea964060dc967e91ee432b0a87f73ade26dd34b09ca8500ebb",
     "33-on-demand-cluster-operations-v2.json": "075f13ca6cfc5ca10c2a69da4062d48c470cab7eb7dd41a41b758fc8e3b54b7f",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-25T00:55:49.468Z",
+  "generatedAt": "2026-11-25T01:06:14.264Z",
   "locale": "ja-JP",
   "schemaVersion": 1,
-  "toolingSha": "4a61e937b0e55c09a11ffafe5b9fe6fd5afa26f0"
+  "toolingSha": "5ae9ab48605c24d107bed3a997ddf269ba58182b"
 }
