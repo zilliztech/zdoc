@@ -60,7 +60,9 @@ const snapshotShape = z.object({ schema_version: z.literal(3), build_env: z.lite
   }).passthrough()).min(1) })
 const publishedRecord = z.object({ shared_page: z.object({ group: z.literal('guides'), page: z.string() }), record_id: z.string(), slug: z.string(),
   release_channel: z.string(), output_paths: z.array(RepoPathSchema), publish_targets: z.array(z.string()) })
-async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
+export type BatchPublishedOutput = {path: string; oid: string}
+export async function readBatchPublicationInventory(store: BatchGitStore, input: Pick<BatchDiscoveryInput, 'pins' | 'pages' | 'reasons'>,
+  outputs?: Map<string, BatchPublishedOutput[]>) {
   const { dev } = input.pins, byPage = new Map(input.pages.map(p => [p.pageId, p]))
   const activeIds = new Map<string, string>()
   try {
@@ -112,7 +114,9 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
       const nextOutputs = guidesNextOutputPaths(p.pageId, activeIds.get(p.pageId), p.publish, row, snapshot.targets_built, snapshot.records)
       if (nextOutputs) {
         try {
-          for (const path of nextOutputs) await store.regularOid(dev, path)
+          const verified: BatchPublishedOutput[] = []
+          for (const path of nextOutputs) verified.push({path, oid: await store.regularOid(dev, path)})
+          outputs?.set(p.pageId, verified)
           p.published = false
         } catch { p.published = null; add(p.reasons, 'PUBLISHED_OUTPUT_UNAVAILABLE') }
         continue
@@ -132,11 +136,15 @@ async function lifecycle(store: BatchGitStore, input: BatchDiscoveryInput) {
         p.published = null; add(p.reasons, 'PUBLISHED_OUTPUT_OWNERSHIP_AMBIGUOUS'); continue
       }
       try {
+        const verified: BatchPublishedOutput[] = []
         for (const { target, publication } of expected) {
           const stem = publication.contentRoot + '/' + target.path
           const path = row.output_paths.find(path => path === stem + '.md' || path === stem + '.mdx')!
-          p.evidence.push(['output', target.manual, path.slice(stem.length + 1), await store.regularOid(dev, path)].join(':'))
+          const oid = await store.regularOid(dev, path)
+          p.evidence.push(['output', target.manual, path.slice(stem.length + 1), oid].join(':'))
+          verified.push({path, oid})
         }
+        outputs?.set(p.pageId, verified)
         p.published = true
       } catch { p.published = null; p.reasons.push('PUBLISHED_OUTPUT_UNAVAILABLE') }
     }
@@ -568,7 +576,7 @@ export async function collectBatchDiscovery(options: BatchDiscoveryOptions, test
     const pins = await api.pins(), zdoc = await BatchGitStore.open(options.zdocRepository, budget)
     const pages = await registry(zdoc, pins, budget)
     const input: BatchDiscoveryInput = { observation: 'observed', tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: [] }
-    await lifecycle(zdoc, input)
+    await readBatchPublicationInventory(zdoc, input)
     try {
       const source = await BatchGitStore.open(options.sourceRepository, budget)
       await observeSource(source, input, api, budget)
@@ -615,7 +623,7 @@ async function captureDiscovery(options: BatchDiscoveryOptions, origin: BatchOri
     const zdoc = await BatchGitStore.open(options.zdocRepository, budget), pages = await registry(zdoc, pins, budget)
     const input: BatchDiscoveryInput = {observation: origin.kind, tools: options.tools, pins, pages, seeds: [], changes: [], dependencies: [], reasons: []}
     const ledger: BatchEdge[] = [], evidence: CapturedDiscovery['evidence'] = []
-    await lifecycle(zdoc, input)
+    await readBatchPublicationInventory(zdoc, input)
     const source = await BatchGitStore.open(options.sourceRepository, budget)
     const retained = new Map<string, BatchBlobRef>()
     const retain = (bytes: Uint8Array) => {

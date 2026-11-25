@@ -1,5 +1,5 @@
 import {immutable} from '../../core/updates/types'
-import {consumeBatchContentLaunch, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
+import {consumeBatchContentLaunch, consumeObservedContentPair, type BatchContentPair, type BatchContentTicket, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
 import {BatchRenderRequestSchema, BatchQualifierRequestSchema, BatchQualificationSchema, BatchVerifyControlSchema, batchDigest, validateBatchWire, type BatchQualifierRequest, type BatchQualification, type BatchVerifyControl, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
@@ -1165,24 +1165,44 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     await inspectAccess(new Map([[owned.root, 'launcher'], ...expected.map(name => [join(owned.root, name), 'launcher'] as [string, string])]), state.environment)
     await owned.verify()
   }
-  async function runBatchContent(ticket: import('./batch-collection').BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
-    // Consumption is synchronous before the first await.
-    const launch = consumeBatchContentLaunch(ticket, value, evidence, kind), {request} = launch
-    signal?.throwIfAborted()
+  function contentWorker(ticket: BatchContentTicket, launch: ReturnType<typeof consumeBatchContentLaunch>,
+    kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const {request} = launch
     const input = canonicalBytes(request)
     if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-    await launch.authenticating()
-    const authenticationStart = performance.now()
-    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
-    const authenticationMs = Math.ceil(performance.now() - authenticationStart)
     const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
     const replayData = kind === 'replay' ? replayBatchContentData(ticket, value, evidence) ?? new Uint8Array() : undefined
     if (replayData && replayData.length > workerLimit) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData, undefined,
-      () => launch.renderWorkerStarted(authenticationMs))
-    immutable(child.value)
-    measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
-    return child as BatchMeasuredChild
+    return async (authenticationMs: number) => {
+      const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData, undefined,
+        () => launch.renderWorkerStarted(authenticationMs))
+      immutable(child.value)
+      measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+      return child as BatchMeasuredChild
+    }
+  }
+  async function startAuthenticatedContent<T>(signal: AbortSignal | undefined, start: (elapsed: number) => T) {
+    const before = performance.now()
+    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    return start(Math.ceil(performance.now() - before))
+  }
+  async function runBatchContent(ticket: BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const launch = consumeBatchContentLaunch(ticket, value, evidence, kind)
+    signal?.throwIfAborted()
+    const start = contentWorker(ticket, launch, kind, signal)
+    await launch.authenticating()
+    return startAuthenticatedContent(signal, start)
+  }
+  async function runObservedBatchContentPair(pair: BatchContentPair, signal: AbortSignal) {
+    const launches = consumeObservedContentPair(pair, value, evidence)
+    signal.throwIfAborted()
+    const first = contentWorker(pair[0], launches[0], 'observed', signal)
+    const second = contentWorker(pair[1], launches[1], 'observed', signal)
+    await Promise.all(launches.map(launch => launch.authenticating()))
+    // Each page records the same wall-clock wait. Use the maximum per window when aggregating.
+    // invokeGuidesWorker calls spawn synchronously before its first await. The
+    // final verification starts both children in the same turn.
+    return startAuthenticatedContent(signal, elapsed => [first(elapsed), second(elapsed)] as const)
   }
   async function runBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
     const launch = consumeBatchQualifierLaunch(ticket, value, evidence, kind), request = launch.request
@@ -1242,6 +1262,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     },
   }
   batchLaunchers.set(launcher, {
+    runObservedBatchContentPair,
     runObservedBatchContent: (ticket, signal) => runBatchContent(ticket, 'observed', signal),
     runReplayBatchContent: (ticket, signal) => runBatchContent(ticket, 'replay', signal),
     runObservedBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'observed', signal),
@@ -1251,6 +1272,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   return launcher
 }
 interface BatchLauncher {
+  runObservedBatchContentPair(pair: BatchContentPair, signal: AbortSignal): Promise<readonly [Promise<BatchMeasuredChild>, Promise<BatchMeasuredChild>]>
   runObservedBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
   runReplayBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
   runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}>

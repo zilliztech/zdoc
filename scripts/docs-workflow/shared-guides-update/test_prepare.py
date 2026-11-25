@@ -62,6 +62,69 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_equivalent_source_requires_exact_flat_variable_measurements(self):
+        variables = {'product': 'Zilliz Cloud'}
+        dep = dict(kind='variable', identity='product', state='resolved', sha256=p.sha256(b'"Zilliz Cloud"'))
+        source = b'{{var.Product}} / {{var.PRODUCT}}'
+        p._batch_equivalent_source(source, variables, [dep])
+        for content, manifest, deps in [
+            (source, variables, []), (source, variables, [dict(dep, sha256='1' * 64)]),
+            (source, variables, [dep, dep]), (source, dict(variables, PRODUCT='other'), [dep]),
+            (source, {'product': '{{ fragment }}'}, [dep]), (b'![img](a)', {}, []), (b'<Img />', {}, []),
+            (b'{{fragments/p.md}}', {}, []), (b'\xff', {}, []), (' \ufeff \ufeff '.encode(), {}, [])
+        ]:
+            with self.subTest(content=content, manifest=manifest, deps=deps), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                p._batch_equivalent_source(content, manifest, deps)
+
+    def test_equivalent_intervals_require_native_render_with_same_source_context(self):
+        page = 'page'
+        prefix = f'shared-docs/guides/pages/{page}/'
+        source = 'site/en/source.md'
+        targets = [dict(manual='guides', path='docs/page'), dict(manual='guides-byoc', path='docs/page')]
+        config = dict(pageId=page, sourceFile=source, files=[
+            dict(path=prefix + 'page.yaml', ref='yaml'), dict(path=prefix + 'lock.yaml', ref='lock'),
+            dict(path='shared-docs/guides/Variables.json', ref='vars')])
+        yaml = b'schema_version: 1\nsource:\n  file: site/en/source.md\npublish:\n  - manual: guides\n    path: docs/page\n  - manual: guides-byoc\n    path: docs/page\n'
+        native = dict(commit=SOURCE, sourceFile=source, rawRef='raw-native', inventoryRef='inv-native',
+                      manuals=[dict(target, ref='manual-' + target['manual']) for target in targets],
+                      imagesRef='images', diagnosticsRef='diagnostics', dependencies=[], outputStatus='observed', imageStatus='observed')
+        alias = dict(native, commit=MASTER, rawRef='raw-alias', inventoryRef='inv-alias', equivalentTo=SOURCE)
+        history = dict(interval=[alias, native], commitProofRef='commits', inventoryProofRef='inventory')
+        entries = [dict(path=source, ref='source', oid=CURRENT)]
+        inv = dict(treeOid=DEV, kind='guides-batch-git-inventory-v1', commitRef='commit', absentPaths=[])
+        records = dict(yaml=yaml, vars=b'{}', source=b'Markdown', diagnostics=dict(errors=[], rawErrors=[], reasons=[]),
+                       images=[dict(role=r, images=[]) for r in ('current', 'oldNext', 'target')])
+        records.update({'inv-native': dict(inv, commit=SOURCE), 'inv-alias': dict(inv, commit=MASTER),
+                        'raw-native': dict(commit=SOURCE, entries=entries), 'raw-alias': dict(commit=MASTER, entries=entries)})
+
+        def verify(change=None, endpoints=(), rules=()):
+            values, conf, hist = deepcopy((records, config, history))
+            if change:
+                change(values, conf, hist)
+            reader = Mock()
+            reader.object.side_effect = lambda ref, fields: p.batch_exact(values[ref], fields)
+            reader.blob.side_effect = lambda ref, **kwargs: values[ref]
+            p._batch_verify_equivalent_intervals(reader, conf, targets, endpoints, hist, rules)
+
+        verify()
+        for change in [
+            lambda v, c, h: h.pop('commitProofRef'), lambda v, c, h: h['interval'][1].update(equivalentTo=MASTER),
+            lambda v, c, h: v['inv-alias'].update(treeOid=CURRENT),
+            lambda v, c, h: v['raw-alias'].update(entries=[]),
+            lambda v, c, h: h['interval'][0].update(manuals=[]),
+            lambda v, c, h: c['files'].append(dict(path=prefix + 'replace.md', ref='replacement')),
+            lambda v, c, h: v.update(yaml=yaml + b'transforms: []\n'),
+            lambda v, c, h: v['diagnostics']['reasons'].append('held'),
+            lambda v, c, h: v['images'][0]['images'].append({'id': 'unexpected'}),
+        ]:
+            with self.subTest(change=change), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(change)
+        for point in (MASTER, SOURCE):
+            with self.subTest(endpoint=point), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(endpoints=[point])
+            with self.subTest(rule=point), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(rules={(page, point)})
+
     def test_historical_render_views_bind_exact_git_bytes_and_both_sides_of_each_edit(self):
         registry = p._batch_load_historical_rules()
         checkout = HERE.parents[2]
