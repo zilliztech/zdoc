@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "8fe52376e869eeed97ae3c3440613d75b4e75c10",
+  "sourceCommit": "cdfe5ed24e22e9dda829e9b5ae662c21d28b794b",
   "records": [
     {
       "manual": "cli",
@@ -3590,7 +3590,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FieldType.md",
-      "sourceHash": "5bdd6accd8bc796494029db352554328820b3dd024f6f9524f753a253e0b515e"
+      "sourceHash": "05c8ccee252432810adf53cb1140dd5f70d47533fb6f8b1688e6d8b11c126857"
     },
     {
       "manual": "node",
@@ -3605,7 +3605,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-RefreshExternalCollectionJobInfo.md",
-      "sourceHash": "c7020095ce82002060d546c82e19430aa1430fca3188aca9d96d678d02723278"
+      "sourceHash": "d9f17179b28f857203660c08c21847bef8ea3ae95eee062934c308ad5204c921"
     },
     {
       "manual": "node",
@@ -3655,7 +3655,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md",
-      "sourceHash": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4"
+      "sourceHash": "5ee525253448d5a706a70987f8404c09924559589a3b3503519bc3d8753a5467"
     },
     {
       "manual": "node",
@@ -3665,7 +3665,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "f0a8eb53639a2dba90b486541958ba5530d458c368bab0e91eeff69ee08df5f3"
+      "sourceHash": "3b9cc445c28a24ad1f6e14a0145f52e9ac3515e0c039a0b19f783a71732ce8c5"
     },
     {
       "manual": "node",
@@ -3730,7 +3730,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "438c10a038191ed943ccc8d690746970f43ea6a8b8979e33c664e7bb5c32b3d8"
+      "sourceHash": "75d79418200fcfe7dab83b208fb4e9a5fde7af7ba2af7dae2ec4a44544665c6b"
     },
     {
       "manual": "node",
@@ -3750,12 +3750,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "2ff0897ddf9f11789062c19b5300634ed8a2105d02ce8d45ab6b8d2d31cfd837"
+      "sourceHash": "8dc24d06671464147f0b69dbb80d3b60a89f4aff2b07977986fe9d0322ec25a3"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "327db8e3501ed393a995c7f9bf8a5d104f6e9ca752ba73780cfc306bfba4ace7"
+      "sourceHash": "997f2732dc5d4bc06aec486c7f9a995d16d972131f8d3d0fd476ae2ccf45bd07"
     },
     {
       "manual": "node",
@@ -3970,17 +3970,17 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flush.md",
-      "sourceHash": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee"
+      "sourceHash": "f87e97be1e7248eaa1e4512a87ea0aa5c2b0a561064033e8488f24d8f3a3e030"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushAll.md",
-      "sourceHash": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4"
+      "sourceHash": "06c48603269044529ae9d34b35be86e36613fcf5e235e8f9464e14d54e68f24c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushAllSync.md",
-      "sourceHash": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5"
+      "sourceHash": "048a1e0d01e090ec138d3aadc20e5785841e4299799be7eeb31ece837b071854"
     },
     {
       "manual": "node",
@@ -4000,12 +4000,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushAllState.md",
-      "sourceHash": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7"
+      "sourceHash": "57a5cf5d458e8316550784c55cd8aa29db622175032ddae675db7cb3601217f0"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushState.md",
-      "sourceHash": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6"
+      "sourceHash": "63cf8532ae0a8ec51535f041c03e5d8a4456425c9b54ac64f226f602dbe4829e"
     },
     {
       "manual": "node",
@@ -4115,47 +4115,47 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md",
-      "sourceHash": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
+      "sourceHash": "a0c775d69229cc34f1e56bf590cb411875bd96da4376d41486062d4c49918dcf"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md",
-      "sourceHash": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9"
+      "sourceHash": "d2dae2e84d449e742921f0f46c3341c3e6354e8b353f0476bfb735ccb5b19a99"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md",
-      "sourceHash": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795"
+      "sourceHash": "e60ce9d23b0e7369fdc48483c8a9bbc43cdd01fe5b0a803dbdef8e2c5a01d150"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "sourceHash": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
+      "sourceHash": "1a0588301dd98dd79642a8fe46bd290703c6b79c0cf84ac31f6670da61848622"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "sourceHash": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
+      "sourceHash": "46eb5e54833f3450608d1c5926a7d8437812cf7a4ee7808deb9a119210e4c6c3"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md",
-      "sourceHash": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d"
+      "sourceHash": "cb76b4ebcca04d801e2e1d7b02a7b8107896a98e0d35304c31908be35ec6cb09"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md",
-      "sourceHash": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece"
+      "sourceHash": "ea335899631895fcc6815b675578a05f0b23e08d2653ef019c0c2f0ace99294f"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md",
-      "sourceHash": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33"
+      "sourceHash": "4e41818861ad775f166a6a65f8f8d3f209c2629dfb8a42673ce00c63be142905"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md",
-      "sourceHash": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
+      "sourceHash": "5ce7f0d1b1fb742a1c4074144652e3d1e14966cafb2abfd218366bddd9508877"
     },
     {
       "manual": "node",
@@ -4220,7 +4220,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "sourceHash": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
+      "sourceHash": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
     },
     {
       "manual": "node",
@@ -4230,7 +4230,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
-      "sourceHash": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
+      "sourceHash": "196c370058343461c4dee42eae208c25de826eedb416dba1ad77bc8d59c1e75e"
     },
     {
       "manual": "node",
@@ -4240,7 +4240,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
+      "sourceHash": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
     },
     {
       "manual": "node",
@@ -4250,7 +4250,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
-      "sourceHash": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
+      "sourceHash": "2b0c066d6935bb3c5e5452adf6a2dc44ce2ea2fb041a2c8dd9d43e063e5d6889"
     },
     {
       "manual": "node",
