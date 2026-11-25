@@ -352,10 +352,12 @@ export function collectorEnvironment(env) {
   return {...fixedEnvironment, ...Object.fromEntries(contextKeys.map(key => [key, env[key]])), GH_TOKEN: env.GH_TOKEN}
 }
 
+export const batchCollectorTimeoutMs = 245 * 60000
+
 function collect(env, workspace) {
   return new Promise((resolveResult, reject) => {
     const worker = fork(script, [], {cwd: workspace, env: collectorEnvironment(env), execArgv: [],
-      stdio: ['ignore', 'ignore', 'ignore', 'ipc'], timeout: 76 * 60000, killSignal: 'SIGKILL'})
+      stdio: ['ignore', 'ignore', 'ignore', 'ipc'], timeout: batchCollectorTimeoutMs, killSignal: 'SIGKILL'})
     let result, messages = 0
     worker.on('message', message => {
       messages++

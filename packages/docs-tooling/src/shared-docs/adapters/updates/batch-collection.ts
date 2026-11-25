@@ -1224,7 +1224,7 @@ export async function verifyBatchReplayHeads(repository: string, pins: {master: 
   await recheckBatchStoreHeads(repository, pins)
 }
 
-import {withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCategory, reserveBatchAllocation,
+import {BATCH_OPERATION_LIFETIME_MS, withBatchLifetime, currentBatchLifetime, bindBatchResources, batchCasCategory, reserveBatchAllocation,
   batchResourceMeasurement, batchAllocatedTree, checkBatchAllocation} from './evidence'
 import {statfs, realpath} from 'node:fs/promises'
 import {resolve, relative, isAbsolute} from 'node:path'
@@ -1445,5 +1445,5 @@ export function prepareReplayBatchHandoffFixture(options: Parameters<typeof coll
 
 function collectionClock(origin: BatchOrigin) {
   const lifetime = currentBatchLifetime()
-  return origin.kind === 'observed' ? Date.now() : origin.replayClockMs + Math.floor(lifetime ? performance.now() - (lifetime.deadline - 4_500_000) : 0)
+  return origin.kind === 'observed' ? Date.now() : origin.replayClockMs + Math.floor(lifetime ? performance.now() - (lifetime.deadline - BATCH_OPERATION_LIFETIME_MS) : 0)
 }

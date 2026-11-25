@@ -41,7 +41,7 @@ jobs:
       github.repository_id == '660446555' && github.repository == 'zilliztech/zdoc' &&
       github.ref == 'refs/heads/master' && github.run_attempt == 1
     runs-on: macos-15
-    timeout-minutes: 90
+    timeout-minutes: 265
     permissions:
       contents: read
       actions: read
@@ -71,11 +71,15 @@ jobs:
           umask 077
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git rev-parse --is-shallow-repository)" = false
-          git rev-parse --verify 'refs/remotes/origin/dev^{commit}' >/dev/null
           directory=$(mktemp -d "$(cd "$RUNNER_TEMP" && pwd -P)/shared-guides-batch.XXXXXXXX")
           GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_ALLOW_PROTOCOL=https GIT_TERMINAL_PROMPT=0 \
             git -c http.followRedirects=false clone --quiet --bare --single-branch --no-tags --branch v3.0.x \
             https://github.com/milvus-io/milvus-docs.git "$directory/source.git"
+          GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_ALLOW_PROTOCOL=https GIT_TERMINAL_PROMPT=0 \
+            git -c http.followRedirects=false -c fetch.writeCommitGraph=false \
+            fetch --quiet --no-tags --no-write-fetch-head --no-auto-maintenance \
+            https://github.com/zilliztech/zdoc.git +refs/heads/dev:refs/remotes/origin/dev
+          git rev-parse --verify 'refs/remotes/origin/dev^{commit}' >/dev/null
           printf 'directory=%s\n' "$directory" >> "$GITHUB_OUTPUT"
       - name: Collect and qualify the observed batch
         env:
