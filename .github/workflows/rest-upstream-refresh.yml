@@ -259,6 +259,7 @@ jobs:
             --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
             --out "$RUNNER_TEMP/$STAGING/decisions.jsonl" \
             --report "$RUNNER_TEMP/$STAGING/decision-report.json" \
+            --adjudications "$RUNNER_TEMP/$STAGING/meta/adjudications.json" \
             --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
             --api-key-env AGENTIC_PROVIDER_API_KEY \
             --model "$REST_UPSTREAM_AGENT_MODEL"
@@ -299,6 +300,7 @@ jobs:
             --branch-plan "$RUNNER_TEMP/$STAGING/branch-plan.json" \
             --reports "$RUNNER_TEMP/$STAGING/assemble-reports.json" \
             --fragments "$RUNNER_TEMP/$STAGING/fragments" \
+            --adjudications "$RUNNER_TEMP/$STAGING/meta/adjudications.json" \
             --out "$RUNNER_TEMP/$STAGING/change-set.json"
 
       # Describe stage (2026-11-03): a mirror/addition may land schema nodes the
@@ -322,6 +324,7 @@ jobs:
             --change-set "$RUNNER_TEMP/$STAGING/change-set.json" \
             --diff "$RUNNER_TEMP/$STAGING/diff/diff.json" \
             --fragments "$RUNNER_TEMP/$STAGING/fragments" \
+            --adjudications "$RUNNER_TEMP/$STAGING/meta/adjudications.json" \
             --out "$RUNNER_TEMP/$STAGING/change-set-described.json" \
             --report "$RUNNER_TEMP/$STAGING/describe-report.json" \
             --base-url "$REST_UPSTREAM_AGENT_BASE_URL" \
@@ -631,6 +634,11 @@ jobs:
           const unplacedShown = head(assembleReports.unplaced, 30)
           const pendingShown = head(assembleReports.pendingConfirmation, 20)
           const proseLine = entry => `- ${entry.templateProse ? '[template copy] ' : ''}\`${entry.opKey}\`${entry.field ? ` \`${entry.field}\`` : ''}${entry.branch ? ` (${entry.branch})` : ''}: ${JSON.stringify(entry.before)} → ${JSON.stringify(entry.after)}`
+          // Per-key provenance from the decide report (2026-11-25 review
+          // condition 4): the reviewer sees decidedAt and the evidence PR next
+          // to every applied, deviated, or stale key, not just the key string.
+          const priorDetails = report?.summary?.adjudications?.details ?? {}
+          const priorMeta = key => priorDetails[key] ? ` (decided ${priorDetails[key].decidedAt}, PR #${priorDetails[key].pr})` : ''
           const lines = [
             `## REST upstream refresh — ${process.env.SOURCE} @ ${process.env.UPSTREAM_COMMIT}`,
             '',
@@ -708,7 +716,7 @@ jobs:
             '### Descriptions (model-drafted for prose-less added/mirrored nodes)', '',
             describeReport
               ? [
-                  `- ${describeReport.describedNodes} node(s) drafted across ${describeReport.describedEntries} entr(ies), grounded on ${(describeReport.grounding ?? {}).upstreamCommentsUsed ?? 0} upstream Go comment(s) and ${(describeReport.grounding ?? {}).referencesUsed ?? 0} fragment reference(s).`,
+                  `- ${describeReport.describedNodes} node(s) drafted across ${describeReport.describedEntries} entr(ies), grounded on ${(describeReport.grounding ?? {}).upstreamCommentsUsed ?? 0} upstream Go comment(s), ${(describeReport.grounding ?? {}).referencesUsed ?? 0} fragment reference(s), and ${(describeReport.grounding ?? {}).priorAdjudicationsUsed ?? 0} prior-adjudication entr(ies).`,
                   `- ${assembleReports.missingDescriptions.length} assembled value(s) had prose-less nodes before this stage; ${describeReport.degraded.length} node(s) degraded to human review and landed undescribed.`,
                 ].join('\n')
               : '- no describe report (no prose-less nodes or older run)',
@@ -735,6 +743,16 @@ jobs:
             ...(skips.length > skipShown.length ? [`- … ${skips.length - skipShown.length} more skip(s) in the run artifact`] : []),
             ...rejectedShown.map(rejected => `- rejected (${rejected.fragment}): ${rejected.reason}`),
             ...(rejectedLines.length > rejectedShown.length ? [`- … ${rejectedLines.length - rejectedShown.length} more rejected line(s) in the run artifact`] : []),
+            '',
+            '### Prior adjudications applied (stance aligned; deviations listed)', '',
+            decisions.some(decision => decision.adjudication !== undefined) || (report?.summary?.adjudications?.stale?.length ?? 0) > 0
+              ? [
+                  ...decisions.filter(decision => decision.adjudication !== undefined).map(decision => decision.deviationReason !== undefined
+                    ? `- \`${decision.diffEntryId}\` — DEVIATION from \`${decision.adjudication}\`${priorMeta(decision.adjudication)}: ${decision.deviationReason}`
+                    : `- \`${decision.diffEntryId}\` → ${decision.action}, aligned with \`${decision.adjudication}\`${priorMeta(decision.adjudication)}`),
+                  ...(report?.summary?.adjudications?.stale ?? []).map(key => `- \`${key}\`${priorMeta(key)} went STALE this round — the recorded literals no longer hold in the upstream payload; re-adjudicated above or still waiting in Decisions required`),
+                ].join('\n')
+              : '- none',
             '',
             '### Diff report', '',
             '@@DIFF_REPORT@@',

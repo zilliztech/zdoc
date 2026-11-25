@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "adjudications": [
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/entities/upsert",
+      "scope": "requestBody",
+      "fieldPath": "writeCondition.op",
+      "decision": "upstream-truth",
+      "facts": [
+        "writeCondition.op accepts only {gt, gte} — WriteConditionReq.toProto rejects any other value"
+      ],
+      "specLiterals": ["gt", "gte"],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["WriteConditionReq.toProto"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    },
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/entities/upsert",
+      "scope": "requestBody",
+      "fieldPath": "writeCondition.onMissing",
+      "decision": "upstream-truth",
+      "facts": [
+        "writeCondition.onMissing accepts {insert, skip, error} and defaults to insert — WriteConditionReq.toProto"
+      ],
+      "specLiterals": ["insert", "skip", "error"],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["WriteConditionReq.toProto"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    },
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/entities/upsert",
+      "scope": "requestBody",
+      "fieldPath": "writeCondition",
+      "decision": "upstream-truth",
+      "facts": [
+        "upsert evaluates writeCondition by comparing the incoming value against the stored value; rows failing the comparison are skipped — WriteConditionReq semantics in task_upsert_condition.go",
+        "writeCondition.field must be an ordinary integer field, and an evaluated writeCondition forces partial-update behavior — WriteConditionReq / task_upsert_condition.go"
+      ],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["task_upsert_condition.go"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    },
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/entities/insert",
+      "scope": "requestBody",
+      "fieldPath": "writeCondition",
+      "decision": "upstream-truth",
+      "facts": [
+        "insert accepts the shared CollectionDataReq shape but never evaluates writeCondition — only the upsert handler reads it (WriteConditionReq / task_upsert_condition.go)"
+      ],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["WriteConditionReq", "task_upsert_condition.go"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    },
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/collections/flush",
+      "scope": "requestBody",
+      "fieldPath": "partitionNames",
+      "decision": "upstream-truth",
+      "facts": [
+        "upstream FlushReq carries only {dbName, collectionName} — partitionNames was retired from the flush fragment on 2026-11-23 (PR #1414); a re-added partitionNames is a genuine upstream change to re-adjudicate"
+      ],
+      "specLiterals": ["dbName", "collectionName"],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["FlushReq"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    },
+    {
+      "source": "milvus-data-plane",
+      "opKey": "post /v2/vectordb/entities/delete",
+      "scope": "requestBody",
+      "fieldPath": "id",
+      "decision": "upstream-truth",
+      "facts": [
+        "upstream CollectionFilterReq carries {dbName, collectionName, partitionName, filter, exprParams} — id was retired on 2026-11-23 (PR #1414) as never-required; a re-added id re-opens this adjudication"
+      ],
+      "specLiterals": ["dbName", "collectionName", "filter"],
+      "evidence": {
+        "pr": 1414,
+        "commentUrl": "https://github.com/zilliztech/zdoc/pull/1414#issuecomment-7091046660",
+        "goSymbols": ["CollectionFilterReq"],
+        "validatedBy": "code-verification-at-pin-8e8036ce"
+      },
+      "decidedAt": "2026-11-23",
+      "decidedBy": "human-review"
+    }
+  ]
+}
