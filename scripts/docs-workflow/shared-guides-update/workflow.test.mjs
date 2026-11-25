@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import yaml from 'js-yaml'
+import { batchCollectorTimeoutMs } from './batch-prepare.mjs'
 
 const config = yaml.load(readFileSync(new URL('../../../.github/workflows/shared-guides-update.yml', import.meta.url), 'utf8'))
 const { test: ci, discover, prepare, prepare_batch: batch, preview_batch: preview, write } = config.jobs
@@ -69,6 +70,26 @@ test('only the writer can mutate and batch creation consumes a prior accepted re
   assert.ok(preview.if.includes("github.event_name == 'workflow_dispatch' && inputs.scope == 'batch'"))
   assert.equal(batch.if, "needs.preview_batch.outputs.status == 'check'")
   assert.deepEqual(Object.values(config.jobs).filter(job => job.permissions.contents === 'write'),[write])
+})
+
+test('batch qualification enforces strictly ordered bounded timeouts and refreshes origin/dev before collection', () => {
+  const evidenceSource = readFileSync(new URL('../../../packages/docs-tooling/src/shared-docs/adapters/updates/evidence.ts', import.meta.url), 'utf8')
+  const match = /^export const BATCH_OPERATION_LIFETIME_MS = ([0-9_]+)$/m.exec(evidenceSource)
+  assert.ok(match, 'BATCH_OPERATION_LIFETIME_MS export must exist')
+  const collectorLifetimeMs = Number(match[1].replaceAll('_', ''))
+  const jobTimeoutMs = batch['timeout-minutes'] * 60_000
+  assert.equal(collectorLifetimeMs, 240 * 60_000)
+  assert.equal(batchCollectorTimeoutMs, 245 * 60_000)
+  assert.equal(batch['timeout-minutes'], 265)
+  assert.ok(collectorLifetimeMs < batchCollectorTimeoutMs && batchCollectorTimeoutMs < jobTimeoutMs && batch['timeout-minutes'] < 360)
+  const stage = batch.steps.find(step => step.name === 'Stage complete upstream Git objects')
+  assert.ok(stage && typeof stage.run === 'string')
+  const cloneAt = stage.run.indexOf('https://github.com/milvus-io/milvus-docs.git')
+  const fetchAt = stage.run.indexOf('fetch --quiet --no-tags --no-write-fetch-head --no-auto-maintenance')
+  const verifyAt = stage.run.indexOf("git rev-parse --verify 'refs/remotes/origin/dev^{commit}'")
+  assert.ok(cloneAt > 0 && fetchAt > cloneAt && verifyAt > fetchAt)
+  assert.ok(stage.run.includes('https://github.com/zilliztech/zdoc.git +refs/heads/dev:refs/remotes/origin/dev'))
+  assert.ok(stage.run.includes('-c http.followRedirects=false -c fetch.writeCommitGraph=false'))
 })
 
 test('a history checkpoint requires a successful authenticated discovery and cannot write', () => {
@@ -149,7 +170,7 @@ test('manual-only target Check registration pins approved identities and origina
       producer,
       414826845,
       '.github/workflows/shared-guides-update.yml',
-      '26dcc669ab21b719e2010f7db85f1233d10769d7d362c0083e9e7b4350243107'
+      '8b9fb98f6e5f30e23ba0f17accf83c33f179c669df9017f02dddefd1e22b5457'
     ],
     [
       validator,

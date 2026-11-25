@@ -940,7 +940,7 @@ with zipfile.ZipFile(sys.argv[1],'w',compression=zipfile.ZIP_DEFLATED) as z:z.wr
 
 
 it.each(['lifecycle', 'operation'] as const)('checks %s validity after actual terminal journal persistence', async kind => {
-  const fs = await import('node:fs/promises'), {initializeEvidence, bindBatchResources, withBatchLifetime, currentBatchLifetime} = await import('../../adapters/updates/evidence')
+  const fs = await import('node:fs/promises'), {BATCH_OPERATION_LIFETIME_MS, initializeEvidence, bindBatchResources, withBatchLifetime, currentBatchLifetime} = await import('../../adapters/updates/evidence')
   const {settleBatchMeasurement} = await import('../../adapters/updates/batch-collection')
   const root = await fs.realpath(await mkdtemp(join(tmpdir(), 'batch-terminal-')))
   const store = await initializeEvidence({root, repositories: [], owner: 'terminal'})
@@ -952,7 +952,7 @@ it.each(['lifecycle', 'operation'] as const)('checks %s validity after actual te
       const started = performance.now(), validityDeadline = started + 1000
       store.writeJournal = async (...args) => {
         await originalWrite(...args) // Real owned exclusive write/rename/verification.
-        advanced = vi.spyOn(performance, 'now').mockReturnValue(started + (kind === 'lifecycle' ? 2000 : 4_500_001))
+        advanced = vi.spyOn(performance, 'now').mockReturnValue(started + (kind === 'lifecycle' ? 2000 : BATCH_OPERATION_LIFETIME_MS + 1))
       }
       const check = () => {
         currentBatchLifetime()!.check()

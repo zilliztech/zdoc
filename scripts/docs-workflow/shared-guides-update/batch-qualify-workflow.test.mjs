@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {test} from 'node:test'
 import yaml from 'js-yaml'
-import {collectionCounts, collectionSummary, previewBatchFetch, summarizeCollection} from './batch-qualify-workflow.mjs'
+import {batchQualifyTimeoutMs, collectionCounts, collectionSummary, previewBatchFetch, summarizeCollection} from './batch-qualify-workflow.mjs'
 
 const run = {
   id: 101, repository: {id: 660446555}, head_repository: {id: 660446555}, workflow_id: 83360731,
@@ -137,7 +137,18 @@ test('production batch qualification is dispatch-only, gated and grants exclusiv
   assert.ok(qualify.if.startsWith("needs.preview.outputs.status == 'check' &&"))
   assert.deepEqual(qualify.permissions, {contents: 'read', actions: 'read', 'pull-requests': 'read'})
   assert.equal(qualify['runs-on'], 'macos-15')
+  assert.equal(qualify['timeout-minutes'], 265)
+  assert.equal(batchQualifyTimeoutMs, 245 * 60 * 1000)
+  assert.ok(batchQualifyTimeoutMs < qualify['timeout-minutes'] * 60 * 1000 && qualify['timeout-minutes'] < 360)
   assert.equal(qualify.steps.find(step => step.uses?.startsWith('actions/checkout@')).with['fetch-depth'], 0)
+  const stage = qualify.steps.find(step => step.id === 'stage')
+  assert.ok(stage && typeof stage.run === 'string')
+  const cloneAt = stage.run.indexOf('https://github.com/milvus-io/milvus-docs.git')
+  const fetchAt = stage.run.indexOf('fetch --quiet --no-tags --no-write-fetch-head --no-auto-maintenance')
+  const verifyAt = stage.run.indexOf("git rev-parse --verify 'refs/remotes/origin/dev^{commit}'")
+  assert.ok(cloneAt > 0 && fetchAt > cloneAt && verifyAt > fetchAt)
+  assert.ok(stage.run.includes('https://github.com/zilliztech/zdoc.git +refs/heads/dev:refs/remotes/origin/dev'))
+  assert.ok(stage.run.includes('-c http.followRedirects=false -c fetch.writeCommitGraph=false'))
   assert.ok(qualify.steps.some(step => step.run?.includes('batch-qualify-workflow.mjs collect')))
   const helper = readFileSync(new URL('batch-qualify-workflow.mjs', import.meta.url), 'utf8')
   assert.match(helper, /spawnSync\(process\.execPath,[\s\S]*batch-collect\.mjs/)
