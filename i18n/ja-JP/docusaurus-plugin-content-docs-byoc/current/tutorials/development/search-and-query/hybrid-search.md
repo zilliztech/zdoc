@@ -316,9 +316,9 @@ milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>(
 schema->AddField({"id", milvus::DataType::INT64, "", true, false});
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
 schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
+schema->AddField(milvus::FieldSchema("text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
+schema->AddFunction(function);
 ```
 
 </TabItem>
@@ -353,7 +353,7 @@ const fields = [
     },
     {
         name: "text_sparse",
-        data_type: DataType.SPARSE_FLOAT_VECTOR
+        data_type: DataType.SparseFloatVector
     },
     {
         name: "image_dense",
@@ -542,7 +542,7 @@ IndexParam indexParamForTextDense = IndexParam.builder()
         .build();
 
 Map<String, Object> sparseParams = new HashMap<>();
-sparseParams.put("inverted_index_algo": "DAAT_MAXSCORE");
+sparseParams.put("inverted_index_algo", "DAAT_MAXSCORE");
 IndexParam indexParamForTextSparse = IndexParam.builder()
         .fieldName("text_sparse")
         .indexName("text_sparse_index")
@@ -569,13 +569,13 @@ indexParams.add(indexParamForImageDense);
 <TabItem value='go'>
 
 ```go
-indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "text_dense",
-    index.NewAutoIndex(index.MetricType(entity.IP)))
-indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "text_sparse",
-    index.NewSparseInvertedIndex(entity.BM25, 0.2))
-indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense",
-    index.NewAutoIndex(index.MetricType(entity.IP)))
-)
+<span>indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "text_dense",
+<span>    index.NewAutoIndex(index.MetricType(entity.IP)))
+<span>indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "text_sparse",
+<span>    index.NewSparseInvertedIndex(entity.BM25, 0.2))
+<span>indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense",
+<span>    index.NewAutoIndex(index.MetricType(entity.IP)))
+<span>)
 ```
 
 </TabItem>
@@ -736,7 +736,7 @@ client.createCollection(createCollectionReq);
 ```go
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithIndexOptions(indexOption1, indexOption2))
+        WithIndexOptions(indexOption1, indexOption2, indexOption3))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -766,7 +766,7 @@ client.create_collection(
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                         .WithCollectionName("my_collection")
                                         .WithCollectionSchema(schema)
-                                        .WithIndexes(std::move(indexes));
+                                        .WithIndexes(std::move(indexes)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -780,6 +780,7 @@ if (!status.IsOk()) {
 const res = await client.createCollection({
     collection_name: "my_collection",
     fields: fields,
+    functions: functions,
     index_params: index_params,
 })
 ```
@@ -909,12 +910,25 @@ res = client.insert(
 <TabItem value='java'>
 
 ```java
+float[] textDense1 = new float[768];
+Arrays.fill(textDense1, 0.1f);
+float[] textDense2 = new float[768];
+Arrays.fill(textDense2, 0.1f);
+float[] dense3 = new float[768];
+Arrays.fill(dense3, 0.1f);
+float[] imageDense = new float[512];
+Arrays.fill(imageDense, 0.1f);
+float[] imageDense2 = new float[512];
+Arrays.fill(imageDense2, 0.1f);
+float[] sparse3 = new float[512];
+Arrays.fill(sparse3, 0.1f);
+
 Gson gson = new Gson();
 JsonObject row1 = new JsonObject();
 row1.addProperty("id", 0);
 row1.addProperty("text", "Red cotton t-shirt with round neck");
-row1.add("text_dense", gson.toJsonTree(text_dense1));
-row1.add("image_dense", gson.toJsonTree(image_dense));
+row1.add("text_dense", gson.toJsonTree(textDense1));
+row1.add("image_dense", gson.toJsonTree(imageDense));
 
 JsonObject row2 = new JsonObject();
 row2.addProperty("id", 1);
@@ -1174,9 +1188,9 @@ reqs = [request_1, request_2, request_3]
 
 ```java
 float[] queryDense = new float[]{-0.0475336798f,  0.0521207601f,  0.0904406682f, ...};
-float[] queryMultimodal = new float[]{0.0158298651f, 0.5264158340f, ...}
+float[] queryMultimodal = new float[]{0.0158298651f, 0.5264158340f, ...};
 
-List<BaseVector> queryTexts = Collections.singletonList(new EmbeddedText("white headphones, quiet and comfortable");)
+List<BaseVector> queryTexts = Collections.singletonList(new EmbeddedText("white headphones, quiet and comfortable"));
 List<BaseVector> queryDenseVectors = Collections.singletonList(new FloatVec(queryDense));
 List<BaseVector> queryMultimodalVectors = Collections.singletonList(new FloatVec(queryMultimodal));
 
@@ -1203,7 +1217,7 @@ searchRequests.add(AnnSearchReq.builder()
 <TabItem value='go'>
 
 ```go
-queryText := entity.Text({"white headphones, quiet and comfortable"})
+queryText := entity.Text("white headphones, quiet and comfortable")
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...}
 queryMultimodalVector := []float32{0.015829865178701663, 0.5264158340734488, ...}
 
@@ -1272,7 +1286,7 @@ auto sub_req2 = milvus::SubSearchRequest()
                     .WithLimit(2);
 
 auto sub_req3 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_multimodal_vector)
+                    .AddFloatVector(query_multimodal_vector)
                     .WithAnnsField("image_dense")
                     .WithLimit(2);
 ```
@@ -1415,7 +1429,7 @@ Function ranker = Function.builder()
         .functionType(FunctionType.RERANK)
         .param("reranker", "rrf")
         .param("k", "100")
-        .build()
+        .build();
 ```
 
 </TabItem>
@@ -1423,11 +1437,7 @@ Function ranker = Function.builder()
 <TabItem value='go'>
 
 ```go
-ranker := entity.NewFunction().
-    WithName("rrf").
-    WithType(entity.FunctionTypeRerank).
-    WithParam("reranker", "rrf").
-    WithParam("k", "100")
+ranker := milvusclient.NewRRFReranker().WithK(100)
 ```
 
 </TabItem>
@@ -1524,6 +1534,10 @@ for hits in res:
     print("TopK results:")
     for hit in hits:
         print(hit)
+# Output:
+# TopK results:
+# {'id': 1, 'distance': 0.029508832842111588, 'entity': {}}
+# {'id': 0, 'distance': 0.019801979884505272, 'entity': {}}
 ```
 
 </TabItem>
@@ -1539,6 +1553,8 @@ HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .build();
 
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+// Output:
+// [{id: 0, Score: 0.01980198, OutputFields: {}}, {id: 1, Score: 0.019704912, OutputFields: {}}]
 ```
 
 </TabItem>
@@ -1562,6 +1578,9 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+// Output:
+// IDs:  long_data:{data:0 data:1}
+// Scores:  [0.01980198 0.019704912]
 ```
 
 </TabItem>
@@ -1585,6 +1604,10 @@ for result in res.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+// Output:
+// TopK results:
+// {"id": Number(1), "score": Number(0.029702968895435333)}
+// {"id": Number(0), "score": Number(0.009803921915590763)}
 ```
 
 </TabItem>
@@ -1599,7 +1622,7 @@ auto request = milvus::HybridSearchRequest()
                 .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
                 .WithRerank(ranker)
                 .WithLimit(2);
-                
+
 milvus::SearchResponse response;
 auto status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
@@ -1614,6 +1637,10 @@ for (auto& result : response.Results().Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+// Output:
+// TopK results:
+// 	{"id":1,"score":0.02960590273141861}
+// 	{"id":2,"score":0.0197049118578434}
 ```
 
 </TabItem>
@@ -1631,6 +1658,8 @@ const search = await client.search({
   limit: 2,
   rerank: ranker
 });
+// Output:
+// [{"id":"2","score":0.019801979884505272},{"id":"0","score":0.019607843831181526}]
 ```
 
 </TabItem>
@@ -1650,6 +1679,9 @@ foreach (long id in res.Ids.LongIds ?? [])
 {
     Console.WriteLine(id);
 }
+// Output:
+// 1
+// 0
 ```
 
 </TabItem>
@@ -1671,6 +1703,8 @@ curl --request POST \
     },
     \"limit\": 2
 }"
+# Output:
+# {"code":0,"cost":0,"data":[{"distance":0.032786883,"id":0},{"distance":0.032522473,"id":1}],"topks":[2]}
 ```
 
 </TabItem>
