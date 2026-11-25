@@ -45,6 +45,8 @@ await milvusClient.flushAll({
 
 **パラメータ:**
 
+<NextChannel action="exclude">
+
 - **db_name** (*string*) -
 データベースの名前です。任意です。
 
@@ -53,6 +55,21 @@ RPC の実行を許可する時間をミリ秒単位で指定します。任意�
 
 - **client_request_id** (*string*) -
 リクエストを追跡するためのトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+データベースの名前です。任意です。
+
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定します。任意です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡とログまたはトレースの関連付けに使用する、呼び出し元が指定できる任意の ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動生成することはありません。UUID など、リクエストごとに一意の値を使用してください。OpenTelemetry の trace-ID 形式（32 文字の小文字 16 進数）の値は、クライアントテレメトリでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -110,7 +127,6 @@ flush に関与したクラスタートポロジーです。
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
-
 
 **例外:**
 

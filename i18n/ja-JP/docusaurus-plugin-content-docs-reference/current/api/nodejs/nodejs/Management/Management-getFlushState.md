@@ -43,6 +43,8 @@ Milvus は一定間隔でデータを永続ストレージに自動的にフラ�
 
 ## Request Syntax\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
 await milvusClient.getFlushState({
     segmentIDs?: number[],
@@ -53,7 +55,25 @@ await milvusClient.getFlushState({
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+await milvusClient.getFlushState({
+    segmentIDs?: number[],
+    flush_ts?: number | string,
+    db_name?: string,
+    collection_name?: string,
+    timeout?: number
+})
+```
+
+</NextChannel>
+
 **パラメータ:**
+
+<NextChannel action="exclude">
 
 - **segmentIDs** (*number[]*) -
 
@@ -76,6 +96,34 @@ await milvusClient.getFlushState({
     この操作のタイムアウト時間。 
 
     これを **None** に設定すると、任意の応答が到着したとき、または任意のエラーが発生したときにこの操作はタイムアウトします。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **segmentIDs** (*number[]*) -
+
+    対象の segment ID のリスト。
+
+- **flush_ts** (*number* | *string*) -
+
+    照合する flush タイムスタンプ。int64 値は、完全な精度を保つため、10 進数文字列として渡してください。
+
+- **db_name** (*string*) -
+
+    対象のコレクションを含むデータベースの名前。
+
+- **collection_name** (*string*) -
+
+    flush 状態を確認するコレクションの名前。**segmentIDs**、**flush_ts**、または **collection_name** のうち少なくとも 1つを指定してください。
+
+- **timeout** (*number*)  
+
+    この操作のタイムアウト時間。 
+
+    これを **None** に設定すると、任意の応答が到着したとき、または任意のエラーが発生したときにこの操作はタイムアウトします。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -109,7 +157,6 @@ await milvusClient.getFlushState({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空の文字列のままです。
-
 
 **例外:**
 

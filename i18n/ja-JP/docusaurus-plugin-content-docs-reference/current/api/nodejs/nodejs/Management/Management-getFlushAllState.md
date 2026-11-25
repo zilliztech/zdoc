@@ -47,6 +47,8 @@ await milvusClient.getFlushAllState({
 
 **パラメータ:**
 
+<NextChannel action="exclude">
+
 - **flush_all_ts** (*number*) -
 flush-all のタイムスタンプです。省略可能で、非推奨です。
 
@@ -61,6 +63,27 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **flush_all_ts** (*number*) -
+flush-all のタイムスタンプです。省略可能で、非推奨です。
+
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+データベース名と flush-all のタイムスタンプを対応付けるマップです。任意です。
+
+- **db_name** (*string*) -
+データベースの名前です。省略可能で、非推奨です。
+
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡とログまたはトレースの相関付けに使用する、呼び出し元が指定する任意の ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、この ID を自動生成することはありません。リクエストごとに、UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（32 文字の小文字 16 進数）の値は、クライアントテレメトリでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -94,7 +117,6 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
-
 
 **例外:**
 

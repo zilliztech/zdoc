@@ -49,6 +49,8 @@ await milvusClient.restoreSnapshot({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **snapshot_name** (*string*) -
 **[REQUIRED]**
 復元元のスナップショットの名前です。
@@ -72,6 +74,36 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **snapshot_name** (*string*) -
+**[REQUIRED]**
+復元元のスナップショットの名前です。
+
+- **source_collection_name** (*string*) -
+**[REQUIRED]**
+ソースコレクションの名前です。
+
+- **target_collection_name** (*string*) -
+**[REQUIRED]**
+復元先のターゲットコレクションの名前です。
+
+- **source_db_name** (*string*) -
+ソースデータベースの名前です。任意です。
+
+- **target_db_name** (*string*) -
+ターゲットデータベースの名前です。任意です。
+
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡とログまたはトレースの相関付けに使用する、呼び出し元が指定できる任意の ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動生成することはありません。リクエストごとに UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（小文字 16 進数 32 文字）の値は、クライアントテレメトリでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -105,7 +137,6 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合、空の文字列のままです。
-
 
 **例外:**
 

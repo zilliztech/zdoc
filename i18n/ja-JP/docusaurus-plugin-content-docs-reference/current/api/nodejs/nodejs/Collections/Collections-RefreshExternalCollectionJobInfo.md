@@ -42,6 +42,8 @@ export interface RefreshExternalCollectionJobInfo {
 
 **フィールド:**
 
+<NextChannel action="exclude">
+
 - **job_id** (*string*) -
 
     リフレッシュジョブの識別子です。
@@ -74,6 +76,44 @@ export interface RefreshExternalCollectionJobInfo {
 
     リフレッシュジョブの終了時刻です。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*string*) -
+
+    リフレッシュジョブの識別子です。
+
+- **collection_name** (*string*) -
+
+    リフレッシュ対象の外部コレクションの名前です。
+
+- **state** (*RefreshExternalCollectionState | keyof typeof RefreshExternalCollectionState*) -
+
+    リフレッシュジョブの状態です。使用可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、および **RefreshFailed** です。リフレッシュジョブは **RefreshInProgress** から **RefreshCompleted** または **RefreshFailed** に遷移します。
+
+- **progress** (*string*) -
+
+    リフレッシュの進行状況です。
+
+- **reason** (*string*) -
+
+    リフレッシュが失敗した場合の失敗理由です。
+
+- **external_source** (*string*) -
+
+    コレクションの外部データソースです。
+
+- **start_time** (*string*) -
+
+    リフレッシュジョブの開始時刻です。
+
+- **end_time** (*string*) -
+
+    リフレッシュジョブの終了時刻です。
+
+</NextChannel>
+
 ## 例\{#example}
 
 ```javascript
@@ -90,4 +130,3 @@ const res = await milvusClient.listRefreshExternalCollectionJobs({
 
 console.log(res.jobs); // RefreshExternalCollectionJobInfo[]
 ```
-

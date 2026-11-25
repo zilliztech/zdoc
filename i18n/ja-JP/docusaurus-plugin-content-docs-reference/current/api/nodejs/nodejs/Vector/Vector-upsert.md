@@ -53,6 +53,8 @@ await milvusClient.upsert({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
@@ -98,6 +100,74 @@ await milvusClient.upsert({
 - **field_ops** (*FieldPartialUpdateOp[]*) -
 
     配列フィールドに対する部分更新操作です。省略可能です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of an existing コレクション.
+
+- **data** (*[RowData](./Vector-RowData)[]*) -
+
+    アップサートするデータです。各要素は、キーがコレクションのスキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。プライマリキーが既存のレコードと一致するエンティティは更新され、それ以外の場合は新しいエンティティが挿入されます。**data** または **fields_data** のいずれかを指定してください。
+
+- **db_name** (*string*) -
+
+    The name of the データベース that holds the target コレクション.
+
+- **hash_keys** (*number[]*) -
+
+    内部使用のために予約されています。明示的に必要とされない限り、このパラメータを設定しないでください。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** のエイリアスです。いずれかのキーで行を渡すことができますが、両方を設定しないでください。
+
+- **transformers** (*InsertTransformers*) -
+
+    `BFloat16Vector` および `Float16Vector` データ用のカスタムデータトランスフォーマーです。任意です。
+
+- **skip_check_schema** (*boolean*) -
+
+    アップサートする前にスキーマチェックをスキップするかどうかです。任意です。
+
+- **partial_update** (*boolean*) -
+
+    部分更新を有効にするかどうかです。`true` に設定すると、`data` には更新が必要なフィールドのみを含めることができ、含まれないフィールドは既存の値を保持します。
+
+- **partition_name** (*string*) -
+
+    The name of a partition in the current コレクション. If specified, the data is upserted into that partition.
+
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間です。これを `None` に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+
+- **field_ops** (*FieldPartialUpdateOp[]*) -
+
+    配列、構造体、または JSON フィールドの部分更新操作です。省略可能です。各操作には以下のメンバーがあります。
+
+    - **field_name** (*string*) -
+
+        **[REQUIRED]**
+
+        更新するフィールドの名前です。
+
+    - **op** (*FieldPartialUpdateOpName*) -
+
+        **[REQUIRED]**
+
+        更新操作です。指定可能な値は **REPLACE**、**ARRAY_APPEND**、**ARRAY_REMOVE**、および **PATH_REPLACE** です。**PATH_REPLACE**（Milvus 3.0.6+）は、既存の Array、StructArray、または JSON の値をパスで置き換えます。
+
+    - **path** (*string*) -
+
+        置き換えるフィールド値内のパスです。たとえば、`[0]` または `["key"]` です。**PATH_REPLACE**（Milvus 3.0.6+）では必須で、その他の操作ではサポートされません。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -160,7 +230,6 @@ await milvusClient.upsert({
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合、空文字列のままです。
-
 
 **例外:**
 

@@ -46,6 +46,8 @@ await milvusClient.listSnapshots({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 **[必須]**
 コレクションの名前です。
@@ -59,11 +61,32 @@ RPC に許容される時間をミリ秒単位で指定します。省略可能�
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。省略可能です。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+**[必須]**
+コレクションの名前です。
+
+- **db_name** (*string*) -
+データベースの名前です。省略可能です。
+
+- **timeout** (*number*) -
+RPC に許容される時間をミリ秒単位で指定します。省略可能です。undefined に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機します。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡とログまたはトレースの関連付けに使用する、呼び出し元が指定する省略可能な ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、この ID を自動生成することはありません。リクエストごとに、UUID など一意の値を使用してください。OpenTelemetry のトレース ID 形式（32 文字の小文字 16 進数）の値も、クライアントテレメトリでトレース ID として使用されます。
+
+</NextChannel>
+
 **戻り値:**
 
 *Promise&lt;ListSnapshotsResponse&gt;*
 
 このメソッドは、**ListSnapshotsResponse** オブジェクトに解決される promise を返します。
+
+<NextChannel action="exclude">
 
 ```javascript
 {
@@ -72,7 +95,23 @@ RPC に許容される時間をミリ秒単位で指定します。省略可能�
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+{
+    snapshots: string[],
+    snapshot_summaries?: SnapshotSummary[],
+    status:  ResStatus
+}
+```
+
+</NextChannel>
+
 **パラメーター:**
+
+<NextChannel action="exclude">
 
 - **snapshots** (*string[]*) -
 要求されたコレクションに現在存在するスナップショット名のリストです。
@@ -92,6 +131,48 @@ RPC に許容される時間をミリ秒単位で指定します。省略可能�
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **snapshots** (*string[]*) -
+要求されたコレクションに現在存在するスナップショット名のリストです。
+
+- **snapshot_summaries** (*SnapshotSummary[]*) -
+省略可能です。スナップショットの概要です。各エントリには、次のメンバーが含まれます。
+
+    - **name** (*string*) -
+
+        スナップショットの名前です。
+
+    - **create_ts** (*string*) -
+
+        スナップショットの作成タイムスタンプです。
+
+    - **description** (*string*) -
+
+        スナップショットの説明です。
+
+    - **create_utc_ts** (*string*) -
+
+        Unix ミリ秒単位のスナップショットの作成時刻です。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
+
+    - **code** (*number*) -
+
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+
+    - **error_code** (*string* | *number*) -
+
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+
+    - **reason** (*string*) -
+
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+</NextChannel>
 
 **例外:**
 

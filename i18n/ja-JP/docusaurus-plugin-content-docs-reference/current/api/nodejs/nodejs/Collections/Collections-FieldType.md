@@ -25,6 +25,8 @@ displayed_sidebar: nodeSidebar
 
 コレクションスキーマの 1 つのフィールドについて説明します。
 
+<NextChannel action="exclude">
+
 ```typescript
 export type FieldType = {
   name: string;
@@ -44,7 +46,35 @@ export type FieldType = {
 } & Partial<Record<TypeParamKey, TypeParam>>;
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```typescript
+export type FieldType = {
+  name: string;
+  description?: string;
+  data_type: DataType | keyof typeof DataTypeMap;
+  element_type?: DataType | keyof typeof DataTypeMap;
+  is_primary_key?: boolean;
+  is_partition_key?: boolean;
+  is_function_output?: boolean;
+  is_clustering_key?: boolean;
+  type_params?: Partial<Record<TypeParamKey, TypeParam>>;
+  autoID?: boolean;
+  default_value?: number | string | boolean;
+  nullable?: boolean;
+  element_nullable?: boolean;
+  external_field?: string;
+  fields?: FieldType[];
+} & Partial<Record<TypeParamKey, TypeParam>>;
+```
+
+</NextChannel>
+
 **フィールド:**
+
+<NextChannel action="exclude">
 
 - **name** (*string*) -
 
@@ -102,6 +132,72 @@ export type FieldType = {
 
     構造体フィールドのネストされたフィールドです。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **name** (*string*) -
+
+    フィールド名です。
+
+- **description** (*string*) -
+
+    フィールドの説明です。省略可能です。
+
+- **data_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    フィールドのデータ型です。
+
+- **element_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    配列フィールドの要素型です。
+
+- **is_primary_key** (*boolean*) -
+
+    フィールドがプライマリキーであるかどうかを示します。
+
+- **is_partition_key** (*boolean*) -
+
+    フィールドがパーティションキーであるかどうかを示します。
+
+- **is_function_output** (*boolean*) -
+
+    フィールドが関数（例: テキスト埋め込みの出力）によって値が設定されるかどうかを示します。
+
+- **is_clustering_key** (*boolean*) -
+
+    フィールドがクラスタリングキーであるかどうかを示します。
+
+- **type_params** (*Partial&lt;Record&lt;TypeParamKey, TypeParam&gt;&gt;*) -
+
+    次元や最大長などの型パラメーターです。
+
+- **autoID** (*boolean*) -
+
+    プライマリキーの値が自動生成されるかどうかを示します。
+
+- **default_value** (*number | string | boolean*) -
+
+    フィールドのデフォルト値です。
+
+- **nullable** (*boolean*) -
+
+    フィールドが null 値を受け入れるかどうかを示します。
+
+- **element_nullable** (*boolean*) -
+
+    StructArray フィールドの Array サブフィールドの要素が null 値を受け入れるかどうかを示します。StructArray フィールドの Array サブフィールドにのみ適用されます。
+
+- **external_field** (*string*) -
+
+    外部フィールドのマッピング名です。
+
+- **fields** (*FieldType[]*) -
+
+    構造体フィールドのネストされたフィールドです。
+
+</NextChannel>
+
 ## 例\{#example}
 
 ```javascript
@@ -123,4 +219,3 @@ await milvusClient.createCollection({
     fields,
 });
 ```
-

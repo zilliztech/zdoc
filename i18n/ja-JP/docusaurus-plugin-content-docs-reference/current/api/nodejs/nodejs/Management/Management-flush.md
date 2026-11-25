@@ -75,6 +75,8 @@ await milvusClient.flush({
 
 このメソッドは、**FlushResult** オブジェクトに解決される promise を返します。
 
+<NextChannel action="exclude">
+
 ```javascript
 {
     coll_segIDs: Record<string, { data: number[] }>,
@@ -82,7 +84,23 @@ await milvusClient.flush({
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+{
+    coll_segIDs: Record<string, { data: number[] }>,
+    coll_flush_ts?: Record<string, string>,
+    status:  ResStatus
+}
+```
+
+</NextChannel>
+
 **パラメータ:**
+
+<NextChannel action="exclude">
 
 - **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
 コレクション名から、この flush によってシールされたセグメント ID へのマッピングです。返された ID を `getFlushState()` とともに使用して、永続化を確認します。
@@ -102,6 +120,32 @@ await milvusClient.flush({
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
+コレクション名から、この flush によってシールされたセグメント ID へのマッピングです。返された ID を `getFlushState()` とともに使用して、永続化を確認します。
+
+- **coll_flush_ts** (*Record&lt;string, string&gt;*) -
+任意です。コレクション名から、シールされたセグメントの flush タイムスタンプへのマッピングで、10 進数文字列として返されます。
+
+- **ResStatus**
+**ResStatus** オブジェクト。
+
+    - **code** (*number*) -
+
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+
+    - **error_code** (*string* | *number*) -
+
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+
+    - **reason** (*string*) -
+
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+
+</NextChannel>
 
 **例外:**
 

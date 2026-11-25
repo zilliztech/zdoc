@@ -35,6 +35,8 @@ await milvusClient.hybridSearch(data: HybridSearchReq)
 
 ## リクエスト構文\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
 await milvusClient.hybridSearch({
     collection_name: string,
@@ -64,7 +66,46 @@ await milvusClient.hybridSearch({
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+await milvusClient.hybridSearch({
+    collection_name: string,
+    data: HybridSearchSingleReq[],
+    limit?: number,
+    topk?: number,
+    offset?: number,
+    output_fields?: string[],
+    filter?: string,
+    params?: keyValueObj,
+    metric_type?: string,
+    rerank?: RerankerObj | FunctionObject | FunctionScore,
+    function_score?: FunctionScore,
+    function_chains?: FunctionChains,
+    partition_names?: string[],
+    consistency_level?: ConsistencyLevelEnum,
+    ignore_growing?: boolean,
+    group_by_field?: string,
+    group_size?: number,
+    strict_group_size?: boolean,
+    hints?: string,
+    round_decimal?: number,
+    transformers?: OutputTransformers,
+    nq?: number,
+    ids?: number[] | string[],
+    highlighter?: Highlighter,
+    db_name?: string,
+    timeout?: number,
+})
+```
+
+</NextChannel>
+
 **パラメーター:**
+
+<NextChannel action="exclude">
 
 - **collection_name** (*string*) -
 
@@ -166,6 +207,120 @@ await milvusClient.hybridSearch({
 
     この操作のタイムアウト時間（ミリ秒）です。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[必須]**
+
+    検索対象のコレクションの名前です。
+
+- **data** (*HybridSearchSingleReq[]*) -
+
+    **[必須]**
+
+    ベクトルフィールドごとに 1 つずつ指定するサブ検索リクエストのリストです。各要素は、単一ベクトルのサブ検索のクエリベクトルと対象フィールドを定義します。フィールドの完全なリファレンスについては、後述の HybridSearchSingleReq セクションを参照してください。
+
+- **limit** (*number*) -
+
+    返すエンティティの総数です。この値と `offset` の合計は 16,384 以下である必要があります。
+
+- **topk** (*number*) -
+
+    **limit** のエイリアスです。
+
+- **offset** (*number*) -
+
+    検索結果でスキップするレコード数です。この値と `limit` の合計は 16,384 以下である必要があります。
+
+- **output_fields** (*string[]*) -
+
+    返される各エンティティに含めるフィールド名のリストです。デフォルトではプライマリフィールドのみが含まれます。
+
+- **filter** (*string*) -
+
+    ハイブリッド検索結果のマージ後に適用されるトップレベルのスカラーフィルタリング条件です。デフォルトは空文字列です。
+
+- **params** (*keyValueObj*) -
+
+    キーと値のペアとして指定する追加の検索パラメーターです。
+
+- **metric_type** (*string*) -
+
+    ベクトル間の類似度を測定するために使用するメトリックタイプです。
+
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
+
+    複数のサブ検索の結果を統合するための再ランキング戦略です。再ランキングパラメーターの完全なスキーマについては、`search()` を参照してください。
+
+- **function_score** (*[FunctionScore](./Vector-FunctionScore)*) -
+
+    関数ベースの再ランキング機能です。**rerank** を使用して指定することもできます。詳細については、[FunctionScore](./Vector-FunctionScore) を参照してください。
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    サブ検索の結果がマージされた後に適用される任意のサーバー側チェーンです。ハイブリッド検索では、個々の ANN リクエストにチェーンを設定することもできます。
+
+- **partition_names** (*string[]*) -
+
+    検索対象のパーティション名です。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    対象コレクションの整合性レベルです。オプションは、`Strong`（0）、`Session`（1）、`Bounded`（2）、`Eventually`（3）です。デフォルトは `Bounded` です。詳細については、[ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
+
+- **ignore_growing** (*boolean*) -
+
+    検索中に増加中のセグメントをスキップするかどうかです。
+
+- **group_by_field** (*string*) -
+
+    指定したフィールドで検索結果をグループ化して多様性を確保し、同じグループから複数の結果が返されないようにします。
+
+- **group_size** (*number*) -
+
+    グループ化検索で各グループ内に返すエンティティの目標数です。
+
+- **strict_group_size** (*boolean*) -
+
+    `group_size` を厳密に適用するかどうかです。`true` の場合、システムは各グループを正確に `group_size` 件の結果で埋めようとします。
+
+- **hints** (*string*) -
+
+    検索パフォーマンスを向上させるためのヒント文字列です。
+
+- **round_decimal** (*number*) -
+
+    最終スコアで保持する小数点以下の桁数です。
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    BFloat16Vector や Float16Vector などの特殊なベクトルデータ型用のカスタムトランスフォーマーです。
+
+- **nq** (*number*) -
+
+    クエリベクトルの数です。
+
+- **ids** (*number[]* | *string[]*) -
+
+    PK による検索クエリのプライマリキーです。
+
+- **highlighter** (*Highlighter*) -
+
+    検索結果用のハイライターです。
+
+- **db_name** (*string*) -
+
+    コレクションを含むデータベースの名前です。
+
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間（ミリ秒）です。
+
+</NextChannel>
+
 **戻り値:**
 
 *Promise&lt;SearchResults&gt;*
@@ -183,6 +338,8 @@ await milvusClient.hybridSearch({
 `data` 配列の各要素は、単一ベクトルのサブ検索リクエストを定義する **HybridSearchSingleReq** オブジェクトです。
 
 **パラメーター:**
+
+<NextChannel action="exclude">
 
 - **data** (*[SearchData](./Vector-SearchData)*) -
 
@@ -219,6 +376,52 @@ await milvusClient.hybridSearch({
 - **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
 
     BFloat16Vector や Float16Vector などの特殊なベクトル型用のカスタムトランスフォーマーです。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **data** (*[SearchData](./Vector-SearchData)*) -
+
+    **[必須]**
+
+    このサブ検索のクエリベクトルです。密ベクトル（`number[]`）、疎ベクトル（`SparseVectorDic`）、またはテキストベース検索用のテキスト文字列を指定できます。
+
+- **anns_field** (*string*) -
+
+    **[必須]**
+
+    このサブリクエスト内で検索するベクトルフィールドの名前です。
+
+- **expr** (*string*) -
+
+    このサブ検索にのみ適用されるスカラーフィルタリング条件です。
+
+- **exprValues** (*keyValueObj*) -
+
+    フィルター式のテンプレート値をキーと値のペアで指定します。
+
+- **params** (*keyValueObj*) -
+
+    インデックス固有の検索パラメーターをキーと値のペアで指定します。
+
+- **ignore_growing** (*boolean*) -
+
+    このサブ検索中に増加中のセグメントをスキップするかどうかです。
+
+- **group_by_field** (*string*) -
+
+    このサブ検索内の多様性を確保するために、指定したフィールドで結果をグループ化します。
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    BFloat16Vector や Float16Vector などの特殊なベクトル型用のカスタムトランスフォーマーです。
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    この ANN リクエスト用の任意のサーバー側チェーンです。
+
+</NextChannel>
 
 ## 例\{#example}
 

@@ -45,6 +45,8 @@ await milvusClient.getRestoreSnapshotState({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **job_id** (*number | string*) -
 **[必須]**
 restoreSnapshot() によって返される復元ジョブ ID です。
@@ -54,6 +56,22 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*number | string*) -
+**[必須]**
+restoreSnapshot() によって返される復元ジョブ ID です。
+
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+呼び出し元が指定できる任意の ID で、リクエストの追跡とログまたはトレースの相関に使用します。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動生成することはありません。リクエストごとに UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（32 文字の小文字 16 進数）の値は、クライアントテレメトリでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -124,7 +142,6 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
-
 
 **例外:**
 

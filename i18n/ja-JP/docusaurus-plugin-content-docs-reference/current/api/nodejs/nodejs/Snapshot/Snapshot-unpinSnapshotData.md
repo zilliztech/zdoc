@@ -45,6 +45,8 @@ await milvusClient.unpinSnapshotData({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **pin_id** (*number | string*) -
 **[必須]**
 pinSnapshotData() によって返されるピン ID です。
@@ -54,6 +56,22 @@ RPC の実行を許可する時間をミリ秒単位で指定するオプショ�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **pin_id** (*number | string*) -
+**[必須]**
+pinSnapshotData() によって返されるピン ID です。
+
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+呼び出し元が任意で指定する ID で、リクエストの追跡やログまたはトレースとの相関付けに使用します。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動生成することはありません。リクエストごとに UUID などの一意の値を使用してください。OpenTelemetry の trace-ID 形式（32 文字の小文字 16 進数）の値は、クライアントテレメトリーでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 

@@ -47,6 +47,8 @@ await milvusClient.batchDescribeCollections({
 
 **パラメータ:**
 
+<NextChannel action="exclude">
+
 - **collection_names** (*string[]*) -
 **[REQUIRED]**
 情報を取得するコレクションの名前です。
@@ -62,6 +64,28 @@ RPC に使用できる時間をミリ秒単位で指定します。この値は�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。省略可能です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_names** (*string[]*) -
+**[REQUIRED]**
+情報を取得するコレクションの名前です。
+
+- **db_name** (*string*) -
+データベースの名前です。省略可能です。
+
+- **collectionIDs** (*number[]*) -
+情報を取得するコレクションの ID です。省略可能です。
+
+- **timeout** (*number*) -
+RPC に使用できる時間をミリ秒単位で指定します。この値は省略可能です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡とログまたはトレースの関連付けに使用する、呼び出し元が指定できる任意の ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動的に生成することはありません。リクエストごとに、UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（32 桁の小文字 16 進数）の値も、クライアントのテレメトリでトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -95,7 +119,6 @@ RPC に使用できる時間をミリ秒単位で指定します。この値は�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
-
 
 **例外:**
 

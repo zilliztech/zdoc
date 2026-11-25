@@ -49,6 +49,8 @@ await milvusClient.createSnapshot({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 **[必須]**
 スナップショットを作成するコレクションの名前です。
@@ -71,6 +73,35 @@ RPC に割り当てる時間をミリ秒単位で指定します。任意です�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+**[必須]**
+スナップショットを作成するコレクションの名前です。
+
+- **snapshot_name** (*string*) -
+**[必須]**
+スナップショットの名前です。
+
+- **description** (*string*) -
+スナップショットの説明です。任意です。
+
+- **compaction_protection_seconds** (*number | string*) -
+参照されるセグメントを Compaction から保護する期間です。任意です。
+
+- **db_name** (*string*) -
+データベースの名前です。任意です。
+
+- **timeout** (*number*) -
+RPC に割り当てる時間をミリ秒単位で指定します。任意です。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+呼び出し元が指定できる任意の ID で、リクエストの追跡やログまたはトレースの関連付けに使用されます。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動生成することはありません。リクエストごとに UUID などの一意の値を使用してください。OpenTelemetry の trace-ID 形式（32 桁の小文字16進数）の値は、クライアントテレメトリでトレース ID としても使用されます。
+
+</NextChannel>
 
 **戻り値:**
 

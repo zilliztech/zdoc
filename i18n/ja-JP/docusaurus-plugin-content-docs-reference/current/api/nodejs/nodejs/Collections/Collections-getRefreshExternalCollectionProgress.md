@@ -45,6 +45,8 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **job_id** (*number | string*) -
 **[REQUIRED]**
 refreshExternalCollection() によって返されたジョブ ID です。
@@ -54,6 +56,22 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
 - **client_request_id** (*string*) -
 リクエストを追跡するためのトレース ID です。省略可能です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*number | string*) -
+**[REQUIRED]**
+refreshExternalCollection() によって返されたジョブ ID です。
+
+- **timeout** (*number*) -
+RPC に許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+リクエストの追跡、およびログまたはトレースの関連付けのために呼び出し元が指定するオプションの ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、この ID を自動生成することはありません。リクエストごとに、UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（32 桁の小文字 16 進数）の値は、クライアントテレメトリーでもトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -73,6 +91,8 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 - **job_info** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)*) -
 
 リフレッシュジョブの現在の状態です。
+
+<NextChannel action="exclude">
 
     - **job_id** (*string*) -
 
@@ -106,6 +126,44 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
 
         ジョブが終了した時刻です。ジョブがまだ実行中の場合は空の文字列です。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+    - **job_id** (*string*) -
+
+        ジョブ識別子です。
+
+    - **collection_name** (*string*) -
+
+        リフレッシュ対象の外部コレクションです。
+
+    - **state** (*RefreshExternalCollectionState*) -
+
+        現在のジョブ状態です。指定可能な値は **RefreshPending**、**RefreshInProgress**、**RefreshCompleted**、および **RefreshFailed** です。リフレッシュジョブは **RefreshInProgress** から **RefreshCompleted** または **RefreshFailed** に遷移します。
+
+    - **progress** (*string*) -
+
+        **"0"** から **"100"** までの整数で表される完了率です。
+
+    - **reason** (*string*) -
+
+        **state** が **RefreshFailed** の場合の失敗理由です。それ以外の場合は空の文字列です。
+
+    - **external_source** (*string*) -
+
+        ジョブによって記録された外部ソースパスです。
+
+    - **start_time** (*string*) -
+
+        ジョブが開始された時刻です。
+
+    - **end_time** (*string*) -
+
+        ジョブが終了した時刻です。ジョブがまだ実行中の場合は空の文字列です。
+
+</NextChannel>
+
 - **ResStatus**
 **ResStatus** オブジェクトです。
 
@@ -120,7 +178,6 @@ RPC に許可する時間をミリ秒単位で指定するオプションです�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
-
 
 **例外:**
 

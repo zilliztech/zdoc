@@ -6301,9 +6301,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-FieldType.md": {
-      "sourceHash": "5bdd6accd8bc796494029db352554328820b3dd024f6f9524f753a253e0b515e",
+      "sourceHash": "05c8ccee252432810adf53cb1140dd5f70d47533fb6f8b1688e6d8b11c126857",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-FieldType.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionObject.md": {
       "sourceHash": "6327d403815f3f1c0695efb38d09997fc82d1d1d24437c6acfc6def2d19638b6",
@@ -6316,9 +6316,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-RefreshExternalCollectionJobInfo.md": {
-      "sourceHash": "c7020095ce82002060d546c82e19430aa1430fca3188aca9d96d678d02723278",
+      "sourceHash": "d9f17179b28f857203660c08c21847bef8ea3ae95eee062934c308ad5204c921",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-RefreshExternalCollectionJobInfo.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md": {
       "sourceHash": "dd808da7bd308e5b91c2dfd4c9e19058062dca4753c80af6a99093495d745012",
@@ -6366,9 +6366,9 @@
       "translatedAt": "2026-11-19T03:46:33.018Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md": {
-      "sourceHash": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4",
+      "sourceHash": "5ee525253448d5a706a70987f8404c09924559589a3b3503519bc3d8753a5467",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-createAlias.md": {
       "sourceHash": "a5fac50820dd6ceb06119a2266e84a99052863d5f85142d7e7de7f0f84cbdf43",
@@ -6376,9 +6376,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md": {
-      "sourceHash": "f0a8eb53639a2dba90b486541958ba5530d458c368bab0e91eeff69ee08df5f3",
+      "sourceHash": "3b9cc445c28a24ad1f6e14a0145f52e9ac3515e0c039a0b19f783a71732ce8c5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "translatedAt": "2026-11-19T11:44:14.191Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md": {
       "sourceHash": "327359ed15e0dd55623994572ab53b9caa6ddbdf5fb0c4a4a61a9aa2f5f095e4",
@@ -6441,9 +6441,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md": {
-      "sourceHash": "438c10a038191ed943ccc8d690746970f43ea6a8b8979e33c664e7bb5c32b3d8",
+      "sourceHash": "75d79418200fcfe7dab83b208fb4e9a5fde7af7ba2af7dae2ec4a44544665c6b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "translatedAt": "2026-11-19T11:44:14.191Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md": {
       "sourceHash": "223af1d61427ed5405ada148a96e0e78e28b73e841ac9edcc37d5fb1b5be9e0a",
@@ -6461,14 +6461,14 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md": {
-      "sourceHash": "2ff0897ddf9f11789062c19b5300634ed8a2105d02ce8d45ab6b8d2d31cfd837",
+      "sourceHash": "8dc24d06671464147f0b69dbb80d3b60a89f4aff2b07977986fe9d0322ec25a3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md": {
-      "sourceHash": "327db8e3501ed393a995c7f9bf8a5d104f6e9ca752ba73780cfc306bfba4ace7",
+      "sourceHash": "997f2732dc5d4bc06aec486c7f9a995d16d972131f8d3d0fd476ae2ccf45bd07",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "translatedAt": "2026-11-19T02:44:12.607Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md": {
       "sourceHash": "1a14820bb1c9603504c8c5cb8b27428dfce3bff0322f86a50e1162192dfbc67a",
@@ -6681,19 +6681,19 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-flush.md": {
-      "sourceHash": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee",
+      "sourceHash": "f87e97be1e7248eaa1e4512a87ea0aa5c2b0a561064033e8488f24d8f3a3e030",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-flush.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-flushAll.md": {
-      "sourceHash": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4",
+      "sourceHash": "06c48603269044529ae9d34b35be86e36613fcf5e235e8f9464e14d54e68f24c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-flushAll.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-flushAllSync.md": {
-      "sourceHash": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5",
+      "sourceHash": "048a1e0d01e090ec138d3aadc20e5785841e4299799be7eeb31ece837b071854",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-flushAllSync.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-flushSync.md": {
       "sourceHash": "cd41c5b45db3cc4589a414ca549e9b5c22bea24ee1532cc52718807e1ab35e51",
@@ -6711,14 +6711,14 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushAllState.md": {
-      "sourceHash": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7",
+      "sourceHash": "57a5cf5d458e8316550784c55cd8aa29db622175032ddae675db7cb3601217f0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-getFlushAllState.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushState.md": {
-      "sourceHash": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6",
+      "sourceHash": "63cf8532ae0a8ec51535f041c03e5d8a4456425c9b54ac64f226f602dbe4829e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Management/Management-getFlushState.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md": {
       "sourceHash": "948a5b60fb859743f0ef50d542aa6ac76a4f27b90942f000e66fbe950c9197e9",
@@ -6826,49 +6826,49 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md": {
-      "sourceHash": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93",
+      "sourceHash": "a0c775d69229cc34f1e56bf590cb411875bd96da4376d41486062d4c49918dcf",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md": {
-      "sourceHash": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9",
+      "sourceHash": "d2dae2e84d449e742921f0f46c3341c3e6354e8b353f0476bfb735ccb5b19a99",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md": {
-      "sourceHash": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795",
+      "sourceHash": "e60ce9d23b0e7369fdc48483c8a9bbc43cdd01fe5b0a803dbdef8e2c5a01d150",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md": {
-      "sourceHash": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c",
+      "sourceHash": "1a0588301dd98dd79642a8fe46bd290703c6b79c0cf84ac31f6670da61848622",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "translatedAt": "2026-11-23T19:49:48.559Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md": {
-      "sourceHash": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84",
+      "sourceHash": "46eb5e54833f3450608d1c5926a7d8437812cf7a4ee7808deb9a119210e4c6c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "translatedAt": "2026-11-23T19:49:48.559Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md": {
-      "sourceHash": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d",
+      "sourceHash": "cb76b4ebcca04d801e2e1d7b02a7b8107896a98e0d35304c31908be35ec6cb09",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md": {
-      "sourceHash": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece",
+      "sourceHash": "ea335899631895fcc6815b675578a05f0b23e08d2653ef019c0c2f0ace99294f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md": {
-      "sourceHash": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33",
+      "sourceHash": "4e41818861ad775f166a6a65f8f8d3f209c2629dfb8a42673ce00c63be142905",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md": {
-      "sourceHash": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b",
+      "sourceHash": "5ce7f0d1b1fb742a1c4074144652e3d1e14966cafb2abfd218366bddd9508877",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md",
-      "translatedAt": "2026-11-18T17:00:07.283Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-FunctionScore.md": {
       "sourceHash": "3a80eb856900a8782208c0d63d612f60cf1abc7fa79524586badca138b1848b3",
@@ -6931,9 +6931,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md": {
-      "sourceHash": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999",
+      "sourceHash": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "translatedAt": "2026-11-24T03:42:20.885Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md": {
       "sourceHash": "170bae549cf49322104568a7384a5cfb1682dee215cbd14e30d08edea90ce88d",
@@ -6941,9 +6941,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md": {
-      "sourceHash": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f",
+      "sourceHash": "196c370058343461c4dee42eae208c25de826eedb416dba1ad77bc8d59c1e75e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-query.md",
-      "translatedAt": "2026-11-23T21:40:01.549Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md": {
       "sourceHash": "52873288f15a5145eba9869057341abe2733f6f49ea066b60c43821f4a7bf49c",
@@ -6951,9 +6951,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md": {
-      "sourceHash": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436",
+      "sourceHash": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-search.md",
-      "translatedAt": "2026-11-23T19:49:48.559Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md": {
       "sourceHash": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a",
@@ -6961,9 +6961,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md": {
-      "sourceHash": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88",
+      "sourceHash": "2b0c066d6935bb3c5e5452adf6a2dc44ce2ea2fb041a2c8dd9d43e063e5d6889",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-upsert.md",
-      "translatedAt": "2026-11-23T19:49:48.559Z"
+      "translatedAt": "2026-11-25T03:47:15.322Z"
     },
     "content/en/reference/api/nodejs/nodejs/Volume/Volume-VolumeManager.md": {
       "sourceHash": "505aafe499610988aa71feff739c3d595e6ab015fbaa55912315fc9e0a489ba7",

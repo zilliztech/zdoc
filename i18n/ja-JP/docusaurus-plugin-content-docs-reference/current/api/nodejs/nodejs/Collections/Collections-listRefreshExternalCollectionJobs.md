@@ -46,6 +46,8 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **パラメーター:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 コレクション名でフィルターするためのオプションです。
 
@@ -57,6 +59,24 @@ RPC の実行を許可する時間をミリ秒単位で指定するオプショ�
 
 - **client_request_id** (*string*) -
 リクエスト追跡用のトレース ID です。任意です。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+コレクション名でフィルターするためのオプションです。
+
+- **db_name** (*string*) -
+データベース名でフィルターするためのオプションです。
+
+- **timeout** (*number*) -
+RPC の実行を許可する時間をミリ秒単位で指定するオプションです。undefined に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
+
+- **client_request_id** (*string*) -
+呼び出し元が指定する、リクエストの追跡とログまたはトレースとの関連付けに使用するオプションの ID です。SDK はこれを `client-request-id` gRPC メタデータヘッダーとして送信し、自動的に生成することはありません。リクエストごとに、UUID などの一意の値を使用してください。OpenTelemetry のトレース ID 形式（小文字の 16 進数 32 文字）の値も、クライアントテレメトリでトレース ID として使用されます。
+
+</NextChannel>
 
 **戻り値:**
 
@@ -91,7 +111,6 @@ RPC の実行を許可する時間をミリ秒単位で指定するオプショ�
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空の文字列のままです。
-
 
 **例外:**
 
