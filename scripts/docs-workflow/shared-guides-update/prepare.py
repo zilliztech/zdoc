@@ -1122,6 +1122,86 @@ def _batch_verify_historical_view(reader, registry, config, endpoints, observati
     require(not required, 'BATCH_HISTORICAL_DEPENDENCY_INVALID')
 
 
+_EQUIVALENCE_ERROR = 'BATCH_HISTORY_EQUIVALENCE_INVALID'
+# ECMAScript whitespace for the same nonempty source/output check as the wire verifier.
+_JS_TRIM = '\t\n\v\f\r \u00a0\u1680' + ''.join(map(chr, range(0x2000, 0x200b))) + '\u2028\u2029\u202f\u205f\u3000\ufeff'
+
+
+def _batch_equivalent_source(raw, variables, dependencies):
+    try:
+        source = raw.decode('utf-8')
+    except UnicodeDecodeError:
+        raise Hold(_EQUIVALENCE_ERROR)
+    require(source.strip(_JS_TRIM) and '\ufffd' not in source, _EQUIVALENCE_ERROR)
+    used = {}
+
+    def expand(match):
+        key = match[1].lower()
+        matches = [value for name, value in variables.items() if name.lower() == key]
+        require(len(matches) == 1 and type(matches[0]) is str and re.fullmatch(r'[A-Za-z0-9_. -]{1,256}', matches[0]),
+                _EQUIVALENCE_ERROR)
+        value = matches[0]
+        used[key] = dict(kind='variable', identity=key, state='resolved', sha256=sha256(json.dumps(value).encode()))
+        return value
+
+    expanded = re.sub(r'\{\{var\.([A-Za-z0-9_]+)\}\}', expand, source)
+    require(dependencies == [used[key] for key in sorted(used)] and '{{' not in expanded
+            and not re.search(r'!\[|<img', expanded, re.IGNORECASE | re.ASCII), _EQUIVALENCE_ERROR)
+
+
+def _batch_verify_equivalent_intervals(reader, config, targets, endpoints, history, rules):
+    aliases = [row for row in history['interval'] if 'equivalentTo' in row]
+    if not aliases:
+        return
+    require('inventoryProofRef' in history and 'commitProofRef' in history, _EQUIVALENCE_ERROR)
+    files = {row['path']: row for row in config['files']}
+    prefix = 'shared-docs/guides/pages/' + config['pageId'] + '/'
+    source = config['sourceFile']
+    variables_path = 'shared-docs/guides/Variables.json'
+    require({name[len(prefix):] for name in files if name.startswith(prefix)} == {'lock.yaml', 'page.yaml'}
+            and variables_path in files and all(re.fullmatch(r'[A-Za-z0-9_./-]+', path)
+            for path in [source] + [target['path'] for target in targets]), _EQUIVALENCE_ERROR)
+    expected = ['schema_version: 1', 'source:', '  file: ' + source, 'publish:']
+    for target in targets:
+        expected.extend(['  - manual: ' + target['manual'], '    path: ' + target['path']])
+    yaml_bytes = reader.blob(files[prefix + 'page.yaml']['ref'], raw_bytes=True)
+    require([line for line in yaml_bytes.split(b'\n') if line] == [s.encode() for s in expected], _EQUIVALENCE_ERROR)
+    variables = batch_parse(reader.blob(files[variables_path]['ref'], raw_bytes=True), canonical=False)
+    require(type(variables) is dict, _EQUIVALENCE_ERROR)
+    natives = {row['commit']: row for row in history['interval'] if 'equivalentTo' not in row}
+    verified = set()
+
+    def root(row):
+        # The main interval loop authenticates each of these root OIDs against the
+        # Git commit object and verifies its inventory and all raw source entries.
+        return reader.object(row['inventoryRef'], 'kind commit treeOid commitRef absentPaths')['treeOid']
+
+    def measured(row):
+        return {k: v for k, v in row.items() if k not in ('commit', 'equivalentTo', 'inventoryRef', 'rawRef')}
+
+    for alias in aliases:
+        require(oid(alias['equivalentTo']), _EQUIVALENCE_ERROR)
+        native = natives.get(alias['equivalentTo'])
+        require(native is not None and all(row['commit'] not in endpoints and 'historicalView' not in row
+                and (config['pageId'], row['commit']) not in rules for row in (alias, native))
+                and root(alias) == root(native), _EQUIVALENCE_ERROR)
+        entries = reader.object(alias['rawRef'], 'commit entries')['entries']
+        require(batch_canonical(measured(alias)) == batch_canonical(measured(native))
+                and batch_canonical(entries) == batch_canonical(reader.object(native['rawRef'], 'commit entries')['entries']),
+                _EQUIVALENCE_ERROR)
+        if native['commit'] in verified:
+            continue
+        require(alias['sourceFile'] == source and len(entries) == 1 and entries[0]['path'] == source
+                and alias['outputStatus'] == alias['imageStatus'] == 'observed'
+                and sorted((m['manual'], m['path']) for m in alias['manuals']) ==
+                    sorted((m['manual'], m['path']) for m in targets), _EQUIVALENCE_ERROR)
+        _batch_equivalent_source(reader.blob(entries[0]['ref'], raw_bytes=True), variables, alias['dependencies'])
+        require(reader.blob(alias['imagesRef'], parse=True) == [dict(role=role, images=[]) for role in ('current', 'oldNext', 'target')]
+                and reader.object(alias['diagnosticsRef'], 'errors rawErrors reasons') == dict(errors=[], rawErrors=[], reasons=[]),
+                _EQUIVALENCE_ERROR)
+        verified.add(native['commit'])
+
+
 def _batch_material(reader, retained, base, *, collateral_history=None, source_traces=None, historical_rules=None):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
@@ -1236,16 +1316,22 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         inventories[ref['sha256']] = lookup, value['absentPaths']
         return lookup
 
-    def manual(ref, expected, historical=False):
+    nonempty_manuals = set()
+
+    def manual(ref, expected, nonempty_error=None):
         fields = 'manual path markdown output headings references'
         value = reader.object(ref, fields)
-        if historical and (not value['markdown'] or not value['output']):
+        cache_key = (ref['sha256'], nonempty_error)
+        check_text = nonempty_error and cache_key not in nonempty_manuals
+        if check_text and (not value['markdown'] or not value['output']):
             # Earlier references can already have released the cached text below.
             value = reader.object(ref, fields, transient=True)
         require(value['manual'] == expected['manual'] and value['path'] == expected['path'] and type(value['output']) is str
                 and type(value['markdown']) is str and type(value['headings']) is list and type(value['references']) is list, 'BATCH_MANUAL_INVALID')
-        if historical:
-            require(value['markdown'].strip() and value['output'].strip(), 'BATCH_HISTORICAL_VIEW_BINDING')
+        if check_text:
+            trim = _JS_TRIM if nonempty_error == _EQUIVALENCE_ERROR else None
+            require(value['markdown'].strip(trim) and value['output'].strip(trim), nonempty_error)
+            nonempty_manuals.add(cache_key)
         # Only identity/extent is reused after this validation. Drop large text.
         value['markdown'], value['output'] = '', ''
 
@@ -1286,8 +1372,11 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         consumed.update(f['path'] for f in tree['entries'])
         trees.append(tree)
     batch_sorted(history['interval'], lambda o: o['commit'])
+    _batch_verify_equivalent_intervals(reader, config, header['targets'], commits, history, historical_rules[1])
     for observation in history['interval']:
         fields = 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus'
+        if 'equivalentTo' in observation:
+            fields += ' equivalentTo'
         batch_exact(observation, fields + (' historicalView' if 'historicalView' in observation else ''))
         raw = raw_tree(observation['rawRef'], observation['commit'])
         listing = inventory(observation['inventoryRef'], observation['commit'])
@@ -1325,7 +1414,8 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                     and all(d['state'] == 'resolved' for d in observation['dependencies']), 'BATCH_INTERVAL_OBSERVATION_INVALID')
             for output in observation['manuals']:
                 batch_exact(output, 'manual path ref')
-                manual(output['ref'], output, historical_view)
+                manual(output['ref'], output, _EQUIVALENCE_ERROR if 'equivalentTo' in observation else
+                       'BATCH_HISTORICAL_VIEW_BINDING' if historical_view else None)
         images(observation['imagesRef'], observation['commit'] if historical_view else None, listing)
     if git_inventory:
         git_inventory.finish()
