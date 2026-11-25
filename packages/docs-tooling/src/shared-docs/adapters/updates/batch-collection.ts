@@ -68,6 +68,9 @@ function assertCompletionValidity(store: EvidenceStore) {
 }
 
 interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'; authenticationMs?: number}
+export type BatchContentPair = readonly [BatchContentTicket, BatchContentTicket]
+const observedPairs = new WeakMap<BatchContentPair, Operation>()
+const pairOnly = new WeakSet<BatchContentTicket>()
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
   if (!operation.active || operation.issued.has(pageId) || !readBatchDiscoveryCapture(operation.discovery).report.pages.some(p => p.pageId === pageId)) invalid()
@@ -77,11 +80,20 @@ function issueContent(operation: Operation, pageId: string) {
   ;(operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).set(ticket, {operation, request, state: 'issued'})
   operation.issued.add(pageId); operation.outstanding.add(ticket); return ticket
 }
-/** Only the fixed launcher consumes this private WeakMap record; JSON/copies never carry launch authority. */
-export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
+function issueObservedContentPair(operation: Operation, first: string, second: string): BatchContentPair {
+  if (operation.base.origin.kind !== 'observed' || first === second) return invalid()
+  const tickets = Object.freeze([issueContent(operation, first), issueContent(operation, second)] as const)
+  for (const ticket of tickets) pairOnly.add(ticket)
+  observedPairs.set(tickets, operation)
+  return tickets
+}
+function checkedContent(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
   const launch = (kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)
-  if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') invalid()
-  // The claim precedes every await, including module/tool verification in the launcher.
+  if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') return invalid()
+  return launch
+}
+function claimContent(launch: Launch) {
+  const {store} = launch.operation
   launch.state = 'running'
   // These private notifications can record timings for this page only. They
   // never alter the ticket state, the authenticated material or any receipt.
@@ -93,6 +105,19 @@ export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: T
       return checkpointBatchProgress(store, 'render-worker', launch.request.pageId, authenticationMs)
     },
   }
+}
+/** Bind one claim to one issuance. A pair cannot be split, copied, rebuilt or replayed. */
+export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
+  if (pairOnly.has(ticket)) return invalid()
+  return claimContent(checkedContent(ticket, capture, store, kind))
+}
+export function consumeObservedContentPair(pair: BatchContentPair, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const operation = observedPairs.get(pair)
+  if (!operation || !operation.active || operation.capture !== capture || operation.store !== store) return invalid()
+  const first = checkedContent(pair[0], capture, store, 'observed'), second = checkedContent(pair[1], capture, store, 'observed')
+  if (first.operation !== operation || second.operation !== operation || first.request.pageId === second.request.pageId) return invalid()
+  observedPairs.delete(pair)
+  return [claimContent(first), claimContent(second)] as const
 }
 export function replayBatchContentData(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore): Uint8Array | undefined {
   const launch = replayLaunches.get(ticket)
@@ -691,6 +716,25 @@ async function collectOperation(operation: Operation, dependencyExport?: Depende
           }
           await begin('worker')
         },
+        launchPair: operation.base.origin.kind === 'observed' && currentBatchLifetime() ? async ([first, second], signal) => {
+          signal.throwIfAborted()
+          const started = performance.now()
+          const tickets = issueObservedContentPair(operation, first.pageId, second.pageId)
+          try {
+            const jobs = await launcher.runObservedBatchContentPair(tickets, signal)
+            const measured = async (pageId: string, ticket: BatchContentTicket, job: Promise<BatchMeasuredChild>) => {
+              try { return {ticket, child: await job, started} }
+              catch (error) {
+                if (!signal.aborted) workerFailure ??= {pageId, started}
+                throw error
+              }
+            }
+            return [measured(first.pageId, tickets[0], jobs[0]), measured(second.pageId, tickets[1], jobs[1])] as const
+          } catch (error) {
+            if (!signal.aborted) workerFailure ??= {pageId: first.pageId, started}
+            throw error
+          }
+        } : undefined,
         async launch(page, signal) {
           const started = performance.now()
           try {

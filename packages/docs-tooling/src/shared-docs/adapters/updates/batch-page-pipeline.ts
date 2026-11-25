@@ -6,6 +6,7 @@ interface BatchPageSteps<Page, Child> {
   signal?: AbortSignal
   preflight(window: readonly Page[]): Promise<void>
   launch(page: Page, signal: AbortSignal): Promise<Child>
+  launchPair?(pages: readonly [Page, Page], signal: AbortSignal): Promise<readonly [Promise<Child>, Promise<Child>]>
   retain(page: Page, child: NoInfer<Child>): Promise<void>
 }
 
@@ -17,15 +18,22 @@ async function launchAndRetain<Page, Child>(window: readonly Page[], steps: Batc
   const discard = () => children.clear()
   signal.addEventListener('abort', discard, {once: true})
   try {
-    await Promise.all(window.map(async (page, index) => {
+    let paired = window.length === 2 && steps.launchPair
+      ? await steps.launchPair([window[0], window[1]], signal)
+      : undefined
+    const settling = window.map(async (page, index) => {
       try {
-        signal.throwIfAborted()
-        const child = await steps.launch(page, signal)
+        // A pair already owns both processes. Even after abort, consume both
+        // promises and wait for their process groups to settle.
+        if (!paired) signal.throwIfAborted()
+        const child = await (paired ? paired[index] : steps.launch(page, signal))
         if (!signal.aborted) children.set(index, child)
       } catch (cause) {
         failure.abort(cause)
       }
-    }))
+    })
+    paired = undefined
+    await Promise.all(settling)
     // The guarded launcher settles its real process group before returning.
     // Wait for every export to release its transient allocation before any
     // CAS retention can compete for the same filesystem free-space floor.

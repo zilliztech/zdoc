@@ -1416,3 +1416,87 @@ export async function qualifyBatchLifecycle(data){
     expect(launchFailure?.settlement).toMatchObject({born: true, close: {code: 0}, group: 'absent'})
   } finally {observed.mockRestore()}
 }, 120000)
+
+it('launches independently measured observed handoff workers in one turn, settles failed siblings and reauthenticates the next pair', async () => {
+  if (process.platform === 'linux') {await expectLinuxCaptureRefusal(); return}
+  const batch = await import('../../adapters/updates/batch-collection')
+  const toolset = await import('../../adapters/updates/toolset')
+  const discovery = await import('../../adapters/updates/batch-discovery')
+  const budget = await import('../../adapters/updates/batch-source')
+  const {batchQualificationFixture} = await import('./fixtures/batch-qualification')
+  const {collectBatchPageMaterial} = await import('../../adapters/updates/guides-provider')
+  const a = await loaderFixture(), dataRoot = await realpath(await mkdtemp(join(tmpdir(), 'observed-pair-fixture-')))
+  onTestFinished(async () => {await fsPromises.rm(dataRoot, {recursive: true, force: true}); await fsPromises.rm(a.root, {recursive: true, force: true})})
+  const f = await batchQualificationFixture(dataRoot)
+  await f.append('site/en/build-pipeline.md', '\nChanged source.\n')
+  const frames: Record<string, Awaited<ReturnType<typeof collectBatchPageMaterial>>> = {}
+  for (const id of f.ids) frames[id] = await collectBatchPageMaterial(await f.request(id), {repositoryRoot: f.root, fetcher: f.fetcher})
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+const frames=${JSON.stringify(frames)};
+export function collectGuidesWorker(){throw Error('wrong lane')}
+export async function collectBatchPageMaterial(data) {
+  if (data.origin.purpose !== 'isolated-candidate') throw Error('wrong handoff origin');
+  if (data.pageId === 'zz-third') throw Error('fixture failure');
+  if (data.pageId === 'zz-fourth') await new Promise(resolve => setTimeout(resolve, 30000));
+  const wire=frames[data.pageId];wire.material.base={origin:data.origin,session:data.session,pins:data.pins};return wire;
+}
+`)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a)
+  const rawDiscovery = await discovery.replayBatchDiscovery(
+    {zdocRepository: f.root, sourceRepository: f.repo, tools: a.commit}, {fixtureBytes: Buffer.from('cohort'), replayClockMs: 0}, {transport: f.transport})
+  const input = discovery.readBatchDiscoveryCapture(rawDiscovery)
+  const observed = {...input, origin: {kind: 'observed' as const}, report: {...input.report, pages:
+    [...input.report.pages, ...['zz-third', 'zz-fourth'].map(pageId => ({...input.report.pages[0], pageId}))]}}
+  // Substitute GitHub acquisition and capacity inputs only. Ticket issuance, the
+  // handoff entry, guarded launcher, child transport, retention and cleanup are real.
+  const spies: {mockRestore(): void}[] = []
+  onTestFinished(() => {for (const spy of spies.reverse()) spy.mockRestore()})
+  spies.push(vi.spyOn(discovery, 'observeBatchDiscovery').mockResolvedValue(rawDiscovery),
+    vi.spyOn(discovery, 'readBatchDiscoveryCapture').mockReturnValue(observed),
+    vi.spyOn(toolset, 'captureTrustedToolset').mockResolvedValue(capture),
+    vi.spyOn(budget, 'reserveBatchContentWindow').mockResolvedValue({} as never))
+  const actualLauncher = toolset.batchContentLauncher
+  let launchError = '', pairCount = 0, authenticatedFailure = false, prior: Parameters<typeof batch.consumeObservedContentPair>[0] | undefined
+  const signal = new AbortController().signal
+  spies.push(vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
+    const fixed = actualLauncher(launcher)
+    return {...fixed, async runObservedBatchContentPair(pair, abort) {
+      pairCount++
+      const previous = prior
+      prior = pair
+      const invalidPairs = [[...pair], [pair[0], pair[0]], ...(previous ? [[previous[0], pair[1]], previous] : [])]
+      for (const invalid of invalidPairs) await expect(fixed.runObservedBatchContentPair(invalid as typeof pair, signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      await expect(fixed.runObservedBatchContent(pair[0], signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      if (authenticatedFailure && pairCount === 2) {
+        await writeFile(join(launcher.bin, 'guides-worker.cjs'), 'changed fixture launcher')
+      }
+      const children = fixed.runObservedBatchContentPair(pair, abort)
+      await expect(fixed.runObservedBatchContentPair(pair, abort)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      try { return await children } catch (error) {launchError = error instanceof Error ? error.stack ?? error.message : String(error); throw error}
+    }}
+  }))
+  const born: number[] = [], turns: number[] = []
+  let turn = 0
+  const spawnMock = vi.mocked(childProcess.spawn), nativeSpawn = spawnMock.getMockImplementation()!
+  onTestFinished(() => {spawnMock.mockImplementation(nativeSpawn)})
+  spawnMock.mockImplementation(((...args: Parameters<typeof nativeSpawn>) => {
+    const child = nativeSpawn(...args)
+    if (Array.isArray(args[1]) && args[1].includes('batch-content-observed')) {
+      born.push(child.pid!); turns.push(turn); queueMicrotask(() => {turn++})
+    }
+    return child
+  }) as typeof nativeSpawn)
+  for (const tamper of [false, true]) {
+    pairCount = 0; born.length = 0; turns.length = 0; authenticatedFailure = tamper
+    const out = join(dataRoot, tamper ? 'altered-launcher' : 'child-failure')
+    const result = await batch.prepareObservedBatchHandoff({sourceRepository: f.repo, out})
+    expect(result).toMatchObject({status: 'held', operations: [], writeEligible: false})
+    expect({pairCount, born: born.length, reasons: result.reasons, pages: JSON.parse(await readFile(join(out, 'measurement.json'), 'utf8')).pages.map((p: {pageId: string}) => p.pageId)}, `handoff reasons: ${result.reasons.join(',')} / ${launchError}`)
+      .toMatchObject({pairCount: 2, born: tamper ? 2 : 4, pages: f.ids})
+    expect(turns[0]).toBe(turns[1])
+    if (!tamper) expect(turns[2]).toBe(turns[3])
+    expect(new Set(born).size).toBe(born.length)
+    for (const pid of born) for (const id of [pid, -pid]) expect(() => process.kill(id, 0)).toThrow(expect.objectContaining({code: 'ESRCH'}))
+  }
+}, 300_000)
