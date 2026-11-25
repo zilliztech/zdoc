@@ -53,6 +53,8 @@ await milvusClient.upsert({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
@@ -98,6 +100,74 @@ await milvusClient.upsert({
 - **field_ops** (*FieldPartialUpdateOp[]*) -
 
     Partial update operations for array fields. Optional.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of an existing collection.
+
+- **data** (*[RowData](./Vector-RowData)[]*) -
+
+    The data to upsert. Each element is a plain JavaScript object whose keys match the field names of the collection schema. Entities whose primary key matches an existing record are updated; otherwise a new entity is inserted. Provide either **data** or **fields_data**.
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **hash_keys** (*number[]*) -
+
+    Reserved for internal use. Do not set this parameter unless explicitly required.
+
+- **fields_data** (*RowData[]*) -
+
+    An alias of **data**. You can pass the rows under either key; do not set both.
+
+- **transformers** (*InsertTransformers*) -
+
+    Custom data transformers for `BFloat16Vector` and `Float16Vector` data. Optional.
+
+- **skip_check_schema** (*boolean*) -
+
+    Whether to skip the schema check before upserting. Optional.
+
+- **partial_update** (*boolean*) -
+
+    Whether to enable partial update. When set to `true`, you can include only the fields that need updating in `data`; fields not included retain their existing values.
+
+- **partition_name** (*string*) -
+
+    The name of a partition in the current collection. If specified, the data is upserted into that partition.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to `None` indicates that this operation times out when any response arrives or any error occurs.
+
+- **field_ops** (*FieldPartialUpdateOp[]*) -
+
+    Partial update operations for array, struct, or JSON fields. Optional. Each operation has the following members:
+
+    - **field_name** (*string*) -
+
+        **[REQUIRED]**
+
+        The name of the field to update.
+
+    - **op** (*FieldPartialUpdateOpName*) -
+
+        **[REQUIRED]**
+
+        The update operation. Possible values are **REPLACE**, **ARRAY_APPEND**, **ARRAY_REMOVE**, and **PATH_REPLACE**. **PATH_REPLACE** (Milvus 3.0.6+) replaces an existing Array, StructArray, or JSON value by path.
+
+    - **path** (*string*) -
+
+        The path within the field value to replace, for example `[0]` or `["key"]`. Required for **PATH_REPLACE** (Milvus 3.0.6+) and unsupported for the other operations.
+
+</NextChannel>
 
 **RETURNS:**
 
@@ -160,7 +230,6 @@ A **ResStatus** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
 
 **EXCEPTIONS:**
 

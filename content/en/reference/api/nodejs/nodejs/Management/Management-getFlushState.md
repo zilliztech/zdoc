@@ -43,6 +43,8 @@ Milvus automatically flushes data into persistent storage at intervals. You are 
 
 ## Request Syntax\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
 await milvusClient.getFlushState({
     segmentIDs?: number[],
@@ -53,7 +55,25 @@ await milvusClient.getFlushState({
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+await milvusClient.getFlushState({
+    segmentIDs?: number[],
+    flush_ts?: number | string,
+    db_name?: string,
+    collection_name?: string,
+    timeout?: number
+})
+```
+
+</NextChannel>
+
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **segmentIDs** (*number[]*) -
 
@@ -76,6 +96,34 @@ await milvusClient.getFlushState({
     The timeout duration for this operation. 
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **segmentIDs** (*number[]*) -
+
+    A list of the target segment IDs.
+
+- **flush_ts** (*number* | *string*) -
+
+    The flush timestamp to check against. Pass int64 values as decimal strings for full precision.
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **collection_name** (*string*) -
+
+    The name of the collection whose flush state to check. Provide at least one of **segmentIDs**, **flush_ts**, or **collection_name**.
+
+- **timeout** (*number*)  
+
+    The timeout duration for this operation. 
+
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+</NextChannel>
 
 **RETURNS:**
 
@@ -110,7 +158,6 @@ A **ResStatus** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-
 **EXCEPTIONS:**
 
 - **Error**
@@ -128,4 +175,3 @@ const flushState = await milvusClient.getFlushState({
     segmentIDs: [1,2,3,4],
 });
 ```
-

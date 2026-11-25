@@ -203,6 +203,8 @@ await milvusClient.createCollection({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **db_name** (*string*) -
 
     The name of the database to which the target collection belongs.
@@ -361,6 +363,172 @@ await milvusClient.createCollection({
 
     The external file resource IDs. This applies to the creation of external collections.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target collection belongs.
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the collection to create.
+
+- **consistency_level** (*string*)
+
+    The consistency level of the target collection.
+
+    The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
+    
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+
+    </Admonition>
+
+- **description** (*string)* -
+
+    The description of the collection to create.
+
+- **enable_dynamic_field** (*boolean)* -
+
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
+
+    The value defaults to **True**, indicating that the meta field is used.
+
+- **schema** (*[FieldType](./Collections-FieldType)[]*) -
+
+    The schema of the collection as a list of field definitions.
+
+- **fields** (*[FieldType](./Collections-FieldType)[]*) -
+
+    An alternative to **schema** that lists the fields of the collection as a list of field definitions.
+
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*)
+
+    Converts data into vector embeddings. This function will be added to the schema of a collection.
+
+    - **name** (*string*)
+
+        The name of the function. This identifier is used to reference the function within queries and collections.
+
+    - **description** (*string*)
+
+        A brief description of the function’s purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+
+    - **type** (*[FunctionType](./Collections-FunctionType)*)
+
+        The type of function for processing raw data. Possible values:
+
+        - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
+
+    - **input_field_names** (*string[]*)
+
+        The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+
+    - **output_field_names** (*string[]*)
+
+        The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+
+- **num_partitions** (*number)* -
+
+    The number of partitions to create in the collection.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
+
+    </Admonition>
+
+- **partition_key_field** (*string*) -
+
+    The name of the field that serves as the partition key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    The name of the field that serves as the clustering key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction is a feature in Milvus that redistributes entities among segments in a collection based on the values in a scalar field. To enable this feature, you first need to select a scalar field as the clustering key. This allows Milvus to redistribute entities into a segment when their clustering key values fall within a specific range. When you trigger a clustering compaction, Milvus generates/updates a global index called PartitionStats, which records the mapping relationship between segments and clustering key values.
+
+    </Admonition>
+
+- **shards_num** (*number)* -
+
+    The number of shards to create along with the creation of this collection. 
+
+    The value defaults to **1**, indicating that one shard is to be created along with this collection.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    
+    By default, a collection contains one shard.
+
+    </Admonition>
+
+- **properties** (Record&lt;string, string | number | boolean&gt;) 
+
+    The extra properties of the collection in key-value pairs. Possible values are:
+
+    - **collection.ttl.seconds** (*number*) -
+
+        The time-to-live duration for the current collection in seconds.
+
+    - **mmap.enabled** (*boolean*) -
+
+        Whether to enable mmap collection-wide.
+
+    - **partitionkey.isolation** (*boolean*) -
+
+        Whether to enable partition key isolation.
+
+    - **dynamicfield.enabled** (*boolean*) -
+
+        Whether to enable the dynamic field.
+
+    - **allow_insert_auto_id** (*boolean*) -
+
+        Whether to allow primary key insertion when autoID is enabled.
+
+- **timeout** (*float* | *None*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+
+- **external_source** (*string*) -
+
+    The external source path. This applies to the creation of external collections.
+
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another cluster compatible with Milvus v3.0.x in the same project and region; the scheme must be lowercase, all three segments are required, and a single trailing slash is tolerated. It is required when creating an external collection.
+
+- **external_spec** (*string*) -
+
+    The external spec configuration. This applies to the creation of external collections.
+
+    The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, `iceberg-table`, and `milvus-table`. For `milvus-table`, set `external_source` to a Milvus snapshot metadata JSON path, for example `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`.
+
+    On Zilliz Cloud, `external_spec` is optional when creating an external collection: for a `milvus://` source, omitting it defaults `format` to `milvus-table`; for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
+
+- **file_resource_ids** (*Array&lt;number | string&gt;*) -
+
+    The external file resource IDs. This applies to the creation of external collections.
+
+</NextChannel>
+
 ### With CreateColWithSchemaAndIndexParamsReq\{#with-createcolwithschemaandindexparamsreq}
 
 Using this request body, you can customize the schema and index settings of the collection. Upon creation, the collection is automatically loaded.
@@ -425,6 +593,8 @@ await milvusClient.createCollection({
 ```
 
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **db_name** (*string*) -
 
@@ -608,6 +778,196 @@ await milvusClient.createCollection({
 
     The external file resource IDs. This applies to the creation of external collections.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target collection belongs.
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the collection to create.
+
+- **consistency_level** (*string*)
+
+    The consistency level of the target collection.
+
+    The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
+    
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+
+    </Admonition>
+
+- **description** (*string)* -
+
+    The description of the collection to create.
+
+- **enable_dynamic_field** (*boolean)* -
+
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
+
+    The value defaults to **True**, indicating that the meta field is used.
+
+- **schema** (*[FieldType](./Collections-FieldType)[]*) -
+
+    The schema of the collection as a list of field definitions.
+
+- **fields** (*[FieldType](./Collections-FieldType)[]*) -
+
+    An alternative to **schema** that lists the fields of the collection as a list of field definitions.
+
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*)
+
+    Converts data into vector embeddings. This function will be added to the schema of a collection.
+
+    - **name** (*string*)
+
+        The name of the function. This identifier is used to reference the function within queries and collections.
+
+    - **description** (*string*)
+
+        A brief description of the function’s purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+
+    - **type** (*[FunctionType](./Collections-FunctionType)*)
+
+        The type of function for processing raw data. Possible values:
+
+        - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
+
+    - **input_field_names** (*string[]*)
+
+        The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+
+    - **output_field_names** (*string[]*)
+
+        The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+
+- **num_partitions** (*number)* -
+
+    The number of partitions to create in the collection.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
+
+    </Admonition>
+
+- **partition_key_field** (*string*) -
+
+    The name of the field that serves as the partition key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
+
+    </Admonition>
+
+- **clustering_key_field** (*string*) -
+
+    The name of the field that serves as the clustering key.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction is a feature in Milvus that redistributes entities among segments in a collection based on the values in a scalar field. To enable this feature, you first need to select a scalar field as the clustering key. This allows Milvus to redistribute entities into a segment when their clustering key values fall within a specific range. When you trigger a clustering compaction, Milvus generates/updates a global index called PartitionStats, which records the mapping relationship between segments and clustering key values.
+
+    </Admonition>
+
+- **shards_num** (*number)* -
+
+    The number of shards to create along with the creation of this collection. 
+
+    The value defaults to **1**, indicating that one shard is to be created along with this collection.
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    
+    By default, a collection contains one shard.
+
+    </Admonition>
+
+- **properties** (Record&lt;string, string | number | boolean&gt;) 
+
+    The extra properties of the collection in key-value pairs. Possible values are:
+
+    - **collection.ttl.seconds** (*number*) -
+
+        The time-to-live duration for the current collection in seconds.
+
+    - **mmap.enabled** (*boolean*) -
+
+        Whether to enable mmap collection-wide.
+
+    - **partitionkey.isolation** (*boolean*) -
+
+        Whether to enable partition key isolation.
+
+    - **dynamicfield.enabled** (*boolean*) -
+
+        Whether to enable the dynamic field.
+
+    - **allow_insert_auto_id** (*boolean*) -
+
+        Whether to allow primary key insertion when autoID is enabled.
+
+- **index_params** (*CreateIndexSimpleReq[]* | *CreateIndexSimpleReq*)
+
+    The index parameters.
+
+    - **field_name** (*string*) -
+
+        The name of the field to index.
+
+    - **index_name** (*string*) -
+
+        The name of the index file to generate.
+
+    - **index_type** (*string*) -
+
+        The type of index algorithm to use.
+
+    - **metric_type** (*string*) -
+
+        The metric type used to measure similarity between vector embeddings.
+
+    - **params** (*KeyValueObj*) -
+
+        Extra index-related parameters in key-value pairs.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+
+- **external_source** (*string*) -
+
+    The external source path. This applies to the creation of external collections.
+
+    On Zilliz Cloud, `external_source` accepts two schemes: `volume://<volume_name>/<path>` and `milvus://<instance_id>/<db_name>/<collection_name>`. The `milvus://` scheme points to a collection on another cluster compatible with Milvus v3.0.x in the same project and region; the scheme must be lowercase, all three segments are required, and a single trailing slash is tolerated. It is required when creating an external collection.
+
+- **external_spec** (*string*) -
+
+    The external spec configuration. This applies to the creation of external collections.
+
+    The spec is a JSON string of secondary parameters such as `format`. Possible `format` values are `parquet`, `vortex`, `lance-table`, `iceberg-table`, and `milvus-table`. For `milvus-table`, set `external_source` to a Milvus snapshot metadata JSON path, for example `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`.
+
+    On Zilliz Cloud, `external_spec` is optional when creating an external collection: for a `milvus://` source, omitting it defaults `format` to `milvus-table`; for other sources, provide the spec with the matching `format` (`parquet`, `vortex`, `lance-table`, `iceberg-table`).
+
+- **file_resource_ids** (*Array&lt;number | string&gt;*) -
+
+    The external file resource IDs. This applies to the creation of external collections.
+
+</NextChannel>
+
 **RETURNS:**
 
 *Promise\<ResStatus\>*
@@ -635,7 +995,6 @@ This method returns a promise that resolves to a **ResStatus** object.
 - **reason** (*string*) - 
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
 
 **EXCEPTIONS:**
 
@@ -671,4 +1030,3 @@ const milvusClient = new MilvusClient({
    ],
  });
 ```
-

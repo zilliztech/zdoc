@@ -37,6 +37,8 @@ await milvusClient.query(data)
 
 ## Request Syntax\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
  milvusClient.query({
     db_name: string,
@@ -56,7 +58,35 @@ await milvusClient.query(data)
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+ milvusClient.query({
+    db_name: string,
+    collection_name: string,
+    partition_names?: string[];
+    output_fields?: string[];
+    ids?: string[] | number[];
+    filter?: string;
+    expr?: string;
+    offset?: number;
+    limit?: number;
+    consistency_level?: ConsistencyLevelEnum;
+    exprValues?: keyValueObj;
+    group_by_fields?: string[];
+    transformers?: OutputTransformers;
+    params?: keyValueObj;
+    function_chains?: FunctionChains;
+})
+```
+
+</NextChannel>
+
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **db_name** (*string*) -
 
@@ -152,6 +182,110 @@ await milvusClient.query(data)
 
     Additional query parameters in key-value pairs. Optional.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+
+    The name of the database that holds the target collection.
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of an existing collection.
+
+- **partition_names** (*string[]*) -
+
+    The name of the partitions to query.
+
+- **output_fields** (*string[]*) -
+
+    A list of field names to include in each entity in return.
+
+    The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
+
+- **ids** (*string[]* | *number[]*) - 
+
+    The IDs of the entities to query.
+
+- **filter** (*string*) -
+
+    A scalar filtering condition to filter matching entities. 
+
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+
+- **expr** (*string*) -
+
+    An alias of **filter**. Provide either **filter** or **expr**, not both.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](https://milvus.io/docs/filtering-templating.md), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+
+- **offset** (*number*) -
+
+    The number of records to skip in the query result. 
+
+    You can use this parameter in combination with `limit` to enable pagination.
+
+    The sum of this value and `limit` should be less than or equal to 16,384. 
+
+- **limit** (*number*) -
+
+    The number of records to return in the query result.
+
+    You can use this parameter in combination with `offset` to enable pagination.
+
+    The sum of this value and `offset` should be less than or equal to 16,384. 
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level of the target collection. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
+
+    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**).
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+    Milvus supports four consistency levels: **Strong**, **Bounded Staleness**, **Session**, and **Eventually**. The default consistency level in Milvus is **Bounded Staleness**.
+    
+    You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+
+    </Admonition>
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the query results by. Optional.
+
+- **order_by** (*OrderByFields*) -
+
+    Alias for order_by_fields. Optional.
+
+- **group_by_fields** (*string[]*) -
+
+    The scalar fields used to group the aggregation results. Optional.
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    A custom function to convert data for specific data types. Optional.
+
+- **params** (*keyValueObj*) -
+
+    Additional query parameters in key-value pairs. Optional.
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    An optional server-side **QUERY_SCAN** chain applied to the query results. Only one chain is supported, and it must contain at least one operation.
+
+</NextChannel>
+
 **RETURNS:**
 
 *Promise&lt;QueryResults&gt;*
@@ -185,7 +319,6 @@ A **ResStatus** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-
 **EXCEPTIONS:**
 
 - **Error**
@@ -205,4 +338,3 @@ const milvusClient = new MilvusClient({
    output_fields: ["age"],
  });
 ```
-

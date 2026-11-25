@@ -42,6 +42,8 @@ export interface RefreshExternalCollectionJobInfo {
 
 **FIELDS:**
 
+<NextChannel action="exclude">
+
 - **job_id** (*string*) -
 
     The refresh job identifier.
@@ -74,6 +76,44 @@ export interface RefreshExternalCollectionJobInfo {
 
     The end time of the refresh job.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*string*) -
+
+    The refresh job identifier.
+
+- **collection_name** (*string*) -
+
+    The name of the external collection being refreshed.
+
+- **state** (*RefreshExternalCollectionState | keyof typeof RefreshExternalCollectionState*) -
+
+    The refresh job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**. A refresh job transitions from **RefreshInProgress** to **RefreshCompleted** or **RefreshFailed**.
+
+- **progress** (*string*) -
+
+    The refresh progress.
+
+- **reason** (*string*) -
+
+    The failure reason when the refresh failed.
+
+- **external_source** (*string*) -
+
+    The external data source of the collection.
+
+- **start_time** (*string*) -
+
+    The start time of the refresh job.
+
+- **end_time** (*string*) -
+
+    The end time of the refresh job.
+
+</NextChannel>
+
 ## Example\{#example}
 
 ```javascript
@@ -90,4 +130,3 @@ const res = await milvusClient.listRefreshExternalCollectionJobs({
 
 console.log(res.jobs); // RefreshExternalCollectionJobInfo[]
 ```
-

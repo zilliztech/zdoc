@@ -75,6 +75,8 @@ await milvusClient.flush({
 
 This method returns a promise that resolves to a **FlushResult** object.
 
+<NextChannel action="exclude">
+
 ```javascript
 {
     coll_segIDs: Record<string, { data: number[] }>,
@@ -82,7 +84,23 @@ This method returns a promise that resolves to a **FlushResult** object.
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+{
+    coll_segIDs: Record<string, { data: number[] }>,
+    coll_flush_ts?: Record<string, string>,
+    status:  ResStatus
+}
+```
+
+</NextChannel>
+
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
 A mapping from collection name to the segment IDs that were sealed by this flush. Use the returned IDs with `getFlushState()` to confirm persistence.
@@ -102,6 +120,32 @@ A **ResStatus** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
+A mapping from collection name to the segment IDs that were sealed by this flush. Use the returned IDs with `getFlushState()` to confirm persistence.
+
+- **coll_flush_ts** (*Record&lt;string, string&gt;*) -
+Optional. A mapping from collection name to the flush timestamp of the sealed segments, returned as decimal strings.
+
+- **ResStatus**
+A **ResStatus** object.
+
+    - **code** (*number*) -
+
+        A code that indicates the operation result. It remains **0** if this operation succeeds.
+
+    - **error_code** (*string* | *number*) -
+
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
+
+    - **reason** (*string*) -
+
+        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+</NextChannel>
 
 **EXCEPTIONS:**
 
@@ -120,4 +164,3 @@ const flushStatus = await milvusClient.flush({
     collection_names: ['my_collection'],
 });
 ```
-

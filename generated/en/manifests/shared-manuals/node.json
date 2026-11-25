@@ -9,10 +9,10 @@
       "repository": "https://github.com/milvus-io/web-content",
       "dir": "API_Reference/milvus-sdk-node/v3.0.x",
       "current": "a0fa765e1fccfadc52d1edf7d59d766d9074b7f7",
-      "next": "30bdd85bd4cc4007f7febdc870066ba454069f22"
+      "next": "0562d8053afd1d4455232c32b402c5ba6c0c7b59"
     },
     "tools": {
-      "zdoc": "85cf2183dfc48a7ee41768206dab80814cc58336"
+      "zdoc": "4b886eaf75862eeb2da13612b2f0405353102792"
     },
     "config": {
       "files": [
@@ -62,7 +62,7 @@
         },
         {
           "path": "manual.yaml",
-          "sha256": "7d456e6b0ea6fec86d323ced42d28516909fe381dd8d24e93e1777d0a0ab9301"
+          "sha256": "b1cb5890786d40c4dbaf32866a83977c1f6f25f228d429775ac0505b6c320ff1"
         },
         {
           "path": "product-names.yaml",
@@ -731,7 +731,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-FieldType.md",
-        "sha256": "5bdd6accd8bc796494029db352554328820b3dd024f6f9524f753a253e0b515e"
+        "sha256": "05c8ccee252432810adf53cb1140dd5f70d47533fb6f8b1688e6d8b11c126857"
       }
     },
     {
@@ -771,7 +771,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-RefreshExternalCollectionJobInfo.md",
-        "sha256": "c7020095ce82002060d546c82e19430aa1430fca3188aca9d96d678d02723278"
+        "sha256": "d9f17179b28f857203660c08c21847bef8ea3ae95eee062934c308ad5204c921"
       }
     },
     {
@@ -911,7 +911,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-batchDescribeCollections.md",
-        "sha256": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4"
+        "sha256": "5ee525253448d5a706a70987f8404c09924559589a3b3503519bc3d8753a5467"
       }
     },
     {
@@ -939,7 +939,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-createCollection.md",
-        "sha256": "f0a8eb53639a2dba90b486541958ba5530d458c368bab0e91eeff69ee08df5f3"
+        "sha256": "3b9cc445c28a24ad1f6e14a0145f52e9ac3515e0c039a0b19f783a71732ce8c5"
       }
     },
     {
@@ -1121,7 +1121,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-getRefreshExternalCollectionProgress.md",
-        "sha256": "438c10a038191ed943ccc8d690746970f43ea6a8b8979e33c664e7bb5c32b3d8"
+        "sha256": "75d79418200fcfe7dab83b208fb4e9a5fde7af7ba2af7dae2ec4a44544665c6b"
       }
     },
     {
@@ -1177,7 +1177,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-listRefreshExternalCollectionJobs.md",
-        "sha256": "2ff0897ddf9f11789062c19b5300634ed8a2105d02ce8d45ab6b8d2d31cfd837"
+        "sha256": "8dc24d06671464147f0b69dbb80d3b60a89f4aff2b07977986fe9d0322ec25a3"
       }
     },
     {
@@ -1191,7 +1191,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-refreshExternalCollection.md",
-        "sha256": "327db8e3501ed393a995c7f9bf8a5d104f6e9ca752ba73780cfc306bfba4ace7"
+        "sha256": "997f2732dc5d4bc06aec486c7f9a995d16d972131f8d3d0fd476ae2ccf45bd07"
       }
     },
     {
@@ -1781,7 +1781,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-flush.md",
-        "sha256": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee"
+        "sha256": "f87e97be1e7248eaa1e4512a87ea0aa5c2b0a561064033e8488f24d8f3a3e030"
       }
     },
     {
@@ -1795,7 +1795,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-flushAll.md",
-        "sha256": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4"
+        "sha256": "06c48603269044529ae9d34b35be86e36613fcf5e235e8f9464e14d54e68f24c"
       }
     },
     {
@@ -1809,7 +1809,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-flushAllSync.md",
-        "sha256": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5"
+        "sha256": "048a1e0d01e090ec138d3aadc20e5785841e4299799be7eeb31ece837b071854"
       }
     },
     {
@@ -1864,7 +1864,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-getFlushAllState.md",
-        "sha256": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7"
+        "sha256": "57a5cf5d458e8316550784c55cd8aa29db622175032ddae675db7cb3601217f0"
       }
     },
     {
@@ -1878,7 +1878,7 @@
       "channel": "current",
       "output": {
         "path": "node/Management/Management-getFlushState.md",
-        "sha256": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6"
+        "sha256": "63cf8532ae0a8ec51535f041c03e5d8a4456425c9b54ac64f226f602dbe4829e"
       }
     },
     {
@@ -2184,7 +2184,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-createSnapshot.md",
-        "sha256": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
+        "sha256": "a0c775d69229cc34f1e56bf590cb411875bd96da4376d41486062d4c49918dcf"
       }
     },
     {
@@ -2198,7 +2198,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-describeSnapshot.md",
-        "sha256": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9"
+        "sha256": "d2dae2e84d449e742921f0f46c3341c3e6354e8b353f0476bfb735ccb5b19a99"
       }
     },
     {
@@ -2212,7 +2212,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-dropSnapshot.md",
-        "sha256": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795"
+        "sha256": "e60ce9d23b0e7369fdc48483c8a9bbc43cdd01fe5b0a803dbdef8e2c5a01d150"
       }
     },
     {
@@ -2226,7 +2226,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
-        "sha256": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
+        "sha256": "1a0588301dd98dd79642a8fe46bd290703c6b79c0cf84ac31f6670da61848622"
       }
     },
     {
@@ -2240,7 +2240,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-        "sha256": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
+        "sha256": "46eb5e54833f3450608d1c5926a7d8437812cf7a4ee7808deb9a119210e4c6c3"
       }
     },
     {
@@ -2254,7 +2254,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-listSnapshots.md",
-        "sha256": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d"
+        "sha256": "cb76b4ebcca04d801e2e1d7b02a7b8107896a98e0d35304c31908be35ec6cb09"
       }
     },
     {
@@ -2268,7 +2268,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-pinSnapshotData.md",
-        "sha256": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece"
+        "sha256": "ea335899631895fcc6815b675578a05f0b23e08d2653ef019c0c2f0ace99294f"
       }
     },
     {
@@ -2282,7 +2282,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-restoreSnapshot.md",
-        "sha256": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33"
+        "sha256": "4e41818861ad775f166a6a65f8f8d3f209c2629dfb8a42673ce00c63be142905"
       }
     },
     {
@@ -2296,7 +2296,7 @@
       "channel": "current",
       "output": {
         "path": "node/Snapshot/Snapshot-unpinSnapshotData.md",
-        "sha256": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
+        "sha256": "5ce7f0d1b1fb742a1c4074144652e3d1e14966cafb2abfd218366bddd9508877"
       }
     },
     {
@@ -2469,7 +2469,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-hybridSearch.md",
-        "sha256": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
+        "sha256": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
       }
     },
     {
@@ -2497,7 +2497,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-query.md",
-        "sha256": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
+        "sha256": "196c370058343461c4dee42eae208c25de826eedb416dba1ad77bc8d59c1e75e"
       }
     },
     {
@@ -2525,7 +2525,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-search.md",
-        "sha256": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
+        "sha256": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
       }
     },
     {
@@ -2553,7 +2553,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-upsert.md",
-        "sha256": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
+        "sha256": "2b0c066d6935bb3c5e5452adf6a2dc44ce2ea2fb041a2c8dd9d43e063e5d6889"
       }
     },
     {
@@ -2764,7 +2764,7 @@
     },
     {
       "path": "node/Collections/Collections-FieldType.md",
-      "sha256": "5bdd6accd8bc796494029db352554328820b3dd024f6f9524f753a253e0b515e"
+      "sha256": "05c8ccee252432810adf53cb1140dd5f70d47533fb6f8b1688e6d8b11c126857"
     },
     {
       "path": "node/Collections/Collections-FunctionObject.md",
@@ -2776,7 +2776,7 @@
     },
     {
       "path": "node/Collections/Collections-RefreshExternalCollectionJobInfo.md",
-      "sha256": "c7020095ce82002060d546c82e19430aa1430fca3188aca9d96d678d02723278"
+      "sha256": "d9f17179b28f857203660c08c21847bef8ea3ae95eee062934c308ad5204c921"
     },
     {
       "path": "node/Collections/Collections-addCollectionField.md",
@@ -2816,7 +2816,7 @@
     },
     {
       "path": "node/Collections/Collections-batchDescribeCollections.md",
-      "sha256": "c996f886f7e1e6811d5ffbc22999c191a5dc69bc32b9fb62175852e4cd9c4db4"
+      "sha256": "5ee525253448d5a706a70987f8404c09924559589a3b3503519bc3d8753a5467"
     },
     {
       "path": "node/Collections/Collections-createAlias.md",
@@ -2824,7 +2824,7 @@
     },
     {
       "path": "node/Collections/Collections-createCollection.md",
-      "sha256": "f0a8eb53639a2dba90b486541958ba5530d458c368bab0e91eeff69ee08df5f3"
+      "sha256": "3b9cc445c28a24ad1f6e14a0145f52e9ac3515e0c039a0b19f783a71732ce8c5"
     },
     {
       "path": "node/Collections/Collections-describeAlias.md",
@@ -2876,7 +2876,7 @@
     },
     {
       "path": "node/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sha256": "438c10a038191ed943ccc8d690746970f43ea6a8b8979e33c664e7bb5c32b3d8"
+      "sha256": "75d79418200fcfe7dab83b208fb4e9a5fde7af7ba2af7dae2ec4a44544665c6b"
     },
     {
       "path": "node/Collections/Collections-hasCollection.md",
@@ -2892,11 +2892,11 @@
     },
     {
       "path": "node/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "sha256": "2ff0897ddf9f11789062c19b5300634ed8a2105d02ce8d45ab6b8d2d31cfd837"
+      "sha256": "8dc24d06671464147f0b69dbb80d3b60a89f4aff2b07977986fe9d0322ec25a3"
     },
     {
       "path": "node/Collections/Collections-refreshExternalCollection.md",
-      "sha256": "327db8e3501ed393a995c7f9bf8a5d104f6e9ca752ba73780cfc306bfba4ace7"
+      "sha256": "997f2732dc5d4bc06aec486c7f9a995d16d972131f8d3d0fd476ae2ccf45bd07"
     },
     {
       "path": "node/Collections/Collections-renameCollection.md",
@@ -3068,15 +3068,15 @@
     },
     {
       "path": "node/Management/Management-flush.md",
-      "sha256": "30314e56bfbb84bbae1f8edc0c8a8c4d29fac78cb07eed96b390ffa1d6bb06ee"
+      "sha256": "f87e97be1e7248eaa1e4512a87ea0aa5c2b0a561064033e8488f24d8f3a3e030"
     },
     {
       "path": "node/Management/Management-flushAll.md",
-      "sha256": "311ca62fc39cc30256a1e7e4cf966aa2c70dccd514c76c33b5faa5103a0027a4"
+      "sha256": "06c48603269044529ae9d34b35be86e36613fcf5e235e8f9464e14d54e68f24c"
     },
     {
       "path": "node/Management/Management-flushAllSync.md",
-      "sha256": "aea163ab1d5ecfe86bf945a34087cb65fe271dc779d7cac9a60c501032df24a5"
+      "sha256": "048a1e0d01e090ec138d3aadc20e5785841e4299799be7eeb31ece837b071854"
     },
     {
       "path": "node/Management/Management-flushSync.md",
@@ -3092,11 +3092,11 @@
     },
     {
       "path": "node/Management/Management-getFlushAllState.md",
-      "sha256": "5337ed54f6aaa8b1948321ea675025e9872c3a1c66602be811c15cbc0fcebfa7"
+      "sha256": "57a5cf5d458e8316550784c55cd8aa29db622175032ddae675db7cb3601217f0"
     },
     {
       "path": "node/Management/Management-getFlushState.md",
-      "sha256": "8a4e2534ebb15e8ea4a0a97927243b1dbf4b421755351bfae840584587f88eb6"
+      "sha256": "63cf8532ae0a8ec51535f041c03e5d8a4456425c9b54ac64f226f602dbe4829e"
     },
     {
       "path": "node/Management/Management-getIndexBuildProgress.md",
@@ -3184,39 +3184,39 @@
     },
     {
       "path": "node/Snapshot/Snapshot-createSnapshot.md",
-      "sha256": "6c180d3123560cd5891714be7a311aec3870d6d92ed8a1305ba3ad6462de9d93"
+      "sha256": "a0c775d69229cc34f1e56bf590cb411875bd96da4376d41486062d4c49918dcf"
     },
     {
       "path": "node/Snapshot/Snapshot-describeSnapshot.md",
-      "sha256": "92aed1946f39988737818df2f5a2c2324a529fcd8b754aa652e85367e47c38f9"
+      "sha256": "d2dae2e84d449e742921f0f46c3341c3e6354e8b353f0476bfb735ccb5b19a99"
     },
     {
       "path": "node/Snapshot/Snapshot-dropSnapshot.md",
-      "sha256": "7968afb15e76f2b60f5782b791c388a9e75cd459c63bc84ca0f477475e653795"
+      "sha256": "e60ce9d23b0e7369fdc48483c8a9bbc43cdd01fe5b0a803dbdef8e2c5a01d150"
     },
     {
       "path": "node/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "sha256": "6aa0c441fd1aa92f23c12e7435ef417ad7c53e573dc343021e534c5d260c496c"
+      "sha256": "1a0588301dd98dd79642a8fe46bd290703c6b79c0cf84ac31f6670da61848622"
     },
     {
       "path": "node/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "sha256": "51d47d2cf5c946fd3a7b7842aaad1f2fddf9a3a95dacc80674ea73d0bd019e84"
+      "sha256": "46eb5e54833f3450608d1c5926a7d8437812cf7a4ee7808deb9a119210e4c6c3"
     },
     {
       "path": "node/Snapshot/Snapshot-listSnapshots.md",
-      "sha256": "5a668291415068c0ece5437cf46219cc300eb571cbc37306fe7b8c2ebd5f1f4d"
+      "sha256": "cb76b4ebcca04d801e2e1d7b02a7b8107896a98e0d35304c31908be35ec6cb09"
     },
     {
       "path": "node/Snapshot/Snapshot-pinSnapshotData.md",
-      "sha256": "58d63aed1199f83c05dcfdbe4250dd82fcf4d51403783d2e2919578e0e665ece"
+      "sha256": "ea335899631895fcc6815b675578a05f0b23e08d2653ef019c0c2f0ace99294f"
     },
     {
       "path": "node/Snapshot/Snapshot-restoreSnapshot.md",
-      "sha256": "da58dea5bd69cd06e8f242afe908f44600d9fd5cd792a6bd96adbab6d234dc33"
+      "sha256": "4e41818861ad775f166a6a65f8f8d3f209c2629dfb8a42673ce00c63be142905"
     },
     {
       "path": "node/Snapshot/Snapshot-unpinSnapshotData.md",
-      "sha256": "2fd1796a0aa0a689a4c8d878ca5d659fa1e90a958391c24042c933dda97e235b"
+      "sha256": "5ce7f0d1b1fb742a1c4074144652e3d1e14966cafb2abfd218366bddd9508877"
     },
     {
       "path": "node/Vector/Vector-FunctionScore.md",
@@ -3268,7 +3268,7 @@
     },
     {
       "path": "node/Vector/Vector-hybridSearch.md",
-      "sha256": "dc49d0a1537abc3702108dd6e9ec79d5724b8dc3ecb7137e7459a7b8cebe7999"
+      "sha256": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
     },
     {
       "path": "node/Vector/Vector-insert.md",
@@ -3276,7 +3276,7 @@
     },
     {
       "path": "node/Vector/Vector-query.md",
-      "sha256": "19e08aca3720284cd0bde2737a30786bb8ba4b4da5aecc41636c25632968a96f"
+      "sha256": "196c370058343461c4dee42eae208c25de826eedb416dba1ad77bc8d59c1e75e"
     },
     {
       "path": "node/Vector/Vector-queryIterator.md",
@@ -3284,7 +3284,7 @@
     },
     {
       "path": "node/Vector/Vector-search.md",
-      "sha256": "2a9d4f7edc97633d06b8c8454119bded96e0f213f1eeb5378c63005a2c6b2436"
+      "sha256": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
     },
     {
       "path": "node/Vector/Vector-searchIterator.md",
@@ -3292,7 +3292,7 @@
     },
     {
       "path": "node/Vector/Vector-upsert.md",
-      "sha256": "a0e598d4c3ca0ce193fe84215f23894fcf776f74a4fea415d14bc507a96d3d88"
+      "sha256": "2b0c066d6935bb3c5e5452adf6a2dc44ce2ea2fb041a2c8dd9d43e063e5d6889"
     },
     {
       "path": "node/Volume/Volume-VolumeManager.md",

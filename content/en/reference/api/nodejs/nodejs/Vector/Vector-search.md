@@ -35,6 +35,8 @@ await milvusClient.search(data)
 
 ## Request Syntax\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
 await milvusClient.search({
   db_name?: string,
@@ -69,7 +71,51 @@ await milvusClient.search({
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+await milvusClient.search({
+  db_name?: string,
+  collection_name: string,
+  partition_names?: string[];
+  anns_field?: string; 
+  data?: SearchData | SearchData[];
+  vector?: SearchData | SearchData[];
+  output_fields?: string[];
+  limit?: number;
+  topk?: number;
+  offset?: number;
+  filter?: string;
+  expr?: string;
+  exprValues?: keyValueObj;
+  params?: keyValueObj;
+  metric_type?: string;
+  consistency_level?: ConsistencyLevelEnum;
+  ignore_growing?: boolean;
+  group_by_field?: string;
+  group_size?: number;
+  strict_group_size?: boolean;
+  hints?: string;
+  round_decimal?: number;
+  transformers?: OutputTransformers;
+  rerank?: RerankerObj | FunctionObject | FunctionScore;
+  function_score?: FunctionScore;
+  function_chains?: FunctionChains;
+  search_aggregation?: SearchAggregation;
+  nq?: number;
+  ids?: number[] | string[];
+  highlighter?: Highlighter;
+  timeout?: number;
+})
+```
+
+</NextChannel>
+
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **db_name** (*string*) -
 
@@ -285,6 +331,234 @@ await milvusClient.search({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target collection belongs.
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the collection to search
+
+- **partition_names** (*string[]*) -
+
+    A list of the names of the partitions to search.
+
+- **anns_field** (*string*) -
+
+    The name of the target vector field for this operation. It is mandatory if you are searching in a collection with multiple vector fields.
+
+- **data** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
+
+    A list of vector embeddings.
+
+    Milvus searches for the most similar vector embeddings to the specified ones.
+
+- **vector** (*[SearchData](./Vector-SearchData)* | *SearchData[]*) -
+
+    An alias of **data** for the query vectors.
+
+- **output_fields** (*string[]*) -
+
+    A list of field names to include in each entity in return.
+
+    The value defaults to **None**. If left unspecified, only the primary field is included.
+
+- **limit** (*number*) - 
+
+    The total number of entities to return.
+
+    You can use this parameter in combination with **offset** in **param** to enable pagination.
+
+    The sum of this value and **offset** in **param** should be less than or equal to 16,384. 
+
+    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
+
+- **topk** (*number*) -
+
+    An alias of **limit** for the total number of entities to return.
+
+- **offset** (*number*) - 
+
+    The number of records to skip in the search result. 
+
+    You can use this parameter in combination with `limit` to enable pagination.
+
+    The sum of this value and `limit` should be less than or equal to 16,384. 
+
+- **filter** (*string*) -
+
+    A scalar filtering condition to filter matching entities. 
+
+    The value defaults to an empty string, indicating that no condition applies.
+
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+
+- **expr** (*string*) -
+
+    An alias of **filter**. Provide either **filter** or **expr**, not both.
+
+- **exprValues** (*keyValueObj*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](https://milvus.io/docs/filtering-templating.md), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+
+- **params** (*KeyValueObj*) -
+
+    The additional search parameters in key-value pairs. The keys listed below are accepted in the search `params`; they are not members of `KeyValueObj`.
+
+    - **radius** (*number*) -
+
+        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+
+    - **range_filter**  (*number*) -  
+
+        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+
+    - **max_empty_result_buckets** (*number*)
+
+        This param is only used for range search for IVF-serial indexes, including **BIN_IVF_FLAT**, **IVF_FLAT**, **IVF_SQ8**, **IVF_PQ**, and **SCANN**. The value defaults to 1 and ranges from 1 to 65536.
+
+        During range search, the search process terminates early if the number of buckets with no valid range search results reaches the specified value. Increasing this parameter improves range search recall.
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level of the target collection. The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**). See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
+
+- **metric_type** (*string*) -
+
+    The metric type used to measure similarity between vectors. Defaults to the metric type of the indexed field.
+
+- **ignore_growing** (*boolean*) -
+
+    A boolean value indicating whether to skip the search in growing segments.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+
+- **group_size** (*number*) -
+
+    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
+
+- **strict_group_size** (*boolean*) -
+
+    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `group_size=true`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
+
+- **hints** (*string*) -
+
+    A hints string to improve search performance.
+
+- **round_decimal** (*number*) -
+
+    The number of decimal places to keep in the final results.
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    A custom function to convert data for the following data types.
+
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
+
+    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**. See [RerankerObj](./Vector-RerankerObj) and [FunctionObject](./Collections-FunctionObject).
+
+- **function_score** (*[FunctionScore](./Vector-FunctionScore)*) -
+
+    A function-based reranker. Also accepted through **rerank**. See [FunctionScore](./Vector-FunctionScore).
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    Server-side processing chains applied to the search candidates. Optional.
+
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the search results by. Optional.
+
+- **search_aggregation** (*SearchAggregation*) -
+
+    Optional bucket aggregation configuration. It groups matching entities by one or more fields, optionally calculates metrics, orders buckets, returns top hits, and can contain a nested sub-aggregation. The following members belong to `SearchAggregation`:
+
+    - **fields** (*string[]*) -
+
+        **[REQUIRED]**
+
+        The group-by field names. At least one field is required.
+
+    - **size** (*number*) -
+
+        **[REQUIRED]**
+
+        The number of buckets to return. Must be a positive integer.
+
+    - **metrics** (*Record&lt;string, SearchAggregationMetric&gt;*) -
+
+        Optional metric aggregations keyed by alias. Each value is a `SearchAggregationMetric` with the following members:
+
+        - **op** (*AggregationMetricOp*) -
+
+            The metric operation. Can be **avg**, **sum**, **count**, **min**, or **max**.
+
+        - **field_name** (*string*) -
+
+            The field to aggregate.
+
+    - **order** (*SearchAggregationOrder[]*) -
+
+        Optional ordering rules for returned buckets. Each entry is a `SearchAggregationOrder` with the following members:
+
+        - **key** (*string*) -
+
+            A key that can be a metric alias, `_count`, or `_key`.
+
+        - **direction** (*AggregationDirection*) -
+
+            The sort direction. Can be **asc** or **desc**.
+
+    - **top_hits** (*SearchAggregationTopHits*) -
+
+        Optional top-hit documents returned for each bucket. A `SearchAggregationTopHits` object has the following members:
+
+        - **size** (*number*) -
+
+            **[REQUIRED]**
+
+            The number of hits to return per bucket. Must be a positive integer.
+
+        - **sort** (*SearchAggregationSort[]*) -
+
+            Optional sort rules applied to the hits in each bucket. Each entry is a `SearchAggregationSort` with **field_name** and **direction** members.
+
+    - **sub_aggregation** (*SearchAggregation*) -
+
+        Optional nested sub-aggregation. At most four aggregation levels are supported.
+
+    > **NOTES:**
+    >
+    > - Supports at most four aggregation levels.
+    > - Supports at most ten group-by fields in total.
+    > - Cannot be combined with a non-zero `offset`, hybrid search, search or query iterators, a highlighter, or `group_by_field`.
+
+- **nq** (*number*) -
+
+    The number of query vectors.
+
+- **ids** (*number[]* | *string[]*) -
+
+    Primary keys for search-by-PK queries.
+
+- **highlighter** (*Highlighter*) -
+
+    A highlighter for the search results.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+</NextChannel>
+
 **RETURNS:**
 
 *Promise&lt;SearchResults&lt;T&gt;&gt;*
@@ -369,7 +643,6 @@ A **ResStatus** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-
 **EXCEPTIONS:**
 
 - **Error**
@@ -388,4 +661,3 @@ const searchResults = await milvusClient.search({
    vector: [1, 2, 3, 4],
 });
 ```
-

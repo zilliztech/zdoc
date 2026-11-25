@@ -25,6 +25,8 @@ displayed_sidebar: nodeSidebar
 
 Describes one field of a collection schema.
 
+<NextChannel action="exclude">
+
 ```typescript
 export type FieldType = {
   name: string;
@@ -44,7 +46,35 @@ export type FieldType = {
 } & Partial<Record<TypeParamKey, TypeParam>>;
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```typescript
+export type FieldType = {
+  name: string;
+  description?: string;
+  data_type: DataType | keyof typeof DataTypeMap;
+  element_type?: DataType | keyof typeof DataTypeMap;
+  is_primary_key?: boolean;
+  is_partition_key?: boolean;
+  is_function_output?: boolean;
+  is_clustering_key?: boolean;
+  type_params?: Partial<Record<TypeParamKey, TypeParam>>;
+  autoID?: boolean;
+  default_value?: number | string | boolean;
+  nullable?: boolean;
+  element_nullable?: boolean;
+  external_field?: string;
+  fields?: FieldType[];
+} & Partial<Record<TypeParamKey, TypeParam>>;
+```
+
+</NextChannel>
+
 **FIELDS:**
+
+<NextChannel action="exclude">
 
 - **name** (*string*) -
 
@@ -102,6 +132,72 @@ export type FieldType = {
 
     Nested fields, for struct fields.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **name** (*string*) -
+
+    The field name.
+
+- **description** (*string*) -
+
+    Optional description of the field.
+
+- **data_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    The field data type.
+
+- **element_type** (*DataType | keyof typeof DataTypeMap*) -
+
+    The element type, for array fields.
+
+- **is_primary_key** (*boolean*) -
+
+    Whether the field is the primary key.
+
+- **is_partition_key** (*boolean*) -
+
+    Whether the field is the partition key.
+
+- **is_function_output** (*boolean*) -
+
+    Whether the field is populated by a function (e.g. a text-embedding output).
+
+- **is_clustering_key** (*boolean*) -
+
+    Whether the field is the clustering key.
+
+- **type_params** (*Partial&lt;Record&lt;TypeParamKey, TypeParam&gt;&gt;*) -
+
+    Type parameters such as dimension or max length.
+
+- **autoID** (*boolean*) -
+
+    Whether the primary key values are auto-generated.
+
+- **default_value** (*number | string | boolean*) -
+
+    The default value of the field.
+
+- **nullable** (*boolean*) -
+
+    Whether the field accepts null values.
+
+- **element_nullable** (*boolean*) -
+
+    Whether the elements of an Array sub-field of a StructArray field accept null values. Applies only to Array sub-fields of StructArray fields.
+
+- **external_field** (*string*) -
+
+    The external field mapping name.
+
+- **fields** (*FieldType[]*) -
+
+    Nested fields, for struct fields.
+
+</NextChannel>
+
 ## Example\{#example}
 
 ```javascript
@@ -123,4 +219,3 @@ await milvusClient.createCollection({
     fields,
 });
 ```
-

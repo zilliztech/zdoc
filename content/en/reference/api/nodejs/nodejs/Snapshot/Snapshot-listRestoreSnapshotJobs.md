@@ -46,6 +46,8 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 Optional filter by target collection name.
 
@@ -57,6 +59,24 @@ An optional duration of time in milliseconds to allow for the RPC. If it is set 
 
 - **client_request_id** (*string*) -
 A trace ID for request tracking. Optional.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+Optional filter by target collection name.
+
+- **db_name** (*string*) -
+Optional filter by database name.
+
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+
+- **client_request_id** (*string*) -
+An optional, caller-supplied ID for request tracking and log or trace correlation. The SDK sends it as the `client-request-id` gRPC metadata header and never generates one. Use a unique value per request, such as a UUID. A value in OpenTelemetry trace-ID form (32 lowercase hexadecimal characters) is also used by client telemetry as a trace ID.
+
+</NextChannel>
 
 **RETURNS:**
 
@@ -91,7 +111,6 @@ A **ResStatus** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
 
 **EXCEPTIONS:**
 

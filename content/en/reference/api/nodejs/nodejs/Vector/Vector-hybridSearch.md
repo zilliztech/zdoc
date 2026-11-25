@@ -35,6 +35,8 @@ await milvusClient.hybridSearch(data: HybridSearchReq)
 
 ## Request Syntax\{#request-syntax}
 
+<NextChannel action="exclude">
+
 ```javascript
 await milvusClient.hybridSearch({
     collection_name: string,
@@ -64,7 +66,46 @@ await milvusClient.hybridSearch({
 })
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+await milvusClient.hybridSearch({
+    collection_name: string,
+    data: HybridSearchSingleReq[],
+    limit?: number,
+    topk?: number,
+    offset?: number,
+    output_fields?: string[],
+    filter?: string,
+    params?: keyValueObj,
+    metric_type?: string,
+    rerank?: RerankerObj | FunctionObject | FunctionScore,
+    function_score?: FunctionScore,
+    function_chains?: FunctionChains,
+    partition_names?: string[],
+    consistency_level?: ConsistencyLevelEnum,
+    ignore_growing?: boolean,
+    group_by_field?: string,
+    group_size?: number,
+    strict_group_size?: boolean,
+    hints?: string,
+    round_decimal?: number,
+    transformers?: OutputTransformers,
+    nq?: number,
+    ids?: number[] | string[],
+    highlighter?: Highlighter,
+    db_name?: string,
+    timeout?: number,
+})
+```
+
+</NextChannel>
+
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **collection_name** (*string*) -
 
@@ -166,6 +207,120 @@ await milvusClient.hybridSearch({
 
     The timeout duration for this operation in milliseconds.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the collection to search.
+
+- **data** (*HybridSearchSingleReq[]*) -
+
+    **[REQUIRED]**
+
+    A list of sub-search requests, one per vector field. Each element defines the query vector and target field for a single-vector sub-search. For the full field reference, see the HybridSearchSingleReq section below.
+
+- **limit** (*number*) -
+
+    The total number of entities to return. The sum of this value and `offset` must be less than or equal to 16,384.
+
+- **topk** (*number*) -
+
+    An alias of **limit**.
+
+- **offset** (*number*) -
+
+    The number of records to skip in the search result. The sum of this value and `limit` must be less than or equal to 16,384.
+
+- **output_fields** (*string[]*) -
+
+    A list of field names to include in each returned entity. Only the primary field is included by default.
+
+- **filter** (*string*) -
+
+    A top-level scalar filtering condition applied after the hybrid search results are merged. Defaults to an empty string.
+
+- **params** (*keyValueObj*) -
+
+    Additional search parameters as key-value pairs.
+
+- **metric_type** (*string*) -
+
+    The metric type used to measure similarity between vectors.
+
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
+
+    A reranking strategy for combining results from multiple sub-searches. See `search()` for the full rerank parameter schema.
+
+- **function_score** (*[FunctionScore](./Vector-FunctionScore)*) -
+
+    A function-based reranker. Also accepted through **rerank**. See [FunctionScore](./Vector-FunctionScore).
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    Optional server-side chains applied after the sub-search results are merged. A hybrid search can also set chains on individual ANN requests.
+
+- **partition_names** (*string[]*) -
+
+    The names of the partitions to search.
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level of the target collection. Options: `Strong` (0), `Session` (1), `Bounded` (2), `Eventually` (3). Defaults to `Bounded`. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
+
+- **ignore_growing** (*boolean*) -
+
+    Whether to skip growing segments during the search.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by the specified field to ensure diversity and avoid returning multiple results from the same group.
+
+- **group_size** (*number*) -
+
+    The target number of entities to return within each group in a grouping search.
+
+- **strict_group_size** (*boolean*) -
+
+    Whether to strictly enforce `group_size`. When `true`, the system attempts to fill each group with exactly `group_size` results.
+
+- **hints** (*string*) -
+
+    A hints string to improve search performance.
+
+- **round_decimal** (*number*) -
+
+    The number of decimal places to keep in the final scores.
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    Custom transformers for special vector data types such as BFloat16Vector and Float16Vector.
+
+- **nq** (*number*) -
+
+    The number of query vectors.
+
+- **ids** (*number[]* | *string[]*) -
+
+    Primary keys for search-by-PK queries.
+
+- **highlighter** (*Highlighter*) -
+
+    A highlighter for the search results.
+
+- **db_name** (*string*) -
+
+    The name of the database containing the collection.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation in milliseconds.
+
+</NextChannel>
+
 **RETURNS:**
 
 *Promise&lt;SearchResults&gt;*
@@ -183,6 +338,8 @@ This method returns a promise that resolves to a `SearchResults` object.
 Each element in the `data` array is a **HybridSearchSingleReq** object that defines a single-vector sub-search request.
 
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **data** (*[SearchData](./Vector-SearchData)*) -
 
@@ -220,6 +377,52 @@ Each element in the `data` array is a **HybridSearchSingleReq** object that defi
 
     Custom transformers for special vector types such as BFloat16Vector and Float16Vector.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **data** (*[SearchData](./Vector-SearchData)*) -
+
+    **[REQUIRED]**
+
+    The query vector for this sub-search. Can be a dense vector (`number[]`), a sparse vector (`SparseVectorDic`), or a text string for text-based search.
+
+- **anns_field** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the vector field to search within this sub-request.
+
+- **expr** (*string*) -
+
+    A scalar filtering condition applied only to this sub-search.
+
+- **exprValues** (*keyValueObj*) -
+
+    Template values for the filter expression in key-value pairs.
+
+- **params** (*keyValueObj*) -
+
+    Index-specific search parameters in key-value pairs.
+
+- **ignore_growing** (*boolean*) -
+
+    Whether to skip growing segments during this sub-search.
+
+- **group_by_field** (*string*) -
+
+    Groups results by the specified field to ensure diversity within this sub-search.
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    Custom transformers for special vector types such as BFloat16Vector and Float16Vector.
+
+- **function_chains** (*FunctionChain* | *FunctionChainSpec* | *readonly (FunctionChain | FunctionChainSpec)[]*) -
+
+    Optional server-side chains for this ANN request.
+
+</NextChannel>
+
 ## Example\{#example}
 
 ```javascript
@@ -249,4 +452,3 @@ const results = await milvusClient.hybridSearch({
 
 console.log(results.results);
 ```
-

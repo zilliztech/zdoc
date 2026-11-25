@@ -45,6 +45,8 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **job_id** (*number | string*) -
 **[REQUIRED]**
 The job ID returned by refreshExternalCollection().
@@ -54,6 +56,22 @@ An optional duration of time in milliseconds to allow for the RPC. If it is set 
 
 - **client_request_id** (*string*) -
 A trace ID for request tracking. Optional.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*number | string*) -
+**[REQUIRED]**
+The job ID returned by refreshExternalCollection().
+
+- **timeout** (*number*) -
+An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+
+- **client_request_id** (*string*) -
+An optional, caller-supplied ID for request tracking and log or trace correlation. The SDK sends it as the `client-request-id` gRPC metadata header and never generates one. Use a unique value per request, such as a UUID. A value in OpenTelemetry trace-ID form (32 lowercase hexadecimal characters) is also used by client telemetry as a trace ID.
+
+</NextChannel>
 
 **RETURNS:**
 
@@ -73,6 +91,8 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 - **job_info** (*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)*) -
 
 The current state of the refresh job.
+
+<NextChannel action="exclude">
 
     - **job_id** (*string*) -
 
@@ -106,6 +126,44 @@ The current state of the refresh job.
 
         The time at which the job ended, or an empty string when the job is still running.
 
+</NextChannel>
+
+<NextChannel action="include">
+
+    - **job_id** (*string*) -
+
+        The job identifier.
+
+    - **collection_name** (*string*) -
+
+        The external collection being refreshed.
+
+    - **state** (*RefreshExternalCollectionState*) -
+
+        The current job state. Possible values are **RefreshPending**, **RefreshInProgress**, **RefreshCompleted**, and **RefreshFailed**. A refresh job transitions from **RefreshInProgress** to **RefreshCompleted** or **RefreshFailed**.
+
+    - **progress** (*string*) -
+
+        The completion percentage as an integer between **"0"** and **"100"**.
+
+    - **reason** (*string*) -
+
+        The failure reason when **state** is **RefreshFailed**, otherwise an empty string.
+
+    - **external_source** (*string*) -
+
+        The external source path captured by the job.
+
+    - **start_time** (*string*) -
+
+        The time at which the job started.
+
+    - **end_time** (*string*) -
+
+        The time at which the job ended, or an empty string when the job is still running.
+
+</NextChannel>
+
 - **ResStatus**
 A **ResStatus** object.
 
@@ -120,7 +178,6 @@ A **ResStatus** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
 
 **EXCEPTIONS:**
 
