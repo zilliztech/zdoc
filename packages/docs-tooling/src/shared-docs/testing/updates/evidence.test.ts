@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { constants } from 'node:fs'
-import { initializeEvidence, createPageBlobRetainer, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors, batchAllocatedTree, withBatchLifetime } from '../../adapters/updates/evidence'
+import { BATCH_OPERATION_LIFETIME_MS, initializeEvidence, createPageBlobRetainer, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors, batchAllocatedTree, withBatchLifetime } from '../../adapters/updates/evidence'
 const roots: string[] = []
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
 async function fixture() {
@@ -50,7 +50,7 @@ describe('batch allocation walk', () => {
     const now = vi.spyOn(performance, 'now').mockImplementation(() => clock)
     try {
       await expect(withBatchLifetime(() => {
-        setImmediate(() => { clock += 4_500_000 })
+        setImmediate(() => { clock += BATCH_OPERATION_LIFETIME_MS })
         return batchAllocatedTree(root)
       })).rejects.toThrow('BATCH_OPERATION_DEADLINE')
     } finally {

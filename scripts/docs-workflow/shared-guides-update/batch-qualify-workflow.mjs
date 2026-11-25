@@ -90,6 +90,8 @@ function readBounded(path, limit) {
   }
 }
 
+export const batchQualifyTimeoutMs = 245 * 60 * 1000
+
 function collect(directory) {
   const resultPath = join(directory, 'collector-result.json')
   const output = openSync(resultPath, 'wx', 0o600)
@@ -102,7 +104,7 @@ function collect(directory) {
       env: {LANG: 'C', LC_ALL: 'C', TZ: 'UTC', JITI_CACHE: 'false',
         PATH: '/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin', GH_TOKEN: process.env.GH_TOKEN},
       stdio: ['ignore', output, 'ignore'],
-      timeout: 80 * 60 * 1000,
+      timeout: batchQualifyTimeoutMs,
     })
   } finally {
     closeSync(output)
