@@ -810,15 +810,12 @@ async function collectOperation(operation: Operation, dependencyExport?: Depende
     }
     const analysis = analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: compactPages, restorations, copies, atLocks})
     if (currentBatchLifetime()) {
-      const diagnostics = canonicalBytes({kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.selected?.memberIds ?? [],
+      await writeBatchGroupsDiagnostics(operation.store, {kind: 'guides-batch-groups-v1', base: operation.base, selectedMembers: analysis.selected?.memberIds ?? [],
         waitingGroups: analysis.groups.filter(g => g !== analysis.selected).map(g => ({memberIds: g.memberIds,
           componentIds: g.componentIds, seedKeys: g.seedKeys, heldPages: g.dispositions.filter(d => d.disposition === 'held')
             .map(d => ({pageId: d.pageId, reasons: d.reasons}))})),
         consideredMembers: sorted(operation.pages.keys()), unmappedChanges: discovery.report.changes.filter(c => !c.pageIds?.length),
         deletedPaths: sorted(discovery.ledger.filter(e => e.newPath === null).map(e => e.oldPath!)), reasons: analysis.reasons, writeEligible: false, operations: []})
-      if (diagnostics.length > 65536) throw Error('BATCH_SUMMARY_LIMIT')
-      await reserveBatchAllocation(operation.store, diagnostics.length)
-      await operation.store.writeJournal('groups.json', diagnostics)
     }
     if (analysis.reasons.length) return {status: 'held', reasons: analysis.reasons}
     const group = analysis.selected
@@ -1298,6 +1295,15 @@ function sampleBatchOperation(root: string) {
     catch (error) {await worker.terminate(); await settled.catch(() => {}); throw error}
   }
 
+}
+/** Diagnostic groups.json ceiling: accommodates full multi-lock unmapped-change rosters while staying well within transient disk budgets. */
+export const BATCH_GROUPS_DIAGNOSTICS_LIMIT = 16 * 1024 * 1024
+export async function writeBatchGroupsDiagnostics(store: EvidenceStore, payload: Record<string, unknown>): Promise<Uint8Array> {
+  const diagnostics = canonicalBytes(payload)
+  if (diagnostics.length > BATCH_GROUPS_DIAGNOSTICS_LIMIT) throw Error('BATCH_SUMMARY_LIMIT')
+  await reserveBatchAllocation(store, diagnostics.length)
+  await store.writeJournal('groups.json', diagnostics)
+  return diagnostics
 }
 /** Internal diagnostic sequencing only: this helper cannot issue a result,
  * ticket or authority. The entry supplies its original private validity check. */
