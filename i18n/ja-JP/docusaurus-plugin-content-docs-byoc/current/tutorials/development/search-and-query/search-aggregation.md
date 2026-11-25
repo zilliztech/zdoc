@@ -243,6 +243,9 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.aggregation.AggDirection;
@@ -255,6 +258,7 @@ import io.milvus.v2.service.vector.request.aggregation.TopHitsSpec;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
 import io.milvus.v2.service.vector.response.aggregation.AggregationBucket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -262,6 +266,10 @@ import java.util.List;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN").build());
 String collectionName = "product_search_aggregation";
+
+if (client.hasCollection(HasCollectionReq.builder().collectionName(collectionName).build())) {
+    client.dropCollection(DropCollectionReq.builder().collectionName(collectionName).build());
+}
 
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
 schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());
@@ -279,34 +287,108 @@ client.createCollection(CreateCollectionReq.builder().collectionName(collectionN
                 .indexType(IndexParam.IndexType.AUTOINDEX).metricType(IndexParam.MetricType.COSINE).build()))
         .build());
 
-List<JsonObject> data = Arrays.asList(
-        product(1, new float[]{0.12f, 0.42f, 0.18f, 0.66f, 0.31f}, "Runner A1", "Brand A", "running_shoes", "black", 129.99, 4.7, true),
-        product(2, new float[]{0.10f, 0.39f, 0.20f, 0.61f, 0.29f}, "Trail A2", "Brand A", "running_shoes", "blue", 139.99, 4.6, true),
-        product(3, new float[]{0.14f, 0.44f, 0.19f, 0.68f, 0.33f}, "Runner B1", "Brand B", "running_shoes", "white", 159.99, 4.8, true),
-        product(4, new float[]{0.16f, 0.41f, 0.22f, 0.62f, 0.30f}, "Runner C1", "Brand C", "running_shoes", "red", 119.99, 4.4, false),
-        product(5, new float[]{0.48f, 0.20f, 0.59f, 0.15f, 0.71f}, "Jacket A1", "Brand A", "jackets", "black", 99.99, 4.5, true),
-        product(6, new float[]{0.45f, 0.18f, 0.55f, 0.17f, 0.69f}, "Jacket B1", "Brand B", "jackets", "blue", 89.99, 4.3, true),
-        product(7, new float[]{0.09f, 0.38f, 0.17f, 0.60f, 0.27f}, "Runner A3", "Brand A", "running_shoes", "black", 159.99, 4.8, true),
-        product(8, new float[]{0.13f, 0.43f, 0.21f, 0.65f, 0.32f}, "Runner A4", "Brand A", "running_shoes", "black", 149.99, 4.9, true));
+Gson gson = new Gson();
+List<JsonObject> data = new ArrayList<>();
+
+JsonObject row1 = new JsonObject();
+row1.addProperty("id", 1L);
+row1.add("embedding", gson.toJsonTree(new float[]{0.12f, 0.42f, 0.18f, 0.66f, 0.31f}));
+row1.addProperty("name", "Runner A1");
+row1.addProperty("brand", "Brand A");
+row1.addProperty("category", "running_shoes");
+row1.addProperty("color", "black");
+row1.addProperty("price", 129.99);
+row1.addProperty("rating", 4.7);
+row1.addProperty("in_stock", true);
+data.add(row1);
+
+JsonObject row2 = new JsonObject();
+row2.addProperty("id", 2L);
+row2.add("embedding", gson.toJsonTree(new float[]{0.10f, 0.39f, 0.20f, 0.61f, 0.29f}));
+row2.addProperty("name", "Trail A2");
+row2.addProperty("brand", "Brand A");
+row2.addProperty("category", "running_shoes");
+row2.addProperty("color", "blue");
+row2.addProperty("price", 139.99);
+row2.addProperty("rating", 4.6);
+row2.addProperty("in_stock", true);
+data.add(row2);
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("id", 3L);
+row3.add("embedding", gson.toJsonTree(new float[]{0.14f, 0.44f, 0.19f, 0.68f, 0.33f}));
+row3.addProperty("name", "Runner B1");
+row3.addProperty("brand", "Brand B");
+row3.addProperty("category", "running_shoes");
+row3.addProperty("color", "white");
+row3.addProperty("price", 159.99);
+row3.addProperty("rating", 4.8);
+row3.addProperty("in_stock", true);
+data.add(row3);
+
+JsonObject row4 = new JsonObject();
+row4.addProperty("id", 4L);
+row4.add("embedding", gson.toJsonTree(new float[]{0.16f, 0.41f, 0.22f, 0.62f, 0.30f}));
+row4.addProperty("name", "Runner C1");
+row4.addProperty("brand", "Brand C");
+row4.addProperty("category", "running_shoes");
+row4.addProperty("color", "red");
+row4.addProperty("price", 119.99);
+row4.addProperty("rating", 4.4);
+row4.addProperty("in_stock", false);
+data.add(row4);
+
+JsonObject row5 = new JsonObject();
+row5.addProperty("id", 5L);
+row5.add("embedding", gson.toJsonTree(new float[]{0.48f, 0.20f, 0.59f, 0.15f, 0.71f}));
+row5.addProperty("name", "Jacket A1");
+row5.addProperty("brand", "Brand A");
+row5.addProperty("category", "jackets");
+row5.addProperty("color", "black");
+row5.addProperty("price", 99.99);
+row5.addProperty("rating", 4.5);
+row5.addProperty("in_stock", true);
+data.add(row5);
+
+JsonObject row6 = new JsonObject();
+row6.addProperty("id", 6L);
+row6.add("embedding", gson.toJsonTree(new float[]{0.45f, 0.18f, 0.55f, 0.17f, 0.69f}));
+row6.addProperty("name", "Jacket B1");
+row6.addProperty("brand", "Brand B");
+row6.addProperty("category", "jackets");
+row6.addProperty("color", "blue");
+row6.addProperty("price", 89.99);
+row6.addProperty("rating", 4.3);
+row6.addProperty("in_stock", true);
+data.add(row6);
+
+JsonObject row7 = new JsonObject();
+row7.addProperty("id", 7L);
+row7.add("embedding", gson.toJsonTree(new float[]{0.09f, 0.38f, 0.17f, 0.60f, 0.27f}));
+row7.addProperty("name", "Runner A3");
+row7.addProperty("brand", "Brand A");
+row7.addProperty("category", "running_shoes");
+row7.addProperty("color", "black");
+row7.addProperty("price", 159.99);
+row7.addProperty("rating", 4.8);
+row7.addProperty("in_stock", true);
+data.add(row7);
+
+JsonObject row8 = new JsonObject();
+row8.addProperty("id", 8L);
+row8.add("embedding", gson.toJsonTree(new float[]{0.13f, 0.43f, 0.21f, 0.65f, 0.32f}));
+row8.addProperty("name", "Runner A4");
+row8.addProperty("brand", "Brand A");
+row8.addProperty("category", "running_shoes");
+row8.addProperty("color", "black");
+row8.addProperty("price", 149.99);
+row8.addProperty("rating", 4.9);
+row8.addProperty("in_stock", true);
+data.add(row8);
 client.insert(InsertReq.builder().collectionName(collectionName).data(data).build());
+client.loadCollection(LoadCollectionReq.builder().collectionName(collectionName).build());
 
 List<Float> queryVector = Arrays.asList(0.11f, 0.40f, 0.19f, 0.64f, 0.30f);
-
-private static JsonObject product(long id, float[] embedding, String name, String brand,
-                                  String category, String color, double price, double rating,
-                                  boolean inStock) {
-    JsonObject row = new JsonObject();
-    row.addProperty("id", id);
-    row.add("embedding", new Gson().toJsonTree(embedding));
-    row.addProperty("name", name);
-    row.addProperty("brand", brand);
-    row.addProperty("category", category);
-    row.addProperty("color", color);
-    row.addProperty("price", price);
-    row.addProperty("rating", rating);
-    row.addProperty("in_stock", inStock);
-    return row;
-}
 ```
 
 </TabItem>
@@ -386,6 +468,7 @@ queryVector := []float32{0.11, 0.40, 0.19, 0.64, 0.30}
 ```rust
 use milvus::v2::error::Result;
 use milvus::v2::prelude::*;
+use serde_json::json;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN");
 let client = ClientV2::new(&config).await?;
@@ -418,6 +501,27 @@ client.create_collection(
         .index_param(index_param)
         .build()?,
 ).await?;
+
+let rows = vec![
+    json!({"id": 1, "embedding": [0.12, 0.42, 0.18, 0.66, 0.31], "name": "Runner A1", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 129.99, "rating": 4.7, "in_stock": true}),
+    json!({"id": 2, "embedding": [0.10, 0.39, 0.20, 0.61, 0.29], "name": "Trail A2", "brand": "Brand A", "category": "running_shoes", "color": "blue", "price": 139.99, "rating": 4.6, "in_stock": true}),
+    json!({"id": 3, "embedding": [0.14, 0.44, 0.19, 0.68, 0.33], "name": "Runner B1", "brand": "Brand B", "category": "running_shoes", "color": "white", "price": 159.99, "rating": 4.8, "in_stock": true}),
+    json!({"id": 4, "embedding": [0.16, 0.41, 0.22, 0.62, 0.30], "name": "Runner C1", "brand": "Brand C", "category": "running_shoes", "color": "red", "price": 119.99, "rating": 4.4, "in_stock": false}),
+    json!({"id": 5, "embedding": [0.48, 0.20, 0.59, 0.15, 0.71], "name": "Jacket A1", "brand": "Brand A", "category": "jackets", "color": "black", "price": 99.99, "rating": 4.5, "in_stock": true}),
+    json!({"id": 6, "embedding": [0.45, 0.18, 0.55, 0.17, 0.69], "name": "Jacket B1", "brand": "Brand B", "category": "jackets", "color": "blue", "price": 89.99, "rating": 4.3, "in_stock": true}),
+    json!({"id": 7, "embedding": [0.09, 0.38, 0.17, 0.60, 0.27], "name": "Runner A3", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 159.99, "rating": 4.8, "in_stock": true}),
+    json!({"id": 8, "embedding": [0.13, 0.43, 0.21, 0.65, 0.32], "name": "Runner A4", "brand": "Brand A", "category": "running_shoes", "color": "black", "price": 149.99, "rating": 4.9, "in_stock": true}),
+];
+client.insert(
+    InsertRequest::builder()
+        .collection_name(collection_name)
+        .rows(rows)
+        .build()?,
+).await?;
+
+client.load_collection(
+    LoadCollectionRequest::builder().collection_name(collection_name).build()?,
+).await?;
 ```
 
 </TabItem>
@@ -446,13 +550,32 @@ schema->AddField(milvus::FieldSchema("color", milvus::DataType::VARCHAR).WithMax
 schema->AddField(milvus::FieldSchema("price", milvus::DataType::DOUBLE));
 schema->AddField(milvus::FieldSchema("rating", milvus::DataType::DOUBLE));
 schema->AddField(milvus::FieldSchema("in_stock", milvus::DataType::BOOL));
-
 milvus::IndexDesc index("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
 
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("product_search_aggregation")
                                       .WithCollectionSchema(schema)
                                       .WithIndexes({std::move(index)}));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows rows;
+rows.emplace_back(milvus::EntityRow{{"id", 1}, {"embedding", std::vector<float>{0.12f, 0.42f, 0.18f, 0.66f, 0.31f}}, {"name", "Runner A1"}, {"brand", "Brand A"}, {"category", "running_shoes"}, {"color", "black"}, {"price", 129.99}, {"rating", 4.7}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 2}, {"embedding", std::vector<float>{0.10f, 0.39f, 0.20f, 0.61f, 0.29f}}, {"name", "Trail A2"}, {"brand", "Brand A"}, {"category", "running_shoes"}, {"color", "blue"}, {"price", 139.99}, {"rating", 4.6}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 3}, {"embedding", std::vector<float>{0.14f, 0.44f, 0.19f, 0.68f, 0.33f}}, {"name", "Runner B1"}, {"brand", "Brand B"}, {"category", "running_shoes"}, {"color", "white"}, {"price", 159.99}, {"rating", 4.8}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 4}, {"embedding", std::vector<float>{0.16f, 0.41f, 0.22f, 0.62f, 0.30f}}, {"name", "Runner C1"}, {"brand", "Brand C"}, {"category", "running_shoes"}, {"color", "red"}, {"price", 119.99}, {"rating", 4.4}, {"in_stock", false}});
+rows.emplace_back(milvus::EntityRow{{"id", 5}, {"embedding", std::vector<float>{0.48f, 0.20f, 0.59f, 0.15f, 0.71f}}, {"name", "Jacket A1"}, {"brand", "Brand A"}, {"category", "jackets"}, {"color", "black"}, {"price", 99.99}, {"rating", 4.5}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 6}, {"embedding", std::vector<float>{0.45f, 0.18f, 0.55f, 0.17f, 0.69f}}, {"name", "Jacket B1"}, {"brand", "Brand B"}, {"category", "jackets"}, {"color", "blue"}, {"price", 89.99}, {"rating", 4.3}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 7}, {"embedding", std::vector<float>{0.09f, 0.38f, 0.17f, 0.60f, 0.27f}}, {"name", "Runner A3"}, {"brand", "Brand A"}, {"category", "running_shoes"}, {"color", "black"}, {"price", 159.99}, {"rating", 4.8}, {"in_stock", true}});
+rows.emplace_back(milvus::EntityRow{{"id", 8}, {"embedding", std::vector<float>{0.13f, 0.43f, 0.21f, 0.65f, 0.32f}}, {"name", "Runner A4"}, {"brand", "Brand A"}, {"category", "running_shoes"}, {"color", "black"}, {"price", 149.99}, {"rating", 4.9}, {"in_stock", true}});
+milvus::InsertResponse insert_resp;
+status = client->Insert(milvus::InsertRequest().WithCollectionName("product_search_aggregation").WithRowsData(std::move(rows)), insert_resp);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("product_search_aggregation"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

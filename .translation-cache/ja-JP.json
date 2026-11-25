@@ -786,9 +786,9 @@
       "translatedAt": "2026-11-09T12:51:17.825Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-aggregation.md": {
-      "sourceHash": "392a64e3c6434fd09a940f8b9a322fcd08e2dc69e444fc49b1f109cb4c3242f9",
+      "sourceHash": "951eb35c4b8fc629d3aec98815f3434c47f06050a7aa6a684a9fde7d9d356df1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-aggregation.md",
-      "translatedAt": "2026-11-05T11:15:07.011Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/search-metrics-explained.md": {
       "sourceHash": "8437024f48bccf38b02ec72517d2bf340e6451b3bcf67d8bca767e308ebf779d",
@@ -1151,9 +1151,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "6a532885263ac7ccd3d61d27e99b0d3ca5c69d9500b6955ba4f8ea78da10eb51",
+      "sourceHash": "b8899bfc1d5ea8c0e396be0268fb010adc900975f95da418fde17c5c2667063a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
       "sourceHash": "76a3909e5cefd7c0b73c4470ed80aa1170bd303d5a88fff97fb88f45235ce827",
@@ -1171,9 +1171,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
-      "sourceHash": "c570eb3412343f99850adc095ec77cc821817dce66c52e8b50bbac78417a0a43",
+      "sourceHash": "8b5de0014764883947c55aee08c1b0fa7f942f6b9e573767e0b9348b260c267c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
-      "translatedAt": "2026-09-19T13:59:24.026Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md": {
       "sourceHash": "1608fca0195aacb84ad31592b524d6789afbcb94416ac3283a91fffae95a4a1a",
@@ -1226,9 +1226,9 @@
       "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
-      "sourceHash": "acd71b86a922da859e499280ef391c34c61480d99bf84c2d70d73110a94a1693",
+      "sourceHash": "5be9355fc9ead1820455328a879fc3582e85c687260e33b5017b568641c3e73f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md",
-      "translatedAt": "2026-11-23T03:50:36.587Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/byoc/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "6c145a0ad87c14c6cf0f950ee58a06e29c964460c924837d360c141b8ed32de1",
@@ -2231,9 +2231,9 @@
       "translatedAt": "2026-11-09T13:49:19.042Z"
     },
     "content/en/guides/tutorials/development/search-and-query/search-aggregation.md": {
-      "sourceHash": "1765febc74d8f4c7bb1bf1c038e1286d3ae7302f59e3d08efc9dc31142136318",
+      "sourceHash": "b075d8ce3a86dedc50b1236d48ef559f3be77b24f8f49482994b2a7318754061",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/search-aggregation.md",
-      "translatedAt": "2026-11-05T14:22:58.835Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/development/search-and-query/search-metrics-explained.md": {
       "sourceHash": "4fcd1b333b92011ff83f1e3e121814da36343d255fbdbf79445dc1963185a179",
@@ -2406,9 +2406,9 @@
       "translatedAt": "2026-08-25T17:44:56.620Z"
     },
     "content/en/guides/tutorials/get-started/feature-availability.md": {
-      "sourceHash": "936dc204eb3995fc9bbc9668f0f5e09215ffad00909ab47c736b77e8089e4123",
+      "sourceHash": "d456435a16efe6cf05703a00663803e0157feb59c1ec8ee498e5619bd042a045",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/feature-availability.md",
-      "translatedAt": "2026-11-11T04:48:46.318Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md": {
       "sourceHash": "446dd585974adb7d0f309ad42d986213b3ccb832ae64eb65eb111f9c094e6d8c",
@@ -2866,9 +2866,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md": {
-      "sourceHash": "4af25cb43db922c4e88a32f17958d00861c88c3707d01867af62ac182312c9ec",
+      "sourceHash": "840d805292e49fa4b4db4f638f7fe98ac462aeebb6ef173e876cdd2f7bf38817",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "translatedAt": "2026-11-09T13:57:51.180Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md": {
       "sourceHash": "7222ef3c778662286ed69b65d7df4c06eac68567e6abbee1e640e73bc5686a6f",
@@ -2886,9 +2886,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md": {
-      "sourceHash": "c1eafde1e1cdd72d889e66a25a536df6786121c350a977658583e7b642b3c829",
+      "sourceHash": "93c567c1db7cbf75856b49d4ca9055eb116a3389c224d0f88e6f22f65fc346d2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling.md",
-      "translatedAt": "2026-09-19T14:22:01.285Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling.md": {
       "sourceHash": "6215316c08541f6821287c208bd717a36882d887caf545f8af1531eafc806479",
@@ -2941,9 +2941,9 @@
       "translatedAt": "2026-11-24T11:59:48.651Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md": {
-      "sourceHash": "80ddbc01231a9edec8585e5df1da267baa63520155ac780745d029c90f939012",
+      "sourceHash": "e86bd424e0c837b2072684132b6d2bd4d858738d0dc287cd4644c32cc84afe2c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/on-demand-compute/monitor-on-demand-cluster.md",
-      "translatedAt": "2026-11-23T03:50:36.587Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/management/clusters/on-demand-compute/on-demand-cluster.md": {
       "sourceHash": "0a3fac69090f95a4291c3b7d880535e62ba172ff47ecd79f201590537461fa81",
@@ -2986,9 +2986,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "0eb35c727d36424f2f5e41b8ce13629a9f0ba3c5f336704121ed41b367708632",
+      "sourceHash": "3dac579a5c4f2a39a65153e9f9500fea91002be67c574b7a9bec90ec89a71f20",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-11-24T11:59:48.651Z"
+      "translatedAt": "2026-11-25T11:50:14.728Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",

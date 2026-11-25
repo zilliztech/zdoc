@@ -89,7 +89,7 @@ Zilliz Cloud では、機能とスケーリングの上限に影響する複数�
 | 機能 | Standard | Enterprise | Business Critical |
 | --- | --- | --- | --- |
 | 最大 CU | 32 CU | 256 CU | 512 CU |
-| レプリカ上限 | Query CU × Repl ≤ 32 | Query CU × Repl ≤ 256 | Query CU × Repl ≤ 512 |
+| レプリカ上限 | Query CU × Replica ≤ 32 | Query CU × Replica ≤ 256 | Query CU × Replica ≤ 512 |
 | SLA | 0.999 | 0.9995 | 0.9999 |
 | マルチ AZ | シングル AZ | オプション | デフォルトで有効 |
 | RBAC | 基本 | カスタムロール + 監査 | フル + SOC2/HIPAA |
@@ -1056,7 +1056,7 @@ CU の最小値と最大値を設定すると、システムはリアルタイ�
 
 - スケールダウンする場合、データ量は新しい CU 容量の 80% 未満である必要があります
 
-- 12 CU 未満では Query CU のみを調整できます。12 CU を超える場合は、Query CU と Replica を個別に調整できます
+- 8 CU 未満では Query CU のみを調整でき、8 CU を超える場合は Query CU とレプリカを個別に調整できます。
 
 **推奨：** 予測できないトラフィックには動的スケーリングを使用し、規則的なトラフィックパターンにはスケジュールスケーリングを使用します。この 2 つは組み合わせることができます。
 

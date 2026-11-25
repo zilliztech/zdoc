@@ -86,11 +86,33 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" title="Notes">
 
-これらの機能にアクセスするには、クラスターの Milvus バージョンをアップグレードしてください。
+以下の機能を利用するには、クラスターの Milvus バージョンをアップグレードしてください。詳細は、[プレビュー機能向けにクラスターをアップグレード](/docs/manage-cluster#upgrade-cluster-for-preview-features) を参照してください。
 
 </Admonition>
 
-- [オンデマンドコンピューティング](./on-demand-cluster)
+- [クエリ](/docs/get-and-scalar-query) と [検索](/docs/single-vector-search) での ORDER BY
+
+- [クエリ集約](/docs/get-and-scalar-query)
+
+- [検索アグリゲーション](/docs/search-aggregation)
+
+- [正規表現フィルタリング](/docs/pattern-match)
+
+- [Membership Match フィルタリング](/docs/membership-match)
+
+- [MinHash 関数](/docs/minhash-function)
+
+- [`TEXT`](/docs/use-text-field) [データ型](/docs/use-text-field)
+
+- [既存のコレクションに Function とそのフィールドを追加](/docs/add-fields-to-an-existing-collection)
+
+- [フィールドと Function を削除](/docs/add-fields-to-an-existing-collection)
+
+- [StructArray の要素レベルの検索](/docs/use-array-of-structs)
+
+- [StructArray のマッチフィルター](/docs/struct-array-filtering)
+
+- [エンティティレベル TTL](/docs/set-collection-ttl)
 
 ### Deprecation notice\{#deprecation-notice}
 
