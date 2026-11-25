@@ -319,10 +319,11 @@ const MiB = 1024 ** 2, GiB = 1024 ** 3
 interface BatchLifetime {deadline: number; signal: AbortSignal; check(): number}
 const batchLifetime = new AsyncLocalStorage<BatchLifetime>()
 export function currentBatchLifetime() {return batchLifetime.getStore()}
+export const BATCH_OPERATION_LIFETIME_MS = 14_400_000
 /** Fixed operation-wide ceiling; callers cannot select a deadline or retry. */
 export async function withBatchLifetime<T>(body: () => Promise<T>) {
-  const controller = new AbortController(), deadline = performance.now() + 4_500_000
-  const timer = setTimeout(() => controller.abort(Error('BATCH_OPERATION_DEADLINE')), 4_500_000)
+  const controller = new AbortController(), deadline = performance.now() + BATCH_OPERATION_LIFETIME_MS
+  const timer = setTimeout(() => controller.abort(Error('BATCH_OPERATION_DEADLINE')), BATCH_OPERATION_LIFETIME_MS)
   const lifetime: BatchLifetime = {deadline, signal: controller.signal, check() {
     const remaining = Math.floor(deadline - performance.now())
     if (remaining < 1 || controller.signal.aborted) throw Error('BATCH_OPERATION_DEADLINE')
