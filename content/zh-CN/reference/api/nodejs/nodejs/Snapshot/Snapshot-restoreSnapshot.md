@@ -49,6 +49,8 @@ await milvusClient.restoreSnapshot({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **snapshot_name** (*string*) -
 **[必需]**
 要从中恢复的快照的名称。
@@ -72,6 +74,36 @@ await milvusClient.restoreSnapshot({
 
 - **client_request_id** (*string*) -
 用于请求跟踪的跟踪 ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **snapshot_name** (*string*) -
+**[必需]**
+要从中恢复的快照的名称。
+
+- **source_collection_name** (*string*) -
+**[必需]**
+源 Collection 的名称。
+
+- **target_collection_name** (*string*) -
+**[必需]**
+要恢复到其中的目标 Collection 的名称。
+
+- **source_db_name** (*string*) -
+源 Database 名称。可选。
+
+- **target_db_name** (*string*) -
+目标 Database 名称。可选。
+
+- **timeout** (*number*) -
+可选，允许 RPC 的时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
+
+- **client_request_id** (*string*) -
+一个可选的、由调用方提供的 ID，用于请求跟踪以及日志或跟踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据头发送，且绝不会自动生成。请为每个请求使用唯一值，例如 UUID。采用 OpenTelemetry 跟踪 ID 形式的值（32 个小写十六进制字符）也会被客户端遥测用作跟踪 ID。
+
+</NextChannel>
 
 **返回：**
 
@@ -105,7 +137,6 @@ await milvusClient.restoreSnapshot({
     - **reason**（*string*）-
 
         指示所报告错误原因的 reason 值。如果此操作成功，则该值保持为空字符串。
-
 
 **异常：**
 

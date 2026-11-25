@@ -42,6 +42,8 @@ export interface RefreshExternalCollectionJobInfo {
 
 **字段：**
 
+<NextChannel action="exclude">
+
 - **job_id** (*string*) -
 
     刷新作业标识符。
@@ -74,6 +76,44 @@ export interface RefreshExternalCollectionJobInfo {
 
     刷新作业的结束时间。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** (*string*) -
+
+    刷新作业标识符。
+
+- **collection_name** (*string*) -
+
+    正在刷新的外部 Collection 的名称。
+
+- **state** (*RefreshExternalCollectionState | keyof typeof RefreshExternalCollectionState*) -
+
+    刷新作业状态。可能值为 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。刷新作业会从 **RefreshInProgress** 变为 **RefreshCompleted** 或 **RefreshFailed**。
+
+- **progress** (*string*) -
+
+    刷新进度。
+
+- **reason** (*string*) -
+
+    刷新失败时的失败原因。
+
+- **external_source** (*string*) -
+
+    Collection 的外部数据源。
+
+- **start_time** (*string*) -
+
+    刷新作业的开始时间。
+
+- **end_time** (*string*) -
+
+    刷新作业的结束时间。
+
+</NextChannel>
+
 ## 示例\{#example}
 
 ```javascript
@@ -90,4 +130,3 @@ const res = await milvusClient.listRefreshExternalCollectionJobs({
 
 console.log(res.jobs); // RefreshExternalCollectionJobInfo[]
 ```
-

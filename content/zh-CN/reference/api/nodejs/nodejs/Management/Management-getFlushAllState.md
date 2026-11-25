@@ -47,6 +47,8 @@ await milvusClient.getFlushAllState({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **flush_all_ts** (*number*) -
 flush-all 时间戳。可选且已弃用。
 
@@ -61,6 +63,27 @@ Database 的名称。可选且已弃用。
 
 - **client_request_id** (*string*) -
 用于请求跟踪的 trace ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **flush_all_ts** (*number*) -
+flush-all 时间戳。可选且已弃用。
+
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
+一个将 Database 名称映射到 flush-all 时间戳的映射。可选。
+
+- **db_name** (*string*) -
+Database 的名称。可选且已弃用。
+
+- **timeout** (*number*) -
+用于 RPC 的可选时长，单位为毫秒。如果将其设置为 undefined，客户端将一直等待，直到服务器响应或发生错误。该值默认为 undefined。
+
+- **client_request_id** (*string*) -
+一个可选的、由调用方提供的 ID，用于请求跟踪以及日志或 trace 关联。SDK 会将其作为 `client-request-id` gRPC 元数据头发送，且绝不会自行生成该值。请为每个请求使用唯一值，例如 UUID。采用 OpenTelemetry trace-ID 形式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
 
 **返回：**
 
@@ -94,7 +117,6 @@ Database 的名称。可选且已弃用。
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
-
 
 **异常：**
 

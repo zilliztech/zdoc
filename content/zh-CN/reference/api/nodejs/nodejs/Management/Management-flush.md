@@ -75,6 +75,8 @@ await milvusClient.flush({
 
 此方法返回一个 promise，解析为 **FlushResult** 对象。
 
+<NextChannel action="exclude">
+
 ```javascript
 {
     coll_segIDs: Record<string, { data: number[] }>,
@@ -82,7 +84,23 @@ await milvusClient.flush({
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+{
+    coll_segIDs: Record<string, { data: number[] }>,
+    coll_flush_ts?: Record<string, string>,
+    status:  ResStatus
+}
+```
+
+</NextChannel>
+
 **参数：**
+
+<NextChannel action="exclude">
 
 - **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
 将 Collection 名称映射到此次 flush 所封存的 Segment ID。将返回的 ID 与 `getFlushState()` 一起使用，以确认持久化。
@@ -102,6 +120,32 @@ await milvusClient.flush({
 
         用于说明所报告错误的原因。如果此操作成功，则其值保持为空字符串。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
+将 Collection 名称映射到此次 flush 所封存的 Segment ID。将返回的 ID 与 `getFlushState()` 一起使用，以确认持久化。
+
+- **coll_flush_ts** (*Record&lt;string, string&gt;*) -
+可选。将 Collection 名称映射到已封存 Segment 的 flush 时间戳，时间戳以十进制字符串形式返回。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
+
+    - **code** (*number*) -
+
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+
+    - **error_code** (*string* | *number*) -
+
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
+
+    - **reason** (*string*) -
+
+        用于说明所报告错误的原因。如果此操作成功，则其值保持为空字符串。
+
+</NextChannel>
 
 **异常：**
 

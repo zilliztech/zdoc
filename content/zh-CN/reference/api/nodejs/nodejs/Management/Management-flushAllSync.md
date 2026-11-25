@@ -45,6 +45,8 @@ await milvusClient.flushAllSync({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **db_name** (*string*) -
 Database 的名称。可选。
 
@@ -53,6 +55,21 @@ Database 的名称。可选。
 
 - **client_request_id** (*string*) -
 用于请求跟踪的 trace ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** (*string*) -
+Database 的名称。可选。
+
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，以毫秒为单位。如果将其设置为 undefined，则客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+
+- **client_request_id** (*string*) -
+一个由调用方提供的可选 ID，用于请求跟踪以及日志或追踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据标头发送，并且绝不会生成该 ID。请为每个请求使用唯一值，例如 UUID。采用 OpenTelemetry trace ID 形式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
 
 **返回：**
 
@@ -86,7 +103,6 @@ flush-all 操作是否已完全完成。由于 `flushAllSync()` 会阻塞直至�
     - **reason** (*string*) -
 
         表示所报告错误原因的原因。如果此操作成功，该值保持为空字符串。
-
 
 **异常：**
 

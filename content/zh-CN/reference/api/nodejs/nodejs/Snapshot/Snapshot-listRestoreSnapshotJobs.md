@@ -46,6 +46,8 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 可选，按目标 Collection 名称进行筛选。
 
@@ -57,6 +59,24 @@ await milvusClient.listRestoreSnapshotJobs({
 
 - **client_request_id** (*string*) -
 用于请求跟踪的 trace ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+可选，按目标 Collection 名称进行筛选。
+
+- **db_name** (*string*) -
+可选，按 Database 名称进行筛选。
+
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将此项设置为 undefined，则客户端会一直等待，直到服务器响应或发生错误。该值默认为 undefined。
+
+- **client_request_id** (*string*) -
+可选，由调用方提供的 ID，用于请求跟踪以及日志或追踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据头发送，并且绝不会自动生成该 ID。请为每个请求使用唯一值，例如 UUID。采用 OpenTelemetry trace-ID 格式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
 
 **返回：**
 
@@ -91,7 +111,6 @@ await milvusClient.listRestoreSnapshotJobs({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
-
 
 **异常：**
 

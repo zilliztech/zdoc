@@ -46,6 +46,8 @@ await milvusClient.listSnapshots({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 **[必需]**
 Collection 的名称。
@@ -59,11 +61,32 @@ Database 的名称。可选。
 - **client_request_id** (*string*) -
 用于请求跟踪的追踪 ID。可选。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+**[必需]**
+Collection 的名称。
+
+- **db_name** (*string*) -
+Database 的名称。可选。
+
+- **timeout** (*number*) -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+
+- **client_request_id** (*string*) -
+由调用方提供的可选 ID，用于请求跟踪以及日志关联或追踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据标头发送，且不会自行生成。请为每个请求使用唯一值，例如 UUID。采用 OpenTelemetry trace-ID 形式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
+
 **返回：**
 
 *Promise&lt;ListSnapshotsResponse&gt;*
 
 此方法会返回一个 promise，并解析为 **ListSnapshotsResponse** 对象。
+
+<NextChannel action="exclude">
 
 ```javascript
 {
@@ -72,7 +95,23 @@ Database 的名称。可选。
 }
 ```
 
+</NextChannel>
+
+<NextChannel action="include">
+
+```javascript
+{
+    snapshots: string[],
+    snapshot_summaries?: SnapshotSummary[],
+    status:  ResStatus
+}
+```
+
+</NextChannel>
+
 **参数：**
+
+<NextChannel action="exclude">
 
 - **snapshots** (*string[]*) -
 所请求 Collection 当前存在的快照名称列表。
@@ -92,6 +131,48 @@ Database 的名称。可选。
 
         表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **snapshots** (*string[]*) -
+所请求 Collection 当前存在的快照名称列表。
+
+- **snapshot_summaries** (*SnapshotSummary[]*) -
+可选。快照的摘要。每个条目包含以下成员：
+
+    - **name** (*string*) -
+
+        快照名称。
+
+    - **create_ts** (*string*) -
+
+        快照的创建时间戳。
+
+    - **description** (*string*) -
+
+        快照描述。
+
+    - **create_utc_ts** (*string*) -
+
+        快照的创建时间，以 Unix 毫秒为单位。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
+
+    - **code** (*number*) -
+
+        表示操作结果的代码。如果此操作成功，则其值为 **0**。
+
+    - **error_code** (*string* | *number*) -
+
+        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
+
+    - **reason** (*string*) -
+
+        表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
+
+</NextChannel>
 
 **异常：**
 

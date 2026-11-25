@@ -45,6 +45,8 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **job_id** （*number | string*） -
 **[必需]**
 refreshExternalCollection() 返回的作业 ID。
@@ -54,6 +56,22 @@ refreshExternalCollection() 返回的作业 ID。
 
 - **client_request_id** （*string*） -
 用于请求跟踪的追踪 ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **job_id** （*number | string*） -
+**[必需]**
+refreshExternalCollection() 返回的作业 ID。
+
+- **timeout** （*number*） -
+可选，用于指定 RPC 的持续时间，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
+
+- **client_request_id** (*string*) -
+一个可选的、由调用方提供的 ID，用于请求跟踪以及日志或追踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据标头发送，并且从不生成该值。请为每个请求使用唯一的值，例如 UUID。符合 OpenTelemetry trace-ID 形式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
 
 **返回：**
 
@@ -73,6 +91,8 @@ refreshExternalCollection() 返回的作业 ID。
 - **job_info** （*[RefreshExternalCollectionJobInfo](./Collections-RefreshExternalCollectionJobInfo)*） -
 
 刷新作业的当前状态。
+
+<NextChannel action="exclude">
 
     - **job_id** （*string*） -
 
@@ -106,6 +126,44 @@ refreshExternalCollection() 返回的作业 ID。
 
         作业结束的时间；如果作业仍在运行，则为空字符串。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+    - **job_id** （*string*） -
+
+        作业标识符。
+
+    - **collection_name** （*string*） -
+
+        正在刷新的外部 Collection。
+
+    - **state** （*RefreshExternalCollectionState*） -
+
+        当前作业状态。可选值为 **RefreshPending**、**RefreshInProgress**、**RefreshCompleted** 和 **RefreshFailed**。刷新作业会从 **RefreshInProgress** 转换为 **RefreshCompleted** 或 **RefreshFailed**。
+
+    - **progress** （*string*） -
+
+        完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。
+
+    - **reason** （*string*） -
+
+        当 **state** 为 **RefreshFailed** 时的失败原因；否则为空字符串。
+
+    - **external_source** （*string*） -
+
+        作业捕获的外部源路径。
+
+    - **start_time** （*string*） -
+
+        作业开始的时间。
+
+    - **end_time** （*string*） -
+
+        作业结束的时间；如果作业仍在运行，则为空字符串。
+
+</NextChannel>
+
 - **ResStatus**
 一个 **ResStatus** 对象。
 
@@ -120,7 +178,6 @@ refreshExternalCollection() 返回的作业 ID。
     - **reason** （*string*） -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
-
 
 **异常：**
 

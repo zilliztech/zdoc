@@ -49,6 +49,8 @@ await milvusClient.createSnapshot({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **collection_name** （*string*） -
 **[必需]**
 要创建快照的 Collection 的名称。
@@ -71,6 +73,35 @@ Database 的名称。可选。
 
 - **client_request_id** （*string*） -
 用于请求跟踪的追踪 ID。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** （*string*） -
+**[必需]**
+要创建快照的 Collection 的名称。
+
+- **snapshot_name** （*string*） -
+**[必需]**
+快照的名称。
+
+- **description** （*string*） -
+快照的可选描述。
+
+- **compaction_protection_seconds** （*number | string*） -
+用于保护所引用的 Segment 免受 Compaction 影响的时长。可选。
+
+- **db_name** （*string*） -
+Database 的名称。可选。
+
+- **timeout** （*number*） -
+允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。该值默认为 undefined。
+
+- **client_request_id** (*string*) -
+由调用方提供的可选 ID，用于请求跟踪以及日志或追踪关联。SDK 会将其作为 `client-request-id` gRPC 元数据头发送，并且绝不会自行生成。请为每个请求使用唯一值，例如 UUID。符合 OpenTelemetry trace-ID 格式的值（32 个小写十六进制字符）也会被客户端遥测用作 trace ID。
+
+</NextChannel>
 
 **返回：**
 

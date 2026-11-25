@@ -53,6 +53,8 @@ await milvusClient.upsert({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 
     **[必需]**
@@ -98,6 +100,74 @@ await milvusClient.upsert({
 - **field_ops** (*FieldPartialUpdateOp[]*) -
 
     数组字段的部分更新操作。可选。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[必需]**
+
+    现有 Collection 的名称。
+
+- **data** (*[RowData](./Vector-RowData)[]*) -
+
+    要 upsert 的数据。每个元素都是一个普通 JavaScript 对象，其键与 Collection Schema 的字段名称匹配。主键与现有记录匹配的 Entity 会被更新；否则会插入新的 Entity。请通过 **data** 或 **fields_data** 之一提供数据。
+
+- **db_name** (*string*) -
+
+    包含目标 Collection 的 Database 名称。
+
+- **hash_keys** (*number[]*) -
+
+    保留供内部使用。除非明确要求，否则请勿设置此参数。
+
+- **fields_data** (*RowData[]*) -
+
+    **data** 的别名。您可以通过其中任一键传入这些行；请勿同时设置两者。
+
+- **transformers** (*InsertTransformers*) -
+
+    用于 `BFloat16Vector` 和 `Float16Vector` 数据的自定义数据转换器。可选。
+
+- **skip_check_schema** (*boolean*) -
+
+    是否在 upsert 前跳过 Schema 检查。可选。
+
+- **partial_update** (*boolean*) -
+
+    是否启用部分更新。设置为 `true` 时，您只需在 `data` 中包含需要更新的字段；未包含的字段会保留其现有值。
+
+- **partition_name** (*string*) -
+
+    当前 Collection 中某个 Partition 的名称。如果指定，数据将 upsert 到该 Partition 中。
+
+- **timeout** (*number*) -
+
+    此操作的超时时长。将其设置为 `None` 表示当收到任意响应或发生任意错误时，此操作即超时。
+
+- **field_ops** (*FieldPartialUpdateOp[]*) -
+
+    针对数组、Struct 或 JSON 字段的部分更新操作。可选。每个操作包含以下成员：
+
+    - **field_name** (*string*) -
+
+        **[必需]**
+
+        要更新的字段名称。
+
+    - **op** (*FieldPartialUpdateOpName*) -
+
+        **[必需]**
+
+        更新操作。可选值为 **REPLACE**、**ARRAY_APPEND**、**ARRAY_REMOVE** 和 **PATH_REPLACE**。**PATH_REPLACE**（Milvus 3.0.6+）会按路径替换现有的 Array、StructArray 或 JSON 值。
+
+    - **path** (*string*) -
+
+        要替换的字段值中的路径，例如 `[0]` 或 `["key"]`。**PATH_REPLACE**（Milvus 3.0.6+）需要此参数，其他操作不支持此参数。
+
+</NextChannel>
 
 **返回：**
 
@@ -160,7 +230,6 @@ await milvusClient.upsert({
     - **reason** (*string*) -
 
         表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
-
 
 **异常：**
 

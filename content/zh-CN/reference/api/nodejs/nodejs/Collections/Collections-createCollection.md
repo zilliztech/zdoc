@@ -203,6 +203,8 @@ await milvusClient.createCollection({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **db_name** （*string*） -
 
     目标 Collection 所属的 Database 名称。
@@ -285,11 +287,11 @@ await milvusClient.createCollection({
 
 - **partition_key_field** （*string*） -
 
-    用作分区键的字段名称。
+    用作 Partition 键的字段名称。
 
     <Admonition type="info" icon="📘" title="Notes">
     
-    分区键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，分区键会将具有相同键的 Entity 分组在一起，并且当您按键字段进行筛选时，可以避免扫描不相关的 Partition。与传统过滤方法相比，分区键可以大幅提升查询性能。
+    Partition 键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，Partition 键会将键相同的 Entity 归为一组，并且在您使用该键字段进行过滤时，可以避免扫描不相关的 Partition。与传统过滤方法相比，Partition 键可以显著提升查询性能。
 
     </Admonition>
 
@@ -331,7 +333,7 @@ await milvusClient.createCollection({
 
     - **partitionkey.isolation** （*boolean*） -
 
-        是否启用分区键隔离。
+        是否启用 Partition 键隔离。
 
     - **dynamicfield.enabled** （*boolean*） -
 
@@ -360,6 +362,172 @@ await milvusClient.createCollection({
 - **file_resource_ids** （*Array&lt;number | string&gt;*） -
 
     外部文件资源 ID。此参数适用于创建外部 Collection。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** （*string*） -
+
+    目标 Collection 所属的 Database 名称。
+
+- **collection_name** （*string*） -
+
+    **[必需]**
+
+    要创建的 Collection 名称。
+
+- **consistency_level** （*string*）
+
+    目标 Collection 的一致性级别。
+
+    该值默认为 **Bounded**，可选值为 **Strong**、**Bounded**、**Session**、**Eventually** 和 **Customized**。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    分布式 Database 中的一致性特指一种属性，即确保每个节点或副本在给定时间写入或读取数据时具有相同的数据视图。
+    
+    Milvus 支持四种一致性级别：**Strong**、**Bounded Staleness**、**Session** 和 **Eventually**。Milvus 中的默认一致性级别为 **Bounded Staleness**。
+    
+    在执行向量相似度搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。
+
+    </Admonition>
+
+- **description** （*string*） -
+
+    要创建的 Collection 的描述。
+
+- **enable_dynamic_field** （*boolean*） -
+
+    是否使用名为 **&#36;meta** 的保留 JSON 字段，以键值对形式存储未定义字段及其值。
+
+    该值默认为 **True**，表示使用 meta 字段。
+
+- **schema**（Schema）（*[FieldType](./Collections-FieldType)[]*） -
+
+    作为字段定义列表的 Collection Schema。
+
+- **fields** （*[FieldType](./Collections-FieldType)[]*） -
+
+    **schema**（Schema）的替代项，以字段定义列表的形式列出 Collection 的字段。
+
+- **functions** （*[FunctionObject](./Collections-FunctionObject)[]*）
+
+    将数据转换为向量嵌入。此函数将添加到 Collection 的 Schema 中。
+
+    - **name** （*string*）
+
+        函数名称。此标识符用于在查询和 Collection 中引用该函数。
+
+    - **description** （*string*）
+
+        函数用途的简要说明。这对于文档或大型项目中的清晰性可能很有用，默认为空字符串。
+
+    - **type** （*[FunctionType](./Collections-FunctionType)*）
+
+        用于处理原始数据的函数类型。可选值：
+
+        - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
+
+    - **input_field_names** （*string[]*）
+
+        包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
+
+    - **output_field_names** （*string[]*）
+
+        用于存储所生成嵌入的字段名称。这应与 Collection Schema 中定义的向量字段相对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
+
+- **num_partitions** （*number*） -
+
+    要在 Collection 中创建的 Partition 数量。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    数据分区是一种根据特定条件组织数据的技术。通过数据分区，您可以分别创建、加载、释放和删除 Partition，并在其中执行搜索和查询。
+
+    </Admonition>
+
+- **partition_key_field** （*string*） -
+
+    用作 Partition 键的字段名称。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Partition 键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，Partition 键会将键相同的 Entity 归为一组，并且在您使用该键字段进行过滤时，可以避免扫描不相关的 Partition。与传统过滤方法相比，Partition 键可以显著提升查询性能。
+
+    </Admonition>
+
+- **clustering_key_field** （*string*） -
+
+    用作聚类键的字段名称。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction 是 Milvus 中的一项功能，它会根据标量字段中的值在 Collection 的各 Segment 之间重新分配 Entity。要启用此功能，您首先需要选择一个标量字段作为聚类键。这样，当 Entity 的聚类键值落在特定范围内时，Milvus 就可以将这些 Entity 重新分配到某个 Segment 中。当您触发 Clustering Compaction 时，Milvus 会生成或更新（generates/updates）名为 PartitionStats 的全局索引，该索引记录 Segment 与聚类键值之间的映射关系。
+
+    </Admonition>
+
+- **shards_num** （*number*） -
+
+    创建此 Collection 时同时要创建的分片数量。
+
+    该值默认为 **1**，表示在创建此 Collection 时同时创建一个分片。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    分片是指将写操作分配到不同节点，以充分利用 Milvus 集群写入数据时的并行计算能力。
+    
+    默认情况下，一个 Collection 包含一个分片。
+
+    </Admonition>
+
+- **properties** （Record&lt;string, string | number | boolean&gt;） 
+
+    以键值对形式表示的 Collection 额外属性。可选值：
+
+    - **collection.ttl.seconds** （*number*） -
+
+        当前 Collection 的生存时间，以秒为单位。
+
+    - **mmap.enabled** （*boolean*） -
+
+        是否在 Collection 范围内启用 mmap。
+
+    - **partitionkey.isolation** （*boolean*） -
+
+        是否启用 Partition 键隔离。
+
+    - **dynamicfield.enabled** （*boolean*） -
+
+        是否启用动态字段。
+
+    - **allow_insert_auto_id** （*boolean*） -
+
+        启用 autoID 时是否允许插入主键。
+
+- **timeout** （*float* | *None*） -
+
+    此操作的超时持续时间。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
+
+- **external_source** （*string*） -
+
+    外部源路径。此参数适用于创建外部 Collection。
+
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 方案指向同一项目和区域中另一个与 Milvus v3.0.x 兼容的集群上的 Collection；该方案必须为小写，三个 Segment 均为必需，并且允许一个末尾斜杠。创建外部 Collection 时，此参数为必需项。
+
+- **external_spec** （*string*） -
+
+    外部规格配置。此参数适用于创建外部 Collection。
+
+    该规范是一个包含 `format` 等次级参数的 JSON 字符串。`format` 的可选值为 `parquet`、`vortex`、`lance-table`、`iceberg-table` 和 `milvus-table`。对于 `milvus-table`，请将 `external_source` 设置为 Milvus 快照元数据 JSON 路径，例如 `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`。
+
+    在 Zilliz Cloud 上，创建外部 Collection 时 `external_spec` 为可选项：对于 `milvus://` 源，省略此项会将 `format` 默认为 `milvus-table`；对于其他源，请提供具有匹配 `format` 的规格（`parquet`、`vortex`、`lance-table`、`iceberg-table`）。
+
+- **file_resource_ids** （*Array&lt;number | string&gt;*） -
+
+    外部文件资源 ID。此参数适用于创建外部 Collection。
+
+</NextChannel>
 
 ### 使用 CreateColWithSchemaAndIndexParamsReq\{#with-createcolwithschemaandindexparamsreq}
 
@@ -426,6 +594,8 @@ await milvusClient.createCollection({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **db_name** （*string*） -
 
     目标 Collection 所属的 Database 名称。
@@ -508,11 +678,11 @@ await milvusClient.createCollection({
 
 - **partition_key_field** （*string*） -
 
-    用作分区键的字段名称。
+    用作 Partition 键的字段名称。
 
     <Admonition type="info" icon="📘" title="Notes">
     
-    分区键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，分区键会将具有相同键的 Entity 分组在一起，并且当您按键字段进行筛选时，可以避免扫描不相关的 Partition。与传统过滤方法相比，分区键可以大幅提升查询性能。
+    Partition 键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，Partition 键会将键相同的 Entity 归为一组，并且在您使用该键字段进行过滤时，可以避免扫描不相关的 Partition。与传统过滤方法相比，Partition 键可以显著提升查询性能。
 
     </Admonition>
 
@@ -554,7 +724,7 @@ await milvusClient.createCollection({
 
     - **partitionkey.isolation** （*boolean*） -
 
-        是否启用分区键隔离。
+        是否启用 Partition 键隔离。
 
     - **dynamicfield.enabled** （*boolean*） -
 
@@ -608,6 +778,196 @@ await milvusClient.createCollection({
 
     外部文件资源 ID。此参数适用于创建外部 Collection。
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **db_name** （*string*） -
+
+    目标 Collection 所属的 Database 名称。
+
+- **collection_name** （*string*） -
+
+    **[必需]**
+
+    要创建的 Collection 名称。
+
+- **consistency_level** （*string*）
+
+    目标 Collection 的一致性级别。
+
+    该值默认为 **Bounded**，可选值为 **Strong**、**Bounded**、**Session**、**Eventually** 和 **Customized**。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    分布式 Database 中的一致性特指一种属性，即确保每个节点或副本在给定时间写入或读取数据时具有相同的数据视图。
+    
+    Milvus 支持四种一致性级别：**Strong**、**Bounded Staleness**、**Session** 和 **Eventually**。Milvus 中的默认一致性级别为 **Bounded Staleness**。
+    
+    在执行向量相似度搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。
+
+    </Admonition>
+
+- **description** （*string*） -
+
+    要创建的 Collection 的描述。
+
+- **enable_dynamic_field** （*boolean*） -
+
+    是否使用名为 **&#36;meta** 的保留 JSON 字段，以键值对形式存储未定义字段及其值。
+
+    该值默认为 **True**，表示使用 meta 字段。
+
+- **schema**（Schema）（*[FieldType](./Collections-FieldType)[]*） -
+
+    作为字段定义列表的 Collection Schema。
+
+- **fields** （*[FieldType](./Collections-FieldType)[]*） -
+
+    **schema**（Schema）的替代项，以字段定义列表的形式列出 Collection 的字段。
+
+- **functions** （*[FunctionObject](./Collections-FunctionObject)[]*）
+
+    将数据转换为向量嵌入。此函数将添加到 Collection 的 Schema 中。
+
+    - **name** （*string*）
+
+        函数名称。此标识符用于在查询和 Collection 中引用该函数。
+
+    - **description** （*string*）
+
+        函数用途的简要说明。这对于文档或大型项目中的清晰性可能很有用，默认为空字符串。
+
+    - **type** （*[FunctionType](./Collections-FunctionType)*）
+
+        用于处理原始数据的函数类型。可选值：
+
+        - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
+
+    - **input_field_names** （*string[]*）
+
+        包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
+
+    - **output_field_names** （*string[]*）
+
+        用于存储所生成嵌入的字段名称。这应与 Collection Schema 中定义的向量字段相对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
+
+- **num_partitions** （*number*） -
+
+    要在 Collection 中创建的 Partition 数量。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    数据分区是一种根据特定条件组织数据的技术。通过数据分区，您可以分别创建、加载、释放和删除 Partition，并在其中执行搜索和查询。
+
+    </Admonition>
+
+- **partition_key_field** （*string*） -
+
+    用作 Partition 键的字段名称。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Partition 键用于根据 Entity 的键值将其存储到不同的 Partition 中。换言之，Partition 键会将键相同的 Entity 归为一组，并且在您使用该键字段进行过滤时，可以避免扫描不相关的 Partition。与传统过滤方法相比，Partition 键可以显著提升查询性能。
+
+    </Admonition>
+
+- **clustering_key_field** （*string*） -
+
+    用作聚类键的字段名称。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    Clustering Compaction 是 Milvus 中的一项功能，它会根据标量字段中的值在 Collection 的各 Segment 之间重新分配 Entity。要启用此功能，您首先需要选择一个标量字段作为聚类键。这样，当 Entity 的聚类键值落在特定范围内时，Milvus 就可以将这些 Entity 重新分配到某个 Segment 中。当您触发 Clustering Compaction 时，Milvus 会生成或更新（generates/updates）名为 PartitionStats 的全局索引，该索引记录 Segment 与聚类键值之间的映射关系。
+
+    </Admonition>
+
+- **shards_num** （*number*） -
+
+    创建此 Collection 时同时要创建的分片数量。
+
+    该值默认为 **1**，表示在创建此 Collection 时同时创建一个分片。
+
+    <Admonition type="info" icon="📘" title="Notes">
+    
+    分片是指将写操作分配到不同节点，以充分利用 Milvus 集群写入数据时的并行计算能力。
+    
+    默认情况下，一个 Collection 包含一个分片。
+
+    </Admonition>
+
+- **properties** （Record&lt;string, string | number | boolean&gt;） 
+
+    以键值对形式表示的 Collection 额外属性。可选值：
+
+    - **collection.ttl.seconds** （*number*） -
+
+        当前 Collection 的生存时间，以秒为单位。
+
+    - **mmap.enabled** （*boolean*） -
+
+        是否在 Collection 范围内启用 mmap。
+
+    - **partitionkey.isolation** （*boolean*） -
+
+        是否启用 Partition 键隔离。
+
+    - **dynamicfield.enabled** （*boolean*） -
+
+        是否启用动态字段。
+
+    - **allow_insert_auto_id** （*boolean*） -
+
+        启用 autoID 时是否允许插入主键。
+
+- **index_params** （*CreateIndexSimpleReq[]* | *CreateIndexSimpleReq*）
+
+    索引参数。
+
+    - **field_name** （*string*） -
+
+        要索引的字段名称。
+
+    - **index_name** （*string*） -
+
+        要生成的索引文件名称。
+
+    - **index_type** （*string*） -
+
+        要使用的索引算法类型。
+
+    - **metric_type** （*string*） -
+
+        用于度量向量嵌入之间相似度的度量类型。
+
+    - **params** （*KeyValueObj*） -
+
+        以键值对形式表示的额外索引相关参数。
+
+- **timeout** （*number*） -
+
+    此操作的超时持续时间。将其设置为 **None** 表示当收到任意响应或发生错误时，此操作即超时。
+
+- **external_source** （*string*） -
+
+    外部源路径。此参数适用于创建外部 Collection。
+
+    在 Zilliz Cloud 上，`external_source` 接受两种方案：`volume://<volume_name>/<path>` 和 `milvus://<instance_id>/<db_name>/<collection_name>`。`milvus://` 方案指向同一项目和区域中另一个与 Milvus v3.0.x 兼容的集群上的 Collection；该方案必须为小写，三个 Segment 均为必需，并且允许一个末尾斜杠。创建外部 Collection 时，此参数为必需项。
+
+- **external_spec** （*string*） -
+
+    外部规格配置。此参数适用于创建外部 Collection。
+
+    该规范是一个包含 `format` 等次级参数的 JSON 字符串。`format` 的可选值为 `parquet`、`vortex`、`lance-table`、`iceberg-table` 和 `milvus-table`。对于 `milvus-table`，请将 `external_source` 设置为 Milvus 快照元数据 JSON 路径，例如 `s3://bucket/snapshots/{collection_id}/metadata/{snapshot_id}.json`。
+
+    在 Zilliz Cloud 上，创建外部 Collection 时 `external_spec` 为可选项：对于 `milvus://` 源，省略此项会将 `format` 默认为 `milvus-table`；对于其他源，请提供具有匹配 `format` 的规格（`parquet`、`vortex`、`lance-table`、`iceberg-table`）。
+
+- **file_resource_ids** （*Array&lt;number | string&gt;*） -
+
+    外部文件资源 ID。此参数适用于创建外部 Collection。
+
+</NextChannel>
+
 **返回：**
 
 *Promise\<ResStatus\>*
@@ -635,7 +995,6 @@ await milvusClient.createCollection({
 - **reason** （*string*） - 
 
     指示所报告错误原因的字符串。如果此操作成功，该值保持为空字符串。
-
 
 **异常：**
 
