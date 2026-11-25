@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T18:45:07.364Z",
+  "generated_at": "2026-11-25T02:56:19.018Z",
   "manual": "guides",
   "target": null,
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
@@ -426,7 +426,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "schema-design-with-structs",
-                "inputs_sha256": "3211d446e9595c084f438887097baea0d8332cf767a1d9bd5060f20ba28ce370",
+                "inputs_sha256": "3666344e3120d486ecb2b67df5b43c4c8d68844a4d0145c7d9395e6ae9a6767b",
                 "record": "generated/en/manifests/shared-pages/guides/schema-design-with-structs.json"
               },
               "score": 86,
@@ -686,7 +686,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-field-overview",
-                "inputs_sha256": "4590636719e5c8f92e9c9ef35ceae23d688e456c50ed47847ec1550dc9e2831c",
+                "inputs_sha256": "e3d72ce2322fa5cb280ddbf11acb2726d7aea49039ac9b786501a1893b4c20cb",
                 "record": "generated/en/manifests/shared-pages/guides/json-field-overview.json"
               },
               "score": 86,
@@ -709,7 +709,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "json-filtering-operators",
-                "inputs_sha256": "c35133b7fae090960a894429fbd4152b1a23e0546a0a0965a5229552ddd6e67e",
+                "inputs_sha256": "67859274c07402001f444c9fbdbde3f83a81067a8599f6fd56e16ded878b2f6c",
                 "record": "generated/en/manifests/shared-pages/guides/json-filtering-operators.json"
               },
               "score": 86,
@@ -1256,7 +1256,7 @@
               "shared_page": {
                 "group": "guides",
                 "page": "trie-index-type",
-                "inputs_sha256": "f125bf798fc888b5d546dc8e23ca07cd23cfb246bcdd756146502f4e77d4ebc7",
+                "inputs_sha256": "111067400c9a37022f69c41cae4f86879926e6d228ccf3e543ec0453b8e15f3a",
                 "record": "generated/en/manifests/shared-pages/guides/trie-index-type.json"
               },
               "score": 86,
