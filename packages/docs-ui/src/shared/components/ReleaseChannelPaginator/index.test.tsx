@@ -17,10 +17,14 @@ import ReleaseChannelPaginator from './index';
 const NEXT_PERMALINK = '/docs/single-sign-on-with-ping-one';
 const RETIRED_PERMALINK = '/docs/legacy-monolith';
 
+// The channel-marked entries carry docId: these are resolved doc leaves — the
+// production shape of real NEXT/RETIRE-IN-NEXT pages (Docusaurus resolves doc
+// leaves into link items before the theme sees them). Only writer-produced
+// ref/link rows arrive docId-less, and those never block routes.
 const SIDEBAR = [
   {type: 'link', key: 'a', href: '/docs/stable', label: 'Stable'},
-  {type: 'link', key: 'b', href: NEXT_PERMALINK, label: 'PingOne', customProps: {channel: 'next'}},
-  {type: 'link', key: 'c', href: RETIRED_PERMALINK, label: 'Legacy Monolith', customProps: {channel: 'retire-in-next'}},
+  {type: 'link', key: 'b', href: NEXT_PERMALINK, label: 'PingOne', docId: 'single-sign-on-with-ping-one', customProps: {channel: 'next'}},
+  {type: 'link', key: 'c', href: RETIRED_PERMALINK, label: 'Legacy Monolith', docId: 'legacy-monolith', customProps: {channel: 'retire-in-next'}},
 ];
 
 /** Stands in for @theme/DocPaginator, which the theme override injects. */
