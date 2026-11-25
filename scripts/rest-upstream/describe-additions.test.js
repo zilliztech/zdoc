@@ -34,6 +34,8 @@ const DIFF = {
     source: 'milvus-data-plane',
     entries: [
         {id: 'upstream-modified|post /v2/x|05-a.json|requestBody|||params|schema|mirror', opKey: 'post /v2/x',
+            scope: 'requestBody', branch: '', field: 'params',
+            change: {kind: 'schema', key: 'mirror', before: null, after: {type: 'object', properties: {ttl: {type: 'integer', enum: ['gt', 'gte']}}}},
             upstreamComments: {'consistencyLevel': 'ConsistencyLevel guards read-your-writes for quick-setup collections.'},
             upstreamValidation: ['toProto: consistencyLevel must be Strong, Bounded, or Eventually']},
         {id: 'upstream-added-field|post /v2/x|05-a.json|response||200|vectorFieldType|field-uncovered|', opKey: 'post /v2/x', upstreamComments: {}},
@@ -195,5 +197,67 @@ test('buildReferenceIndex collects fragment descriptions by property name, dedup
         assert.equal(index.get('absent'), undefined)
     } finally {
         fs.rmSync(fragmentsDir, {recursive: true, force: true})
+    }
+})
+
+test('fresh prior adjudications ground the matched entry nodes; stale ones do not', async () => {
+    process.env.DESCRIBE_TEST_KEY = 'key'
+    const fragmentsDir = writeFragmentsDir()
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'describe-adjudications-'))
+    const adjudicationsPath = path.join(dir, 'adjudications.json')
+    // fieldPath root "params" matches the mirror entry's field; the cited
+    // literals survive in the mirror's upstream payload, so the entry is fresh.
+    fs.writeFileSync(adjudicationsPath, JSON.stringify({schemaVersion: 1, adjudications: [{
+        source: 'milvus-data-plane', opKey: 'post /v2/x', scope: 'requestBody', fieldPath: 'params.ttl',
+        decision: 'upstream-truth',
+        facts: ['ttl accepts only {gt, gte} comparators — TtlReq.toProto'],
+        specLiterals: ['gt', 'gte'],
+        evidence: {pr: 1414}, decidedAt: '2026-11-23', decidedBy: 'human-review',
+    }]}))
+    try {
+        const {calls, fetchImpl} = stubFetch([
+            {descriptions: [
+                {p: '', en: 'Extra parameters applied to the operation.'},
+                {p: 'consistencyLevel', en: 'The consistency level applied to the collection.'},
+            ]},
+            {descriptions: [{p: '', en: 'The element type of the vector field.'}]},
+            {descriptions: [{p: '', en: 'Timeout for establishing the connection in milliseconds.'}]},
+        ])
+        const {report} = await describeChangeSet({
+            changeSet: structuredClone(CHANGE_SET), diff: DIFF, fragmentsDir, adjudicationsPath,
+            baseUrl: 'https://gateway.invalid', apiKeyEnv: 'DESCRIBE_TEST_KEY', model: 'm', fetchImpl,
+        })
+        assert.equal(report.grounding.priorAdjudicationsUsed, 2, 'every node of the governed entry sees the facts')
+        for (const item of calls[0].items) {
+            assert.deepEqual(item.priorAdjudications, [{
+                key: 'milvus-data-plane|post /v2/x|requestBody||params.ttl',
+                decision: 'upstream-truth',
+                facts: ['ttl accepts only {gt, gte} comparators — TtlReq.toProto'],
+                decidedAt: '2026-11-23',
+            }])
+        }
+        assert.equal(calls[1].items.some(item => 'priorAdjudications' in item), false, 'unmatched entries get no facts')
+        // stale literals keep the entry out of the grounding entirely
+        fs.writeFileSync(adjudicationsPath, JSON.stringify({schemaVersion: 1, adjudications: [{
+            source: 'milvus-data-plane', opKey: 'post /v2/x', scope: 'requestBody', fieldPath: 'params.ttl',
+            decision: 'upstream-truth',
+            facts: ['ttl accepts only {gt, gte} comparators — TtlReq.toProto'],
+            specLiterals: ['lt'],
+            evidence: {pr: 1414}, decidedAt: '2026-11-23', decidedBy: 'human-review',
+        }]}))
+        const staleCalls = []
+        const staleFetch = async (url, options) => {
+            const body = JSON.parse(options.body)
+            staleCalls.push({items: body.messages[1].content.split('\n').filter(line => line.startsWith('{')).map(line => JSON.parse(line))})
+            return {ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: JSON.stringify({descriptions: [{p: '', en: 'x.'}, {p: 'consistencyLevel', en: 'y.'}]})}}]})}
+        }
+        const {report: staleReport} = await describeChangeSet({
+            changeSet: structuredClone(CHANGE_SET), diff: DIFF, fragmentsDir, adjudicationsPath,
+            baseUrl: 'https://gateway.invalid', apiKeyEnv: 'DESCRIBE_TEST_KEY', model: 'm', fetchImpl: staleFetch,
+        })
+        assert.equal(staleReport.grounding.priorAdjudicationsUsed, 0)
+        assert.equal(staleCalls[0].items.some(item => 'priorAdjudications' in item), false)
+    } finally {
+        fs.rmSync(dir, {recursive: true, force: true})
     }
 })

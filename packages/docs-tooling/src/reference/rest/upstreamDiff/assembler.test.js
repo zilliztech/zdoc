@@ -3,7 +3,8 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
-const {parseDecisions, loadDecisions, assembleChangeSet, stanceError} = require('./assembler')
+const {parseDecisions, loadDecisions, assembleChangeSet, decisionShapeError, stanceError} = require('./assembler')
+const {canonicalKey} = require('./adjudications')
 const {parseChangeSet} = require('./changeSet')
 const {diffDigestOf} = require('./changeSet')
 
@@ -538,4 +539,57 @@ test('mirror-retired local fields follow the same cross-track scoping', () => {
     assert.deepEqual(withoutLedger.reports.deletions,
         [{id: mirror.id, opKey: 'post /v2/things', scope: 'requestBody', field: 'legacyFlag', kind: 'mirror-retired-local'}])
     assert.deepEqual(withoutLedger.reports.crossTrackDeletions, [])
+})
+
+// Prior-adjudication citation gate (2026-11-23 design, 2026-11-25 review
+// condition 2): a settled field-level fact changes what the stance must cite,
+// not who decides. Same DB_NAME fixture the mainEntry constraint lane writes.
+const DB_NAME_CONSTRAINT_ID = 'upstream-modified|post /v2/things|01-things-v2.json|requestBody|||dbName|constraint|maxLength'
+
+function adjudicationsDoc(overrides = {}) {
+    return {schemaVersion: 1, adjudications: [{
+        source: 'zilliz-cloud-control-plane',
+        opKey: 'post /v2/things',
+        scope: 'requestBody',
+        fieldPath: 'dbName',
+        decision: 'upstream-truth',
+        facts: ['dbName identifies the {dbName} of the target cluster — DbNameReq'],
+        evidence: {pr: 1414},
+        decidedAt: '2026-11-23',
+        decidedBy: 'human-review',
+        ...overrides,
+    }]}
+}
+
+test('an adopt stance on an adjudicated entry must cite the governing key', () => {
+    const doc = adjudicationsDoc()
+    const key = canonicalKey(doc.adjudications[0])
+    const cited = assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt', adjudication: key}], fragmentLoader: name => FRAGMENTS.get(name), adjudications: doc})
+    assert.ok(cited.changeSet.entries.length > 0)
+    assert.deepEqual(cited.reports.adjudicationDeviations, [])
+    assert.throws(() => assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt'}], fragmentLoader: name => FRAGMENTS.get(name), adjudications: doc}),
+        /REST_UPSTREAM_ADJUDICATION_UNCITED/)
+    // an invented key cannot satisfy the gate
+    assert.throws(() => assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt', adjudication: 'invented|key'}], fragmentLoader: name => FRAGMENTS.get(name), adjudications: doc}),
+        /REST_UPSTREAM_ADJUDICATION_UNCITED/)
+})
+
+test('a recorded deviation keeps its cited key and lands in the deviations report', () => {
+    const doc = adjudicationsDoc()
+    const key = canonicalKey(doc.adjudications[0])
+    const {reports} = assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt', adjudication: key, deviationReason: 'upstream extended the accepted set beyond the recorded facts'}], fragmentLoader: name => FRAGMENTS.get(name), adjudications: doc})
+    assert.deepEqual(reports.adjudicationDeviations,
+        [{id: DB_NAME_CONSTRAINT_ID, adjudication: key, reason: 'upstream extended the accepted set beyond the recorded facts'}])
+    assert.notEqual(decisionShapeError({diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt', deviationReason: 'why'}), null)
+    // a skip cites nothing: the key would render as "aligned" while deciding nothing
+    assert.notEqual(decisionShapeError({diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'skip', adjudication: key}), null)
+})
+
+test('the citation gate stays inert without adjudications and never gates skips', () => {
+    // legacy callers (no adjudications argument) keep their exact behavior
+    const legacy = assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'adopt'}], fragmentLoader: name => FRAGMENTS.get(name)})
+    assert.ok(legacy.changeSet.entries.length > 0)
+    const doc = adjudicationsDoc()
+    const {reports} = assembleChangeSet({diffDocument: diffDocument(), decisions: [{diffEntryId: DB_NAME_CONSTRAINT_ID, action: 'skip', reason: 'human review requested'}], fragmentLoader: name => FRAGMENTS.get(name), adjudications: doc})
+    assert.deepEqual(reports.adjudicationDeviations, [])
 })

@@ -3,7 +3,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
-const {decideBatches, parseModelContent, acceptDecisionLine, chatCompletionsUrl, decisionSystemPrompt} = require('./decide-batches')
+const {decideBatches, parseModelContent, acceptDecisionLine, chatCompletionsUrl, decisionSystemPrompt, candidateAdjudicationAnnotation} = require('./decide-batches')
 const {UNFRAGMENTED_OPERATIONS_BUCKET} = require('../../packages/docs-tooling/src/reference/rest/upstreamDiff/candidates')
 
 // Minimal diff shaped like diff.js output: two fragment batches. The 2026-10-30
@@ -44,7 +44,7 @@ function stubFetch(responsesByFragment) {
         const body = JSON.parse(options.body)
         const fragmentLine = body.messages[1].content.split('\n').find(line => line.includes('"d":'))
         const fragment = fragmentLine.includes('01-things') ? '01-things-v2.json' : '02-singles-v2.json'
-        calls.push({url, fragment})
+        calls.push({url, fragment, prompt: body.messages[1].content})
         return {ok: true, status: 200, text: async () => '', json: async () => ({choices: [{message: {content: responsesByFragment[fragment]}}]})}
     }}
 }
@@ -368,5 +368,173 @@ test('a classified upstream-added operation stays out of the decision stage enti
         assert.equal(summary.candidates, 5)
     } finally {
         fs.rmSync(dir, {recursive: true, force: true})
+    }
+})
+
+// Prior-adjudication wiring (2026-11-23 design, 2026-11-25 review conditions
+// 1/2/4): the annotation carries the settled facts in-prompt, the citation
+// gate rejects uncited adopt/ledger stances and invented keys, and a stale
+// adjudication downgrades to "re-adjudicate" instead of gating.
+const NAME_CONSTRAINT_ID = 'upstream-modified|post /v2/things|01-things-v2.json|requestBody|||name|constraint|maxLength'
+
+function writeAdjudications(dir, overrides = {}) {
+    const doc = {
+        schemaVersion: 1,
+        adjudications: [{
+            source: 'zilliz-cloud-control-plane',
+            opKey: 'post /v2/things',
+            scope: 'requestBody',
+            fieldPath: 'name',
+            decision: 'upstream-truth',
+            facts: ['name accepts only {gt, gte} keyed comparators — NameReq.toProto'],
+            specLiterals: ['gt', 'gte'],
+            evidence: {pr: 1414},
+            decidedAt: '2026-11-23',
+            decidedBy: 'human-review',
+            ...overrides,
+        }],
+    }
+    const adjudicationsPath = path.join(dir, 'adjudications.json')
+    fs.writeFileSync(adjudicationsPath, `${JSON.stringify(doc, null, 2)}\n`)
+    return adjudicationsPath
+}
+
+test('acceptDecisionLine enforces adjudication citations per line', () => {
+    const entry = {id: NAME_CONSTRAINT_ID, category: 'upstream-modified', opKey: 'post /v2/things', fragment: '01-things-v2.json',
+        scope: 'requestBody', branch: '', responseStatus: '', field: 'name',
+        change: {kind: 'constraint', key: 'maxLength', before: 32, after: 50}, evidence: ''}
+    const entryById = new Map([[entry.id, entry]])
+    const candidateIds = new Set([entry.id])
+    const doc = {schemaVersion: 1, adjudications: [{
+        source: 'zilliz-cloud-control-plane', opKey: 'post /v2/things', scope: 'requestBody', fieldPath: 'name',
+        decision: 'upstream-truth', facts: ['name accepts only {gt, gte} keyed comparators — NameReq.toProto'],
+        evidence: {pr: 1414}, decidedAt: '2026-11-23', decidedBy: 'human-review',
+    }]}
+    const key = `${'zilliz-cloud-control-plane'}|post /v2/things|requestBody||name`
+    const applicableById = new Map([[entry.id, {keys: new Set([key]), fresh: doc.adjudications, stale: []}]])
+    assert.deepEqual(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt', adjudication: key}, candidateIds, entryById, applicableById).decision.adjudication, key)
+    assert.match(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt'}, candidateIds, entryById, applicableById).rejected, /cite one via "adjudication"/)
+    assert.match(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt', adjudication: 'invented|key'}, candidateIds, entryById, applicableById).rejected, /unknown, stale, or non-applicable/)
+    assert.match(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt', deviationReason: 'facts moved'}, candidateIds, entryById, applicableById).rejected, /deviationReason without adjudication/)
+    assert.equal(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt', adjudication: key, deviationReason: 'facts moved'}, candidateIds, entryById, applicableById).decision.deviationReason, 'facts moved')
+    // skips stay ungated, and legacy callers without applicability keep passing
+    assert.equal(acceptDecisionLine({diffEntryId: entry.id, action: 'skip', reason: 'human review'}, candidateIds, entryById, applicableById).decision.action, 'skip')
+    assert.equal(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt'}, candidateIds, entryById).decision.action, 'adopt')
+    assert.equal(acceptDecisionLine({diffEntryId: entry.id, action: 'adopt'}, candidateIds, entryById, new Map()).decision.action, 'adopt')
+})
+
+test('candidateAdjudicationAnnotation carries fresh facts and flags stale entries', () => {
+    const fresh = {fresh: [{facts: ['op accepts only {gt, gte} — WriteConditionReq.toProto'], evidence: {pr: 1414}, decidedAt: '2026-11-23'}], stale: []}
+    const annotation = candidateAdjudicationAnnotation(fresh)
+    assert.match(annotation, /\|\| prior adjudication\(s\)/)
+    assert.match(annotation, /cite one key via "adjudication"/)
+    const stale = {fresh: [], stale: [{facts: [], evidence: {pr: 1414}, decidedAt: '2026-11-23'}]}
+    assert.match(candidateAdjudicationAnnotation(stale), /STALE this round/)
+    assert.equal(candidateAdjudicationAnnotation(null), '')
+    assert.equal(candidateAdjudicationAnnotation({fresh: [], stale: []}), '')
+})
+
+test('decide-batches injects prior adjudications into the prompt and accepts cited stances', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-decide-adj-'))
+    process.env.DECIDE_TEST_KEY = 'test-key'
+    try {
+        const diffPath = writeDiff(dir)
+        // specLiterals omitted: the constraint payload '{"maxLength":50}'
+        // contains neither default literal, so the fixture must stay fresh.
+        const adjudicationsPath = writeAdjudications(dir, {specLiterals: undefined})
+        const key = 'zilliz-cloud-control-plane|post /v2/things|requestBody||name'
+        const responses = {
+            '01-things-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: 'upstream-modified|post /v2/things|01-things-v2.json|operation||||deprecated|', action: 'adopt'},
+                {diffEntryId: NAME_CONSTRAINT_ID, action: 'adopt', adjudication: key},
+            ]}),
+            '02-singles-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||dryRun:query|required|', action: 'adopt'},
+            ]}),
+        }
+        const {fetchImpl, calls} = stubFetch(responses)
+        const outPath = path.join(dir, 'decisions.jsonl')
+        const reportPath = path.join(dir, 'report.json')
+        const {summary} = await decideBatches({
+            diffPath, outPath, baseUrl: 'https://gateway.invalid', apiKeyEnv: 'DECIDE_TEST_KEY', model: 'test-model',
+            reportPath, adjudicationsPath, fetchImpl,
+        })
+        const prompted = calls.find(call => call.fragment === '01-things-v2.json')
+        assert.ok(prompted)
+        assert.match(prompted.prompt, /\|\| prior adjudication\(s\) zilliz-cloud-control-plane\|post \/v2\/things\|requestBody\|\|name/)
+        assert.match(prompted.prompt, /facts: name accepts only \{gt, gte\}/)
+        const decisions = fs.readFileSync(outPath, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+        assert.deepEqual(decisions.find(decision => decision.diffEntryId === NAME_CONSTRAINT_ID).adjudication, key)
+        assert.equal(summary.adjudications.applied, 1)
+        assert.equal(summary.adjudications.deviated, 0)
+        const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
+        assert.equal(report.summary.adjudications.applied, 1)
+        // per-key provenance (2026-11-25 review condition 4): the PR body
+        // renders decidedAt + the evidence PR next to every applied key
+        assert.deepEqual(report.summary.adjudications.details[key], {decidedAt: '2026-11-23', pr: 1414})
+    } finally {
+        delete process.env.DECIDE_TEST_KEY
+    }
+})
+
+test('a stale prior adjudication stops gating and is reported for re-adjudication', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-decide-adj-stale-'))
+    process.env.DECIDE_TEST_KEY = 'test-key'
+    try {
+        const diffPath = writeDiff(dir)
+        // The constraint payload ({"maxLength":50}) contains neither literal,
+        // so the entry degrades to stale: an UNCITED adopt must now pass, and
+        // the stale key must surface in the report.
+        const adjudicationsPath = writeAdjudications(dir)
+        const key = 'zilliz-cloud-control-plane|post /v2/things|requestBody||name'
+        const responses = {
+            '01-things-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: 'upstream-modified|post /v2/things|01-things-v2.json|operation||||deprecated|', action: 'adopt'},
+                {diffEntryId: NAME_CONSTRAINT_ID, action: 'adopt'},
+            ]}),
+            '02-singles-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||dryRun:query|required|', action: 'adopt'},
+            ]}),
+        }
+        const {fetchImpl} = stubFetch(responses)
+        const reportPath = path.join(dir, 'report.json')
+        const {summary} = await decideBatches({
+            diffPath, outPath: path.join(dir, 'decisions.jsonl'), baseUrl: 'https://gateway.invalid',
+            apiKeyEnv: 'DECIDE_TEST_KEY', model: 'test-model', reportPath, adjudicationsPath, fetchImpl,
+        })
+        assert.equal(summary.adjudications.applied, 0)
+        assert.deepEqual(summary.adjudications.stale, [key])
+        const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
+        assert.deepEqual(report.summary.adjudications.stale, [key])
+        // stale keys keep their provenance too: the PR body renders it next to the stale marker
+        assert.deepEqual(report.summary.adjudications.details[key], {decidedAt: '2026-11-23', pr: 1414})
+    } finally {
+        delete process.env.DECIDE_TEST_KEY
+    }
+})
+
+test('an uncited adopt on a governed entry rejects the line until the batch fails', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-upstream-decide-adj-uncited-'))
+    process.env.DECIDE_TEST_KEY = 'test-key'
+    try {
+        const diffPath = writeDiff(dir)
+        const adjudicationsPath = writeAdjudications(dir, {specLiterals: undefined})
+        // No stance for the deprecated entry, an uncited one for the governed
+        // name entry: coverage 0/2 after one attempt fails the batch.
+        const responses = {
+            '01-things-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: NAME_CONSTRAINT_ID, action: 'adopt'},
+            ]}),
+            '02-singles-v2.json': JSON.stringify({decisions: [
+                {diffEntryId: 'upstream-modified|delete /v2/things/{ID}|02-singles-v2.json|parameter|||dryRun:query|required|', action: 'adopt'},
+            ]}),
+        }
+        const {fetchImpl} = stubFetch(responses)
+        await assert.rejects(decideBatches({
+            diffPath, outPath: path.join(dir, 'decisions.jsonl'), baseUrl: 'https://gateway.invalid',
+            apiKeyEnv: 'DECIDE_TEST_KEY', model: 'test-model', adjudicationsPath, fetchImpl, retries: 1,
+        }), /REST_UPSTREAM_DECIDE_BATCH_FAILED/)
+    } finally {
+        delete process.env.DECIDE_TEST_KEY
     }
 })

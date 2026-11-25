@@ -464,7 +464,7 @@ test('rest-upstream-prepare stages an isolated agent workspace and fails closed 
         assert.deepEqual(fs.readdirSync(path.join(staging, 'diff')).sort(), ['diff.json', 'diff.md'])
         const manifest = JSON.parse(fs.readFileSync(path.join(staging, 'staging-manifest.json'), 'utf8'))
         assert.equal(manifest.source, 'zilliz-cloud-control-plane')
-        assert.deepEqual(manifest.files.map(file => file.path), ['diff/diff.json', 'diff/diff.md', 'meta/ledger.json', 'meta/lock.json', 'meta/titles.json', 'rules/refresh-rules.json'])
+        assert.deepEqual(manifest.files.map(file => file.path), ['diff/diff.json', 'diff/diff.md', 'meta/adjudications.json', 'meta/ledger.json', 'meta/lock.json', 'meta/titles.json', 'rules/refresh-rules.json'])
 
         const occupied = runCli(['rest-upstream-prepare', '--source', 'zilliz-cloud-control-plane', '--spec', path.join(dir, 'upstream.yaml'),
             '--staging', staging, '--allow-empty-drift', '--fragments', path.join(dir, 'fragments'), '--titles', path.join(dir, 'titles.json')])
