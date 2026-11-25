@@ -17,13 +17,14 @@ const path = require('node:path')
 const TOOLING_ROOT = path.join(__dirname, '..', '..', 'packages', 'docs-tooling', 'src', 'reference', 'rest')
 const {buildCandidateRecords, UNFRAGMENTED_OPERATIONS_BUCKET} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'candidates'))
 const {decisionShapeError, stanceError} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'assembler'))
+const {applicableAdjudications, canonicalKey, loadRestUpstreamAdjudications} = require(path.join(TOOLING_ROOT, 'upstreamDiff', 'adjudications'))
 
 const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000
 const DEFAULT_RETRIES = 3
 const DEFAULT_MIN_COVERAGE = 0.5
 
 function usage() {
-    return 'Usage: node scripts/rest-upstream/decide-batches.js --diff <path> --out <decisions.jsonl> --base-url <url> --api-key-env <NAME> --model <id> [--report <path>] [--min-coverage 0.5] [--timeout-ms 300000] [--retries 3]'
+    return 'Usage: node scripts/rest-upstream/decide-batches.js --diff <path> --out <decisions.jsonl> --base-url <url> --api-key-env <NAME> --model <id> [--adjudications <path>] [--report <path>] [--min-coverage 0.5] [--timeout-ms 300000] [--retries 3]'
 }
 
 function fail(message) {
@@ -70,6 +71,7 @@ function decisionSystemPrompt() {
         '5. fragment-only operations (retirement candidates): omit — retirement is a human content decision. Never adopt, never ledger.',
         '6. Description, summary, schema-mirror, and added-field/param drift never appear as candidates: prose stays local, structure follows upstream, and new fields are placed by a separate stage. If you believe upstream prose is materially better, note it in a skip reason.',
         '7. Copy diffEntryId values verbatim. Never invent, shorten, or reformat an id.',
+        '8. A candidate line whose summary carries "|| prior adjudication(s) <key> — facts: …" records settled field-level facts from an earlier human adjudication. Align your stance with those facts: emit {"diffEntryId":"<id>","action":"adopt","adjudication":"<one key copied verbatim from the annotation>"}. To contradict a recorded fact you must carry the same "adjudication" key plus "deviationReason":"<why the facts no longer hold>". An annotation marked STALE means the upstream moved: never align with stale facts — skip with your reasoning or deviate explicitly, and never cite the stale key.',
     ].join('\n')
 }
 
@@ -117,14 +119,25 @@ function parseModelContent(content) {
 // fails the batch on its own; the coverage gate and the assembler judge.
 // Assemblability (the diff-only subset of the assembler's gates) rejects the
 // line here too, so one out-of-grid stance cannot discard every other stance
-// with the run.
-function acceptDecisionLine(line, candidateIds, entryById) {
+// with the run. applicableById carries the per-entry prior-adjudication
+// verdicts (fresh keys, stale entries): an adopt/ledger stance on a governed
+// entry must cite a fresh key — the same rule the assembler enforces later,
+// applied per line so one uncited stance cannot sink the whole batch.
+function acceptDecisionLine(line, candidateIds, entryById, applicableById = null) {
     if (!line || typeof line !== 'object' || Array.isArray(line)) return {rejected: 'not an object'}
     if (typeof line.diffEntryId !== 'string' || !candidateIds.has(line.diffEntryId)) return {rejected: `unknown or invented diffEntryId: ${JSON.stringify(line.diffEntryId)}`}
     const shapeError = decisionShapeError(line)
     if (shapeError) return {rejected: `contract: ${shapeError}`}
     const assemblabilityError = stanceError(line, entryById.get(line.diffEntryId))
     if (assemblabilityError) return {rejected: `not mechanically writable: ${assemblabilityError}`}
+    const applicable = applicableById?.get(line.diffEntryId)
+    if (line.deviationReason !== undefined && line.adjudication === undefined) return {rejected: 'deviationReason requires adjudication'}
+    if (line.adjudication !== undefined && (!applicable || !applicable.keys.has(line.adjudication))) {
+        return {rejected: `unknown, stale, or non-applicable adjudication key: ${JSON.stringify(line.adjudication)}`}
+    }
+    if (applicable && applicable.keys.size > 0 && ['adopt', 'ledger'].includes(line.action) && line.adjudication === undefined) {
+        return {rejected: `prior adjudication(s) ${[...applicable.keys].join(', ')} govern this entry; cite one via "adjudication" or omit the line for human review`}
+    }
     return {decision: line}
 }
 
@@ -161,12 +174,42 @@ async function callModel({candidates, baseUrl, apiKey, model, timeoutMs, fetchIm
     }
 }
 
-async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, reportPath = null, minCoverage = DEFAULT_MIN_COVERAGE, timeoutMs = DEFAULT_TIMEOUT_MS, retries = DEFAULT_RETRIES, fetchImpl = globalThis.fetch}) {
+// The in-prompt carrier of prior adjudications (2026-11-23 design, 2026-11-25
+// review conditions 1/2/4): the annotation restates the settled facts and the
+// canonical key the stance must cite, and flags STALE entries so the model
+// never aligns with facts the current upstream payload no longer confirms.
+function candidateAdjudicationAnnotation(applicable) {
+    if (!applicable) return ''
+    const parts = []
+    if (applicable.fresh.length > 0) {
+        parts.push(`|| prior adjudication(s) ${applicable.fresh.map(entry => canonicalKey(entry)).join(' + ')} — facts: ${applicable.fresh.flatMap(entry => entry.facts).join(' ')} (evidence: PR #${applicable.fresh[0].evidence.pr}, decided ${applicable.fresh[0].decidedAt}); align and cite one key via "adjudication"`)
+    }
+    if (applicable.stale.length > 0) {
+        parts.push(`|| prior adjudication(s) ${applicable.stale.map(entry => canonicalKey(entry)).join(' + ')} STALE this round — the recorded literals no longer hold in the upstream payload; re-adjudicate and never cite the stale key`)
+    }
+    return parts.length ? ` ${parts.join(' ')}` : ''
+}
+
+// Per-key metadata the PR body renders next to each applied, deviated, or
+// stale key (2026-11-25 review condition 4: the human reviewer sees decidedAt
+// and the evidence PR, not just the canonical-key string).
+function adjudicationKeyDetails(entry) {
+    return {decidedAt: entry.decidedAt, pr: entry.evidence.pr,
+        ...(entry.evidence.commentUrl ? {commentUrl: entry.evidence.commentUrl} : {})}
+}
+
+const sortKeyEntries = (left, right) => (left[0] < right[0] ? -1 : left[0] > right[0] ? 1 : 0)
+
+async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, reportPath = null, adjudicationsPath = null, minCoverage = DEFAULT_MIN_COVERAGE, timeoutMs = DEFAULT_TIMEOUT_MS, retries = DEFAULT_RETRIES, fetchImpl = globalThis.fetch}) {
     if (!diffPath || !outPath || !baseUrl || !apiKeyEnv || !model) fail(usage())
     const apiKey = process.env[apiKeyEnv]
     if (!apiKey) fail(`REST_UPSTREAM_DECIDE_API_KEY_MISSING: --api-key-env ${apiKeyEnv} is not set`)
     const diff = JSON.parse(fs.readFileSync(diffPath, 'utf8'))
     const entryById = new Map(diff.entries.map(entry => [entry.id, entry]))
+    // Prior semantic adjudications (meta/upstream/adjudications.json, staged as
+    // meta/adjudications.json): absent file keeps every consumer inert; a
+    // present-but-broken file fails closed here, before any paid turn.
+    const adjudications = adjudicationsPath ? loadRestUpstreamAdjudications(adjudicationsPath) : null
     // Fragment-less entries (operation-level upstream-added operations) must
     // not vanish from the decision stage: they group into the synthetic
     // operations bucket, and a pending upstream-added operation without a
@@ -177,7 +220,11 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
     for (const fragment of fragments) {
         const records = buildCandidateRecords(diff, {fragmentFilter: fragment})
         if (records.length === 0) continue
-        const candidates = records.map(record => ({d: record.d, c: record.c}))
+        const applicableById = new Map(records.map(record => {
+            const entry = entryById.get(record.d)
+            return [record.d, adjudications && entry ? applicableAdjudications(adjudications, diff.source, entry) : null]
+        }))
+        const candidates = records.map(record => ({d: record.d, c: record.c + candidateAdjudicationAnnotation(applicableById.get(record.d))}))
         const candidateIds = new Set(candidates.map(line => line.d))
         // The coverage base counts only the candidates the decision rules
         // expect a stance for: flagged relaxations are instructed omissions
@@ -213,7 +260,7 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
             stances.length = 0
             rejected.length = 0
             for (const line of parsed.decisions) {
-                const verdict = acceptDecisionLine(line, candidateIds, entryById)
+                const verdict = acceptDecisionLine(line, candidateIds, entryById, applicableById)
                 if (verdict.rejected) {
                     rejected.push({line, reason: verdict.rejected})
                 } else if (seen.has(verdict.decision.diffEntryId)) {
@@ -234,7 +281,25 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
             fail(`REST_UPSTREAM_DECIDE_BATCH_FAILED: ${fragment} after ${attempts} attempt(s): ${lastError}`)
         }
         accepted.push(...stances)
-        batches.push({fragment, candidates: candidates.length, omittableByRule: omittableCount, stanceBase: coverageBase, stances: stances.length, coverage, attempts, rejected})
+        const staleKeys = new Set()
+        const keyDetails = new Map()
+        for (const applicable of applicableById.values()) {
+            for (const entry of applicable?.stale ?? []) {
+                const key = canonicalKey(entry)
+                staleKeys.add(key)
+                keyDetails.set(key, adjudicationKeyDetails(entry))
+            }
+            for (const entry of applicable?.fresh ?? []) {
+                keyDetails.set(canonicalKey(entry), adjudicationKeyDetails(entry))
+            }
+        }
+        batches.push({fragment, candidates: candidates.length, omittableByRule: omittableCount, stanceBase: coverageBase, stances: stances.length, coverage, attempts, rejected,
+            adjudications: {
+                applied: stances.filter(stance => stance.adjudication !== undefined && stance.deviationReason === undefined).length,
+                deviated: stances.filter(stance => stance.deviationReason !== undefined).length,
+                stale: [...staleKeys].sort(),
+                details: Object.fromEntries([...keyDetails].sort(sortKeyEntries)),
+            }})
     }
     fs.mkdirSync(path.dirname(path.resolve(outPath)), {recursive: true})
     fs.writeFileSync(outPath, `${accepted.map(decision => JSON.stringify(decision)).join('\n')}\n`)
@@ -243,12 +308,18 @@ async function decideBatches({diffPath, outPath, baseUrl, apiKeyEnv, model, repo
         stances: accepted.length,
         rejectedLines: batches.reduce((total, batch) => total + batch.rejected.length, 0),
         batches: batches.length,
+        adjudications: {
+            applied: batches.reduce((total, batch) => total + batch.adjudications.applied, 0),
+            deviated: batches.reduce((total, batch) => total + batch.adjudications.deviated, 0),
+            stale: [...new Set(batches.flatMap(batch => batch.adjudications.stale))].sort(),
+            details: Object.fromEntries(batches.flatMap(batch => Object.entries(batch.adjudications.details)).sort(sortKeyEntries)),
+        },
     }
     if (reportPath) {
         fs.mkdirSync(path.dirname(path.resolve(reportPath)), {recursive: true})
         fs.writeFileSync(reportPath, `${JSON.stringify({source: diff.source, upstreamPin: diff.upstreamPin, model, summary, batches}, null, 2)}\n`)
     }
-    console.log(`decided ${summary.stances}/${summary.candidates} candidate(s) across ${summary.batches} batch(es); ${summary.rejectedLines} rejected line(s) -> ${outPath}`)
+    console.log(`decided ${summary.stances}/${summary.candidates} candidate(s) across ${summary.batches} batch(es); ${summary.rejectedLines} rejected line(s); adjudications ${summary.adjudications.applied} aligned / ${summary.adjudications.deviated} deviated / ${summary.adjudications.stale.length} stale -> ${outPath}`)
     return {summary, batches}
 }
 
@@ -261,6 +332,7 @@ async function main() {
         apiKeyEnv: args.get('api-key-env'),
         model: args.get('model'),
         reportPath: args.get('report'),
+        adjudicationsPath: args.get('adjudications') ?? null,
         minCoverage: args.has('min-coverage') ? Number(args.get('min-coverage')) : DEFAULT_MIN_COVERAGE,
         timeoutMs: args.has('timeout-ms') ? Number(args.get('timeout-ms')) : DEFAULT_TIMEOUT_MS,
         retries: args.has('retries') ? Number(args.get('retries')) : DEFAULT_RETRIES,
@@ -274,4 +346,4 @@ if (require.main === module) {
     })
 }
 
-module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, chatCompletionsUrl, parseArgs, DEFAULT_MIN_COVERAGE}
+module.exports = {decideBatches, parseModelContent, acceptDecisionLine, decisionSystemPrompt, chatCompletionsUrl, parseArgs, candidateAdjudicationAnnotation, DEFAULT_MIN_COVERAGE}

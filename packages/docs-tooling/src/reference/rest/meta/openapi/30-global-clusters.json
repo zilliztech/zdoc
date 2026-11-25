@@ -3053,6 +3053,32 @@
                             }
                           },
                           "example": "job-xxxxxxxxxxxxxxx"
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "ID of the asynchronous job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "异步任务的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "非同期ジョブの ID。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。タイプはエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "The outcome of adding one or more secondary clusters to the global cluster.",
@@ -4370,6 +4396,32 @@
                             }
                           },
                           "example": "job-xxxxxxxxxxxxxxx"
+                        },
+                        "data": {
+                          "type": "object",
+                          "description": "Response payload; the type varies by endpoint.",
+                          "properties": {
+                            "jobId": {
+                              "type": "string",
+                              "description": "ID of the asynchronous job.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "异步任务的 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "非同期ジョブの ID。"
+                                }
+                              }
+                            }
+                          },
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应负载，类型随端点而变化。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。タイプはエンドポイントによって異なります。"
+                            }
+                          }
                         }
                       },
                       "description": "One possible success response payload for the compute unit modification operation.",
