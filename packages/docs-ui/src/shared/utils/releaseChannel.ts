@@ -138,10 +138,21 @@ function sidebarItemHref(item: PropSidebarItem): string | undefined {
   return (item as {href?: string}).href;
 }
 
+/** Writer-produced navigation rows (base_nav_ref / base_nav_link) arrive as
+ * link items without `docId`: their channel marks the navigation entry only,
+ * never the target route — a NEXT-marked ref may legitimately point at a
+ * CURRENT-live page. Resolved doc leaves also arrive as link items but always
+ * carry `docId`, so those keep gating routes exactly as before. */
+function isNavigationOnlyLinkItem(item: PropSidebarItem): boolean {
+  return item.type === 'link' && !('docId' in (item as {docId?: unknown}));
+}
+
 /** Whether the sidebar entry resolving to `pathname` is on the hidden channel
  * for this predicate — used by the docs shell to swap in the shared 404 page
  * before any doc chrome mounts. Page-exact by design: a CURRENT page below a
- * NEXT category still renders. */
+ * NEXT category still renders. Navigation-only link rows are exempt: their
+ * channel describes the sidebar entry, and blocking their href would 404 a
+ * live page the entry merely points at. */
 function sidebarPathIsChannelBlocked(
   items: readonly PropSidebarItem[],
   pathname: string,
@@ -149,7 +160,7 @@ function sidebarPathIsChannelBlocked(
 ): boolean {
   const target = normalizeSidebarPath(pathname);
   for (const item of items) {
-    if (isBlocked(item)) {
+    if (!isNavigationOnlyLinkItem(item) && isBlocked(item)) {
       const href = sidebarItemHref(item);
       if (href && normalizeSidebarPath(href) === target) return true;
     }
