@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "1ec263cee9c3a9815425ad3d5f09fa3678cea6db",
+  "sourceCommit": "8fe52376e869eeed97ae3c3440613d75b4e75c10",
   "records": [
     {
       "manual": "cli",
@@ -6280,7 +6280,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/backup-and-restore-v2/restore-cluster-backup-v2.mdx",
-      "sourceHash": "42bd3bfacd676908df03150f13da30ace26efeb6afc5b3894bd9b6e3b3d64368"
+      "sourceHash": "8bb1f0c4c333590ad1c67f315d71b10c5832747456165636f97d2b8539299858"
     },
     {
       "manual": "rest",
@@ -6520,7 +6520,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2.mdx",
-      "sourceHash": "97ad590c914e897cdadf799e524bd33543eefa95fd34bbf6e4f120864d402311"
+      "sourceHash": "3b79afeaaa72a3999e87432066143140316061343bb2c19c80a3aead2984042e"
     },
     {
       "manual": "rest",
@@ -6575,7 +6575,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/add-secondary-clusters-v2.mdx",
-      "sourceHash": "b5f7580c05db220738f4a39da12a7ae14855e7859202614078893f35b9da8e43"
+      "sourceHash": "2dd5c481488a905ca2c14a5904c10390acd7780f35819a8f80d94be0fd2f11cd"
     },
     {
       "manual": "rest",
@@ -6625,7 +6625,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/modify-global-cluster-cu-v2.mdx",
-      "sourceHash": "199052b5cd4736c32614eaf6014fb9d1f6b949d3f28448f95d4912ef2bb4d651"
+      "sourceHash": "718387884442e154a84f3728fb09e4a0d78e08313c73da1095656fb9be80fbc6"
     },
     {
       "manual": "rest",
