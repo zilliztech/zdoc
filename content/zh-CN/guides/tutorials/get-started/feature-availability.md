@@ -82,7 +82,39 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 ### 公测版\{#public-preview}
 
-- [按需计算](./on-demand-cluster)
+- [按需计算](./on-demand-cluster)（腾讯云、亚马逊云科技）
+
+<Admonition type="info" title="说明">
+
+如需使用以下功能，请将集群兼容的 Milvus 版本升至 3.0。详情请参考[升级集群兼容版本以试用公测版功能](/docs/manage-cluster#upgrade-cluster-for-preview-features)。
+
+</Admonition>
+
+- Milvus 3.0 功能：
+
+    - [查询](/docs/get-and-scalar-query)与[搜索](/docs/single-vector-search)支持 ORDER BY
+
+    - [查询聚合](/docs/get-and-scalar-query)
+
+    - [搜索聚合](/docs/search-aggregation)
+
+    - [正则表达式过滤](/docs/pattern-match)
+
+    - [Membership Match 过滤](/docs/membership-match)
+
+    - [MinHash Function](/docs/minhash-function)
+
+    - [`TEXT`](/docs/use-text-field)[ 数据类型](/docs/use-text-field)
+
+    - [为已有 Collection 添加 Function 及其字段](/docs/add-fields-to-an-existing-collection)
+
+    - [删除字段和 Function](/docs/add-fields-to-an-existing-collection)
+
+    - [StructArray 元素级搜索](/docs/use-array-of-structs)
+
+    - [StructArray Match 系列过滤](/docs/struct-array-filtering)
+
+    - [Entity 级 TTL](/docs/set-collection-ttl)
 
 ### 停用预告\{#deprecation-notice}
 

@@ -161,6 +161,7 @@ Zilliz Cloud 不会在同一次扩缩容操作中同时修改 Query CU 和 Repli
 使用 RESTful API 时，您可以在单个[修改集群配置](/reference/restful/modify-cluster-v2)请求中为 Query CU 和 Replica 配置自动扩缩容。
 
 ```bash
+export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 
@@ -222,7 +223,7 @@ curl --request POST \
 
 - On-demand 集群会自动扩缩容，不需要配置自动扩缩容。
 
-- Replica 扩缩容要求 Query CU 配置至少为 4 CU。
+- Replica 扩缩容要求 Query CU 配置至少为 8 CU。
 
 - Query CU × Replica 存在上限。详情请参阅 Zilliz Cloud Limits。
 

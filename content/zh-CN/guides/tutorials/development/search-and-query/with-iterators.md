@@ -79,6 +79,7 @@ import io.milvus.v2.service.vector.request.SearchIteratorReq;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import java.util.Collections;
 import java.util.List;
+import io.milvus.response.QueryResultsWrapper;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
@@ -91,7 +92,7 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
         .vectors(Collections.singletonList(queryVector))
         .vectorFieldName("vector")
         .metricType(MetricType.L2)
-        .batchSize(500L)
+        .batchSize(50L)
         .outputFields(Collections.singletonList("color"))
         .topK(20000)
         .build());
@@ -105,6 +106,8 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
 import (
     "context"
     "fmt"
+    "errors"
+    "io"
 
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
@@ -113,7 +116,7 @@ import (
 
 ctx := context.Background()
 
-c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
 })
@@ -122,7 +125,7 @@ if err != nil {
 }
 
 vec := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterator_collection", entity.FloatVector(vec)).
+iter, err := client.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterator_collection", entity.FloatVector(vec)).
     WithANNSField("vector").
     WithAnnParam(index.NewIvfAnnParam(16)).
     WithBatchSize(50).
@@ -201,7 +204,7 @@ if (!status.IsOk()) {
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-const milvusClient = new MilvusClient({
+const client = new MilvusClient({
   address: 'YOUR_CLUSTER_ENDPOINT',
   token: 'YOUR_CLUSTER_TOKEN',
 });
@@ -211,7 +214,7 @@ const queryVectors = [
 ];
 const collectionName = 'iterator_collection';
 
-const iterator = await milvusClient.searchIterator({
+const iterator = await client.searchIterator({
     collection_name: collectionName,
     vectors: queryVectors,
     anns_field: 'vector',
@@ -229,6 +232,7 @@ const iterator = await milvusClient.searchIterator({
 using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Dql;
 using Milvus.Client.V2.Types;
+using Milvus.Client.V2.Responses.Dql;
 
 MilvusClientV2 client = new(new ConnectConfig
 {
@@ -325,8 +329,6 @@ while True:
 <TabItem value='java'>
 
 ```java
-import io.milvus.response.QueryResultsWrapper;
-
 while (true) {
     List<QueryResultsWrapper.RowRecord> res = searchIterator.next();
     if (res.isEmpty()) {
@@ -345,12 +347,6 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-import (
-    "errors"
-    "fmt"
-    "io"
-)
-
 for {
     rs, err := iter.Next(ctx)
     // end of iterator
@@ -423,8 +419,6 @@ for await (const result of iterator) {
 <TabItem value='csharp'>
 
 ```csharp
-using Milvus.Client.V2.Responses.Dql;
-
 // Use SearchIterator
 await foreach (SingleResult result in iterator)
 {

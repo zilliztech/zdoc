@@ -56,9 +56,21 @@ Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服�
 
 <CloudRegions provider="tencent" />
 
+<Admonition type="info" title="说明">
+
+如需在腾讯云上使用按需计算功能，请[联系我们](http://support.zilliz.com.cn)。
+
+</Admonition>
+
 ### 亚马逊云科技\{#amazon-cn}
 
 <CloudRegions provider="amazon-cn" />
+
+<Admonition type="info" title="说明">
+
+如需在亚马逊云科技上使用按需计算功能，请[联系我们](http://support.zilliz.com.cn)。
+
+</Admonition>
 
 ## 云地域的功能支持情况\{#feature-support-by-cloud-region}
 

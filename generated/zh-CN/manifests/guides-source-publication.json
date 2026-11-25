@@ -1360,7 +1360,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "e7c0f7b2087f587431bf0c2223a53e6686222521bef792dc4515309f01eedcd0",
+      "sha256": "0cdae06d504596e56f3796c3dbe7a59c94dd4b0d16c0e021e192c585005b1894",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },
@@ -1414,7 +1414,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/tune-recall-rate.md",
-      "sha256": "b5b14fd5c82a4a6d236ff8611f5e7a902120d6049391140dcac77313a98db0bb",
+      "sha256": "db62535b912bb146928252ebdabc8d5e3d197c41dbbb0403c73f80ce76448011",
       "docToken": "Wb3KwVJBDiQvzikvXNbcUiZonEf",
       "revisionId": "839"
     },
@@ -1432,7 +1432,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/with-iterators.md",
-      "sha256": "62fd3c9dc61cc2ced7c39106f7b96ff152259b78c40ed100c1c7405940c3ba40",
+      "sha256": "06c6abac11fc9622e4e61bb9a03dec4da9cc3cdbec19ecd20c033be1f0cf1194",
       "docToken": "GsLqwoJK6iZgfZkyNMscbpzmn5l",
       "revisionId": "1248"
     },
@@ -1450,7 +1450,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "59d3bc1ad86235c09ce01f6453d5c71d4d032d8404732346bfc29b30a86d4070",
+      "sha256": "eb431ae3ed2f15837264d4982b5455046462b832b455637382b2282ea6a1e8ea",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -1774,9 +1774,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "sha256": "f648ad5089105985231ab0368638911eafde9fdc59444336838e5f31d2066822",
+      "sha256": "5cfc3fea8ef92d656e12efa7d30555068e66d2e91839398804890b37014a233b",
       "docToken": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
-      "revisionId": "121"
+      "revisionId": "122"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md",
@@ -2956,7 +2956,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/single-vector-search.md",
-      "sha256": "133c951e9b7b322896298d292b8047c019a80d999c755396f289b3cd96e28ec9",
+      "sha256": "7679b98fe8e2f3197c33312aac8ced9d2eca223bba571c227b81baefbf8575ae",
       "docToken": "HtzdwrGPZi4bvnksR75ccetInrf",
       "revisionId": "5522"
     },
@@ -3010,7 +3010,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/tune-recall-rate.md",
-      "sha256": "9af81f25da978cb99c4829698ce085ce41b2ba62049097bdd150e1baca59b359",
+      "sha256": "747d43ab753371471b46afbc43bfce2a09dce3f8d7688b3d1b88b57e983c1814",
       "docToken": "Wb3KwVJBDiQvzikvXNbcUiZonEf",
       "revisionId": "839"
     },
@@ -3028,7 +3028,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/with-iterators.md",
-      "sha256": "98a9d31f679344af09519c3396dfa998252b2aefb5b3ee4eccbeee88fd47da01",
+      "sha256": "145bc56f54743109c80ccd658406b950efe5785e7bbbe7fdbe3c660fab4779fc",
       "docToken": "GsLqwoJK6iZgfZkyNMscbpzmn5l",
       "revisionId": "1248"
     },
@@ -3064,7 +3064,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/vector-index/tune-index-build-level.md",
-      "sha256": "584d7bdbe8558a004efdb8cab38f5b4a906256a54762faf822534062a04d4793",
+      "sha256": "9ff30ffbded1c25ed96d1e21e18517ee378cd271870151d68b69198b850e678b",
       "docToken": "KCIawSSnKiuwBWk0PJ9ci5TYnBS",
       "revisionId": "312"
     },
@@ -3094,9 +3094,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cloud-providers-and-regions.md",
-      "sha256": "6201a515c84c9c7625e85e5655420c6d873c2c1927945a516d2da581b27fecea",
+      "sha256": "5ff2f85ead30029ba9c282fd18438255e54d12a2b4cd98ce602a4e5396e6f3c5",
       "docToken": "BErdww1kOirndzkHrKoc2ibynlb",
-      "revisionId": "519"
+      "revisionId": "531"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/cu-types-explained.md",
@@ -3190,9 +3190,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/feature-availability.md",
-      "sha256": "a6d28cc556f119df9d1f7415e08f30c5fb486eb5321aaf33a8a18bb9cd9865c7",
+      "sha256": "893f2f496bb59af7bdc70e790ccc7464937884bece826bfa03d95b659fe68259",
       "docToken": "EZ2jwCJD7iazqKkmSGRcBfjWnCh",
-      "revisionId": "407"
+      "revisionId": "477"
     },
     {
       "path": "content/zh-CN/guides/tutorials/get-started/quickstarts/cli-and-agent-integration-guide.md",
@@ -3664,9 +3664,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling.md",
-      "sha256": "6bc7c22c260e78e005c5b8ee7e3f53edc6f831e0946e54d783c21a88940ce10b",
+      "sha256": "d3db578702a570894ed1897af37fea3be9b86cd645461daf0c52e41516ac3e12",
       "docToken": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
-      "revisionId": "121"
+      "revisionId": "122"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade.md",
@@ -3760,9 +3760,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/cost-optimization.md",
-      "sha256": "42fa6fa04dbbbd6c557ea360bcaed3fc33eb0ec59a51959f630adf8c30a523e1",
+      "sha256": "3fd0fafbd478cc01c010c80cb8c36cc3d6ce388906a3941eb42af96b2a2af1da",
       "docToken": "ObcZwiYelidyeTk8HGaclpWTnFe",
-      "revisionId": "824"
+      "revisionId": "826"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/cost-management/understand-cost/audit-log-cost.md",

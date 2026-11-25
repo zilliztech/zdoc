@@ -131,8 +131,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -237,16 +237,16 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-#include 
-#include 
+#include <iostream>
 #include "milvus/MilvusClientV2.h"
 
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"));
 if (!status.IsOk()) {
-    std::cerr  queryVector = {
-    0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F
-};
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> queryVector = {0.35803764F, -0.60234958F, 0.18414013F, -0.26286206F, 0.90294385F};
 
 auto searchRequest = milvus::SearchRequest()
                          .WithCollectionName("quick_setup")
@@ -258,10 +258,19 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902133941650391)
 ```
 
 </TabItem>
@@ -310,7 +319,7 @@ using var client = new MilvusClientV2(new ConnectConfig
 await client.ConnectAsync();
 
 // 4. Single vector search
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -319,10 +328,8 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3
 });
 
-var single = res.SingleResults?.FirstOrDefault();
-if (single is not null)
-{
-    for (int i = 0; i
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
@@ -490,8 +497,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -515,8 +522,8 @@ for (List results : searchResults) {
 
 ```go
 queryVectors := []entity.Vector{
-    entity.FloatVector([]float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}),
-    entity.FloatVector([]float32{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}),
+    entity.FloatVector([]float32{0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648}),
+    entity.FloatVector([]float32{0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134}),
 }
 
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -583,7 +590,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector> queryVectors = {
+std::vector<std::vector<float>> queryVectors = {
     {0.041732933F, 0.013779674F, -0.027564144F, -0.013061441F, 0.009748648F},
     {0.0039737443F, 0.003020432F, -0.0006188639F, 0.03913546F, -0.00089768134F},
 };
@@ -597,10 +604,19 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902133941650391)
 // TopK: (id=1, distance=1.3017789125442505), (id=11, distance=1.3017789125442505), (id=7, distance=1.2419954538345337)
 ```
 
@@ -611,8 +627,8 @@ if (!status.IsOk()) {
 ```javascript
 // 7. Search with multiple vectors
 const query_vectors = [
-    [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], 
-    [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+    [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648], 
+    [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
 ]
 
 res = await client.search({
@@ -648,8 +664,8 @@ console.log(res.results)
 // 7.1. Prepare query vectors
 var queryVectors = new[]
 {
-    new ReadOnlyMemory(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
-    new ReadOnlyMemory(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
+    new ReadOnlyMemory<float>(new[] { 0.041732933f, 0.013779674f, -0.027564144f, -0.013061441f, 0.009748648f }),
+    new ReadOnlyMemory<float>(new[] { 0.0039737443f, 0.003020432f, -0.0006188639f, 0.03913546f, -0.00089768134f })
 };
 
 // 7.2. Start search
@@ -660,6 +676,9 @@ var res = await client.SearchAsync(new SearchReq
     Vectors = queryVectors,
     Limit = 3
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
@@ -682,8 +701,8 @@ curl --request POST \
 -d '{
     "collectionName": "quick_setup",
     "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
-        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+        [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
     ],
     "annsField": "vector",
     "limit": 3
@@ -945,7 +964,16 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
 // TopK: (id=7, distance=0.8298614621162415), (id=17, distance=0.8298614621162415), (id=1, distance=0.7651865482330322)
@@ -1003,6 +1031,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     MetricType = MetricType.Ip
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=7, Distance=0.8298614621162415}, {Id=17, Distance=0.8298614621162415}, {Id=1, Distance=0.7651865482330322}
@@ -1161,8 +1192,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -1251,10 +1282,19 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=10, distance=1.4093276262283325), (id=14, distance=0.9902134537696838), (id=11, distance=0.8519943356513977)
+// TopK: (id=10, distance=1.4093276262283325), (id=14, distance=0.9902133941650391), (id=11, distance=0.8519943356513977)
 ```
 
 </TabItem>
@@ -1287,7 +1327,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -1296,6 +1336,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { PartitionNames = { "partitionA" } }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=10, Distance=1.4093276262283325}, {Id=14, Distance=0.9902134537696838}, {Id=11, Distance=0.8519943356513977}
@@ -1388,30 +1431,29 @@ res = client.search(
     collection_name="quick_setup",
     data=[query_vector],
     limit=3, # The number of results to return
-    search_params={
-        # highlight-next-line
-        "offset": 10 # The records to skip
-    }
+    output_fields=["color"]
 )
+
+print(res)
 
 # [
 #     [
 #         {
-#             "id": 3,
-#             "distance": 0.4527677893638611,
-#             "entity": {}
+#             "id": 0,
+#             "distance": 1.4093276262283325,
+#             "entity": {"color": "pink_8682"}
 #         },
 #     [
 #         {
-#             "id": 13,
-#             "distance": 0.4527677893638611,
-#             "entity": {}
+#             "id": 10,
+#             "distance": 1.4093276262283325,
+#             "entity": {"color": "pink_8682"}
 #         },
 #     [
 #         {
-#             "id": 7,
-#             "distance": 0.4388217329978943,
-#             "entity": {}
+#             "id": 4,
+#             "distance": 0.9902134537696838,
+#             "entity": {"color": "red_4794"}
 #         }
 #     ]
 # ]
@@ -1432,8 +1474,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -1524,11 +1566,19 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr ("color");
-    for (size_t i = 0; i Data()[i]
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto color = result.OutputField<milvus::VarCharFieldData>("color");
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", color: " << color->Value(i) << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325, color=pink_8682), (id=10, distance=1.4093276262283325, color=pink_8682), (id=4, distance=0.9902134537696838, color=red_4794)
+// TopK: (id=0, distance=1.4093276262283325, color=pink_8682), (id=10, distance=1.4093276262283325, color=pink_8682), (id=4, distance=0.9902133941650391, color=red_4794)
 ```
 
 </TabItem>
@@ -1561,7 +1611,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -1570,6 +1620,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { OutputFields = { "color" } }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325, Color=pink_8682}, {Id=10, Distance=1.4093276262283325, Color=pink_8682}, {Id=4, Distance=0.9902134537696838, Color=red_4794}
@@ -1674,6 +1727,8 @@ res = client.search(
     ],
     # highlight-end
 )
+
+print(res)
 
 # Output
 #
@@ -2048,8 +2103,16 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr ("price");
-    for (size_t i = 0; i Data()[i]
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto price = result.OutputField<milvus::DoubleFieldData>("price");
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", price: " << price->Value(i) << std::endl;
+    }
+}
 
 // Output
 // TopK: (id=1, price=11.0), (id=2, price=12.0), (id=3, price=13.0), (id=4, price=14.0), (id=5, price=15.0), (id=6, price=16.0), (id=7, price=17.0), (id=8, price=18.0), (id=9, price=19.0), (id=10, price=20.0), (id=11, price=21.0), (id=12, price=22.0), (id=13, price=23.0), (id=14, price=24.0), (id=15, price=25.0), (id=16, price=26.0), (id=17, price=27.0), (id=18, price=28.0), (id=19, price=29.0), (id=20, price=30.0)
@@ -2105,7 +2168,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "product_catalog",
@@ -2118,6 +2181,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["order_by_fields"] = "price:asc" }
     }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=1, Price=11.0}, {Id=2, Price=12.0}, {Id=3, Price=13.0}, {Id=4, Price=14.0}, {Id=5, Price=15.0}, {Id=6, Price=16.0}, {Id=7, Price=17.0}, {Id=8, Price=18.0}, {Id=9, Price=19.0}, {Id=10, Price=20.0}, {Id=11, Price=21.0}, {Id=12, Price=22.0}, {Id=13, Price=23.0}, {Id=14, Price=24.0}, {Id=15, Price=25.0}, {Id=16, Price=26.0}, {Id=17, Price=27.0}, {Id=18, Price=28.0}, {Id=19, Price=29.0}, {Id=20, Price=30.0}
@@ -2327,6 +2393,8 @@ res = client.search(
     ],
     # highlight-end
 )
+
+print(res)
 
 # Output
 #
@@ -2711,10 +2779,16 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr ("price");
-    const auto ratings = result.OutputField("rating");
-    for (size_t i = 0; i Data()[i]
-                  Data()[i]
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto price = result.OutputField<milvus::DoubleFieldData>("price");
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", price: " << price->Value(i) << std::endl;
+    }
+}
 
 // Output
 // TopK: (id=1, price=11.0), (id=2, price=12.0), (id=3, price=13.0), (id=4, price=14.0), (id=5, price=15.0), (id=6, price=16.0), (id=7, price=17.0), (id=8, price=18.0), (id=9, price=19.0), (id=10, price=20.0), (id=11, price=21.0), (id=12, price=22.0), (id=13, price=23.0), (id=14, price=24.0), (id=15, price=25.0), (id=16, price=26.0), (id=17, price=27.0), (id=18, price=28.0), (id=19, price=29.0), (id=20, price=30.0)
@@ -2771,7 +2845,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "product_catalog",
@@ -2784,6 +2858,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["order_by_fields"] = "price:asc,rating:desc" }
     }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=1, Price=11.0}, {Id=2, Price=12.0}, {Id=3, Price=13.0}, {Id=4, Price=14.0}, {Id=5, Price=15.0}, {Id=6, Price=16.0}, {Id=7, Price=17.0}, {Id=8, Price=18.0}, {Id=9, Price=19.0}, {Id=10, Price=20.0}, {Id=11, Price=21.0}, {Id=12, Price=22.0}, {Id=13, Price=23.0}, {Id=14, Price=24.0}, {Id=15, Price=25.0}, {Id=16, Price=26.0}, {Id=17, Price=27.0}, {Id=18, Price=28.0}, {Id=19, Price=29.0}, {Id=20, Price=30.0}
@@ -3011,6 +3088,8 @@ res = client.search(
     }
 )
 
+print(res)
+
 # [
 #     [
 #         {
@@ -3049,8 +3128,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -3138,7 +3217,16 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
 // TopK: (id=3, distance=0.4527677893638611), (id=13, distance=0.4527677893638611), (id=7, distance=0.4388217329978943)
@@ -3160,6 +3248,8 @@ res = await client.search({
     offset: 10 // The record to skip.
 })
 
+console.log(res.results)
+
 // [
 //   { score: 0.4527677893638611, id: '3' },
 //   { score: 0.4527677893638611, id: '13' },
@@ -3172,7 +3262,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -3181,6 +3271,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { Offset = 10 }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=3, Distance=0.4527677893638611}, {Id=13, Distance=0.4527677893638611}, {Id=7, Distance=0.4388217329978943}
@@ -3287,6 +3380,8 @@ res = client.search(
     }
 )
 
+print(res)
+
 # [
 #     [
 #         {
@@ -3327,8 +3422,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -3406,7 +3501,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
                    .WithLimit(3)
@@ -3417,10 +3512,19 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902133941650391)
 ```
 
 </TabItem>
@@ -3441,6 +3545,8 @@ res = await client.search({
     }
 })
 
+console.log(res.results)
+
 // [
 //   { score: 1.4093276262283325, id: '0' },
 //   { score: 1.4093276262283325, id: '10' },
@@ -3453,7 +3559,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -3462,6 +3568,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { ExtraParameters = { ["level"] = "10" } }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
@@ -3483,8 +3592,8 @@ curl --request POST \
 -d '{
     "collectionName": "quick_setup",
     "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
-        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+        [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
     ],
     "annsField": "vector",
     "limit": 3,
@@ -3557,6 +3666,8 @@ res = client.search(
     }
 )
 
+print(res)
+
 # [
 #     [
 #         {
@@ -3598,8 +3709,8 @@ SearchReq searchReq = SearchReq.builder()
 
 SearchResp searchResp = client.search(searchReq);
 
-List> searchResults = searchResp.getSearchResults();
-for (List results : searchResults) {
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
     System.out.println("TopK results:");
     for (SearchResp.SearchResult result : results) {
         System.out.println(result);
@@ -3626,6 +3737,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithConsistencyLevel(entity.ClStrong).
     WithANNSField("vector").
+    WithSearchParam("level", "10").
     WithSearchParam("enable_recall_calculation", "true"))
 if err != nil {
     fmt.Println(err.Error())
@@ -3680,7 +3792,7 @@ for result in response.results() {
 <TabItem value='c++'>
 
 ```c++
-std::vector query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
 auto request = milvus::SearchRequest()
                    .WithCollectionName("quick_setup")
                    .WithLimit(3)
@@ -3692,10 +3804,19 @@ auto request = milvus::SearchRequest()
 milvus::SearchResponse response;
 auto status = client->Search(request, response);
 if (!status.IsOk()) {
-    std::cout
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902133941650391)
 ```
 
 </TabItem>
@@ -3717,6 +3838,8 @@ res = await client.search({
     }
 })
 
+console.log(res.results)
+
 // [
 //   { score: 1.4093276262283325, id: '0' },
 //   { score: 1.4093276262283325, id: '10' },
@@ -3729,7 +3852,7 @@ res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -3741,6 +3864,9 @@ var res = await client.SearchAsync(new SearchReq
         ExtraParameters = { ["level"] = "10", ["enable_recall_calculation"] = "true" }
     }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
@@ -3762,8 +3888,8 @@ curl --request POST \
 -d '{
     "collectionName": "quick_setup",
     "data": [
-        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
-        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+        [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
+        [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
     ],
     "annsField": "vector",
     "limit": 3,
@@ -3808,6 +3934,8 @@ res = client.search(
     # highlight-next-line
     timezone="America/Havana",
 )
+
+print(res)
 
 # [
 #     [
@@ -3933,11 +4061,19 @@ auto searchRequest = milvus::SearchRequest()
 milvus::SearchResponse searchResponse;
 auto status = client->Search(searchRequest, searchResponse);
 if (!status.IsOk()) {
-    std::cerr ("event_time");
-    for (size_t i = 0; i Data()[i]
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : searchResponse.Results().Results()) {
+    auto ids = result.Ids().IntIDArray();
+    auto scores = result.Scores();
+    for (size_t i = 0; i < ids.size(); ++i) {
+        std::cout << "id: " << ids[i] << ", score: " << scores[i] << std::endl;
+    }
+}
 
 // Output
-// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902134537696838)
+// TopK: (id=0, distance=1.4093276262283325), (id=10, distance=1.4093276262283325), (id=4, distance=0.9902133941650391)
 ```
 
 </TabItem>
@@ -3969,7 +4105,7 @@ console.log(res.results)
 <TabItem value='csharp'>
 
 ```csharp
-var queryVector = new[] { new ReadOnlyMemory(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
+var queryVector = new[] { new ReadOnlyMemory<float>(new[] { 0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f }) };
 var res = await client.SearchAsync(new SearchReq
 {
     CollectionName = "quick_setup",
@@ -3978,6 +4114,9 @@ var res = await client.SearchAsync(new SearchReq
     Limit = 3,
     Parameters = new SearchParameters { Timezone = "America/Havana" }
 });
+
+Console.WriteLine("IDs: " + string.Join(", ", res.Ids.LongIds));
+Console.WriteLine("Scores: " + string.Join(", ", res.Scores));
 
 // Output
 // {Id=0, Distance=1.4093276262283325}, {Id=10, Distance=1.4093276262283325}, {Id=4, Distance=0.9902134537696838}
