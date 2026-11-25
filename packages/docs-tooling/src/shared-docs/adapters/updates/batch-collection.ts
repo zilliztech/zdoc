@@ -110,12 +110,8 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   const wire = child.value
   const checked = validateBatchWire(wire, launch.request)
   // No response-supplied filesystem path is opened. Existing deduplicated CAS bytes are re-read too.
-  for (const payload of wire.blobs) {
-    if (!operation.active) invalid()
-    const bytes = decodeBatchBlob(payload.ref, payload.base64)
-    const stored = await retainBlob(bytes)
-    if (!operation.active || stored.sha256 !== payload.ref.sha256 || stored.bytes !== payload.ref.bytes) invalid()
-  }
+  await retainBlob.retainPage(wire.blobs, payload => decodeBatchBlob(payload.ref, payload.base64),
+    () => { if (!operation.active) invalid() })
   const materialBytes = canonicalBytes(checked.header), materialRef = await writeOwnedBlob(operation.store, materialBytes)
   if (!operation.active) invalid()
   const reread = await operation.store.readBlob(materialRef)
@@ -650,6 +646,16 @@ async function collectOperation(operation: Operation, dependencyExport?: Depende
   try {
     await begin('discovery-retention')
     const discovery = readBatchDiscoveryCapture(operation.discovery)
+    // The captured, ref-checked registry is authoritative for its locks. With no
+    // interval to advance there can be no lock.next candidate or writer handoff.
+    // An explicit dependency export still needs the per-page observations.
+    const {report, ledger} = discovery
+    if (!dependencyExport && report.status === 'provisional' && report.pages.length > 0 &&
+        report.pages.every(page => page.oldNext === report.pins.source) &&
+        ledger.length === 0 && report.seeds.length === 0 && report.changes.length === 0 &&
+        report.dependencies.length === 0 && report.groups.length === 0) {
+      return {status: 'no-group', reasons: []}
+    }
     for (const evidence of discovery.evidence) {
       const stored = await writeOwnedBlob(operation.store, evidence.bytes)
       if (!operation.active || !same(stored, evidence.ref)) invalid()
