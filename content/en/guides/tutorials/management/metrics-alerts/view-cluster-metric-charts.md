@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection. To view charts for an on-demand cluster, see Monitor On-Demand Clusters. | Cloud"
+description: "Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection. | Cloud"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # View Metric Charts
 
-Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection. To view charts for an on-demand cluster, see [Monitor On-Demand Clusters](./monitor-on-demand-cluster).
+Use metric charts to track traffic, latency, and resource usage for a serving cluster or an individual collection.
 
 ## Cluster charts\{#cluster-charts}
 
@@ -46,13 +46,13 @@ Use metric charts to track traffic, latency, and resource usage for a serving cl
     | Resources | Check Query CU Computation for CPU pressure during the slowdown. Check Query CU Capacity to see how close the cluster is to its memory or storage limit. |
     | Data | Check Entity Count for changes in data volume, or Collection Count for changes in the number of collections. |
 
-    For definitions, units, and availability by cluster type, see resource metrics, performance metrics, and data metrics.
+    For definitions, units, and availability by cluster type, see [resource metrics](./metrics-alerts-reference#resources), [performance metrics](./metrics-alerts-reference#performance), and [data metrics](./metrics-alerts-reference#data).
 
 </Procedures>
 
 ## Collection charts\{#collection-charts}
 
-These charts show metrics for one collection in a serving cluster. For collections in an on-demand database, see [On-demand database and collection metrics](./on-demand-metrics-reference#on-demand-database-and-collection-metrics).
+These charts show metrics for one collection in a serving cluster.
 
 <Supademo id="cmwu3bdzt00q6qmq1j8730zt5" title=""  />
 
@@ -70,6 +70,6 @@ These charts show metrics for one collection in a serving cluster. For collectio
 
 1. Under **Key Metrics**, use **QPS (Read)** to see how many read requests per second the selected collection received.
 
-    For collection-level request metrics, see Performance. For entity counts, see Data.
+    For collection-level request metrics, see [Performance](./metrics-alerts-reference#performance). For entity counts, see [Data](./metrics-alerts-reference#data).
 
 </Procedures>

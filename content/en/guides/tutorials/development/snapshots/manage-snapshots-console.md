@@ -43,7 +43,7 @@ In this demo, you are going to create a snapshot of the collection named **mediu
 
 <Procedures>
 
-1. Click **Serving Clusters** in the left navigation tree.
+1. Click **Serving Clusters** in the left navigation tree and locate the target cluster.
 
 1. Click the name of the target collection in the cluster tree.
 

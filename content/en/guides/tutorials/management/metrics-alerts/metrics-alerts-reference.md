@@ -82,3 +82,7 @@ These metrics count collections and entities. Unless an entry specifies otherwis
 | Loaded Entities (Approx.) | Approximate number of loaded entities. *Dedicated clusters. Also available for an individual collection.* |
 | Number of Unloaded Collections | Number of collections in the cluster that are currently unloaded. *Dedicated clusters on the Enterprise or Business Critical plan.* |
 
+## Related topics\{#related-topics}
+
+- [View Metric Charts](./view-cluster-metric-charts)
+

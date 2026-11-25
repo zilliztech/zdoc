@@ -1,6 +1,6 @@
 # guides Canonical Link Audit
 
-Generated: 2026-11-25T03:44:50.934Z
+Generated: 2026-11-25T04:48:20.563Z
 Target: (not specified)
 Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 
@@ -9,9 +9,9 @@ Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 - Canonical records: 416
 - Scanned canonical sources: 330
 - Skipped non-canonical sources: 89
-- Internal Feishu references: 1915
-- Valid references: 1885
-- Broken references: 30
+- Internal Feishu references: 1916
+- Valid references: 1891
+- Broken references: 25
 
 ## Release Notes (Dec 11, 2023)
 - Source file: `A5lpwIZcZiTLqakdt6rcCmPcnEe.json`
@@ -95,81 +95,6 @@ Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | exact | 100 | Access Control Explained | `access-control-overview` | `recvlVYS5vciEa` | [open](https://zilliverse.feishu.cn/wiki/NmFBwTRj9iFuC8kXno6cqRbmnfh) | exact title; query: Access Control Explained |
 | 2 | strong | 86 | Access Control | `zilliz-access-control-prompts` | `recvlW5aqH4Grd` | [open](https://zilliverse.feishu.cn/wiki/QxYZwB4SKiLz5HkDE9LcISZsnCf) | substring title; query: Access Control Explained |
-
-## View Metric Charts
-- Source file: `DbPIw4jLOiEabCk5uptc6EZ1nbf.json`
-- Source token: `DbPIw4jLOiEabCk5uptc6EZ1nbf`
-- Source slug: `view-cluster-metric-charts`
-- Source doc: [open](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf)
-- Broken references: 5
-
-### 1. [resource metrics](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- Type: `href_link`
-- Block: `ENcvdzd3eogChSxT8ThcUVJhn7f`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- JSON path: `$.blocks.items[26].text.elements[1].text_run.text_element_style.link`
-- Current token: `Yok4wRnwviyEErkqQp5cwjPLn3e`
-- Current URL: https://zilliverse.feishu.cn/wiki/Yok4wRnwviyEErkqQp5cwjPLn3e#doxcnbACNECkWVvscXHlwktfjcc
-- Anchor: `doxcnbACNECkWVvscXHlwktfjcc`
-- Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
-
-- No candidate above threshold.
-
-### 2. [performance metrics](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- Type: `href_link`
-- Block: `ENcvdzd3eogChSxT8ThcUVJhn7f`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- JSON path: `$.blocks.items[26].text.elements[3].text_run.text_element_style.link`
-- Current token: `Yok4wRnwviyEErkqQp5cwjPLn3e`
-- Current URL: https://zilliverse.feishu.cn/wiki/Yok4wRnwviyEErkqQp5cwjPLn3e#doxcnhKy0eCBUgFeREtsoQErdug
-- Anchor: `doxcnhKy0eCBUgFeREtsoQErdug`
-- Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
-
-- No candidate above threshold.
-
-### 3. [data metrics](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- Type: `href_link`
-- Block: `ENcvdzd3eogChSxT8ThcUVJhn7f`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#ENcvdzd3eogChSxT8ThcUVJhn7f)
-- JSON path: `$.blocks.items[26].text.elements[5].text_run.text_element_style.link`
-- Current token: `Yok4wRnwviyEErkqQp5cwjPLn3e`
-- Current URL: https://zilliverse.feishu.cn/wiki/Yok4wRnwviyEErkqQp5cwjPLn3e#doxcnIjbKFLciDyk19gihBShRae
-- Anchor: `doxcnIjbKFLciDyk19gihBShRae`
-- Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
-
-- No candidate above threshold.
-
-### 4. [Performance](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#BNjldICLGoU4IMxdHfLcwANyn0d)
-- Type: `href_link`
-- Block: `BNjldICLGoU4IMxdHfLcwANyn0d`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#BNjldICLGoU4IMxdHfLcwANyn0d)
-- JSON path: `$.blocks.items[38].text.elements[1].text_run.text_element_style.link`
-- Current token: `Yok4wRnwviyEErkqQp5cwjPLn3e`
-- Current URL: https://zilliverse.feishu.cn/wiki/Yok4wRnwviyEErkqQp5cwjPLn3e#doxcnhKy0eCBUgFeREtsoQErdug
-- Anchor: `doxcnhKy0eCBUgFeREtsoQErdug`
-- Recommended action: Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/Za3QwAcfjiSSvxk8UzUcTPmfnmb and verify whether the old anchor should be recreated on the target.
-
-| Rank | Confidence | Score | Candidate | Slug | Record | Doc | Reason |
-| ---: | --- | ---: | --- | --- | --- | --- | --- |
-| 1 | strong | 86 | Performance Benchmarking with VectorDBBench | `perf-benchmark-vectordb` | `recvm2lpUlriws` | [open](https://zilliverse.feishu.cn/wiki/Za3QwAcfjiSSvxk8UzUcTPmfnmb) | substring title; query: Performance |
-
-### 5. [Data](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#BNjldICLGoU4IMxdHfLcwANyn0d)
-- Type: `href_link`
-- Block: `BNjldICLGoU4IMxdHfLcwANyn0d`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf#BNjldICLGoU4IMxdHfLcwANyn0d)
-- JSON path: `$.blocks.items[38].text.elements[3].text_run.text_element_style.link`
-- Current token: `Yok4wRnwviyEErkqQp5cwjPLn3e`
-- Current URL: https://zilliverse.feishu.cn/wiki/Yok4wRnwviyEErkqQp5cwjPLn3e#doxcnIjbKFLciDyk19gihBShRae
-- Anchor: `doxcnIjbKFLciDyk19gihBShRae`
-- Recommended action: Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I and verify whether the old anchor should be recreated on the target.
-
-| Rank | Confidence | Score | Candidate | Slug | Record | Doc | Reason |
-| ---: | --- | ---: | --- | --- | --- | --- | --- |
-| 1 | strong | 86 | Convert Your Data | `prepare-data-import` | `recvlPu1cVScQt` | [open](https://zilliverse.feishu.cn/wiki/YNbGwiEjAinaQfkSdNlcTehwn8I) | substring title; query: Data |
-| 2 | strong | 86 | Data Backfill  | `data-backfill` | `recvtjEZOgM47k` | [open](https://zilliverse.feishu.cn/wiki/CdmcwKYHZimNZ2kw5wqcQDDOned) | substring title; query: Data |
-| 3 | strong | 86 | Data Import Hands-On | `data-import-zero-to-hero` | `recvlPu4NZkHZo` | [open](https://zilliverse.feishu.cn/wiki/BjHZwBkk0iFScik49QMc1Wwjndb) | substring title; query: Data |
-| 4 | strong | 86 | Data Model Design for Search | `schema-design-hands-on` | `recvlPtJrRLSSF` | [open](https://zilliverse.feishu.cn/wiki/PV2bwNENViEjXWkOgzZcXoKHnce) | substring title; query: Data |
-| 5 | strong | 86 | Data Model Design with an Array of Structs | `schema-design-with-structs` | `recvlPtLE9aMJa` | [open](https://github.com/zilliztech/zdoc/tree/master/shared-docs/guides/pages/schema-design-with-structs) | substring title; query: Data |
 
 ## Set up Cluster IP Allowlist
 - Source file: `FnS1wY0iuia4qgkMycVclZyHnOf.json`

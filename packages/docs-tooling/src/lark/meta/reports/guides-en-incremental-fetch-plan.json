@@ -4,15 +4,134 @@
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "reczz28axHoNBF5v",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Manage Snapshots (Console)",
+      "labels": "",
+      "slug": "manage-snapshots-console",
+      "release_channel": "next",
+      "doc_token": "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/PSK1wxf6Qi2EENkCjc2cyNBSn0g",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXyNY9lD9",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Metrics Reference",
+      "labels": "Metrics Reference",
+      "slug": "metrics-alerts-reference",
+      "release_channel": "current",
+      "doc_token": "KnnBwce9JifxvXkd070cvgUPnag",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KnnBwce9JifxvXkd070cvgUPnag",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    },
+    {
+      "record_id": "recvlVXG1nlQpa",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "View Metric Charts",
+      "labels": "View Metric Charts",
+      "slug": "view-cluster-metric-charts",
+      "release_channel": "current",
+      "doc_token": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/DbPIw4jLOiEabCk5uptc6EZ1nbf",
+      "reasons": [
+        "wiki node revision changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+    "KnnBwce9JifxvXkd070cvgUPnag",
+    "PSK1wxf6Qi2EENkCjc2cyNBSn0g"
+  ],
+  "expanded_tokens": [
+    "CUuywySLVil4MKkmYZecUl9snLg",
+    "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+    "EL8jwqHsPikz2okhYzXcuLscnhf",
+    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
+    "KnnBwce9JifxvXkd070cvgUPnag",
+    "LQwnwNY73iCd8Hkj55ZczQTOn6g",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "MYHwwhKtri4MMJku6BbcMjF4n1d",
+    "N2XtwwchPi79M7kW1UjcnjC4nzc",
+    "NcIMw9y7Wi8O6BkRc7HcBbbrnPg",
+    "PSK1wxf6Qi2EENkCjc2cyNBSn0g",
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+    "Q9ZcwPZieiYoU4kwEuOcFjewneP",
+    "QUe4wFnNvifiufkXD9xcs0AAnSc",
+    "VbjiwU5RYi4bWdkC48Jceltnnpd",
+    "Yvpwwtoywix0B6k3phVc5pQ0nSf",
+    "ZQqowpu4Oi0xIPkyRSTconB6nnb"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "PSK1wxf6Qi2EENkCjc2cyNBSn0g": [
+      "wiki node revision changed"
+    ],
+    "KnnBwce9JifxvXkd070cvgUPnag": [
+      "wiki node revision changed"
+    ],
+    "DbPIw4jLOiEabCk5uptc6EZ1nbf": [
+      "wiki node revision changed"
+    ],
+    "NcIMw9y7Wi8O6BkRc7HcBbbrnPg": [
+      "outgoing reference from DbPIw4jLOiEabCk5uptc6EZ1nbf"
+    ],
+    "Yvpwwtoywix0B6k3phVc5pQ0nSf": [
+      "outgoing reference from DbPIw4jLOiEabCk5uptc6EZ1nbf"
+    ],
+    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
+      "outgoing reference from KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "CUuywySLVil4MKkmYZecUl9snLg": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "EL8jwqHsPikz2okhYzXcuLscnhf": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "LQwnwNY73iCd8Hkj55ZczQTOn6g": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "N2XtwwchPi79M7kW1UjcnjC4nzc": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "Q9ZcwPZieiYoU4kwEuOcFjewneP": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "VbjiwU5RYi4bWdkC48Jceltnnpd": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "ZQqowpu4Oi0xIPkyRSTconB6nnb": [
+      "incoming reference to KnnBwce9JifxvXkd070cvgUPnag"
+    ],
+    "QUe4wFnNvifiufkXD9xcs0AAnSc": [
+      "outgoing reference from PSK1wxf6Qi2EENkCjc2cyNBSn0g"
+    ]
+  },
   "warnings": [],
   "affected_tables": [
+    "tbl9BeCMjBmalJVb",
     "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ",
     "tblh7utKxg0dgdTo"
   ],
   "current_table_targets": {
