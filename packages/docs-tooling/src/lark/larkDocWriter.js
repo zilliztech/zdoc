@@ -318,7 +318,14 @@ class larkDocWriter {
                     href,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
-                    ...channel_sidebar_props(targetMeta.channel),
+                    // Explicit override: a ref row that itself carries NEXT or
+                    // RETIRE-IN-NEXT marks the navigation entry, not the target
+                    // route — an unmarked ref (the default) keeps following its
+                    // target. The shared fallback path is excluded: its channel
+                    // is owned by the activation gate, not the Base field.
+                    ...channel_sidebar_props(!fallback && ['next', 'retire-in-next'].includes(meta.channel)
+                        ? meta.channel
+                        : targetMeta.channel),
                 })
                 continue
             }
