@@ -82,7 +82,7 @@ it('binds replay images to exact normalized URLs and immutable bytes with no liv
   } finally {fetch.mockRestore()}
 })
 
-import {mkdir, mkdtemp, rm, writeFile} from 'node:fs/promises'
+import {mkdir, mkdtemp, realpath, rm, writeFile} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {onTestFinished} from 'vitest'
@@ -132,6 +132,36 @@ import * as batch from '../../adapters/updates/batch-collection'
 import {replayBatchDiscovery, readBatchDiscoveryCapture} from '../../adapters/updates/batch-discovery'
 import {write, git, pageYaml} from '../build/demo'
 import {collectReferences} from '../../core/links'
+
+it('skips page launches only for a complete caught-up registry', async () => {
+  const f = await fixture()
+  const tools = await import('../../adapters/updates/toolset')
+  const evidence = await import('../../adapters/updates/evidence')
+  const revision = (await f.request()).pins.trustedTools
+  const description = vi.spyOn(tools, 'describeTrustedToolset').mockReturnValue({commit: revision} as ReturnType<typeof tools.describeTrustedToolset>)
+  const retention = vi.spyOn(evidence, 'writeOwnedBlob').mockRejectedValue(Error('FULL_COLLECTION_NEEDED'))
+  const launch = vi.spyOn(tools, 'prepareTrustedLauncher')
+  const parent = await realpath(await mkdtemp(join(tmpdir(), 'batch-up-to-date-')))
+  onTestFinished(() => rm(parent, {recursive: true, force: true}))
+  const read = (name: string) => batch.collectReplayBatchMaterial({
+    sourceRepository: f.repo, zdocRepository: f.root, out: join(parent, name), fixtureBytes: Buffer.from('caught-up'),
+    replayClockMs: 0, capture: {root: f.root, toolsetSha256: 'e'.repeat(64)} as never,
+  }, {transport: f.transport})
+  try {
+    expect(await read('caught-up')).toEqual({status: 'no-group', reasons: []})
+    expect(retention).not.toHaveBeenCalled()
+    expect(launch).not.toHaveBeenCalled()
+    // A held page must go through normal validation even with the same next.
+    await write(f.sharedDocs, 'pages/shared-target/page.yaml', pageYaml('site/en/missing.md', 'tutorials/shared-target'))
+    await f.configChange()
+    expect(await read('missing-source')).toEqual({status: 'held', reasons: ['FULL_COLLECTION_NEEDED']})
+    await write(f.sharedDocs, 'pages/shared-target/page.yaml', pageYaml('site/en/source-target.md', 'tutorials/shared-target'))
+    await f.configChange()
+    await f.append('site/en/build-pipeline.md', '\nUpstream update.\n')
+    expect(await read('upstream-change')).toEqual({status: 'held', reasons: ['FULL_COLLECTION_NEEDED']})
+    expect(retention).toHaveBeenCalledTimes(2)
+  } finally {description.mockRestore(); retention.mockRestore(); launch.mockRestore()}
+}, 30000)
 
 it('closes a fragment-only seed with two real nested consumers absent from the public groups', async () => {
   const f = await fixture()
@@ -379,6 +409,46 @@ it('rejects malformed canonical material frames and extra or orphan wire payload
   first.base64 = first.base64.slice(0, -1) + '!'
   expect(() => validateBatchWire(invalidBase64, request)).toThrow('BATCH_BASE64_INVALID')
 }, 120000)
+// Exercise the independent descriptor-based reader with real Git fixture wire bytes.
+async function pythonMaterialVerifier() {
+  const root = await mkdtemp(join(tmpdir(), 'batch-python-inventory-')), directory = join(root, 'blobs')
+  onTestFinished(() => rm(root, {recursive: true, force: true}))
+  await mkdir(directory)
+  const runner = `
+import os
+import sys
+import json
+sys.path.insert(0, 'scripts/docs-workflow/shared-guides-update')
+import prepare as p
+root = os.open(sys.argv[1], os.O_RDONLY | os.O_DIRECTORY)
+blobs = os.open('blobs', os.O_RDONLY | os.O_DIRECTORY, dir_fd=root)
+retained, base = json.load(sys.stdin)
+reader = p._BatchReader(root, blobs, {'rootIdentity': p._BatchReader.identity(root), 'blobsIdentity': p._BatchReader.identity(blobs)})
+try:
+    p._batch_base(base)
+    p._batch_material(reader, retained, base)
+except p.Hold as error:
+    print(error)
+else:
+    print('accepted')
+`
+  const written = new Set<string>()
+  return async function checkPython(changed: import('../../adapters/updates/batch-collection-contract').BatchMaterialWire, result: string, base = changed.material.base) {
+    for (const blob of changed.blobs) if (!written.has(blob.ref.sha256)) {
+      await writeFile(join(directory, blob.ref.sha256), Buffer.from(blob.base64, 'base64'), {flag: 'wx'})
+      written.add(blob.ref.sha256)
+    }
+    const material = canonicalBytes(changed.material), materialRef = batchRef(material)
+    if (!written.has(materialRef.sha256)) {
+      await writeFile(join(directory, materialRef.sha256), material, {flag: 'wx'})
+      written.add(materialRef.sha256)
+    }
+    const retained = {pageId: changed.material.pageId, requestSha256: 'a'.repeat(64), requestBytes: 1,
+      responseSha256: 'b'.repeat(64), responseBytes: 1, materialRef, materialDigest: batchDigest('material', changed.material)}
+    expect(execFileSync('python3', ['-B', '-c', runner, root], {encoding: 'utf8',
+      input: JSON.stringify([retained, base])}).trim()).toBe(result)
+  }
+}
 it('binds compact inventory to exact Git and discovery evidence and rejects altered absences', async () => {
   const f = await simpleFixture('## Source\n{{fragments/transient.md}}\n')
   await f.sourceChange('site/en/fragments/transient.md', 'Present dependency.\n')
@@ -407,44 +477,7 @@ it('binds compact inventory to exact Git and discovery evidence and rejects alte
     changed.blobs.sort((a, b) => Buffer.compare(Buffer.from(a.ref.sha256), Buffer.from(b.ref.sha256)))
     return ref
   }
-  // Exercise the independent descriptor-based CAS reader with the actual renderer's wire.
-  const root = await mkdtemp(join(tmpdir(), 'batch-python-inventory-')), directory = join(root, 'blobs')
-  onTestFinished(() => rm(root, {recursive: true, force: true}))
-  await mkdir(directory)
-  const runner = `
-import os
-import sys
-import json
-sys.path.insert(0, 'scripts/docs-workflow/shared-guides-update')
-import prepare as p
-root = os.open(sys.argv[1], os.O_RDONLY | os.O_DIRECTORY)
-blobs = os.open('blobs', os.O_RDONLY | os.O_DIRECTORY, dir_fd=root)
-retained, base = json.load(sys.stdin)
-reader = p._BatchReader(root, blobs, {'rootIdentity': p._BatchReader.identity(root), 'blobsIdentity': p._BatchReader.identity(blobs)})
-try:
-    p._batch_base(base)
-    p._batch_material(reader, retained, base)
-except p.Hold as error:
-    print(error)
-else:
-    print('accepted')
-`
-  const written = new Set<string>()
-  async function checkPython(changed: typeof wire, result: string, base = changed.material.base) {
-    for (const blob of changed.blobs) if (!written.has(blob.ref.sha256)) {
-      await writeFile(join(directory, blob.ref.sha256), Buffer.from(blob.base64, 'base64'), {flag: 'wx'})
-      written.add(blob.ref.sha256)
-    }
-    const material = canonicalBytes(changed.material), materialRef = batchRef(material)
-    if (!written.has(materialRef.sha256)) {
-      await writeFile(join(directory, materialRef.sha256), material, {flag: 'wx'})
-      written.add(materialRef.sha256)
-    }
-    const retained = {pageId: changed.material.pageId, requestSha256: 'a'.repeat(64), requestBytes: 1,
-      responseSha256: 'b'.repeat(64), responseBytes: 1, materialRef, materialDigest: batchDigest('material', changed.material)}
-    expect(execFileSync('python3', ['-B', '-c', runner, root], {encoding: 'utf8',
-      input: JSON.stringify([retained, base])}).trim()).toBe(result)
-  }
+  const checkPython = await pythonMaterialVerifier()
   await checkPython(wire, 'accepted')
   for (const [patch, reason, pythonReason] of [
     [{absentPaths: []}, 'BATCH_SOURCE_ABSENCE_INVALID'],
@@ -931,4 +964,80 @@ it.each(['lifecycle', 'operation'] as const)('checks %s validity after actual te
       expect(JSON.parse(await fs.readFile(join(root, 'measurement.json'), 'utf8'))).toMatchObject({elapsedMs: 1, observation: 'replay'})
     })
   } finally {advanced?.mockRestore(); store.writeJournal = originalWrite}
+})
+
+it('requires an authenticated identical Git root and a clean native render for historical equivalence', async () => {
+  const f = await simpleFixture(undefined, '## Target\nA {{var.product_name}} page.\n')
+  await write(f.sharedDocs, 'Variables.json', JSON.stringify({product_name: 'Zilliz Cloud'}))
+  await f.configChange()
+  const first = await f.sourceChange('site/en/unrelated.txt', 'first')
+  await git(f.repo, 'commit', '--allow-empty', '-qm', 'second commit with the same full tree')
+  const same = await git(f.repo, 'rev-parse', 'HEAD')
+  const other = await f.sourceChange('site/en/unrelated.txt', 'different tree; rendered page unchanged')
+  await f.sourceChange('site/en/unrelated.txt', 'target')
+  const fixtureRequest = await f.request('shared-target')
+  const request = {...fixtureRequest, pins: {...fixtureRequest.pins, trustedTools: fixtureRequest.pins.master}}
+  const wire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+  const {history} = validateBatchWire(wire, request)
+  expect(history.interval.filter(row => row.equivalentTo).map(row => [row.commit, row.equivalentTo].sort()))
+    .toEqual([[first, same].sort()])
+  const contract = await import('../../adapters/updates/batch-collection-contract')
+  const nativeOnly = vi.spyOn(contract, 'batchEquivalentPageConfig').mockReturnValue(false)
+  try {
+    const nativeWire = await provider.collectBatchPageMaterial(request, {repositoryRoot: f.root, fetcher: f.fetcher})
+    const native = validateBatchWire(nativeWire, request)
+    expect(history.interval.map(({equivalentTo, ...measured}) => measured)).toEqual(native.history.interval)
+  } finally { nativeOnly.mockRestore() }
+  type Row = typeof history.interval[number]
+  const withRows = (change: (row: Row, rows: Row[]) => void) => {
+    const copy = structuredClone(wire), changed = structuredClone(history)
+    for (const item of changed.interval) delete item.equivalentTo
+    change(changed.interval.find(item => item.commit === same)!, changed.interval)
+    const body = Buffer.from(canonicalBytes(changed)), ref = batchRef(body)
+    copy.blobs = copy.blobs.filter(blob => blob.ref.sha256 !== copy.material.historyRef.sha256)
+    copy.material.historyRef = ref
+    copy.blobs.push({ref, base64: body.toString('base64')})
+    copy.blobs.sort((a, b) => a.ref.sha256.localeCompare(b.ref.sha256))
+    return copy
+  }
+  const checkPython = await pythonMaterialVerifier()
+  const valid = withRows(row => {row.equivalentTo = first})
+  expect(validateBatchWire(valid, request).history.interval).toContainEqual(expect.objectContaining({commit: same, equivalentTo: first}))
+  await checkPython(valid, 'accepted')
+  for (const mutate of [
+    (row: Row) => {row.equivalentTo = other},
+    (row: Row) => {row.equivalentTo = same},
+    (row: Row) => {row.equivalentTo = request.pins.source},
+    (row: Row, rows: Row[]) => {row.equivalentTo = first; rows.find(item => item.commit === first)!.equivalentTo = other},
+    (row: Row) => {row.equivalentTo = first; row.imageStatus = 'unavailable'},
+    (row: Row) => {row.equivalentTo = first; row.manuals.pop()},
+    (row: Row) => {row.equivalentTo = first; row.outputStatus = 'error'},
+    (row: Row, rows: Row[]) => {
+      row.equivalentTo = first
+      for (const observed of [row, rows.find(item => item.commit === first)!]) observed.dependencies = []
+    },
+  ]) {
+    const changed = withRows(mutate)
+    expect(() => validateBatchWire(changed, request)).toThrow('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    await checkPython(changed, 'BATCH_HISTORY_EQUIVALENCE_INVALID')
+  }
+})
+
+it('limits equivalent render inputs to the plain page declaration and independently measured flat variables', async () => {
+  const {batchEquivalentSourceBytes, batchEquivalentPageConfig} = await import('../../adapters/updates/batch-collection-contract')
+  const root = 'shared-docs/guides/pages/shared-target/', source = 'site/en/source-target.md'
+  const targets = [{manual: 'guides', path: 'tutorials/target'}, {manual: 'guides-byoc', path: 'tutorials/target'}]
+  const files = ['lock.yaml', 'page.yaml'].map(name => ({path: root + name})), yaml = pageYaml(source, 'tutorials/target')
+  expect(batchEquivalentPageConfig('shared-target', source, targets, files, Buffer.from(yaml))).toBe(true)
+  expect(batchEquivalentPageConfig('shared-target', source, targets, [...files, {path: root + 'replace.md'}], Buffer.from(yaml))).toBe(false)
+  expect(batchEquivalentPageConfig('shared-target', source, targets, files, Buffer.from(yaml + 'transforms: []\n'))).toBe(false)
+  const values = Buffer.from('{"product_name":"Zilliz Cloud"}')
+  const dep = {kind: 'variable' as const, identity: 'product_name', state: 'resolved' as const, sha256: batchSha256(Buffer.from('"Zilliz Cloud"'))}
+  const template = Buffer.from('Source {{var.product_name}}')
+  expect(batchEquivalentSourceBytes(template, values, [dep])).toBe(true)
+  expect(batchEquivalentSourceBytes(template, values, [])).toBe(false)
+  expect(batchEquivalentSourceBytes(template, values, [{...dep, sha256: '0'.repeat(64)}])).toBe(false)
+  for (const text of ['{{fragments/x.md}}', '![a](x)', '<IMG SRC="x">', '{{var.missing}}', '{{var.namespace.key}}'])
+    expect(batchEquivalentSourceBytes(Buffer.from(text), values, [])).toBe(false)
+  expect(batchEquivalentSourceBytes(template, Buffer.from('{"product_name":"![remote](x)"}'), [dep])).toBe(false)
 })

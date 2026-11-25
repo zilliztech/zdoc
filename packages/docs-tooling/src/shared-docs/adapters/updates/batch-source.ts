@@ -471,7 +471,17 @@ export class BatchGitStore {
   }
 
   /** Walk changed subtrees from both authenticated roots. Report regular-file transitions and hash both endpoint blobs. */
-  async delta(from: string | null, to: string): Promise<RawChange[]> {
+  delta(from: string | null, to: string): Promise<RawChange[]> {
+    return this.walkDelta(from, to, 'verify-blobs')
+  }
+
+  /** Read-only scope evidence: a verified Git tree binds the name, mode and object ID, even
+   * when a separate local blob is unavailable. This does not certify the contents of that blob. */
+  treeIdentityDelta(from: string | null, to: string): Promise<RawChange[]> {
+    return this.walkDelta(from, to, 'tree-identities')
+  }
+
+  private async walkDelta(from: string | null, to: string, evidence: 'verify-blobs' | 'tree-identities'): Promise<RawChange[]> {
     await this.loadCommits(from ? [from, to] : [to])
     const changes: RawChange[] = []
     let visits = 0
@@ -488,8 +498,11 @@ export class BatchGitStore {
           if (a && b && a.mode !== b.mode) stop('GIT_PATH_TYPE_INVALID')
           await walk(path + '/', a?.oid, b?.oid); continue
         }
-        if (a) await this.blob(a)
-        if (b) await this.blob(b)
+        for (const entry of [a, b]) {
+          if (!entry) continue
+          if (evidence === 'verify-blobs') await this.blob(entry)
+          else if (!['100644', '100755'].includes(entry.mode)) stop('GIT_PATH_TYPE_INVALID')
+        }
         changes.push({ path, before: a?.oid ?? null, after: b?.oid ?? null, beforeMode: a?.mode ?? null, afterMode: b?.mode ?? null })
       }
     }

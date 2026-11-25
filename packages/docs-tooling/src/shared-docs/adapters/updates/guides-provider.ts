@@ -659,12 +659,23 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
     const requiredCommits = batchRenderCommitSet(commitHistory, configured.current, configured.oldNext, request.pins.source)
     await sourceProof.prefetchSourceInventoryTrees(requiredCommits)
     const commitProofRef = retain(sourceProof.commitProof(commitHistory))
-    const intervalObservations = []
+    type IntervalRow = Omit<import('zod').infer<typeof contract.BatchIntervalObservationSchema>, 'inventoryRef'>
+    type RawEntry = {path: string; oid: string; ref: BlobRef}
+    const intervalObservations: IntervalRow[] = []
+    const representatives = new Map<string, {row: IntervalRow; entries: RawEntry[]}>()
+    const configBytesAt = (path: string) => {
+      const entry = configFiles.find(file => file.path === path)
+      return entry && configBlobs.get(entry.oid)
+    }
+    const variables = configBytesAt('shared-docs/guides/Variables.json')
+    const pageYaml = configBytesAt(`shared-docs/guides/pages/${request.pageId}/page.yaml`)
+    const eligibleConfig = pageYaml && variables &&
+      contract.batchEquivalentPageConfig(request.pageId, configured.sourceFile, configured.targets, configFiles, pageYaml)
     const finalizeHistoricalMdx = createHistoricalMdxFinalizer()
     const historicalFragments = createHistoricalFragmentReader(sourceProof, rawBudget.remaining)
     const rules = loadHistoricalRenderRules()
     type View = {proof: import('./batch-collection-contract').BatchHistoricalView; bytes: Buffer}
-    const historicalInventory = new AsyncLocalStorage<{commit: string; paths: ReadonlyMap<string, string>; view?: View}>()
+    const historicalInventory = new AsyncLocalStorage<{commit: string; paths: ReadonlyMap<string, string>; externalReads: number; view?: View}>()
     const gitLinks = GitLinkInputReader.historical(request.sourceRepository, rawBudget.remaining, (commit, path) => {
       const inventory = historicalInventory.getStore()
       return inventory?.commit === commit ? inventory.paths.get(path) : undefined
@@ -715,7 +726,12 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
       },
     }
     const collectHistoricalCandidate = createHistoricalCandidateCollector({repo: request.sourceRepository, dev: devRoot, pageId: request.pageId,
-      configuration: loaded.configuration, fetcher}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
+      configuration: loaded.configuration, fetcher: {fetch(url) {
+        const point = historicalInventory.getStore()
+        if (!point) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
+        point.externalReads++
+        return fetcher.fetch(url)
+      }}}, finalizeHistoricalMdx, historicalFragments, historicalLinks)
     async function retainHistoricalObservation(commit: string, sourceEntries: readonly GitFile[], o: PageObservation, view?: View) {
       if (o.commit !== commit || o.sourceFile !== configured.sourceFile) throw Error('BATCH_OBSERVATION_BINDING_INVALID')
       if (view && (!o.source || o.source.sha256 !== view.proof.viewRef.sha256 || o.source.text !== view.bytes.toString('utf8') ||
@@ -730,8 +746,9 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         if (declared && (!raw || !input || rawSha256(input) !== declared.sha256 || new TextDecoder('utf8', {fatal: true}).decode(input) !== declared.text)) throw Error('BATCH_SOURCE_BYTES_INVALID')
         if (raw && (declared || path === o.sourceFile && o.source !== null)) entries.push({path, oid: sourceEntries.find(e => e.path === path)!.oid, ref: retain(raw)})
       }
-      const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map(target => {
+      const manuals = contract.batchSorted(configured.targets, m => `${m.manual}:${m.path}`).map((target): IntervalRow['manuals'][number] => {
         const m = o.manuals.find(m => m.manual === target.manual && m.path === target.path) ?? {...target, markdown: '', output: undefined, headings: [], references: []}
+        if (m.manual !== 'guides' && m.manual !== 'guides-byoc') throw Error('BATCH_MANUAL_INVALID')
         return {manual: m.manual, path: m.path, ref: object({...m, output: m.output ?? null})}
       })
       const images = []
@@ -744,11 +761,13 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
         images.push({...image, ref})
       }
       for (const entry of entries) consumedPaths.add(entry.path)
-      intervalObservations.push({commit, sourceFile: o.sourceFile, rawRef: object({commit, entries}),
+      const row: IntervalRow = {commit, sourceFile: o.sourceFile, rawRef: object({commit, entries}),
         ...(view ? {historicalView: view.proof} : {}),
         manuals, imagesRef: object(contract.batchRoles.map(role => ({role, images: contract.batchSorted(images, contract.batchImageKey)}))),
         diagnosticsRef: object({errors: o.errors.map(normalizeDiagnostic), rawErrors: o.rawErrors.map(normalizeDiagnostic), reasons: []}),
-        dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus})
+        dependencies: contract.batchSorted(o.dependencies, d => `${d.kind}:${d.identity}`), outputStatus: o.outputStatus, imageStatus: o.imageStatus}
+      intervalObservations.push(row)
+      return {row, entries}
     }
     const intermediates = requiredCommits.filter(oid => ![configured.current, configured.oldNext, request.pins.source].includes(oid))
     try {
@@ -771,14 +790,39 @@ export async function collectBatchPageMaterial(data: unknown, replay?: {reposito
             view = {bytes: rendered.bytes, proof: {...point, rawSha256: rendered.rawSha256,
               rulesSha256: rendered.rulesSha256, viewRef: retain(rendered.bytes)}}
           }
-          window.push({commit, sourceEntries, paths, view})
+          window.push({commit, sourceEntries, paths, view, externalReads: 0, tree: inventoryDescriptors.get(commit)!.treeOid})
         }
-        const rendered = await Promise.allSettled(window.map(point =>
-          historicalInventory.run(point, () => collectHistoricalCandidate(point.commit))))
+        type Point = typeof window[number]
+        const render = (point: Point) => historicalInventory.run(point, () => collectHistoricalCandidate(point.commit))
+        const scheduledTrees = new Set<string>()
+        // Start native renders concurrently. Equal trees within this window share a
+        // representative only after its full observation has passed the eligibility checks.
+        const rendered = await Promise.allSettled(window.map(point => {
+          if (eligibleConfig && !point.view) {
+            if (representatives.has(point.tree) || scheduledTrees.has(point.tree)) return undefined
+            scheduledTrees.add(point.tree)
+          }
+          return render(point)
+        }))
         for (let index = 0; index < window.length; index++) {
-          const result = rendered[index], {commit, sourceEntries} = window[index]
+          const result = rendered[index], point = window[index]
           if (result.status === 'rejected') throw result.reason
-          await retainHistoricalObservation(commit, sourceEntries, result.value, window[index].view)
+          const representative = !point.view && representatives.get(point.tree)
+          if (result.value === undefined && representative) {
+            intervalObservations.push({...representative.row, commit: point.commit, equivalentTo: representative.row.commit,
+              rawRef: object({commit: point.commit, entries: representative.entries})})
+            continue
+          }
+          const observed = result.value ?? await render(point)
+          const material = await retainHistoricalObservation(point.commit, point.sourceEntries, observed, point.view)
+          if (!eligibleConfig || !variables || point.view || point.externalReads || observed.hasChannelRules ||
+              observed.outputStatus !== 'observed' || observed.imageStatus !== 'observed' ||
+              observed.errors.length || observed.rawErrors.length || observed.images.length ||
+              material.entries.length !== 1 || material.entries[0].path !== configured.sourceFile ||
+              observed.manuals.length !== configured.targets.length ||
+              !configured.targets.every(target => observed.manuals.some(m => m.manual === target.manual && m.path === target.path && m.output?.trim() && m.markdown.trim())) ||
+              !observed.source || !contract.batchEquivalentSourceBytes(Buffer.from(observed.source.text), variables, material.row.dependencies)) continue
+          representatives.set(point.tree, material)
         }
       }
     } finally {

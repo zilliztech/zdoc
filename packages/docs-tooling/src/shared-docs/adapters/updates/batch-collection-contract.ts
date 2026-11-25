@@ -216,6 +216,7 @@ const historicalView = z.strictObject({rulesSha256: DigestSchema, pageId: BatchP
   commit: GitShaSchema, rawOid: GitShaSchema, rawSha256: DigestSchema, viewRef: BatchBlobRefSchema})
 export type BatchHistoricalView = z.infer<typeof historicalView>
 export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSchema, sourceFile: RepoPathSchema, historicalView: historicalView.optional(),
+  equivalentTo: GitShaSchema.optional(),
   rawRef: BatchBlobRefSchema, inventoryRef: BatchBlobRefSchema, manuals: z.array(z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema, ref: BatchBlobRefSchema})).refine(v => ordered(v, m => `${m.manual}:${m.path}`)),
   imagesRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema,
   dependencies,
@@ -223,6 +224,46 @@ export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSche
 export const BatchHistorySchema = z.strictObject({commits: BatchCommitHistorySchema,
   interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit)), inventoryProofRef: BatchBlobRefSchema.optional(),
   commitProofRef: BatchBlobRefSchema.optional()})
+
+/** Only plain, fixed page declarations qualify. Compare the complete YAML byte spelling
+ * (ignoring empty lines); unsupported declarations use the ordinary historical renderer. */
+export function batchEquivalentPageConfig(pageId: string, sourceFile: string, targets: readonly {manual: string; path: string}[],
+  files: readonly {path: string}[], yamlBytes: Uint8Array) {
+  const prefix = 'shared-docs/guides/pages/' + pageId + '/'
+  const own = files.filter(file => file.path.startsWith(prefix)).map(file => file.path.slice(prefix.length)).sort()
+  if (own.length !== 2 || own[0] !== 'lock.yaml' || own[1] !== 'page.yaml' ||
+      ![sourceFile, ...targets.map(target => target.path)].every(path => /^[A-Za-z0-9_./-]+$/.test(path)) ||
+      !targets.length || targets.some(target => !['guides', 'guides-byoc'].includes(target.manual))) return false
+  const expected = ['schema_version: 1', 'source:', '  file: ' + sourceFile, 'publish:',
+    ...targets.flatMap(target => ['  - manual: ' + target.manual, '    path: ' + target.path])]
+  const lines = Buffer.from(yamlBytes).toString('utf8').split('\n').filter(line => line.length > 0)
+  return expected.length === lines.length && expected.every((line, index) => line === lines[index])
+}
+
+export function batchEquivalentSourceBytes(raw: Uint8Array, variablesBytes: Uint8Array, deps: Readonly<z.infer<typeof dependencies>>) {
+  const source = Buffer.from(raw).toString('utf8')
+  if (!source.trim() || source.includes('\uFFFD')) return false
+  let manifest: unknown
+  try { manifest = parseStrictJson(variablesBytes) } catch { return false }
+  const values = z.record(z.string(), z.unknown()).safeParse(manifest)
+  if (!values.success) return false
+  const keys = new Set<string>()
+  let supported = true
+  const expanded = source.replace(/\{\{var\.([a-zA-Z0-9_]+)\}\}/g, (_, name: string) => {
+    const key = name.toLowerCase()
+    const matches = Object.keys(values.data).filter(k => k.toLowerCase() === key)
+    const value = matches.length === 1 ? values.data[matches[0]] : undefined
+    const dep = deps.find(d => d.kind === 'variable' && d.identity === key)
+    if (typeof value !== 'string' || !value.length || value.length > 256 || /[^a-zA-Z0-9_. -]/.test(value) ||
+        dep?.state !== 'resolved' || dep.sha256 !== batchSha256(Buffer.from(JSON.stringify(value)))) {
+      supported = false
+      return ''
+    }
+    keys.add(key)
+    return value
+  })
+  return supported && deps.length === keys.size && !expanded.includes('{{') && !/!\[|<img/i.test(expanded)
+}
 
 export function parseBatchCanonical<T>(bytes: Uint8Array, schema: z.ZodType<T>): T {
   if (bytes.length > BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
@@ -431,6 +472,23 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   }
   const rules = loadHistoricalRenderRules()
   const endpoints = new Set([header.current, header.oldNext, base.pins.source])
+  const hasEquivalence = history.interval.some(row => row.equivalentTo)
+  const nativeIntervals = new Map(hasEquivalence ? history.interval.filter(row => !row.equivalentTo).map(row => [row.commit, row] as const) : [])
+  let equivalentVariables: Buffer | undefined
+  if (hasEquivalence) {
+    const variables = config.files.find(file => file.path === 'shared-docs/guides/Variables.json')
+    const pageYaml = config.files.find(file => file.path === 'shared-docs/guides/pages/' + header.pageId + '/page.yaml')
+    if (!gitInventory || !history.commitProofRef || !pageYaml || !variables) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    function gitConfigBytes(file: typeof config.files[number]) {
+      const raw = bytes(file.ref)
+      if (createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== file.oid)
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      return raw
+    }
+    equivalentVariables = gitConfigBytes(variables)
+    if (!batchEquivalentPageConfig(header.pageId, config.sourceFile, header.targets, config.files, gitConfigBytes(pageYaml)))
+      throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+  }
   for (const observation of history.interval) {
     const raw = object(observation.rawRef, BatchRawTreeSchema), inventory = inventoryAt(observation.inventoryRef)
     if (observation.commit !== raw.commit || observation.commit !== inventory.commit) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
@@ -442,6 +500,27 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
     const witness = observation.historicalView
     const required = !endpoints.has(observation.commit) && isHistoricalRenderPoint(rules, header.pageId, observation.commit)
     if (Boolean(witness) !== required) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+    if (observation.equivalentTo) {
+      const representative = nativeIntervals.get(observation.equivalentTo)
+      if (!representative || endpoints.has(observation.commit) || endpoints.has(representative.commit) ||
+          required || isHistoricalRenderPoint(rules, header.pageId, representative.commit) ||
+          inventoryAt(representative.inventoryRef).treeOid !== inventory.treeOid)
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      // Raw records name their own commit, so compare their complete entry lists separately.
+      // All other measured fields, including future additions, must match the native row.
+      const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(canonicalBytes(b))
+      const measured = ({commit, equivalentTo, inventoryRef, rawRef, ...fields}: typeof observation) => fields
+      if (!same(measured(observation), measured(representative)) ||
+          !same(raw.entries, object(representative.rawRef, BatchRawTreeSchema).entries))
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      if (observation.sourceFile !== config.sourceFile || raw.entries.length !== 1 ||
+          raw.entries[0].path !== config.sourceFile || !equivalentVariables ||
+          !batchEquivalentSourceBytes(bytes(raw.entries[0].ref), equivalentVariables, observation.dependencies) ||
+          observation.outputStatus !== 'observed' || observation.imageStatus !== 'observed' ||
+          observation.manuals.length !== header.targets.length ||
+          header.targets.some(target => !observation.manuals.some(m => m.manual === target.manual && m.path === target.path)))
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    }
     if (witness) {
       const root = raw.entries.find(entry => entry.path === config.sourceFile)
       if (observation.outputStatus !== 'observed' || observation.imageStatus !== 'observed' ||
@@ -489,8 +568,10 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
       const body = object(manual.ref, BatchManualSchema)
       if (body.manual !== manual.manual || body.path !== manual.path) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
       if (witness && (!body.markdown.trim() || !body.output?.trim())) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      if (observation.equivalentTo && (!body.markdown.trim() || !body.output?.trim())) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
     }
     const images = object(observation.imagesRef, BatchImagesSchema)
+    if (observation.equivalentTo && images.some(role => role.images.length)) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
     for (const role of images) for (const image of role.images) {
       if (!image.ref) {
         if (witness) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
@@ -505,6 +586,8 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
         throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
     }
     const diagnostics = object(observation.diagnosticsRef, BatchDiagnosticsSchema)
+    if (observation.equivalentTo && (diagnostics.errors.length || diagnostics.rawErrors.length || diagnostics.reasons.length))
+      throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
     if (witness && (diagnostics.errors.length || diagnostics.rawErrors.length || diagnostics.reasons.length))
       throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
   }

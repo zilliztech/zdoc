@@ -157,3 +157,40 @@ describe('batch page launch and retention', () => {
     expect(launches).toBe(0)
   })
 })
+
+it('admits a pair together only after its joint budget check and uses single-page launch on fallback', async () => {
+  const events: string[] = []
+  await runBatchPagePipeline([0, 1, 2, 3, 4], {
+    async preflight(window) {
+      events.push(`budget ${window}`)
+      if (window.length === 2 && window[0] === 0) throw Error('BATCH_TRANSIENT_LIMIT')
+    },
+    async launch(id) {events.push('single ' + id); return id},
+    async launchPair(ids) {
+      events.push(`pair ${ids}`)
+      return [Promise.resolve(ids[0]), Promise.resolve(ids[1])]
+    },
+    async retain(id, child) {expect(child).toBe(id); events.push('retain ' + id)},
+  })
+  expect(events).toEqual(['budget 0,1', 'budget 0', 'single 0', 'retain 0', 'budget 1', 'single 1', 'retain 1',
+    'budget 2,3', 'pair 2,3', 'retain 2', 'retain 3', 'budget 4', 'single 4', 'retain 4'])
+})
+
+it('waits for a prestarted sibling to settle before returning its pair failure', async () => {
+  const aborted = gate(), settle = gate(), primary = Error('first child failed')
+  let returned = false
+  const call = runBatchPagePipeline([0, 1], {
+    async preflight() {},
+    async launch() {throw Error('expected paired starts')},
+    async launchPair(_ids, signal) {
+      const sibling = new Promise<void>(resolve => signal.addEventListener('abort', () => {aborted.release(); resolve()}, {once: true}))
+        .then(() => settle.waiting)
+      return [Promise.reject(primary), sibling]
+    },
+    async retain() {throw Error('expected no retention')},
+  }).finally(() => {returned = true})
+  await aborted.waiting
+  expect(returned).toBe(false)
+  settle.release()
+  await expect(call).rejects.toBe(primary)
+})

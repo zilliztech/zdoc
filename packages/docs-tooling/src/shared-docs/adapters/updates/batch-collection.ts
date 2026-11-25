@@ -9,6 +9,7 @@ import {BatchRenderRequestSchema, batchDigest, batchRef, batchSha256, batchSorte
 import {captureTrustedToolset, describeTrustedToolset, prepareTrustedLauncher, takeMeasuredBatchContent, batchContentLauncher, type BatchMeasuredChild,
   type TrustedToolsetCapture} from './toolset'
 import {observeBatchDiscovery, replayBatchDiscovery, readBatchDiscoveryCapture, type BatchDiscoveryCapture} from './batch-discovery'
+import {BATCH_DEPENDENCY_PAGE_BYTES, buildBatchDependencyIndex} from './batch-dependency-index'
 import {restoreEdgeMatches} from './batch-restore-proof'
 import {copyEdgeMatches} from './batch-import-proof'
 import type {BatchGitHubTestSeam} from './batch-github'
@@ -67,6 +68,9 @@ function assertCompletionValidity(store: EvidenceStore) {
 }
 
 interface Launch {operation: Operation; request: BatchRenderRequest; state: 'issued' | 'running' | 'settled'; authenticationMs?: number}
+export type BatchContentPair = readonly [BatchContentTicket, BatchContentTicket]
+const observedPairs = new WeakMap<BatchContentPair, Operation>()
+const pairOnly = new WeakSet<BatchContentTicket>()
 const observedLaunches = new WeakMap<object, Launch>(), replayLaunches = new WeakMap<object, Launch>()
 function issueContent(operation: Operation, pageId: string) {
   if (!operation.active || operation.issued.has(pageId) || !readBatchDiscoveryCapture(operation.discovery).report.pages.some(p => p.pageId === pageId)) invalid()
@@ -76,11 +80,20 @@ function issueContent(operation: Operation, pageId: string) {
   ;(operation.base.origin.kind === 'observed' ? observedLaunches : replayLaunches).set(ticket, {operation, request, state: 'issued'})
   operation.issued.add(pageId); operation.outstanding.add(ticket); return ticket
 }
-/** Only the fixed launcher consumes this private WeakMap record; JSON/copies never carry launch authority. */
-export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
+function issueObservedContentPair(operation: Operation, first: string, second: string): BatchContentPair {
+  if (operation.base.origin.kind !== 'observed' || first === second) return invalid()
+  const tickets = Object.freeze([issueContent(operation, first), issueContent(operation, second)] as const)
+  for (const ticket of tickets) pairOnly.add(ticket)
+  observedPairs.set(tickets, operation)
+  return tickets
+}
+function checkedContent(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
   const launch = (kind === 'observed' ? observedLaunches : replayLaunches).get(ticket)
-  if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') invalid()
-  // The claim precedes every await, including module/tool verification in the launcher.
+  if (!launch || !launch.operation.active || launch.operation.capture !== capture || launch.operation.store !== store || launch.state !== 'issued') return invalid()
+  return launch
+}
+function claimContent(launch: Launch) {
+  const {store} = launch.operation
   launch.state = 'running'
   // These private notifications can record timings for this page only. They
   // never alter the ticket state, the authenticated material or any receipt.
@@ -92,6 +105,19 @@ export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: T
       return checkpointBatchProgress(store, 'render-worker', launch.request.pageId, authenticationMs)
     },
   }
+}
+/** Bind one claim to one issuance. A pair cannot be split, copied, rebuilt or replayed. */
+export function consumeBatchContentLaunch(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore, kind: BatchOrigin['kind']) {
+  if (pairOnly.has(ticket)) return invalid()
+  return claimContent(checkedContent(ticket, capture, store, kind))
+}
+export function consumeObservedContentPair(pair: BatchContentPair, capture: TrustedToolsetCapture, store: EvidenceStore) {
+  const operation = observedPairs.get(pair)
+  if (!operation || !operation.active || operation.capture !== capture || operation.store !== store) return invalid()
+  const first = checkedContent(pair[0], capture, store, 'observed'), second = checkedContent(pair[1], capture, store, 'observed')
+  if (first.operation !== operation || second.operation !== operation || first.request.pageId === second.request.pageId) return invalid()
+  observedPairs.delete(pair)
+  return [claimContent(first), claimContent(second)] as const
 }
 export function replayBatchContentData(ticket: BatchContentTicket, capture: TrustedToolsetCapture, store: EvidenceStore): Uint8Array | undefined {
   const launch = replayLaunches.get(ticket)
@@ -109,12 +135,8 @@ async function retainPage(operation: Operation, ticket: BatchContentTicket, chil
   const wire = child.value
   const checked = validateBatchWire(wire, launch.request)
   // No response-supplied filesystem path is opened. Existing deduplicated CAS bytes are re-read too.
-  for (const payload of wire.blobs) {
-    if (!operation.active) invalid()
-    const bytes = decodeBatchBlob(payload.ref, payload.base64)
-    const stored = await retainBlob(bytes)
-    if (!operation.active || stored.sha256 !== payload.ref.sha256 || stored.bytes !== payload.ref.bytes) invalid()
-  }
+  await retainBlob.retainPage(wire.blobs, payload => decodeBatchBlob(payload.ref, payload.base64),
+    () => { if (!operation.active) invalid() })
   const materialBytes = canonicalBytes(checked.header), materialRef = await writeOwnedBlob(operation.store, materialBytes)
   if (!operation.active) invalid()
   const reread = await operation.store.readBlob(materialRef)
@@ -621,6 +643,11 @@ const observedMaterialClosures = new WeakMap<object, SealedMaterialClosure>()
 const replayMaterialClosures = new WeakMap<object, SealedMaterialClosure>()
 export type BatchMaterialCollection = {status: 'held'; reasons: readonly string[]} | {status: 'no-group'; reasons: readonly []}
   | {status: 'material-complete'; ticket: BatchMaterialClosureTicket; memberIds: readonly string[]; origin: BatchOrigin}
+type DependencyExport = {
+  bytes: number
+  entries: {pageId: string; path: string; bytes: number; sha256: string; namespaceSha256: string; materialDigest: string}[]
+  unavailable: string[]
+}
 async function retainStructured(operation: Operation, value: unknown) {
   if (!operation.active) invalid()
   const bytes = canonicalBytes(value), ref = await writeOwnedBlob(operation.store, bytes)
@@ -629,7 +656,7 @@ async function retainStructured(operation: Operation, value: unknown) {
   if (!operation.active || !Buffer.from(observed).equals(Buffer.from(bytes))) invalid()
   return ref
 }
-async function collectOperation(operation: Operation): Promise<BatchMaterialCollection> {
+async function collectOperation(operation: Operation, dependencyExport?: DependencyExport): Promise<BatchMaterialCollection> {
   const compactPages: BatchCompactPage[] = []
   let verifiedNamespace: BatchBlobRef | undefined
   const measurement = operationMeasurements.get(operation.store)
@@ -644,6 +671,16 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
   try {
     await begin('discovery-retention')
     const discovery = readBatchDiscoveryCapture(operation.discovery)
+    // The captured, ref-checked registry is authoritative for its locks. With no
+    // interval to advance there can be no lock.next candidate or writer handoff.
+    // An explicit dependency export still needs the per-page observations.
+    const {report, ledger} = discovery
+    if (!dependencyExport && report.status === 'provisional' && report.pages.length > 0 &&
+        report.pages.every(page => page.oldNext === report.pins.source) &&
+        ledger.length === 0 && report.seeds.length === 0 && report.changes.length === 0 &&
+        report.dependencies.length === 0 && report.groups.length === 0) {
+      return {status: 'no-group', reasons: []}
+    }
     for (const evidence of discovery.evidence) {
       const stored = await writeOwnedBlob(operation.store, evidence.bytes)
       if (!operation.active || !same(stored, evidence.ref)) invalid()
@@ -679,6 +716,25 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           }
           await begin('worker')
         },
+        launchPair: operation.base.origin.kind === 'observed' && currentBatchLifetime() ? async ([first, second], signal) => {
+          signal.throwIfAborted()
+          const started = performance.now()
+          const tickets = issueObservedContentPair(operation, first.pageId, second.pageId)
+          try {
+            const jobs = await launcher.runObservedBatchContentPair(tickets, signal)
+            const measured = async (pageId: string, ticket: BatchContentTicket, job: Promise<BatchMeasuredChild>) => {
+              try { return {ticket, child: await job, started} }
+              catch (error) {
+                if (!signal.aborted) workerFailure ??= {pageId, started}
+                throw error
+              }
+            }
+            return [measured(first.pageId, tickets[0], jobs[0]), measured(second.pageId, tickets[1], jobs[1])] as const
+          } catch (error) {
+            if (!signal.aborted) workerFailure ??= {pageId: first.pageId, started}
+            throw error
+          }
+        } : undefined,
         async launch(page, signal) {
           const started = performance.now()
           try {
@@ -707,6 +763,21 @@ async function collectOperation(operation: Operation): Promise<BatchMaterialColl
           measurement?.pages.push({pageId: page.pageId, elapsedMs: Math.ceil(performance.now() - started),
             responseBytes: retained.responseBytes, materialBytes: retained.materialRef.bytes,
             ...(authenticationMs === undefined ? {} : {authenticationMs})})
+          if (dependencyExport) {
+            try {
+              const namespaceRef = checked.config.namespaceRef
+              const bytes = canonicalBytes(buildBatchDependencyIndex(projected, {materialRef: retained.materialRef, namespaceRef}))
+              if (bytes.length > BATCH_DEPENDENCY_PAGE_BYTES || dependencyExport.bytes + bytes.length > 8 * 1024 * 1024) throw Error('DEPENDENCY_EXPORT_LIMIT')
+              const sha256 = batchSha256(bytes), path = `dependency-index-${sha256}.json`
+              await operation.store.writeJournal(path, bytes)
+              const reread = await operation.store.readJournal({path, sha256, bytes: bytes.length})
+              if (!operation.active || !Buffer.from(reread).equals(Buffer.from(bytes))) invalid()
+              dependencyExport.bytes += bytes.length
+              dependencyExport.entries.push({pageId: page.pageId, path, sha256, bytes: bytes.length, namespaceSha256: namespaceRef.sha256, materialDigest: projected.materialDigest})
+            } catch {
+              dependencyExport.unavailable.push(page.pageId)
+            }
+          }
         },
       })
     } catch (error) {
@@ -1243,7 +1314,7 @@ export async function settleBatchMeasurement(store: EvidenceStore, stopSampling:
 }
 async function collectCompleteBatch(options: Readonly<{sourceRepository: string; out: string}>, replay?: {
   zdocRepository: string; capture: TrustedToolsetCapture; fixtureBytes: Uint8Array; replayClockMs: number
-}, preparation?: CandidatePreparation): Promise<BatchHandoffResult> {
+}, preparation?: CandidatePreparation, dependencyExport?: DependencyExport): Promise<BatchHandoffResult> {
   const observation = replay ? 'replay' : 'observed'
   const result = (status: BatchCollectionResult['status'], reasons: readonly string[], index: BatchBlobRef | null = null): BatchCollectionResult =>
     immutable({kind: 'guides-batch-collection-v1', observation, status, writeEligible: false, operations: [], reasons, index})
@@ -1290,7 +1361,7 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
       bindBatchResources(store, Math.max(1, pages)); await reserveBatchAllocation(store, 0)
       const opInput = {capture, store, discovery, sourceRepository: source, devRepository: repository,
         ...(replay ? {replayFixtureBytes: Uint8Array.from(replay.fixtureBytes)} : {})}
-      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined))
+      const material = await collectOperation(replay ? replayOperation(opInput) : observedOperation(opInput, preparation !== undefined), dependencyExport)
       currentBatchLifetime()!.check()
       if (material.status !== 'material-complete') return result(material.status, material.reasons)
       await checkpointBatchProgress(store, 'qualification')
@@ -1339,6 +1410,14 @@ async function collectCompleteBatch(options: Readonly<{sourceRepository: string;
 }
 export function collectObservedGuidesBatch(options: Readonly<{sourceRepository: string; out: string}>): Promise<BatchCollectionResult> {
   return collectCompleteBatch(options)
+}
+/** Opt-in evidence export from the same measured pages. Missing rows grant no coverage. */
+export async function collectObservedGuidesBatchWithDependencyIndex(options: Parameters<typeof collectObservedGuidesBatch>[0]) {
+  const dependencyExport: DependencyExport = {bytes: 0, entries: [], unavailable: []}
+  const result = await collectCompleteBatch(options, undefined, undefined, dependencyExport)
+  return immutable({schema: 'guides-batch-dependency-export-v1', result,
+    entries: batchSorted(dependencyExport.entries, row => row.pageId), unavailable: sorted(dependencyExport.unavailable),
+    writeEligible: false, operations: []})
 }
 /** Internal entry prepares only a local candidate within the live measured collection. */
 export function prepareObservedIsolatedBatchCandidate(options: Parameters<typeof collectObservedGuidesBatch>[0]): Promise<BatchCollectionResult> {

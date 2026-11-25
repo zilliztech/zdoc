@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { constants } from 'node:fs'
-import { initializeEvidence, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors, batchAllocatedTree, withBatchLifetime } from '../../adapters/updates/evidence'
+import { initializeEvidence, createPageBlobRetainer, writeOwnedBlob, sameFilesystemIdentity, checkedAncestors, batchAllocatedTree, withBatchLifetime } from '../../adapters/updates/evidence'
 const roots: string[] = []
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
 async function fixture() {
@@ -220,6 +220,48 @@ describe('fresh bounded ancestor checks', () => {
 
 
 describe('concurrent content-addressed evidence writes', () => {
+  it('retains new blobs alone and bounds repeat reads by count and bytes', async () => {
+    const {root, repo} = await fixture()
+    const store = await initializeEvidence({root: join(root, 'page'), repositories: [repo], owner: 'page-windows'})
+    const retain = createPageBlobRetainer(store)
+    const payload = (name: string, size = 1) => {
+      const bytes = Buffer.alloc(size, name), sha256 = createHash('sha256').update(bytes).digest('hex')
+      return {name, bytes, ref: {path: 'blobs/' + sha256, sha256, bytes: size}}
+    }
+    const small = ['a', 'b', 'c', 'd', 'e'].map(name => payload(name))
+    const first = payload('f'), next = payload('g')
+    const medium = payload('h', 3 * 1024 * 1024), second = payload('i', 2 * 1024 * 1024), large = payload('j', 4 * 1024 * 1024 + 1)
+    for (const item of [...small, medium, second, large]) await retain(item.bytes)
+    const windows: string[][] = []
+    let current: string[] | undefined
+    const decode = (item: typeof first) => {
+      if (!current) {
+        current = []
+        windows.push(current)
+        queueMicrotask(() => { current = undefined })
+      }
+      current.push(item.name)
+      return item.bytes
+    }
+    const inputs = [first, ...small, next, medium, second, large, first]
+    await retain.retainPage(inputs, decode, () => {})
+    expect(windows).toEqual([['f'], ['a', 'b', 'c', 'd'], ['e'], ['g'], ['h'], ['i'], ['j'], ['f']])
+    for (const item of inputs) expect(Buffer.from(await store.readBlob(item.ref)).equals(item.bytes)).toBe(true)
+
+    // An invalid repeat must settle its already-started siblings before the
+    // caller observes failure. The later first write must never start.
+    const later = payload('k')
+    await writeFile(join(store.root, small[0].ref.path), Buffer.from('x'))
+    windows.length = 0
+    let activeChecks = 0
+    await expect(retain.retainPage([...small.slice(0, 3), later], decode, () => { activeChecks++ })).rejects.toThrow(/SHA-256/)
+    expect(windows).toEqual([['a', 'b', 'c']])
+    expect(activeChecks).toBe(5)
+    await expect(lstat(join(store.root, later.ref.path))).rejects.toMatchObject({code: 'ENOENT'})
+    await expect(retain.retainPage([small[1]], () => later.bytes, () => {})).rejects.toThrow('BATCH_CAS_BINDING_INVALID')
+    await expect(lstat(join(store.root, later.ref.path))).rejects.toMatchObject({code: 'ENOENT'})
+  }, 30000)
+
   it('reads each retained page blob once and refuses to repair missing or changed repeats', async () => {
     const {root, repo} = await fixture()
     const out = join(root, 'page-evidence'), bytes = Buffer.from('page evidence')

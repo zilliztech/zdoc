@@ -223,6 +223,40 @@ sets and bytes, zero shared generation/image-store calls and no empty authority
 directory. Separate site/browser and retained-artifact inventory/build gates remain
 required; the default suite and requirement tags cannot replace them.
 
+## Screen the scope of an upstream Guides change
+
+Start with the merged Milvus PR numbers and the exact Zdoc master, published dev
+and Milvus track commits used for the comparison. With Git objects for those
+commits available locally and a read-only GitHub token, run:
+
+```sh
+node scripts/docs-workflow/shared-guides-update/batch-scope.cjs \
+  --zdoc-repo "$ZDOC_REPOSITORY" --source-repo "$MILVUS_DOCS_REPOSITORY" \
+  --master "$MASTER_SHA" --dev "$DEV_SHA" --source "$SOURCE_SHA" \
+  --pulls 3842,3861 > batch-scope.json
+```
+
+The report lists each page's own old `next`, the upstream merge identities and
+the disposition for the requested batch. `full` means a source change or
+dependency needs further verification. A link from a published page can put
+that page on the verification list without requiring a lock update.
+`excluded` requires affirmative evidence. `unknown` records the missing
+evidence. The separate `sourceCounts` summarize root and fragment dependencies.
+The report has `writeEligible: false`. Use the production qualification below
+to obtain an acceptance ID and the exact set of locks eligible for a Draft.
+
+For a page whose membership is still uncertain, add `--verify-page PAGE_ID`
+to the same command. This checks one page's current, old next and target
+outputs and its bounded historical range. Inspect `membership.decision` for
+the page's contribution to the batch and any published routes that still need
+checking against candidate outputs.
+
+To retain versioned dependency evidence while performing a measured collection,
+add `--dependency-index` to `batch-collect.mjs --source-repo DIR --out FRESH_DIR`.
+The opt-in summary lists each completed page's journal, material digest and
+namespace digest. Save the summary with its producing run. A missing journal
+leaves that page's dependency coverage unknown.
+
 ## Qualify a production batch on demand
 
 Use [fetch lark docs](../.github/workflows/fetch-docs.yml) on protected `master`.

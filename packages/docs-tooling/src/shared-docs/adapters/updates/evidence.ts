@@ -268,10 +268,11 @@ export function createPageBlobRetainer(store: EvidenceStore) {
   const owned = evidenceStores.get(store)
   if (!owned) throw new Error('Evidence store is not independently owned')
   const persisted = new Set<string>()
-  return async (bytes: Uint8Array): Promise<BlobRef> => {
+  const retain = async (bytes: Uint8Array, expected?: BlobRef): Promise<BlobRef> => {
     currentBatchLifetime()?.check()
     const sha256 = rawSha256(bytes)
     const ref = {path: `blobs/${sha256}`, sha256, bytes: bytes.byteLength}
+    if (expected && (expected.sha256 !== sha256 || expected.bytes !== ref.bytes || expected.path !== ref.path)) throw Error('BATCH_CAS_BINDING_INVALID')
     if (!persisted.has(sha256)) {
       const stored = await writeOwnedBlob(store, bytes)
       if (stored.path !== ref.path || stored.sha256 !== sha256 || stored.bytes !== ref.bytes) throw Error('BATCH_CAS_BINDING_INVALID')
@@ -282,6 +283,34 @@ export function createPageBlobRetainer(store: EvidenceStore) {
     persisted.add(sha256)
     return ref
   }
+  return Object.assign(retain, {
+    async retainPage<T extends {ref: BlobRef}>(payloads: readonly T[], decode: (payload: T) => Uint8Array, checkActive: () => void) {
+      const visit = async (payload: T) => {
+        checkActive()
+        await retain(decode(payload), payload.ref)
+        checkActive()
+      }
+      for (let start = 0; start < payloads.length;) {
+        // Only already-settled refs share a read window. A new blob or a large
+        // blob runs alone, after all preceding reads have settled successfully.
+        let end = start
+        let bytes = 0
+        while (end < payloads.length && end - start < 4) {
+          const ref = payloads[end].ref
+          if (!persisted.has(ref.sha256) || bytes + ref.bytes > 4 * 1024 * 1024) break
+          bytes += ref.bytes
+          end++
+        }
+        if (end === start) {
+          await visit(payloads[start++])
+          continue
+        }
+        const results = await Promise.allSettled(payloads.slice(start, end).map(visit))
+        for (const result of results) if (result.status === 'rejected') throw result.reason
+        start = end
+      }
+    },
+  })
 }
 
 import {statfs} from 'node:fs/promises'
