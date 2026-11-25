@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-11-23T12:29:47.863Z",
+  "generated_at": "2026-11-25T03:29:14.298Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -9749,7 +9749,7 @@
       "doc_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Km9nwfLWti2GZNkLtbnc8fcVnId",
       "source_file": "Km9nwfLWti2GZNkLtbnc8fcVnId.json",
-      "source_hash": "e5818f68e9751a378fc0063cc964a5fbd9c06319a7719f6fedb14a5cd320e89e",
+      "source_hash": "3c60e550307ab8367a028cd1b30bf01e9f226aa998b3dc868a14c6bd518bb196",
       "node_metadata": {
         "requested_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
         "requested_node_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
@@ -9788,12 +9788,12 @@
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
       "placement_type": "canonical",
-      "title": "管理 Snapshot",
+      "title": "管理 Snapshot（SDK）",
       "slug": "manage-snapshots",
       "doc_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "source_file": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe.json",
-      "source_hash": "fe90c3d85729c96bd173650e100c85efe8401be01f5e2f2ec78d2d0879b1f138",
+      "source_hash": "807141da846c645199994fae9b9c21bfa223ae2a24a9f6f5c807d570b4fed00d",
       "node_metadata": {
         "requested_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
         "requested_node_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
@@ -9802,20 +9802,20 @@
         "obj_token": "Fa8qdEh8YoJJD9xc741cg69Anee",
         "obj_type": "docx",
         "node_type": "origin",
-        "title": "管理 Snapshot",
+        "title": "管理 Snapshot（SDK）",
         "space_id": "7167193056431783939",
         "parent_node_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
         "node_create_time": "1781495222",
         "obj_create_time": "1781495222",
-        "obj_edit_time": "1793091647",
-        "revision_id": "46"
+        "obj_edit_time": "1795573230",
+        "revision_id": "52"
       },
       "node_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "origin_node_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "obj_token": "Fa8qdEh8YoJJD9xc741cg69Anee",
       "obj_type": "docx",
-      "obj_edit_time": "1793091647",
-      "revision_id": "46",
+      "obj_edit_time": "1795573230",
+      "revision_id": "52",
       "publish_targets": [
         "Zilliz.SaaS"
       ],
@@ -9824,6 +9824,47 @@
       "outgoing_tokens": [
         "Xq0owDgEpiD2aDkfYBGcxt1ZnNe"
       ],
+      "output_paths": []
+    },
+    {
+      "record_id": "reczz28dk9kXR5Pw",
+      "table_id": "tblYpqCgevikMomb",
+      "table_name": "开发指南",
+      "placement_type": "canonical",
+      "title": "管理 Snapshot（控制台）",
+      "slug": "manage-snapshots-console",
+      "doc_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+      "source_file": "Gs2AwtPbbi4hFTkMswhcrM3tnFc.json",
+      "source_hash": "cebbbbdcbeb0cb4d4a76e2dee0248b1f49f5ed992981f98d622981dac6625ad8",
+      "node_metadata": {
+        "requested_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+        "requested_node_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+        "node_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+        "origin_node_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+        "obj_token": "EPMMdsYAKohVqMxzT54cmHuXnKd",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "管理 Snapshot（控制台）",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
+        "node_create_time": "1795573255",
+        "obj_create_time": "1795573255",
+        "obj_edit_time": "1795574693",
+        "revision_id": "227"
+      },
+      "node_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+      "origin_node_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+      "obj_token": "EPMMdsYAKohVqMxzT54cmHuXnKd",
+      "obj_type": "docx",
+      "obj_edit_time": "1795574693",
+      "revision_id": "227",
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "release_channel": "next",
+      "outgoing_tokens": [],
       "output_paths": []
     },
     {
@@ -25046,8 +25087,8 @@
         "recvmA4h70tY2O"
       ],
       "order": 194,
-      "title": "管理 Snapshot",
-      "labels": "管理 Snapshot",
+      "title": "管理 Snapshot（SDK）",
+      "labels": "",
       "slug": "manage-snapshots",
       "targets": [
         "zilliz.saas"
@@ -25055,6 +25096,28 @@
       "progress": "Draft",
       "doc_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "reczz28dk9kXR5Pw",
+      "table_id": "tblYpqCgevikMomb",
+      "table_name": "开发指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvmA4h70tY2O"
+      ],
+      "order": 195,
+      "title": "管理 Snapshot（控制台）",
+      "labels": "",
+      "slug": "manage-snapshots-console",
+      "targets": [
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Gs2AwtPbbi4hFTkMswhcrM3tnFc",
       "ref_target": null,
       "ref_target_token": null,
       "ref_target_anchor": null
@@ -25173,7 +25236,7 @@
     "tblr7Zec2ReTfRmw": "12f28bf5a8d3d26dfa5c696b65e1dd8ddac6747a321225cf3ed13464122f1939",
     "tblRaa3JnIhllHb9": "5f574957fe13e90417d7fcf8302bd39bb81349c4d2d027f480c7633006918c5f",
     "tblsw6S3J0ekcgNB": "68abbdda3b6f250d4f295ffc6bb2a0dc399ceae0628ce11b36599e79f1bfc156",
-    "tblYpqCgevikMomb": "acd5af67a6ab8cf8cd0abf881c59c55a619948ad1c364ec89b28d86963af891e",
+    "tblYpqCgevikMomb": "c934f10835883873f67762aa953090bd64fbac9c5a719c503a690522ac48809b",
     "tblzcM4ERJ00Wjjx": "25c682f1ab796375abe2a877db45ee5affe74ee846d7830648861e39536d7d64"
   }
 }

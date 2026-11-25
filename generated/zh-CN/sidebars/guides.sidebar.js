@@ -1564,8 +1564,17 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/snapshots/manage-snapshots",
-            "label": "管理 Snapshot",
+            "label": "管理 Snapshot（SDK）",
             "key": "doc:tutorials/development/snapshots/manage-snapshots"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/snapshots/manage-snapshots-console",
+            "label": "管理 Snapshot（控制台）",
+            "key": "doc:tutorials/development/snapshots/manage-snapshots-console",
+            "customProps": {
+              "channel": "next"
+            }
           }
         ]
       }
