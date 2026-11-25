@@ -3442,6 +3442,7 @@ exclude:
   - Snapshot/getExportSnapshotState.md
   - Snapshot/restoreExternalSnapshot.md
   - Vector/FunctionChain.md
+  - Vector/Highlighter.md
 milvus_values:
   endpoint: "'localhost:19530'"
   token: root:Milvus
