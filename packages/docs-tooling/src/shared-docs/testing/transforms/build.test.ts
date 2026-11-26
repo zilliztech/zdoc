@@ -239,3 +239,30 @@ it('deduplicates component imports when two content files and the source all use
   expect(text).toContain('First')
   expect(text).toContain('Second')
 })
+
+it('passes <UI> tags through the full build in paragraphs, lists and NextChannel without emitting import UI', async () => {
+  const options = await setup([addition], [
+    'Click <UI>Create Cluster</UI>.',
+    '',
+    '- Select <UI>Create Cluster</UI>.',
+    '',
+    '<NextChannel action="include">',
+    '',
+    'Confirm <UI>Create Cluster</UI>.',
+    '',
+    '</NextChannel>',
+  ].join('\n'))
+  const result = await build(options)
+  expect(result.code, result.text).toBe(0)
+  for (const manual of ['guides', 'guides-byoc']) {
+    const mdx = await readFile(join(options.out, manual, 'tutorials/build-pipeline.mdx'), 'utf8')
+    expect(mdx).toContain('Click <UI>Create Cluster</UI>.')
+    expect(mdx).toContain('- Select <UI>Create Cluster</UI>.')
+    expect(mdx).toContain('Confirm <UI>Create Cluster</UI>.')
+    expect(mdx).not.toMatch(/^import UI\b/m)
+    expect(mdx).not.toContain('&lt;UI&gt;')
+    expect(currentView(mdx)).toContain('Click <UI>Create Cluster</UI>.')
+    expect(currentView(mdx)).not.toContain('Confirm <UI>Create Cluster</UI>.')
+    expect(nextView(mdx)).toContain('Confirm <UI>Create Cluster</UI>.')
+  }
+})

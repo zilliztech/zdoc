@@ -24,10 +24,12 @@ export const isImportableComponent = (name: string): name is Component => name i
 /**
  * Tags the merge pipeline recognises as authored compatibility syntax even
  * though the generator never imports them. Content files may author
- * `NextChannel` gates; the merge preserves compatible gates and rejects
- * nested ones with `MERGE_NESTED_CHANNEL`.
+ * `NextChannel` gates and `UI` inline console-label markers; the merge
+ * preserves compatible gates and rejects nested ones with
+ * `MERGE_NESTED_CHANNEL`, while `UI` is registered globally via
+ * `MDXComponents`.
  */
-const compatibilityTags = new Set(['NextChannel'])
+const compatibilityTags = new Set(['NextChannel', 'UI'])
 
 /** True when a content-file tag is either importable or merge-recognized. */
 export const isRecognizedContentTag = (name: string): boolean => isImportableComponent(name) || compatibilityTags.has(name)
