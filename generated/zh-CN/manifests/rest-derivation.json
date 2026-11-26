@@ -29,7 +29,7 @@
     "27-invoices-v2.json": "e6d0377f311f3c0ff45e63857fd98c02f936b41b4c01e7190eb1dfb1633836a7",
     "28-usage-v2.json": "846526bc2445ba058d1ee46b8fd3add656e2222e8066b94c4ba2422e7c17282c",
     "29-on-demand-compute-v2.json": "575ed891c53db6dd77375642432c0d62520788dbd9a1f5c6e867daadcf772395",
-    "30-global-clusters.json": "157a7c52817822ead0196f864d7c165411d11ec1304cfdcd13dbb5fa2add8caa",
+    "30-global-clusters.json": "9cba0ce6ed90caeade10a61b68194619b77ed056f6d604dd67053b076dd8e6b6",
     "31-storage-integration-v2.json": "c046a25cf0248f48d12e73eec15d0f4501a8fe50105b713898f26b03138030f0",
     "32-spark-job-v2.json": "e02b883ff93381ea964060dc967e91ee432b0a87f73ade26dd34b09ca8500ebb",
     "33-on-demand-cluster-operations-v2.json": "075f13ca6cfc5ca10c2a69da4062d48c470cab7eb7dd41a41b758fc8e3b54b7f",
@@ -39,8 +39,8 @@
     "37-file-resource-operations-v2.json": "5b866390ddf0a1d3ecb711017d987aa30aa2cff848b86e5089c30e4e440834a4",
     "38-snapshot-operations-v2.json": "077c94dfdc8d2e4297fa00528dedfa9a772e20f5c3819044554a09a6ad25adf7"
   },
-  "generatedAt": "2026-11-26T02:18:48.285Z",
+  "generatedAt": "2026-11-26T04:03:34.867Z",
   "locale": "zh-CN",
   "schemaVersion": 1,
-  "toolingSha": "e379404b9b388649fdb5c18144bf2a4bada14ca0"
+  "toolingSha": "355f103a48380a88180a59b55d3f82c4ed7f211a"
 }
