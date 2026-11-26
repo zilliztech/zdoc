@@ -385,6 +385,9 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
           pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
         }
         parent.textStart = cursor
+      } else if (parent.kind === 'jsx' && popped.jsxSpans.length > 0) {
+        pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
+        pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, outerNonJsxGaps)
       }
       hasNonCommentToken = true
       canStartRegex = false
@@ -702,6 +705,30 @@ function matchIndentedFenceOpener(lineText: string): { markerChar: string; marke
   return { markerChar: match[1][0], markerLen: match[1].length }
 }
 
+function findIndentedFenceClose(
+  fenceMasked: string,
+  lineNl: number,
+  openFence: { markerChar: string; markerLen: number },
+): { closeEnd: number; linesAdvanced: number } | null {
+  if (lineNl < 0) return null
+  const { markerChar, markerLen } = openFence
+  let scanLineStart = lineNl + 1
+  let linesAdvanced = 1
+  while (scanLineStart < fenceMasked.length) {
+    const nextNl = fenceMasked.indexOf('\n', scanLineStart)
+    const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
+    const candidate = fenceMasked.slice(scanLineStart, nextLineEnd)
+    const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(candidate)
+    if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
+      return { closeEnd: nextLineEnd, linesAdvanced }
+    }
+    if (nextNl < 0) break
+    scanLineStart = nextNl + 1
+    linesAdvanced += 1
+  }
+  return null
+}
+
 function scanInlineBacktickSpan(
   fenceMasked: string,
   start: number,
@@ -775,26 +802,10 @@ function computeLastCloseOffsets(
       const lineText = fenceMasked.slice(i, lineEnd)
       const openFence = matchIndentedFenceOpener(lineText)
       if (openFence) {
-        const { markerChar, markerLen } = openFence
-        let scanLineStart = nl >= 0 ? nl + 1 : fenceMasked.length
-        let closeEnd = -1
-        let linesAdvanced = nl >= 0 ? 1 : 0
-        while (scanLineStart < fenceMasked.length) {
-          const nextNl = fenceMasked.indexOf('\n', scanLineStart)
-          const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
-          const candidate = fenceMasked.slice(scanLineStart, nextLineEnd)
-          const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(candidate)
-          if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
-            closeEnd = nextLineEnd
-            break
-          }
-          if (nextNl < 0) break
-          scanLineStart = nextNl + 1
-          linesAdvanced += 1
-        }
-        if (closeEnd >= 0) {
-          lineIdx += linesAdvanced
-          i = closeEnd
+        const close = findIndentedFenceClose(fenceMasked, nl, openFence)
+        if (close) {
+          lineIdx += close.linesAdvanced
+          i = close.closeEnd
           continue
         }
         if (mdCodeBlockLines.has(lineIdx)) {
@@ -919,9 +930,19 @@ function computeLastCloseOffsets(
   return lastCloseOffset
 }
 
+export interface MaskCodeAndCommentsOptions {
+  preserveEmptyOrCommentBraces?: boolean
+}
+
+export interface MaskCodeAndCommentsResult {
+  masked: string
+  jsxExprWrapperRanges: [number, number][]
+}
+
 /**
  * Mask fenced code blocks, top-level indented code blocks, inline backtick spans,
- * and HTML/MDX comments with spaces while keeping byte offsets and line numbers intact.
+ * and HTML/MDX comments with spaces while keeping byte offsets and line numbers intact,
+ * also returning non-JSX JS wrapper ranges around JSX inside prose `{...}` expressions.
  *
  * - Aware of JSX/HTML opening tags (`"..."`, `'...'`, `{...}` expressions) so
  *   `{/*`, `"<!--"`, and backticks inside tag attributes/expressions never trigger
@@ -930,10 +951,13 @@ function computeLastCloseOffsets(
  * - Tracks open JSX/HTML flow containers so 4-space indented JSX tags/content
  *   inside `<Tabs>` / `<Admonition>` / `<details>` etc. are NOT masked as Markdown
  *   `code_block`s (matching MDX semantics), while genuine top-level 4-space indented
- *   code blocks outside JSX containers remain masked (and indented fences inside
- *   JSX containers are still masked).
+ *   code blocks outside JSX containers remain masked (and indented fences at both
+ *   top level and inside JSX containers are masked).
  */
-export function maskCodeAndComments(markdown: string): string {
+export function maskCodeAndCommentsWithRanges(
+  markdown: string,
+  options: MaskCodeAndCommentsOptions = {},
+): MaskCodeAndCommentsResult {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
   const lines = markdownLines(normalized)
   const fences = fencesIn(normalized, lines)
@@ -962,6 +986,7 @@ export function maskCodeAndComments(markdown: string): string {
   const lastCloseOffset = computeLastCloseOffsets(fenceMasked, fenceExcluded, mdCodeBlockLines)
 
   const chars = fenceMasked.split('')
+  const jsxExprWrapperRanges: [number, number][] = []
   const jsxStack: string[] = []
   let lineIdx = 0
   let i = 0
@@ -981,6 +1006,24 @@ export function maskCodeAndComments(markdown: string): string {
         continue
       }
 
+      // MDX treats matched indented ``` / ~~~ lines as fenced code blocks at both top level
+      // and inside open JSX containers (and unclosed indented fences inside JSX mask to EOF).
+      const lineText = fenceMasked.slice(i, lineEnd)
+      const openFence = matchIndentedFenceOpener(lineText)
+      if (openFence) {
+        const close = findIndentedFenceClose(fenceMasked, nl, openFence)
+        if (close) {
+          maskRangePreservingNewlines(chars, i, close.closeEnd)
+          lineIdx += close.linesAdvanced
+          i = close.closeEnd
+          continue
+        }
+        if (jsxStack.length > 0) {
+          maskRangePreservingNewlines(chars, i, fenceMasked.length)
+          break
+        }
+      }
+
       if (mdCodeBlockLines.has(lineIdx) && jsxStack.length === 0) {
         maskRangePreservingNewlines(chars, i, lineEnd)
         i = lineEnd
@@ -989,38 +1032,6 @@ export function maskCodeAndComments(markdown: string): string {
           i += 1
         }
         continue
-      }
-
-      // Inside an open JSX container, MDX also treats indented ``` / ~~~ lines as fenced code blocks.
-      if (jsxStack.length > 0) {
-        const lineText = fenceMasked.slice(i, lineEnd)
-        const openFence = matchIndentedFenceOpener(lineText)
-        if (openFence) {
-          const { markerChar, markerLen } = openFence
-          let scanLineStart = nl >= 0 ? nl + 1 : fenceMasked.length
-          let closeEnd = fenceMasked.length
-          let linesAdvanced = nl >= 0 ? 1 : 0
-          while (scanLineStart < fenceMasked.length) {
-            const nextNl = fenceMasked.indexOf('\n', scanLineStart)
-            const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
-            const candidate = fenceMasked.slice(scanLineStart, nextLineEnd)
-            const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(candidate)
-            if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
-              closeEnd = nextLineEnd
-              break
-            }
-            if (nextNl < 0) {
-              closeEnd = fenceMasked.length
-              break
-            }
-            scanLineStart = nextNl + 1
-            linesAdvanced += 1
-          }
-          maskRangePreservingNewlines(chars, i, closeEnd)
-          lineIdx += linesAdvanced
-          i = closeEnd
-          continue
-        }
       }
     }
 
@@ -1050,7 +1061,13 @@ export function maskCodeAndComments(markdown: string): string {
       }
       if (expr.end >= 0) {
         if (expr.commentsOnly || (!expr.hasJsx && !expr.hasUnmaskedToken)) {
-          maskRangePreservingNewlines(chars, i, expr.end)
+          if (options.preserveEmptyOrCommentBraces) {
+            for (const [mStart, mEnd] of expr.maskRanges) {
+              maskRangePreservingNewlines(chars, mStart, mEnd)
+            }
+          } else {
+            maskRangePreservingNewlines(chars, i, expr.end)
+          }
         } else {
           for (const [mStart, mEnd] of expr.maskRanges) {
             maskRangePreservingNewlines(chars, mStart, mEnd)
@@ -1058,6 +1075,7 @@ export function maskCodeAndComments(markdown: string): string {
           if (expr.hasJsx) {
             for (const [gStart, gEnd] of expr.outerNonJsxGaps) {
               maskRangePreservingNewlines(chars, gStart, gEnd)
+              jsxExprWrapperRanges.push([gStart, gEnd])
             }
           }
         }
@@ -1124,20 +1142,22 @@ export function maskCodeAndComments(markdown: string): string {
       }
     }
 
-    // JSX fragment <> or opening tag <TagName ...>
+    // JSX fragment <> (also when adjacent to identifiers like foo<>)
+    if (ch === '<' && fenceMasked[i + 1] === '>' && !isEscapedAt(fenceMasked, i)) {
+      const closePos = lastCloseOffset.get('')
+      if (closePos !== undefined && closePos > i) {
+        jsxStack.push('')
+      }
+      i += 2
+      continue
+    }
+
+    // JSX / HTML opening tag <TagName ...>
     if (
       ch === '<' &&
       !isEscapedAt(fenceMasked, i) &&
       (i === 0 || !/[A-Za-z0-9_$]/.test(fenceMasked[i - 1]))
     ) {
-      if (fenceMasked[i + 1] === '>') {
-        const closePos = lastCloseOffset.get('')
-        if (closePos !== undefined && closePos > i) {
-          jsxStack.push('')
-        }
-        i += 2
-        continue
-      }
       const openTag = scanJsxOpenTag(fenceMasked, i)
       if (openTag) {
         for (const [cStart, cEnd] of openTag.exprCommentRanges) {
@@ -1173,7 +1193,14 @@ export function maskCodeAndComments(markdown: string): string {
     i += 1
   }
 
-  return chars.join('')
+  return { masked: chars.join(''), jsxExprWrapperRanges }
+}
+
+export function maskCodeAndComments(
+  markdown: string,
+  options: MaskCodeAndCommentsOptions = {},
+): string {
+  return maskCodeAndCommentsWithRanges(markdown, options).masked
 }
 
 function lineAndColumnAt(lineStarts: readonly number[], offset: number): { line: number; column: number } {

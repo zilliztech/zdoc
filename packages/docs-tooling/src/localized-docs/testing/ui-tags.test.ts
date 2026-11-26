@@ -301,4 +301,42 @@ describe('scanUiTags & validateUiTags', () => {
       tags: [{ text: 'TemplateKeep', rawInner: 'TemplateKeep', line: 1, column: 5 }],
     })
   })
+
+  it('masks top-level 4-space indented fences while preserving unmatched 4-space Markdown indented code block behavior', () => {
+    // Finding 1 (Iter 7): top-level 4-space indented fences with <4-space body lines must be masked
+    const topLevel4SpaceFence = [
+      '# T',
+      '',
+      '    ```jsx',
+      '<UI bad />',
+      '    ```',
+      '',
+      '    ~~~tsx',
+      '<UI>ignored</UI>',
+      '    ~~~',
+      '',
+      'Real <UI>Keep</UI>.',
+    ].join('\n')
+    expect(scanUiTags(topLevel4SpaceFence)).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 11, column: 6 }],
+    })
+
+    // Unmatched fence opener inside a top-level 4-space Markdown indented code block masks only the indented lines
+    const unmatchedTopLevelMdCode = [
+      '# T',
+      '',
+      '    ```bash',
+      '    echo example',
+      '',
+      'Real <UI>Keep</UI>.',
+    ].join('\n')
+    expect(scanUiTags(unmatchedTopLevelMdCode)).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 6, column: 6 }],
+    })
+
+    // Adjacent JSX fragment foo<>...</>bar still preserves inner <UI>
+    expect(scanUiTags('foo<><UI>Keep</UI></>bar')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: 6 }],
+    })
+  })
 })

@@ -1147,4 +1147,140 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('masks top-level 4-space indented fences, strips JS/template wrappers in description, rejects empty/commented imports, and strips adjacent fragments (Iter 7 Findings 1-4)', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter8-e2e' } }
+
+      // Finding 1: top-level 4-space indented fences (backticks and tildes, <4-space body lines)
+      const f1Cases = [
+        '# T\n\n    ```jsx\n<UI bad />\n    ```\n\nReal paragraph.\n',
+        '# T\n\n    ```js\nimport Foo from "@theme/Tabs";\n    ```\n\nReal paragraph.\n',
+        '# T\n\n    ```jsx\n<Admonition type="note">Inside fence</Admonition>\n    ```\n\nReal paragraph.\n',
+        '# T\n\n    ~~~jsx\n<UI bad />\nimport Foo from "@theme/Tabs";\n<Admonition type="note">Inside fence</Admonition>\n    ~~~\n\nReal paragraph.\n',
+      ]
+      for (const sourceMd of f1Cases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter8-e2e',
+          sourceMd,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, sourceMd).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, sourceMd).toBe('Real paragraph.')
+          expect(res.components, sourceMd).toEqual([])
+        }
+      }
+
+      // Negative check for Finding 1: unmatched 4-space indented fence in Markdown code block still masks indented lines without hiding prose
+      const unmatched4Sp = await assembleLocalizedPage({
+        pageId: 'iter8-e2e',
+        sourceMd: '# T\n\n    ```bash\n    echo example\n\nReal paragraph with <UI>Keep</UI>.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in unmatched4Sp).toBe(false)
+      if (!('errors' in unmatched4Sp)) {
+        expect(unmatched4Sp.description).toBe('Real paragraph with Keep.')
+        expect(unmatched4Sp.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+
+      // Finding 2: extractFirstParagraph strips JS/template wrappers around unwrapped JSX inside {...} while preserving prose inline backticks
+      const f2Cases: [string, string, string[]][] = [
+        ['{(() => { return <UI>Keep</UI>; })()}\n\nReal paragraph.\n', 'Keep', []],
+        ['{(() => { return <span>Keep</span>; })()}\n\nReal paragraph.\n', 'Keep', []],
+        ['{[<UI>One</UI>, <Admonition type="note">Two</Admonition>]}\n\nReal paragraph.\n', 'One', ['Admonition']],
+        ['{a ? (b ? <UI>1</UI> : <Admonition type="note">2</Admonition>) : <Details summary="s">3</Details>}\n\nReal paragraph.\n', '1', ['Admonition']],
+        ['{`prefix ${<UI>Keep</UI>} suffix`}\n\nReal paragraph.\n', 'Keep', []],
+        ['{true && <><UI>Keep</UI></>}\n\nReal paragraph.\n', 'Keep', []],
+        ['{`a ${<UI>1</UI>} b ${<Admonition type="note">2</Admonition>} c`}\n\nReal paragraph.\n', '1', ['Admonition']],
+        ['{<p>{true && <UI>Keep</UI>}</p>}\n\nReal paragraph.\n', 'Keep', []],
+        ['Use `<UI>foo</UI>` in docs.\n', 'Use `<UI>foo</UI>` in docs.', []],
+      ]
+      for (const [body, expectedDesc, expectedComponents] of f2Cases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter8-e2e',
+          sourceMd: `# T\n\n${body}`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, body).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, body).toBe(expectedDesc)
+          expect(res.components, body).toEqual(expectedComponents)
+        }
+      }
+
+      // Finding 3: empty and comment-only named imports are rejected with SOURCE_SHELL_FORBIDDEN, while MDX comments stay allowed
+      for (const badImport of [
+        '# T\n\nimport {} from "@theme/Tabs";\n\nReal paragraph.\n',
+        '# T\n\nimport { /* comment */ } from "@theme/Tabs";\n\nReal paragraph.\n',
+        '# T\n\nimport {\n  /* multiline */\n} from "@theme/Tabs";\n\nReal paragraph.\n',
+      ]) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter8-e2e',
+          sourceMd: badImport,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, badImport).toBe(true)
+        if ('errors' in res) {
+          expect(res.errors[0].code, badImport).toBe('SOURCE_SHELL_FORBIDDEN')
+        }
+      }
+
+      const mdxCommentWithImport = await assembleLocalizedPage({
+        pageId: 'iter8-e2e',
+        sourceMd: '# T\n\n{/* import Evil from "@site/evil"; */}\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in mdxCommentWithImport).toBe(false)
+      if (!('errors' in mdxCommentWithImport)) {
+        expect(mdxCommentWithImport.description).toBe('Real paragraph.')
+      }
+
+      // Finding 4: adjacent JSX fragments foo<>...</>bar strip both <> and </>
+      const adjFrag = await assembleLocalizedPage({
+        pageId: 'iter8-e2e',
+        sourceMd: '# T\n\nfoo<><div>Hidden</div></>bar\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in adjFrag).toBe(false)
+      if (!('errors' in adjFrag)) {
+        expect(adjFrag.description).toBe('foobar')
+      }
+
+      const adjFragUi = await assembleLocalizedPage({
+        pageId: 'iter8-e2e',
+        sourceMd: '# T\n\nfoo<><UI>Keep</UI></>bar\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in adjFragUi).toBe(false)
+      if (!('errors' in adjFragUi)) {
+        expect(adjFragUi.description).toBe('fooKeepbar')
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })

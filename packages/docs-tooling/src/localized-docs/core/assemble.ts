@@ -12,6 +12,7 @@ import {
   isEscapedAt,
   isKnownHtmlOrJsxTagName,
   maskCodeAndComments,
+  maskCodeAndCommentsWithRanges,
   scanJsxOpenTag,
   scanUiTags,
 } from './ui-tags.ts'
@@ -128,7 +129,7 @@ export function validateSourceShell(
   }
 
   const bodyText = lines.slice(bodyStart).join('\n')
-  const maskedBody = maskCodeAndComments(bodyText)
+  const maskedBody = maskCodeAndComments(bodyText, { preserveEmptyOrCommentBraces: true })
   const maskedBodyLines = maskedBody.split('\n')
 
   for (let i = 0; i < maskedBodyLines.length; i += 1) {
@@ -476,15 +477,15 @@ function computeJsxStripRanges(masked: string): [number, number][] {
       continue
     }
 
-    if (lt > 0 && /[A-Za-z0-9_$]/.test(masked[lt - 1])) {
-      cursor = lt + 1
-      continue
-    }
-
     if (masked[lt + 1] === '>') {
       ranges.push([lt, lt + 2])
       stack.push({ tagName: '', kind: 'unwrap', start: lt })
       cursor = lt + 2
+      continue
+    }
+
+    if (lt > 0 && /[A-Za-z0-9_$]/.test(masked[lt - 1])) {
+      cursor = lt + 1
       continue
     }
 
@@ -526,8 +527,8 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
 export function extractFirstParagraph(markdown: string): string | undefined {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
-  const masked = maskCodeAndComments(normalized)
-  const ranges = computeJsxStripRanges(masked)
+  const { masked, jsxExprWrapperRanges } = maskCodeAndCommentsWithRanges(normalized)
+  const ranges = mergeRanges([...computeJsxStripRanges(masked), ...jsxExprWrapperRanges])
   const cleanedRaw = stripRangesPreservingNewlines(normalized, ranges)
   const cleanedMasked = stripRangesPreservingNewlines(masked, ranges)
   const rawLines = markdownLines(cleanedRaw)
