@@ -20,8 +20,117 @@ export const MACHINE_GENERATED_FRONTMATTER_KEYS = new Set([
 ])
 
 const TITLE_SUFFIX_RE = / \| (?:Cloud|BYOC)$/
-const DOCUSAURUS_IMPORT_RE =
-  /^import\s+(?:[\w*$]+|\*\s+as\s+[\w*$]+|\{[^}]*\})(?:\s*,\s*(?:[\w*$]+|\*\s+as\s+[\w*$]+|\{[^}]*\}))*\s+from\s+(['"])(@theme\/[^'"]+|@site\/[^'"]+)\1\s*;?\s*$/
+const DOCUSAURUS_SPECIFIER_RE = /^@(?:theme|site)\//
+const ESM_IDENT_RE = '[A-Za-z_$][\\w$]*'
+const ESM_NAMED_RE = '\\{[^{}]*\\}'
+const ESM_NAMESPACE_RE = `\\*\\s+as\\s+${ESM_IDENT_RE}`
+const ESM_IMPORT_FULL_RE = new RegExp(
+  `^import(?:\\s+(?:type\\s+)?(?:${ESM_NAMESPACE_RE}\\s+from\\s+|${ESM_IDENT_RE}\\s+from\\s+|(?:${ESM_IDENT_RE}\\s*,\\s*)?(?:${ESM_NAMESPACE_RE}|${ESM_NAMED_RE})\\s*from\\s*)|\\s*${ESM_NAMED_RE}\\s*from\\s*|\\s+type\\s+${ESM_NAMED_RE}\\s*from\\s*|\\s+)(['"])([^'"\\n]+)\\1\\s*;?$`,
+)
+const ESM_IMPORT_SIDE_EFFECT_NO_SPACE_RE = /^import(['"])([^'"\n]+)\1\s*;?$/
+const ESM_IMPORT_PREFIX_RE = new RegExp(
+  `^(?:import(?:\\s+type)?|import(?:\\s+type)?(?:\\s+(?:\\*|\\*\\s+as|\\*\\s+as\\s+${ESM_IDENT_RE}|${ESM_IDENT_RE}|${ESM_IDENT_RE}\\s*,|${ESM_IDENT_RE}\\s*,\\s*(?:\\*|\\*\\s+as|\\*\\s+as\\s+${ESM_IDENT_RE}|${ESM_NAMED_RE}))|\\s*${ESM_NAMED_RE})|import(?:\\s+(?:type\\s+)?(?:${ESM_NAMESPACE_RE}|${ESM_IDENT_RE}|(?:${ESM_IDENT_RE}\\s*,\\s*)?(?:${ESM_NAMESPACE_RE}|${ESM_NAMED_RE}))|\\s*${ESM_NAMED_RE}|\\s+type\\s+${ESM_NAMED_RE})\\s*from)$`,
+)
+
+export function matchEsmImportAt(
+  lines: readonly string[],
+  startIndex: number,
+  options: { specifierPattern?: RegExp; stopAtSemicolon?: boolean } = {},
+): { endIndex: number; specifier: string } | null {
+  const firstLine = lines[startIndex] ?? ''
+  if (!/^\s*import(?=$|[\s{'"]|\/\*|\/\/)/.test(firstLine)) {
+    return null
+  }
+
+  let inBlockComment = false
+  let inString: "'" | '"' | null = null
+  let braceDepth = 0
+  const cleanedParts: string[] = []
+
+  const tryMatch = (candidate: string, endIndex: number) => {
+    const normalized = candidate.replace(/\s+/g, ' ').trim()
+    const match = ESM_IMPORT_FULL_RE.exec(normalized) ?? ESM_IMPORT_SIDE_EFFECT_NO_SPACE_RE.exec(normalized)
+    if (!match) return null
+    const specifier = match[2]
+    if (options.specifierPattern && !options.specifierPattern.test(specifier)) {
+      return null
+    }
+    return { endIndex, specifier }
+  }
+
+  for (let j = startIndex; j < lines.length; j += 1) {
+    const line = lines[j]
+    let cleanedLine = ''
+
+    for (let k = 0; k < line.length; k += 1) {
+      const ch = line[k]
+      if (inBlockComment) {
+        if (ch === '*' && line[k + 1] === '/') {
+          inBlockComment = false
+          cleanedLine += '  '
+          k += 1
+        } else {
+          cleanedLine += ' '
+        }
+        continue
+      }
+      if (inString !== null) {
+        cleanedLine += ch
+        if (ch === '\\') {
+          if (k + 1 < line.length) {
+            cleanedLine += line[k + 1]
+            k += 1
+          }
+        } else if (ch === inString) {
+          inString = null
+        }
+        continue
+      }
+      if (ch === '/' && line[k + 1] === '/') {
+        cleanedLine += ' '.repeat(line.length - k)
+        break
+      }
+      if (ch === '/' && line[k + 1] === '*') {
+        inBlockComment = true
+        cleanedLine += '  '
+        k += 1
+        continue
+      }
+      if (ch === "'" || ch === '"') {
+        inString = ch
+        cleanedLine += ch
+        continue
+      }
+      if (ch === '{') {
+        braceDepth += 1
+      } else if (ch === '}') {
+        if (braceDepth === 0) return null
+        braceDepth -= 1
+      }
+      cleanedLine += ch
+      if (options.stopAtSemicolon && ch === ';' && braceDepth === 0) {
+        const matchedAtSemi = tryMatch([...cleanedParts, cleanedLine].join(' '), j)
+        if (matchedAtSemi) return matchedAtSemi
+      }
+    }
+
+    if (inString !== null) return null
+    cleanedParts.push(cleanedLine)
+
+    if (braceDepth === 0 && !inBlockComment) {
+      const candidate = cleanedParts.join(' ')
+      const matched = tryMatch(candidate, j)
+      if (matched) return matched
+      const normalized = candidate.replace(/\s+/g, ' ').trim()
+      const nextLine = lines[j + 1]
+      if (nextLine === undefined || !nextLine.trim() || !ESM_IMPORT_PREFIX_RE.test(normalized)) {
+        return null
+      }
+    }
+  }
+
+  return null
+}
 
 function stripSiteSuffix(value: string): { value: string; raw: string } {
   return {
@@ -103,9 +212,10 @@ export function stripEnShell(
       cursor += 1
       continue
     }
-    if (DOCUSAURUS_IMPORT_RE.test(line.trim())) {
-      strippedImports.push(line.trim())
-      cursor += 1
+    const importMatch = matchEsmImportAt(lines, cursor, { specifierPattern: DOCUSAURUS_SPECIFIER_RE })
+    if (importMatch) {
+      strippedImports.push(lines.slice(cursor, importMatch.endIndex + 1).join('\n').trim())
+      cursor = importMatch.endIndex + 1
       continue
     }
     break

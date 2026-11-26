@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { createLocalizedPreprocessAdapter } from '../adapters/md2md.ts'
 import { localizedMdxAdapter } from '../adapters/mdx.ts'
-import { assembleLocalizedPage, detectImportableComponents, validateChannelTags, validateSourceShell } from '../core/assemble.ts'
+import { assembleLocalizedPage, detectImportableComponents, extractFirstParagraph, validateChannelTags, validateSourceShell } from '../core/assemble.ts'
 import { parseLocalizedVariables } from '../core/config.ts'
 import type { PageConfig } from '../core/types.ts'
 import { VALID_GROUP_VARIABLES_JSON } from './fixtures/en-samples.ts'
@@ -224,6 +224,199 @@ client = MilvusClient(uri="{{var.example_endpoint}}", token="{{var.example_token
       }
     } finally {
       rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects multiline and trailing-comment import statements with SOURCE_SHELL_FORBIDDEN and 1-based start line while allowing prose and code/comments', () => {
+    const multilineNamed = validateSourceShell("# Title\n\nimport {\n  Tabs,\n  TabItem\n} from '@theme/Tabs';\n\nBody.\n")
+    expect('errors' in multilineNamed).toBe(true)
+    if ('errors' in multilineNamed) {
+      expect(multilineNamed.errors).toHaveLength(1)
+      expect(multilineNamed.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(multilineNamed.errors[0].line).toBe(3)
+    }
+
+    const mixedDefaultNamed = validateSourceShell(
+      "---\ntitle: 测试\n---\n\nimport Foo, {\n  Bar // inline\n} from '@site/src/components/Foo' /* trailing */\n\nBody.\n",
+    )
+    expect('errors' in mixedDefaultNamed).toBe(true)
+    if ('errors' in mixedDefaultNamed) {
+      expect(mixedDefaultNamed.errors).toHaveLength(1)
+      expect(mixedDefaultNamed.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(mixedDefaultNamed.errors[0].line).toBe(5)
+    }
+
+    const trailingCommentLine = validateSourceShell("# T\n\nimport Tabs from '@theme/Tabs'; // comment\n")
+    expect('errors' in trailingCommentLine).toBe(true)
+    if ('errors' in trailingCommentLine) {
+      expect(trailingCommentLine.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(trailingCommentLine.errors[0].line).toBe(3)
+    }
+
+    const trailingBlockComment = validateSourceShell("# T\n\nimport Tabs from '@theme/Tabs' /* trailing */\n")
+    expect('errors' in trailingBlockComment).toBe(true)
+    if ('errors' in trailingBlockComment) {
+      expect(trailingBlockComment.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(trailingBlockComment.errors[0].line).toBe(3)
+    }
+
+    const allowedProseAndComments = validateSourceShell(
+      `# T
+
+Import data from your local machine.
+
+import data from the CSV file into the collection.
+
+\`import Tabs from '@theme/Tabs'; // inline code\`
+
+<!-- import Tabs from '@theme/Tabs'; -->
+
+{/*
+import {
+  Tabs
+} from '@theme/Tabs';
+*/}
+
+~~~tsx
+import {
+  Tabs
+} from '@theme/Tabs'; // fenced
+~~~
+`,
+    )
+    expect('errors' in allowedProseAndComments).toBe(false)
+  })
+
+  it('extracts first paragraph when starting with <UI> or inline <NextChannel> while skipping block JSX containers', async () => {
+    expect(
+      extractFirstParagraph('# 创建索引\n\n<UI>创建索引</UI> 可以加速向量检索。\n'),
+    ).toBe('创建索引 可以加速向量检索。')
+
+    expect(
+      extractFirstParagraph('# 说明\n\n<NextChannel action="exclude">旧版控制台</NextChannel> 支持一键操作。\n'),
+    ).toBe('旧版控制台 支持一键操作。')
+
+    expect(
+      extractFirstParagraph('# 说明\n\n<NextChannel action="include">仅新版</NextChannel> 通用说明文本。\n'),
+    ).toBe('通用说明文本。')
+
+    const withBlockContainers = `# 标题
+
+<NextChannel action="include">
+
+仅 Next 版本可见的段落。
+
+</NextChannel>
+
+<Admonition type="info">
+
+提示内容。
+
+</Admonition>
+
+<Tabs>
+<TabItem value="a" label="A">
+
+标签页内容。
+
+</TabItem>
+</Tabs>
+
+<Supademo id="demo-1" />
+
+<Procedures />
+
+<DocCardList />
+
+</Tabs>
+
+<UI>创建索引</UI> 可以加速向量检索。
+`
+    expect(extractFirstParagraph(withBlockContainers)).toBe('创建索引 可以加速向量检索。')
+
+    const root = tempRoot()
+    try {
+      const assembled = await assembleLocalizedPage({
+        pageId: 'create-index',
+        sourceMd: '# 创建索引\n\n<UI>创建索引</UI> 可以加速向量检索。\n',
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'create-index' } },
+        preprocessAdapter: createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false }),
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in assembled).toBe(false)
+      if (!('errors' in assembled)) {
+        expect(assembled.description).toBe('创建索引 可以加速向量检索。')
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('escapes YAML special characters and empty strings in metadata.beta and scalar front matter fields', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+
+      const specialBeta = await assembleLocalizedPage({
+        pageId: 'yaml-escape',
+        sourceMd: '# 标题\n\n正文内容。\n',
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'yaml-escape' } },
+        metadata: {
+          beta: 'yes: no',
+          keywords: ['a: b', 'true', '', '#tag', 'foo #bar', '- item', 'trail:'],
+          added_since: '#draft',
+        },
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in specialBeta).toBe(false)
+      if (!('errors' in specialBeta)) {
+        expect(specialBeta.mdx).toContain('beta: "yes: no"')
+        expect(specialBeta.mdx).toContain('  - ""')
+        expect(specialBeta.mdx).toContain('  - "a: b"')
+        expect(specialBeta.mdx).toContain('  - "#tag"')
+      }
+
+      const emptyBeta = await assembleLocalizedPage({
+        pageId: 'yaml-empty-beta',
+        sourceMd: '# 标题\n\n正文内容。\n',
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'yaml-empty-beta' } },
+        metadata: {
+          beta: '',
+        },
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in emptyBeta).toBe(false)
+      if (!('errors' in emptyBeta)) {
+        expect(emptyBeta.mdx).toContain('beta: ""')
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects invalid keywords front matter in source.md with CONFIG_FIELD_INVALID instead of silently dropping it', () => {
+    for (const badYaml of [
+      'keywords: "a, b"',
+      'keywords: 123',
+      'keywords:\n  - valid\n  - ""',
+      'keywords:\n  - valid\n  - 42',
+    ]) {
+      const res = validateSourceShell(`---\ntitle: 测试\n${badYaml}\n---\n\n# 测试\n`)
+      expect('errors' in res, badYaml).toBe(true)
+      if ('errors' in res) {
+        expect(res.errors[0].code).toBe('CONFIG_FIELD_INVALID')
+      }
+    }
+
+    const ok = validateSourceShell('---\ntitle: 测试\nkeywords:\n  - 索引\n  - 向量检索\n---\n\n# 测试\n')
+    expect('errors' in ok).toBe(false)
+    if (!('errors' in ok)) {
+      expect(ok.sourceKeywords).toEqual(['索引', '向量检索'])
     }
   })
 })

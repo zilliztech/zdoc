@@ -81,4 +81,62 @@ describe('stripEnShell', () => {
       expect(res.errors[0].code).toBe('EN_SHELL_INVALID')
     }
   })
+
+  it('strips multiline and trailing-comment Docusaurus imports without touching fenced or body imports', () => {
+    const mdx = `---
+title: "Multiline Imports | Cloud"
+---
+
+import {
+  Something,
+  Other as Alias,
+} from '@site/src/components/Something'; // trailing line comment
+
+import Foo, {
+  Bar /* inline comment */
+} from '@theme/Foo' /* trailing block comment */
+
+# Test
+
+import Tabs from '@theme/Tabs';
+
+\`\`\`tsx
+import {
+  FencedThing
+} from '@site/src/components/FencedThing';
+\`\`\`
+`
+    const res = stripEnShell(mdx)
+    expect('errors' in res).toBe(false)
+    if ('errors' in res) return
+
+    expect(res.strippedImports).toHaveLength(2)
+    expect(res.strippedImports[0]).toContain("from '@site/src/components/Something'")
+    expect(res.strippedImports[1]).toContain("from '@theme/Foo'")
+    expect(res.body.startsWith('# Test\n')).toBe(true)
+    expect(res.body).toContain("import Tabs from '@theme/Tabs';")
+    expect(res.body).toContain("from '@site/src/components/FencedThing';")
+  })
+
+  it('does not strip a leading fenced code block containing a Docusaurus import', () => {
+    const mdx = `---
+title: "Fence First | Cloud"
+---
+
+\`\`\`tsx
+import {
+  Tabs
+} from '@theme/Tabs';
+\`\`\`
+
+# Heading
+`
+    const res = stripEnShell(mdx)
+    expect('errors' in res).toBe(false)
+    if ('errors' in res) return
+
+    expect(res.strippedImports).toEqual([])
+    expect(res.body.startsWith('```tsx\n')).toBe(true)
+    expect(res.body).toContain("from '@theme/Tabs';")
+  })
 })

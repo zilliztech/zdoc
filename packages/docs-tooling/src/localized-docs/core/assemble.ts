@@ -3,7 +3,7 @@ import type { Component } from '../../shared-docs/core/site/types.ts'
 import { fencesIn, markdownLines } from '../../shared-docs/core/blocks.ts'
 import { parseYaml } from '../../shared-docs/core/yaml.ts'
 import { mergeVariables } from './config.ts'
-import { MACHINE_GENERATED_FRONTMATTER_KEYS } from './strip-en.ts'
+import { MACHINE_GENERATED_FRONTMATTER_KEYS, matchEsmImportAt } from './strip-en.ts'
 import { computeLineStarts, maskCodeAndComments, scanUiTags } from './ui-tags.ts'
 import type {
   AssembleInput,
@@ -13,9 +13,6 @@ import type {
   ReleaseChannel,
 } from './types.ts'
 import { localizedError } from './types.ts'
-
-const SOURCE_IMPORT_RE =
-  /^\s*import\s+(?:type\s+)?(?:(?:[\w*$]+|\*\s+as\s+[\w*$]+|\{[^}]*\})(?:\s*,\s*(?:[\w*$]+|\*\s+as\s+[\w*$]+|\{[^}]*\}))*\s+from\s+)?(['"])[^'"]+\1\s*;?\s*$/
 
 const NEXT_CHANNEL_ATTR_RE = /^<NextChannel\s+action="(include|exclude)"\s*>$/
 
@@ -97,8 +94,22 @@ export function validateSourceShell(
         if (desc !== undefined && desc.trim()) {
           sourceDescription = desc.trim()
         }
-        if (Array.isArray(fm.keywords) && fm.keywords.every(item => typeof item === 'string' && item.trim())) {
-          sourceKeywords = fm.keywords as string[]
+        if (Object.hasOwn(fm, 'keywords')) {
+          if (
+            !Array.isArray(fm.keywords) ||
+            !fm.keywords.every(item => typeof item === 'string' && item.trim().length > 0)
+          ) {
+            errors.push(
+              localizedError(
+                'CONFIG_FIELD_INVALID',
+                'source.md front matter "keywords" must be an array of non-empty strings',
+                context,
+                parsed.document.line(['keywords']) + 1,
+              ),
+            )
+          } else {
+            sourceKeywords = fm.keywords as string[]
+          }
         }
       }
     }
@@ -109,8 +120,8 @@ export function validateSourceShell(
   const maskedBodyLines = maskedBody.split('\n')
 
   for (let i = 0; i < maskedBodyLines.length; i += 1) {
-    const lineText = maskedBodyLines[i]
-    if (SOURCE_IMPORT_RE.test(lineText)) {
+    const match = matchEsmImportAt(maskedBodyLines, i, { stopAtSemicolon: true })
+    if (match) {
       errors.push(
         localizedError(
           'SOURCE_SHELL_FORBIDDEN',
@@ -119,6 +130,7 @@ export function validateSourceShell(
           bodyStart + i + 1,
         ),
       )
+      i = match.endIndex
     }
   }
 
@@ -346,6 +358,13 @@ export function extractFirstH1(markdown: string): string | undefined {
   return undefined
 }
 
+function stripInlineUiAndChannel(text: string): string {
+  return text
+    .replace(/<NextChannel\s+action="include">[\s\S]*?<\/NextChannel>/g, '')
+    .replace(/<NextChannel\s+action="exclude">([\s\S]*?)<\/NextChannel>/g, '$1')
+    .replace(/<\/?UI>/g, '')
+}
+
 export function extractFirstParagraph(markdown: string): string | undefined {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
   const masked = maskCodeAndComments(normalized)
@@ -368,7 +387,7 @@ export function extractFirstParagraph(markdown: string): string | undefined {
     }
     if (/^<([A-Z][A-Za-z0-9]*)\b[^>]*\/>$/.test(trimmedMasked)) continue
     const openMatch = /^<([A-Z][A-Za-z0-9]*)\b[^>]*>$/.exec(trimmedMasked)
-    if (openMatch && !trimmedMasked.includes(`</${openMatch[1]}>`)) {
+    if (openMatch && openMatch[1] !== 'UI' && !trimmedMasked.includes(`</${openMatch[1]}>`)) {
       jsxDepth += 1
       continue
     }
@@ -376,13 +395,12 @@ export function extractFirstParagraph(markdown: string): string | undefined {
       if (/^<\/[A-Z][A-Za-z0-9]*>$/.test(trimmedMasked)) jsxDepth -= 1
       continue
     }
-    if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(trimmedMasked)) continue
-    if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(trimmedMasked)) continue
+    const strippedMasked = stripInlineUiAndChannel(trimmedMasked).trim()
+    if (!strippedMasked) continue
+    if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(strippedMasked)) continue
+    if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(strippedMasked)) continue
 
-    const clean = trimmedRaw
-      .replace(/<NextChannel\s+action="include">[\s\S]*?<\/NextChannel>/g, '')
-      .replace(/<NextChannel\s+action="exclude">([\s\S]*?)<\/NextChannel>/g, '$1')
-      .replace(/<\/?UI>/g, '')
+    const clean = stripInlineUiAndChannel(trimmedRaw)
       .replace(/\s{2,}/g, ' ')
       .trim()
     if (clean) return clean
@@ -415,7 +433,12 @@ function buildFrontMatterLines(options: {
   const withSuffix = (text: string) => (suffix && !text.endsWith(` | ${suffix}`) ? `${text} | ${suffix}` : text)
   const quoted = (value: string) => JSON.stringify(value.replace(/\r?\n/g, '|'))
   const scalar = (value: string) =>
-    /^[-?:,[\]{}#&*!|>'"%@`]/.test(value) || /(:\s)|(\s#)|#$/.test(value) ? quoted(value) : value
+    value.length === 0 ||
+    /^[\s-?:,[\]{}#&*!|>'"%@`\\]|\s$/.test(value) ||
+    /[\r\n\t\x00-\x1f\x7f]/.test(value) ||
+    /(:\s)|(:$)|(\s#)|#$/.test(value)
+      ? quoted(value)
+      : value
 
   const slug = metadata?.slug ?? `/${pageId}`
   const sidebarLabel = metadata?.sidebar_label ?? title
@@ -434,7 +457,7 @@ function buildFrontMatterLines(options: {
     `title: ${quoted(withSuffix(title))}`,
     `slug: ${scalar(slug)}`,
     `sidebar_label: ${quoted(sidebarLabel)}`,
-    `beta: ${beta}`,
+    `beta: ${scalar(beta)}`,
     `added_since: ${scalar(addedSince)}`,
     `last_modified: ${scalar(lastModified)}`,
     `deprecate_since: ${scalar(deprecateSince)}`,
