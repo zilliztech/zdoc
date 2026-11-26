@@ -1043,4 +1043,108 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('handles 4-space fenced comments inside TabItem, JSX fragments <>...</>, and nested-brace/template JSX E2E', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter7-e2e' } }
+
+      // Iter 6 Finding 1: <!-- and {/* inside 4-space fence in <TabItem> preserve downstream <blockquote>/<Wrapper> imports and shell checks
+      for (const commentLine of ['    <!-- unclosed html comment in 4-space fence', '    {/* unclosed JSX comment in 4-space fence']) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter7-e2e',
+          sourceMd: [
+            '# T',
+            '',
+            '<Tabs>',
+            '',
+            '    <TabItem value="a" label="A">',
+            '',
+            '    ```html',
+            commentLine,
+            '    ```',
+            '',
+            '    </TabItem>',
+            '',
+            '</Tabs>',
+            '',
+            '<blockquote>',
+            '',
+            '    <Admonition type="note">Inside blockquote</Admonition>',
+            '',
+            '</blockquote>',
+            '',
+            'Real paragraph.',
+            '',
+          ].join('\n'),
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, commentLine).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, commentLine).toBe('Real paragraph.')
+          expect(res.components, commentLine).toEqual(['Admonition', 'Tabs', 'TabItem'])
+          expect(res.mdx, commentLine).toContain("import Admonition from '@theme/Admonition';")
+        }
+      }
+
+      const shellAfterFence = validateSourceShell([
+        '# T',
+        '',
+        '<Tabs>',
+        '',
+        '    <TabItem value="a" label="A">',
+        '',
+        '    ```html',
+        '    <!-- unclosed',
+        '    ```',
+        '',
+        '    </TabItem>',
+        '',
+        '</Tabs>',
+        '',
+        '<Wrapper>',
+        '',
+        "    import Evil from '@site/evil';",
+        '',
+        '</Wrapper>',
+        '',
+      ].join('\n'))
+      expect('errors' in shellAfterFence).toBe(true)
+      if ('errors' in shellAfterFence) {
+        expect(shellAfterFence.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      }
+
+      // Iter 6 Finding 3: JSX fragments <>...</> and nested-brace / template JSX expressions strip cleanly from description
+      const fragmentCases: [string, string, string[]][] = [
+        ['<><div>Hidden</div></>\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['<>\n\n<Admonition type="note">Inside fragment</Admonition>\n\n</>\n\nReal paragraph.\n', 'Real paragraph.', ['Admonition']],
+        ['<>Inline text</>\n\nSecond paragraph.\n', 'Inline text', []],
+        ['{(() => { return <Admonition type="note">hi</Admonition>; })()}\n\nReal paragraph.\n', 'Real paragraph.', ['Admonition']],
+        ['{`${<Admonition type="note">hi</Admonition>}`}\n\nReal paragraph.\n', 'Real paragraph.', ['Admonition']],
+        ['<Details summary={`prefix ${<Admonition type="note">hi</Admonition>} suffix`}>\nbody\n</Details>\n\nReal paragraph.\n', 'Real paragraph.', ['Admonition']],
+      ]
+
+      for (const [body, expectedDesc, expectedComponents] of fragmentCases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter7-e2e',
+          sourceMd: `# T\n\n${body}`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, body).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, body).toBe(expectedDesc)
+          expect(res.components, body).toEqual(expectedComponents)
+        }
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })

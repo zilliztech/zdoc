@@ -427,6 +427,22 @@ function computeJsxStripRanges(masked: string): [number, number][] {
     }
 
     if (masked[lt + 1] === '/') {
+      if (masked[lt + 2] === '>') {
+        const closeEnd = lt + 3
+        let matchIdx = -1
+        for (let s = stack.length - 1; s >= 0; s -= 1) {
+          if (stack[s].tagName === '') {
+            matchIdx = s
+            break
+          }
+        }
+        if (matchIdx >= 0) {
+          stack.length = matchIdx
+        }
+        ranges.push([lt, closeEnd])
+        cursor = closeEnd
+        continue
+      }
       JSX_CLOSE_TAG_RE.lastIndex = lt
       const closeMatch = JSX_CLOSE_TAG_RE.exec(masked)
       if (!closeMatch || !isKnownHtmlOrJsxTagName(closeMatch[1])) {
@@ -462,6 +478,13 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
     if (lt > 0 && /[A-Za-z0-9_$]/.test(masked[lt - 1])) {
       cursor = lt + 1
+      continue
+    }
+
+    if (masked[lt + 1] === '>') {
+      ranges.push([lt, lt + 2])
+      stack.push({ tagName: '', kind: 'unwrap', start: lt })
+      cursor = lt + 2
       continue
     }
 

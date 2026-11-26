@@ -219,4 +219,86 @@ describe('scanUiTags & validateUiTags', () => {
     expect(validAfterOpenBracket.end).toBe(7)
     expect(validAfterOpenBracket.maskRanges).toEqual([[3, 6]])
   })
+
+  it('skips 4-space indented fences in computeLastCloseOffsets, updates deadMask bit 1, and masks nested-brace JSX wrappers', () => {
+    // Finding 1 (Iter 6): unclosed <!-- or {/* inside 4-space fence in <TabItem> must not break lastCloseOffset
+    const htmlCommentInFence = [
+      '<Tabs>',
+      '',
+      '    <TabItem value="a" label="A">',
+      '',
+      '    ```html',
+      '    <!-- unclosed html comment in 4-space fence',
+      '    ```',
+      '',
+      '    </TabItem>',
+      '',
+      '</Tabs>',
+      '',
+      '<blockquote>',
+      '',
+      '    <UI bad />',
+      '',
+      '</blockquote>',
+    ].join('\n')
+    const uiErrorsHtml = validateUiTags(htmlCommentInFence)
+    expect(uiErrorsHtml).toHaveLength(1)
+    expect(uiErrorsHtml[0].code).toBe('UI_TAG_MALFORMED')
+    expect(uiErrorsHtml[0].line).toBe(15)
+
+    const jsxCommentInFence = [
+      '<Tabs>',
+      '',
+      '    <TabItem value="a" label="A">',
+      '',
+      '    ```jsx',
+      '    {/* unclosed JSX comment in 4-space fence',
+      '    ```',
+      '',
+      '    </TabItem>',
+      '',
+      '</Tabs>',
+      '',
+      '<Wrapper>',
+      '',
+      '    <UI>InsideWrapper</UI>',
+      '',
+      '</Wrapper>',
+    ].join('\n')
+    expect(scanUiTags(jsxCommentInFence)).toEqual({
+      tags: [{ text: 'InsideWrapper', rawInner: 'InsideWrapper', line: 15, column: 5 }],
+    })
+
+    // Finding 2 (Iter 6) & Reviewer Minor: deadMask updates bit 1 on subsequent failed regex scans in O(N)
+    const slashBackslashInput = `{ /[${'\\/'.repeat(10000)} }`
+    const slashPlusInput = `{ /[+${'\\/+'.repeat(5000)} }`
+    const t0 = performance.now()
+    const slashBackslash = scanJsExpression(slashBackslashInput, 0)
+    const slashPlus = scanJsExpression(slashPlusInput, 0)
+    const elapsedMs = performance.now() - t0
+    expect(slashBackslash.end).toBe(slashBackslashInput.length)
+    expect(slashPlus.end).toBe(slashPlusInput.length)
+    expect(elapsedMs).toBeLessThan(100)
+
+    const validCharClass = scanJsExpression('{ [/[a, /b/] }', 0)
+    expect(validCharClass.end).toBe(14)
+    expect(validCharClass.maskRanges).toEqual([[8, 11]])
+
+    const validAfterUnclosed = scanJsExpression('{ x = /[unclosed, y = /ok/ }', 0)
+    expect(validAfterUnclosed.end).toBe(28)
+    expect(validAfterUnclosed.maskRanges).toEqual([[22, 26]])
+
+    // Finding 3 (Iter 6): nested-brace and template-literal JSX wrappers are masked while inner <UI> stays visible
+    const nestedBraceExpr = '{(() => { return <Admonition type="note"><UI>Keep</UI></Admonition>; })()}'
+    const nestedBraceUi = maskCodeAndComments(nestedBraceExpr)
+    expect(nestedBraceUi).toContain('<Admonition type="    "><UI>Keep</UI></Admonition>')
+    expect(nestedBraceUi).not.toContain('return')
+    expect(scanUiTags(nestedBraceExpr)).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: 42 }],
+    })
+
+    expect(scanUiTags('{`${<UI>TemplateKeep</UI>}`}')).toEqual({
+      tags: [{ text: 'TemplateKeep', rawInner: 'TemplateKeep', line: 1, column: 5 }],
+    })
+  })
 })

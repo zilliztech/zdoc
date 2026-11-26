@@ -143,6 +143,8 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
   let afterDot = false
   let cursor = start + 1
 
+  const topLevelJsxSpans: [number, number][] = []
+
   // Memoize failed regex scans on a single line so crafted "/["*N is O(N).
   let failOrigin = -1
   let failLineEnd = -1
@@ -153,6 +155,9 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     const parent = stack[stack.length - 1]
     if (parent && parent.kind === 'brace') {
       parent.jsxSpans.push([spanStart, spanEnd])
+    }
+    if (!stack.some(frame => frame.kind === 'jsx' || frame.kind === 'jsx-open')) {
+      topLevelJsxSpans.push([spanStart, spanEnd])
     }
   }
 
@@ -356,8 +361,8 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       cursor += 1
       if (stack.length === 0) {
         if (hasJsx) {
-          if (popped.jsxSpans.length > 0) {
-            pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, outerNonJsxGaps)
+          if (topLevelJsxSpans.length > 0) {
+            pushNonJsxGaps(popped.start, cursor, topLevelJsxSpans, outerNonJsxGaps)
           } else {
             outerNonJsxGaps.push([popped.start, popped.start + 1], [cursor - 1, cursor])
           }
@@ -458,7 +463,11 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
           if ((activeDeadMask[r - failOrigin] & (inCharClass ? 2 : 1)) !== 0) break
         }
         if (rch === '\\') {
-          r += Math.min(2, text.length - r)
+          if (r + 1 < text.length && text[r + 1] !== '\n' && text[r + 1] !== '\r') {
+            r += 2
+          } else {
+            r += 1
+          }
           continue
         }
         if (rch === '[' && !inCharClass) {
@@ -490,26 +499,29 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         const nl = text.indexOf('\n', cursor + 1)
         const cr = text.indexOf('\r', cursor + 1)
         const lineEnd = nl >= 0 && cr >= 0 ? Math.min(nl, cr) : nl >= 0 ? nl : cr >= 0 ? cr : text.length
-        if (lineEnd > cursor + 1) {
-          failOrigin = cursor + 1
-          failLineEnd = lineEnd
-          deadMask = new Uint8Array(lineEnd - failOrigin)
-          let p = failOrigin
-          let cc = false
-          while (p < lineEnd) {
-            deadMask[p - failOrigin] |= cc ? 2 : 1
-            const pch = text[p]
-            if (pch === '\\') {
-              p += Math.min(2, lineEnd - p)
-              continue
-            }
-            if (pch === '[' && !cc) {
-              cc = true
-            } else if (pch === ']' && cc) {
-              cc = false
-            }
-            p += 1
+        failOrigin = cursor + 1
+        failLineEnd = lineEnd
+        deadMask = lineEnd > failOrigin ? new Uint8Array(lineEnd - failOrigin) : null
+      }
+      if (deadMask !== null) {
+        let p = cursor + 1
+        let cc = false
+        while (p < failLineEnd) {
+          const idx = p - failOrigin
+          const bit = cc ? 2 : 1
+          if ((deadMask[idx] & bit) !== 0) break
+          deadMask[idx] |= bit
+          const pch = text[p]
+          if (pch === '\\') {
+            p += Math.min(2, failLineEnd - p)
+            continue
           }
+          if (pch === '[' && !cc) {
+            cc = true
+          } else if (pch === ']' && cc) {
+            cc = false
+          }
+          p += 1
         }
       }
     }
@@ -748,12 +760,52 @@ function computeLastCloseOffsets(
 
   while (i < fenceMasked.length) {
     const atLineStart = i === 0 || fenceMasked[i - 1] === '\n'
-    if (atLineStart && fenceExcluded.has(lineIdx)) {
+    if (atLineStart) {
       const nl = fenceMasked.indexOf('\n', i)
-      if (nl < 0) break
-      lineIdx += 1
-      i = nl + 1
-      continue
+      const lineEnd = nl >= 0 ? nl : fenceMasked.length
+      if (fenceExcluded.has(lineIdx)) {
+        i = lineEnd
+        if (i < fenceMasked.length && fenceMasked[i] === '\n') {
+          lineIdx += 1
+          i += 1
+        }
+        continue
+      }
+
+      const lineText = fenceMasked.slice(i, lineEnd)
+      const openFence = matchIndentedFenceOpener(lineText)
+      if (openFence) {
+        const { markerChar, markerLen } = openFence
+        let scanLineStart = nl >= 0 ? nl + 1 : fenceMasked.length
+        let closeEnd = -1
+        let linesAdvanced = nl >= 0 ? 1 : 0
+        while (scanLineStart < fenceMasked.length) {
+          const nextNl = fenceMasked.indexOf('\n', scanLineStart)
+          const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
+          const candidate = fenceMasked.slice(scanLineStart, nextLineEnd)
+          const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(candidate)
+          if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
+            closeEnd = nextLineEnd
+            break
+          }
+          if (nextNl < 0) break
+          scanLineStart = nextNl + 1
+          linesAdvanced += 1
+        }
+        if (closeEnd >= 0) {
+          lineIdx += linesAdvanced
+          i = closeEnd
+          continue
+        }
+        if (mdCodeBlockLines.has(lineIdx)) {
+          i = lineEnd
+          if (i < fenceMasked.length && fenceMasked[i] === '\n') {
+            lineIdx += 1
+            i += 1
+          }
+          continue
+        }
+      }
     }
 
     const ch = fenceMasked[i]
@@ -765,7 +817,16 @@ function computeLastCloseOffsets(
 
     if (fenceMasked.startsWith('<!--', i)) {
       const end = fenceMasked.indexOf('-->', i + 4)
-      if (end < 0) break
+      if (end < 0) {
+        if (mdCodeBlockLines.has(lineIdx)) {
+          const nl = fenceMasked.indexOf('\n', i)
+          if (nl < 0) break
+          lineIdx += 1
+          i = nl + 1
+          continue
+        }
+        break
+      }
       const closeEnd = end + 3
       lineIdx += countNewlines(fenceMasked, i, closeEnd)
       i = closeEnd
@@ -774,7 +835,16 @@ function computeLastCloseOffsets(
 
     if (ch === '{' && !isEscapedAt(fenceMasked, i)) {
       const expr = scanJsExpression(fenceMasked, i)
-      if (expr.hasUnclosedBlockComment) break
+      if (expr.hasUnclosedBlockComment) {
+        if (mdCodeBlockLines.has(lineIdx)) {
+          const nl = fenceMasked.indexOf('\n', i)
+          if (nl < 0) break
+          lineIdx += 1
+          i = nl + 1
+          continue
+        }
+        break
+      }
       if (expr.end >= 0) {
         for (const ct of expr.jsxCloseTags) {
           lastCloseOffset.set(ct.tagName, ct.offset)
@@ -811,6 +881,11 @@ function computeLastCloseOffsets(
     }
 
     if (ch === '<' && fenceMasked[i + 1] === '/' && !isEscapedAt(fenceMasked, i)) {
+      if (fenceMasked[i + 2] === '>') {
+        lastCloseOffset.set('', i)
+        i += 3
+        continue
+      }
       JSX_CLOSE_TAG_RE.lastIndex = i
       const closeMatch = JSX_CLOSE_TAG_RE.exec(fenceMasked)
       if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
@@ -1020,8 +1095,18 @@ export function maskCodeAndComments(markdown: string): string {
       continue
     }
 
-    // JSX / HTML closing tag </TagName>
+    // JSX / HTML closing tag </TagName> or fragment </>
     if (ch === '<' && fenceMasked[i + 1] === '/' && !isEscapedAt(fenceMasked, i)) {
+      if (fenceMasked[i + 2] === '>') {
+        for (let s = jsxStack.length - 1; s >= 0; s -= 1) {
+          if (jsxStack[s] === '') {
+            jsxStack.length = s
+            break
+          }
+        }
+        i += 3
+        continue
+      }
       JSX_CLOSE_TAG_RE.lastIndex = i
       const closeMatch = JSX_CLOSE_TAG_RE.exec(fenceMasked)
       if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
@@ -1039,12 +1124,20 @@ export function maskCodeAndComments(markdown: string): string {
       }
     }
 
-    // JSX / HTML opening tag <TagName ...>
+    // JSX fragment <> or opening tag <TagName ...>
     if (
       ch === '<' &&
       !isEscapedAt(fenceMasked, i) &&
       (i === 0 || !/[A-Za-z0-9_$]/.test(fenceMasked[i - 1]))
     ) {
+      if (fenceMasked[i + 1] === '>') {
+        const closePos = lastCloseOffset.get('')
+        if (closePos !== undefined && closePos > i) {
+          jsxStack.push('')
+        }
+        i += 2
+        continue
+      }
       const openTag = scanJsxOpenTag(fenceMasked, i)
       if (openTag) {
         for (const [cStart, cEnd] of openTag.exprCommentRanges) {
