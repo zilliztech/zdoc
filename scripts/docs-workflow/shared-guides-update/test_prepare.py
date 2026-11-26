@@ -232,12 +232,12 @@ class PreparationTest(unittest.TestCase):
         self.assertEqual(evidence[('earlier', '0:one:two:site/en/earlier.md')][0], 'held')
         self.assertEqual(evidence[('later-b', '2:three:four:site/en/later-b.md')][0], 'consumed')
         for suspect in [dict(history[0], seedKey='later'), dict(history[0], associationResult='unknown'),
-                        edge('site/en/Variables.json', 'one', 'two', 'early'),
                         edge('assets/image.png', 'one', 'two', 'early')]:
             with self.subTest(suspect=suspect), self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_EDGE_UNPROVEN'):
                 verify([*history, suspect])
-        # Non-consumable repo metadata on a stopped commit must not spuriously block an independent batch.
-        for benign in ('scripts/config.json', 'site/en/menuStructure/en.json', 'site/zh-CN/doc.md', '.github/workflows/ci.yml'):
+        # Non-consumable repo metadata and upstream Variables.json (ignored by shared-docs)
+        # on a stopped commit must not spuriously block an independent batch.
+        for benign in ('scripts/config.json', 'site/en/menuStructure/en.json', 'site/en/Variables.json', 'site/zh-CN/doc.md', '.github/workflows/ci.yml'):
             with self.subTest(benign=benign):
                 self.assertEqual(len(verify([*history, edge(benign, 'one', 'two', 'early')])), 9)
 

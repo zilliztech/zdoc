@@ -710,8 +710,10 @@ it('isolates a stopped historical transform while retaining every incident edge 
   const candidateSeed = result.selected!.seedKeys[0]
   const shared = discovery.ledger.map(e => e === stoppedEdge ? {...e, seedKey: candidateSeed} : e)
   expect(recheck(shared).selected).toBeNull()
-  const variable = {...stoppedEdge, oldPath: 'site/en/Variables.json', newPath: 'site/en/Variables.json'}
-  expect(recheck([...discovery.ledger, variable]).reasons).toContain('COLLATERAL_INPUT_UNPROVEN')
+  const repoImage = {...stoppedEdge, oldPath: 'assets/image.png', newPath: 'assets/image.png'}
+  expect(recheck([...discovery.ledger, repoImage]).reasons).toContain('COLLATERAL_INPUT_UNPROVEN')
+  const upstreamVars = {...stoppedEdge, oldPath: 'site/en/Variables.json', newPath: 'site/en/Variables.json'}
+  expect(recheck([...discovery.ledger, upstreamVars]).selected?.memberIds).toEqual(['build-pipeline'])
   expect(recheck(discovery.ledger.map(e => e === stoppedEdge ? {...e, associationResult: 'unknown'} : e)).reasons).toContain('SOURCE_ASSOCIATION_UNPROVEN')
 }, 120000)
 

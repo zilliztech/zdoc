@@ -1215,8 +1215,10 @@ _COLLATERAL_RENDER_ERRORS = _POST_PREPROCESS_RENDER_ERRORS | frozenset({'TRANSFO
 
 
 def _batch_non_consumable_repo_path(path):
+    # Shared-docs reads Variables.json exclusively from zdoc (shared-docs/guides/Variables.json),
+    # never from upstream milvus-docs (site/en/Variables.json, also ignored by Milvus discovery).
     return (path.startswith(('.github/', '.skills/', 'scripts/', 'site/zh-CN/', 'site/en/menuStructure/'))
-            or path in ('AGENTS.md', 'CONTRIBUTING.md', 'README.md'))
+            or path in ('site/en/Variables.json', 'AGENTS.md', 'CONTRIBUTING.md', 'README.md'))
 
 
 def _batch_material(reader, retained, base, *, collateral_history=None, collateral_errors=None, source_traces=None, historical_rules=None):
