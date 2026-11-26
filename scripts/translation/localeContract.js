@@ -125,6 +125,55 @@ function localeContractPathFor(target) {
   return contractPath
 }
 
+function resolveExtendsBaseFile(extendsValue, contractPath, repositoryRoot) {
+  nonEmptyString(extendsValue, 'Locale contract extends')
+  if (extendsValue.includes('\0') || extendsValue.includes('\\')) {
+    throw new Error('Locale contract extends must be a safe relative path within config/translation')
+  }
+  if (path.isAbsolute(extendsValue) || path.win32.isAbsolute(extendsValue)) {
+    throw new Error('Locale contract extends must be a relative path within config/translation')
+  }
+
+  const translationDir = path.resolve(repositoryRoot, 'config/translation')
+  const childFile = path.resolve(repositoryRoot, contractPath)
+  const resolvedBase = path.resolve(path.dirname(childFile), extendsValue)
+  if (resolvedBase === translationDir || !resolvedBase.startsWith(`${translationDir}${path.sep}`)) {
+    throw new Error(`Locale contract extends escapes config/translation: ${extendsValue}`)
+  }
+  if (resolvedBase === childFile) {
+    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${extendsValue}`)
+  }
+
+  let stats
+  try {
+    stats = fs.lstatSync(resolvedBase)
+  } catch (err) {
+    if (err && err.code === 'ENOENT') {
+      throw new Error(`Locale contract extends target does not exist: ${extendsValue}`)
+    }
+    throw err
+  }
+  if (stats.isSymbolicLink()) {
+    throw new Error(`Locale contract extends must not follow symbolic links: ${extendsValue}`)
+  }
+  if (!stats.isFile()) {
+    throw new Error(`Locale contract extends must reference a regular file: ${extendsValue}`)
+  }
+
+  const realTranslationDir = fs.realpathSync(translationDir)
+  const realBase = fs.realpathSync(resolvedBase)
+  if (realBase === realTranslationDir || !realBase.startsWith(`${realTranslationDir}${path.sep}`)) {
+    throw new Error(`Locale contract extends escapes config/translation: ${extendsValue}`)
+  }
+  const realChildFile = fs.realpathSync(childFile)
+  if (realBase === realChildFile) {
+    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${extendsValue}`)
+  }
+
+  const relativePath = path.relative(path.resolve(repositoryRoot), resolvedBase).split(path.sep).join('/')
+  return {realBase, relativePath}
+}
+
 function resolveExtendedLocaleContract(child, contractPath, repositoryRoot) {
   if (!child || typeof child !== 'object' || Array.isArray(child)) {
     throw new Error('Locale contract must be an object with an exact schema')
@@ -136,49 +185,7 @@ function resolveExtendedLocaleContract(child, contractPath, repositoryRoot) {
   ) {
     throw new Error('Locale contract must use the exact schema; unexpected or missing fields')
   }
-  nonEmptyString(child.extends, 'Locale contract extends')
-  if (child.extends.includes('\0') || child.extends.includes('\\')) {
-    throw new Error('Locale contract extends must be a safe relative path within config/translation')
-  }
-  if (path.isAbsolute(child.extends) || path.win32.isAbsolute(child.extends)) {
-    throw new Error('Locale contract extends must be a relative path within config/translation')
-  }
-
-  const translationDir = path.resolve(repositoryRoot, 'config/translation')
-  const childFile = path.resolve(repositoryRoot, contractPath)
-  const resolvedBase = path.resolve(path.dirname(childFile), child.extends)
-  if (resolvedBase === translationDir || !resolvedBase.startsWith(`${translationDir}${path.sep}`)) {
-    throw new Error(`Locale contract extends escapes config/translation: ${child.extends}`)
-  }
-  if (resolvedBase === childFile) {
-    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${child.extends}`)
-  }
-
-  let stats
-  try {
-    stats = fs.lstatSync(resolvedBase)
-  } catch (err) {
-    if (err && err.code === 'ENOENT') {
-      throw new Error(`Locale contract extends target does not exist: ${child.extends}`)
-    }
-    throw err
-  }
-  if (stats.isSymbolicLink()) {
-    throw new Error(`Locale contract extends must not follow symbolic links: ${child.extends}`)
-  }
-  if (!stats.isFile()) {
-    throw new Error(`Locale contract extends must reference a regular file: ${child.extends}`)
-  }
-
-  const realTranslationDir = fs.realpathSync(translationDir)
-  const realBase = fs.realpathSync(resolvedBase)
-  if (realBase === realTranslationDir || !realBase.startsWith(`${realTranslationDir}${path.sep}`)) {
-    throw new Error(`Locale contract extends escapes config/translation: ${child.extends}`)
-  }
-  const realChildFile = fs.realpathSync(childFile)
-  if (realBase === realChildFile) {
-    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${child.extends}`)
-  }
+  const {realBase} = resolveExtendsBaseFile(child.extends, contractPath, repositoryRoot)
 
   const base = JSON.parse(fs.readFileSync(realBase, 'utf8'))
   if (!base || typeof base !== 'object' || Array.isArray(base)) {
@@ -213,6 +220,16 @@ function resolveExtendedLocaleContract(child, contractPath, repositoryRoot) {
     merged[key] = [...base[key], ...(Object.hasOwn(child, key) ? child[key] : [])]
   }
   return merged
+}
+
+function localeContractSourcePathsFor(target, repositoryRoot = path.resolve(__dirname, '../..')) {
+  const contractPath = localeContractPathFor(target)
+  const raw = JSON.parse(fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'))
+  if (raw && typeof raw === 'object' && !Array.isArray(raw) && Object.hasOwn(raw, 'extends')) {
+    const {relativePath} = resolveExtendsBaseFile(raw.extends, contractPath, repositoryRoot)
+    return [contractPath, relativePath]
+  }
+  return [contractPath]
 }
 
 function loadLocaleContract(target, repositoryRoot = path.resolve(__dirname, '../..')) {
@@ -619,6 +636,7 @@ module.exports = {
   issueConflictsWithLocaleContract,
   loadLocaleContract,
   localeContractPathFor,
+  localeContractSourcePathsFor,
   validateLocaleContract,
   validateLocaleContractDraft,
 }
