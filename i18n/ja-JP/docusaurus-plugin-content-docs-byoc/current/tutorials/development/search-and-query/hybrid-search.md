@@ -120,6 +120,7 @@ import io.milvus.v2.service.vector.request.data.BaseVector;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+import io.milvus.v2.service.vector.response.InsertResp;
 import io.milvus.v2.service.vector.response.SearchResp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -179,8 +180,8 @@ schema.addFunction(Function.builder()
 import (
     "context"
     "fmt"
+    "math/rand"
 
-    "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -380,6 +381,7 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
+using System;
 using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
@@ -569,13 +571,12 @@ indexParams.add(indexParamForImageDense);
 <TabItem value='go'>
 
 ```go
-<span>indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "text_dense",
-<span>    index.NewAutoIndex(index.MetricType(entity.IP)))
-<span>indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "text_sparse",
-<span>    index.NewSparseInvertedIndex(entity.BM25, 0.2))
-<span>indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense",
-<span>    index.NewAutoIndex(index.MetricType(entity.IP)))
-<span>)
+indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "text_dense",
+    index.NewAutoIndex(index.MetricType(entity.IP)))
+indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "text_sparse",
+    index.NewSparseInvertedIndex(entity.BM25, 0.2))
+indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense",
+    index.NewAutoIndex(index.MetricType(entity.IP)))
 ```
 
 </TabItem>
@@ -910,25 +911,28 @@ res = client.insert(
 <TabItem value='java'>
 
 ```java
-float[] textDense1 = new float[768];
-Arrays.fill(textDense1, 0.1f);
-float[] textDense2 = new float[768];
-Arrays.fill(textDense2, 0.1f);
-float[] dense3 = new float[768];
-Arrays.fill(dense3, 0.1f);
-float[] imageDense = new float[512];
-Arrays.fill(imageDense, 0.1f);
-float[] imageDense2 = new float[512];
-Arrays.fill(imageDense2, 0.1f);
-float[] sparse3 = new float[512];
-Arrays.fill(sparse3, 0.1f);
+java.util.function.IntFunction<float[]> generateFloatVector = dim -> {
+    java.util.Random random = new java.util.Random();
+    float[] vector = new float[dim];
+    for (int i = 0; i < dim; i++) {
+        vector[i] = random.nextFloat();
+    }
+    return vector;
+};
+
+float[] text_dense1 = generateFloatVector.apply(768);
+float[] text_dense2 = generateFloatVector.apply(768);
+float[] dense3 = generateFloatVector.apply(768);
+float[] image_dense = generateFloatVector.apply(512);
+float[] image_dense2 = generateFloatVector.apply(512);
+float[] sparse3 = generateFloatVector.apply(512);
 
 Gson gson = new Gson();
 JsonObject row1 = new JsonObject();
 row1.addProperty("id", 0);
 row1.addProperty("text", "Red cotton t-shirt with round neck");
-row1.add("text_dense", gson.toJsonTree(textDense1));
-row1.add("image_dense", gson.toJsonTree(imageDense));
+row1.add("text_dense", gson.toJsonTree(text_dense1));
+row1.add("image_dense", gson.toJsonTree(image_dense));
 
 JsonObject row2 = new JsonObject();
 row2.addProperty("id", 1);
@@ -956,6 +960,14 @@ InsertResp insertResp = client.insert(insertReq);
 <TabItem value='go'>
 
 ```go
+generateDenseVector := func(dim int) []float32 {
+    vector := make([]float32, dim)
+    for i := range vector {
+        vector[i] = rand.Float32()
+    }
+    return vector
+}
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithInt64Column("id", []int64{0, 1, 2}).
     WithVarcharColumn("text", []string{
@@ -964,15 +976,15 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
         "Stainless steel water bottle, 500ml",
     }).
     WithFloatVectorColumn("text_dense", 768, [][]float32{
-        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...},
-        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...},
-        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...},
+        generateDenseVector(768),
+        generateDenseVector(768),
+        generateDenseVector(768),
     }).
     WithFloatVectorColumn("image_dense", 512, [][]float32{
-        {0.6366019600530924, -0.09323198122475052, ...},
-        {0.6414180010301553, 0.8976979978567611, ...},
-        {-0.6901259768402174, 0.6100500332193755, ...},
-    }).
+        generateDenseVector(512),
+        generateDenseVector(512),
+        generateDenseVector(512),
+    }))
 if err != nil {
     fmt.Println(err.Error())
     // handle err
@@ -1058,10 +1070,12 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+const generateDenseVector = (dim) => Array.from({ length: dim }, () => Math.random());
+
 var data = [
-    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
-    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597 /* ...remaining dims */], image_dense: [0.6414180010301553, 0.8976979978567611 /* ...remaining dims */]},
-    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682 /* ...remaining dims */], image_dense: [-0.6901259768402174, 0.6100500332193755 /* ...remaining dims */]}
+    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)},
+    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)},
+    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)}
 ]
 
 var res = await client.insert({
@@ -1075,8 +1089,16 @@ var res = await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-var textDense = Enumerable.Repeat(0.1f, 768).ToArray();
-var imageDense = Enumerable.Repeat(0.1f, 512).ToArray();
+float[] GenerateDenseVector(int dimension)
+{
+    var rnd = new Random();
+    var vector = new float[dimension];
+    for (int i = 0; i < dimension; i++) vector[i] = (float)rnd.NextDouble();
+    return vector;
+}
+
+var textDense = GenerateDenseVector(768);
+var imageDense = GenerateDenseVector(512);
 
 await client.InsertAsync(new InsertReq
 {
@@ -1187,8 +1209,8 @@ reqs = [request_1, request_2, request_3]
 <TabItem value='java'>
 
 ```java
-float[] queryDense = new float[]{-0.0475336798f,  0.0521207601f,  0.0904406682f, ...};
-float[] queryMultimodal = new float[]{0.0158298651f, 0.5264158340f, ...};
+float[] queryDense = generateFloatVector.apply(768);
+float[] queryMultimodal = generateFloatVector.apply(512);
 
 List<BaseVector> queryTexts = Collections.singletonList(new EmbeddedText("white headphones, quiet and comfortable"));
 List<BaseVector> queryDenseVectors = Collections.singletonList(new FloatVec(queryDense));
@@ -1218,8 +1240,8 @@ searchRequests.add(AnnSearchReq.builder()
 
 ```go
 queryText := entity.Text("white headphones, quiet and comfortable")
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...}
-queryMultimodalVector := []float32{0.015829865178701663, 0.5264158340734488, ...}
+queryVector := generateDenseVector(768)
+queryMultimodalVector := generateDenseVector(512)
 
 request1 := milvusclient.NewAnnRequest("text_dense", 2, entity.FloatVector(queryVector)).
     WithAnnParam(index.NewIvfAnnParam(10))
@@ -1297,8 +1319,8 @@ auto sub_req3 = milvus::SubSearchRequest()
 
 ```javascript
 const query_text = "white headphones, quiet and comfortable"
-const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */]
-const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488 /* ...remaining dims */]
+const query_vector = generateDenseVector(768)
+const query_multimodal_vector = generateDenseVector(512)
 
 const search_param_1 = {
     "data": query_vector, 
@@ -1324,8 +1346,8 @@ const search_param_3 = {
 <TabItem value='csharp'>
 
 ```csharp
-float[] queryDenseVector = Enumerable.Repeat(0.1f, 768).ToArray();
-float[] queryMultimodalVector = Enumerable.Repeat(0.1f, 512).ToArray();
+float[] queryDenseVector = GenerateDenseVector(768);
+float[] queryMultimodalVector = GenerateDenseVector(512);
 
 // text semantic search (dense)
 AnnSearchReq req1 = new()

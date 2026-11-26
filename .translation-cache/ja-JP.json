@@ -766,9 +766,9 @@
       "translatedAt": "2026-11-09T12:51:17.825Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "12cc24d26bfb894e82354cf0a4f3e3e97b392dca08289ae69fe1cc2942798c15",
+      "sourceHash": "cb18d15154b136374343bb02b555f8f1f9096e6a060e82f51e7b88de35b9711f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-11-25T19:42:36.553Z"
+      "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
       "sourceHash": "5d4ab36c5a5b7c6bc27846e29d020e74fe91564fc2a55423b5fac30b3bb28589",
@@ -2211,9 +2211,9 @@
       "translatedAt": "2026-11-09T13:49:19.042Z"
     },
     "content/en/guides/tutorials/development/search-and-query/hybrid-search.md": {
-      "sourceHash": "7197d9202953d62da250a2e38fb64a3d6da0b1a225637cd64c39e1c82841c11f",
+      "sourceHash": "c5cb0d45c1fcb1a9d4f7d61bb9ee16206b792e95c8165ac15329127221450b48",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/hybrid-search.md",
-      "translatedAt": "2026-11-25T19:42:36.553Z"
+      "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
       "sourceHash": "677ed2bc2b627b57560300d4fdc536773e78769883dc0c2b89c9b95017d3c17f",
