@@ -706,4 +706,87 @@ describe('scanUiTags & validateUiTags', () => {
       })
     }
   })
+
+  it('memoizes disjoint block-comment intervals, short-circuits nested unclosed braces accurately, and scales linearly on multi-pair comments and single-line tags (Iter 13)', () => {
+    // 1. Differential parity between cached and uncached scanJsExpression across nested/multi-pair combinations
+    const cacheSamples = [
+      '    {\n    { foo }',
+      '{ <Tag>{ /* unclosed',
+      '{ <Tag attr={ /* ok */ "x" }>{ /* unclosed',
+      '{ `${ { /* unclosed',
+      '{ /* a */ { /* b */ } { /* c',
+      Array.from({ length: 6 }, () => '{ /*\n*/').join('\n') + '\n<p>ok</p>\n',
+    ]
+    for (const sample of cacheSamples) {
+      const cache = createJsExpressionScanCache()
+      const braceOffsets: number[] = []
+      for (let idx = 0; idx < sample.length; idx += 1) {
+        if (sample[idx] === '{') braceOffsets.push(idx)
+      }
+      // Visit in reverse order, then forward order to exercise interval splitting/extension and unclosedBraces hits
+      for (const offset of [...[...braceOffsets].reverse(), ...braceOffsets]) {
+        const uncached = scanJsExpression(sample, offset)
+        const cached = scanJsExpression(sample, offset, cache)
+        expect(cached.end, `${sample} @ ${offset}`).toBe(uncached.end)
+        expect(cached.hasUnclosedBlockComment, `${sample} @ ${offset}`).toBe(uncached.hasUnclosedBlockComment)
+        if (uncached.end >= 0) {
+          expect(cached, `${sample} @ ${offset}`).toEqual(uncached)
+        }
+      }
+    }
+
+    // Exercise bucket splitting (> 256 intervals) with reverse/out-of-order block-comment scans
+    const manyIntervals = Array.from({ length: 300 }, (_, idx) => `{ /* c${idx} */`).join('\n')
+    const splitCache = createJsExpressionScanCache()
+    const splitOffsets: number[] = []
+    for (let idx = 0; idx < manyIntervals.length; idx += 1) {
+      if (manyIntervals[idx] === '{') splitOffsets.push(idx)
+    }
+    for (const offset of [...splitOffsets].reverse()) {
+      const uncached = scanJsExpression(manyIntervals, offset)
+      const cached = scanJsExpression(manyIntervals, offset, splitCache)
+      expect(cached.end).toBe(uncached.end)
+      expect(cached.hasUnclosedBlockComment).toBe(uncached.hasUnclosedBlockComment)
+    }
+    expect(splitCache.blockCommentBuckets.length).toBeGreaterThan(1)
+
+    // 2. O(N) scaling across 20,000-line multi-pair { /* ... */ } inputs (Challenger F1 & Reviewer Minor 1)
+    const n20k = 20000
+    const half = n20k / 2
+    const twoPairs20k = `${Array.from({ length: half }, () => '{ /*').join('\n')}\n*/\n${Array.from({ length: half }, () => '{ /*').join('\n')}\n*/\nReal <UI>Keep</UI>.\n`
+    const poison20k = [
+      '# T', '', '<Outer>', '', Array.from({ length: n20k }, () => '    { /*').join('\n'), '    */', '', '</Outer>', '', '{ /*', '*/', '', 'Real <UI>Keep</UI>.', '',
+    ].join('\n')
+    const manyPairs20k = `${Array.from({ length: n20k / 200 }, () => `${Array.from({ length: 200 }, () => '{ /*').join('\n')}\n*/`).join('\n')}\n<p>ok</p>\nReal <UI>Keep</UI>.\n`
+    const twoBlock0sp20k = `${Array.from({ length: n20k }, () => '{ /*').join('\n')}\n*/\n/* */\n\nReal <UI>Keep</UI>.\n`
+    const twoBlockTabs4sp20k = `<Tabs>\n<TabItem value="a" label="A">\n\n${Array.from({ length: n20k }, () => '    { /*').join('\n')}\n    */\n    /* */\n\n</TabItem>\n</Tabs>\n\nReal <UI>Keep</UI>.\n`
+
+    for (const [label, doc, expectedLine] of [
+      ['two-pairs-uiTags-20k', twoPairs20k, 20003],
+      ['real-preJsCache-poison-20k', poison20k, 20012],
+      ['many-pairs-WITH-closing-tag-20k', manyPairs20k, 20102],
+      ['0sp-two-block-comments-20k', twoBlock0sp20k, 20004],
+      ['tabs-4sp-two-block-comments-20k', twoBlockTabs4sp20k, 20010],
+    ] as const) {
+      const t0 = performance.now()
+      const res = scanUiTags(doc)
+      const elapsed = performance.now() - t0
+      expect(elapsed, `${label} took ${elapsed.toFixed(2)}ms`).toBeLessThan(150)
+      expect(res, label).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: expectedLine, column: 6 }],
+      })
+    }
+
+    // 3. O(N) scaling on 20,000 single-line <Tag> / <Tabs> tokens (Auditor Caveat 2)
+    for (const tag of ['<Tag>', '<Tabs>']) {
+      const singleLineDoc = `${tag.repeat(20000)} Real <UI>Keep</UI>.`
+      const t0 = performance.now()
+      const res = scanUiTags(singleLineDoc)
+      const elapsed = performance.now() - t0
+      expect(elapsed, `single-line-${tag}-20k took ${elapsed.toFixed(2)}ms`).toBeLessThan(150)
+      expect(res).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: tag.length * 20000 + 7 }],
+      })
+    }
+  })
 })

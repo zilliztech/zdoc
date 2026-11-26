@@ -1725,6 +1725,13 @@ import {
         expect(f3Res.errors[0].code).toBe('UI_TAG_MALFORMED')
         expect(f3Res.errors[0].line).toBe(11)
       }
+
+      // 4) O(N) extractFirstParagraph on 20,000-line multi-pair { /* ... */ }
+      const twoPairsExtract20k = `${Array.from({ length: 10000 }, () => '{ /*').join('\n')}\n*/\n${Array.from({ length: 10000 }, () => '{ /*').join('\n')}\n*/\nReal paragraph.\n`
+      const tExtract0 = performance.now()
+      const twoPairsPara = extractFirstParagraph(twoPairsExtract20k)
+      expect(performance.now() - tExtract0).toBeLessThan(150)
+      expect(twoPairsPara).toBe('{ /*')
     } finally {
       rmSync(root, { recursive: true, force: true })
     }

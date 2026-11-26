@@ -65,10 +65,15 @@ const THEMATIC_OR_SETEXT_INDENT_RE = /^[ \t]*(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}
 const LIST_INTERRUPT_0_3_RE = /^ {0,3}(?:[-*+]|1[.)])[ \t]+\S/
 const LIST_INTERRUPT_INDENT_RE = /^[ \t]*(?:[-*+]|1[.)])[ \t]+\S/
 
+export interface BlockCommentInterval {
+  start: number
+  end: number
+}
+
 export interface JsExpressionScanCache {
   unclosedBraces: Map<number, boolean>
-  lastBlockCommentSearchStart: number
-  lastBlockCommentSearchResult: number
+  blockCommentBuckets: BlockCommentInterval[][]
+  blockCommentBucketMins: number[]
   noUnescapedDoubleQuoteFrom: number
   noUnescapedSingleQuoteFrom: number
   noRawDoubleQuoteFrom: number
@@ -79,14 +84,115 @@ export interface JsExpressionScanCache {
 export function createJsExpressionScanCache(): JsExpressionScanCache {
   return {
     unclosedBraces: new Map<number, boolean>(),
-    lastBlockCommentSearchStart: Number.POSITIVE_INFINITY,
-    lastBlockCommentSearchResult: -1,
+    blockCommentBuckets: [],
+    blockCommentBucketMins: [],
     noUnescapedDoubleQuoteFrom: Number.POSITIVE_INFINITY,
     noUnescapedSingleQuoteFrom: Number.POSITIVE_INFINITY,
     noRawDoubleQuoteFrom: Number.POSITIVE_INFINITY,
     noRawSingleQuoteFrom: Number.POSITIVE_INFINITY,
     noUnclosedTemplateFrom: Number.POSITIVE_INFINITY,
   }
+}
+
+const BLOCK_COMMENT_BUCKET_LIMIT = 256
+
+function rightmostStartLe(starts: readonly number[], target: number): number {
+  let lo = 0
+  let hi = starts.length - 1
+  let ans = -1
+  while (lo <= hi) {
+    const mid = (lo + hi) >>> 1
+    if (starts[mid] <= target) {
+      ans = mid
+      lo = mid + 1
+    } else {
+      hi = mid - 1
+    }
+  }
+  return ans
+}
+
+function rightmostIntervalStartLe(intervals: readonly BlockCommentInterval[], target: number): number {
+  let lo = 0
+  let hi = intervals.length - 1
+  let ans = -1
+  while (lo <= hi) {
+    const mid = (lo + hi) >>> 1
+    if (intervals[mid].start <= target) {
+      ans = mid
+      lo = mid + 1
+    } else {
+      hi = mid - 1
+    }
+  }
+  return ans
+}
+
+function lookupOrFindBlockCommentEnd(
+  text: string,
+  searchFrom: number,
+  cache?: JsExpressionScanCache,
+): number {
+  if (!cache) return text.indexOf('*/', searchFrom)
+
+  const buckets = cache.blockCommentBuckets
+  const mins = cache.blockCommentBucketMins
+  const b = rightmostStartLe(mins, searchFrom)
+  let i = -1
+  if (b >= 0) {
+    const bucket = buckets[b]
+    i = rightmostIntervalStartLe(bucket, searchFrom)
+    if (i >= 0) {
+      const iv = bucket[i]
+      if (iv.end < 0 || searchFrom <= iv.end) {
+        return iv.end
+      }
+    }
+  }
+
+  const end = text.indexOf('*/', searchFrom)
+
+  if (buckets.length === 0) {
+    buckets.push([{ start: searchFrom, end }])
+    mins.push(searchFrom)
+    return end
+  }
+
+  let nextB = -1
+  let nextI = -1
+  if (b < 0) {
+    nextB = 0
+    nextI = 0
+  } else if (i + 1 < buckets[b].length) {
+    nextB = b
+    nextI = i + 1
+  } else if (b + 1 < buckets.length) {
+    nextB = b + 1
+    nextI = 0
+  }
+
+  if (nextB >= 0) {
+    const nextIv = buckets[nextB][nextI]
+    if (nextIv.end === end) {
+      nextIv.start = searchFrom
+      if (nextI === 0) mins[nextB] = searchFrom
+      return end
+    }
+  }
+
+  const targetB = b < 0 ? 0 : b
+  const targetI = b < 0 ? 0 : i + 1
+  const targetBucket = buckets[targetB]
+  targetBucket.splice(targetI, 0, { start: searchFrom, end })
+  if (targetI === 0) mins[targetB] = searchFrom
+
+  if (targetBucket.length > BLOCK_COMMENT_BUCKET_LIMIT) {
+    const right = targetBucket.splice(BLOCK_COMMENT_BUCKET_LIMIT >>> 1)
+    buckets.splice(targetB + 1, 0, right)
+    mins.splice(targetB + 1, 0, right[0].start)
+  }
+
+  return end
 }
 
 export function isEscapedAt(text: string, index: number): boolean {
@@ -294,6 +400,12 @@ export function scanJsExpression(
         if (cursor > top.textStart) {
           maskRanges.push([top.textStart, cursor])
         }
+        const cachedBrace = cache?.unclosedBraces.get(cursor + 1)
+        if (cachedBrace !== undefined) {
+          if (cachedBrace) hasUnclosedBlockComment = true
+          cursor = text.length
+          break
+        }
         pushFrame({ kind: 'brace', start: cursor + 1, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
@@ -343,6 +455,12 @@ export function scanJsExpression(
         continue
       }
       if (ch === '{') {
+        const cachedBrace = cache?.unclosedBraces.get(cursor)
+        if (cachedBrace !== undefined) {
+          if (cachedBrace) hasUnclosedBlockComment = true
+          cursor = text.length
+          break
+        }
         pushFrame({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
@@ -374,6 +492,12 @@ export function scanJsExpression(
 
     if (top.kind === 'jsx') {
       if (ch === '{') {
+        const cachedBrace = cache?.unclosedBraces.get(cursor)
+        if (cachedBrace !== undefined) {
+          if (cachedBrace) hasUnclosedBlockComment = true
+          cursor = text.length
+          break
+        }
         pushFrame({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
@@ -468,28 +592,7 @@ export function scanJsExpression(
     }
 
     if (ch === '/' && text[cursor + 1] === '*') {
-      const searchFrom = cursor + 2
-      let end = -1
-      if (cache) {
-        if (
-          searchFrom >= cache.lastBlockCommentSearchStart &&
-          (cache.lastBlockCommentSearchResult < 0 || searchFrom <= cache.lastBlockCommentSearchResult)
-        ) {
-          end = cache.lastBlockCommentSearchResult
-        } else {
-          end = text.indexOf('*/', searchFrom)
-          if (
-            searchFrom >= cache.lastBlockCommentSearchStart ||
-            cache.lastBlockCommentSearchStart === Number.POSITIVE_INFINITY ||
-            end === cache.lastBlockCommentSearchResult
-          ) {
-            cache.lastBlockCommentSearchStart = searchFrom
-            cache.lastBlockCommentSearchResult = end
-          }
-        }
-      } else {
-        end = text.indexOf('*/', searchFrom)
-      }
+      const end = lookupOrFindBlockCommentEnd(text, cursor + 2, cache)
       if (end < 0) {
         hasUnclosedBlockComment = true
         commentRanges.push([cursor, text.length])
@@ -553,6 +656,12 @@ export function scanJsExpression(
     top.hasNonCommentToken = true
 
     if (ch === '{') {
+      const cachedBrace = cache?.unclosedBraces.get(cursor)
+      if (cachedBrace !== undefined) {
+        if (cachedBrace) hasUnclosedBlockComment = true
+        cursor = text.length
+        break
+      }
       pushFrame({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
       canStartRegex = true
       afterDot = false
@@ -1344,6 +1453,13 @@ export function maskCodeAndCommentsWithRanges(
   // while 4+-space fences (including blockquote-prefixed >     ```jsx) claim their closers before
   // CommonMark 0-3 space fence parsing can invert parity.
   const lineStarts = computeLineStarts(normalized)
+  const lineFirstNonWs = new Int32Array(lineCount)
+  for (let k = 0; k < lineCount; k += 1) {
+    const line = lines[k]
+    let ws = 0
+    while (ws < line.length && (line[ws] === ' ' || line[ws] === '\t')) ws += 1
+    lineFirstNonWs[k] = lineStarts[k] + ws
+  }
   const preJsCache = createJsExpressionScanCache()
 
   const resolveFencesPrePass = (preLastCloseOffset: ReadonlyMap<string, number> | null) => {
@@ -1580,8 +1696,7 @@ export function maskCodeAndCommentsWithRanges(
         if (openTag) {
           if (!openTag.selfClosing && !HTML_VOID_ELEMENTS.has(openTag.tagName)) {
             const closePos = preLastCloseOffset?.get(openTag.tagName)
-            const lineStartOffset = normalized.lastIndexOf('\n', preI - 1) + 1
-            const leadingLineOnlyWs = /^[ \t]*$/.test(normalized.slice(lineStartOffset, preI))
+            const leadingLineOnlyWs = preI <= lineFirstNonWs[preLineIdx]
             if (
               (closePos !== undefined && closePos > preI) ||
               (leadingLineOnlyWs && KNOWN_JSX_FLOW_CONTAINERS.has(openTag.tagName))
@@ -1841,8 +1956,7 @@ export function maskCodeAndCommentsWithRanges(
 
         if (!openTag.selfClosing && !HTML_VOID_ELEMENTS.has(openTag.tagName)) {
           const closePos = lastCloseOffset.get(openTag.tagName)
-          const lineStartOffset = fenceMasked.lastIndexOf('\n', i - 1) + 1
-          const leadingLineOnlyWs = /^[ \t]*$/.test(fenceMasked.slice(lineStartOffset, i))
+          const leadingLineOnlyWs = i <= lineFirstNonWs[lineIdx]
           if (
             (closePos !== undefined && closePos > i) ||
             (leadingLineOnlyWs && KNOWN_JSX_FLOW_CONTAINERS.has(openTag.tagName))
