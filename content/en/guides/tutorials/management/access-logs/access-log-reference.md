@@ -2,7 +2,7 @@
 title: "Access Log Reference | Cloud"
 slug: /access-log-reference
 sidebar_label: "Access Log Reference"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

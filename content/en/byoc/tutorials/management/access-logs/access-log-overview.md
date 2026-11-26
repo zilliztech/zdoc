@@ -2,7 +2,7 @@
 title: "Access Logs Overview | BYOC"
 slug: /access-log-overview
 sidebar_label: "Access Logs Overview"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -51,6 +51,10 @@ You control what Zilliz Cloud records and where the logs go:
 Access logs and audit logs cannot be enabled together on a cluster. Slow logs are configured separately. If you only need to investigate requests that exceed a duration threshold, see [Slow Logs](./configure-slow-logs).
 
 </Admonition>
+
+## Billing\{#billing}
+
+This feature is currently in public preview and is free of charge.
 
 ## Get started\{#get-started}
 

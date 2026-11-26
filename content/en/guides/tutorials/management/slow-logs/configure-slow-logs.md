@@ -102,3 +102,6 @@ A successful integration test does not verify delivery of a real slow log. If no
 
     - For HTTPS, check the receiver's availability, authentication settings, and ingestion errors.
 
+- **Is the slow log feature free?**
+
+    Yes, this feature is free of charge.

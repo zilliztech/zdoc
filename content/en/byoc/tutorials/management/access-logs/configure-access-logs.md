@@ -2,7 +2,7 @@
 title: "Configure Access Logs | BYOC"
 slug: /configure-access-logs
 sidebar_label: "Configure Access Logs"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
