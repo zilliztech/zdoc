@@ -309,7 +309,7 @@ await milvusClient.hybridSearch({
 
 - **highlighter** (*Highlighter*) -
 
-    用于搜索结果的高亮器。
+    用于搜索结果的高亮器。请参见 Highlighter。
 
 - **db_name** (*string*) -
 

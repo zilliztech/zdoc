@@ -99,6 +99,8 @@ await milvusClient.describeCollection({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **schema** (*CollectionSchema*) -
 Collection 的 Schema。
 
@@ -183,6 +185,172 @@ Collection 上配置的 Partition 数量。仅当声明了 Partition key 字段�
 
 - **functions** (*[FunctionObject](./Collections-FunctionObject)[]*) -
 
+</NextChannel>
+
+<NextChannel action="include">
+
+- **schema** (*CollectionSchema*) -
+Collection 的 Schema。
+
+    - **name** (*string*) -
+
+        Collection 名称。
+
+    - **description** (*string*) -
+
+        Collection 的可选描述。
+
+    - **enable_dynamic_field** (*boolean*) -
+
+        是否启用动态字段。当为 **true** 时，未在 Schema 中声明的字段将存储在隐藏的 `$meta` JSON 字段中。
+
+    - **autoID** (*boolean*) -
+
+        主键是否由 Milvus 自动生成。
+
+    - **fields** (*FieldSchema[]*) -
+
+        Collection 上声明的所有标量字段和向量字段。每个 **FieldSchema** 包含以下成员：
+
+        - **fieldID** (*string* | *number*) -
+
+            字段的 ID。
+
+        - **name** (*string*) -
+
+            字段名称。
+
+        - **description** (*string*) -
+
+            字段的可选描述。
+
+        - **data_type** (*keyof typeof DataType*) -
+
+            字段的数据类型。
+
+        - **dataType** (*DataType*) -
+
+            字段的数值数据类型。
+
+        - **element_type** (*keyof typeof DataType*) -
+
+            数组字段的元素类型。
+
+        - **is_primary_key** (*boolean*) -
+
+            该字段是否为主键。
+
+        - **autoID** (*boolean*) -
+
+            主键值是否自动生成。
+
+        - **is_partition_key** (*boolean*) -
+
+            该字段是否为 Partition key。
+
+        - **is_clustering_key** (*boolean*) -
+
+            该字段是否为 Clustering Key。
+
+        - **is_dynamic** (*boolean*) -
+
+            该字段是否为动态字段。
+
+        - **is_function_output** (*boolean*) -
+
+            该字段是否由函数生成。
+
+        - **nullable** (*boolean*) -
+
+            该字段是否可为空。
+
+        - **default_value** (*number* | *string* | *null*) -
+
+            字段的默认值。
+
+        - **state** (*string*) -
+
+            字段的状态。
+
+        - **external_field** (*string*) -
+
+            外部字段映射名称。
+
+        - **type_params** (*KeyValuePair&lt;TypeParamKey, TypeParam&gt;[]*) -
+
+            字段的类型参数。
+
+        - **index_params** (*KeyValuePair[]*) -
+
+            字段的索引参数。
+
+        - **fields** (*FieldSchema[]*) -
+
+            struct 或 array 字段的子字段。
+
+    - **functions** (*[FunctionObject](./Collections-FunctionObject)[]*) -
+
+        附加到 Collection 的 doc-in / doc-out 函数（例如 BM25 稀疏向量函数）。
+
+    - **struct_array_fields** (*FieldSchema[]*) -
+
+        Collection 上声明的所有 struct 字段和 array 字段。每个条目具有与 **FieldSchema** 相同的成员。
+
+    - **external_source** (*string*) -
+
+        外部源路径。可选。
+
+    - **external_spec** (*string*) -
+
+        外部 spec 配置。可选。
+
+    - **file_resource_ids** (*string[]*) -
+
+        外部文件资源 ID。可选。
+
+- **collectionID** (*string*) -
+由 Milvus 分配的内部 Collection ID。
+
+- **collection_name** (*string*) -
+Collection 名称。
+
+- **consistency_level** (*string*) -
+针对此 Collection 查询时使用的默认一致性级别。可选值为 **Strong**、**Session**、**Bounded**、**Eventually** 和 **Customized**。
+
+- **aliases** (*string[]*) -
+指向此 Collection 的别名列表。
+
+- **virtual_channel_names** (*string[]*) -
+分配给 Collection 的虚拟通道名称。该值当前没有用处。
+
+- **physical_channel_names** (*string[]*) -
+分配给 Collection 的物理通道名称。该值当前没有用处。
+
+- **start_positions** (*string[]*) -
+Collection 创建时的起始位置。
+
+- **properties** (*KeyValuePair[]*) -
+创建时声明的或通过 `alterCollectionProperties()` 设置的 Collection 级属性（例如 **mmap.enabled**、**collection.ttl.seconds**）。
+
+- **created_timestamp** (*string*) -
+创建 Collection 时使用的混合时间戳。
+
+- **created_utc_timestamp** (*string*) -
+创建 Collection 时的 UTC 时间戳，以毫秒为单位。
+
+- **shards_num** (*number*) -
+Collection 上配置的分片数量。
+
+- **num_partitions** (*string*) -
+Collection 上配置的 Partition 数量。仅当声明了 Partition key 字段时，此值才有意义。
+
+- **db_name** (*string*) -
+拥有此 Collection 的 Database。
+
+- **functions** (*[FunctionObject](./Collections-FunctionObject)[]*) -
+
+</NextChannel>
+
 附加到 Collection 的 doc-in / doc-out 函数的扁平列表。
 
 - **update_timestamp_str** (*string*) -
@@ -215,7 +383,6 @@ Collection 上次更新时的混合时间戳，以字符串形式表示。
 
         指示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
-
 **异常：**
 
 - **Error**
@@ -231,4 +398,3 @@ const milvusClient = new MilvusClient({
 });
  const res = await milvusClient.describeCollection({ collection_name: 'my_collection' });
 ```
-

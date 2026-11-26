@@ -551,7 +551,7 @@ await milvusClient.search({
 
 - **highlighter**（*Highlighter*） -
 
-    用于搜索结果的高亮器。
+    用于搜索结果的高亮器。请参见 Highlighter。
 
 - **timeout**（*number*） -
 
@@ -579,6 +579,8 @@ await milvusClient.search({
 ```
 
 **参数：**
+
+<NextChannel action="exclude">
 
 - **results**（*SearchResultData[]* | *SearchResultData[][]*） -
 每个查询向量返回的命中结果。如果提供单个查询向量，则这是扁平的 **SearchResultData[]**；如果提供一批查询向量，则这是嵌套的 **SearchResultData[][]**，每个查询对应一个内部列表。
@@ -642,6 +644,103 @@ Milvus 用于评估搜索的会话时间戳。
     - **reason**（*string*） -
 
         指示所报告错误原因的说明。如果此操作成功，则该值为空字符串。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **results**（*SearchResultData[]* | *SearchResultData[][]*） -
+每个查询向量返回的命中结果。如果提供单个查询向量，则这是扁平的 **SearchResultData[]**；如果提供一批查询向量，则这是嵌套的 **SearchResultData[][]**，每个查询对应一个内部列表。
+
+    - **id**（*string*） -
+
+        匹配行的主键。
+
+    - **score**（*number*） -
+
+        相似度分数，按配置的度量类型进行缩放。
+
+    - **offset**（*number* | *string*） -
+
+        此命中结果在其查询组内从零开始的偏移量。
+
+    - **group_by_field_values**（*Record&lt;string, FieldData&gt;*） -
+
+        当提供了 **group_by_field** 时设置；包含该命中结果的分组字段值。
+
+    - **highlight**（*HighlightResult*） -
+
+        当请求中提供了 **highlighter** 时设置；包含匹配字段的高亮片段。它是一个记录，将每个字段名称映射到一个 **HighlightData** 对象，该对象包含以下成员：
+
+        - **fragments** (*string[]*) -
+
+            该字段的高亮片段。
+
+        - **scores** (*number[]*) -
+
+            片段的相关性分数。
+
+    - **&lt;output_field&gt;**（*FieldData*） -
+
+        每个请求的 **output_fields** 条目都会作为键添加到命中结果中，其值为匹配行中的值。
+
+- **recalls**（*number[]*） -
+当搜索引擎生成召回分数时，每个查询的估计召回分数。
+
+- **session_ts**（*number*） -
+Milvus 用于评估搜索的会话时间戳。
+
+- **collection_name**（*string*） -
+被搜索的 Collection。
+
+- **all_search_count**（*number*） -
+可选。当搜索报告所检查的候选总数时设置。
+
+- **agg_buckets** (*AggregationBucket[]* | *undefined*) -
+可选。当提供了 **search_aggregation** 时设置；包含聚合桶、嵌套指标、顶部命中结果和子组。每个 **AggregationBucket** 都包含以下成员：
+
+    - **key** (*AggregationBucketKey[]*) -
+
+        定义该桶的分组键条目。
+
+    - **count** (*string* | *number*) -
+
+        该桶中的 Entity 数量。
+
+    - **metrics** (*Record&lt;string, AggregationValue | undefined&gt;*) -
+
+        按别名作为键的计算指标值。
+
+    - **hits** (*AggregationHit[]*) -
+
+        该桶的代表性顶部命中结果，每个结果都携带其分数和字段值。
+
+    - **sub_groups** (*AggregationBucket[]*) -
+
+        嵌套的子聚合桶。
+
+- **search_iterator_v2_results**（*Record&lt;string, any&gt;*） -
+可选。V2 搜索迭代器生成的内部结果。
+
+- **_search_iterator_v2_results**（*string*） -
+可选。V2 搜索迭代器生成的内部序列化结果。
+
+- **ResStatus**
+一个 **ResStatus** 对象。
+
+    - **code**（*number*） -
+
+        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
+
+    - **error_code**（*string* | *number*） -
+
+        表示所发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
+
+    - **reason**（*string*） -
+
+        指示所报告错误原因的说明。如果此操作成功，则该值为空字符串。
+
+</NextChannel>
 
 **异常：**
 

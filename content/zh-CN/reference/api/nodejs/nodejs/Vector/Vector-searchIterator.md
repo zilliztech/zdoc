@@ -71,6 +71,8 @@ await milvusClient.searchIterator({
 
 **参数：**
 
+<NextChannel action="exclude">
+
 - **collection_name** （*string*） -
 
     **[必需]**
@@ -190,6 +192,132 @@ await milvusClient.searchIterator({
 - **timeout** （*number*） -
 
     此操作的超时持续时间。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** （*string*） -
+
+    **[必需]**
+
+    要搜索的 Collection 的名称。
+
+- **data** （*[SearchData](./Vector-SearchData) | SearchData[]*） -
+
+    查询向量。支持的类型包括 FloatVector（number[]）、BFloat16Vector（Uint8Array）、Float16Vector（Uint8Array）、BinaryVector（number[]）和 SparseFloatVector。请提供 **data** 或 **vector**。
+
+- **vector** （*[SearchData](./Vector-SearchData) | SearchData[]*） -
+
+    **data** 的别名，用于表示查询向量。
+
+- **batchSize** （*number*） -
+
+    **[必需]**
+
+    每次迭代返回的结果数。不能超过 16,384。
+
+- **limit** （*number*） -
+
+    所有迭代返回的结果总最大数量。该值默认为匹配 Entity 的总数（无限制）。
+
+- **filter** （*string*） -
+
+    用于在搜索前筛选匹配 Entity 的标量过滤条件。该值默认为空字符串（无筛选）。
+
+- **expr** （*string*） -
+
+    **filter** 的别名。请提供 **filter** 或 **expr**，但不能同时提供两者。
+
+- **anns_field** （*string*） -
+
+    目标向量字段的名称。当 Collection 包含多个向量字段时，此参数为必需项。
+
+- **output_fields** （*string[]*） -
+
+    要包含在每个返回 Entity 中的字段名列表。默认仅包含主字段。
+
+- **partition_names** （*string[]*） -
+
+    要搜索的 Partition 的名称。
+
+- **params** （*keyValueObj*） -
+
+    以键值对形式提供的其他搜索参数，例如用于范围搜索的 `radius` 和 `range_filter`。
+
+- **metric_type** （*string*） -
+
+    用于衡量向量之间相似度的度量类型。该值默认为索引字段的度量类型。
+
+- **consistency_level** （*ConsistencyLevelEnum*） -
+
+    此操作的一致性级别。可选值：Strong (0)、Session (1)、Bounded (2) 和 Eventually (3)。该值默认为 Bounded。请参见 [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum)。
+
+- **ignore_growing** （*boolean*） -
+
+    是否在搜索期间跳过增长中的 Segment。
+
+- **group_by_field** （*string*） -
+
+    按指定字段对搜索结果分组，以确保多样性。
+
+- **group_size** （*number*） -
+
+    分组搜索中每个组内要返回的 Entity 目标数量。
+
+- **strict_group_size** （*boolean*） -
+
+    分组搜索中是否严格强制执行 **group_size**。
+
+- **order_by_fields** （*OrderByFields*） -
+
+    用于对搜索结果排序的字段。
+
+- **hints** （*string*） -
+
+    用于提高搜索性能的提示字符串。
+
+- **round_decimal** （*number*） -
+
+    最终结果中保留的小数位数。
+
+- **exprValues** （*keyValueObj*） -
+
+    模板化过滤表达式的占位符值。
+
+- **nq** （*number*） -
+
+    查询向量的数量。
+
+- **ids** （*number[]* | *string[]*） -
+
+    用于按主键搜索查询的主键。
+
+- **highlighter** （*Highlighter*） -
+
+    用于搜索结果的高亮器。请参见 Highlighter。
+
+- **rerank** （*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*） -
+
+    重排策略及其参数。有关支持的重排器类型，请参见 `search()`。
+
+- **transformers** （*[OutputTransformers](./Vector-OutputTransformers)*） -
+
+    用于 BFloat16Vector 和 Float16Vector 等特殊向量数据类型的自定义转换器。
+
+- **external_filter_fn** （*(row: SearchResultData) => boolean*） -
+
+    可选的客户端筛选函数，应用于每批结果。对于此函数返回 `false` 的 Entity，将从产出的批次中排除。
+
+- **db_name** （*string*） -
+
+    包含该 Collection 的 Database 名称。
+
+- **timeout** （*number*） -
+
+    此操作的超时持续时间。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+
+</NextChannel>
 
 **返回：**
 
