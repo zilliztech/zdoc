@@ -196,9 +196,12 @@ const POST_PREPROCESS_RENDER_ERRORS = new Set([
   'IMAGE_FETCH_FAILED',
 ])
 const COLLATERAL_RENDER_ERRORS = new Set([...POST_PREPROCESS_RENDER_ERRORS, 'TRANSFORM_TARGET_NOT_FOUND'])
+// Shared-docs reads Variables.json exclusively from zdoc (shared-docs/guides/Variables.json),
+// never from upstream milvus-docs (site/en/Variables.json, which is also ignored by Milvus discovery).
 const nonConsumableRepoPath = (path: string) =>
   path.startsWith('.github/') || path.startsWith('.skills/') || path.startsWith('scripts/') ||
   path.startsWith('site/zh-CN/') || path.startsWith('site/en/menuStructure/') ||
+  path === 'site/en/Variables.json' ||
   ['AGENTS.md', 'CONTRIBUTING.md', 'README.md'].includes(path)
 
 export interface BatchCompactPage {
