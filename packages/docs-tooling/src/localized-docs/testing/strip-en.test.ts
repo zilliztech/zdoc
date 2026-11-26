@@ -139,4 +139,44 @@ import {
     expect(res.body.startsWith('```tsx\n')).toBe(true)
     expect(res.body).toContain("from '@theme/Tabs';")
   })
+
+  it('strips ES2022 string-literal specifiers, blank-line-separated from clauses, and multiple imports on one line while preserving 4-space indented code blocks', () => {
+    const sameLineMultiple = stripEnShell(
+      "---\ntitle: \"T\"\n---\n\nimport A from '@theme/Tabs'; import B from '@theme/Admonition';\n\n# T\n",
+    )
+    expect('errors' in sameLineMultiple).toBe(false)
+    if (!('errors' in sameLineMultiple)) {
+      expect(sameLineMultiple.strippedImports).toEqual([
+        "import A from '@theme/Tabs';",
+        "import B from '@theme/Admonition';",
+      ])
+      expect(sameLineMultiple.body).toBe('# T\n')
+    }
+
+    const es2022AndBlankLine = stripEnShell(
+      "---\ntitle: \"T\"\n---\n\nimport { \"a}b\" as Foo } from '@theme/Tabs';\nimport TabItem\n\nfrom '@theme/TabItem';\n\n# T\n",
+    )
+    expect('errors' in es2022AndBlankLine).toBe(false)
+    if (!('errors' in es2022AndBlankLine)) {
+      expect(es2022AndBlankLine.strippedImports).toEqual([
+        "import { \"a}b\" as Foo } from '@theme/Tabs';",
+        "import TabItem\n\nfrom '@theme/TabItem';",
+      ])
+      expect(es2022AndBlankLine.body).toBe('# T\n')
+    }
+
+    const indentedCodeBlock = stripEnShell("---\ntitle: \"T\"\n---\n\n    import X from '@site/x';\n")
+    expect('errors' in indentedCodeBlock).toBe(false)
+    if (!('errors' in indentedCodeBlock)) {
+      expect(indentedCodeBlock.strippedImports).toEqual([])
+      expect(indentedCodeBlock.body).toBe("    import X from '@site/x';\n")
+    }
+
+    const tabIndentedCodeBlock = stripEnShell("---\ntitle: \"T\"\n---\n\n\timport X from '@site/x';\n")
+    expect('errors' in tabIndentedCodeBlock).toBe(false)
+    if (!('errors' in tabIndentedCodeBlock)) {
+      expect(tabIndentedCodeBlock.strippedImports).toEqual([])
+      expect(tabIndentedCodeBlock.body).toBe("\timport X from '@site/x';\n")
+    }
+  })
 })

@@ -358,11 +358,48 @@ export function extractFirstH1(markdown: string): string | undefined {
   return undefined
 }
 
-function stripInlineUiAndChannel(text: string): string {
-  return text
-    .replace(/<NextChannel\s+action="include">[\s\S]*?<\/NextChannel>/g, '')
-    .replace(/<NextChannel\s+action="exclude">([\s\S]*?)<\/NextChannel>/g, '$1')
-    .replace(/<\/?UI>/g, '')
+function stripInlineUiAndChannelUsingMask(rawLine: string, maskedLine: string): string {
+  const ranges: [number, number][] = []
+
+  for (const match of maskedLine.matchAll(/<NextChannel\s+action="include">[\s\S]*?<\/NextChannel>/g)) {
+    const start = match.index!
+    ranges.push([start, start + match[0].length])
+  }
+
+  for (const match of maskedLine.matchAll(/(<NextChannel\s+action="exclude">)([\s\S]*?)(<\/NextChannel>)/g)) {
+    const start = match.index!
+    const openEnd = start + match[1].length
+    const closeStart = openEnd + match[2].length
+    const closeEnd = start + match[0].length
+    ranges.push([start, openEnd], [closeStart, closeEnd])
+  }
+
+  for (const match of maskedLine.matchAll(/<\/?UI>/g)) {
+    const start = match.index!
+    ranges.push([start, start + match[0].length])
+  }
+
+  if (!ranges.length) return rawLine
+
+  ranges.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+  const merged: [number, number][] = []
+  for (const [start, end] of ranges) {
+    const last = merged.at(-1)
+    if (last && start <= last[1]) {
+      last[1] = Math.max(last[1], end)
+    } else {
+      merged.push([start, end])
+    }
+  }
+
+  let out = ''
+  let cursor = 0
+  for (const [start, end] of merged) {
+    if (cursor < start) out += rawLine.slice(cursor, start)
+    cursor = Math.max(cursor, end)
+  }
+  if (cursor < rawLine.length) out += rawLine.slice(cursor)
+  return out
 }
 
 export function extractFirstParagraph(markdown: string): string | undefined {
@@ -374,8 +411,10 @@ export function extractFirstParagraph(markdown: string): string | undefined {
   let jsxDepth = 0
 
   for (let i = 0; i < rawLines.length; i += 1) {
-    const trimmedMasked = maskedLines[i].trim()
-    const trimmedRaw = rawLines[i].trim()
+    const rawLine = rawLines[i]
+    const maskedLine = maskedLines[i]
+    const trimmedMasked = maskedLine.trim()
+    const trimmedRaw = rawLine.trim()
     if (!trimmedRaw || !trimmedMasked) continue
     if (!sawHeading && /^#\s+\S/.test(trimmedMasked)) {
       sawHeading = true
@@ -386,21 +425,32 @@ export function extractFirstParagraph(markdown: string): string | undefined {
       continue
     }
     if (/^<([A-Z][A-Za-z0-9]*)\b[^>]*\/>$/.test(trimmedMasked)) continue
-    const openMatch = /^<([A-Z][A-Za-z0-9]*)\b[^>]*>$/.exec(trimmedMasked)
-    if (openMatch && openMatch[1] !== 'UI' && !trimmedMasked.includes(`</${openMatch[1]}>`)) {
+    const openMatch = /^<([A-Z][A-Za-z0-9]*)\b([^>]*)>/.exec(trimmedMasked)
+    if (
+      openMatch &&
+      openMatch[1] !== 'UI' &&
+      !openMatch[2].endsWith('/') &&
+      !trimmedMasked.includes(`</${openMatch[1]}>`)
+    ) {
       jsxDepth += 1
       continue
     }
     if (jsxDepth > 0) {
-      if (/^<\/[A-Z][A-Za-z0-9]*>$/.test(trimmedMasked)) jsxDepth -= 1
+      for (const closeMatch of trimmedMasked.matchAll(/<\/([A-Z][A-Za-z0-9]*)\s*>/g)) {
+        const tagName = closeMatch[1]
+        if (tagName === 'UI') continue
+        if (!new RegExp(`<${tagName}\\b`).test(trimmedMasked)) {
+          jsxDepth = Math.max(0, jsxDepth - 1)
+        }
+      }
       continue
     }
-    const strippedMasked = stripInlineUiAndChannel(trimmedMasked).trim()
+    const strippedMasked = stripInlineUiAndChannelUsingMask(maskedLine, maskedLine).trim()
     if (!strippedMasked) continue
     if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(strippedMasked)) continue
     if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(strippedMasked)) continue
 
-    const clean = stripInlineUiAndChannel(trimmedRaw)
+    const clean = stripInlineUiAndChannelUsingMask(rawLine, maskedLine)
       .replace(/\s{2,}/g, ' ')
       .trim()
     if (clean) return clean
@@ -432,13 +482,26 @@ function buildFrontMatterLines(options: {
   const suffix = metadata?.title_suffix ?? 'Cloud'
   const withSuffix = (text: string) => (suffix && !text.endsWith(` | ${suffix}`) ? `${text} | ${suffix}` : text)
   const quoted = (value: string) => JSON.stringify(value.replace(/\r?\n/g, '|'))
+  const isYamlCoercible = (value: string) =>
+    /^(?:true|false|null|~)$/i.test(value) ||
+    /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value) ||
+    /^0x[0-9a-fA-F]+$/i.test(value) ||
+    /^0o[0-7]+$/i.test(value) ||
+    /^0b[01]+$/i.test(value) ||
+    /^[+-]?\.(?:inf|nan)$/i.test(value) ||
+    /^\d{4}-\d{1,2}-\d{1,2}(?:[Tt\s]\d{1,2}:\d{2}:\d{2}(?:\.\d*)?(?:\s*(?:Z|[+-]\d{1,2}(?::?\d{2})?))?)?$/.test(value)
   const scalar = (value: string) =>
     value.length === 0 ||
     /^[\s-?:,[\]{}#&*!|>'"%@`\\]|\s$/.test(value) ||
     /[\r\n\t\x00-\x1f\x7f]/.test(value) ||
-    /(:\s)|(:$)|(\s#)|#$/.test(value)
+    /(:\s)|(:$)|(\s#)|#$/.test(value) ||
+    isYamlCoercible(value)
       ? quoted(value)
       : value
+  const legacyFlagOrScalar = (value: string, allowFalseLiteral = false) =>
+    value === 'FALSE' || value === 'TRUE' || (allowFalseLiteral && value === 'false')
+      ? value
+      : scalar(value)
 
   const slug = metadata?.slug ?? `/${pageId}`
   const sidebarLabel = metadata?.sidebar_label ?? title
@@ -457,17 +520,17 @@ function buildFrontMatterLines(options: {
     `title: ${quoted(withSuffix(title))}`,
     `slug: ${scalar(slug)}`,
     `sidebar_label: ${quoted(sidebarLabel)}`,
-    `beta: ${scalar(beta)}`,
-    `added_since: ${scalar(addedSince)}`,
-    `last_modified: ${scalar(lastModified)}`,
-    `deprecate_since: ${scalar(deprecateSince)}`,
+    `beta: ${legacyFlagOrScalar(beta)}`,
+    `added_since: ${legacyFlagOrScalar(addedSince)}`,
+    `last_modified: ${legacyFlagOrScalar(lastModified)}`,
+    `deprecate_since: ${legacyFlagOrScalar(deprecateSince, deprecate === false)}`,
     `notebook: ${notebook}`,
     `description: ${quoted(descriptionValue)}`,
     `type: ${scalar(metadata?.type ?? 'origin')}`,
     `token: ${scalar(metadata?.token ?? `zh-${pageId}`)}`,
     ...(metadata?.sidebar_position === undefined ? [] : [`sidebar_position: ${metadata.sidebar_position}`]),
     ...(metadata?.custom_edit_url === undefined ? [] : [`custom_edit_url: ${quoted(metadata.custom_edit_url)}`]),
-    ...(finalKeywords?.length ? ['keywords:', ...finalKeywords.map(item => `  - ${scalar(item)}`)] : []),
+    ...(finalKeywords?.length ? ['keywords:', ...finalKeywords.map(item => `  - ${quoted(item)}`)] : []),
     ...(channel === undefined || channel === 'current'
       ? []
       : [`channel: ${channel}`, 'sidebar_custom_props:', `  channel: ${channel}`]),

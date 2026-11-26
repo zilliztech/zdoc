@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -418,5 +419,139 @@ import {
     if (!('errors' in ok)) {
       expect(ok.sourceKeywords).toEqual(['索引', '向量检索'])
     }
+  })
+
+  it('keeps YAML-coercible keywords and string metadata fields as strings while preserving default FALSE flags', async () => {
+    const require = createRequire(import.meta.url)
+    const { validateFrontmatter } = require('../../mdx/validate.cjs') as {
+      validateFrontmatter: (source: string, label?: string) => Record<string, unknown>
+    }
+
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const keywords = ['true', 'false', 'null', '~', '123', '2.5', '0b10', '2026-11-26']
+
+      const fromSource = await assembleLocalizedPage({
+        pageId: 'yaml-coercion',
+        sourceMd: [
+          '---',
+          'title: 标题',
+          'keywords:',
+          ...keywords.map(k => `  - ${JSON.stringify(k)}`),
+          '---',
+          '',
+          '# 标题',
+          '',
+          '正文内容。',
+          '',
+        ].join('\n'),
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'yaml-coercion' } },
+        metadata: {
+          slug: '123',
+          token: '12345',
+          type: 'true',
+          displayed_sidebar: 'null',
+          added_since: '2.5',
+          last_modified: '2026-11-26',
+          deprecate_since: '2026-11-26',
+        },
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+
+      expect('errors' in fromSource).toBe(false)
+      if ('errors' in fromSource) return
+
+      const fm = validateFrontmatter(fromSource.mdx, 'yaml-coercion.mdx')
+      expect(fm.keywords).toEqual(keywords)
+      expect((fm.keywords as unknown[]).every(item => typeof item === 'string')).toBe(true)
+      expect(fm.slug).toBe('123')
+      expect(fm.token).toBe('12345')
+      expect(fm.type).toBe('true')
+      expect(fm.displayed_sidebar).toBe('null')
+      expect(fm.added_since).toBe('2.5')
+      expect(fm.last_modified).toBe('2026-11-26')
+      expect(fm.deprecate_since).toBe('2026-11-26')
+      expect(fm.beta).toBe(false)
+      expect(fromSource.mdx).toContain('beta: FALSE')
+
+      const withBooleanFalseDeprecate = await assembleLocalizedPage({
+        pageId: 'deprecate-false',
+        sourceMd: '# 标题\n\n正文。\n',
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'deprecate-false' } },
+        metadata: { deprecate_since: false },
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in withBooleanFalseDeprecate).toBe(false)
+      if (!('errors' in withBooleanFalseDeprecate)) {
+        expect(withBooleanFalseDeprecate.mdx).toContain('deprecate_since: false')
+        expect(withBooleanFalseDeprecate.mdx).toContain('added_since: FALSE')
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('preserves inline code containing <UI> or <NextChannel> and skips multiline JSX blocks with opening-line text', async () => {
+    expect(extractFirstParagraph('# Title\n\nUse `<UI>foo</UI>` in docs.\n')).toBe(
+      'Use `<UI>foo</UI>` in docs.',
+    )
+    expect(
+      extractFirstParagraph('# Title\n\nUse `<NextChannel action="include">bar</NextChannel>` in docs.\n'),
+    ).toBe('Use `<NextChannel action="include">bar</NextChannel>` in docs.')
+    expect(
+      extractFirstParagraph('# Title\n\nUse `<UI>foo</UI>` and <UI>bar</UI> in docs.\n'),
+    ).toBe('Use `<UI>foo</UI>` and bar in docs.')
+
+    expect(
+      extractFirstParagraph('# Title\n\n<NextChannel action="include">Next line 1\nNext line 2\n</NextChannel>\n\nReal paragraph.\n'),
+    ).toBe('Real paragraph.')
+    expect(
+      extractFirstParagraph('# Title\n\n<NextChannel action="include">Next line 1\nNext line 2</NextChannel>\n\nReal paragraph.\n'),
+    ).toBe('Real paragraph.')
+    expect(
+      extractFirstParagraph('# Title\n\n<Admonition type="info">Tip line 1\nTip line 2\n</Admonition>\n\nReal paragraph.\n'),
+    ).toBe('Real paragraph.')
+
+    const root = tempRoot()
+    try {
+      const assembled = await assembleLocalizedPage({
+        pageId: 'inline-code-desc',
+        sourceMd: '# Title\n\nUse `<UI>foo</UI>` and `<NextChannel action="include">bar</NextChannel>` in docs.\n',
+        groupVariables: {},
+        pageConfig: { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'inline-code-desc' } },
+        preprocessAdapter: createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false }),
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in assembled).toBe(false)
+      if (!('errors' in assembled)) {
+        expect(assembled.description).toBe('Use `<UI>foo</UI>` and `<NextChannel action="include">bar</NextChannel>` in docs.')
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects ES2022 string-literal import names with braces and imports with blank lines before from', () => {
+    const es2022Import = validateSourceShell('# T\n\nimport { "a}b" as Foo } from \'@theme/Tabs\';\n')
+    expect('errors' in es2022Import).toBe(true)
+    if ('errors' in es2022Import) {
+      expect(es2022Import.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(es2022Import.errors[0].line).toBe(3)
+    }
+
+    const blankLineBeforeFrom = validateSourceShell("# T\n\nimport Tabs\n\nfrom '@theme/Tabs';\n")
+    expect('errors' in blankLineBeforeFrom).toBe(true)
+    if ('errors' in blankLineBeforeFrom) {
+      expect(blankLineBeforeFrom.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      expect(blankLineBeforeFrom.errors[0].line).toBe(3)
+    }
+
+    const proseWithBlankLine = validateSourceShell('# T\n\nimport something\n\nfrom another system.\n')
+    expect('errors' in proseWithBlankLine).toBe(false)
   })
 })
