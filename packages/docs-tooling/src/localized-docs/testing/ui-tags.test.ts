@@ -626,7 +626,7 @@ describe('scanUiTags & validateUiTags', () => {
       scanUiTags('# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n'),
     ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 6, column: 7 }] })
 
-    // Unclosed >     ```bash inside <Tabs> masks only its contiguous indented blockquote lines
+    // Unclosed >     ```bash spans its blockquote (matching MDX codeIndented: false) and exits when blockquote depth drops
     expect(
       scanUiTags(
         '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     ```bash\n>     <UI bad />\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n',
@@ -636,6 +636,74 @@ describe('scanUiTags & validateUiTags', () => {
       scanUiTags(
         '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     ```bash\n>     <UI bad />\n> <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n',
       ),
-    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 8, column: 3 }] })
+    ).toEqual({ tags: [] })
+  })
+
+  it('masks unclosed blockquote 4+-space fences after paragraphs, linearizes mismatched JSX stacks and trailing */ comments, and aligns preJsxStack (Iter 11 Findings 1-3 & Reviewer Minor 1-2)', () => {
+    // Fix 1: unclosed >     ```js after > Paragraph line (in <Tabs>, <Admonition>, <details>, nested > >, and top-level)
+    for (const maskedFenceDoc of [
+      '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\n</TabItem>\n</Tabs>\n',
+      '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```js\n> <UI>NotLive</UI>\n\n</TabItem>\n</Tabs>\n',
+      '# T\n\n<Admonition type="note">\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\n</Admonition>\n',
+      '# T\n\n<details><summary>Info</summary>\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\n</details>\n',
+      '# T\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\nReal.\n',
+    ]) {
+      expect(scanUiTags(maskedFenceDoc), maskedFenceDoc).toEqual({ tags: [] })
+    }
+
+    // Nested > > unclosed fence exits back to > level and keeps > <UI>Keep</UI> live
+    expect(
+      scanUiTags(
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> > Paragraph line\n> >     ```js\n> > <UI bad />\n> <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n',
+      ),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 3 }] })
+
+    // Fix 2: O(N) scaling on 20,000-line mismatched closing JSX tags (both inside {...} and top-level JSX)
+    const exprMismatch = `{\n${Array.from({ length: 10000 }, () => '<div>').join('\n')}\n${Array.from({ length: 10000 }, () => '</section>').join('\n')}\n</div>\n}\nReal <UI>Keep</UI>.\n`
+    const jsxMismatch = `${Array.from({ length: 10000 }, () => '<div>').join('\n')}\n${Array.from({ length: 10000 }, () => '</section>').join('\n')}\n</div>\nReal <UI>Keep</UI>.\n`
+    const deepBracesThenBr = `{\n<div>\n${'{'.repeat(4000)}\n<br />\n${'}'.repeat(4000)}\n</div>\n}\nReal <UI>Keep</UI>.\n`
+    for (const [label, doc, expectedLine] of [
+      ['expr-stack-mismatch', exprMismatch, 20004],
+      ['jsx-stack-mismatch', jsxMismatch, 20002],
+      ['deep-braces-jsx-span', deepBracesThenBr, 8],
+    ] as const) {
+      const t0 = performance.now()
+      const res = scanUiTags(doc)
+      const elapsed = performance.now() - t0
+      expect(elapsed, `${label} took ${elapsed.toFixed(2)}ms`).toBeLessThan(150)
+      expect(res, label).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: expectedLine, column: 6 }],
+      })
+    }
+
+    // Fix 3: fake </TagName> inside inline backticks, HTML comments, or fences must not push preJsxStack
+    for (const fakeCloseTail of ['`</span>`', '<!-- </span> -->', '```html\n</span>\n```']) {
+      const doc = `# T\n\n<span>\n\n    Here is \`unclosed and \`{/*\`\n\n\`\`\`js\n*/}\n\`\`\`\n\n<UI bad />\n\n${fakeCloseTail}\n`
+      const errs = validateUiTags(doc)
+      expect(errs, fakeCloseTail).toHaveLength(1)
+      expect(errs[0].code, fakeCloseTail).toBe('UI_TAG_MALFORMED')
+      expect(errs[0].line, fakeCloseTail).toBe(11)
+    }
+
+    // Valid non-KNOWN container <Wrapper> with real </Wrapper> still prevents 4-space comment from breaking fences
+    expect(
+      scanUiTags('# T\n\n<Wrapper>\n\n    {/*\n    ```js\n    */}\n\n</Wrapper>\n\nReal <UI>Keep</UI>.\n'),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 11, column: 6 }] })
+
+    // Fix 4: O(N) scaling on 10,000 unclosed `{ /*` lines preceding a single trailing `*/`
+    const topOpenBlockComments = `${Array.from({ length: 10000 }, () => '{ /*').join('\n')}\n*/\n\nReal <UI>Keep</UI>.\n`
+    const tabsOpenBlockComments = `<Tabs>\n<TabItem value="a" label="A">\n\n${Array.from({ length: 10000 }, () => '    { /*').join('\n')}\n    */\n\n</TabItem>\n</Tabs>\n\nReal <UI>Keep</UI>.\n`
+    for (const [label, doc, expectedLine] of [
+      ['0sp-open-block-comment-eof', topOpenBlockComments, 10003],
+      ['tabs-4sp-open-block-comment-eof', tabsOpenBlockComments, 10009],
+    ] as const) {
+      const t0 = performance.now()
+      const res = scanUiTags(doc)
+      const elapsed = performance.now() - t0
+      expect(elapsed, `${label} took ${elapsed.toFixed(2)}ms`).toBeLessThan(150)
+      expect(res, label).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: expectedLine, column: 6 }],
+      })
+    }
   })
 })

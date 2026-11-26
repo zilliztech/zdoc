@@ -1663,6 +1663,68 @@ import {
         expect(tabsUnclosedBqFenceThenKeep.description).toBe('After.')
         expect(tabsUnclosedBqFenceThenKeep.uiTags.map(t => t.text)).toEqual(['Keep'])
       }
+
+      // Iter 11 Findings 1-3 & Reviewer Minor 1-2 E2E:
+      // 1) Unclosed >     ``` after > Paragraph line masks the whole blockquote (UI, shell imports, Supademo, channel directives)
+      for (const bqParaFence of [
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```js\n> <UI>NotLive</UI>\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```tsx\n> import Foo from "@theme/Foo";\n> <Supademo id="x" />\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        '# T\n\n> Paragraph line\n>     ```js\n> <UI bad />\n\nAfter.\n',
+      ]) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter12-e2e',
+          sourceMd: bqParaFence,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, bqParaFence).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, bqParaFence).toBe('After.')
+          expect(res.uiTags, bqParaFence).toEqual([])
+          expect(res.components, bqParaFence).not.toContain('Supademo')
+          expect(res.mdx, bqParaFence).not.toContain('import Supademo')
+        }
+      }
+
+      expect(
+        validateChannelTags(
+          '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n> Paragraph line\n>     ```py\n> # next-channel-start\n\n</TabItem>\n</Tabs>\n',
+        ).map(e => e.code),
+      ).toEqual(['CHANNEL_CODE_DIRECTIVE_INVALID'])
+
+      // 2) O(N) validateSourceShell / validateChannelTags / extractFirstParagraph on mismatched JSX stacks and trailing */
+      const mismatchDoc = `# T\n\n${Array.from({ length: 5000 }, () => '<div>').join('\n')}\n${Array.from({ length: 5000 }, () => '</section>').join('\n')}\n${Array.from({ length: 5000 }, () => '</div>').join('\n')}\n\nReal paragraph.\n`
+      const trailingCommentTopDoc = `# T\n\n${Array.from({ length: 10000 }, () => '{ /*').join('\n')}\n*/\n\nReal paragraph.\n`
+      const trailingCommentTabsDoc = `# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n${Array.from({ length: 10000 }, () => '    { /*').join('\n')}\n    */\n\n</TabItem>\n</Tabs>\n\nReal paragraph.\n`
+      for (const [label, doc, expectedParagraph] of [
+        ['jsx-mismatch', mismatchDoc, 'Real paragraph.'],
+        ['trailing-block-comment-top', trailingCommentTopDoc, '{ /*'],
+        ['trailing-block-comment-tabs', trailingCommentTabsDoc, 'Real paragraph.'],
+      ] as const) {
+        const t0 = performance.now()
+        expect('errors' in validateSourceShell(doc), label).toBe(false)
+        expect(validateChannelTags(doc), label).toEqual([])
+        expect(extractFirstParagraph(doc), label).toBe(expectedParagraph)
+        expect(performance.now() - t0, label).toBeLessThan(200)
+      }
+
+      // 3) Fake </span> in inline backticks must not cause preJsxStack divergence bypassing UI_TAG_MALFORMED
+      const f3Res = await assembleLocalizedPage({
+        pageId: 'iter12-e2e',
+        sourceMd: '# T\n\n<span>\n\n    Here is `unclosed and `{/*`\n\n```js\n*/}\n```\n\n<UI bad />\n\n`</span>`\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f3Res).toBe(true)
+      if ('errors' in f3Res) {
+        expect(f3Res.errors[0].code).toBe('UI_TAG_MALFORMED')
+        expect(f3Res.errors[0].line).toBe(11)
+      }
     } finally {
       rmSync(root, { recursive: true, force: true })
     }

@@ -9,6 +9,7 @@ import {
   HTML_INLINE_UNWRAP_TAGS,
   HTML_VOID_ELEMENTS,
   computeLineStarts,
+  createJsExpressionScanCache,
   isEscapedAt,
   isKnownHtmlOrJsxTagName,
   maskCodeAndComments,
@@ -418,6 +419,30 @@ function stripRangesPreservingNewlines(text: string, merged: readonly [number, n
 function computeJsxStripRanges(masked: string): [number, number][] {
   const ranges: [number, number][] = []
   const stack: { tagName: string; kind: 'unwrap' | 'container'; start: number }[] = []
+  const tagIndices = new Map<string, number[]>()
+  const jsCache = createJsExpressionScanCache()
+
+  const pushTag = (frame: { tagName: string; kind: 'unwrap' | 'container'; start: number }) => {
+    let indices = tagIndices.get(frame.tagName)
+    if (!indices) {
+      indices = []
+      tagIndices.set(frame.tagName, indices)
+    }
+    indices.push(stack.length)
+    stack.push(frame)
+  }
+
+  const popToMatching = (tagName: string): { tagName: string; kind: 'unwrap' | 'container'; start: number } | null => {
+    const indices = tagIndices.get(tagName)
+    if (!indices || indices.length === 0) return null
+    const matchIdx = indices[indices.length - 1]
+    const frame = stack[matchIdx]
+    while (stack.length > matchIdx) {
+      const popped = stack.pop()!
+      tagIndices.get(popped.tagName)!.pop()
+    }
+    return frame
+  }
 
   let cursor = 0
   while (cursor < masked.length) {
@@ -432,16 +457,7 @@ function computeJsxStripRanges(masked: string): [number, number][] {
     if (masked[lt + 1] === '/') {
       if (masked[lt + 2] === '>') {
         const closeEnd = lt + 3
-        let matchIdx = -1
-        for (let s = stack.length - 1; s >= 0; s -= 1) {
-          if (stack[s].tagName === '') {
-            matchIdx = s
-            break
-          }
-        }
-        if (matchIdx >= 0) {
-          stack.length = matchIdx
-        }
+        popToMatching('')
         ranges.push([lt, closeEnd])
         cursor = closeEnd
         continue
@@ -454,25 +470,14 @@ function computeJsxStripRanges(masked: string): [number, number][] {
       }
       const tagName = closeMatch[1]
       const closeEnd = lt + closeMatch[0].length
+      const frame = popToMatching(tagName)
 
-      let matchIdx = -1
-      for (let s = stack.length - 1; s >= 0; s -= 1) {
-        if (stack[s].tagName === tagName) {
-          matchIdx = s
-          break
-        }
-      }
-
-      if (matchIdx < 0) {
+      if (!frame) {
+        ranges.push([lt, closeEnd])
+      } else if (frame.kind === 'unwrap') {
         ranges.push([lt, closeEnd])
       } else {
-        const frame = stack[matchIdx]
-        stack.length = matchIdx
-        if (frame.kind === 'unwrap') {
-          ranges.push([lt, closeEnd])
-        } else {
-          ranges.push([frame.start, closeEnd])
-        }
+        ranges.push([frame.start, closeEnd])
       }
 
       cursor = closeEnd
@@ -481,7 +486,7 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
     if (masked[lt + 1] === '>') {
       ranges.push([lt, lt + 2])
-      stack.push({ tagName: '', kind: 'unwrap', start: lt })
+      pushTag({ tagName: '', kind: 'unwrap', start: lt })
       cursor = lt + 2
       continue
     }
@@ -491,7 +496,7 @@ function computeJsxStripRanges(masked: string): [number, number][] {
       continue
     }
 
-    const openTag = scanJsxOpenTag(masked, lt)
+    const openTag = scanJsxOpenTag(masked, lt, jsCache)
     if (!openTag) {
       cursor = lt + 1
       continue
@@ -510,9 +515,9 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
     if (isUnwrap) {
       ranges.push([lt, openTag.end])
-      stack.push({ tagName: openTag.tagName, kind: 'unwrap', start: lt })
+      pushTag({ tagName: openTag.tagName, kind: 'unwrap', start: lt })
     } else {
-      stack.push({ tagName: openTag.tagName, kind: 'container', start: lt })
+      pushTag({ tagName: openTag.tagName, kind: 'container', start: lt })
     }
 
     cursor = openTag.end
