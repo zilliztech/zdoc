@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { expect, it } from 'vitest'
+import { isImportableComponent, isRecognizedContentTag } from '../../core/site/components'
 import type { Transform } from '../../core/types'
 import { block, group, fence, execute } from './helpers'
 const body = (result: ReturnType<typeof execute>) => { if ('errors' in result) throw new Error(JSON.stringify(result.errors)); return result.text }
@@ -125,6 +126,32 @@ it('allows registered components, Cloud-only Supademo and authored NextChannel g
   expect('errors' in allowed('<NextChannel action="include">\n\nCloud\n\n</NextChannel>')).toBe(false)
   const fenced = allowed('```js\n<UnknownWidget>\nimport SomeThing from \'pkg\';\n```')
   expect('errors' in fenced).toBe(false)
+})
+
+it('allows globally registered <UI> tags across paragraphs, list items and NextChannel while rejecting unknown tags', () => {
+  expect(isRecognizedContentTag('UI')).toBe(true)
+  expect(isImportableComponent('UI')).toBe(false)
+  expect(isRecognizedContentTag('UnknownTag')).toBe(false)
+
+  const content = [
+    'Click <UI>Create Cluster</UI> to begin.',
+    '',
+    '- Select <UI>Create Cluster</UI> from the menu.',
+    '',
+    '<NextChannel action="include">',
+    '',
+    'Confirm <UI>Create Cluster</UI>.',
+    '',
+    '</NextChannel>',
+  ].join('\n')
+  const result = execute(block('Original'), [{ operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } }], { 'cloud.md': content })
+  if ('errors' in result) throw new Error(JSON.stringify(result.errors))
+  expect(result.text).toContain('Click <UI>Create Cluster</UI> to begin.')
+  expect(result.text).toContain('- Select <UI>Create Cluster</UI> from the menu.')
+  expect(result.text).toContain('Confirm <UI>Create Cluster</UI>.')
+
+  const rejected = execute(block('Original'), [{ operation: 'replace', target: { block: 'example' }, content: { file: 'cloud.md' } }], { 'cloud.md': 'Text\n<UnknownTag>Create Cluster</UnknownTag>' })
+  expect(rejected).toMatchObject({ errors: [{ code: 'TRANSFORM_CONTENT_MARKUP', file: 'pages/example/cloud.md', line: 2 }] })
 })
 
 it('rejects repeated language additions and overlapping line edits but allows disjoint lines', () => {
