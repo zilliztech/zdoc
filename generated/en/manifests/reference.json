@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "4dde7899e5ef4182cb5ece651ffba62cbc0d3305",
+  "sourceCommit": "c7da4d340adf45a26c926976500da6fc1b594ad6",
   "records": [
     {
       "manual": "cli",
@@ -6615,7 +6615,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/list-available-global-cluster-regions-v2.mdx",
-      "sourceHash": "f90aaed93d7f5c91e94ea9ae576812d5bf50fc34807b3b1bc94bced49252d8fd"
+      "sourceHash": "f7bb88ac89bbc8237d905ca03b348f634e447bef6dd3f8cddd7b290fd091bfb1"
     },
     {
       "manual": "rest",
