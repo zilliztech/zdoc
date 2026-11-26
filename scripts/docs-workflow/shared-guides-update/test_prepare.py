@@ -236,11 +236,15 @@ class PreparationTest(unittest.TestCase):
                         edge('assets/image.png', 'one', 'two', 'early')]:
             with self.subTest(suspect=suspect), self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_EDGE_UNPROVEN'):
                 verify([*history, suspect])
+        # Non-consumable repo metadata on a stopped commit must not spuriously block an independent batch.
+        for benign in ('scripts/config.json', 'site/en/menuStructure/en.json', 'site/zh-CN/doc.md', '.github/workflows/ci.yml'):
+            with self.subTest(benign=benign):
+                self.assertEqual(len(verify([*history, edge(benign, 'one', 'two', 'early')])), 9)
 
     def test_batch_adoption_boundary_checks_decoded_cross_component_anchor(self):
-        refs = dict(producer=dict(observations=[{}, {}, dict(manuals=[dict(manual='guides', ref='link')])],
+        refs = dict(producer=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[dict(manual='guides', ref='link')])],
                                   promotionAnchors=[]),
-                    target=dict(observations=[{}, {}, dict(manuals=[])], promotionAnchors=[
+                    target=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[])], promotionAnchors=[
                         dict(kind='renamed', status='confirmed', manual='guides', after=dict(anchor='new-heading'))]),
                     link=dict(references=[]))
         headers = {key: dict(projectionRef=key) for key in ('producer', 'target')}
@@ -254,6 +258,28 @@ class PreparationTest(unittest.TestCase):
         refs['link']['references'] = [dict(url='./target#%ZZ')]
         with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ROUTE_UNPROVEN'):
             p._batch_verify_adoption_boundary(reader, headers, {'target'})
+
+    def test_batch_adoption_boundary_guards_unrendered_collateral_pages(self):
+        refs = dict(
+            broken=dict(observations=[{}, {}, dict(outputStatus='error', manuals=[])], promotionAnchors=[]),
+            clean=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[dict(manual='guides', ref='clean_link')])],
+                       promotionAnchors=[dict(kind='unchanged', status='confirmed', manual='guides')]),
+            clean_link=dict(references=[]),
+        )
+        headers = {key: dict(projectionRef=key) for key in ('broken', 'clean')}
+        reader = Mock()
+        reader.blob.side_effect = lambda ref, parse: refs[ref]
+        # Clean member with 100% confirmed unchanged headings and no #anchor links to broken passes.
+        p._batch_verify_adoption_boundary(reader, headers, {'clean'})
+        # Member linking with #anchor to the unrendered collateral page must fail closed.
+        refs['clean_link']['references'] = [dict(url='./broken#some-heading')]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ADOPTION_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'clean'})
+        refs['clean_link']['references'] = []
+        # Member with any renamed/non-unchanged heading must fail closed when a collateral target is unrendered.
+        refs['clean']['promotionAnchors'] = [dict(kind='renamed', status='confirmed', manual='guides', after=dict(anchor='new'))]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ADOPTION_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'clean'})
 
     def test_observed_batch_material_rejects_replay_detail_field(self):
         reader = Mock()

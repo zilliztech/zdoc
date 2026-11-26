@@ -1202,7 +1202,24 @@ def _batch_verify_equivalent_intervals(reader, config, targets, endpoints, histo
         verified.add(native['commit'])
 
 
-def _batch_material(reader, retained, base, *, collateral_history=None, source_traces=None, historical_rules=None):
+_POST_PREPROCESS_RENDER_ERRORS = frozenset({
+    'PRODUCT_NAME_FOUND',
+    'ANCHOR_NOT_FOUND',
+    'LINK_UNRESOLVED',
+    'LINK_UNKNOWN_FORM',
+    'TABS_REQUIRED_MISSING',
+    'TABS_UNKNOWN_LANGUAGE',
+    'IMAGE_FETCH_FAILED',
+})
+_COLLATERAL_RENDER_ERRORS = _POST_PREPROCESS_RENDER_ERRORS | frozenset({'TRANSFORM_TARGET_NOT_FOUND'})
+
+
+def _batch_non_consumable_repo_path(path):
+    return (path.startswith(('.github/', '.skills/', 'scripts/', 'site/zh-CN/', 'site/en/menuStructure/'))
+            or path in ('AGENTS.md', 'CONTRIBUTING.md', 'README.md'))
+
+
+def _batch_material(reader, retained, base, *, collateral_history=None, collateral_errors=None, source_traces=None, historical_rules=None):
     batch_exact(retained, 'pageId requestSha256 requestBytes responseSha256 responseBytes materialRef materialDigest')
     header = reader.blob(retained['materialRef'], parse=True)
     fields = 'kind base pageId configRef lockRef targets current oldNext rawMaterialRefs inventoryRefs historyRef renderedManualRefs imagesRef projectionRef diagnosticsRef'
@@ -1335,7 +1352,7 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         # Only identity/extent is reused after this validation. Drop large text.
         value['markdown'], value['output'] = '', ''
 
-    def images(ref, historical_commit=None, git_lookup=None):
+    def images(ref, historical_commit=None, git_lookup=None, allow_missing_external=False):
         value = reader.blob(ref, parse=True)
         require(type(value) is list and len(value) == 3, 'BATCH_IMAGE_INVALID')
         for index, group in enumerate(value):
@@ -1345,8 +1362,11 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
             for image in group['images']:
                 batch_exact(image, 'original origin observed emitted uses ref')
                 key = batch_canonical([image['original'], image['origin']])
-                require(key not in seen_images and image['ref'] and image['observed'], 'BATCH_IMAGE_INVALID')
+                require(key not in seen_images, 'BATCH_IMAGE_INVALID')
                 seen_images.add(key)
+                if allow_missing_external and image['origin'].get('kind') == 'external' and image['ref'] is None and image['observed'] is None:
+                    continue
+                require(image['ref'] and image['observed'], 'BATCH_IMAGE_INVALID')
                 require(image['ref']['sha256'] == image['observed']['sha256'] == image['emitted']['sha256']
                         and image['ref']['bytes'] == image['observed']['bytes'], 'BATCH_IMAGE_INVALID')
                 if historical_commit is not None:
@@ -1360,8 +1380,15 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                         require(origin['kind'] == 'external' and origin['policy'] == 'paired-read', 'BATCH_IMAGE_INVALID')
                 reader.blob(image['ref'])
 
+    page_prefix = f"shared-docs/guides/pages/{header['pageId']}/"
+    local_transform_uses_fragment = any(
+        b'{{fragments/' in reader.blob(file['ref'], raw_bytes=True)
+        for file in config['files']
+        if file['path'].startswith(page_prefix) and not file['path'].endswith(('/page.yaml', '/lock.yaml'))
+    )
     commits = [header['current'], header['oldNext'], base['pins']['source']]
     trees = []
+    raw_by_commit = {}
     for index, role in enumerate(('current', 'oldNext', 'target')):
         edge, inv = header['rawMaterialRefs'][index], header['inventoryRefs'][index]
         batch_exact(edge, 'role commit ref')
@@ -1370,15 +1397,20 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         tree, listing = raw_tree(edge['ref'], commits[index]), inventory(inv['ref'], commits[index])
         require(all(listing(f['path']) == f['oid'] for f in tree['entries']), 'BATCH_SOURCE_INVALID')
         consumed.update(f['path'] for f in tree['entries'])
+        raw_by_commit[commits[index]] = [(f['path'], f['oid']) for f in tree['entries']]
         trees.append(tree)
     batch_sorted(history['interval'], lambda o: o['commit'])
     _batch_verify_equivalent_intervals(reader, config, header['targets'], commits, history, historical_rules[1])
+    interval_raws = []
     for observation in history['interval']:
         fields = 'commit sourceFile rawRef inventoryRef manuals imagesRef diagnosticsRef dependencies outputStatus imageStatus'
         if 'equivalentTo' in observation:
             fields += ' equivalentTo'
         batch_exact(observation, fields + (' historicalView' if 'historicalView' in observation else ''))
         raw = raw_tree(observation['rawRef'], observation['commit'])
+        raw_by_commit[observation['commit']] = [(f['path'], f['oid']) for f in raw['entries']]
+        interval_raws.append((observation, raw))
+    for observation, raw in interval_raws:
         listing = inventory(observation['inventoryRef'], observation['commit'])
         if git_inventory:
             require(all(listing(f['path']) == f['oid'] for f in raw['entries']), 'BATCH_SOURCE_INVALID')
@@ -1392,22 +1424,38 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                     'BATCH_HISTORICAL_VIEW_BINDING')
         diagnostics = reader.object(observation['diagnosticsRef'], 'errors rawErrors reasons')
         errors = diagnostics['errors'] + diagnostics['rawErrors']
-        deferred = (collateral_history is not None and observation['sourceFile'] == config['sourceFile']
-                    and any(entry['path'] == config['sourceFile'] for entry in raw['entries'])
-                    and observation['outputStatus'] == 'error' and observation['imageStatus'] == 'unavailable'
-                    and observation['dependencies'] == [] and not diagnostics['reasons'] and errors
-                    and all(e['code'] in ('TRANSFORM_TARGET_NOT_FOUND', 'PRODUCT_NAME_FOUND') for e in errors))
-        if deferred:
-            require([{k: row[k] for k in ('manual', 'path')} for row in observation['manuals']] == header['targets'],
-                    'BATCH_COLLATERAL_HISTORY_INVALID')
-            for row in observation['manuals']:
-                batch_exact(row, 'manual path ref')
-                leaf = reader.object(row['ref'], 'manual path markdown output headings references')
-                require(leaf == dict(manual=row['manual'], path=row['path'], markdown='', output=None,
-                                     headings=[], references=[]), 'BATCH_COLLATERAL_HISTORY_INVALID')
-            require(reader.blob(observation['imagesRef'], parse=True) ==
-                    [dict(role=role, images=[]) for role in ('current', 'oldNext', 'target')], 'BATCH_COLLATERAL_HISTORY_INVALID')
-            collateral_history.add(observation['commit'])
+        has_image_fetch_failed = any(e['code'] == 'IMAGE_FETCH_FAILED' for e in diagnostics['errors'])
+        collateral_interval = (collateral_history is not None and observation['sourceFile'] == config['sourceFile']
+                               and any(entry['path'] == config['sourceFile'] for entry in raw['entries'])
+                               and not diagnostics['rawErrors'] and not diagnostics['reasons'] and diagnostics['errors']
+                               and all(e['code'] in _COLLATERAL_RENDER_ERRORS for e in diagnostics['errors'])
+                               and all(d['state'] == 'resolved' for d in observation['dependencies'])
+                               and (observation['outputStatus'] == 'error' and observation['imageStatus'] == 'unavailable'
+                                    or has_image_fetch_failed and observation['outputStatus'] == 'observed' and observation['imageStatus'] == 'unavailable'))
+        if collateral_interval:
+            if observation['outputStatus'] == 'error':
+                require([{k: row[k] for k in ('manual', 'path')} for row in observation['manuals']] == header['targets'],
+                        'BATCH_COLLATERAL_HISTORY_INVALID')
+                for row in observation['manuals']:
+                    batch_exact(row, 'manual path ref')
+                    leaf = reader.object(row['ref'], 'manual path markdown output headings references')
+                    require(leaf == dict(manual=row['manual'], path=row['path'], markdown='', output=None,
+                                         headings=[], references=[]), 'BATCH_COLLATERAL_HISTORY_INVALID')
+            else:
+                for output in observation['manuals']:
+                    batch_exact(output, 'manual path ref')
+                    manual(output['ref'], output)
+            if not has_image_fetch_failed:
+                require(reader.blob(observation['imagesRef'], parse=True) ==
+                        [dict(role=role, images=[]) for role in ('current', 'oldNext', 'target')], 'BATCH_COLLATERAL_HISTORY_INVALID')
+            first_parent = (parents.get(observation['commit']) or [None])[0]
+            same_raw_as_first_parent = (not local_transform_uses_fragment and first_parent is not None
+                                        and first_parent in raw_by_commit
+                                        and raw_by_commit[first_parent] == raw_by_commit[observation['commit']])
+            if same_raw_as_first_parent and collateral_errors is not None:
+                collateral_errors.extend(e['code'] for e in diagnostics['errors'])
+            else:
+                collateral_history.add(observation['commit'])
         else:
             require(observation['outputStatus'] == observation['imageStatus'] == 'observed'
                     and not errors and not diagnostics['reasons']
@@ -1416,7 +1464,8 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                 batch_exact(output, 'manual path ref')
                 manual(output['ref'], output, _EQUIVALENCE_ERROR if 'equivalentTo' in observation else
                        'BATCH_HISTORICAL_VIEW_BINDING' if historical_view else None)
-        images(observation['imagesRef'], observation['commit'] if historical_view else None, listing)
+        images(observation['imagesRef'], observation['commit'] if historical_view else None, listing,
+               allow_missing_external=collateral_interval and has_image_fetch_failed)
     if git_inventory:
         git_inventory.finish()
         require([o['commit'] for o in history['interval']] == _batch_render_commits(parents, *commits, legacy=not exact_history),
@@ -1424,20 +1473,44 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
         paths = sorted(consumed, key=lambda path: path.encode('utf-8'))
         for lookup, absent in inventories.values():
             require(absent == [path for path in paths if lookup(path) is None], 'BATCH_SOURCE_ABSENCE_INVALID')
-    for output in header['renderedManualRefs']:
-        batch_exact(output, 'role manual path ref')
-        manual(output['ref'], output)
-    images(header['imagesRef'])
+    diagnostics = reader.object(header['diagnosticsRef'], 'errors rawErrors reasons')
     projection = reader.object(header['projectionRef'], 'pageId observations promotionAnchors sourceAnchors')
     require(projection['pageId'] == header['pageId'] and len(projection['observations']) == 3, 'BATCH_PROJECTION_INVALID')
+    collateral_endpoint = (collateral_errors is not None and not local_transform_uses_fragment
+                           and not diagnostics['rawErrors'] and not diagnostics['reasons'] and bool(diagnostics['errors'])
+                           and all(e['code'] in _COLLATERAL_RENDER_ERRORS for e in diagnostics['errors']))
+    endpoint_has_image_fetch_failed = collateral_endpoint and any(e['code'] == 'IMAGE_FETCH_FAILED' for e in diagnostics['errors'])
+    if collateral_endpoint:
+        collateral_errors.extend(e['code'] for e in diagnostics['errors'])
+    else:
+        require(diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
+    role_status = {}
     for index, observation in enumerate(projection['observations']):
         batch_exact(observation, 'role commit sourceFile consumed manuals dependencies outputStatus imageStatus hasChannelRules')
-        require(observation['role'] == ('current', 'oldNext', 'target')[index] and observation['commit'] == commits[index]
-                and observation['consumed'] == trees[index]['entries'] and observation['outputStatus'] == observation['imageStatus'] == 'observed', 'BATCH_PROJECTION_INVALID')
+        role_name = ('current', 'oldNext', 'target')[index]
+        require(observation['role'] == role_name and observation['commit'] == commits[index]
+                and observation['consumed'] == trees[index]['entries'], 'BATCH_PROJECTION_INVALID')
+        if collateral_endpoint:
+            require(any(entry['path'] == config['sourceFile'] for entry in trees[index]['entries'])
+                    and all(d['state'] == 'resolved' for d in observation['dependencies'])
+                    and (observation['outputStatus'] == observation['imageStatus'] == 'observed'
+                         or observation['outputStatus'] == 'error' and observation['imageStatus'] == 'unavailable'
+                         or endpoint_has_image_fetch_failed and observation['outputStatus'] == 'observed' and observation['imageStatus'] == 'unavailable'),
+                    'BATCH_PROJECTION_INVALID')
+        else:
+            require(observation['outputStatus'] == observation['imageStatus'] == 'observed', 'BATCH_PROJECTION_INVALID')
+        role_status[role_name] = observation['outputStatus']
         for output in observation['manuals']:
             require(any(r['role'] == observation['role'] and all(r[k] == output[k] for k in ('manual', 'path', 'ref')) for r in header['renderedManualRefs']), 'BATCH_PROJECTION_INVALID')
-    diagnostics = reader.object(header['diagnosticsRef'], 'errors rawErrors reasons')
-    require(diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
+    for output in header['renderedManualRefs']:
+        batch_exact(output, 'role manual path ref')
+        if collateral_endpoint and role_status.get(output['role']) == 'error':
+            leaf = reader.object(output['ref'], 'manual path markdown output headings references')
+            require(leaf == dict(manual=output['manual'], path=output['path'], markdown='', output=None,
+                                 headings=[], references=[]), 'BATCH_MANUAL_INVALID')
+        else:
+            manual(output['ref'], output)
+    images(header['imagesRef'], allow_missing_external=endpoint_has_image_fetch_failed)
     if 'detailRef' in header:
         detail = reader.object(header['detailRef'], 'kind pageId configPaths targets observations')
         require(detail['kind'] == 'guides-batch-material-detail-v1' and detail['pageId'] == header['pageId']
@@ -1461,7 +1534,12 @@ def _batch_material(reader, retained, base, *, collateral_history=None, source_t
                         and isinstance(block['summary'], str) and isinstance(block['languages'], list)
                         and all(v is None or isinstance(v, str) for v in block['languages']), 'BATCH_MATERIAL_DETAIL_INVALID')
             endpoint_diagnostics = reader.object(endpoint['diagnosticsRef'], 'errors rawErrors reasons')
-            require(endpoint_diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
+            if collateral_endpoint:
+                require(not endpoint_diagnostics['rawErrors'] and not endpoint_diagnostics['reasons']
+                        and all(e['code'] in _COLLATERAL_RENDER_ERRORS for e in endpoint_diagnostics['errors']),
+                        'BATCH_MATERIAL_DIAGNOSTICS')
+            else:
+                require(endpoint_diagnostics == {'errors': [], 'rawErrors': [], 'reasons': []}, 'BATCH_MATERIAL_DIAGNOSTICS')
     return header, [p['pageId'] for p in config['registry']]
 
 
@@ -1926,6 +2004,7 @@ def _batch_isolated_obligations(ledger, pages, traces, partial, members, selecte
     """Independently verify all source edges when accepting collateral failures.
     Every document edge incident on a partial trace is a possible dependency."""
     roots = {page['sourceFile'] for page in pages}
+    source_by_page = {page['pageId']: page['sourceFile'] for page in pages if 'pageId' in page}
     expected, connected = {}, {}
     member_seeds = set()
     reason = 'BATCH_COLLATERAL_EDGE_UNPROVEN'
@@ -1936,7 +2015,7 @@ def _batch_isolated_obligations(ledger, pages, traces, partial, members, selecte
     for index, edge in enumerate(ledger):
         paths = (edge['oldPath'], edge['newPath'])
         changed = [p for p in paths if p is not None]
-        if any(not document_path(p) for p in changed):
+        if any(not document_path(p) and not _batch_non_consumable_repo_path(p) for p in changed):
             require(all(not partial.get(page, set()).intersection((edge['parent'], edge['commit']))
                         for page in edge['rangeIds']), reason)
         if not any(document_path(p) for p in changed):
@@ -1951,9 +2030,13 @@ def _batch_isolated_obligations(ledger, pages, traces, partial, members, selecte
             require((not before or before == edge['oldOid']) and (not after or after == edge['newOid']), reason)
             consumed = sorted({p for p, oid_at_path in zip(paths, (before, after)) if oid_at_path})
             stopped = partial.get(page, ())
+            page_source = source_by_page.get(page)
+            may_consume_stopped = (page_source is None or any(
+                p is not None and (p == page_source or p.startswith('site/en/fragments/')) for p in paths
+            ))
             if edge['associationResult'] == 'copied':
                 status, why = 'irrelevant', 'EXACT_UPSTREAM_COPY'
-            elif parent in stopped or commit in stopped:
+            elif may_consume_stopped and (parent in stopped or commit in stopped):
                 status, why = 'held', 'INCOMPLETE_HISTORICAL_READS'
             elif consumed:
                 status, why = 'consumed', 'ACTUAL_CONSUMED_PATH'
@@ -1976,7 +2059,18 @@ def _batch_isolated_obligations(ledger, pages, traces, partial, members, selecte
 def _batch_verify_adoption_boundary(reader, headers, members):
     """Recheck possible cross-component anchor adoption from all target outputs."""
     projections = {page: reader.blob(header['projectionRef'], parse=True) for page, header in headers.items()}
+    unrendered_collateral = {
+        page for page, projection in projections.items()
+        if page not in members and projection['observations'][2].get('outputStatus', 'observed') != 'observed'
+    }
+    if unrendered_collateral:
+        for member in members:
+            for relation in projections[member]['promotionAnchors']:
+                require(relation['status'] == 'confirmed' and relation['kind'] == 'unchanged',
+                        'BATCH_COLLATERAL_ADOPTION_UNPROVEN')
     for source, projection in projections.items():
+        if source in unrendered_collateral:
+            continue
         for manual in projection['observations'][2]['manuals']:
             output = reader.blob(manual['ref'], parse=True)
             for reference in output['references']:
@@ -1992,6 +2086,8 @@ def _batch_verify_adoption_boundary(reader, headers, members):
                     raise Hold('BATCH_COLLATERAL_ROUTE_UNPROVEN')
                 if route not in projections or (source in members) == (route in members):
                     continue
+                if route in unrendered_collateral:
+                    raise Hold('BATCH_COLLATERAL_ADOPTION_UNPROVEN')
                 for relation in projections[route]['promotionAnchors']:
                     if relation['manual'] == manual['manual']:
                         require(relation['status'] == 'confirmed' and
@@ -2033,16 +2129,20 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
     batch_sorted(materials['pages'], lambda p: p['pageId'])
     all_ids = [p['pageId'] for p in materials['pages']]
     require(all_ids == sorted([p['pageId'] for p in report['pages']], key=lambda s: s.encode()), 'BATCH_REGISTRY_INVALID')
-    headers, partial, traces = {}, {}, {}
+    headers, partial, collateral_pages, traces = {}, {}, set(), {}
     historical_rules = _batch_load_historical_rules()
     for retained in materials['pages']:
         page_id = retained['pageId']
         deferred = set() if page_id not in members else None
+        collateral = [] if page_id not in members else None
         traces[page_id] = {}
         header, registry = _batch_material(reader, retained, base, collateral_history=deferred,
-                                           source_traces=traces[page_id], historical_rules=historical_rules)
+                                           collateral_errors=collateral, source_traces=traces[page_id],
+                                           historical_rules=historical_rules)
         if deferred:
             partial[page_id] = deferred
+        if collateral:
+            collateral_pages.add(page_id)
         require(registry == all_ids, 'BATCH_REGISTRY_INVALID')
         headers[retained['pageId']] = header
     closure = reader.object(control['closureRef'], 'base discoveryDigest allMaterialDigest memberIds consideredPageIds componentIds seedKeys intervalRefs obligationRefs adoptionRef namespaceRef dispositionsRef')
@@ -2053,7 +2153,7 @@ def verify_batch_collection(root_fd, blobs_fd, control, retained_reader=None):
         require(interval['base'] == base and interval['pageId'] in members, 'BATCH_CLOSURE_INVALID')
         require(interval['historyRef'] == headers[interval['pageId']]['historyRef'], 'BATCH_CLOSURE_INVALID')
     expected_edges = (_batch_isolated_obligations(ledger, report['pages'], traces, partial, set(members), set(closure['seedKeys']))
-                      if partial else None)
+                      if (partial or collateral_pages) else None)
     if len(members) < len(headers):
         _batch_verify_adoption_boundary(reader, headers, set(members))
     for ref in closure['obligationRefs']:

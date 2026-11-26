@@ -841,6 +841,13 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   captures.set(result, { lookup, access, rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
+/** Fast per-window check for intermediate read-only content workers inside one collection; authoritative boundaries still run full verifyTrustedToolset. */
+export async function verifyTrustedToolsetWindow(value: TrustedToolsetCapture) {
+  const state = captured(value), root = await lstat(state.options.root)
+  if (!root.isDirectory() || root.isSymbolicLink() || root.ino !== state.rootIdentity.ino || root.dev !== state.rootIdentity.dev) throw new Error('Trusted root identity changed')
+  await recheckAccess(state.access)
+  await verifyRuntimeBytes(state)
+}
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
 export async function verifyTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value), root = await lstat(state.options.root)
@@ -1181,9 +1188,15 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
       return child as BatchMeasuredChild
     }
   }
+  let authenticatedContentWindows = 0
   async function startAuthenticatedContent<T>(signal: AbortSignal | undefined, start: (elapsed: number) => T) {
     const before = performance.now()
-    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
+    await owned.verify()
+    if (authenticatedContentWindows === 0) await verifyTrustedToolset(value)
+    else await verifyTrustedToolsetWindow(value)
+    await verifyLauncher()
+    signal?.throwIfAborted()
+    authenticatedContentWindows++
     return start(Math.ceil(performance.now() - before))
   }
   async function runBatchContent(ticket: BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {

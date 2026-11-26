@@ -186,11 +186,28 @@ const blobOid = (b: Uint8Array) => createHash('sha1').update(`blob ${b.length}\0
 import {createHash} from 'node:crypto'
 type Role = 'current' | 'oldNext' | 'target'
 interface CompactManual {manual: string; path: string; ref: BatchBlobRef; headings: readonly HeadingObservation[]; references: readonly ReferenceObservation[]}
+const POST_PREPROCESS_RENDER_ERRORS = new Set([
+  'PRODUCT_NAME_FOUND',
+  'ANCHOR_NOT_FOUND',
+  'LINK_UNRESOLVED',
+  'LINK_UNKNOWN_FORM',
+  'TABS_REQUIRED_MISSING',
+  'TABS_UNKNOWN_LANGUAGE',
+  'IMAGE_FETCH_FAILED',
+])
+const COLLATERAL_RENDER_ERRORS = new Set([...POST_PREPROCESS_RENDER_ERRORS, 'TRANSFORM_TARGET_NOT_FOUND'])
+const nonConsumableRepoPath = (path: string) =>
+  path.startsWith('.github/') || path.startsWith('.skills/') || path.startsWith('scripts/') ||
+  path.startsWith('site/zh-CN/') || path.startsWith('site/en/menuStructure/') ||
+  ['AGENTS.md', 'CONTRIBUTING.md', 'README.md'].includes(path)
+
 export interface BatchCompactPage {
   header: BatchPageMaterialHeader; materialDigest: string; sourceFile: string; consumedPaths: string[];
   rawTrees: {commit: string; entries: {path: string; sha256: string; bytes: number}[]}[];
   observations: {role: Role; commit: string; manuals: CompactManual[]}[];
   ownershipReasons: string[]; promotionAnchors: AnchorRelation[]; history: {oid: string; parents: string[]}[]; reasons: string[];
+  collateralReasons?: string[];
+  targetRendered?: boolean;
   existing: {manual: string; path: string; route: string | null; ref: BatchBlobRef; headings: string[]; references: ReferenceObservation[]}[];
   sourceSnapshots: {commit: string; consumed: {path: string; oid: string; ref: BatchBlobRef}[]}[];
   deferredHistory: {commit: string; reasons: string[]}[]
@@ -211,12 +228,16 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
   const bySha = new Map(wire.blobs.map(b => [b.ref.sha256, b]))
   const read = (ref: BatchBlobRef) => {const b = bySha.get(ref.sha256); if (!b) invalid(); return decodeBatchBlob(ref, b.base64)}
   const body = <T>(ref: BatchBlobRef, schema: import('zod').z.ZodType<T>) => parseBatchCanonical(read(ref), schema)
-  const reasons = new Set<string>(), ownershipReasons = new Set<string>(), add = (v: string) => reasons.add(v)
+  const reasons = new Set<string>(), collateralReasons = new Set<string>(), ownershipReasons = new Set<string>(), add = (v: string) => reasons.add(v)
   const configBytes = new Map(config.files.map(file => {
     const bytes = read(file.ref)
     if (blobOid(bytes) !== file.oid) throw Error('BATCH_CONFIG_OID_INVALID')
     return [file.path, bytes]
   }))
+  const pagePrefix = `shared-docs/guides/pages/${header.pageId}/`
+  const localTransformUsesFragment = [...configBytes.entries()].some(([path, bytes]) =>
+    path.startsWith(pagePrefix) && !path.endsWith('/page.yaml') && !path.endsWith('/lock.yaml') &&
+    utf8(bytes).includes('{{fragments/'))
   const sourceYaml = configBytes.get('shared-docs/guides/source.yaml')
   if (!sourceYaml) invalid()
   validateGuidesSource(utf8(sourceYaml))
@@ -234,8 +255,24 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
   if ('errors' in lock || lock.lock.current !== header.current || lock.lock.next !== header.oldNext ||
       !same(header.lockRef, config.files.find(f => f.path === `shared-docs/guides/pages/${header.pageId}/lock.yaml`)?.ref)) invalid()
   const diagnostics = body(header.diagnosticsRef, BatchDiagnosticsSchema)
-  for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
-  for (const reason of diagnostics.reasons) add(reason)
+  const endpointCollateralRender = !localTransformUsesFragment && !diagnostics.rawErrors.length && !diagnostics.reasons.length &&
+    diagnostics.errors.length > 0 && diagnostics.errors.every(error => COLLATERAL_RENDER_ERRORS.has(error.code)) &&
+    projection.observations.every((o, i) => trees[i].entries.some(entry => entry.path === config.sourceFile) &&
+      o.dependencies.every(d => d.state === 'resolved') &&
+      (o.outputStatus === 'observed' || o.outputStatus === 'error' && o.imageStatus === 'unavailable' &&
+        o.manuals.length === header.targets.length && header.targets.every(target => {
+          const m = o.manuals.find(entry => entry.manual === target.manual && entry.path === target.path)
+          if (!m) return false
+          const leaf = body(m.ref, BatchManualSchema)
+          return leaf.output === null && leaf.markdown === '' && !leaf.headings.length && !leaf.references.length
+        })))
+  const endpointHasImageFetchFailed = endpointCollateralRender && diagnostics.errors.some(error => error.code === 'IMAGE_FETCH_FAILED')
+  if (endpointCollateralRender) {
+    for (const error of diagnostics.errors) collateralReasons.add(error.code)
+  } else {
+    for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
+    for (const reason of diagnostics.reasons) add(reason)
+  }
   const history = historyBody.commits, commits = new Map(history.map(c => [c.oid, c.parents]))
   const ancestor = (from: string, to: string) => {
     const pending = [to], seen = new Set<string>()
@@ -249,7 +286,10 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
   }
   if (!ancestor(header.current, header.oldNext) || !ancestor(header.oldNext, header.base.pins.source)) add('SOURCE_HISTORY_UNPROVEN')
   const observations = projection.observations.map((o, i) => {
-    if (o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved')) add('CONTENT_OBSERVATION_INCOMPLETE')
+    if (o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved')) {
+      if (endpointCollateralRender && o.dependencies.every(d => d.state === 'resolved')) collateralReasons.add('CONTENT_OBSERVATION_INCOMPLETE')
+      else add('CONTENT_OBSERVATION_INCOMPLETE')
+    }
     if (o.manuals.length !== header.targets.length || header.targets.some(t => o.manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) add('MANUAL_COVERAGE_INCOMPLETE')
     const union = sorted(trees.flatMap(tree => tree.entries.map(e => e.path)))
     for (const path of union) if (!inventories[i].oidOf(path) && !inventories[i].absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
@@ -260,7 +300,10 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
     }
     return {role: o.role, commit: o.commit, manuals: o.manuals.map(m => {
       const material = body(m.ref, BatchManualSchema)
-      if (material.output === null) add('MANUAL_RENDER_UNAVAILABLE')
+      if (material.output === null) {
+        if (endpointCollateralRender && o.outputStatus === 'error') collateralReasons.add('MANUAL_RENDER_UNAVAILABLE')
+        else add('MANUAL_RENDER_UNAVAILABLE')
+      }
       if (material.output !== null && !new RegExp('^slug: [\"\']?/' + header.pageId + '[\"\']?$','m').test(material.output)) add('MANUAL_ROUTE_UNAVAILABLE')
       return {manual: m.manual, path: m.path, ref: m.ref, headings: material.headings, references: material.references}
     })}
@@ -271,7 +314,10 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
     return after ? analyzeAnchorRelations({axis: from === 0 ? 'current-to-candidate-next' : 'old-next-to-target', before: manualObservation(before), after: manualObservation(after)}) : []
   })
   if (!same(recomputeAnchors(0), projection.promotionAnchors) || !same(recomputeAnchors(1), projection.sourceAnchors)) add('ADOPTION_PROJECTION_INVALID')
-  for (const group of checked.images) for (const image of group.images) if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
+  for (const group of checked.images) for (const image of group.images) {
+    if (endpointHasImageFetchFailed && image.origin.kind === 'external' && !image.ref && !image.observed) continue
+    if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
+  }
   const active = validateActiveState(parseStrictJson(read(namespace.activeRef)))
   // Original producer snapshots retain ordinary JSON numbers and formatting.
   // Their raw digest/OID is checked separately from new canonical batch records.
@@ -319,31 +365,52 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
   const rawTrees = trees.map((tree, i) => ({commit: tree.commit, entries: tree.entries.filter(e => e.path === config.sourceFile ||
     projection.observations[i].dependencies.some(d => d.kind === 'fragment' && d.identity === e.path)).map(e => ({path: e.path, sha256: e.ref.sha256, bytes: e.ref.bytes}))}))
   const sourceSnapshots = [...new Map(trees.map(t => [t.commit, {commit: t.commit, consumed: t.entries}])).values()]
+  const rawByCommit = new Map<string, readonly {path: string; oid: string}[]>(trees.map(t => [t.commit, t.entries.map(e => ({path: e.path, oid: e.oid}))]))
+  const intervalEntries = historyBody.interval.map(o => {
+    const tree = body(o.rawRef, BatchRawTreeSchema)
+    rawByCommit.set(o.commit, tree.entries.map(e => ({path: e.path, oid: e.oid})))
+    return {o, tree}
+  })
   const allTrees = [...trees], allInventories = [...inventories]
   const deferredHistory: BatchCompactPage['deferredHistory'] = []
-  for (const o of historyBody.interval) {
-    const tree = body(o.rawRef, BatchRawTreeSchema), inventory = inventoriesByRef.get(o.inventoryRef.sha256)!, diagnostics = body(o.diagnosticsRef, BatchDiagnosticsSchema)
+  for (const {o, tree} of intervalEntries) {
+    const inventory = inventoriesByRef.get(o.inventoryRef.sha256)!, diagnostics = body(o.diagnosticsRef, BatchDiagnosticsSchema)
     allTrees.push(tree); allInventories.push(inventory); sourceSnapshots.push({commit: o.commit, consumed: tree.entries})
     const errors = [...diagnostics.errors, ...diagnostics.rawErrors]
-    // Only a known transformation failure with an authenticated root can be isolated.
-    // Its raw read trace is a lower bound. Every incident source edge is masked below.
+    // Only known page-local render/transform failures with an authenticated raw root can be isolated.
     const nativePlaceholder = o.outputStatus === 'error' && o.imageStatus === 'unavailable' && o.manuals.length === header.targets.length && header.targets.every(target => {
       const m = o.manuals.find(m => m.manual === target.manual && m.path === target.path)
       if (!m) return false
       const leaf = body(m.ref, BatchManualSchema)
       return leaf.output === null && leaf.markdown === '' && !leaf.headings.length && !leaf.references.length
     })
-    if (o.sourceFile === config.sourceFile && tree.entries.some(entry => entry.path === config.sourceFile) &&
-        o.outputStatus === 'error' && o.imageStatus === 'unavailable' && nativePlaceholder && !o.dependencies.length &&
-        !diagnostics.reasons.length && errors.length && errors.every(e => ['TRANSFORM_TARGET_NOT_FOUND', 'PRODUCT_NAME_FOUND'].includes(e.code)) &&
-        body(o.imagesRef, BatchImagesSchema).every(group => !group.images.length)) {
-      deferredHistory.push({commit: o.commit, reasons: sorted(['INTERMEDIATE_OBSERVATION_INCOMPLETE', ...errors.map(e => e.code)])})
+    const intervalImages = body(o.imagesRef, BatchImagesSchema)
+    const emptyImages = intervalImages.every(group => !group.images.length)
+    const hasImageFetchFailed = diagnostics.errors.some(e => e.code === 'IMAGE_FETCH_FAILED')
+    const collateralImagesValid = emptyImages || hasImageFetchFailed && intervalImages.every(group => group.images.every(image =>
+      image.origin.kind === 'external' && !image.ref && !image.observed ||
+      !!image.ref && !!image.observed && image.ref.sha256 === image.observed.sha256 && image.ref.bytes === image.observed.bytes && image.ref.sha256 === image.emitted.sha256))
+    const collateralInterval = o.sourceFile === config.sourceFile && tree.entries.some(entry => entry.path === config.sourceFile) &&
+      !diagnostics.rawErrors.length && !diagnostics.reasons.length && diagnostics.errors.length > 0 &&
+      diagnostics.errors.every(e => COLLATERAL_RENDER_ERRORS.has(e.code)) &&
+      o.dependencies.every(d => d.state === 'resolved') &&
+      (nativePlaceholder && emptyImages || hasImageFetchFailed && collateralImagesValid && (nativePlaceholder || o.outputStatus === 'observed'))
+    if (collateralInterval) {
+      const firstParent = commits.get(o.commit)?.[0]
+      const sameRawAsFirstParent = !localTransformUsesFragment && !!firstParent && rawByCommit.has(firstParent) &&
+        same(rawByCommit.get(firstParent), tree.entries.map(e => ({path: e.path, oid: e.oid})))
+      if (sameRawAsFirstParent) {
+        collateralReasons.add('INTERMEDIATE_OBSERVATION_INCOMPLETE')
+        for (const e of diagnostics.errors) collateralReasons.add(e.code)
+      } else {
+        deferredHistory.push({commit: o.commit, reasons: sorted(['INTERMEDIATE_OBSERVATION_INCOMPLETE', ...diagnostics.errors.map(e => e.code)])})
+      }
       continue
     }
     if (o.sourceFile !== config.sourceFile || o.outputStatus !== 'observed' || o.imageStatus !== 'observed' || o.dependencies.some(d => d.state !== 'resolved') ||
         o.manuals.length !== header.targets.length || header.targets.some(t => o.manuals.filter(m => m.manual === t.manual && m.path === t.path).length !== 1)) add('INTERMEDIATE_OBSERVATION_INCOMPLETE')
-    for (const error of [...diagnostics.errors, ...diagnostics.rawErrors]) add(error.code)
-    for (const group of body(o.imagesRef, BatchImagesSchema)) for (const image of group.images) if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256 || image.ref.bytes !== image.observed.bytes || image.ref.sha256 !== image.emitted.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
+    for (const error of errors) add(error.code)
+    for (const group of intervalImages) for (const image of group.images) if (!image.ref || !image.observed || image.ref.sha256 !== image.observed.sha256 || image.ref.bytes !== image.observed.bytes || image.ref.sha256 !== image.emitted.sha256) add('REQUIRED_IMAGE_UNAVAILABLE')
   }
   const inventoriesByCommit = new Map<string, (typeof allInventories)[number]>()
   for (const inventory of allInventories) {
@@ -355,7 +422,8 @@ function compactMaterial(wire: BatchMaterialWire, checked: ReturnType<typeof val
   for (const inventory of allInventories) for (const path of fullUnion) if (!inventory.oidOf(path) && !inventory.absentPaths.includes(path)) add('SOURCE_ABSENCE_UNPROVEN')
   if (header.oldNext === header.base.pins.source && !same(rawTrees[1].entries, rawTrees[2].entries)) add('SOURCE_SAME_SHA_BYTES_MISMATCH')
   return immutable({header, materialDigest: batchDigest('material', header), sourceFile: config.sourceFile, consumedPaths: fullUnion, sourceSnapshots,
-    rawTrees, observations, ownershipReasons: sorted(ownershipReasons), promotionAnchors: projection.promotionAnchors, history, reasons: sorted(reasons), existing, deferredHistory,
+    rawTrees, observations, ownershipReasons: sorted(ownershipReasons), promotionAnchors: projection.promotionAnchors, history, reasons: sorted(reasons),
+    collateralReasons: sorted(collateralReasons), targetRendered: projection.observations[2].outputStatus === 'observed', existing, deferredHistory,
     registryIds: config.registry.map(p => p.pageId)})
 }
 /** Explicitly non-authoritative projection for pure semantic fixture tests. */
@@ -417,8 +485,8 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     const documentPath = (path: string) => path.startsWith('site/en/') &&
       (/\.mdx?$/.test(path) || path.startsWith('site/en/fragments/') || report.pages.some(p => p.sourceFile === path))
     // The source gate's doc/fragment model does not authenticate arbitrary
-    // Variables.json, image or other file consumption at a stopped render.
-    if (pathsToCheck.some(path => !documentPath(path)) && edge.rangeIds.some(id => {
+    // Variables.json, image or other potentially consumable input at a stopped render.
+    if (pathsToCheck.some(path => !documentPath(path) && !nonConsumableRepoPath(path)) && edge.rangeIds.some(id => {
       const stopped = uncertainCommits.get(id)
       return stopped?.has(edge.commit) || edge.parent !== null && stopped?.has(edge.parent)
     })) add('COLLATERAL_INPUT_UNPROVEN')
@@ -445,7 +513,8 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
       }
       if (status !== 'held' && verifiedCopy) status = 'irrelevant'
       const partialTrace = uncertainCommits.get(rangeId)
-      const uncertain = !!partialTrace && (partialTrace.has(edge.commit) || (edge.parent !== null && partialTrace.has(edge.parent)))
+      const mayConsumeStopped = [edge.oldPath, edge.newPath].some(p => p !== null && (p === configured.sourceFile || p.startsWith('site/en/fragments/')))
+      const uncertain = mayConsumeStopped && !!partialTrace && (partialTrace.has(edge.commit) || (edge.parent !== null && partialTrace.has(edge.parent)))
       if (uncertain && status !== 'held' && !verifiedCopy) {
         // Even an empty read set could hide a consumer. Connect this page to
         // every possible owner before taking the transitive component closure.
@@ -492,7 +561,9 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     const memberIds = registry.filter(id => root(id) === key), seedKeys = sorted(memberIds.flatMap(id => [...membership.get(id)!]))
     const dispositions: Disposition[] = []
     for (const id of memberIds) {
-      const configured = report.pages.find(p => p.pageId === id)!, page = byPage.get(id), held = new Set(page ? [...page.reasons, ...page.ownershipReasons] : ['REQUIRED_MATERIAL_UNAVAILABLE'])
+      const configured = report.pages.find(p => p.pageId === id)!, page = byPage.get(id)
+      const localCollateral = new Set(page?.collateralReasons ?? [])
+      const held = new Set(page ? [...page.reasons, ...page.ownershipReasons, ...localCollateral] : ['REQUIRED_MATERIAL_UNAVAILABLE'])
       if (configured.active !== true) held.add(configured.active === false ? 'INACTIVE_NECESSARY_PAGE' : 'ACTIVE_STATE_UNKNOWN')
       if (configured.published !== true) held.add(configured.published === false ? 'UNPUBLISHED_NECESSARY_PAGE' : 'PUBLISHED_STATE_UNKNOWN')
       for (const reason of configured.reasons) {
@@ -502,9 +573,9 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         held.add(reason)
       }
       if (configured.oldNext !== configured.target && !configured.intervals.some(i => i.from === configured.oldNext && i.to === configured.target && i.evidence.length && i.association === 'complete')) held.add('SOURCE_INTERVAL_UNPROVEN')
-      // Unknown discovery/ownership evidence remains global. A positively known
-      // inactive/unpublished page can wait with its entire connected component.
-      for (const reason of held) if (!localOwnership.has(reason)) add(reason)
+      // Unknown discovery/ownership evidence remains global. Positively known
+      // inactive/unpublished or collateral-render failures wait with their connected component.
+      for (const reason of held) if (!localOwnership.has(reason) && !localCollateral.has(reason)) add(reason)
       for (const row of page?.deferredHistory ?? []) for (const reason of row.reasons) held.add(reason)
       const before = page?.rawTrees[1].entries ?? [], target = page?.rawTrees[2].entries ?? []
       dispositions.push({pageId: id, beforeSha256: batchSha256(canonicalBytes(before)), targetSha256: batchSha256(canonicalBytes(target)), reasons: sorted(held),
@@ -513,7 +584,8 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     groups.push({memberIds, seedKeys, componentIds: sorted(report.groups.filter(g => g.pageIds.some(id => memberIds.includes(id))).map(g => g.id)),
       adoption: adoption.filter(d => memberIds.includes(d.from.pageId)), dispositions})
   }
-  // The complete source graph orders independent components, including expansions that merge across an earlier component.
+  // Order disjoint components deterministically by their earliest authenticated introduction commit(s),
+  // avoiding false cycles when independent multi-PR components interleave in Git history.
   const history = new Map(input.history.map(c => [c.oid, c.parents]))
   const ancestors = (from: string, to: string) => {
     const todo = [to], seen = new Set<string>()
@@ -525,16 +597,19 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
     if (!matching.length || matching.some(e => !e.introductionOid || (e.associationResult !== 'complete' && !verifiedRestoration(e)))) add('INTRODUCTION_ORDER_UNPROVEN')
     return matching.flatMap(e => e.introductionOid ? [e.introductionOid] : [])
   })))
+  const earliestIntroductions = introductions.map(commits =>
+    commits.length <= 1 ? commits : commits.filter(commit => !commits.some(other => other !== commit && ancestors(other, commit))))
   const remaining = new Set(groups.map((_, i) => i)), orderedGroups: typeof groups = []
   while (remaining.size) {
-    const ready = [...remaining].filter(i => ![...remaining].some(j => j !== i && introductions[j].some(a => introductions[i].some(b => a !== b && ancestors(a, b)))))
-      .sort((a, b) => compareUtf8(introductions[a][0] ?? groups[a].memberIds[0], introductions[b][0] ?? groups[b].memberIds[0]))
+    const ready = [...remaining].filter(i => ![...remaining].some(j => j !== i && earliestIntroductions[j].some(a => earliestIntroductions[i].some(b => a !== b && ancestors(a, b)))))
+      .sort((a, b) => compareUtf8(earliestIntroductions[a][0] ?? groups[a].memberIds[0], earliestIntroductions[b][0] ?? groups[b].memberIds[0]))
     if (!ready.length) {add('COMPONENT_ORDER_UNPROVEN'); orderedGroups.push(...[...remaining].map(i => groups[i])); break}
     const next = ready[0]; remaining.delete(next); orderedGroups.push(groups[next])
   }
-  const namespace: BatchClosureAnalysis['namespace'] = []
+  const groupNamespaces = new Map<typeof orderedGroups[number], BatchClosureAnalysis['namespace']>()
   let outsideRouteUnknown = false
   for (const group of orderedGroups) {
+    const groupNamespace: BatchClosureAnalysis['namespace'] = []
     const namespaceReasons = new Set<string>()
     const namespaceAdd = (reason: string, local = false) => {namespaceReasons.add(reason); if (!local) add(reason)}
     const selected = new Set(group.memberIds), destinations = new Map<string, {pageId: string; manual: string; path: string; ref: BatchBlobRef; headings: string[]; references: readonly ReferenceObservation[]; role: 'oldNext' | 'target' | 'existing'}[]>()
@@ -544,7 +619,7 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
       for (const manual of page.observations.find(o => o.role === role)?.manuals ?? []) {
         const target = {pageId: page.header.pageId, manual: manual.manual, path: manual.path, ref: manual.ref,
           headings: manual.headings.map(h => h.anchor), references: manual.references, role}
-        append(page.header.pageId, target); namespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role, ref: target.ref})
+        append(page.header.pageId, target); groupNamespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role, ref: target.ref})
       }
     }
     // One independently pinned D inventory is shared by all probes. Replacements exclude exact configured outputs, by physical path and manual.
@@ -563,8 +638,8 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
         const matches = destinations.get(`${manual.manual}:${route}`) ?? []
         if (matches.length !== 1) {namespaceAdd(matches.length ? 'EFFECTIVE_NAMESPACE_AMBIGUOUS' : 'EFFECTIVE_DESTINATION_UNAVAILABLE'); continue}
         const target = matches[0]
-        if (anchor !== undefined && (!anchor || target.headings.filter(h => h === anchor).length !== 1)) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED', selected.has(target.pageId))
-        if (target.role === 'existing') namespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role: 'existing', ref: target.ref})
+        if (anchor !== undefined && (!anchor || target.headings.filter(h => h === anchor).length !== 1)) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED', true)
+        if (target.role === 'existing') groupNamespace.push({pageId: target.pageId, manual: target.manual, path: target.path, role: 'existing', ref: target.ref})
       }
     }
     // Outside pages remain their actual pinned D output. Check only incoming links
@@ -581,42 +656,57 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
       } catch { outsideRouteUnknown = true; continue }
       const key = `${output.manual}:${route}`
       if (!memberRoutes.has(key)) continue
-      namespace.push({pageId: output.route!, manual: output.manual, path: output.path, role: 'existing', ref: output.ref})
+      groupNamespace.push({pageId: output.route!, manual: output.manual, path: output.path, role: 'existing', ref: output.ref})
       const matches = destinations.get(key) ?? []
       if (matches.length !== 1) {namespaceAdd(matches.length ? 'EFFECTIVE_NAMESPACE_AMBIGUOUS' : 'EFFECTIVE_DESTINATION_UNAVAILABLE'); continue}
       if (reference.url.includes('#')) {
         let anchor: string
         try { anchor = decodeURIComponent(resolved.hash.slice(1)) }
         catch { namespaceAdd('EFFECTIVE_REFERENCE_INVALID'); continue }
-        if (!anchor || matches[0].headings.filter(heading => heading === anchor).length !== 1) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED')
+        if (!anchor || matches[0].headings.filter(heading => heading === anchor).length !== 1) namespaceAdd('EFFECTIVE_ANCHOR_UNRESOLVED', true)
       }
     }
     if (namespaceReasons.size) for (const disposition of group.dispositions) {disposition.disposition = 'held'; disposition.reasons = sorted([...disposition.reasons, ...namespaceReasons])}
+    groupNamespaces.set(group, groupNamespace)
   }
+  const unrenderedCollateral = new Set(pages.filter(p => p.targetRendered === false).map(p => p.header.pageId))
   for (const group of orderedGroups) {
     if (group.memberIds.length === pages.length || group.dispositions.some(d => d.disposition === 'held')) continue
     const members = new Set(group.memberIds)
-    for (const page of projected) for (const manual of page.manuals) for (const ref of manual.references) {
-      if (!ref.url.includes('#') || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(ref.url)) continue
-      let route: string, anchor: string
-      try {
-        const url = new URL(ref.url, 'https://batch.invalid/' + page.pageId)
-        route = decodeURIComponent(url.pathname).slice(1)
-        anchor = decodeURIComponent(url.hash.slice(1))
-      } catch { add('COLLATERAL_ROUTE_UNPROVEN'); continue }
-      if (members.has(page.pageId) === members.has(route)) continue
-      // The exact pair matcher uses the literal fragment. A URL-encoded rename
-      // or an advisory relation can still represent an unresolved adoption edge.
-      if (byPage.get(route)?.promotionAnchors.some(a => a.manual === manual.manual &&
-          (a.status !== 'confirmed' || a.kind === 'renamed' && a.after?.anchor === anchor))) {
-        for (const disposition of group.dispositions) {
-          disposition.disposition = 'held'
-          disposition.reasons = sorted([...disposition.reasons, 'ADOPTION_DEPENDENCY_UNPROVEN'])
+    const holdGroupAdoption = () => {
+      for (const disposition of group.dispositions) {
+        disposition.disposition = 'held'
+        disposition.reasons = sorted([...disposition.reasons, 'ADOPTION_DEPENDENCY_UNPROVEN'])
+      }
+    }
+    const hasUnrenderedOutside = [...unrenderedCollateral].some(id => !members.has(id))
+    if (hasUnrenderedOutside && group.memberIds.some(id =>
+      byPage.get(id)?.promotionAnchors.some(a => a.status !== 'confirmed' || a.kind !== 'unchanged'))) {
+      holdGroupAdoption()
+      continue
+    }
+    for (const page of projected) {
+      if (unrenderedCollateral.has(page.pageId)) continue
+      for (const manual of page.manuals) for (const ref of manual.references) {
+        if (!ref.url.includes('#') || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(ref.url)) continue
+        let route: string, anchor: string
+        try {
+          const url = new URL(ref.url, 'https://batch.invalid/' + page.pageId)
+          route = decodeURIComponent(url.pathname).slice(1)
+          anchor = decodeURIComponent(url.hash.slice(1))
+        } catch { add('COLLATERAL_ROUTE_UNPROVEN'); continue }
+        if (members.has(page.pageId) === members.has(route)) continue
+        if (unrenderedCollateral.has(route)) { holdGroupAdoption(); continue }
+        // The exact pair matcher uses the literal fragment. A URL-encoded rename
+        // or an advisory relation can still represent an unresolved adoption edge.
+        if (byPage.get(route)?.promotionAnchors.some(a => a.manual === manual.manual &&
+            (a.status !== 'confirmed' || a.kind === 'renamed' && a.after?.anchor === anchor))) {
+          holdGroupAdoption()
         }
       }
     }
   }
-  const bypassingHeld = pages.some(p => p.deferredHistory.length) || orderedGroups.some(g => g.dispositions.some(d => d.disposition === 'held'))
+  const bypassingHeld = pages.some(p => p.deferredHistory.length || (p.collateralReasons?.length ?? 0) > 0) || orderedGroups.some(g => g.dispositions.some(d => d.disposition === 'held'))
   // Unclassified published routes cannot prove the absence of an incoming
   // link for a batch that would bypass a held component.
   if (bypassingHeld && (outsideRouteUnknown || pages[0]?.existing.some(output => !output.route))) add('COLLATERAL_ROUTE_UNPROVEN')
@@ -625,10 +715,14 @@ export function analyzeBatchClosure(input: {report: BatchDiscoveryReport; ledger
   const multiEdit = advances.find(g => g.dispositions.filter(d => d.disposition === 'advance').length >= 2)
   const selected = reasons.size ? null : multiEdit ?? advances.find(g => g.memberIds.length > 1) ?? advances[0] ?? ready[0] ?? null
   if (!selected) {
-    for (const page of pages) for (const row of page.deferredHistory) for (const reason of row.reasons) add(reason)
+    for (const page of pages) {
+      for (const reason of page.collateralReasons ?? []) add(reason)
+      for (const row of page.deferredHistory) for (const reason of row.reasons) add(reason)
+    }
     for (const group of orderedGroups) for (const d of group.dispositions) for (const reason of d.reasons) add(reason)
   }
-  return immutable({groups: orderedGroups, selected, obligations, reasons: sorted(reasons), namespace})
+  return immutable({groups: orderedGroups, selected, obligations, reasons: sorted(reasons),
+    namespace: selected ? groupNamespaces.get(selected) ?? [] : [...groupNamespaces.values()].flat()})
 }
 
 declare const materialClosureBrand: unique symbol
