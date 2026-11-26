@@ -264,6 +264,31 @@
           "sidebar_position": 1
         }
       }
+    },
+    {
+      "file": "Vector/Highlighter.md",
+      "first_seen_pin": "5005b323e194c3249b043e1fd691b101905e4ac1",
+      "first_seen_at": "2026-11-25",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-25",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Documents a public SDK configuration type users need when searching with term highlighting.",
+        "metadata_draft": {
+          "description": "Defines the Highlighter union for post-processing search results, covering LexicalHighlighter and SemanticHighlighter options.",
+          "keywords": [
+            "highlighter",
+            "lexical highlighter",
+            "semantic highlighter",
+            "highlight search terms",
+            "search results",
+            "typescript sdk"
+          ],
+          "sidebar_position": 10
+        }
+      }
     }
   ]
 }
