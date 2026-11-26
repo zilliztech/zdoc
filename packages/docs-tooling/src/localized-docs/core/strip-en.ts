@@ -133,6 +133,24 @@ export function matchEsmImportAt(
   return null
 }
 
+function stripLeadingWsAndInlineBlockComments(text: string): string {
+  let i = 0
+  while (i < text.length) {
+    if (text[i] === ' ' || text[i] === '\t') {
+      i += 1
+      continue
+    }
+    if (text[i] === '/' && text[i + 1] === '*') {
+      const end = text.indexOf('*/', i + 2)
+      if (end < 0) break
+      i = end + 2
+      continue
+    }
+    break
+  }
+  return text.slice(i)
+}
+
 function isOnlyWhitespaceOrComments(text: string): boolean {
   let i = 0
   while (i < text.length) {
@@ -253,7 +271,15 @@ export function stripEnShell(
         const headLines = workingLines.slice(cursor, importMatch.endIndex)
         headLines.push(endLine.slice(0, importMatch.endColumn))
         strippedImports.push(headLines.join('\n').trim())
-        workingLines[importMatch.endIndex] = restOnEndLine.replace(/^[ \t]+/, '')
+        const afterWs = restOnEndLine.replace(/^[ \t]+/, '')
+        const afterComments = stripLeadingWsAndInlineBlockComments(restOnEndLine)
+        const nextIsDocusaurusImport =
+          afterComments !== afterWs &&
+          matchEsmImportAt([afterComments, ...workingLines.slice(importMatch.endIndex + 1)], 0, {
+            specifierPattern: DOCUSAURUS_SPECIFIER_RE,
+            stopAtSemicolon: true,
+          }) !== null
+        workingLines[importMatch.endIndex] = nextIsDocusaurusImport ? afterComments : afterWs
         cursor = importMatch.endIndex
       }
       continue

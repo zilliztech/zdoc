@@ -554,4 +554,132 @@ import {
     const proseWithBlankLine = validateSourceShell('# T\n\nimport something\n\nfrom another system.\n')
     expect('errors' in proseWithBlankLine).toBe(false)
   })
+
+  it('skips multiline JSX opening tags, quoted/braced > and /> in attributes, closed-then-multiline tags, and strips multiline mid-line <NextChannel action="include"> (Bugs 2.2a-2.2d)', async () => {
+    // Bug 2.2a: multi-line opening tag whose > is on a later line
+    expect(
+      extractFirstParagraph('# Title\n\n<Admonition\n  type="note">\nsecret\n</Admonition>\n\nReal paragraph.\n'),
+    ).toBe('Real paragraph.')
+
+    // Bug 2.2b: > and /> inside quoted strings and {...} JSX expressions in opening tags
+    expect(
+      extractFirstParagraph('# Title\n\n<Admonition type="note" title="a/>b">\nsecret\n</Admonition>\n\nReal paragraph.\n'),
+    ).toBe('Real paragraph.')
+    expect(
+      extractFirstParagraph(
+        '# Title\n\n<Tabs values={[{ label: "a/>b", value: "a" }]} check={1 > 0}>\n<TabItem value="a" label="A">\nTab A\n</TabItem>\n</Tabs>\n\nReal paragraph.\n',
+      ),
+    ).toBe('Real paragraph.')
+    expect(
+      extractFirstParagraph(
+        '# Title\n\n<Tabs><TabItem value="a" label="A">\nTab A\n</TabItem>\nBetween tabs text\n<TabItem value="b" label="B">\nTab B\n</TabItem>\n</Tabs>\n\nReal paragraph.\n',
+      ),
+    ).toBe('Real paragraph.')
+
+    // Bug 2.2c: closed inline tag followed by unclosed multi-line tag on the same line
+    expect(
+      extractFirstParagraph(
+        '# Title\n\n<NextChannel action="include">a</NextChannel> <NextChannel action="include">\nHidden line\n</NextChannel>\n\nReal paragraph.\n',
+      ),
+    ).toBe('Real paragraph.')
+
+    // Bug 2.2d: mid-line multi-line <NextChannel action="include"> while preserving <UI>, <NextChannel action="exclude">, and inline code
+    expect(
+      extractFirstParagraph(
+        '# Title\n\nIntro <NextChannel action="include">next\nline2\n</NextChannel>\n\nReal paragraph.\n',
+      ),
+    ).toBe('Intro')
+    expect(
+      extractFirstParagraph(
+        '# Title\n\n<UI>控制台</UI> 与 `<NextChannel action="include">code</NextChannel>` <NextChannel action="include">hidden\nline2\n</NextChannel>\n\nReal paragraph.\n',
+      ),
+    ).toBe('控制台 与 `<NextChannel action="include">code</NextChannel>`')
+    expect(
+      extractFirstParagraph(
+        '# Title\n\n<NextChannel action="exclude">\nIncluded paragraph.\n</NextChannel>\n\nFallback paragraph.\n',
+      ),
+    ).toBe('Included paragraph.')
+
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'alpha' } }
+
+      const e2e2a = await assembleLocalizedPage({
+        pageId: 'alpha',
+        sourceMd: '# T\n\n<Admonition\n  type="note">\nsecret\n</Admonition>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in e2e2a).toBe(false)
+      if (!('errors' in e2e2a)) expect(e2e2a.description).toBe('Real paragraph.')
+
+      const e2e2b = await assembleLocalizedPage({
+        pageId: 'alpha',
+        sourceMd: '# T\n\n<Admonition type="note" title="a/>b">\nsecret\n</Admonition>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in e2e2b).toBe(false)
+      if (!('errors' in e2e2b)) expect(e2e2b.description).toBe('Real paragraph.')
+
+      const e2e2d = await assembleLocalizedPage({
+        pageId: 'alpha',
+        sourceMd: '# T\n\nIntro <NextChannel action="include">next\nline2\n</NextChannel>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in e2e2d).toBe(false)
+      if (!('errors' in e2e2d)) expect(e2e2d.description).toBe('Intro')
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('quotes signed radix literals (+0x10, +0o7, +0b10) in slug, token, type, and added_since so YAML never coerces them', async () => {
+    const require = createRequire(import.meta.url)
+    const { validateFrontmatter } = require('../../mdx/validate.cjs') as {
+      validateFrontmatter: (source: string, label?: string) => Record<string, unknown>
+    }
+
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'radix' } }
+
+      const assembled = await assembleLocalizedPage({
+        pageId: 'radix',
+        sourceMd: '---\ntitle: 标题\n---\n\n正文。\n',
+        metadata: {
+          slug: '+0x10',
+          token: '+0o7',
+          type: '+0b10',
+          added_since: '+0x1_0',
+          last_modified: '-0x10',
+        },
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+
+      expect('errors' in assembled).toBe(false)
+      if ('errors' in assembled) return
+
+      const fm = validateFrontmatter(assembled.mdx, 'radix.mdx')
+      expect(fm.slug).toBe('+0x10')
+      expect(fm.token).toBe('+0o7')
+      expect(fm.type).toBe('+0b10')
+      expect(fm.added_since).toBe('+0x1_0')
+      expect(fm.last_modified).toBe('-0x10')
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })

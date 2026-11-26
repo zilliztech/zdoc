@@ -178,5 +178,26 @@ import {
       expect(tabIndentedCodeBlock.strippedImports).toEqual([])
       expect(tabIndentedCodeBlock.body).toBe("\timport X from '@site/x';\n")
     }
+
+    const commentBetweenSameLineImports = stripEnShell(
+      "---\ntitle: \"T\"\n---\n\nimport A from '@theme/Tabs'; /* c */ import B from '@theme/Admonition';\n\n# T\n",
+    )
+    expect('errors' in commentBetweenSameLineImports).toBe(false)
+    if (!('errors' in commentBetweenSameLineImports)) {
+      expect(commentBetweenSameLineImports.strippedImports).toEqual([
+        "import A from '@theme/Tabs';",
+        "import B from '@theme/Admonition';",
+      ])
+      expect(commentBetweenSameLineImports.body).toBe('# T\n')
+    }
+
+    const leadingBlockCommentNotImport = stripEnShell(
+      "---\ntitle: \"T\"\n---\n\n/* c */ import X from '@theme/Tabs';\n\n# T\n",
+    )
+    expect('errors' in leadingBlockCommentNotImport).toBe(false)
+    if (!('errors' in leadingBlockCommentNotImport)) {
+      expect(leadingBlockCommentNotImport.strippedImports).toEqual([])
+      expect(leadingBlockCommentNotImport.body).toBe("/* c */ import X from '@theme/Tabs';\n\n# T\n")
+    }
   })
 })

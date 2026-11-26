@@ -15,6 +15,9 @@ import type {
 import { localizedError } from './types.ts'
 
 const NEXT_CHANNEL_ATTR_RE = /^<NextChannel\s+action="(include|exclude)"\s*>$/
+const NEXT_CHANNEL_EXCLUDE_RE = /^<NextChannel\s+action=(?:"exclude"|'exclude')\s*>$/
+const JSX_OPEN_HEAD_RE = /<([A-Z][A-Za-z0-9]*)(?=[\s/>])/y
+const JSX_CLOSE_TAG_RE = /<\/([A-Z][A-Za-z0-9]*)\s*>/y
 
 export interface ValidatedSourceShell {
   sourceTitle?: string
@@ -358,32 +361,103 @@ export function extractFirstH1(markdown: string): string | undefined {
   return undefined
 }
 
-function stripInlineUiAndChannelUsingMask(rawLine: string, maskedLine: string): string {
-  const ranges: [number, number][] = []
+function isEscapedAt(text: string, index: number): boolean {
+  let backslashes = 0
+  for (let i = index - 1; i >= 0 && text[i] === '\\'; i -= 1) {
+    backslashes += 1
+  }
+  return backslashes % 2 === 1
+}
 
-  for (const match of maskedLine.matchAll(/<NextChannel\s+action="include">[\s\S]*?<\/NextChannel>/g)) {
-    const start = match.index!
-    ranges.push([start, start + match[0].length])
+function scanJsxOpenTag(
+  masked: string,
+  start: number,
+): { tagName: string; end: number; selfClosing: boolean; rawTag: string } | null {
+  JSX_OPEN_HEAD_RE.lastIndex = start
+  const headMatch = JSX_OPEN_HEAD_RE.exec(masked)
+  if (!headMatch) return null
+  const tagName = headMatch[1]
+  let cursor = start + 1 + tagName.length
+  let quote: '"' | "'" | '`' | null = null
+  let braceDepth = 0
+
+  while (cursor < masked.length) {
+    const ch = masked[cursor]
+    if (quote !== null) {
+      if (ch === '\\' && braceDepth > 0) {
+        cursor += 2
+        continue
+      }
+      if (ch === quote) {
+        quote = null
+      }
+      cursor += 1
+      continue
+    }
+
+    if (braceDepth > 0) {
+      if (ch === '"' || ch === "'" || ch === '`') {
+        quote = ch
+        cursor += 1
+        continue
+      }
+      if (ch === '{') {
+        braceDepth += 1
+        cursor += 1
+        continue
+      }
+      if (ch === '}') {
+        braceDepth -= 1
+        cursor += 1
+        continue
+      }
+      if (ch === '/' && masked[cursor + 1] === '/') {
+        const nl = masked.indexOf('\n', cursor + 2)
+        cursor = nl >= 0 ? nl + 1 : masked.length
+        continue
+      }
+      if (ch === '/' && masked[cursor + 1] === '*') {
+        const end = masked.indexOf('*/', cursor + 2)
+        cursor = end >= 0 ? end + 2 : masked.length
+        continue
+      }
+      cursor += 1
+      continue
+    }
+
+    if (ch === '"' || ch === "'") {
+      quote = ch
+      cursor += 1
+      continue
+    }
+    if (ch === '{') {
+      braceDepth += 1
+      cursor += 1
+      continue
+    }
+    if (ch === '<') {
+      return null
+    }
+    if (ch === '>') {
+      const selfClosing = cursor > start + 1 + tagName.length && masked[cursor - 1] === '/'
+      return {
+        tagName,
+        end: cursor + 1,
+        selfClosing,
+        rawTag: masked.slice(start, cursor + 1),
+      }
+    }
+    cursor += 1
   }
 
-  for (const match of maskedLine.matchAll(/(<NextChannel\s+action="exclude">)([\s\S]*?)(<\/NextChannel>)/g)) {
-    const start = match.index!
-    const openEnd = start + match[1].length
-    const closeStart = openEnd + match[2].length
-    const closeEnd = start + match[0].length
-    ranges.push([start, openEnd], [closeStart, closeEnd])
-  }
+  return null
+}
 
-  for (const match of maskedLine.matchAll(/<\/?UI>/g)) {
-    const start = match.index!
-    ranges.push([start, start + match[0].length])
-  }
-
-  if (!ranges.length) return rawLine
-
-  ranges.sort((a, b) => a[0] - b[0] || a[1] - b[1])
+function mergeRanges(ranges: readonly [number, number][]): [number, number][] {
+  if (!ranges.length) return []
+  const sorted = [...ranges].sort((a, b) => a[0] - b[0] || a[1] - b[1])
   const merged: [number, number][] = []
-  for (const [start, end] of ranges) {
+  for (const [start, end] of sorted) {
     const last = merged.at(-1)
     if (last && start <= last[1]) {
       last[1] = Math.max(last[1], end)
@@ -391,24 +465,116 @@ function stripInlineUiAndChannelUsingMask(rawLine: string, maskedLine: string): 
       merged.push([start, end])
     }
   }
+  return merged
+}
 
+function stripRangesPreservingNewlines(text: string, merged: readonly [number, number][]): string {
+  if (!merged.length) return text
   let out = ''
   let cursor = 0
   for (const [start, end] of merged) {
-    if (cursor < start) out += rawLine.slice(cursor, start)
+    if (cursor < start) out += text.slice(cursor, start)
+    for (let k = Math.max(cursor, start); k < end; k += 1) {
+      if (text[k] === '\n') out += '\n'
+    }
     cursor = Math.max(cursor, end)
   }
-  if (cursor < rawLine.length) out += rawLine.slice(cursor)
+  if (cursor < text.length) out += text.slice(cursor)
   return out
+}
+
+function computeJsxStripRanges(masked: string): [number, number][] {
+  const ranges: [number, number][] = []
+  const stack: { tagName: string; kind: 'unwrap' | 'container'; start: number }[] = []
+
+  let cursor = 0
+  while (cursor < masked.length) {
+    const lt = masked.indexOf('<', cursor)
+    if (lt < 0) break
+
+    if (isEscapedAt(masked, lt)) {
+      cursor = lt + 1
+      continue
+    }
+
+    if (masked[lt + 1] === '/') {
+      JSX_CLOSE_TAG_RE.lastIndex = lt
+      const closeMatch = JSX_CLOSE_TAG_RE.exec(masked)
+      if (!closeMatch) {
+        cursor = lt + 1
+        continue
+      }
+      const tagName = closeMatch[1]
+      const closeEnd = lt + closeMatch[0].length
+
+      let matchIdx = -1
+      for (let s = stack.length - 1; s >= 0; s -= 1) {
+        if (stack[s].tagName === tagName) {
+          matchIdx = s
+          break
+        }
+      }
+
+      if (matchIdx < 0) {
+        ranges.push([lt, closeEnd])
+      } else {
+        const frame = stack[matchIdx]
+        stack.length = matchIdx
+        if (frame.kind === 'unwrap') {
+          ranges.push([lt, closeEnd])
+        } else {
+          ranges.push([frame.start, closeEnd])
+        }
+      }
+
+      cursor = closeEnd
+      continue
+    }
+
+    const openTag = scanJsxOpenTag(masked, lt)
+    if (!openTag) {
+      cursor = lt + 1
+      continue
+    }
+
+    if (openTag.selfClosing) {
+      ranges.push([lt, openTag.end])
+      cursor = openTag.end
+      continue
+    }
+
+    const isUnwrap =
+      openTag.tagName === 'UI' ||
+      (openTag.tagName === 'NextChannel' && NEXT_CHANNEL_EXCLUDE_RE.test(openTag.rawTag))
+
+    if (isUnwrap) {
+      ranges.push([lt, openTag.end])
+      stack.push({ tagName: openTag.tagName, kind: 'unwrap', start: lt })
+    } else {
+      stack.push({ tagName: openTag.tagName, kind: 'container', start: lt })
+    }
+
+    cursor = openTag.end
+  }
+
+  for (const unclosed of stack) {
+    if (unclosed.kind === 'container') {
+      ranges.push([unclosed.start, masked.length])
+    }
+  }
+
+  return mergeRanges(ranges)
 }
 
 export function extractFirstParagraph(markdown: string): string | undefined {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
   const masked = maskCodeAndComments(normalized)
-  const rawLines = markdownLines(normalized)
-  const maskedLines = masked.split('\n')
+  const ranges = computeJsxStripRanges(masked)
+  const cleanedRaw = stripRangesPreservingNewlines(normalized, ranges)
+  const cleanedMasked = stripRangesPreservingNewlines(masked, ranges)
+  const rawLines = markdownLines(cleanedRaw)
+  const maskedLines = cleanedMasked.split('\n')
   let sawHeading = false
-  let jsxDepth = 0
 
   for (let i = 0; i < rawLines.length; i += 1) {
     const rawLine = rawLines[i]
@@ -424,35 +590,10 @@ export function extractFirstParagraph(markdown: string): string | undefined {
       if (sawHeading) break
       continue
     }
-    if (/^<([A-Z][A-Za-z0-9]*)\b[^>]*\/>$/.test(trimmedMasked)) continue
-    const openMatch = /^<([A-Z][A-Za-z0-9]*)\b([^>]*)>/.exec(trimmedMasked)
-    if (
-      openMatch &&
-      openMatch[1] !== 'UI' &&
-      !openMatch[2].endsWith('/') &&
-      !trimmedMasked.includes(`</${openMatch[1]}>`)
-    ) {
-      jsxDepth += 1
-      continue
-    }
-    if (jsxDepth > 0) {
-      for (const closeMatch of trimmedMasked.matchAll(/<\/([A-Z][A-Za-z0-9]*)\s*>/g)) {
-        const tagName = closeMatch[1]
-        if (tagName === 'UI') continue
-        if (!new RegExp(`<${tagName}\\b`).test(trimmedMasked)) {
-          jsxDepth = Math.max(0, jsxDepth - 1)
-        }
-      }
-      continue
-    }
-    const strippedMasked = stripInlineUiAndChannelUsingMask(maskedLine, maskedLine).trim()
-    if (!strippedMasked) continue
-    if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(strippedMasked)) continue
-    if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(strippedMasked)) continue
+    if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(trimmedMasked)) continue
+    if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(trimmedMasked)) continue
 
-    const clean = stripInlineUiAndChannelUsingMask(rawLine, maskedLine)
-      .replace(/\s{2,}/g, ' ')
-      .trim()
+    const clean = rawLine.replace(/\s{2,}/g, ' ').trim()
     if (clean) return clean
   }
   return undefined
@@ -485,9 +626,9 @@ function buildFrontMatterLines(options: {
   const isYamlCoercible = (value: string) =>
     /^(?:true|false|null|~)$/i.test(value) ||
     /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value) ||
-    /^0x[0-9a-fA-F]+$/i.test(value) ||
-    /^0o[0-7]+$/i.test(value) ||
-    /^0b[01]+$/i.test(value) ||
+    /^[+-]?0x[0-9a-fA-F_]+$/i.test(value) ||
+    /^[+-]?0o[0-7_]+$/i.test(value) ||
+    /^[+-]?0b[01_]+$/i.test(value) ||
     /^[+-]?\.(?:inf|nan)$/i.test(value) ||
     /^\d{4}-\d{1,2}-\d{1,2}(?:[Tt\s]\d{1,2}:\d{2}:\d{2}(?:\.\d*)?(?:\s*(?:Z|[+-]\d{1,2}(?::?\d{2})?))?)?$/.test(value)
   const scalar = (value: string) =>
