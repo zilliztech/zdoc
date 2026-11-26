@@ -1294,6 +1294,8 @@
       "id": "translation-zh-style-guide",
       "paths": [
         ".github/prompts/codex-style-guide.zh-CN-reference.md",
+        "config/translation/zh-CN-common.json",
+        "config/translation/zh-CN-guides.json",
         "config/translation/zh-CN-reference.json"
       ],
       "focusedTests": [],
@@ -1303,7 +1305,7 @@
         "pnpm test:workflow-matrix",
         "pnpm test:workflow-policy"
       ],
-      "reason": "The zh-CN-reference style guide joins the prompt contract chain (promptContractSha256); contract JSON schema and recovery prompt-hash tests must stay green. Mirror of the ja-JP quality-assets change for Phase C."
+      "reason": "The zh-CN-reference style guide, shared Chinese glossary base (zh-CN-common.json), and contract shells (zh-CN-reference.json, zh-CN-guides.json) belong to the locale-contract and prompt-contract chain; contract JSON schema, inheritance/security, and recovery prompt-hash tests must stay green."
     },
     {
       "id": "manual-translation-entry",
