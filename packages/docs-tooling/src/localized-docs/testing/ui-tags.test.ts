@@ -431,4 +431,85 @@ describe('scanUiTags & validateUiTags', () => {
       expect(masked, expr).not.toContain('return')
     }
   })
+
+  it('ignores fence markers inside MDX/HTML comments, resolves blockquote 4+-space fences without depth mismatch, and strips inline {/* c */} ranges (Iter 9 Findings 1-4)', () => {
+    // Finding 1: {/* ... */} and <!-- ... --> containing fence marker lines must not open fences
+    expect(scanUiTags('# T\n\n{/*\n```js\n*/}\n\nReal paragraph <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 16 }],
+    })
+    expect(scanUiTags('# T\n\n<!--\n```js\n-->\n\nReal paragraph <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 16 }],
+    })
+    expect(scanUiTags('# T\n\n- item\n\n  {/*\n  ```js\n  */}\n\n  Real <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 8 }],
+    })
+    const uiAfterCommentFence = validateUiTags('# T\n\n{/*\n```js\n*/}\n\n<UI bad />\n\n```py\nconst x = 1;\n```\n')
+    expect(uiAfterCommentFence).toHaveLength(1)
+    expect(uiAfterCommentFence[0].code).toBe('UI_TAG_MALFORMED')
+    expect(uiAfterCommentFence[0].line).toBe(7)
+
+    // Negative check: {/* inside a fence is code, not a comment, and `{/*` inline code does not open a comment
+    expect(scanUiTags('# T\n\n```js\n{/*\n```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n`{/*`\n```js\n<UI bad />\n```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 8, column: 6 }],
+    })
+
+    // Finding 2: blockquote-prefixed 4+-space fences (single, nested, list-nested, inside Tabs)
+    expect(scanUiTags('# T\n\n>     ```jsx\n> <UI bad />\n>     ```\n\nReal paragraph.\n')).toEqual({ tags: [] })
+    expect(scanUiTags('# T\n\n>     ```jsx\n> <UI bad />\n> ```\n\nReal paragraph.\n')).toEqual({ tags: [] })
+    expect(scanUiTags('# T\n\n> >     ```jsx\n> > <UI bad />\n> >     ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n- item\n\n  >     ```jsx\n  > <UI bad />\n  >     ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 6 }],
+    })
+    expect(
+      scanUiTags(
+        '# T\n\n<Tabs>\n\n  <TabItem value="a" label="A">\n\n  >     ```jsx\n  > <UI bad />\n  >     ```\n\n  </TabItem>\n\n</Tabs>\n\nReal <UI>Keep</UI>.\n',
+      ),
+    ).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 15, column: 6 }],
+    })
+
+    const bqBypassErrors = validateUiTags('# T\n\n>     ```jsx\n> const a = 1;\n> ```\n>\n> <UI bad />\n\nReal paragraph.\n')
+    expect(bqBypassErrors).toHaveLength(1)
+    expect(bqBypassErrors[0].code).toBe('UI_TAG_MALFORMED')
+    expect(bqBypassErrors[0].line).toBe(7)
+
+    expect(
+      scanUiTags('# T\n\n>     ```jsx\n> const a = 1;\n> ```\n>\n> Real <UI>Keep</UI>.\n>\n> ```js\n> <UI bad />\n> ```\n'),
+    ).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 8 }],
+    })
+
+    // Unmatched >     ```bash must not swallow prose outside blockquote (or cross exiting line / mismatched depth)
+    expect(scanUiTags('# T\n\n>     ```bash\n>     echo hi\n\nReal <UI>Keep</UI>.\n\n> ```\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 6, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n> >     ```jsx\n> >     echo hi\n> ```\n> <UI bad />\n> ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 6 }],
+    })
+
+    // O(N) performance on 10,000 unclosed 4-space lines, 5,000 comment fences, and 5,000 nested blockquote depth mismatches
+    const t0 = performance.now()
+    const tenK = scanUiTags(`# T\n\n${'    ```js\n'.repeat(10000)}\nReal <UI>Keep</UI>.\n`)
+    const commentMany = scanUiTags(`# T\n\n{/*\n${'```js\n'.repeat(5000)}*/}\n\nReal <UI>Keep</UI>.\n`)
+    const nestedMismatch = scanUiTags(`# T\n\n${'> >     ```js\n'.repeat(5000)}> \`\`\`\n\nReal <UI>Keep</UI>.\n`)
+    expect(performance.now() - t0).toBeLessThan(200)
+    expect(tenK).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 10004, column: 6 }] })
+    expect(commentMany).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 5006, column: 6 }] })
+    expect(nestedMismatch).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 5005, column: 6 }] })
+
+    // Finding 3 & 4 surface helpers: fenceRanges + outerNonJsxGaps/proseCommentRanges
+    const fenceRes = maskCodeAndCommentsWithRanges('# T\n\n>     ```py\n> x\n> ```\n\n{/*\n```js\n*/}\n')
+    expect(fenceRes.fenceRanges).toEqual([{ start: 2, end: 4, bqDepth: 1, closed: true }])
+
+    const commentInJsxExpr = maskCodeAndCommentsWithRanges('{<p>{/* c */}{(() => <UI>Keep</UI>)()}</p>}')
+    expect(commentInJsxExpr.jsxExprWrapperRanges.some(([s, e]) => commentInJsxExpr.masked.slice(s, e).trim() === '' && e - s >= 9)).toBe(true)
+
+    const topComment = maskCodeAndCommentsWithRanges('<p>{/* c */}Hello</p>')
+    expect(topComment.proseCommentRanges).toEqual([[3, 12]])
+  })
 })

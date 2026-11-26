@@ -1,6 +1,6 @@
 import { componentImports, componentOrder, isImportableComponent } from '../../shared-docs/core/site/components.ts'
 import type { Component } from '../../shared-docs/core/site/types.ts'
-import { fencesIn, markdownLines } from '../../shared-docs/core/blocks.ts'
+import { markdownLines } from '../../shared-docs/core/blocks.ts'
 import { parseYaml } from '../../shared-docs/core/yaml.ts'
 import { mergeVariables } from './config.ts'
 import { MACHINE_GENERATED_FRONTMATTER_KEYS, matchEsmImportAt } from './strip-en.ts'
@@ -15,6 +15,7 @@ import {
   maskCodeAndCommentsWithRanges,
   scanJsxOpenTag,
   scanUiTags,
+  stripBlockquotePrefix,
 } from './ui-tags.ts'
 import type {
   AssembleInput,
@@ -195,7 +196,7 @@ export function validateChannelTags(
   context: DiagnosticContext = {},
 ): LocalizedDocsError[] {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
-  const masked = maskCodeAndComments(normalized)
+  const { masked, fenceRanges } = maskCodeAndCommentsWithRanges(normalized)
   const lineStarts = computeLineStarts(normalized)
   const errors: LocalizedDocsError[] = []
 
@@ -280,14 +281,15 @@ export function validateChannelTags(
     )
   }
 
-  // Validate channel code directives inside fenced code blocks
+  // Validate channel code directives inside sequentially resolved fenced code blocks
   const lines = markdownLines(normalized)
-  const fences = fencesIn(normalized, lines)
-  for (const [start, fence] of fences) {
+  for (const fence of fenceRanges) {
     let active: 'next' | 'current' | null = null
     let pending: 'next' | 'current' | null = null
-    for (let i = start + 1; i < fence.end; i += 1) {
-      const directive = parseChannelCodeDirective(lines[i])
+    const bodyEnd = fence.closed ? fence.end : fence.end + 1
+    for (let i = fence.start + 1; i < bodyEnd; i += 1) {
+      const codeLine = fence.bqDepth > 0 ? stripBlockquotePrefix(lines[i], fence.bqDepth).rest : lines[i]
+      const directive = parseChannelCodeDirective(codeLine)
       if (!directive) {
         pending = null
         continue
@@ -527,8 +529,8 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
 export function extractFirstParagraph(markdown: string): string | undefined {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
-  const { masked, jsxExprWrapperRanges } = maskCodeAndCommentsWithRanges(normalized)
-  const ranges = mergeRanges([...computeJsxStripRanges(masked), ...jsxExprWrapperRanges])
+  const { masked, jsxExprWrapperRanges, proseCommentRanges } = maskCodeAndCommentsWithRanges(normalized)
+  const ranges = mergeRanges([...computeJsxStripRanges(masked), ...jsxExprWrapperRanges, ...proseCommentRanges])
   const cleanedRaw = stripRangesPreservingNewlines(normalized, ranges)
   const cleanedMasked = stripRangesPreservingNewlines(masked, ranges)
   const rawLines = markdownLines(cleanedRaw)
@@ -554,7 +556,7 @@ export function extractFirstParagraph(markdown: string): string | undefined {
     if (leadingHtmlMatch && (HTML_CONTAINER_TAGS.has(leadingHtmlMatch[1]) || HTML_VOID_ELEMENTS.has(leadingHtmlMatch[1]))) {
       continue
     }
-    if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(trimmedMasked)) continue
+    if (/^(?:[-*+]\s|\d+\.\s|>(?:\s|$)|\|)/.test(trimmedMasked)) continue
 
     const clean = rawLine.replace(/\s{2,}/g, ' ').trim()
     if (clean) return clean

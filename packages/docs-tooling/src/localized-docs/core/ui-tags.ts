@@ -87,7 +87,7 @@ export interface JsExpressionScanResult {
 }
 
 type JsScanFrame =
-  | { kind: 'brace'; start: number; jsxSpans: [number, number][] }
+  | { kind: 'brace'; start: number; jsxSpans: [number, number][]; hasNonCommentToken: boolean }
   | { kind: 'template'; textStart: number }
   | { kind: 'jsx-open'; tagName: string; tagStart: number; attrStart: number; maskAttrStrings: boolean }
   | { kind: 'jsx'; tagName: string; openStart: number }
@@ -130,7 +130,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
   }
 
-  const stack: JsScanFrame[] = [{ kind: 'brace', start, jsxSpans: [] }]
+  const stack: JsScanFrame[] = [{ kind: 'brace', start, jsxSpans: [], hasNonCommentToken: false }]
   const commentRanges: [number, number][] = []
   const maskRanges: [number, number][] = []
   const outerNonJsxGaps: [number, number][] = []
@@ -153,6 +153,9 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
   const recordCompletedJsxSpan = (spanStart: number, spanEnd: number) => {
     hasJsx = true
     const top = stack[stack.length - 1]
+    if (top && top.kind === 'brace') {
+      top.hasNonCommentToken = true
+    }
     let nearestContainerIdx = -1
     for (let s = stack.length - 1; s >= 0; s -= 1) {
       if (stack[s].kind === 'jsx' || stack[s].kind === 'jsx-open') {
@@ -195,7 +198,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         if (cursor > top.textStart) {
           maskRanges.push([top.textStart, cursor])
         }
-        stack.push({ kind: 'brace', start: cursor + 1, jsxSpans: [] })
+        stack.push({ kind: 'brace', start: cursor + 1, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
         cursor += 2
@@ -230,7 +233,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         continue
       }
       if (ch === '{') {
-        stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
+        stack.push({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
         cursor += 1
@@ -261,7 +264,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
 
     if (top.kind === 'jsx') {
       if (ch === '{') {
-        stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
+        stack.push({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
         canStartRegex = true
         afterDot = false
         cursor += 1
@@ -401,14 +404,21 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         }
       }
       const parent = stack[stack.length - 1]
-      if (parent.kind === 'template') {
+      if (parent.kind === 'brace') {
+        parent.hasNonCommentToken = true
+      } else if (parent.kind === 'template') {
         if (popped.jsxSpans.length > 0) {
           pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
         }
         parent.textStart = cursor
-      } else if (parent.kind === 'jsx' && popped.jsxSpans.length > 0) {
-        pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
-        pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, outerNonJsxGaps)
+      } else if (parent.kind === 'jsx') {
+        if (popped.jsxSpans.length > 0) {
+          pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
+          pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, outerNonJsxGaps)
+        } else if (!popped.hasNonCommentToken) {
+          maskRanges.push([popped.start, cursor])
+          outerNonJsxGaps.push([popped.start, cursor])
+        }
       }
       hasNonCommentToken = true
       canStartRegex = false
@@ -417,9 +427,10 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
 
     hasNonCommentToken = true
+    top.hasNonCommentToken = true
 
     if (ch === '{') {
-      stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
+      stack.push({ kind: 'brace', start: cursor, jsxSpans: [], hasNonCommentToken: false })
       canStartRegex = true
       afterDot = false
       cursor += 1
@@ -719,23 +730,85 @@ function countNewlines(text: string, start: number, end: number): number {
   return count
 }
 
-function matchIndentedFenceOpener(lineText: string): { markerChar: string; markerLen: number } | null {
-  const match = /^[ \t]*(`{3,}|~{3,})(.*)$/.exec(lineText)
+export interface FenceLineRange {
+  start: number
+  end: number
+  bqDepth: number
+  closed: boolean
+}
+
+export function stripBlockquotePrefix(
+  lineText: string,
+  maxDepth = Number.POSITIVE_INFINITY,
+): { bqDepth: number; rest: string } {
+  let bqDepth = 0
+  let pos = 0
+  while (bqDepth < maxDepth && pos < lineText.length) {
+    let wsEnd = pos
+    while (wsEnd < lineText.length && (lineText[wsEnd] === ' ' || lineText[wsEnd] === '\t')) {
+      wsEnd += 1
+    }
+    if (lineText[wsEnd] === '>') {
+      bqDepth += 1
+      pos = wsEnd + 1
+      if (pos < lineText.length && lineText[pos] === ' ') {
+        pos += 1
+      }
+      continue
+    }
+    break
+  }
+  return { bqDepth, rest: lineText.slice(pos) }
+}
+
+interface ParsedFenceOpener {
+  bqDepth: number
+  markerChar: string
+  markerLen: number
+  is0to3: boolean
+}
+
+function matchIndentedFenceOpener(lineText: string): ParsedFenceOpener | null {
+  const { bqDepth, rest } = stripBlockquotePrefix(lineText)
+  const match = /^[ \t]*(`{3,}|~{3,})(.*)$/.exec(rest)
   if (!match) return null
   if (match[1][0] === '`' && match[2].includes('`')) return null
-  return { markerChar: match[1][0], markerLen: match[1].length }
+  return {
+    bqDepth,
+    markerChar: match[1][0],
+    markerLen: match[1].length,
+    is0to3: /^ {0,3}(?:`{3,}|~{3,})/.test(rest),
+  }
+}
+
+function matchFenceCloserAtDepth(
+  lineText: string,
+  targetBqDepth: number,
+): { markerChar: string; markerLen: number } | null {
+  const { bqDepth, rest } = stripBlockquotePrefix(lineText)
+  if (bqDepth !== targetBqDepth) return null
+  const match = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(rest)
+  if (!match) return null
+  return {
+    markerChar: match[1][0],
+    markerLen: match[1].length,
+  }
 }
 
 function findFenceCloseLine(
   lines: readonly string[],
   openLineIdx: number,
-  openFence: { markerChar: string; markerLen: number },
+  openFence: ParsedFenceOpener,
 ): number {
-  const { markerChar, markerLen } = openFence
+  const { bqDepth: targetDepth, markerChar, markerLen } = openFence
   for (let k = openLineIdx + 1; k < lines.length; k += 1) {
-    const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(lines[k])
-    if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
-      return k
+    const { bqDepth, rest } = stripBlockquotePrefix(lines[k])
+    if (bqDepth < targetDepth) return -1
+    if (bqDepth === targetDepth) {
+      const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(rest)
+      if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
+        return k
+      }
     }
   }
   return -1
@@ -762,7 +835,8 @@ function scanInlineBacktickSpan(
       const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
       const nextLineText = fenceMasked.slice(cursor + 1, nextLineEnd)
       if (/^[ \t]*$/.test(nextLineText)) return -1
-      if (inJsxContainer && matchIndentedFenceOpener(nextLineText) !== null) {
+      const nextOpener = matchIndentedFenceOpener(nextLineText)
+      if (nextOpener !== null && (inJsxContainer || nextOpener.is0to3)) {
         return -1
       }
     }
@@ -941,6 +1015,8 @@ export interface MaskCodeAndCommentsOptions {
 export interface MaskCodeAndCommentsResult {
   masked: string
   jsxExprWrapperRanges: [number, number][]
+  proseCommentRanges: [number, number][]
+  fenceRanges: FenceLineRange[]
 }
 
 /**
@@ -989,54 +1065,214 @@ export function maskCodeAndCommentsWithRanges(
     }
   }
 
-  // Suffix-max closer lengths keep sequential fence resolution strictly O(N) on unclosed openers.
+  // Per-depth suffix-max closer lengths keep sequential fence resolution strictly O(N) on unclosed
+  // openers (including nested blockquotes) without pairing across lines that exit a blockquote.
   const lineCount = lines.length
-  const maxBacktickCloseAfter = new Int32Array(lineCount + 1)
-  const maxTildeCloseAfter = new Int32Array(lineCount + 1)
+  const lineBqDepth = new Int32Array(lineCount)
+  const maxBtSameDepthAfter = new Int32Array(lineCount)
+  const maxTlSameDepthAfter = new Int32Array(lineCount)
+  const depthStack: { depth: number; maxBt: number; maxTl: number }[] = []
+
   for (let k = lineCount - 1; k >= 0; k -= 1) {
-    let bt = maxBacktickCloseAfter[k + 1]
-    let tl = maxTildeCloseAfter[k + 1]
-    const closeMatch = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(lines[k])
-    if (closeMatch) {
-      if (closeMatch[1][0] === '`') bt = Math.max(bt, closeMatch[1].length)
-      else tl = Math.max(tl, closeMatch[1].length)
+    const { bqDepth, rest } = stripBlockquotePrefix(lines[k])
+    lineBqDepth[k] = bqDepth
+    while (depthStack.length > 0 && depthStack[depthStack.length - 1].depth > bqDepth) {
+      depthStack.pop()
     }
-    maxBacktickCloseAfter[k] = bt
-    maxTildeCloseAfter[k] = tl
+    if (depthStack.length === 0 || depthStack[depthStack.length - 1].depth < bqDepth) {
+      depthStack.push({ depth: bqDepth, maxBt: 0, maxTl: 0 })
+    }
+    const top = depthStack[depthStack.length - 1]
+    maxBtSameDepthAfter[k] = top.maxBt
+    maxTlSameDepthAfter[k] = top.maxTl
+    const closeMatch = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(rest)
+    if (closeMatch) {
+      if (closeMatch[1][0] === '`') top.maxBt = Math.max(top.maxBt, closeMatch[1].length)
+      else top.maxTl = Math.max(top.maxTl, closeMatch[1].length)
+    }
   }
 
-  // Resolve fenced blocks sequentially in line order so a 4+-space fence closed by a 0-3 space
-  // fence consumes its closer before CommonMark 0-3 space fence parsing can invert parity.
-  for (let lineIdx = 0; lineIdx < lineCount; lineIdx += 1) {
-    const nestedEnd = mdNestedFences.get(lineIdx)
-    if (nestedEnd !== undefined) {
-      for (let k = lineIdx; k <= nestedEnd; k += 1) fenceExcluded.add(k)
-      lineIdx = nestedEnd
+  // Resolve fenced blocks in document order alongside {/* ... */} / <!-- ... --> / <Tag ...> / `...`
+  // so fence marker lines inside MDX/HTML comments or JSX expressions/attributes are skipped,
+  // while 4+-space fences (including blockquote-prefixed >     ```jsx) claim their closers before
+  // CommonMark 0-3 space fence parsing can invert parity.
+  const lineStarts = computeLineStarts(normalized)
+  const fenceRanges: FenceLineRange[] = []
+  const failedPreTickLens = new Set<number>()
+  let preLineIdx = 0
+  let preI = 0
+
+  const addFenceRange = (startLine: number, endLine: number, bqDepth: number, closed: boolean) => {
+    for (let k = startLine; k <= endLine; k += 1) fenceExcluded.add(k)
+    fenceRanges.push({ start: startLine, end: endLine, bqDepth, closed })
+  }
+
+  while (preI < normalized.length) {
+    const atLineStart = preI === 0 || normalized[preI - 1] === '\n'
+    if (atLineStart) {
+      if (/^[ \t]*$/.test(lines[preLineIdx]) || rawMdCodeBlockLines.has(preLineIdx)) {
+        failedPreTickLens.clear()
+      }
+
+      const nestedEnd = mdNestedFences.get(preLineIdx)
+      if (nestedEnd !== undefined) {
+        failedPreTickLens.clear()
+        const openInfo = matchIndentedFenceOpener(lines[preLineIdx])
+        const bqDepth = openInfo ? openInfo.bqDepth : lineBqDepth[preLineIdx]
+        const closeInfo =
+          openInfo && nestedEnd > preLineIdx
+            ? matchFenceCloserAtDepth(lines[nestedEnd], bqDepth)
+            : null
+        const closed =
+          closeInfo !== null &&
+          openInfo !== null &&
+          closeInfo.markerChar === openInfo.markerChar &&
+          closeInfo.markerLen >= openInfo.markerLen
+        addFenceRange(preLineIdx, nestedEnd, bqDepth, closed)
+        if (nestedEnd + 1 < lineCount) {
+          preLineIdx = nestedEnd + 1
+          preI = lineStarts[preLineIdx]
+          continue
+        }
+        break
+      }
+
+      const openFence = matchIndentedFenceOpener(lines[preLineIdx])
+      if (openFence) {
+        failedPreTickLens.clear()
+        const maxAvail =
+          openFence.markerChar === '`'
+            ? maxBtSameDepthAfter[preLineIdx]
+            : maxTlSameDepthAfter[preLineIdx]
+        const closeLine =
+          maxAvail >= openFence.markerLen
+            ? findFenceCloseLine(lines, preLineIdx, openFence)
+            : -1
+
+        if (closeLine >= 0) {
+          addFenceRange(preLineIdx, closeLine, openFence.bqDepth, true)
+          if (closeLine + 1 < lineCount) {
+            preLineIdx = closeLine + 1
+            preI = lineStarts[preLineIdx]
+            continue
+          }
+          break
+        }
+
+        if (openFence.is0to3) {
+          let endLine = lineCount - 1
+          if (openFence.bqDepth >= 1) {
+            endLine = preLineIdx
+            while (endLine + 1 < lineCount && lineBqDepth[endLine + 1] >= openFence.bqDepth) {
+              endLine += 1
+            }
+          }
+          addFenceRange(preLineIdx, endLine, openFence.bqDepth, false)
+          if (endLine + 1 < lineCount) {
+            preLineIdx = endLine + 1
+            preI = lineStarts[preLineIdx]
+            continue
+          }
+          break
+        }
+
+        // Unclosed 4+-space fence opener: leave out of fenceExcluded so mdCodeBlockLines
+        // masks only indented lines, and advance past the opener line in O(1).
+        if (preLineIdx + 1 < lineCount) {
+          preLineIdx += 1
+          preI = lineStarts[preLineIdx]
+          continue
+        }
+        break
+      }
+    }
+
+    const ch = normalized[preI]
+    if (ch === '\n') {
+      preLineIdx += 1
+      preI += 1
       continue
     }
 
-    const openFence = matchIndentedFenceOpener(lines[lineIdx])
-    if (!openFence) continue
-
-    const maxAvail =
-      openFence.markerChar === '`'
-        ? maxBacktickCloseAfter[lineIdx + 1]
-        : maxTildeCloseAfter[lineIdx + 1]
-    const closeLine =
-      maxAvail >= openFence.markerLen
-        ? findFenceCloseLine(lines, lineIdx, openFence)
-        : -1
-
-    if (closeLine >= 0) {
-      for (let k = lineIdx; k <= closeLine; k += 1) fenceExcluded.add(k)
-      lineIdx = closeLine
+    if (normalized.startsWith('<!--', preI)) {
+      const end = normalized.indexOf('-->', preI + 4)
+      if (end < 0) {
+        if (rawMdCodeBlockLines.has(preLineIdx)) {
+          if (preLineIdx + 1 < lineCount) {
+            preLineIdx += 1
+            preI = lineStarts[preLineIdx]
+            continue
+          }
+          break
+        }
+        break
+      }
+      const closeEnd = end + 3
+      preLineIdx += countNewlines(normalized, preI, closeEnd)
+      preI = closeEnd
       continue
     }
 
-    if (/^ {0,3}(?:`{3,}|~{3,})/.test(lines[lineIdx])) {
-      for (let k = lineIdx; k < lineCount; k += 1) fenceExcluded.add(k)
-      break
+    if (ch === '{' && !isEscapedAt(normalized, preI)) {
+      const expr = scanJsExpression(normalized, preI)
+      if (expr.hasUnclosedBlockComment) {
+        if (rawMdCodeBlockLines.has(preLineIdx)) {
+          if (preLineIdx + 1 < lineCount) {
+            preLineIdx += 1
+            preI = lineStarts[preLineIdx]
+            continue
+          }
+          break
+        }
+        break
+      }
+      if (expr.end >= 0) {
+        preLineIdx += countNewlines(normalized, preI, expr.end)
+        preI = expr.end
+        continue
+      }
     }
+
+    if (ch === '`') {
+      let tickLen = 0
+      while (preI + tickLen < normalized.length && normalized[preI + tickLen] === '`') tickLen += 1
+      if (isEscapedAt(normalized, preI) || failedPreTickLens.has(tickLen)) {
+        preI += tickLen
+        continue
+      }
+      const foundEnd = scanInlineBacktickSpan(
+        normalized,
+        preI,
+        preLineIdx,
+        tickLen,
+        fenceExcluded,
+        rawMdCodeBlockLines,
+        true,
+      )
+      if (foundEnd >= 0) {
+        preLineIdx += countNewlines(normalized, preI, foundEnd)
+        preI = foundEnd
+        continue
+      }
+      failedPreTickLens.add(tickLen)
+      preI += tickLen
+      continue
+    }
+
+    if (
+      ch === '<' &&
+      !isEscapedAt(normalized, preI) &&
+      (preI === 0 || !/[A-Za-z0-9_$]/.test(normalized[preI - 1]))
+    ) {
+      const openTag = scanJsxOpenTag(normalized, preI)
+      if (openTag) {
+        preLineIdx += countNewlines(normalized, preI, openTag.end)
+        preI = openTag.end
+        continue
+      }
+    }
+
+    preI += 1
   }
 
   for (const line of rawMdCodeBlockLines) {
@@ -1052,6 +1288,7 @@ export function maskCodeAndCommentsWithRanges(
 
   const chars = fenceMasked.split('')
   const jsxExprWrapperRanges: [number, number][] = []
+  const proseCommentRanges: [number, number][] = []
   const jsxStack: string[] = []
   let lineIdx = 0
   let i = 0
@@ -1071,16 +1308,18 @@ export function maskCodeAndCommentsWithRanges(
         continue
       }
 
-      // Any remaining indented fence opener not in fenceExcluded has no closing fence; inside
-      // an open JSX container it masks to EOF, while at top level mdCodeBlockLines masks only
-      // the indented lines so unmatched code blocks never swallow downstream prose.
+      // Any remaining top-level indented fence opener not in fenceExcluded has no closing fence;
+      // inside an open JSX container it masks to EOF, while at top level (or inside blockquotes)
+      // mdCodeBlockLines masks only the indented lines so unmatched code blocks never swallow
+      // downstream prose.
       const lineText = fenceMasked.slice(i, lineEnd)
-      if (jsxStack.length > 0 && matchIndentedFenceOpener(lineText) !== null) {
+      const unclosedFence = jsxStack.length > 0 ? matchIndentedFenceOpener(lineText) : null
+      if (unclosedFence !== null && unclosedFence.bqDepth === 0) {
         maskRangePreservingNewlines(chars, i, fenceMasked.length)
         break
       }
 
-      if (mdCodeBlockLines.has(lineIdx) && jsxStack.length === 0) {
+      if (mdCodeBlockLines.has(lineIdx) && (jsxStack.length === 0 || lineBqDepth[lineIdx] > 0)) {
         maskRangePreservingNewlines(chars, i, lineEnd)
         i = lineEnd
         if (i < fenceMasked.length && fenceMasked[i] === '\n') {
@@ -1123,6 +1362,9 @@ export function maskCodeAndCommentsWithRanges(
             }
           } else {
             maskRangePreservingNewlines(chars, i, expr.end)
+            if (expr.commentsOnly) {
+              proseCommentRanges.push([i, expr.end])
+            }
           }
         } else {
           for (const [mStart, mEnd] of expr.maskRanges) {
@@ -1249,7 +1491,7 @@ export function maskCodeAndCommentsWithRanges(
     i += 1
   }
 
-  return { masked: chars.join(''), jsxExprWrapperRanges }
+  return { masked: chars.join(''), jsxExprWrapperRanges, proseCommentRanges, fenceRanges }
 }
 
 export function maskCodeAndComments(

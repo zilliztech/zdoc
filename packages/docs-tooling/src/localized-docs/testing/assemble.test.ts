@@ -1374,4 +1374,161 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('handles comment-enclosed fences, blockquote 4+-space fences, sequential channel fence validation, and inline {/* c */} stripping E2E (Iter 9 Findings 1-4)', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter10-e2e' } }
+
+      // Finding 1: {/* ... */} containing fence markers must not swallow downstream content or bypass UI/shell checks
+      const f1Ok = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n{/*\n```js\n*/}\n\nReal paragraph <UI>Keep</UI>.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f1Ok).toBe(false)
+      if (!('errors' in f1Ok)) {
+        expect(f1Ok.description).toBe('Real paragraph Keep.')
+        expect(f1Ok.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+
+      const f1Ui = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n{/*\n```js\n*/}\n\n<UI bad />\n\n```py\nconst x = 1;\n```\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f1Ui).toBe(true)
+      if ('errors' in f1Ui) expect(f1Ui.errors[0].code).toBe('UI_TAG_MALFORMED')
+
+      const f1Shell = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n{/*\n```js\n*/}\n\nimport Evil from "@site/evil";\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f1Shell).toBe(true)
+      if ('errors' in f1Shell) expect(f1Shell.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+
+      // Finding 2: blockquote-prefixed 4+-space fences (including nested, list-nested, Tabs, and unmatched)
+      const f2ValidCases: [string, string, string[]][] = [
+        ['# T\n\n>     ```jsx\n> <UI bad />\n>     ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n>     ```jsx\n> <UI bad />\n> ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n> >     ```jsx\n> > <UI bad />\n> >     ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n- item\n\n  >     ```jsx\n  > <UI bad />\n  >     ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n<Tabs>\n\n  <TabItem value="a" label="A">\n\n  >     ```jsx\n  > <UI bad />\n  >     ```\n\n  </TabItem>\n\n</Tabs>\n\nReal paragraph.\n', 'Real paragraph.', ['Tabs', 'TabItem']],
+        ['# T\n\n>     ```bash\n>     echo hi\n\nReal <UI>Keep</UI>.\n', 'Real Keep.', []],
+      ]
+      for (const [sourceMd, expectedDesc, expectedComponents] of f2ValidCases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter10-e2e',
+          sourceMd,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, sourceMd).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, sourceMd).toBe(expectedDesc)
+          expect(res.components, sourceMd).toEqual(expectedComponents)
+        }
+      }
+
+      const f2BypassUi = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n>     ```jsx\n> const a = 1;\n> ```\n>\n> <UI bad />\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f2BypassUi).toBe(true)
+      if ('errors' in f2BypassUi) expect(f2BypassUi.errors[0].code).toBe('UI_TAG_MALFORMED')
+
+      const f2Parity = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n>     ```jsx\n> const a = 1;\n> ```\n>\n> Real <UI>Keep</UI>.\n>\n> ```js\n> <UI bad />\n> ```\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f2Parity).toBe(false)
+      if (!('errors' in f2Parity)) {
+        expect(f2Parity.description).toBe('')
+        expect(f2Parity.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+
+      // Finding 3: validateChannelTags uses sequential fence resolution (4-space & blockquote fences)
+      const f3Unclosed4Sp = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n    ```python\n# next-channel-start\nx = 1\n```\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f3Unclosed4Sp).toBe(true)
+      if ('errors' in f3Unclosed4Sp) expect(f3Unclosed4Sp.errors[0].code).toBe('CHANNEL_CODE_DIRECTIVE_INVALID')
+
+      const f3DoubleSlashInside4Sp = validateChannelTags('# T\n\n    ```js\n// next-channel-start\nconst x = 1;\n```\n\nReal.\n')
+      expect(f3DoubleSlashInside4Sp).toHaveLength(1)
+      expect(f3DoubleSlashInside4Sp[0].code).toBe('CHANNEL_CODE_DIRECTIVE_INVALID')
+      expect(f3DoubleSlashInside4Sp[0].line).toBe(6)
+
+      const f3ProseAfter4Sp = await assembleLocalizedPage({
+        pageId: 'iter10-e2e',
+        sourceMd: '# T\n\n    ```python\nconst x = 1;\n```\n\n// next-channel-start\n\n```python\nconst y = 2;\n```\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f3ProseAfter4Sp).toBe(false)
+      if (!('errors' in f3ProseAfter4Sp)) {
+        expect(f3ProseAfter4Sp.description).toBe('// next-channel-start')
+      }
+
+      const f3BqUnclosed = validateChannelTags('# T\n\n>     ```python\n> # next-channel-start\n> x = 1\n> ```\n')
+      expect(f3BqUnclosed).toHaveLength(1)
+      expect(f3BqUnclosed[0].code).toBe('CHANNEL_CODE_DIRECTIVE_INVALID')
+
+      const f3BqClosed = validateChannelTags('# T\n\n>     ```python\n> # next-channel-start\n> x = 1\n> # next-channel-end\n>     ```\n')
+      expect(f3BqClosed).toEqual([])
+
+      // Finding 4: inline {/* c */} child expressions inside {<p>...</p>} and <p> strip cleanly while preserving backticks
+      const f4Cases: [string, string][] = [
+        ['# T\n\n{<p>{/* c */}{(() => <UI>Keep</UI>)()}</p>}\n\nReal paragraph.\n', 'Keep'],
+        ['# T\n\n{<p>{(() => <UI>Keep</UI>)()} {/* c */}</p>}\n\nReal paragraph.\n', 'Keep'],
+        ['# T\n\n<p>{/* c */}Hello</p>\n\nReal paragraph.\n', 'Hello'],
+        ['# T\n\n<p>Hello {/* c */} world</p>\n\nReal paragraph.\n', 'Hello world'],
+        ['# T\n\n<p>Use `{/* c */}` verbatim</p>\n\nReal paragraph.\n', 'Use `{/* c */}` verbatim'],
+      ]
+      for (const [sourceMd, expectedDesc] of f4Cases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter10-e2e',
+          sourceMd,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, sourceMd).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, sourceMd).toBe(expectedDesc)
+        }
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })
