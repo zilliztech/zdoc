@@ -1,6 +1,13 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { maskCodeAndComments, maskCodeAndCommentsWithRanges, scanJsExpression, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
+import {
+  createJsExpressionScanCache,
+  maskCodeAndComments,
+  maskCodeAndCommentsWithRanges,
+  scanJsExpression,
+  scanUiTags,
+  validateUiTags,
+} from '../core/ui-tags.ts'
 
 describe('scanUiTags & validateUiTags', () => {
   it('extracts valid <UI>...</UI> tags with accurate 1-based line numbers', () => {
@@ -511,5 +518,124 @@ describe('scanUiTags & validateUiTags', () => {
 
     const topComment = maskCodeAndCommentsWithRanges('<p>{/* c */}Hello</p>')
     expect(topComment.proseCommentRanges).toEqual([[3, 12]])
+  })
+
+  it('stops inline backtick spans at block boundaries, runs O(N) on unclosed comments/braces, and scans blockquote-4sp JSX inside containers (Iter 10 Findings 1-3)', () => {
+    // Finding 1: cross-block backtick pairing must not expose `{/*` across blockquote blank lines,
+    // blockquote depth changes, ATX headings, lists, thematic breaks, or top-level 4-space blocks
+    const crossBlockUiCases: [string, string, number][] = [
+      ['blockquote blank line', '# T\n\n> Here is `unclosed\n>\n> `{/*`\n> ```js\n> */}\n> ```\n>\n> <UI bad />\n', 10],
+      ['blockquote deeper nesting', '# T\n\n> Here is `unclosed\n> > `{/*`\n> > ```js\n> > */}\n> > ```\n\n<UI bad />\n', 9],
+      ['entering blockquote', '# T\n\nHere is `unclosed\n> `{/*`\n> ```js\n> */}\n> ```\n\n<UI bad />\n', 9],
+      ['exiting blockquote', '# T\n\n> Here is `unclosed\n`{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['ATX heading', '# T\n\nHere is `unclosed\n# Heading `{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['bullet list -', '# T\n\nHere is `unclosed\n- item `{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['bullet list *', '# T\n\nHere is `unclosed\n* item `{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['ordered list 1.', '# T\n\nHere is `unclosed\n1. item `{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['ordered list 1)', '# T\n\nHere is `unclosed\n1) item `{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+      ['thematic break', '# T\n\nHere is `unclosed\n***\n`{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 10],
+      ['setext underline', '# T\n\nHere is `unclosed\n---\n`{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 10],
+      ['top-level 4-space code block', '# T\n\n    Here is `unclosed\n`{/*`\n```js\n*/}\n```\n\n<UI bad />\n', 9],
+    ]
+    for (const [label, md, expectedLine] of crossBlockUiCases) {
+      const errs = validateUiTags(md)
+      expect(errs, label).toHaveLength(1)
+      expect(errs[0].code, label).toBe('UI_TAG_MALFORMED')
+      expect(errs[0].line, label).toBe(expectedLine)
+    }
+
+    expect(
+      scanUiTags('# T\n\n> Here is `unclosed\n>\n> `{/*`\n> ```js\n> */}\n> ```\n>\n> Real <UI>Keep</UI>.\n'),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 10, column: 8 }] })
+
+    // Valid multi-line inline backticks inside a single paragraph, blockquote paragraph, and <Tabs> remain intact
+    expect(scanUiTags('# T\n\nHere is `multi\nline <UI bad />` and <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 4, column: 22 }],
+    })
+    expect(scanUiTags('# T\n\n> Here is `multi\n> line <UI bad />` and <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 4, column: 24 }],
+    })
+    expect(
+      scanUiTags(
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n    Here is `multi\n    line` and `{/*`\n    ```js\n    */}\n    ```\n\n    Real <UI>Keep</UI>.\n\n</TabItem>\n</Tabs>\n',
+      ),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 12, column: 10 }] })
+
+    // Finding 2: subtle nested `{ foo }` after unclosed `{` stays accurate while 10,000-line unclosed cases stay O(N)
+    const subtleCache = createJsExpressionScanCache()
+    const subtleSrc = '    {\n    { foo }'
+    expect(scanJsExpression(subtleSrc, 4, subtleCache).end).toBe(-1)
+    expect(scanJsExpression(subtleSrc, 10, subtleCache).end).toBe(17)
+
+    expect(scanUiTags('{\n{ <UI>Keep</UI> }\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 2, column: 3 }],
+    })
+    expect(
+      scanUiTags('<Tabs>\n<TabItem value="a" label="A">\n\n    {\n    { <UI>Keep</UI> }\n\n</TabItem>\n</Tabs>\n'),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 5, column: 7 }] })
+
+    for (const [label, line] of [
+      ['4sp-brace', '    {'],
+      ['bq-4sp-brace', '>     {'],
+      ['0sp-brace', '{'],
+      ['4sp-html-comment', '    <!--'],
+      ['bq-4sp-html-comment', '>     <!--'],
+      ['4sp-mdx-comment', '    {/*'],
+      ['4sp-str-brace', '    { "'],
+    ] as const) {
+      const doc = `${Array.from({ length: 10000 }, () => line).join('\n')}\n\nReal <UI>Keep</UI>.\n`
+      const t0 = performance.now()
+      const res = scanUiTags(doc)
+      const elapsed = performance.now() - t0
+      expect(elapsed, `${label} took ${elapsed.toFixed(2)}ms`).toBeLessThan(100)
+      expect(res, label).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: 10002, column: 6 }],
+      })
+    }
+
+    const tabs10kBraces = `<Tabs>\n<TabItem value="a" label="A">\n\n${Array.from({ length: 10000 }, () => '    {').join('\n')}\n\n</TabItem>\n</Tabs>\n\nReal <UI>Keep</UI>.\n`
+    const tTabs0 = performance.now()
+    const tabs10kRes = scanUiTags(tabs10kBraces)
+    const tabsElapsed = performance.now() - tTabs0
+    expect(tabsElapsed, `tabs-10k-brace took ${tabsElapsed.toFixed(2)}ms`).toBeLessThan(100)
+    expect(tabs10kRes).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 10008, column: 6 }],
+    })
+
+    const fiveKBackticks = `${Array.from({ length: 5000 }, () => 'x `').join('\n')}\n\nReal <UI>Keep</UI>.\n`
+    const tBt0 = performance.now()
+    const fiveKRes = scanUiTags(fiveKBackticks)
+    const btElapsed = performance.now() - tBt0
+    expect(btElapsed, `5k-unclosed-bt took ${btElapsed.toFixed(2)}ms`).toBeLessThan(100)
+    expect(fiveKRes).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 5002, column: 6 }],
+    })
+
+    // Finding 3: blockquote-prefixed 4+-space JSX inside open JSX containers is live JSX
+    for (const containerDoc of [
+      '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     <UI bad />\n\n</TabItem>\n</Tabs>\n',
+      '# T\n\n<Admonition type="note">\n\n>     <UI bad />\n\n</Admonition>\n',
+      '# T\n\n<details><summary>Info</summary>\n\n>     <UI bad />\n\n</details>\n',
+    ]) {
+      const errs = validateUiTags(containerDoc)
+      expect(errs, containerDoc).toHaveLength(1)
+      expect(errs[0].code, containerDoc).toBe('UI_TAG_MALFORMED')
+    }
+
+    expect(
+      scanUiTags('# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n'),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 6, column: 7 }] })
+
+    // Unclosed >     ```bash inside <Tabs> masks only its contiguous indented blockquote lines
+    expect(
+      scanUiTags(
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     ```bash\n>     <UI bad />\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n',
+      ),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 7 }] })
+    expect(
+      scanUiTags(
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     ```bash\n>     <UI bad />\n> <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n',
+      ),
+    ).toEqual({ tags: [{ text: 'Keep', rawInner: 'Keep', line: 8, column: 3 }] })
   })
 })

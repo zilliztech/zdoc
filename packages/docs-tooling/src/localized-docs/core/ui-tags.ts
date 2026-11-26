@@ -58,6 +58,34 @@ const REGEX_PREFIX_KEYWORDS = new Set([
 
 const JSX_OPEN_HEAD_RE = /<([A-Za-z][A-Za-z0-9.-]*)(?=[\s/>])/y
 const JSX_CLOSE_TAG_RE = /<\/([A-Za-z][A-Za-z0-9.-]*)\s*>/y
+const ATX_HEADING_0_3_RE = /^ {0,3}#{1,6}(?:[ \t]|$)/
+const ATX_HEADING_INDENT_RE = /^[ \t]*#{1,6}(?:[ \t]|$)/
+const THEMATIC_OR_SETEXT_0_3_RE = /^ {0,3}(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|=+|-+)[ \t]*$/
+const THEMATIC_OR_SETEXT_INDENT_RE = /^[ \t]*(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,}|=+|-+)[ \t]*$/
+const LIST_INTERRUPT_0_3_RE = /^ {0,3}(?:[-*+]|1[.)])[ \t]+\S/
+const LIST_INTERRUPT_INDENT_RE = /^[ \t]*(?:[-*+]|1[.)])[ \t]+\S/
+
+export interface JsExpressionScanCache {
+  unclosedBraces: Map<number, boolean>
+  lastBlockCommentClose: number | undefined
+  noUnescapedDoubleQuoteFrom: number
+  noUnescapedSingleQuoteFrom: number
+  noRawDoubleQuoteFrom: number
+  noRawSingleQuoteFrom: number
+  noUnclosedTemplateFrom: number
+}
+
+export function createJsExpressionScanCache(): JsExpressionScanCache {
+  return {
+    unclosedBraces: new Map<number, boolean>(),
+    lastBlockCommentClose: undefined,
+    noUnescapedDoubleQuoteFrom: Number.POSITIVE_INFINITY,
+    noUnescapedSingleQuoteFrom: Number.POSITIVE_INFINITY,
+    noRawDoubleQuoteFrom: Number.POSITIVE_INFINITY,
+    noRawSingleQuoteFrom: Number.POSITIVE_INFINITY,
+    noUnclosedTemplateFrom: Number.POSITIVE_INFINITY,
+  }
+}
 
 export function isEscapedAt(text: string, index: number): boolean {
   let backslashes = 0
@@ -115,7 +143,11 @@ function pushNonJsxGaps(
  * stack; every iteration advances strictly, and malformed regex/bracket lines
  * are memoized in O(lineLen) to guarantee linear worst-case time.
  */
-export function scanJsExpression(text: string, start: number): JsExpressionScanResult {
+export function scanJsExpression(
+  text: string,
+  start: number,
+  cache?: JsExpressionScanCache,
+): JsExpressionScanResult {
   if (text[start] !== '{') {
     return {
       end: -1,
@@ -127,6 +159,21 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       outerNonJsxGaps: [],
       jsxCloseTags: [],
       hasUnclosedBlockComment: false,
+    }
+  }
+
+  const cachedUnclosed = cache?.unclosedBraces.get(start)
+  if (cachedUnclosed !== undefined) {
+    return {
+      end: -1,
+      commentsOnly: false,
+      commentRanges: [],
+      maskRanges: [],
+      hasJsx: false,
+      hasUnmaskedToken: false,
+      outerNonJsxGaps: [],
+      jsxCloseTags: [],
+      hasUnclosedBlockComment: cachedUnclosed,
     }
   }
 
@@ -190,8 +237,16 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     const ch = text[cursor]
 
     if (top.kind === 'template') {
+      if (cache && cursor >= cache.noUnclosedTemplateFrom) {
+        cursor = text.length
+        break
+      }
       if (ch === '\\') {
         cursor += Math.min(2, text.length - cursor)
+        if (cursor >= text.length && cache) {
+          const resumeStart = text[top.textStart] === '`' ? top.textStart + 1 : top.textStart
+          cache.noUnclosedTemplateFrom = Math.min(cache.noUnclosedTemplateFrom, resumeStart)
+        }
         continue
       }
       if (ch === '$' && text[cursor + 1] === '{') {
@@ -213,6 +268,10 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         continue
       }
       cursor += 1
+      if (cursor >= text.length && cache) {
+        const resumeStart = text[top.textStart] === '`' ? top.textStart + 1 : top.textStart
+        cache.noUnclosedTemplateFrom = Math.min(cache.noUnclosedTemplateFrom, resumeStart)
+      }
       continue
     }
 
@@ -221,6 +280,10 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         const quote = ch
         const quoteStart = cursor
         cursor += 1
+        if (cache && cursor >= (quote === '"' ? cache.noRawDoubleQuoteFrom : cache.noRawSingleQuoteFrom)) {
+          cursor = text.length
+          break
+        }
         while (cursor < text.length && text[cursor] !== quote) {
           cursor += 1
         }
@@ -229,6 +292,12 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
             maskRanges.push([quoteStart + 1, cursor])
           }
           cursor += 1
+        } else if (cache) {
+          if (quote === '"') {
+            cache.noRawDoubleQuoteFrom = Math.min(cache.noRawDoubleQuoteFrom, quoteStart + 1)
+          } else {
+            cache.noRawSingleQuoteFrom = Math.min(cache.noRawSingleQuoteFrom, quoteStart + 1)
+          }
         }
         continue
       }
@@ -366,7 +435,17 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
 
     if (ch === '/' && text[cursor + 1] === '*') {
-      const end = text.indexOf('*/', cursor + 2)
+      let end = -1
+      if (cache) {
+        if (cache.lastBlockCommentClose === undefined) {
+          cache.lastBlockCommentClose = text.lastIndexOf('*/')
+        }
+        if (cursor + 2 <= cache.lastBlockCommentClose) {
+          end = text.indexOf('*/', cursor + 2)
+        }
+      } else {
+        end = text.indexOf('*/', cursor + 2)
+      }
       if (end < 0) {
         hasUnclosedBlockComment = true
         commentRanges.push([cursor, text.length])
@@ -441,6 +520,12 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       const quote = ch
       const strStart = cursor
       cursor += 1
+      if (cache && cursor >= (quote === '"' ? cache.noUnescapedDoubleQuoteFrom : cache.noUnescapedSingleQuoteFrom)) {
+        cursor = text.length
+        maskRanges.push([strStart, cursor])
+        break
+      }
+      let closedQuote = false
       while (cursor < text.length) {
         const qch = text[cursor]
         if (qch === '\\') {
@@ -448,7 +533,17 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
           continue
         }
         cursor += 1
-        if (qch === quote) break
+        if (qch === quote) {
+          closedQuote = true
+          break
+        }
+      }
+      if (!closedQuote && cache) {
+        if (quote === '"') {
+          cache.noUnescapedDoubleQuoteFrom = Math.min(cache.noUnescapedDoubleQuoteFrom, strStart + 1)
+        } else {
+          cache.noUnescapedSingleQuoteFrom = Math.min(cache.noUnescapedSingleQuoteFrom, strStart + 1)
+        }
       }
       maskRanges.push([strStart, cursor])
       canStartRegex = false
@@ -619,6 +714,14 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     cursor += 1
   }
 
+  if (cache) {
+    for (const frame of stack) {
+      if (frame.kind === 'brace') {
+        cache.unclosedBraces.set(frame.start, hasUnclosedBlockComment)
+      }
+    }
+  }
+
   return {
     end: -1,
     commentsOnly: !hasNonCommentToken,
@@ -650,7 +753,11 @@ export interface JsxOpenTagScanResult {
  * and `{...}` JS expressions (via `scanJsExpression`). Returns `null` on `<` abort
  * or unclosed tag/attribute.
  */
-export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResult | null {
+export function scanJsxOpenTag(
+  text: string,
+  start: number,
+  cache?: JsExpressionScanCache,
+): JsxOpenTagScanResult | null {
   JSX_OPEN_HEAD_RE.lastIndex = start
   const headMatch = JSX_OPEN_HEAD_RE.exec(text)
   if (!headMatch) return null
@@ -678,13 +785,16 @@ export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResul
     }
 
     if (ch === '"' || ch === "'") {
+      if (cache && cursor + 1 >= (ch === '"' ? cache.noRawDoubleQuoteFrom : cache.noRawSingleQuoteFrom)) {
+        return null
+      }
       quote = ch
       quoteContentStart = cursor + 1
       cursor += 1
       continue
     }
     if (ch === '{') {
-      const expr = scanJsExpression(text, cursor)
+      const expr = scanJsExpression(text, cursor, cache)
       if (expr.end < 0) return null
       exprRanges.push([cursor, expr.end])
       exprCommentRanges.push(...expr.commentRanges)
@@ -711,6 +821,14 @@ export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResul
       }
     }
     cursor += 1
+  }
+
+  if (quote !== null && cache) {
+    if (quote === '"') {
+      cache.noRawDoubleQuoteFrom = Math.min(cache.noRawDoubleQuoteFrom, quoteContentStart)
+    } else {
+      cache.noRawSingleQuoteFrom = Math.min(cache.noRawSingleQuoteFrom, quoteContentStart)
+    }
   }
 
   return null
@@ -814,6 +932,21 @@ function findFenceCloseLine(
   return -1
 }
 
+function isParagraphInterruptingLineRest(rest: string, inJsxContainer: boolean): boolean {
+  if (inJsxContainer) {
+    return (
+      ATX_HEADING_INDENT_RE.test(rest) ||
+      THEMATIC_OR_SETEXT_INDENT_RE.test(rest) ||
+      LIST_INTERRUPT_INDENT_RE.test(rest)
+    )
+  }
+  return (
+    ATX_HEADING_0_3_RE.test(rest) ||
+    THEMATIC_OR_SETEXT_0_3_RE.test(rest) ||
+    LIST_INTERRUPT_0_3_RE.test(rest)
+  )
+}
+
 function scanInlineBacktickSpan(
   fenceMasked: string,
   start: number,
@@ -822,7 +955,9 @@ function scanInlineBacktickSpan(
   fenceExcluded: ReadonlySet<number>,
   mdCodeBlockLines: ReadonlySet<number>,
   inJsxContainer: boolean,
+  lineBqDepth: Int32Array,
 ): number {
+  const startBqDepth = lineBqDepth[startLine]
   let cursor = start + tickLen
   let cursorLine = startLine
   while (cursor < fenceMasked.length) {
@@ -831,12 +966,19 @@ function scanInlineBacktickSpan(
       if (fenceExcluded.has(cursorLine) || (!inJsxContainer && mdCodeBlockLines.has(cursorLine))) {
         return -1
       }
+      if (lineBqDepth[cursorLine] !== startBqDepth) {
+        return -1
+      }
       const nextNl = fenceMasked.indexOf('\n', cursor + 1)
       const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
       const nextLineText = fenceMasked.slice(cursor + 1, nextLineEnd)
-      if (/^[ \t]*$/.test(nextLineText)) return -1
+      const { rest: nextRest } = stripBlockquotePrefix(nextLineText, startBqDepth)
+      if (/^[ \t]*$/.test(nextRest)) return -1
       const nextOpener = matchIndentedFenceOpener(nextLineText)
       if (nextOpener !== null && (inJsxContainer || nextOpener.is0to3)) {
+        return -1
+      }
+      if (isParagraphInterruptingLineRest(nextRest, inJsxContainer)) {
         return -1
       }
     }
@@ -866,8 +1008,13 @@ function computeLastCloseOffsets(
   fenceMasked: string,
   fenceExcluded: ReadonlySet<number>,
   mdCodeBlockLines: ReadonlySet<number>,
+  lineBqDepth: Int32Array,
+  jsCache: JsExpressionScanCache,
 ): Map<string, number> {
   const lastCloseOffset = new Map<string, number>()
+  const failedTickLens = new Set<number>()
+  let lastHtmlClose: number | undefined
+  let prevAtLineIdx = -1
   let lineIdx = 0
   let i = 0
 
@@ -876,7 +1023,11 @@ function computeLastCloseOffsets(
     if (atLineStart) {
       const nl = fenceMasked.indexOf('\n', i)
       const lineEnd = nl >= 0 ? nl : fenceMasked.length
+      const bqChanged = prevAtLineIdx < 0 || lineIdx !== prevAtLineIdx + 1 || lineBqDepth[lineIdx] !== lineBqDepth[prevAtLineIdx]
+      prevAtLineIdx = lineIdx
+
       if (fenceExcluded.has(lineIdx)) {
+        failedTickLens.clear()
         i = lineEnd
         if (i < fenceMasked.length && fenceMasked[i] === '\n') {
           lineIdx += 1
@@ -886,8 +1037,19 @@ function computeLastCloseOffsets(
       }
 
       const lineText = fenceMasked.slice(i, lineEnd)
+      const { rest } = stripBlockquotePrefix(lineText, lineBqDepth[lineIdx])
+      if (
+        bqChanged ||
+        mdCodeBlockLines.has(lineIdx) ||
+        /^[ \t]*$/.test(rest) ||
+        isParagraphInterruptingLineRest(rest, false)
+      ) {
+        failedTickLens.clear()
+      }
+
       const openFence = matchIndentedFenceOpener(lineText)
       if (openFence && mdCodeBlockLines.has(lineIdx)) {
+        failedTickLens.clear()
         i = lineEnd
         if (i < fenceMasked.length && fenceMasked[i] === '\n') {
           lineIdx += 1
@@ -905,7 +1067,10 @@ function computeLastCloseOffsets(
     }
 
     if (fenceMasked.startsWith('<!--', i)) {
-      const end = fenceMasked.indexOf('-->', i + 4)
+      if (lastHtmlClose === undefined) {
+        lastHtmlClose = fenceMasked.lastIndexOf('-->')
+      }
+      const end = i + 4 <= lastHtmlClose ? fenceMasked.indexOf('-->', i + 4) : -1
       if (end < 0) {
         if (mdCodeBlockLines.has(lineIdx)) {
           const nl = fenceMasked.indexOf('\n', i)
@@ -923,7 +1088,7 @@ function computeLastCloseOffsets(
     }
 
     if (ch === '{' && !isEscapedAt(fenceMasked, i)) {
-      const expr = scanJsExpression(fenceMasked, i)
+      const expr = scanJsExpression(fenceMasked, i, jsCache)
       if (expr.hasUnclosedBlockComment) {
         if (mdCodeBlockLines.has(lineIdx)) {
           const nl = fenceMasked.indexOf('\n', i)
@@ -947,7 +1112,7 @@ function computeLastCloseOffsets(
     if (ch === '`') {
       let tickLen = 0
       while (i + tickLen < fenceMasked.length && fenceMasked[i + tickLen] === '`') tickLen += 1
-      if (isEscapedAt(fenceMasked, i)) {
+      if (isEscapedAt(fenceMasked, i) || failedTickLens.has(tickLen)) {
         i += tickLen
         continue
       }
@@ -959,12 +1124,14 @@ function computeLastCloseOffsets(
         fenceExcluded,
         mdCodeBlockLines,
         false,
+        lineBqDepth,
       )
       if (foundEnd >= 0) {
         lineIdx += countNewlines(fenceMasked, i, foundEnd)
         i = foundEnd
         continue
       }
+      failedTickLens.add(tickLen)
       i += tickLen
       continue
     }
@@ -991,7 +1158,7 @@ function computeLastCloseOffsets(
       !isEscapedAt(fenceMasked, i) &&
       (i === 0 || !/[A-Za-z0-9_$]/.test(fenceMasked[i - 1]))
     ) {
-      const openTag = scanJsxOpenTag(fenceMasked, i)
+      const openTag = scanJsxOpenTag(fenceMasked, i, jsCache)
       if (openTag) {
         for (const ct of openTag.exprCloseTags) {
           lastCloseOffset.set(ct.tagName, ct.offset)
@@ -1099,6 +1266,18 @@ export function maskCodeAndCommentsWithRanges(
   const lineStarts = computeLineStarts(normalized)
   const fenceRanges: FenceLineRange[] = []
   const failedPreTickLens = new Set<number>()
+  const preJsCache = createJsExpressionScanCache()
+  const preJsxStack: string[] = []
+  const rawLastCloseOffset = new Map<string, number>()
+  for (const closeMatch of normalized.matchAll(/<\/(?:([A-Za-z][A-Za-z0-9.-]*)\s*)?>/g)) {
+    const tagName = closeMatch[1] ?? ''
+    if (tagName === '' || isKnownHtmlOrJsxTagName(tagName)) {
+      rawLastCloseOffset.set(tagName, closeMatch.index!)
+    }
+  }
+  let preLastHtmlClose: number | undefined
+  let preActiveUnclosedBqFenceDepth: number | null = null
+  let prevPreAtLineIdx = -1
   let preLineIdx = 0
   let preI = 0
 
@@ -1110,13 +1289,26 @@ export function maskCodeAndCommentsWithRanges(
   while (preI < normalized.length) {
     const atLineStart = preI === 0 || normalized[preI - 1] === '\n'
     if (atLineStart) {
-      if (/^[ \t]*$/.test(lines[preLineIdx]) || rawMdCodeBlockLines.has(preLineIdx)) {
+      const preBqChanged =
+        prevPreAtLineIdx < 0 ||
+        preLineIdx !== prevPreAtLineIdx + 1 ||
+        lineBqDepth[preLineIdx] !== lineBqDepth[prevPreAtLineIdx]
+      prevPreAtLineIdx = preLineIdx
+      const preInJsx = preJsxStack.length > 0
+
+      if (preBqChanged || rawMdCodeBlockLines.has(preLineIdx)) {
         failedPreTickLens.clear()
+      } else {
+        const { rest: preRest } = stripBlockquotePrefix(lines[preLineIdx], lineBqDepth[preLineIdx])
+        if (/^[ \t]*$/.test(preRest) || isParagraphInterruptingLineRest(preRest, preInJsx)) {
+          failedPreTickLens.clear()
+        }
       }
 
       const nestedEnd = mdNestedFences.get(preLineIdx)
       if (nestedEnd !== undefined) {
         failedPreTickLens.clear()
+        preActiveUnclosedBqFenceDepth = null
         const openInfo = matchIndentedFenceOpener(lines[preLineIdx])
         const bqDepth = openInfo ? openInfo.bqDepth : lineBqDepth[preLineIdx]
         const closeInfo =
@@ -1140,6 +1332,7 @@ export function maskCodeAndCommentsWithRanges(
       const openFence = matchIndentedFenceOpener(lines[preLineIdx])
       if (openFence) {
         failedPreTickLens.clear()
+        preActiveUnclosedBqFenceDepth = null
         const maxAvail =
           openFence.markerChar === '`'
             ? maxBtSameDepthAfter[preLineIdx]
@@ -1178,6 +1371,30 @@ export function maskCodeAndCommentsWithRanges(
 
         // Unclosed 4+-space fence opener: leave out of fenceExcluded so mdCodeBlockLines
         // masks only indented lines, and advance past the opener line in O(1).
+        if (preInJsx && openFence.bqDepth > 0 && rawMdCodeBlockLines.has(preLineIdx)) {
+          preActiveUnclosedBqFenceDepth = openFence.bqDepth
+        }
+        if (preLineIdx + 1 < lineCount) {
+          preLineIdx += 1
+          preI = lineStarts[preLineIdx]
+          continue
+        }
+        break
+      }
+
+      if (preActiveUnclosedBqFenceDepth !== null) {
+        if (lineBqDepth[preLineIdx] >= preActiveUnclosedBqFenceDepth && rawMdCodeBlockLines.has(preLineIdx)) {
+          if (preLineIdx + 1 < lineCount) {
+            preLineIdx += 1
+            preI = lineStarts[preLineIdx]
+            continue
+          }
+          break
+        }
+        preActiveUnclosedBqFenceDepth = null
+      }
+
+      if (!preInJsx && rawMdCodeBlockLines.has(preLineIdx)) {
         if (preLineIdx + 1 < lineCount) {
           preLineIdx += 1
           preI = lineStarts[preLineIdx]
@@ -1195,7 +1412,10 @@ export function maskCodeAndCommentsWithRanges(
     }
 
     if (normalized.startsWith('<!--', preI)) {
-      const end = normalized.indexOf('-->', preI + 4)
+      if (preLastHtmlClose === undefined) {
+        preLastHtmlClose = normalized.lastIndexOf('-->')
+      }
+      const end = preI + 4 <= preLastHtmlClose ? normalized.indexOf('-->', preI + 4) : -1
       if (end < 0) {
         if (rawMdCodeBlockLines.has(preLineIdx)) {
           if (preLineIdx + 1 < lineCount) {
@@ -1214,7 +1434,7 @@ export function maskCodeAndCommentsWithRanges(
     }
 
     if (ch === '{' && !isEscapedAt(normalized, preI)) {
-      const expr = scanJsExpression(normalized, preI)
+      const expr = scanJsExpression(normalized, preI, preJsCache)
       if (expr.hasUnclosedBlockComment) {
         if (rawMdCodeBlockLines.has(preLineIdx)) {
           if (preLineIdx + 1 < lineCount) {
@@ -1247,7 +1467,8 @@ export function maskCodeAndCommentsWithRanges(
         tickLen,
         fenceExcluded,
         rawMdCodeBlockLines,
-        true,
+        preJsxStack.length > 0,
+        lineBqDepth,
       )
       if (foundEnd >= 0) {
         preLineIdx += countNewlines(normalized, preI, foundEnd)
@@ -1259,13 +1480,67 @@ export function maskCodeAndCommentsWithRanges(
       continue
     }
 
+    if (ch === '<' && normalized[preI + 1] === '/' && !isEscapedAt(normalized, preI)) {
+      if (normalized[preI + 2] === '>') {
+        const wasInJsx = preJsxStack.length > 0
+        for (let s = preJsxStack.length - 1; s >= 0; s -= 1) {
+          if (preJsxStack[s] === '') {
+            preJsxStack.length = s
+            break
+          }
+        }
+        if (wasInJsx !== (preJsxStack.length > 0)) failedPreTickLens.clear()
+        preI += 3
+        continue
+      }
+      JSX_CLOSE_TAG_RE.lastIndex = preI
+      const closeMatch = JSX_CLOSE_TAG_RE.exec(normalized)
+      if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
+        const tagName = closeMatch[1]
+        const wasInJsx = preJsxStack.length > 0
+        for (let s = preJsxStack.length - 1; s >= 0; s -= 1) {
+          if (preJsxStack[s] === tagName) {
+            preJsxStack.length = s
+            break
+          }
+        }
+        if (wasInJsx !== (preJsxStack.length > 0)) failedPreTickLens.clear()
+        const closeEnd = preI + closeMatch[0].length
+        preLineIdx += countNewlines(normalized, preI, closeEnd)
+        preI = closeEnd
+        continue
+      }
+    }
+
+    if (ch === '<' && normalized[preI + 1] === '>' && !isEscapedAt(normalized, preI)) {
+      const closePos = rawLastCloseOffset.get('')
+      if (closePos !== undefined && closePos > preI) {
+        if (preJsxStack.length === 0) failedPreTickLens.clear()
+        preJsxStack.push('')
+      }
+      preI += 2
+      continue
+    }
+
     if (
       ch === '<' &&
       !isEscapedAt(normalized, preI) &&
       (preI === 0 || !/[A-Za-z0-9_$]/.test(normalized[preI - 1]))
     ) {
-      const openTag = scanJsxOpenTag(normalized, preI)
+      const openTag = scanJsxOpenTag(normalized, preI, preJsCache)
       if (openTag) {
+        if (!openTag.selfClosing && !HTML_VOID_ELEMENTS.has(openTag.tagName)) {
+          const closePos = rawLastCloseOffset.get(openTag.tagName)
+          const lineStartOffset = normalized.lastIndexOf('\n', preI - 1) + 1
+          const leadingLineOnlyWs = /^[ \t]*$/.test(normalized.slice(lineStartOffset, preI))
+          if (
+            (closePos !== undefined && closePos > preI) ||
+            (leadingLineOnlyWs && KNOWN_JSX_FLOW_CONTAINERS.has(openTag.tagName))
+          ) {
+            if (preJsxStack.length === 0) failedPreTickLens.clear()
+            preJsxStack.push(openTag.tagName)
+          }
+        }
         preLineIdx += countNewlines(normalized, preI, openTag.end)
         preI = openTag.end
         continue
@@ -1284,12 +1559,22 @@ export function maskCodeAndCommentsWithRanges(
     .map((line, idx) => (fenceExcluded.has(idx) ? ' '.repeat(line.length) : line))
     .join('\n')
 
-  const lastCloseOffset = computeLastCloseOffsets(fenceMasked, fenceExcluded, mdCodeBlockLines)
+  const fenceJsCache = createJsExpressionScanCache()
+  const lastCloseOffset = computeLastCloseOffsets(
+    fenceMasked,
+    fenceExcluded,
+    mdCodeBlockLines,
+    lineBqDepth,
+    fenceJsCache,
+  )
 
   const chars = fenceMasked.split('')
   const jsxExprWrapperRanges: [number, number][] = []
   const proseCommentRanges: [number, number][] = []
   const jsxStack: string[] = []
+  const failedTickLens = new Set<number>()
+  let activeUnclosedBqFenceDepth: number | null = null
+  let prevAtLineIdx = -1
   let lineIdx = 0
   let i = 0
 
@@ -1298,8 +1583,15 @@ export function maskCodeAndCommentsWithRanges(
     if (atLineStart) {
       const nl = fenceMasked.indexOf('\n', i)
       const lineEnd = nl >= 0 ? nl : fenceMasked.length
+      const bqChanged =
+        prevAtLineIdx < 0 ||
+        lineIdx !== prevAtLineIdx + 1 ||
+        lineBqDepth[lineIdx] !== lineBqDepth[prevAtLineIdx]
+      prevAtLineIdx = lineIdx
 
       if (fenceExcluded.has(lineIdx)) {
+        failedTickLens.clear()
+        activeUnclosedBqFenceDepth = null
         i = lineEnd
         if (i < fenceMasked.length && fenceMasked[i] === '\n') {
           lineIdx += 1
@@ -1309,17 +1601,53 @@ export function maskCodeAndCommentsWithRanges(
       }
 
       // Any remaining top-level indented fence opener not in fenceExcluded has no closing fence;
-      // inside an open JSX container it masks to EOF, while at top level (or inside blockquotes)
-      // mdCodeBlockLines masks only the indented lines so unmatched code blocks never swallow
-      // downstream prose.
+      // inside an open JSX container, non-blockquote openers mask to EOF and blockquote-prefixed
+      // openers mask only their contiguous indented blockquote lines until exiting or non-indented prose,
+      // while at top level mdCodeBlockLines masks only the indented lines so unmatched code blocks
+      // never swallow downstream prose.
       const lineText = fenceMasked.slice(i, lineEnd)
-      const unclosedFence = jsxStack.length > 0 ? matchIndentedFenceOpener(lineText) : null
+      const inJsx = jsxStack.length > 0
+      const { rest } = stripBlockquotePrefix(lineText, lineBqDepth[lineIdx])
+      if (
+        bqChanged ||
+        mdCodeBlockLines.has(lineIdx) ||
+        /^[ \t]*$/.test(rest) ||
+        isParagraphInterruptingLineRest(rest, inJsx)
+      ) {
+        failedTickLens.clear()
+      }
+
+      const unclosedFence = inJsx ? matchIndentedFenceOpener(lineText) : null
       if (unclosedFence !== null && unclosedFence.bqDepth === 0) {
         maskRangePreservingNewlines(chars, i, fenceMasked.length)
         break
       }
 
-      if (mdCodeBlockLines.has(lineIdx) && (jsxStack.length === 0 || lineBqDepth[lineIdx] > 0)) {
+      if (unclosedFence !== null && unclosedFence.bqDepth > 0 && mdCodeBlockLines.has(lineIdx)) {
+        activeUnclosedBqFenceDepth = unclosedFence.bqDepth
+        maskRangePreservingNewlines(chars, i, lineEnd)
+        i = lineEnd
+        if (i < fenceMasked.length && fenceMasked[i] === '\n') {
+          lineIdx += 1
+          i += 1
+        }
+        continue
+      }
+
+      if (activeUnclosedBqFenceDepth !== null) {
+        if (lineBqDepth[lineIdx] >= activeUnclosedBqFenceDepth && mdCodeBlockLines.has(lineIdx)) {
+          maskRangePreservingNewlines(chars, i, lineEnd)
+          i = lineEnd
+          if (i < fenceMasked.length && fenceMasked[i] === '\n') {
+            lineIdx += 1
+            i += 1
+          }
+          continue
+        }
+        activeUnclosedBqFenceDepth = null
+      }
+
+      if (!inJsx && mdCodeBlockLines.has(lineIdx)) {
         maskRangePreservingNewlines(chars, i, lineEnd)
         i = lineEnd
         if (i < fenceMasked.length && fenceMasked[i] === '\n') {
@@ -1349,7 +1677,7 @@ export function maskCodeAndCommentsWithRanges(
 
     // MDX / JS expression {...} in prose
     if (ch === '{' && !isEscapedAt(fenceMasked, i)) {
-      const expr = scanJsExpression(fenceMasked, i)
+      const expr = scanJsExpression(fenceMasked, i, fenceJsCache)
       if (expr.hasUnclosedBlockComment) {
         maskRangePreservingNewlines(chars, i, fenceMasked.length)
         break
@@ -1387,7 +1715,7 @@ export function maskCodeAndCommentsWithRanges(
     if (ch === '`') {
       let tickLen = 0
       while (i + tickLen < fenceMasked.length && fenceMasked[i + tickLen] === '`') tickLen += 1
-      if (isEscapedAt(fenceMasked, i)) {
+      if (isEscapedAt(fenceMasked, i) || failedTickLens.has(tickLen)) {
         i += tickLen
         continue
       }
@@ -1400,6 +1728,7 @@ export function maskCodeAndCommentsWithRanges(
         fenceExcluded,
         mdCodeBlockLines,
         jsxStack.length > 0,
+        lineBqDepth,
       )
       if (foundEnd >= 0) {
         maskRangePreservingNewlines(chars, i, foundEnd)
@@ -1407,6 +1736,7 @@ export function maskCodeAndCommentsWithRanges(
         i = foundEnd
         continue
       }
+      failedTickLens.add(tickLen)
       i += tickLen
       continue
     }
@@ -1414,12 +1744,14 @@ export function maskCodeAndCommentsWithRanges(
     // JSX / HTML closing tag </TagName> or fragment </>
     if (ch === '<' && fenceMasked[i + 1] === '/' && !isEscapedAt(fenceMasked, i)) {
       if (fenceMasked[i + 2] === '>') {
+        const wasInJsx = jsxStack.length > 0
         for (let s = jsxStack.length - 1; s >= 0; s -= 1) {
           if (jsxStack[s] === '') {
             jsxStack.length = s
             break
           }
         }
+        if (wasInJsx !== (jsxStack.length > 0)) failedTickLens.clear()
         i += 3
         continue
       }
@@ -1427,12 +1759,14 @@ export function maskCodeAndCommentsWithRanges(
       const closeMatch = JSX_CLOSE_TAG_RE.exec(fenceMasked)
       if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
         const tagName = closeMatch[1]
+        const wasInJsx = jsxStack.length > 0
         for (let s = jsxStack.length - 1; s >= 0; s -= 1) {
           if (jsxStack[s] === tagName) {
             jsxStack.length = s
             break
           }
         }
+        if (wasInJsx !== (jsxStack.length > 0)) failedTickLens.clear()
         const closeEnd = i + closeMatch[0].length
         lineIdx += countNewlines(fenceMasked, i, closeEnd)
         i = closeEnd
@@ -1444,6 +1778,7 @@ export function maskCodeAndCommentsWithRanges(
     if (ch === '<' && fenceMasked[i + 1] === '>' && !isEscapedAt(fenceMasked, i)) {
       const closePos = lastCloseOffset.get('')
       if (closePos !== undefined && closePos > i) {
+        if (jsxStack.length === 0) failedTickLens.clear()
         jsxStack.push('')
       }
       i += 2
@@ -1456,7 +1791,7 @@ export function maskCodeAndCommentsWithRanges(
       !isEscapedAt(fenceMasked, i) &&
       (i === 0 || !/[A-Za-z0-9_$]/.test(fenceMasked[i - 1]))
     ) {
-      const openTag = scanJsxOpenTag(fenceMasked, i)
+      const openTag = scanJsxOpenTag(fenceMasked, i, fenceJsCache)
       if (openTag) {
         for (const [cStart, cEnd] of openTag.exprCommentRanges) {
           maskRangePreservingNewlines(chars, cStart, cEnd)
@@ -1478,6 +1813,7 @@ export function maskCodeAndCommentsWithRanges(
             (closePos !== undefined && closePos > i) ||
             (leadingLineOnlyWs && KNOWN_JSX_FLOW_CONTAINERS.has(openTag.tagName))
           ) {
+            if (jsxStack.length === 0) failedTickLens.clear()
             jsxStack.push(openTag.tagName)
           }
         }

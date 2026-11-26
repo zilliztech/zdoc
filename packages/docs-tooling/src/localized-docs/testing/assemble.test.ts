@@ -1531,4 +1531,140 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('handles cross-block backticks, O(N) unclosed comments/braces, and blockquote-4sp JSX inside containers E2E (Iter 10 Findings 1-3)', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter11-e2e' } }
+
+      // Finding 1: cross-block backtick pairing must not bypass UI_TAG_MALFORMED, SOURCE_SHELL_FORBIDDEN, or trigger false channel errors
+      for (const badUiDoc of [
+        '# T\n\n> Here is `unclosed\n>\n> `{/*`\n> ```js\n> */}\n> ```\n>\n> <UI bad />\n',
+        '# T\n\nHere is `unclosed\n# Heading `{/*`\n```js\n*/}\n```\n\n<UI bad />\n',
+        '# T\n\nHere is `unclosed\n- item `{/*`\n```js\n*/}\n```\n\n<UI bad />\n',
+      ]) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter11-e2e',
+          sourceMd: badUiDoc,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, badUiDoc).toBe(true)
+        if ('errors' in res) expect(res.errors[0].code, badUiDoc).toBe('UI_TAG_MALFORMED')
+      }
+
+      const headingShellRes = await assembleLocalizedPage({
+        pageId: 'iter11-e2e',
+        sourceMd: '# T\n\nHere is `unclosed\n# Heading `{/*`\n```js\n*/}\n```\n\nimport Evil from "@site/evil";\n\nReal.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in headingShellRes).toBe(true)
+      if ('errors' in headingShellRes) expect(headingShellRes.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+
+      expect(
+        validateChannelTags('# T\n\nHere is `unclosed\n# Heading `{/*`\n```py\n*/}\n```\n\n# next-channel-start\n'),
+      ).toEqual([])
+
+      const bqKeepRes = await assembleLocalizedPage({
+        pageId: 'iter11-e2e',
+        sourceMd: '# T\n\n> Here is `unclosed\n>\n> `{/*`\n> ```js\n> */}\n> ```\n>\n> Real <UI>Keep</UI>.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in bqKeepRes).toBe(false)
+      if (!('errors' in bqKeepRes)) {
+        expect(bqKeepRes.description).toBe('')
+        expect(bqKeepRes.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+
+      const multilineTabsRes = await assembleLocalizedPage({
+        pageId: 'iter11-e2e',
+        sourceMd:
+          '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n    Here is `multi\n    line` and `{/*`\n    ```js\n    */}\n    ```\n\n    Real <UI>Keep</UI>.\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in multilineTabsRes).toBe(false)
+      if (!('errors' in multilineTabsRes)) {
+        expect(multilineTabsRes.description).toBe('After.')
+        expect(multilineTabsRes.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+
+      // Finding 2: O(N) validateSourceShell / validateChannelTags / extractFirstParagraph on 10,000-line inputs + subtle `{ { <UI>Keep</UI> }`
+      for (const [label, line] of [
+        ['4sp-brace', '    {'],
+        ['bq-4sp-brace', '>     {'],
+        ['4sp-html', '    <!--'],
+        ['4sp-mdx', '    {/*'],
+      ] as const) {
+        const doc = `# T\n\n${Array.from({ length: 10000 }, () => line).join('\n')}\n\nReal paragraph.\n`
+        const t0 = performance.now()
+        expect('errors' in validateSourceShell(doc), label).toBe(false)
+        expect(validateChannelTags(doc), label).toEqual([])
+        expect(extractFirstParagraph(doc), label).toBe('Real paragraph.')
+        const elapsed = performance.now() - t0
+        expect(elapsed, `${label} E2E helpers took ${elapsed.toFixed(2)}ms`).toBeLessThan(200)
+      }
+
+      // Finding 3: blockquote-prefixed 4+-space JSX inside <Tabs>, <Admonition>, <details>
+      for (const containerBad of [
+        '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     <UI bad />\n\n</TabItem>\n</Tabs>\n',
+        '# T\n\n<Admonition type="note">\n\n>     <UI bad />\n\n</Admonition>\n',
+        '# T\n\n<details><summary>Info</summary>\n\n>     <UI bad />\n\n</details>\n',
+      ]) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter11-e2e',
+          sourceMd: containerBad,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, containerBad).toBe(true)
+        if ('errors' in res) expect(res.errors[0].code, containerBad).toBe('UI_TAG_MALFORMED')
+      }
+
+      const tabsBqKeep = await assembleLocalizedPage({
+        pageId: 'iter11-e2e',
+        sourceMd: '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in tabsBqKeep).toBe(false)
+      if (!('errors' in tabsBqKeep)) {
+        expect(tabsBqKeep.description).toBe('After.')
+        expect(tabsBqKeep.uiTags.map(t => t.text)).toEqual(['Keep'])
+        expect(tabsBqKeep.components).toEqual(['Tabs', 'TabItem'])
+      }
+
+      const tabsUnclosedBqFenceThenKeep = await assembleLocalizedPage({
+        pageId: 'iter11-e2e',
+        sourceMd:
+          '# T\n\n<Tabs>\n<TabItem value="a" label="A">\n\n>     ```bash\n>     echo <UI bad />\n\n>     <UI>Keep</UI>\n\n</TabItem>\n</Tabs>\n\nAfter.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in tabsUnclosedBqFenceThenKeep).toBe(false)
+      if (!('errors' in tabsUnclosedBqFenceThenKeep)) {
+        expect(tabsUnclosedBqFenceThenKeep.description).toBe('After.')
+        expect(tabsUnclosedBqFenceThenKeep.uiTags.map(t => t.text)).toEqual(['Keep'])
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })
