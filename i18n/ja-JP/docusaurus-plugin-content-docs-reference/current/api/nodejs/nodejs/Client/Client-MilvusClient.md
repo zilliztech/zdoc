@@ -43,6 +43,8 @@ new MilvusClient(config: ClientConfig)
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **configOrAddress** (*string*) -
 
     **[REQUIRED]**
@@ -224,6 +226,214 @@ new MilvusClient(config: ClientConfig)
 - **channelOptions** (*channelOptions*) -
 
     gRPC の追加チャネルオプション。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **configOrAddress** (*string*) -
+
+    **[REQUIRED]**
+
+    Milvus インスタンスのアドレス。例:
+
+    ```javascript
+    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
+    ```
+
+- **configOrAddress** (*ClientConfig*)
+
+    - **address** (*string*) -
+
+        **[REQUIRED]**
+
+        クラスターエンドポイント。例:
+
+        ```javascript
+        https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
+        ```
+
+    - **__SKIP_CONNECT__** (*boolean*) -
+
+        接続をスキップするかどうかを示すブール値。 
+
+    - **channelOptions** (*channelOptions*) -
+
+        gRPC の追加チャネルオプション。
+
+    - **データベース** (*string*) -
+
+        接続先のクラスターデータベース名。
+
+    - **id** (*string*) -
+
+        接続先クラスターの ID。
+
+    - **loaderOptions** (*Options*) -
+
+        int64 を Long 形式に変換するオプション。指定可能な値は次のとおりです。
+
+        - `{ longs: Function }`
+
+            これは int64 を Long.js 形式に変換する関数である必要があります。
+
+        - `{ longs: Number }`
+
+            これは int64 を number に変換し、精度の損失が発生します。
+
+        - `{ longs: String }`
+
+            これは int64 を string に変換します。これがデフォルトの動作です。
+
+    - **logLevel** (*string*) -
+
+        ログレベル。使用可能なオプション: `debug`, `info`, `warn`, `error`, `panic`, `fatal`。 
+
+        デフォルト値は `debug` です。
+
+        テストおよび開発環境では `debug` レベル、本番環境では `info` レベルを使用することを推奨します。
+
+    - **logPrefix** (*string*) -
+
+        各ログエントリのプレフィックス。
+
+    - **maxRetries** (*number*) -
+
+        接続に成功しなかった場合に再試行する回数。
+
+    - **option** (*Record&lt;string, string&gt;*) -
+
+        `ConnectRequest` のクライアント情報で送信される予約済み接続オプション。初期ハンドシェイク時に任意のキーと値のペアをサーバーへ渡すために使用します。
+
+    - **password** (*string*) -
+
+        接続の認証に使用されるユーザーパスワード。
+
+    - **pool** (*Options*) -
+
+        汎用的な poll オプションで、[this repo](https://github.com/coopernurse/node-pool) で規定されたルールに従います。
+
+    - **retryDelay** (*number*) -
+
+        再試行の間隔。
+
+    - **ssl** (*boolean*) -
+
+        SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
+
+        Zilliz Cloud では、常に TLS 経由で接続してください。`https://` スキームのクラスターエンドポイントを渡すか（SDK が TLS を自動的に有効にします）、エンドポイントにスキームが含まれていない場合は `ssl` を `true` に設定してください。
+
+    - **timeout** (*string* | *number*) -
+
+        この操作のタイムアウト時間。 
+
+        これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+
+    - **tls** (*tls*) -
+
+        - **certChain** (*Buffer*) -
+
+            バッファ内の証明書チェーン。
+
+        - **certChainPath** (*string*) -
+
+            証明書チェーンのファイルパス。
+
+        - **privateKey** (*Buffer*) -
+
+            バッファ内の秘密鍵。
+
+        - **privateKeyPath** (*string*) -
+
+            秘密鍵のファイルパス。
+
+        - **rootCert** (*Buffer*) -
+
+            バッファ内のルート証明書。
+
+        - **rootCertPath** (*string*) -
+
+            ルート証明書のファイルパス。
+
+        - **serverName** (*string*) -
+
+            サーバー名。
+
+        - **skipCertCheck** (*boolean*) -
+
+            提供された証明書に対するチェックをスキップするかどうか。`true` に設定するとスキップを示します。
+
+        - **verifyOptions** (*Record&lt;string, any&gt;*) -
+
+            検証オプション。
+
+    - **token** (*string*) -
+
+        接続に使用されるトークン。トークンには API key、またはコロンで連結したユーザー名とパスワードのペアを使用できます。
+
+    - **trace** (*boolean*) -
+
+        トレーシングを有効にするかどうか。 
+
+    - **telemetry** (*TelemetryConfig*) -
+
+        クライアントのメトリクス、ハートビート、およびサーバーからプッシュされるコマンドの設定です。**TelemetryConfig** には次のメンバーがあります。
+
+        - **enabled** (*boolean*) -
+
+            クライアントテレメトリを有効にするかどうか。
+
+        - **heartbeatIntervalMs** (*number*) -
+
+            ミリ秒単位のハートビート間隔。
+
+        - **samplingRate** (*number*) -
+
+            操作のサンプリングレート（0.0-1.0）。
+
+        - **errorMaxCount** (*number*) -
+
+            保持するエラーの最大数。
+
+        - **clientId** (*string*) -
+
+            プロセスの再起動をまたいでテレメトリの識別情報を固定します。
+
+    - **isGlobal** (*boolean*) -
+
+        グローバルクラスターモードを有効にするかどうか。**true** の場合、SDK はエンドポイントからクラスタートポロジーを取得し、プライマリクラスターへルーティングします。省略した場合、モードはアドレス URI から自動検出されます。
+
+    - **username** (*string*) -
+
+        接続に使用されるユーザー名。
+
+- **ssl** (*boolean*) -
+
+    SSL を使用するかどうかを示すブール値です。Milvus を TLS エンドポイントで動作するように構成している場合は、これを `true` に設定してください。詳細は、[Encryption in Transit](https://milvus.io/docs/tls.md) を参照してください。
+
+    Zilliz Cloud では、常に TLS 経由で接続してください。`https://` スキームのクラスターエンドポイントを渡すか（SDK が TLS を自動的に有効にします）、エンドポイントにスキームが含まれていない場合は `ssl` を `true` に設定してください。
+
+- **username** (*string*) -
+
+    指定した Milvus インスタンスへの接続に使用する有効なユーザー名。
+
+    対象の Milvus インスタンスで認証が有効になっている場合に使用します。認証を有効にするには、[Authenticate User Access](https://milvus.io/docs/authenticate.md) を参照してください。
+
+    これは **password** と一緒に使用する必要があります。
+
+- **password** (*string*) -
+
+    指定した Milvus インスタンスへの接続に使用する有効なパスワード。
+
+    対象の Milvus インスタンスで認証が有効になっている場合に使用します。認証を有効にするには、[Authenticate User Access](https://milvus.io/docs/authenticate.md) を参照してください。
+
+    これは **username** と一緒に使用する必要があります。
+
+- **channelOptions** (*channelOptions*) -
+
+    gRPC の追加チャネルオプション。
+
+</NextChannel>
 
 **メソッド:**
 

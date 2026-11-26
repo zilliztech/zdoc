@@ -6236,9 +6236,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md": {
-      "sourceHash": "da49822b357031d08eaa99171085b8f23837a489816ee08ecb791edf177445ca",
+      "sourceHash": "8dc197fb62d461fcec30c708ed664cc01c3502c3f07cda9368b1861be787a594",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Client/Client-MilvusClient.md",
-      "translatedAt": "2026-11-19T02:44:12.607Z"
+      "translatedAt": "2026-11-26T11:42:13.893Z"
     },
     "content/en/reference/api/nodejs/nodejs/Client/Client-checkCompatibility.md": {
       "sourceHash": "76d03f85131a4361e9e27b5ab03e4381c88efaa157550189526490aa931b307f",
@@ -6386,9 +6386,9 @@
       "translatedAt": "2026-11-18T17:00:07.283Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md": {
-      "sourceHash": "9fcc21e3c612cab27422ef4e0a6c590066deedaf3b6e728c143e0577acbff6b6",
+      "sourceHash": "6ebd728201ea69e6811045c95beacadcf1fff6ceb8d965949a5cb84302c3e1e1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
-      "translatedAt": "2026-11-19T03:46:33.018Z"
+      "translatedAt": "2026-11-26T11:42:13.893Z"
     },
     "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropAlias.md": {
       "sourceHash": "438499fe3bdcacc6fbaeae93ea41ec590d9583634cef36e3135c90e8f4efbf48",
@@ -6931,9 +6931,9 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md": {
-      "sourceHash": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1",
+      "sourceHash": "3b21681b92b4acf03b046da563e612dd515ad6415217a830cd1c1dbedb8c6eb1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "translatedAt": "2026-11-25T03:47:15.322Z"
+      "translatedAt": "2026-11-26T11:42:13.893Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md": {
       "sourceHash": "170bae549cf49322104568a7384a5cfb1682dee215cbd14e30d08edea90ce88d",
@@ -6951,14 +6951,14 @@
       "translatedAt": "2026-11-23T19:49:48.559Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md": {
-      "sourceHash": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737",
+      "sourceHash": "5cfd866207b689e104aa0e1ce9a7049e2de084a71696aff261ce37f7e34fcae3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-search.md",
-      "translatedAt": "2026-11-25T03:47:15.322Z"
+      "translatedAt": "2026-11-26T11:42:13.893Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md": {
-      "sourceHash": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a",
+      "sourceHash": "9a4b0029d6f0f8a8125b9d67a35bb138de6547d5e0c9c5533311b2658233b45e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-searchIterator.md",
-      "translatedAt": "2026-11-23T19:49:48.559Z"
+      "translatedAt": "2026-11-26T11:42:13.893Z"
     },
     "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md": {
       "sourceHash": "2b0c066d6935bb3c5e5452adf6a2dc44ce2ea2fb041a2c8dd9d43e063e5d6889",

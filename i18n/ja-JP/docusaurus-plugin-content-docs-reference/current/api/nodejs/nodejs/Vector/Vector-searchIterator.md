@@ -71,6 +71,8 @@ await milvusClient.searchIterator({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
@@ -190,6 +192,132 @@ await milvusClient.searchIterator({
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    検索対象のコレクションの名前です。
+
+- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
+
+    クエリベクトルです。サポートされる型には、FloatVector（number[]）、BFloat16Vector（Uint8Array）、Float16Vector（Uint8Array）、BinaryVector（number[]）、SparseFloatVector があります。**data** または **ベクトル** のいずれかを指定してください。
+
+- **ベクトル** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
+
+    クエリベクトルに対する **data** のエイリアスです。
+
+- **batchSize** (*number*) -
+
+    **[REQUIRED]**
+
+    反復ごとに返す結果数です。16,384 を超えることはできません。
+
+- **limit** (*number*) -
+
+    すべての反復を通じた結果の最大合計数です。デフォルトは、一致するエンティティの合計数です（制限なし）。
+
+- **filter** (*string*) -
+
+    検索前に一致するエンティティを絞り込むためのスカラー条件です。デフォルトは空の文字列です（フィルターなし）。
+
+- **expr** (*string*) -
+
+    **filter** のエイリアスです。**filter** または **expr** のいずれかを指定し、両方は指定しないでください。
+
+- **anns_field** (*string*) -
+
+    対象のベクトルフィールドの名前です。コレクションに複数のベクトルフィールドがある場合に必須です。
+
+- **output_fields** (*string[]*) -
+
+    返される各エンティティに含めるフィールド名のリストです。デフォルトではプライマリフィールドのみが含まれます。
+
+- **partition_names** (*string[]*) -
+
+    検索対象のパーティション名のリストです。
+
+- **params** (*keyValueObj*) -
+
+    キーと値のペアで指定する追加の検索パラメーターです。たとえば、範囲検索では `radius` と `range_filter` を指定します。
+
+- **metric_type** (*string*) -
+
+    ベクトル間の類似度を測定するために使用するメトリクスタイプです。デフォルトは、インデックス付きフィールドのメトリクスタイプです。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    この操作の一貫性レベルです。オプションは Strong（0）、Session（1）、Bounded（2）、Eventually（3）です。デフォルトは Bounded です。詳細は [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum) を参照してください。
+
+- **ignore_growing** (*boolean*) -
+
+    検索中に増加中のセグメントをスキップするかどうかを指定します。
+
+- **group_by_field** (*string*) -
+
+    検索結果を指定したフィールドでグループ化し、多様性を確保します。
+
+- **group_size** (*number*) -
+
+    グループ化検索で各グループ内に返すエンティティの目標数です。
+
+- **strict_group_size** (*boolean*) -
+
+    グループ化検索で **group_size** を厳密に適用するかどうかを指定します。
+
+- **order_by_fields** (*OrderByFields*) -
+
+    検索結果を並べ替える基準となるフィールドです。
+
+- **hints** (*string*) -
+
+    検索パフォーマンスを向上させるためのヒント文字列です。
+
+- **round_decimal** (*number*) -
+
+    最終結果に保持する小数点以下の桁数です。
+
+- **exprValues** (*keyValueObj*) -
+
+    テンプレート化されたフィルター式のプレースホルダー値です。
+
+- **nq** (*number*) -
+
+    クエリベクトルの数です。
+
+- **ids** (*number[]* | *string[]*) -
+
+    PK による検索クエリで使用するプライマリキーです。
+
+- **highlighter** (*Highlighter*) -
+
+    検索結果のハイライターです。詳細は Highlighter を参照してください。
+
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
+
+    再ランキング戦略とそのパラメーターです。サポートされている再ランカー種別の詳細は、`search()` を参照してください。
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    BFloat16Vector や Float16Vector などの特殊なベクトルデータ型用のカスタムトランスフォーマーです。
+
+- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+
+    各結果バッチに適用されるオプションのクライアント側フィルター関数です。この関数が `false` を返すエンティティは、生成されるバッチから除外されます。
+
+- **db_name** (*string*) -
+
+    The name of the データベース containing the コレクション.
+
+- **timeout** (*number*) -
+
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトすることを示します。
+
+</NextChannel>
 
 **RETURNS:**
 

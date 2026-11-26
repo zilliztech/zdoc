@@ -551,7 +551,7 @@ await milvusClient.search({
 
 - **highlighter** (*Highlighter*) -
 
-    検索結果用のハイライターです。
+    検索結果のハイライターです。Highlighter を参照してください。
 
 - **timeout** (*number*) -
 
@@ -579,6 +579,8 @@ await milvusClient.search({
 ```
 
 **パラメーター:**
+
+<NextChannel action="exclude">
 
 - **results** (*SearchResultData[]* | *SearchResultData[][]*) -
 各クエリベクトルに対して返されるヒットです。単一のクエリベクトルが指定された場合、これはフラットな **SearchResultData[]** です。一連のクエリベクトルが指定された場合、これはネストされた **SearchResultData[][]** で、クエリごとに 1 つの内部リストが含まれます。
@@ -642,6 +644,103 @@ Milvus が検索の評価に使用したセッションタイムスタンプで�
     - **reason** (*string*) -
 
         報告されたエラーの理由です。この操作が成功した場合は空の文字列のままです。
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **results** (*SearchResultData[]* | *SearchResultData[][]*) -
+各クエリベクトルに対して返されるヒットです。単一のクエリベクトルが指定された場合、これはフラットな **SearchResultData[]** です。一連のクエリベクトルが指定された場合、これはネストされた **SearchResultData[][]** で、クエリごとに 1 つの内部リストが含まれます。
+
+    - **id** (*string*) -
+
+        一致した行のプライマリキーです。
+
+    - **score** (*number*) -
+
+        設定されたメトリックタイプでスケーリングされた類似度スコアです。
+
+    - **offset** (*number* | *string*) -
+
+        クエリグループ内でのこのヒットの 0 から始まるオフセットです。
+
+    - **group_by_field_values** (*Record&lt;string, FieldData&gt;*) -
+
+        **group_by_field** が指定された場合に設定され、ヒットのグループ化フィールドの値を保持します。
+
+    - **highlight** (*HighlightResult*) -
+
+        リクエストで **highlighter** が指定された場合に設定され、一致するフィールドのハイライトされたフラグメントを保持します。フィールド名をキーとして、以下のメンバーを持つ **HighlightData** オブジェクトにマッピングするレコードです：
+
+        - **fragments** (*string[]*) -
+
+            フィールドのハイライトされたフラグメントです。
+
+        - **scores** (*number[]*) -
+
+            フラグメントの関連性スコアです。
+
+    - **&lt;output_field&gt;** (*FieldData*) -
+
+        要求された **output_fields** の各エントリは、一致した行の値を保持するキーとしてヒットに追加されます。
+
+- **recalls** (*number[]*) -
+検索エンジンが生成した場合の、各クエリの推定再現率スコアです。
+
+- **session_ts** (*number*) -
+Milvus が検索の評価に使用したセッションタイムスタンプです。
+
+- **collection_name** (*string*) -
+検索されたコレクションです。
+
+- **all_search_count** (*number*) -
+任意です。検索が調査した候補の総数を報告する場合に設定されます。
+
+- **agg_buckets** (*AggregationBucket[]* | *undefined*) -
+任意です。**search_aggregation** が指定された場合に設定され、集計バケット、ネストされたメトリクス、トップヒット、サブグループが含まれます。各 **AggregationBucket** には以下のメンバーがあります：
+
+    - **key** (*AggregationBucketKey[]*) -
+
+        バケットを定義するグループ化キーのエントリです。
+
+    - **count** (*string* | *number*) -
+
+        バケット内のエンティティ数です。
+
+    - **metrics** (*Record&lt;string, AggregationValue | undefined&gt;*) -
+
+        エイリアスをキーとする計算済みのメトリック値です。
+
+    - **hits** (*AggregationHit[]*) -
+
+        バケットの代表的なトップヒットです。各ヒットはスコアとフィールド値を保持します。
+
+    - **sub_groups** (*AggregationBucket[]*) -
+
+        ネストされたサブ集計バケットです。
+
+- **search_iterator_v2_results** (*Record&lt;string, any&gt;*) -
+任意です。V2 検索イテレーターによって生成される内部結果です。
+
+- **_search_iterator_v2_results** (*string*) -
+任意です。V2 検索イテレーターによって生成される内部のシリアル化された結果です。
+
+- **ResStatus**
+**ResStatus** オブジェクトです。
+
+    - **code** (*number*) -
+
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+
+    - **error_code** (*string* | *number*) -
+
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+
+    - **reason** (*string*) -
+
+        報告されたエラーの理由です。この操作が成功した場合は空の文字列のままです。
+
+</NextChannel>
 
 **例外:**
 
