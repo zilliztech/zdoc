@@ -78,46 +78,105 @@ export interface JsExpressionScanResult {
   end: number
   commentsOnly: boolean
   commentRanges: [number, number][]
+  maskRanges: [number, number][]
+  hasJsx: boolean
+  hasUnmaskedToken: boolean
+  outerNonJsxGaps: [number, number][]
+  jsxCloseTags: { tagName: string; offset: number }[]
   hasUnclosedBlockComment: boolean
+}
+
+type JsScanFrame =
+  | { kind: 'brace'; start: number; jsxSpans: [number, number][] }
+  | { kind: 'template'; textStart: number }
+  | { kind: 'jsx-open'; tagName: string; tagStart: number; attrStart: number; maskAttrStrings: boolean }
+  | { kind: 'jsx'; tagName: string; openStart: number }
+
+function pushNonJsxGaps(
+  start: number,
+  end: number,
+  jsxSpans: readonly [number, number][],
+  out: [number, number][],
+): void {
+  let pos = start
+  for (const [jStart, jEnd] of jsxSpans) {
+    if (jStart > pos) out.push([pos, jStart])
+    pos = Math.max(pos, jEnd)
+  }
+  if (end > pos) out.push([pos, end])
 }
 
 /**
  * Scan a JS `{...}` expression starting at `text[start] === '{'`, handling
  * nested `{...}` braces, `'...'` / `"..."` string literals with escapes,
  * template literals `` `...` `` with nested `${...}` sub-expressions, regex
- * literals `/pattern/flags` (with `[...]` character classes), and `//` / `/* ... *\/`
- * comments. Never recurses on call stack; every iteration advances strictly.
+ * literals `/pattern/flags` (with `[...]` character classes), nested JSX
+ * elements/fragments, and `//` / `/* ... *\/` comments. Never recurses on call
+ * stack; every iteration advances strictly, and malformed regex/bracket lines
+ * are memoized in O(lineLen) to guarantee linear worst-case time.
  */
 export function scanJsExpression(text: string, start: number): JsExpressionScanResult {
   if (text[start] !== '{') {
-    return { end: -1, commentsOnly: false, commentRanges: [], hasUnclosedBlockComment: false }
+    return {
+      end: -1,
+      commentsOnly: false,
+      commentRanges: [],
+      maskRanges: [],
+      hasJsx: false,
+      hasUnmaskedToken: false,
+      outerNonJsxGaps: [],
+      jsxCloseTags: [],
+      hasUnclosedBlockComment: false,
+    }
   }
 
-  const stack: ('brace' | 'template')[] = ['brace']
+  const stack: JsScanFrame[] = [{ kind: 'brace', start, jsxSpans: [] }]
   const commentRanges: [number, number][] = []
+  const maskRanges: [number, number][] = []
+  const outerNonJsxGaps: [number, number][] = []
+  const jsxCloseTags: { tagName: string; offset: number }[] = []
   let hasNonCommentToken = false
   let hasUnclosedBlockComment = false
+  let hasJsx = false
+  let hasUnmaskedToken = false
   let canStartRegex = true
   let afterDot = false
   let cursor = start + 1
+
+  // Memoize failed regex scans on a single line so crafted "/["*N is O(N).
+  let failOrigin = -1
+  let failLineEnd = -1
+  let deadMask: Uint8Array | null = null
+
+  const recordCompletedJsxSpan = (spanStart: number, spanEnd: number) => {
+    hasJsx = true
+    const parent = stack[stack.length - 1]
+    if (parent && parent.kind === 'brace') {
+      parent.jsxSpans.push([spanStart, spanEnd])
+    }
+  }
 
   while (cursor < text.length && stack.length > 0) {
     const top = stack[stack.length - 1]
     const ch = text[cursor]
 
-    if (top === 'template') {
+    if (top.kind === 'template') {
       if (ch === '\\') {
         cursor += Math.min(2, text.length - cursor)
         continue
       }
       if (ch === '$' && text[cursor + 1] === '{') {
-        stack.push('brace')
+        if (cursor > top.textStart) {
+          maskRanges.push([top.textStart, cursor])
+        }
+        stack.push({ kind: 'brace', start: cursor + 1, jsxSpans: [] })
         canStartRegex = true
         afterDot = false
         cursor += 2
         continue
       }
       if (ch === '`') {
+        maskRanges.push([top.textStart, cursor + 1])
         stack.pop()
         canStartRegex = false
         afterDot = false
@@ -128,6 +187,141 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       continue
     }
 
+    if (top.kind === 'jsx-open') {
+      if (ch === '"' || ch === "'") {
+        const quote = ch
+        const quoteStart = cursor
+        cursor += 1
+        while (cursor < text.length && text[cursor] !== quote) {
+          cursor += 1
+        }
+        if (cursor < text.length) {
+          if (top.maskAttrStrings && cursor > quoteStart + 1) {
+            maskRanges.push([quoteStart + 1, cursor])
+          }
+          cursor += 1
+        }
+        continue
+      }
+      if (ch === '{') {
+        stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
+        canStartRegex = true
+        afterDot = false
+        cursor += 1
+        continue
+      }
+      if (ch === '<') {
+        stack.pop()
+        cursor += 1
+        continue
+      }
+      if (ch === '>') {
+        const selfClosing = cursor > top.attrStart && text[cursor - 1] === '/'
+        stack.pop()
+        const closeEnd = cursor + 1
+        if (selfClosing || HTML_VOID_ELEMENTS.has(top.tagName)) {
+          recordCompletedJsxSpan(top.tagStart, closeEnd)
+          canStartRegex = false
+          afterDot = false
+        } else {
+          stack.push({ kind: 'jsx', tagName: top.tagName, openStart: top.tagStart })
+        }
+        cursor = closeEnd
+        continue
+      }
+      cursor += 1
+      continue
+    }
+
+    if (top.kind === 'jsx') {
+      if (ch === '{') {
+        stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
+        canStartRegex = true
+        afterDot = false
+        cursor += 1
+        continue
+      }
+      if (ch === '<') {
+        if (text[cursor + 1] === '/') {
+          if (text[cursor + 2] === '>') {
+            let matchIdx = -1
+            for (let s = stack.length - 1; s >= 0 && stack[s].kind === 'jsx'; s -= 1) {
+              if ((stack[s] as Extract<JsScanFrame, { kind: 'jsx' }>).tagName === '') {
+                matchIdx = s
+                break
+              }
+            }
+            const closeEnd = cursor + 3
+            if (matchIdx >= 0) {
+              const frame = stack[matchIdx] as Extract<JsScanFrame, { kind: 'jsx' }>
+              stack.length = matchIdx
+              recordCompletedJsxSpan(frame.openStart, closeEnd)
+              const newTop = stack[stack.length - 1]
+              if (newTop && newTop.kind === 'brace') {
+                canStartRegex = false
+                afterDot = false
+              }
+            }
+            cursor = closeEnd
+            continue
+          }
+          JSX_CLOSE_TAG_RE.lastIndex = cursor
+          const closeMatch = JSX_CLOSE_TAG_RE.exec(text)
+          if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
+            const tagName = closeMatch[1]
+            const closeEnd = cursor + closeMatch[0].length
+            jsxCloseTags.push({ tagName, offset: cursor })
+            let matchIdx = -1
+            for (let s = stack.length - 1; s >= 0 && stack[s].kind === 'jsx'; s -= 1) {
+              if ((stack[s] as Extract<JsScanFrame, { kind: 'jsx' }>).tagName === tagName) {
+                matchIdx = s
+                break
+              }
+            }
+            if (matchIdx >= 0) {
+              const frame = stack[matchIdx] as Extract<JsScanFrame, { kind: 'jsx' }>
+              stack.length = matchIdx
+              recordCompletedJsxSpan(frame.openStart, closeEnd)
+              const newTop = stack[stack.length - 1]
+              if (newTop && newTop.kind === 'brace') {
+                canStartRegex = false
+                afterDot = false
+              }
+            }
+            cursor = closeEnd
+            continue
+          }
+          cursor += 1
+          continue
+        }
+        if (text[cursor + 1] === '>') {
+          stack.push({ kind: 'jsx', tagName: '', openStart: cursor })
+          cursor += 2
+          continue
+        }
+        JSX_OPEN_HEAD_RE.lastIndex = cursor
+        const headMatch = JSX_OPEN_HEAD_RE.exec(text)
+        if (headMatch && isKnownHtmlOrJsxTagName(headMatch[1])) {
+          const tagName = headMatch[1]
+          const attrStart = cursor + 1 + tagName.length
+          stack.push({
+            kind: 'jsx-open',
+            tagName,
+            tagStart: cursor,
+            attrStart,
+            maskAttrStrings: tagName !== 'UI' && tagName !== 'NextChannel',
+          })
+          cursor = attrStart
+          continue
+        }
+        cursor += 1
+        continue
+      }
+      cursor += 1
+      continue
+    }
+
+    // top.kind === 'brace'
     if (ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r') {
       cursor += 1
       continue
@@ -137,6 +331,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       const nl = text.indexOf('\n', cursor + 2)
       const end = nl >= 0 ? nl : text.length
       commentRanges.push([cursor, end])
+      maskRanges.push([cursor, end])
       cursor = nl >= 0 ? nl + 1 : text.length
       continue
     }
@@ -146,24 +341,45 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       if (end < 0) {
         hasUnclosedBlockComment = true
         commentRanges.push([cursor, text.length])
+        maskRanges.push([cursor, text.length])
         cursor = text.length
         break
       }
       commentRanges.push([cursor, end + 2])
+      maskRanges.push([cursor, end + 2])
       cursor = end + 2
       continue
     }
 
     if (ch === '}') {
-      stack.pop()
+      const popped = stack.pop() as Extract<JsScanFrame, { kind: 'brace' }>
       cursor += 1
       if (stack.length === 0) {
+        if (hasJsx) {
+          if (popped.jsxSpans.length > 0) {
+            pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, outerNonJsxGaps)
+          } else {
+            outerNonJsxGaps.push([popped.start, popped.start + 1], [cursor - 1, cursor])
+          }
+        }
         return {
           end: cursor,
           commentsOnly: !hasNonCommentToken,
           commentRanges,
+          maskRanges,
+          hasJsx,
+          hasUnmaskedToken,
+          outerNonJsxGaps,
+          jsxCloseTags,
           hasUnclosedBlockComment: false,
         }
+      }
+      const parent = stack[stack.length - 1]
+      if (parent.kind === 'template') {
+        if (popped.jsxSpans.length > 0) {
+          pushNonJsxGaps(popped.start, cursor, popped.jsxSpans, maskRanges)
+        }
+        parent.textStart = cursor
       }
       hasNonCommentToken = true
       canStartRegex = false
@@ -174,7 +390,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     hasNonCommentToken = true
 
     if (ch === '{') {
-      stack.push('brace')
+      stack.push({ kind: 'brace', start: cursor, jsxSpans: [] })
       canStartRegex = true
       afterDot = false
       cursor += 1
@@ -183,6 +399,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
 
     if (ch === '"' || ch === "'") {
       const quote = ch
+      const strStart = cursor
       cursor += 1
       while (cursor < text.length) {
         const qch = text[cursor]
@@ -193,25 +410,53 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         cursor += 1
         if (qch === quote) break
       }
+      maskRanges.push([strStart, cursor])
       canStartRegex = false
       afterDot = false
       continue
     }
 
     if (ch === '`') {
-      stack.push('template')
+      stack.push({ kind: 'template', textStart: cursor })
       afterDot = false
       cursor += 1
       continue
+    }
+
+    if (ch === '<' && canStartRegex) {
+      if (text[cursor + 1] === '>') {
+        stack.push({ kind: 'jsx', tagName: '', openStart: cursor })
+        cursor += 2
+        continue
+      }
+      JSX_OPEN_HEAD_RE.lastIndex = cursor
+      const headMatch = JSX_OPEN_HEAD_RE.exec(text)
+      if (headMatch && isKnownHtmlOrJsxTagName(headMatch[1])) {
+        const tagName = headMatch[1]
+        const attrStart = cursor + 1 + tagName.length
+        stack.push({
+          kind: 'jsx-open',
+          tagName,
+          tagStart: cursor,
+          attrStart,
+          maskAttrStrings: tagName !== 'UI' && tagName !== 'NextChannel',
+        })
+        cursor = attrStart
+        continue
+      }
     }
 
     if (ch === '/' && canStartRegex) {
       let r = cursor + 1
       let inCharClass = false
       let closed = false
+      const activeDeadMask = deadMask !== null && r >= failOrigin && r < failLineEnd ? deadMask : null
       while (r < text.length) {
         const rch = text[r]
         if (rch === '\n' || rch === '\r') break
+        if (activeDeadMask !== null && r < failLineEnd) {
+          if ((activeDeadMask[r - failOrigin] & (inCharClass ? 2 : 1)) !== 0) break
+        }
         if (rch === '\\') {
           r += Math.min(2, text.length - r)
           continue
@@ -235,10 +480,37 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
         r += 1
       }
       if (closed) {
+        maskRanges.push([cursor, r])
         cursor = r
         canStartRegex = false
         afterDot = false
         continue
+      }
+      if (activeDeadMask === null) {
+        const nl = text.indexOf('\n', cursor + 1)
+        const cr = text.indexOf('\r', cursor + 1)
+        const lineEnd = nl >= 0 && cr >= 0 ? Math.min(nl, cr) : nl >= 0 ? nl : cr >= 0 ? cr : text.length
+        if (lineEnd > cursor + 1) {
+          failOrigin = cursor + 1
+          failLineEnd = lineEnd
+          deadMask = new Uint8Array(lineEnd - failOrigin)
+          let p = failOrigin
+          let cc = false
+          while (p < lineEnd) {
+            deadMask[p - failOrigin] |= cc ? 2 : 1
+            const pch = text[p]
+            if (pch === '\\') {
+              p += Math.min(2, lineEnd - p)
+              continue
+            }
+            if (pch === '[' && !cc) {
+              cc = true
+            } else if (pch === ']' && cc) {
+              cc = false
+            }
+            p += 1
+          }
+        }
       }
     }
 
@@ -246,6 +518,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
       let end = cursor + 1
       while (end < text.length && /[A-Za-z0-9_$]/.test(text[end])) end += 1
       const ident = text.slice(cursor, end)
+      hasUnmaskedToken = true
       canStartRegex = !afterDot && REGEX_PREFIX_KEYWORDS.has(ident)
       afterDot = false
       cursor = end
@@ -255,12 +528,14 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     if (/[0-9]/.test(ch) || (ch === '.' && /[0-9]/.test(text[cursor + 1] ?? ''))) {
       cursor += 1
       while (cursor < text.length && /[0-9A-Za-z_.]/.test(text[cursor])) cursor += 1
+      hasUnmaskedToken = true
       canStartRegex = false
       afterDot = false
       continue
     }
 
     if (ch === ')' || ch === ']') {
+      hasUnmaskedToken = true
       canStartRegex = false
       afterDot = false
       cursor += 1
@@ -268,6 +543,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
 
     if ((ch === '+' && text[cursor + 1] === '+') || (ch === '-' && text[cursor + 1] === '-')) {
+      hasUnmaskedToken = true
       canStartRegex = false
       afterDot = false
       cursor += 2
@@ -275,6 +551,7 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
 
     if (ch === '=' && text[cursor + 1] === '>') {
+      hasUnmaskedToken = true
       canStartRegex = true
       afterDot = false
       cursor += 2
@@ -282,12 +559,14 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     }
 
     if (ch === '.' && text[cursor + 1] !== '.') {
+      hasUnmaskedToken = true
       canStartRegex = true
       afterDot = true
       cursor += 1
       continue
     }
 
+    hasUnmaskedToken = true
     canStartRegex = true
     afterDot = false
     cursor += 1
@@ -297,6 +576,11 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
     end: -1,
     commentsOnly: !hasNonCommentToken,
     commentRanges,
+    maskRanges,
+    hasJsx,
+    hasUnmaskedToken,
+    outerNonJsxGaps,
+    jsxCloseTags,
     hasUnclosedBlockComment,
   }
 }
@@ -309,6 +593,8 @@ export interface JsxOpenTagScanResult {
   attrStringRanges: [number, number][]
   exprRanges: [number, number][]
   exprCommentRanges: [number, number][]
+  exprMaskRanges: [number, number][]
+  exprCloseTags: { tagName: string; offset: number }[]
 }
 
 /**
@@ -330,6 +616,8 @@ export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResul
   const attrStringRanges: [number, number][] = []
   const exprRanges: [number, number][] = []
   const exprCommentRanges: [number, number][] = []
+  const exprMaskRanges: [number, number][] = []
+  const exprCloseTags: { tagName: string; offset: number }[] = []
 
   while (cursor < text.length) {
     const ch = text[cursor]
@@ -353,6 +641,8 @@ export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResul
       if (expr.end < 0) return null
       exprRanges.push([cursor, expr.end])
       exprCommentRanges.push(...expr.commentRanges)
+      exprMaskRanges.push(...expr.maskRanges)
+      exprCloseTags.push(...expr.jsxCloseTags)
       cursor = expr.end
       continue
     }
@@ -369,6 +659,8 @@ export function scanJsxOpenTag(text: string, start: number): JsxOpenTagScanResul
         attrStringRanges,
         exprRanges,
         exprCommentRanges,
+        exprMaskRanges,
+        exprCloseTags,
       }
     }
     cursor += 1
@@ -391,17 +683,165 @@ function countNewlines(text: string, start: number, end: number): number {
   return count
 }
 
-function startsBlockCommentAfterWs(text: string, start: number): boolean {
-  let k = start
-  while (k < text.length) {
-    const c = text[k]
-    if (c === ' ' || c === '\t' || c === '\r' || c === '\n') {
-      k += 1
+function matchIndentedFenceOpener(lineText: string): { markerChar: string; markerLen: number } | null {
+  const match = /^[ \t]*(`{3,}|~{3,})(.*)$/.exec(lineText)
+  if (!match) return null
+  if (match[1][0] === '`' && match[2].includes('`')) return null
+  return { markerChar: match[1][0], markerLen: match[1].length }
+}
+
+function scanInlineBacktickSpan(
+  fenceMasked: string,
+  start: number,
+  startLine: number,
+  tickLen: number,
+  fenceExcluded: ReadonlySet<number>,
+  mdCodeBlockLines: ReadonlySet<number>,
+  inJsxContainer: boolean,
+): number {
+  let cursor = start + tickLen
+  let cursorLine = startLine
+  while (cursor < fenceMasked.length) {
+    if (fenceMasked[cursor] === '\n') {
+      cursorLine += 1
+      if (fenceExcluded.has(cursorLine) || (!inJsxContainer && mdCodeBlockLines.has(cursorLine))) {
+        return -1
+      }
+      const nextNl = fenceMasked.indexOf('\n', cursor + 1)
+      const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
+      const nextLineText = fenceMasked.slice(cursor + 1, nextLineEnd)
+      if (/^[ \t]*$/.test(nextLineText)) return -1
+      if (inJsxContainer && matchIndentedFenceOpener(nextLineText) !== null) {
+        return -1
+      }
+    }
+    if (fenceMasked[cursor] === '`') {
+      let closeLen = 0
+      while (cursor + closeLen < fenceMasked.length && fenceMasked[cursor + closeLen] === '`') {
+        closeLen += 1
+      }
+      if (closeLen === tickLen) {
+        return cursor + closeLen
+      }
+      cursor += closeLen
       continue
     }
-    return c === '/' && text[k + 1] === '*'
+    cursor += 1
   }
-  return false
+  return -1
+}
+
+/**
+ * Precompute the last real closing tag offset per tag name while ignoring
+ * HTML/MDX comments, JS string/regex/template literals, JSX attribute strings,
+ * and inline backtick code spans (so e.g. `` `</T>` `` or `<!-- </T> -->`
+ * never keeps `jsxStack` non-empty for an unclosed prose `<T>`).
+ */
+function computeLastCloseOffsets(
+  fenceMasked: string,
+  fenceExcluded: ReadonlySet<number>,
+  mdCodeBlockLines: ReadonlySet<number>,
+): Map<string, number> {
+  const lastCloseOffset = new Map<string, number>()
+  let lineIdx = 0
+  let i = 0
+
+  while (i < fenceMasked.length) {
+    const atLineStart = i === 0 || fenceMasked[i - 1] === '\n'
+    if (atLineStart && fenceExcluded.has(lineIdx)) {
+      const nl = fenceMasked.indexOf('\n', i)
+      if (nl < 0) break
+      lineIdx += 1
+      i = nl + 1
+      continue
+    }
+
+    const ch = fenceMasked[i]
+    if (ch === '\n') {
+      lineIdx += 1
+      i += 1
+      continue
+    }
+
+    if (fenceMasked.startsWith('<!--', i)) {
+      const end = fenceMasked.indexOf('-->', i + 4)
+      if (end < 0) break
+      const closeEnd = end + 3
+      lineIdx += countNewlines(fenceMasked, i, closeEnd)
+      i = closeEnd
+      continue
+    }
+
+    if (ch === '{' && !isEscapedAt(fenceMasked, i)) {
+      const expr = scanJsExpression(fenceMasked, i)
+      if (expr.hasUnclosedBlockComment) break
+      if (expr.end >= 0) {
+        for (const ct of expr.jsxCloseTags) {
+          lastCloseOffset.set(ct.tagName, ct.offset)
+        }
+        lineIdx += countNewlines(fenceMasked, i, expr.end)
+        i = expr.end
+        continue
+      }
+    }
+
+    if (ch === '`') {
+      let tickLen = 0
+      while (i + tickLen < fenceMasked.length && fenceMasked[i + tickLen] === '`') tickLen += 1
+      if (isEscapedAt(fenceMasked, i)) {
+        i += tickLen
+        continue
+      }
+      const foundEnd = scanInlineBacktickSpan(
+        fenceMasked,
+        i,
+        lineIdx,
+        tickLen,
+        fenceExcluded,
+        mdCodeBlockLines,
+        false,
+      )
+      if (foundEnd >= 0) {
+        lineIdx += countNewlines(fenceMasked, i, foundEnd)
+        i = foundEnd
+        continue
+      }
+      i += tickLen
+      continue
+    }
+
+    if (ch === '<' && fenceMasked[i + 1] === '/' && !isEscapedAt(fenceMasked, i)) {
+      JSX_CLOSE_TAG_RE.lastIndex = i
+      const closeMatch = JSX_CLOSE_TAG_RE.exec(fenceMasked)
+      if (closeMatch && isKnownHtmlOrJsxTagName(closeMatch[1])) {
+        lastCloseOffset.set(closeMatch[1], i)
+        const closeEnd = i + closeMatch[0].length
+        lineIdx += countNewlines(fenceMasked, i, closeEnd)
+        i = closeEnd
+        continue
+      }
+    }
+
+    if (
+      ch === '<' &&
+      !isEscapedAt(fenceMasked, i) &&
+      (i === 0 || !/[A-Za-z0-9_$]/.test(fenceMasked[i - 1]))
+    ) {
+      const openTag = scanJsxOpenTag(fenceMasked, i)
+      if (openTag) {
+        for (const ct of openTag.exprCloseTags) {
+          lastCloseOffset.set(ct.tagName, ct.offset)
+        }
+        lineIdx += countNewlines(fenceMasked, i, openTag.end)
+        i = openTag.end
+        continue
+      }
+    }
+
+    i += 1
+  }
+
+  return lastCloseOffset
 }
 
 /**
@@ -410,7 +850,8 @@ function startsBlockCommentAfterWs(text: string, start: number): boolean {
  *
  * - Aware of JSX/HTML opening tags (`"..."`, `'...'`, `{...}` expressions) so
  *   `{/*`, `"<!--"`, and backticks inside tag attributes/expressions never trigger
- *   unclosed comment masking or cross-attribute backtick pairing.
+ *   unclosed comment masking or cross-attribute backtick pairing, while nested JSX
+ *   elements inside prop/prose `{...}` expressions remain visible.
  * - Tracks open JSX/HTML flow containers so 4-space indented JSX tags/content
  *   inside `<Tabs>` / `<Admonition>` / `<details>` etc. are NOT masked as Markdown
  *   `code_block`s (matching MDX semantics), while genuine top-level 4-space indented
@@ -443,13 +884,7 @@ export function maskCodeAndComments(markdown: string): string {
     .map((line, idx) => (fenceExcluded.has(idx) ? ' '.repeat(line.length) : line))
     .join('\n')
 
-  // Precompute last closing tag offset per tag name as a fast guard so unclosed
-  // prose angle brackets (e.g. "Use <T> here") never keep jsxStack non-empty.
-  const lastCloseOffset = new Map<string, number>()
-  const closeScanRe = /<\/([A-Za-z][A-Za-z0-9.-]*)\s*>/g
-  for (const match of fenceMasked.matchAll(closeScanRe)) {
-    lastCloseOffset.set(match[1], match.index!)
-  }
+  const lastCloseOffset = computeLastCloseOffsets(fenceMasked, fenceExcluded, mdCodeBlockLines)
 
   const chars = fenceMasked.split('')
   const jsxStack: string[] = []
@@ -484,10 +919,9 @@ export function maskCodeAndComments(markdown: string): string {
       // Inside an open JSX container, MDX also treats indented ``` / ~~~ lines as fenced code blocks.
       if (jsxStack.length > 0) {
         const lineText = fenceMasked.slice(i, lineEnd)
-        const openFence = /^[ \t]*(`{3,}|~{3,})(.*)$/.exec(lineText)
-        if (openFence && !(openFence[1][0] === '`' && openFence[2].includes('`'))) {
-          const markerChar = openFence[1][0]
-          const markerLen = openFence[1].length
+        const openFence = matchIndentedFenceOpener(lineText)
+        if (openFence) {
+          const { markerChar, markerLen } = openFence
           let scanLineStart = nl >= 0 ? nl + 1 : fenceMasked.length
           let closeEnd = fenceMasked.length
           let linesAdvanced = nl >= 0 ? 1 : 0
@@ -532,24 +966,30 @@ export function maskCodeAndComments(markdown: string): string {
       continue
     }
 
-    // MDX comment / comment-bearing expression {/* ... */} or { /* ... */ ... }
-    if (ch === '{' && startsBlockCommentAfterWs(fenceMasked, i + 1)) {
+    // MDX / JS expression {...} in prose
+    if (ch === '{' && !isEscapedAt(fenceMasked, i)) {
       const expr = scanJsExpression(fenceMasked, i)
-      if (expr.end >= 0 && expr.commentsOnly) {
-        maskRangePreservingNewlines(chars, i, expr.end)
-        lineIdx += countNewlines(fenceMasked, i, expr.end)
-        i = expr.end
-        continue
-      }
       if (expr.hasUnclosedBlockComment) {
         maskRangePreservingNewlines(chars, i, fenceMasked.length)
         break
       }
-      for (const [cStart, cEnd] of expr.commentRanges) {
-        maskRangePreservingNewlines(chars, cStart, cEnd)
+      if (expr.end >= 0) {
+        if (expr.commentsOnly || (!expr.hasJsx && !expr.hasUnmaskedToken)) {
+          maskRangePreservingNewlines(chars, i, expr.end)
+        } else {
+          for (const [mStart, mEnd] of expr.maskRanges) {
+            maskRangePreservingNewlines(chars, mStart, mEnd)
+          }
+          if (expr.hasJsx) {
+            for (const [gStart, gEnd] of expr.outerNonJsxGaps) {
+              maskRangePreservingNewlines(chars, gStart, gEnd)
+            }
+          }
+        }
+        lineIdx += countNewlines(fenceMasked, i, expr.end)
+        i = expr.end
+        continue
       }
-      i += 1
-      continue
     }
 
     // Inline backtick code span (CommonMark equal-length backtick delimiters, within paragraph)
@@ -561,33 +1001,15 @@ export function maskCodeAndComments(markdown: string): string {
         continue
       }
 
-      let cursor = i + tickLen
-      let cursorLine = lineIdx
-      let foundEnd = -1
-      while (cursor < fenceMasked.length) {
-        if (fenceMasked[cursor] === '\n') {
-          cursorLine += 1
-          if (fenceExcluded.has(cursorLine) || (jsxStack.length === 0 && mdCodeBlockLines.has(cursorLine))) {
-            break
-          }
-          const rest = fenceMasked.slice(cursor + 1)
-          if (/^[ \t]*\n/.test(rest)) break
-        }
-        if (fenceMasked[cursor] === '`') {
-          let closeLen = 0
-          while (cursor + closeLen < fenceMasked.length && fenceMasked[cursor + closeLen] === '`') {
-            closeLen += 1
-          }
-          if (closeLen === tickLen) {
-            foundEnd = cursor + closeLen
-            break
-          }
-          cursor += closeLen
-          continue
-        }
-        cursor += 1
-      }
-
+      const foundEnd = scanInlineBacktickSpan(
+        fenceMasked,
+        i,
+        lineIdx,
+        tickLen,
+        fenceExcluded,
+        mdCodeBlockLines,
+        jsxStack.length > 0,
+      )
       if (foundEnd >= 0) {
         maskRangePreservingNewlines(chars, i, foundEnd)
         lineIdx += countNewlines(fenceMasked, i, foundEnd)
@@ -632,10 +1054,8 @@ export function maskCodeAndComments(markdown: string): string {
           for (const [sStart, sEnd] of openTag.attrStringRanges) {
             maskRangePreservingNewlines(chars, sStart, sEnd)
           }
-          for (const [eStart, eEnd] of openTag.exprRanges) {
-            if (eEnd - 1 > eStart + 1) {
-              maskRangePreservingNewlines(chars, eStart + 1, eEnd - 1)
-            }
+          for (const [mStart, mEnd] of openTag.exprMaskRanges) {
+            maskRangePreservingNewlines(chars, mStart, mEnd)
           }
         }
 

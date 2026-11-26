@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { maskCodeAndComments, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
+import { maskCodeAndComments, scanJsExpression, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
 
 describe('scanUiTags & validateUiTags', () => {
   it('extracts valid <UI>...</UI> tags with accurate 1-based line numbers', () => {
@@ -142,5 +142,81 @@ describe('scanUiTags & validateUiTags', () => {
       '    <UI>still top-level indented code</UI>',
     ].join('\n')
     expect(scanUiTags(proseAngleThenCode)).toEqual({ tags: [] })
+  })
+
+  it('masks JS literals inside prose expressions without masking nested JSX and prevents unclosed backticks from crossing into 4-space fences', () => {
+    // Finding 1: prose JS expressions containing "<!--", "<UI>", or "`" must not trigger HTML comments, tags, or backticks
+    for (const expr of ['{/* c */ "<!--"}', '{"<!--"}', '{"<UI>"}', '{/* c */ "`"}']) {
+      const md = `${expr}\n\nClick <UI>Save</UI> and <UI bad />.\n`
+      const errors = validateUiTags(md)
+      expect(errors, expr).toHaveLength(1)
+      expect(errors[0].code, expr).toBe('UI_TAG_MALFORMED')
+      expect(errors[0].line, expr).toBe(3)
+    }
+
+    // Nested JSX inside prose expressions (with comments, comparisons, or apostrophes) stays visible
+    expect(scanUiTags('{/* c */ <UI>Keep</UI>}')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: 10 }],
+    })
+    expect(scanUiTags('{cond && <Admonition type="note">It\'s <UI>Keep</UI></Admonition>}')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: 39 }],
+    })
+    expect(scanUiTags('{a < b && <UI>Ok</UI>}')).toEqual({
+      tags: [{ text: 'Ok', rawInner: 'Ok', line: 1, column: 11 }],
+    })
+
+    // Finding 2: unclosed prose backtick before 4-space indented fence inside <TabItem>
+    const unclosedTickBeforeIndentedFence = [
+      '<Tabs>',
+      '',
+      '    <TabItem value="a" label="A">',
+      '',
+      '    Use a `backtick',
+      '    ```js',
+      '    // <UI bad />',
+      '    const s = "`";',
+      '    ```',
+      '',
+      '    </TabItem>',
+      '',
+      '</Tabs>',
+      '',
+      'Click <UI>After</UI>.',
+    ].join('\n')
+    expect(scanUiTags(unclosedTickBeforeIndentedFence)).toEqual({
+      tags: [{ text: 'After', rawInner: 'After', line: 15, column: 7 }],
+    })
+
+    // Finding 3: JSX inside non-UI prop expressions is scanned, while string attributes and JS string literals are masked
+    expect(
+      scanUiTags(
+        '<Admonition type="note" title="<UI>fake</UI>" x={"<UI>also fake</UI>"} y={<UI>Real</UI>}>body</Admonition>',
+      ),
+    ).toEqual({
+      tags: [{ text: 'Real', rawInner: 'Real', line: 1, column: 75 }],
+    })
+    const uiPropBad = validateUiTags('<Details summary={<UI bad />}>body</Details>')
+    expect(uiPropBad).toHaveLength(1)
+    expect(uiPropBad[0].code).toBe('UI_TAG_MALFORMED')
+  })
+
+  it('ignores fake closing tags in inline code/comments for lastCloseOffset and runs in linear time on unclosed regex brackets', () => {
+    // Minor 2: fake </T> inside inline code, HTML comments, or JS strings must not keep jsxStack open
+    expect(scanUiTags('Use <T> and `</T>` here.\n\n    <UI>indented code</UI>\n')).toEqual({ tags: [] })
+    expect(scanUiTags('Use <T> and <!-- </T> --> here.\n\n    <UI>indented code</UI>\n')).toEqual({ tags: [] })
+    expect(scanUiTags('Use <T> and {"</T>"} here.\n\n    <UI>indented code</UI>\n')).toEqual({ tags: [] })
+
+    // Minor 1: linear-time memoization on crafted unclosed regex-bracket lines (while still matching later valid /a/)
+    const t0 = performance.now()
+    const malformed = scanJsExpression(`{ ${'/['.repeat(5000)}`, 0)
+    const malformedClass = scanJsExpression(`{ ${'/a[/]'.repeat(2500)}`, 0)
+    const elapsedMs = performance.now() - t0
+    expect(malformed.end).toBe(-1)
+    expect(malformedClass.end).toBe(-1)
+    expect(elapsedMs).toBeLessThan(100)
+
+    const validAfterOpenBracket = scanJsExpression('{/[/a/}', 0)
+    expect(validAfterOpenBracket.end).toBe(7)
+    expect(validAfterOpenBracket.maskRanges).toEqual([[3, 6]])
   })
 })

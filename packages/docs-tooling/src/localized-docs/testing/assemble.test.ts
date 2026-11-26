@@ -922,4 +922,125 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('handles prose JS expressions, unclosed backticks before 4-space fences inside TabItem, and JSX inside prop expressions E2E', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter6-e2e' } }
+
+      // Finding 1: prose JS/MDX expressions containing "<!--", "<UI>", or "`"
+      for (const expr of ['{/* c */ "<!--"}', '{"<!--"}', '{/* c */ "`"}']) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter6-e2e',
+          sourceMd: `# Title\n\n${expr}\n\n<Tabs>\n  <TabItem value="a" label="A">Tab</TabItem>\n</Tabs>\n\nReal paragraph.\n`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, expr).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, expr).toBe('Real paragraph.')
+          expect(res.components, expr).toEqual(['Tabs', 'TabItem'])
+          expect(res.mdx, expr).toContain("import Tabs from '@theme/Tabs';")
+        }
+      }
+
+      const strUi = await assembleLocalizedPage({
+        pageId: 'iter6-e2e',
+        sourceMd: '# Title\n\n{"<UI>"}\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in strUi).toBe(false)
+      if (!('errors' in strUi)) {
+        expect(strUi.description).toBe('Real paragraph.')
+      }
+
+      // Validation must NOT be bypassed after prose {/* c */ "<!--"}
+      const shellBypassAttempt = await assembleLocalizedPage({
+        pageId: 'iter6-e2e',
+        sourceMd: '# Title\n\n{/* c */ "<!--"}\n\nimport Evil from "@site/evil";\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in shellBypassAttempt).toBe(true)
+      if ('errors' in shellBypassAttempt) {
+        expect(shellBypassAttempt.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      }
+
+      const channelBypassAttempt = await assembleLocalizedPage({
+        pageId: 'iter6-e2e',
+        sourceMd: '# Title\n\n{/* c */ "<!--"}\n\n<NextChannel variant="bad">oops</NextChannel>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in channelBypassAttempt).toBe(true)
+      if ('errors' in channelBypassAttempt) {
+        expect(channelBypassAttempt.errors[0].code).toBe('CHANNEL_TAG_INVALID')
+      }
+
+      // Finding 2: unclosed prose backtick before 4-space fence inside <TabItem>
+      const f2Res = await assembleLocalizedPage({
+        pageId: 'iter6-e2e',
+        sourceMd: [
+          '# Title',
+          '',
+          '<Tabs>',
+          '',
+          '    <TabItem value="a" label="A">',
+          '',
+          '    Use a `backtick',
+          '    ```js',
+          '    // <UI bad />',
+          '    const s = "`";',
+          '    ```',
+          '',
+          '    </TabItem>',
+          '',
+          '</Tabs>',
+          '',
+          '<Admonition type="note">After tabs</Admonition>',
+          '',
+          'Real paragraph.',
+          '',
+        ].join('\n'),
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f2Res).toBe(false)
+      if (!('errors' in f2Res)) {
+        expect(f2Res.description).toBe('Real paragraph.')
+        expect(f2Res.components).toEqual(['Admonition', 'Tabs', 'TabItem'])
+        expect(f2Res.mdx).toContain("import Admonition from '@theme/Admonition';")
+      }
+
+      // Finding 3: JSX component inside non-UI prop expression preserves import & strips container for description
+      const f3Res = await assembleLocalizedPage({
+        pageId: 'iter6-e2e',
+        sourceMd: '# Title\n\n<Details summary={<Admonition type="note">hi</Admonition>}>\nbody\n</Details>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in f3Res).toBe(false)
+      if (!('errors' in f3Res)) {
+        expect(f3Res.description).toBe('Real paragraph.')
+        expect(f3Res.components).toEqual(['Admonition'])
+        expect(f3Res.mdx).toContain("import Admonition from '@theme/Admonition';")
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })
