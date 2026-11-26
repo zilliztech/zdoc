@@ -102,3 +102,6 @@ import Procedures from '@site/src/components/Procedures';
 
     - HTTPS の場合は、レシーバーの可用性、認証設定、取り込みエラーを確認してください。
 
+- **スローログ機能は無料ですか？**
+
+    はい、この機能は無料です。

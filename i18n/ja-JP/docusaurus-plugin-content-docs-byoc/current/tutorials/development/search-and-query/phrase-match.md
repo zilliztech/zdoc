@@ -170,8 +170,12 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 APIKey := "YOUR_API_KEY"
@@ -180,6 +184,8 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  APIKey,
 })
+
+collectionName := "tech_articles" // Name your collection
 
 schema := entity.NewSchema().WithName(collectionName).
         WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
@@ -480,24 +486,15 @@ client.createCollection(
 <TabItem value='go'>
 
 ```go
-// Create a schema for a new collection
-schema := entity.NewSchema().WithDynamicFieldEnabled(false)
-schema.WithField(entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true),
-).WithField(entity.NewField().
-    WithName("text").                      // Name of the field
-    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR (string)
-    WithMaxLength(1000).                   // Maximum length of the string
-    WithEnableAnalyzer(true).              // Enables text analysis (tokenization)
-    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
-).WithField(entity.NewField().
-    WithName("embeddings").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(5),
-)
+// Create the collection
+client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption(collectionName, schema))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -779,18 +776,40 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-// Define analyzer parameters for English-language tokenization
-analyzerParams := map[string]any{"type": "english"}
+// Insert sample data with text containing "machine learning" phrases
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
+    WithVarcharColumn("text", []string{
+        "Machine learning is a subset of artificial intelligence that focuses on algorithms.",
+        "Deep learning machine algorithms require large datasets for training.",
+        "The machine learning model showed excellent performance on the test set.",
+        "Natural language processing and machine learning go hand in hand.",
+        "This article discusses various learning machine techniques and applications.",
+    }).
+    WithFloatVectorColumn("embeddings", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+        {0.2, 0.3, 0.4, 0.5, 0.6},
+        {0.3, 0.4, 0.5, 0.6, 0.7},
+        {0.4, 0.5, 0.6, 0.7, 0.8},
+        {0.5, 0.6, 0.7, 0.8, 0.9},
+    }))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-// Add the VARCHAR field with the English analyzer enabled
-schema.WithField(entity.NewField().
-    WithName("text").                      // Name of the field
-    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR
-    WithMaxLength(1000).                   // Maximum length of the string
-    WithEnableAnalyzer(true).              // Enables text analysis
-    WithAnalyzerParams(analyzerParams).    // Specifies the analyzer configuration
-    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
-)
+// Index the vector field and load the collection
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings",
+    index.NewAutoIndex(index.MetricType(entity.COSINE))))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -1357,14 +1376,15 @@ System.out.println("Slop 1 result: " + resultSlop1);
 
 ```go
 // Example: Filter documents containing "learning machine" with slop=1
-filter := "PHRASE_MATCH(text, 'learning machine', 1)"
+filterSlop1 := "PHRASE_MATCH(text, 'learning machine', 1)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop1, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithANNSField("embeddings").
-    WithFilter(filter).
+    WithFilter(filterSlop1).
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
@@ -1553,14 +1573,15 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 // Example: Filter documents containing "machine learning" with slop=2
-filter := "PHRASE_MATCH(text, 'machine learning', 2)"
+filterSlop2 := "PHRASE_MATCH(text, 'machine learning', 2)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop2, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit, maximum results to return
     []entity.Vector{entity.FloatVector(queryVector)}, // query vector
 ).WithANNSField("embeddings"). // vector field name
-    WithFilter(filter).        // filter expression
+    WithFilter(filterSlop2).    // filter expression
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
@@ -1743,14 +1764,15 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 // Example: Filter documents containing "machine learning" with slop=3
-filter := "PHRASE_MATCH(text, 'machine learning', 3)"
+filterSlop3 := "PHRASE_MATCH(text, 'machine learning', 3)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop3, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit, maximum results to return
     []entity.Vector{entity.FloatVector(queryVector)}, // query vector
 ).WithANNSField("embeddings"). // vector field name
-    WithFilter(filter).        // filter expression
+    WithFilter(filterSlop3).    // filter expression
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {

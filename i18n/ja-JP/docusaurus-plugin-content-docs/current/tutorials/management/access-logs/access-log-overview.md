@@ -2,7 +2,7 @@
 title: "Access Logs の概要 | Cloud"
 slug: /access-log-overview
 sidebar_label: "Access Logs の概要"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -51,6 +51,10 @@ Zilliz Cloud が記録する内容とログの送信先は、お客様が制御�
 アクセスログと監査ログは、1 つのクラスターで同時に有効にすることはできません。スローログは別途構成します。所要時間のしきい値を超えるリクエストのみを調査する必要がある場合は、[スローログ](./configure-slow-logs) を参照してください。
 
 </Admonition>
+
+## 課金\{#billing}
+
+この機能は現在パブリックプレビュー中であり、無料で利用できます。
 
 ## はじめに\{#get-started}
 

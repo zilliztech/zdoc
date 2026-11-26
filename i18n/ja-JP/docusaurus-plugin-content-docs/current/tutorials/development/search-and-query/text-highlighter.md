@@ -2128,7 +2128,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Arrays.asList(new EmbeddedText("test"), new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
-        .topK(10)
+        .topK(2)
         .outputFields(Collections.singletonList("text"))
         .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
@@ -2161,7 +2161,7 @@ let res = client
             .collection_name(COLLECTION_NAME)
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string(), "Milvus".to_string()]))
-            .limit(10)
+            .limit(2)
             .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
@@ -2185,7 +2185,7 @@ highlighter->WithHighlightSearchText(true);
 auto request = milvus::SearchRequest()
     .WithCollectionName(COLLECTION_NAME)
     .WithAnnsField("sparse_vector")
-    .WithLimit(10)
+    .WithLimit(2)
     .AddOutputField("text")
     .AddEmbeddedText("test")
     .AddEmbeddedText("Milvus")
@@ -2213,7 +2213,7 @@ const res = await client.search({
     collection_name: COLLECTION_NAME,
     data: ["test", "Milvus"],
     anns_field: "sparse_vector",
-    limit: 10,
+    limit: 2,
     output_fields: ["text"],
     highlighter,
 });
@@ -2332,7 +2332,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName(COLLECTION_NAME)
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
-        .topK(10)
+        .topK(2)
         .outputFields(Collections.singletonList("text"))
         .metricType(IndexParam.MetricType.BM25)
         .highlighter(highlighter)
@@ -2365,7 +2365,7 @@ let res = client
             .collection_name(COLLECTION_NAME)
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
-            .limit(10)
+            .limit(2)
             .metric_type(MetricType::Bm25)
             .output_fields(["text"])
             .highlighter(highlighter)
@@ -2389,7 +2389,7 @@ highlighter->WithHighlightSearchText(true);
 auto request = milvus::SearchRequest()
     .WithCollectionName(COLLECTION_NAME)
     .WithAnnsField("sparse_vector")
-    .WithLimit(10)
+    .WithLimit(2)
     .AddOutputField("text")
     .AddEmbeddedText("test")
     .WithHighlighter(highlighter);
@@ -2416,7 +2416,7 @@ const res = await client.search({
     collection_name: COLLECTION_NAME,
     data: ["test"],
     anns_field: "sparse_vector",
-    limit: 10,
+    limit: 2,
     output_fields: ["text"],
     highlighter,
 });

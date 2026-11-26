@@ -2,7 +2,7 @@
 title: "アクセスログの構成 | Cloud"
 slug: /configure-access-logs
 sidebar_label: "アクセスログの構成"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

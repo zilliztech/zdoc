@@ -2,7 +2,7 @@
 title: "アクセスログリファレンス | Cloud"
 slug: /access-log-reference
 sidebar_label: "アクセスログリファレンス"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

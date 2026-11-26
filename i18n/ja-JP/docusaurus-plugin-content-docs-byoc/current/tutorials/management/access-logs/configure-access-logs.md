@@ -2,7 +2,7 @@
 title: "アクセスログを設定する | BYOC"
 slug: /configure-access-logs
 sidebar_label: "アクセスログを設定する"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

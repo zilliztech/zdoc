@@ -771,9 +771,9 @@
       "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "5d4ab36c5a5b7c6bc27846e29d020e74fe91564fc2a55423b5fac30b3bb28589",
+      "sourceHash": "e824da25abc1d8cd056ed5c14849520a7770c920f8dcb01915db6921a0076642",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-11-09T12:51:17.825Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "a680dcd83ac255713f973004e16b4b16b3faa06e3746e94703c8b573f80836c1",
@@ -831,9 +831,9 @@
       "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-highlighter.md": {
-      "sourceHash": "1bf05b3a7e38358d8a76ea92ae9bb4d88ff7f939ff2acb6af3bc3970d6429684",
+      "sourceHash": "bf57919f10c15dde7c3f288d6039736345900b8557994de2f4de730277961137",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-highlighter.md",
-      "translatedAt": "2026-11-09T12:54:24.094Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-match.md": {
       "sourceHash": "98cdce9eb85d05c48b269a30e2c4041c494f868cd7f42d28acd7501f928368a7",
@@ -991,19 +991,19 @@
       "translatedAt": "2026-09-19T13:57:10.436Z"
     },
     "content/en/byoc/tutorials/management/access-logs/access-log-overview.md": {
-      "sourceHash": "aa915e8eae457ddf512db39d3067ff65e194b914cc95386007aca794a0bec5fd",
+      "sourceHash": "11018912fbf4655767b903828452669f9a00a87f0dace73167073c1717d96603",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/access-log-overview.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/management/access-logs/access-log-reference.md": {
-      "sourceHash": "742faa96819e3174527dfc6ce9240fd88b0cb15006111d6e825610979da9f7f1",
+      "sourceHash": "24686499e8cd697d76b553bdfe62e01ccd0e2eb33238f1718d79f0cf7daedfc4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/access-log-reference.md",
-      "translatedAt": "2026-11-18T12:31:16.860Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "ee79a429e58e6283eee4a3c0c99608ced2ea9bea95bcb56f4629a1116bc62279",
+      "sourceHash": "60ec9769c9f42209b245034fd20b8be763e169a3b38d271bc973ca5a2a9a8232",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-11-23T11:43:48.679Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/management/auditing/audit-logs-ref.md": {
       "sourceHash": "67c7595c6e94dfdad6f3973df9ef4ec6a94b81e7e4cbeda6865962756c6c79af",
@@ -1431,9 +1431,9 @@
       "translatedAt": "2026-11-10T13:19:53.736Z"
     },
     "content/en/byoc/tutorials/management/slow-logs/configure-slow-logs.md": {
-      "sourceHash": "a6a4d7fa306470bfd3077a0df732fc7b893aa886473d60ea77e47f9c10236323",
+      "sourceHash": "7aa06eaa7a879eccb14517dcde3295f236a00f3565004403adf1e7a7a8b895e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/slow-logs/configure-slow-logs.md",
-      "translatedAt": "2026-11-23T11:43:48.679Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/byoc/tutorials/management/slow-logs/slow-log-reference.md": {
       "sourceHash": "94f2d919490f9cd3269a48f46063741c1d4c8d2c47d87ceb73488003891b41df",
@@ -2216,9 +2216,9 @@
       "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "677ed2bc2b627b57560300d4fdc536773e78769883dc0c2b89c9b95017d3c17f",
+      "sourceHash": "35f09ed1b442da0fc014dd6a9011f3cc339126532212e29688faf08c197d0736",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-11-09T13:49:19.042Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "b5dea7746c94210f93166c8b5621b5c1723a88ee81584d025481b3b637b4a6a9",
@@ -2276,9 +2276,9 @@
       "translatedAt": "2026-10-30T19:47:43.830Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-highlighter.md": {
-      "sourceHash": "c1b86672d6029c484d5bbe8b96a42db00265ec8f550066d26f539daaa2e80aa5",
+      "sourceHash": "13a5c998d8429429b11e4a6a821778bae9ccbb685ab37397014fc2a9fe64d346",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/text-highlighter.md",
-      "translatedAt": "2026-11-09T13:49:19.042Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-match.md": {
       "sourceHash": "796fd4e894db3bf25abc52d1842dd58f237084850359bff95590539f611053ee",
@@ -2676,19 +2676,19 @@
       "translatedAt": "2026-09-19T14:18:28.626Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-overview.md": {
-      "sourceHash": "2a7baea728d63e77fcabd8e568b8e54785c3833a8356ced57086b8c119b128d4",
+      "sourceHash": "583d82134e9b4272a828ab6145dbfa2d3477db4cc0324eec77f9cea2acbfaea8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-overview.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/management/access-logs/access-log-reference.md": {
-      "sourceHash": "28834481303bde7d0bf431b6b8fc7182bfd7469b81fd6a22cce8292cf692d0ee",
+      "sourceHash": "d36dfaf5b8858a6dda5f7a41c22e0537211070a12b24b45e8d8006a7debbbfbe",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/access-log-reference.md",
-      "translatedAt": "2026-11-18T13:09:46.230Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/management/access-logs/configure-access-logs.md": {
-      "sourceHash": "af0bb46f32672df4521617ac83f2643d5c232145b69f5ecf71b61c0e95531790",
+      "sourceHash": "d4df96d058879c4570f370a4c78f5e3bf3fcb509ab23a80ca08685f57c7a4dc1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/access-logs/configure-access-logs.md",
-      "translatedAt": "2026-11-23T11:43:48.679Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/management/auditing/audit-logs-ref.md": {
       "sourceHash": "96cb429bef49f28198758e1f798b7d75eca0596a15967ac223f8f42a7f91c886",
@@ -3271,9 +3271,9 @@
       "translatedAt": "2026-11-10T13:46:21.178Z"
     },
     "content/en/guides/tutorials/management/slow-logs/configure-slow-logs.md": {
-      "sourceHash": "184944d20c90dc8643bc43e67e863eaa71f2104f75341bc9661ef381e5a4e4a2",
+      "sourceHash": "84cf97aeac9878befc7e03fdfbf9a31b4369d98843c9776b8686ad527f2337e6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/slow-logs/configure-slow-logs.md",
-      "translatedAt": "2026-11-23T11:43:48.679Z"
+      "translatedAt": "2026-11-26T11:42:55.972Z"
     },
     "content/en/guides/tutorials/management/slow-logs/slow-log-reference.md": {
       "sourceHash": "9d02e03fa3db9aeecf53cf53634e8db7f739a2c99db40680dd373fad6988c428",
