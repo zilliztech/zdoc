@@ -1041,11 +1041,10 @@ from pymilvus import (
 )
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-COLLECTION_NAME = "highlighter_demo"
 
 # Clean up existing collection
-if client.has_collection(COLLECTION_NAME):
-    client.drop_collection(COLLECTION_NAME)
+if client.has_collection("highlighter_demo"):
+    client.drop_collection("highlighter_demo")
 
 # Define schema
 schema = client.create_schema(enable_dynamic_field=False)
@@ -1076,7 +1075,7 @@ index_params.add_index(
     params={"inverted_index_algo": "DAAT_MAXSCORE", "bm25_k1": 1.2, "bm25_b": 0.75},
 )
 
-client.create_collection(collection_name=COLLECTION_NAME, schema=schema, index_params=index_params)
+client.create_collection(collection_name="highlighter_demo", schema=schema, index_params=index_params)
 
 # Insert sample documents
 docs = [
@@ -1086,7 +1085,7 @@ docs = [
     "my second test doc. Milvus is an open-source vector database that suits AI applications "
     "of every size from running a demo chatbot to building web-scale search.",
 ]
-client.insert(collection_name=COLLECTION_NAME, data=[{"text": t} for t in docs])
+client.insert(collection_name="highlighter_demo", data=[{"text": t} for t in docs])
 print(f"✓ Collection created with {len(docs)} documents\n")
 
 # Helper for search params
@@ -1122,10 +1121,9 @@ import java.util.*;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-String COLLECTION_NAME = "highlighter_demo";
 
-if (client.hasCollection(HasCollectionReq.builder().collectionName(COLLECTION_NAME).build())) {
-    client.dropCollection(DropCollectionReq.builder().collectionName(COLLECTION_NAME).build());
+if (client.hasCollection(HasCollectionReq.builder().collectionName("highlighter_demo").build())) {
+    client.dropCollection(DropCollectionReq.builder().collectionName("highlighter_demo").build());
 }
 
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
@@ -1166,7 +1164,7 @@ IndexParam indexParam = IndexParam.builder()
         .build();
 
 client.createCollection(CreateCollectionReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .collectionSchema(schema)
         .indexParams(Collections.singletonList(indexParam))
         .build());
@@ -1183,7 +1181,7 @@ for (String doc : docs) {
     row.addProperty("text", doc);
     rows.add(row);
 }
-client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(rows).build());
+client.insert(InsertReq.builder().collectionName("highlighter_demo").data(rows).build());
 ```
 
 </TabItem>
@@ -1204,10 +1202,9 @@ use serde_json::json;
 use std::collections::HashMap;
 
 let client = ClientV2::new(&ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT")).await?;
-const COLLECTION_NAME: &str = "highlighter_demo";
 
-if client.has_collection(HasCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?.exists() {
-    client.drop_collection(DropCollectionRequest::builder().collection_name(COLLECTION_NAME).build()?).await?;
+if client.has_collection(HasCollectionRequest::builder().collection_name("highlighter_demo").build()?).await?.exists() {
+    client.drop_collection(DropCollectionRequest::builder().collection_name("highlighter_demo").build()?).await?;
 }
 
 let schema = CollectionSchema::new()
@@ -1229,7 +1226,7 @@ let index_param = IndexParam::new()
 client
     .create_collection(
         CreateCollectionRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .schema(schema)
             .index_param(index_param)
             .build()?,
@@ -1239,7 +1236,7 @@ client
 client
     .insert(
         InsertRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .rows(vec![
                 json!({"text": "my first test doc"}),
                 json!({"text": "my second test doc"}),
@@ -1262,13 +1259,12 @@ client
 auto client = milvus::MilvusClientV2::Create();
 auto status = client->Connect(milvus::ConnectParam("YOUR_CLUSTER_ENDPOINT"));
 
-const std::string COLLECTION_NAME = "highlighter_demo";
-if (client->HasCollection(COLLECTION_NAME)) {
-    client->DropCollection(COLLECTION_NAME);
+if (client->HasCollection("highlighter_demo")) {
+    client->DropCollection("highlighter_demo");
 }
 
 milvus::CreateCollectionRequest request;
-request.WithCollectionName(COLLECTION_NAME);
+request.WithCollectionName("highlighter_demo");
 request.AddField(milvus::FieldSchema("id", milvus::DataType::INT64, "", true, true));
 request.AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR, "", false, false, 2000));
 request.AddField(milvus::FieldSchema("sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR, "", false, false));
@@ -1293,7 +1289,7 @@ milvus::EntityRows data = {
 
 milvus::InsertResponse response;
 status = client->Insert(milvus::InsertRequest()
-                            .WithCollectionName(COLLECTION_NAME)
+                            .WithCollectionName("highlighter_demo")
                             .WithRowsData(std::move(data)),
                         response);
 if (!status.IsOk()) {
@@ -1309,14 +1305,13 @@ if (!status.IsOk()) {
 import { MilvusClient, DataType, HighlightType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
-const COLLECTION_NAME = "highlighter_demo";
 
-if (await client.hasCollection({ collection_name: COLLECTION_NAME })) {
-    await client.dropCollection({ collection_name: COLLECTION_NAME });
+if (await client.hasCollection({ collection_name: "highlighter_demo" })) {
+    await client.dropCollection({ collection_name: "highlighter_demo" });
 }
 
 await client.createCollection({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     schema: [
         { name: "id", data_type: DataType.Int64, is_primary_key: true, auto_id: true },
         { name: "text", data_type: DataType.VarChar, max_length: 2000, enable_analyzer: true, enable_match: true },
@@ -1346,7 +1341,7 @@ const docs = [
     "my first test doc. Milvus is an open-source vector database built for GenAI applications.",
     "my second test doc. Milvus is an open-source vector database that suits AI applications of every size from running a demo chatbot to building web-scale search.",
 ];
-await client.insert({ collection_name: COLLECTION_NAME, data: docs.map(text => ({ text })) });
+await client.insert({ collection_name: "highlighter_demo", data: docs.map(text => ({ text })) });
 
 const SEARCH_PARAMS = { metric_type: "BM25", params: { drop_ratio_search: 0.0 } };
 ```
@@ -1365,16 +1360,15 @@ using Milvus.Client.V2.Types;
 using System.Collections.Generic;
 
 var client = new MilvusClientV2(new ConnectConfig { Uri = "YOUR_CLUSTER_ENDPOINT" });
-const string collectionName = "highlighter_demo";
 
 // Clean up existing collection
-if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = collectionName })).Has)
+if ((await client.HasCollectionAsync(new HasCollectionReq { CollectionName = "highlighter_demo" })).Has)
 {
-    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = collectionName });
+    await client.DropCollectionAsync(new DropCollectionReq { CollectionName = "highlighter_demo" });
 }
 
 // Define schema
-var schema = new CollectionSchema { Name = collectionName };
+var schema = new CollectionSchema { Name = "highlighter_demo" };
 schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true, autoId: true));
 schema.Fields.Add(FieldSchema.CreateVarchar("text", maxLength: 2000, enableAnalyzer: true, enableMatch: true));
 schema.Fields.Add(new FieldSchema("sparse_vector", DataType.SparseFloatVector));
@@ -1383,7 +1377,7 @@ schema.Functions.Add(FunctionSchema.CreateBm25("text_bm25", "text", "sparse_vect
 // Create collection and index
 await client.CreateCollectionAsync(new CreateCollectionReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     Schema = schema,
     Indexes = new[] { new IndexParam("sparse_vector", null, IndexType.SparseInvertedIndex, MetricType.Bm25)
     {
@@ -1401,7 +1395,7 @@ string[] docs =
 ];
 await client.InsertAsync(new InsertReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     RowsData = docs.Select(text => (IDictionary<string, object?>)new Dictionary<string, object?> { ["text"] = text }).ToList()
 });
 ```
@@ -1448,7 +1442,7 @@ highlighter = LexicalHighlighter(
 # highlight-end
 
 results = client.search(
-    collection_name=COLLECTION_NAME,
+    collection_name="highlighter_demo",
     data=["test"],
     anns_field="sparse_vector",
     limit=10,
@@ -1468,8 +1462,6 @@ print()
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "highlighter_demo";
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -1477,7 +1469,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
@@ -1510,7 +1502,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(10)
@@ -1527,15 +1519,13 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
-const std::string COLLECTION_NAME = "highlighter_demo";
-
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(COLLECTION_NAME)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -1551,8 +1541,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-const COLLECTION_NAME = "highlighter_demo";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -1561,7 +1549,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     data: ["test"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -1575,8 +1563,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "highlighter_demo";
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -1591,7 +1577,7 @@ var highlighter = new SearchParameters
 
 var results = await client.SearchAsync(new SearchReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     VectorFieldName = "sparse_vector",
     Texts = new[] { "test" },
     MetricType = MetricType.Bm25,
@@ -1658,7 +1644,7 @@ highlighter = LexicalHighlighter(
 # highlight-end
 
 results = client.search(
-    collection_name=COLLECTION_NAME,
+    collection_name="highlighter_demo",
     data=["test"],
     anns_field="sparse_vector",
     limit=10,
@@ -1678,8 +1664,6 @@ print()
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "highlighter_demo";
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -1688,7 +1672,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(10)
@@ -1725,7 +1709,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(10)
@@ -1742,8 +1726,6 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
-const std::string COLLECTION_NAME = "highlighter_demo";
-
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1751,7 +1733,7 @@ highlighter->WithHighlightSearchText(true);
 highlighter->AddHighlightQuery("TextMatch", "text", "my doc");
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(COLLECTION_NAME)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -1767,8 +1749,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-const COLLECTION_NAME = "highlighter_demo";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -1780,7 +1760,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     data: ["test"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -1794,8 +1774,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "highlighter_demo";
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -1811,7 +1789,7 @@ var highlighter = new SearchParameters
 
 var results = await client.SearchAsync(new SearchReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     VectorFieldName = "sparse_vector",
     Texts = new[] { "test" },
     MetricType = MetricType.Bm25,
@@ -1877,7 +1855,7 @@ highlighter = LexicalHighlighter(
 # highlight-end
 
 results = client.search(
-    collection_name=COLLECTION_NAME,
+    collection_name="highlighter_demo",
     data=["Milvus"],
     anns_field="sparse_vector",
     limit=10,
@@ -1898,8 +1876,6 @@ print()
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "highlighter_demo";
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -1909,7 +1885,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(10)
@@ -1944,7 +1920,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["Milvus".to_string()]))
             .limit(10)
@@ -1961,8 +1937,6 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
-const std::string COLLECTION_NAME = "highlighter_demo";
-
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
@@ -1971,7 +1945,7 @@ highlighter->WithFragmentOffset(20);
 highlighter->WithFragmentSize(60);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(COLLECTION_NAME)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(10)
     .AddOutputField("text")
@@ -1987,8 +1961,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-const COLLECTION_NAME = "highlighter_demo";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -1999,7 +1971,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     data: ["Milvus"],
     anns_field: "sparse_vector",
     limit: 10,
@@ -2013,8 +1985,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "highlighter_demo";
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -2031,7 +2001,7 @@ var highlighter = new SearchParameters
 
 var results = await client.SearchAsync(new SearchReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     VectorFieldName = "sparse_vector",
     Texts = new[] { "Milvus" },
     MetricType = MetricType.Bm25,
@@ -2093,7 +2063,7 @@ highlighter = LexicalHighlighter(
 # highlight-end
 
 results = client.search(
-    collection_name=COLLECTION_NAME,
+    collection_name="highlighter_demo",
     data=["test", "Milvus"],  # Two queries
     anns_field="sparse_vector",
     limit=2,
@@ -2116,8 +2086,6 @@ print()
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "highlighter_demo";
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("{"))
         .postTags(Arrays.asList("}"))
@@ -2125,7 +2093,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .data(Arrays.asList(new EmbeddedText("test"), new EmbeddedText("Milvus")))
         .annsField("sparse_vector")
         .topK(2)
@@ -2158,7 +2126,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string(), "Milvus".to_string()]))
             .limit(2)
@@ -2175,15 +2143,13 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
-const std::string COLLECTION_NAME = "highlighter_demo";
-
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"{"});
 highlighter->WithPostTags({"}"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(COLLECTION_NAME)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(2)
     .AddOutputField("text")
@@ -2200,8 +2166,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-const COLLECTION_NAME = "highlighter_demo";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["{"],
@@ -2210,7 +2174,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     data: ["test", "Milvus"],
     anns_field: "sparse_vector",
     limit: 2,
@@ -2224,8 +2188,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "highlighter_demo";
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -2240,7 +2202,7 @@ var highlighter = new SearchParameters
 
 var results = await client.SearchAsync(new SearchReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     VectorFieldName = "sparse_vector",
     Texts = new[] { "test", "Milvus" },   // Two queries
     MetricType = MetricType.Bm25,
@@ -2300,7 +2262,7 @@ highlighter = LexicalHighlighter(
 # highlight-end
 
 results = client.search(
-    collection_name=COLLECTION_NAME,
+    collection_name="highlighter_demo",
     data=["test"],
     anns_field="sparse_vector",
     limit=2,
@@ -2320,8 +2282,6 @@ print()
 <TabItem value='java'>
 
 ```java
-String COLLECTION_NAME = "highlighter_demo";
-
 LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .preTags(Arrays.asList("<mark>"))
         .postTags(Arrays.asList("</mark>"))
@@ -2329,7 +2289,7 @@ LexicalHighlighter highlighter = LexicalHighlighter.builder()
         .build();
 
 SearchReq searchReq = SearchReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("highlighter_demo")
         .data(Collections.singletonList(new EmbeddedText("test")))
         .annsField("sparse_vector")
         .topK(2)
@@ -2362,7 +2322,7 @@ let highlighter = LexicalHighlighter::new()
 let res = client
     .search(
         SearchRequest::builder()
-            .collection_name(COLLECTION_NAME)
+            .collection_name("highlighter_demo")
             .vector_field("sparse_vector")
             .vectors(SearchVectors::EmbeddedText(vec!["test".to_string()]))
             .limit(2)
@@ -2379,15 +2339,13 @@ let res = client
 <TabItem value='c++'>
 
 ```c++
-const std::string COLLECTION_NAME = "highlighter_demo";
-
 auto highlighter = std::make_shared<milvus::LexicalHighlighter>();
 highlighter->WithPreTags({"<mark>"});
 highlighter->WithPostTags({"</mark>"});
 highlighter->WithHighlightSearchText(true);
 
 auto request = milvus::SearchRequest()
-    .WithCollectionName(COLLECTION_NAME)
+    .WithCollectionName("highlighter_demo")
     .WithAnnsField("sparse_vector")
     .WithLimit(2)
     .AddOutputField("text")
@@ -2403,8 +2361,6 @@ auto status = client->Search(request, response);
 <TabItem value='javascript'>
 
 ```javascript
-const COLLECTION_NAME = "highlighter_demo";
-
 const highlighter = {
     type: HighlightType.Lexical,
     pre_tags: ["<mark>"],
@@ -2413,7 +2369,7 @@ const highlighter = {
 };
 
 const res = await client.search({
-    collection_name: COLLECTION_NAME,
+    collection_name: "highlighter_demo",
     data: ["test"],
     anns_field: "sparse_vector",
     limit: 2,
@@ -2427,8 +2383,6 @@ const res = await client.search({
 <TabItem value='csharp'>
 
 ```csharp
-const string collectionName = "highlighter_demo";
-
 var highlighter = new SearchParameters
 {
     OutputFields = { "text" },
@@ -2443,7 +2397,7 @@ var highlighter = new SearchParameters
 
 var results = await client.SearchAsync(new SearchReq
 {
-    CollectionName = collectionName,
+    CollectionName = "highlighter_demo",
     VectorFieldName = "sparse_vector",
     Texts = new[] { "test" },
     MetricType = MetricType.Bm25,
