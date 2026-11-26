@@ -121,37 +121,53 @@ import Procedures from '@site/src/components/Procedures';
 
 有关审计日志支持的操作和对应的字段，请参阅[审计日志参考](./audit-logs-ref)。
 
-## 开始前\{#before-you-start}
+## 启用审计日志\{#enable-audit-log}
 
-- 使用支持审计日志的 Dedicated 集群，并确认集群处于运行中。集群须使用 Milvus 2.5.x 或更高版本。
+在 Zilliz Cloud 上，审计日志会直接转发到您的存储桶。
 
-- 使用组织管理员或项目管理员账号。
+### 开始前\{#before-you-start}
 
-- 如果集群已启用访问日志，请先确定需要保留哪种日志。审计日志和访问日志不能在同一集群同时启用，慢日志可独立配置。
+- 您的 Zilliz Cloud 集群版本为 **Dedicated** 及以上。如有需求，请考虑[升级集群](./manage-cluster)。
 
-- 在集群所属项目中准备[阿里云 OSS 存储集成](./integrate-with-alibaba-cloud-oss)，并确认集成可以写入目标存储桶。
+- 您已经为 Zilliz Cloud 项目配置了对象存储集成，因为配置完成后审计日志将会转发到您的存储桶。有关详细步骤，请参阅[阿里云对象存储](./integrate-with-alibaba-cloud-oss)或 [Amazon S3](./integrate-with-amazon-s3-cn)。
 
-## 启用审计日志转发\{#enable-audit-log-forwarding}
+- 您拥有该项目的**组织管理员**或**项目管理员**权限。如果您没有相应权限，请联系 Zilliz Cloud 管理员。
 
-启用审计日志可能影响集群查询和写入性能，并产生审计日志 CU 费用。开启前请参阅[审计日志费用](./audit-log-cost)。
+### 操作步骤\{#procedure}
 
 ![I1hiwIU8lh04ADbBQdGceiHTnFM](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/I1hiwIU8lh04ADbBQdGceiHTnFM.png)
 
-1. 登录 Zilliz Cloud 控制台，选择目标项目和集群。
+<Procedures>
 
-1. 进入**日志**页签，在**审计日志**区域点击**配置**。
+1. 登录 [Zilliz Cloud 控制台](https://cloud.zilliz.com.cn/login)。
 
-1. 在**审计日志设置**中，从**存储集成**下拉列表选择准备好的<strong>阿里云对象存储服务（OSS）</strong>集成。
+1. 在目标项目页面，选择**集群**。
 
-1. 在**转发路径**中填写存储桶内的目录，例如 `audit-logs/`，然后点击**保存**。
+1. 进入目标集群的详情页面，选择**日志**选项卡。当集群处于创建中、删除中或已删除状态时，该选项卡将不可用。
 
-## 验证日志是否送达\{#verify-that-logs-arrive}
+1. 在**审计日志**区域，点击**配置**。
 
-1. 待审计日志启用后，对集群执行一次受支持的操作，例如查询已有 Collection，并记下操作时间。
+1. 在弹出的对话框中，指定对象存储集成配置信息：
 
-1. 打开集成对应的 OSS 存储桶，进入**转发路径**指定的目录，查找该集群新生成的日志文件。打开文件并按操作时间核对对应记录。
+    - **存储集成**：显示托管您对象存储的云服务商。
 
-有关支持的操作和日志字段，请参阅[VectorDB 审计日志参考](./audit-logs-ref)。
+    - **转发路径**：选择用于存储审计日志的存储桶。
+
+        <Admonition type="info" title="说明">
+
+        只有与集群处于同一区域的存储桶才会显示在下拉列表中。
+
+        </Admonition>
+
+    - **导出路径**：指定在存储桶中存放审计日志的目录路径。
+
+1. 点击**保存**。当**审计日志**状态显示为**运行中**时，说明已成功启用。如果状态显示为异常，请参阅[常见问题](./audit-logs#faq)获取故障排查方法。
+
+</Procedures>
+
+完成配置后，审计日志会以大约 5 分钟的间隔转发到您的存储桶。您可以随时访问存储桶来查看或管理所需日志。
+
+要了解日志条目中的参数信息，请参阅[审计日志参考](./audit-logs-ref)。
 
 ## 管理审计日志\{#manage-audit-log}
 

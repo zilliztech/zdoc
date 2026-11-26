@@ -2,7 +2,7 @@
 title: "访问日志概述 | Cloud"
 slug: /access-log-overview
 sidebar_label: "访问日志概述"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -85,6 +85,8 @@ import Admonition from '@theme/Admonition';
 ### 优雅降级\{#graceful-degradation}
 
 在极端负载下，系统可能会丢弃访问日志记录以保障查询吞吐量。这意味着访问日志提供的是尽力而为的查询活动记录，而非保证完整的记录。
+
+### 计费\{#billing}
 
 ## 下一步\{#whats-next}
 

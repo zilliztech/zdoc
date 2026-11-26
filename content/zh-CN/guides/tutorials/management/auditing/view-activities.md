@@ -24,20 +24,35 @@ Zilliz Cloud **平台审计日志**页面记录了组织中的所有事件，包
 
 ## 查看平台审计日志\{#view-platform-audit-logs}
 
-登录 Zilliz Cloud 控制台并选择要查看的组织。在组织导航中，点击**平台审计日志**。日志列表显示级别、服务、消息、发生时间和操作者。要确认谁执行了某项操作，请先找到对应消息，再核对发生时间与操作者。
+点击进入组织。在左侧导航栏中，点击**平台审计日志**。在**平台审计日志**页面，您可以查看日志内容、日志发生时间以及对应的操作人。
 
 ![view-activities-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-activities-cn.png "view-activities-cn")
 
 ## 筛选平台审计日志\{#filter-platform-audit-logs}
 
-要找到某次操作，可以组合使用**所有级别**、**所有服务**和日期范围筛选。按级别查找信息、警告或错误，按服务缩小到相关功能，按日期范围查找特定时段的记录。点击**重置**可恢复默认筛选条件。
+您可以根据平台审计日志类型和日志发生的时段来筛选展示的日志。您可以组合这 2 个筛选条件。
 
-## 下载平台审计日志\{#download-platform-audit-logs}
+- **根据时间筛选**
 
-如需离线分析或共享审计记录，请先设置筛选条件，再点击**下载**并选择格式。
+    如需查看特定时间段内的平台审计日志，请点击时间组件，选择起始日期和终止日期，点击**确认**。 
 
-- <strong>CSV（.csv）</strong>适用于在电子表格中查看和分析。
+    <Admonition type="info" title="说明">
 
-- <strong>JSON（.jsonl）</strong>适用于程序处理，每行是一条 JSON 记录。
+    起始日期和终止日期之间应小于 30 天。
 
-下载范围包含符合当前筛选条件的记录，包括其他分页。若只需要某类操作或某个时段的日志，请先缩小筛选范围。
+    </Admonition>
+
+    ![filter-by-time-range-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/filter-by-time-range-cn.png "filter-by-time-range-cn")
+
+- **根据类型筛选**
+
+    如需根据类型筛选，请点击类型下拉框并选择您想要查看的平台审计日志类型。Zilliz Cloud 中有 3 种类型：**信息**、**警告**和**错误**。
+
+    | **类型** | **描述** |
+    | --- | --- |
+    | 信息 | 集群、权限、账单等相关信息。<br/>例如：集群 in01-xxxxxxxxxxxxxxx 已创建。 |
+    | 警告 | 资源状态更新等需要留意的信息。<br/>例如：集群 in01-xxxxxxxxxxxxxxx 已删除。 |
+    | 错误 | 账单支付失败或系统出错等需要立刻注意或采取行动的信息。<br/>例如：账单 invo-xxxxxxxxxxxxxxxxxxxxxxxx 支付失败。 |
+
+    ![filter-by-activity-type-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/filter-by-activity-type-cn.png "filter-by-activity-type-cn")
+

@@ -1618,39 +1618,39 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-logs/access-log-overview.md",
-      "sha256": "166924eee7aa14abb80ac9cadaa9a132b4d0f19661474729c777841b52870cca",
+      "sha256": "37a05f692cd6b6c5c42ca234d845f9abe277ffab97c93575339ddbe858bd4e96",
       "docToken": "R0Jiw6mWPiPLo1kU3rocWfoCneg",
-      "revisionId": "119"
+      "revisionId": "125"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-logs/access-log-reference.md",
-      "sha256": "514b22230cc0e7a3a1453371d8fb020161e4553e5edf9e9cd0c4de45757eef28",
+      "sha256": "553ffd93eade8066508a4b21b633bb881d05dc2bd7b076634e6df4d1d00633af",
       "docToken": "Hq43w5qtPijHDok3TxKcZ60fnQc",
-      "revisionId": "148"
+      "revisionId": "152"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/access-logs/configure-access-logs.md",
-      "sha256": "5f27dba970d99cf60b243f1d6d9bf6a5d95d6d5f76291afa12347fd4ba9d679c",
+      "sha256": "945dae2ab0f5b53bc528955020fd98bf6ba32e3fadd78d40d48d293ef44e9066",
       "docToken": "Wl2PwW2aAiYakOk4c8scRPLBn9b",
-      "revisionId": "155"
+      "revisionId": "158"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/audit-logs-ref.md",
       "sha256": "6a6b0fa3da582b5f8123f12620e5ddfd53ffdcba2226ede1e310c359b253b481",
       "docToken": "RNEgwQLoUi4djXkouqQcSbgvnlb",
-      "revisionId": "306"
+      "revisionId": "309"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/audit-logs.md",
       "sha256": "2c757973a2f05fc168d7b26bcc80ba60eb3da5e70db10b981a7193a3df3ce4c5",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "716"
+      "revisionId": "717"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/view-activities.md",
-      "sha256": "29bcb633d6231111d9803e4af75450a103358489a8607a99e0786f07ddeaa0c9",
+      "sha256": "4fed56858f15c2e764f59d371d1dffdece3ff180f4adbc33d0bd2d2deb0a8d62",
       "docToken": "L7IZwws2oiiByGk53YWcJJ3ynFg",
-      "revisionId": "88"
+      "revisionId": "89"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/cluster-credentials.md",
@@ -1950,13 +1950,13 @@
       "path": "content/zh-CN/byoc/tutorials/management/slow-logs/configure-slow-logs.md",
       "sha256": "6b0dc4b5fe545ff05d5831e79880e9aa5d9c76488e562236caba9d27f460ab7a",
       "docToken": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
-      "revisionId": "132"
+      "revisionId": "137"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/slow-logs/slow-log-reference.md",
       "sha256": "cf135024cf499f920dbb2b15d0c4483df636f05f5102cd60e277d327f44a36fe",
       "docToken": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
-      "revisionId": "31"
+      "revisionId": "34"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/product-architecture/best-practices/environment-isolation.md",
@@ -3034,9 +3034,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/snapshots/manage-snapshots-console.md",
-      "sha256": "ffb2a99d080f36a14fae7557f49e4f7ce49cf2c9eb86cb7a29ca8af15cdc15c6",
+      "sha256": "74e7ae994fea2cc43ec58ce33464275cefe3bf7a3d3d8300fe22eb21a669f4f6",
       "docToken": "Gs2AwtPbbi4hFTkMswhcrM3tnFc",
-      "revisionId": "227"
+      "revisionId": "663"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/snapshots/manage-snapshots.md",
@@ -3460,39 +3460,39 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-logs/access-log-overview.md",
-      "sha256": "974e1aa8e11cae29104abb6af5a9fde39218567d48aac0569aa4c43a91132893",
+      "sha256": "7476089f10ce07e69b6fb27eb16c1758e844d7ee02b3c34a971cad37e71733cc",
       "docToken": "R0Jiw6mWPiPLo1kU3rocWfoCneg",
-      "revisionId": "119"
+      "revisionId": "125"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-logs/access-log-reference.md",
-      "sha256": "94a1a5316be9b3d245f988086a21fe4ec1f420e2fc80834b0bd8cc6ff1154402",
+      "sha256": "a3e4028c13f307cd14063dc293483ae2c30acf071b16d52c1a387a092e9aec49",
       "docToken": "Hq43w5qtPijHDok3TxKcZ60fnQc",
-      "revisionId": "148"
+      "revisionId": "152"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/access-logs/configure-access-logs.md",
-      "sha256": "958aa6ac0920a1aded41767bcd0006d8f6a0f97a3e58dea41b45ca0c8c181f9a",
+      "sha256": "250491df5c71283fdfd1427ec307ac70b732d16bc9d1df51e022d2b340c95742",
       "docToken": "Wl2PwW2aAiYakOk4c8scRPLBn9b",
-      "revisionId": "155"
+      "revisionId": "158"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/audit-logs-ref.md",
       "sha256": "65176ae5f6cf0c8725a92544516991d029a94f23cc8b4bccf404919681d97a95",
       "docToken": "RNEgwQLoUi4djXkouqQcSbgvnlb",
-      "revisionId": "306"
+      "revisionId": "309"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/audit-logs.md",
-      "sha256": "887d76054d0016ef66baa1b154d7f82b661f852e8ce4e2299ae29b777f1bae4e",
+      "sha256": "1ce3e94aae3f2ed3a8cf4adc213f3a03dfec66808ec4dfdb92b3686aad3a9163",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "716"
+      "revisionId": "717"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/view-activities.md",
-      "sha256": "876883fe1b1df9a9960153e5a30be7fd3874d5308c93bf57eb5b0bbadc39e112",
+      "sha256": "8803e4f510ebef11c1f53933c051c15244bcef3ef4e6200256d442803314ab6e",
       "docToken": "L7IZwws2oiiByGk53YWcJJ3ynFg",
-      "revisionId": "88"
+      "revisionId": "89"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/cluster-credentials.md",
@@ -4020,13 +4020,13 @@
       "path": "content/zh-CN/guides/tutorials/management/slow-logs/configure-slow-logs.md",
       "sha256": "b90e2c5485048ca83502940813bc4661988c690a76d1463827a7cb3a2c8ce534",
       "docToken": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
-      "revisionId": "132"
+      "revisionId": "137"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/slow-logs/slow-log-reference.md",
       "sha256": "bdcc616fa911ccb46397e4525b40bf53b0dd9271e606d0f12ba26400b9608c9c",
       "docToken": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
-      "revisionId": "31"
+      "revisionId": "34"
     },
     {
       "path": "content/zh-CN/guides/tutorials/product-architecture/best-practices/environment-isolation.md",
