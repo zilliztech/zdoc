@@ -1644,13 +1644,13 @@
       "path": "content/zh-CN/byoc/tutorials/management/auditing/audit-logs.md",
       "sha256": "2c757973a2f05fc168d7b26bcc80ba60eb3da5e70db10b981a7193a3df3ce4c5",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "714"
+      "revisionId": "716"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/auditing/view-activities.md",
-      "sha256": "4fed56858f15c2e764f59d371d1dffdece3ff180f4adbc33d0bd2d2deb0a8d62",
+      "sha256": "29bcb633d6231111d9803e4af75450a103358489a8607a99e0786f07ddeaa0c9",
       "docToken": "L7IZwws2oiiByGk53YWcJJ3ynFg",
-      "revisionId": "86"
+      "revisionId": "88"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/authentication/cluster-credentials.md",
@@ -3484,15 +3484,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/audit-logs.md",
-      "sha256": "1ce3e94aae3f2ed3a8cf4adc213f3a03dfec66808ec4dfdb92b3686aad3a9163",
+      "sha256": "887d76054d0016ef66baa1b154d7f82b661f852e8ce4e2299ae29b777f1bae4e",
       "docToken": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
-      "revisionId": "714"
+      "revisionId": "716"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/auditing/view-activities.md",
-      "sha256": "8803e4f510ebef11c1f53933c051c15244bcef3ef4e6200256d442803314ab6e",
+      "sha256": "876883fe1b1df9a9960153e5a30be7fd3874d5308c93bf57eb5b0bbadc39e112",
       "docToken": "L7IZwws2oiiByGk53YWcJJ3ynFg",
-      "revisionId": "86"
+      "revisionId": "88"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/authentication/cluster-credentials.md",
