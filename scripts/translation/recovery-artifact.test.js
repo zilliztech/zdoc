@@ -565,6 +565,20 @@ test('changes the prompt contract hash when locale or document translation/revie
   assert.notEqual(correctionChanged, initial);
 });
 
+test('changes the prompt contract hash when an extended common locale contract changes', () => {
+  const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-extends-'));
+  const promptNames = Object.values(promptNamesFor('zh-CN-reference'));
+  for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
+  write(repositoryRoot, 'config/reference-navigation.json', '{"targets":[]}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-common.json', '{"schemaVersion":1,"locale":"zh-CN","mandatoryTerms":[]}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"schemaVersion":1,"contractId":"one","target":"zh-CN-reference","locale":"zh-CN","extends":"./zh-CN-common.json"}\n');
+
+  const initial = promptContractSha256('zh-CN-reference', repositoryRoot);
+  write(repositoryRoot, 'config/translation/zh-CN-common.json', '{"schemaVersion":1,"locale":"zh-CN","mandatoryTerms":[{"source":"endpoint","target":"Endpoint","caseSensitive":true}]}\n');
+  const commonChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(commonChanged, initial);
+});
+
 test('keeps a candidate pending when source, locale, contract, or target integrity differs', () => {
   for (const mutate of [
     value => { value.candidate.sourceHash = 'f'.repeat(64); },

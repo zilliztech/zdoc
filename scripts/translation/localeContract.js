@@ -5,6 +5,10 @@ const path = require('node:path')
 const {protectedSpans} = require('./protectedContent')
 
 const ROOT_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
+const COMMON_KEYS = ['schemaVersion', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
+const ARRAY_KEYS = ['styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
+const SCALAR_EXTENDS_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'extends']
+const ALLOWED_EXTENDS_CHILD_KEYS = new Set([...ROOT_KEYS, 'extends'])
 const TERM_KEYS = ['source', 'target', 'caseSensitive']
 const CONTEXT_EXCLUSION_TERM_KEYS = [...TERM_KEYS, 'excludedSourceContexts']
 const CONTEXTUAL_TERM_KEYS = ['source', 'target', 'caseSensitive', 'sourceContexts']
@@ -13,6 +17,7 @@ const EXAMPLE_KEYS = ['id', 'source', 'bad', 'good', 'explanation']
 const CONTRACT_PATHS = Object.freeze({
   'ja-JP': 'config/translation/ja-JP.json',
   'zh-CN-reference': 'config/translation/zh-CN-reference.json',
+  'zh-CN-guides': 'config/translation/zh-CN-guides.json',
 })
 
 function exactKeys(value, expected, label) {
@@ -120,9 +125,119 @@ function localeContractPathFor(target) {
   return contractPath
 }
 
+function resolveExtendsBaseFile(extendsValue, contractPath, repositoryRoot) {
+  nonEmptyString(extendsValue, 'Locale contract extends')
+  if (extendsValue.includes('\0') || extendsValue.includes('\\')) {
+    throw new Error('Locale contract extends must be a safe relative path within config/translation')
+  }
+  if (path.isAbsolute(extendsValue) || path.win32.isAbsolute(extendsValue)) {
+    throw new Error('Locale contract extends must be a relative path within config/translation')
+  }
+
+  const translationDir = path.resolve(repositoryRoot, 'config/translation')
+  const childFile = path.resolve(repositoryRoot, contractPath)
+  const resolvedBase = path.resolve(path.dirname(childFile), extendsValue)
+  if (resolvedBase === translationDir || !resolvedBase.startsWith(`${translationDir}${path.sep}`)) {
+    throw new Error(`Locale contract extends escapes config/translation: ${extendsValue}`)
+  }
+  if (resolvedBase === childFile) {
+    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${extendsValue}`)
+  }
+
+  let stats
+  try {
+    stats = fs.lstatSync(resolvedBase)
+  } catch (err) {
+    if (err && err.code === 'ENOENT') {
+      throw new Error(`Locale contract extends target does not exist: ${extendsValue}`)
+    }
+    throw err
+  }
+  if (stats.isSymbolicLink()) {
+    throw new Error(`Locale contract extends must not follow symbolic links: ${extendsValue}`)
+  }
+  if (!stats.isFile()) {
+    throw new Error(`Locale contract extends must reference a regular file: ${extendsValue}`)
+  }
+
+  const realTranslationDir = fs.realpathSync(translationDir)
+  const realBase = fs.realpathSync(resolvedBase)
+  if (realBase === realTranslationDir || !realBase.startsWith(`${realTranslationDir}${path.sep}`)) {
+    throw new Error(`Locale contract extends escapes config/translation: ${extendsValue}`)
+  }
+  const realChildFile = fs.realpathSync(childFile)
+  if (realBase === realChildFile) {
+    throw new Error(`Locale contract extends must not be cyclic or self-referential: ${extendsValue}`)
+  }
+
+  const relativePath = path.relative(path.resolve(repositoryRoot), resolvedBase).split(path.sep).join('/')
+  return {realBase, relativePath}
+}
+
+function resolveExtendedLocaleContract(child, contractPath, repositoryRoot) {
+  if (!child || typeof child !== 'object' || Array.isArray(child)) {
+    throw new Error('Locale contract must be an object with an exact schema')
+  }
+  const childKeys = Object.keys(child)
+  if (
+    childKeys.some(key => !ALLOWED_EXTENDS_CHILD_KEYS.has(key)) ||
+    SCALAR_EXTENDS_KEYS.some(key => !Object.hasOwn(child, key))
+  ) {
+    throw new Error('Locale contract must use the exact schema; unexpected or missing fields')
+  }
+  const {realBase} = resolveExtendsBaseFile(child.extends, contractPath, repositoryRoot)
+
+  const base = JSON.parse(fs.readFileSync(realBase, 'utf8'))
+  if (!base || typeof base !== 'object' || Array.isArray(base)) {
+    throw new Error('Base locale contract must be an object with an exact schema')
+  }
+  if (Object.hasOwn(base, 'extends')) {
+    throw new Error('Base locale contract must not contain nested or cyclic extends')
+  }
+  exactKeys(base, COMMON_KEYS, 'Base locale contract')
+  if (base.schemaVersion !== 1) {
+    throw new Error('Base locale contract schemaVersion must be 1')
+  }
+  nonEmptyString(base.locale, 'Base locale contract locale')
+  nonEmptyString(child.locale, 'Locale contract locale')
+  if (base.locale !== child.locale) {
+    throw new Error(`Base locale contract locale (${base.locale}) does not match child locale (${child.locale})`)
+  }
+
+  const merged = {
+    schemaVersion: child.schemaVersion,
+    contractId: child.contractId,
+    target: child.target,
+    locale: child.locale,
+  }
+  for (const key of ARRAY_KEYS) {
+    if (!Array.isArray(base[key])) {
+      throw new Error(`Base locale contract ${key} must be an array`)
+    }
+    if (Object.hasOwn(child, key) && !Array.isArray(child[key])) {
+      throw new Error(`Locale contract ${key} must be an array`)
+    }
+    merged[key] = [...base[key], ...(Object.hasOwn(child, key) ? child[key] : [])]
+  }
+  return merged
+}
+
+function localeContractSourcePathsFor(target, repositoryRoot = path.resolve(__dirname, '../..')) {
+  const contractPath = localeContractPathFor(target)
+  const raw = JSON.parse(fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'))
+  if (raw && typeof raw === 'object' && !Array.isArray(raw) && Object.hasOwn(raw, 'extends')) {
+    const {relativePath} = resolveExtendsBaseFile(raw.extends, contractPath, repositoryRoot)
+    return [contractPath, relativePath]
+  }
+  return [contractPath]
+}
+
 function loadLocaleContract(target, repositoryRoot = path.resolve(__dirname, '../..')) {
   const contractPath = localeContractPathFor(target)
-  const value = JSON.parse(fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'))
+  const raw = JSON.parse(fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'))
+  const value = raw && typeof raw === 'object' && !Array.isArray(raw) && Object.hasOwn(raw, 'extends')
+    ? resolveExtendedLocaleContract(raw, contractPath, repositoryRoot)
+    : raw
   return validateLocaleContract(value, target)
 }
 
@@ -521,6 +636,7 @@ module.exports = {
   issueConflictsWithLocaleContract,
   loadLocaleContract,
   localeContractPathFor,
+  localeContractSourcePathsFor,
   validateLocaleContract,
   validateLocaleContractDraft,
 }
