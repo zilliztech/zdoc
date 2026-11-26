@@ -16,7 +16,7 @@ import { EventEmitter } from 'node:events'
 import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, verifyTrustedToolsetWindow, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
 import { initializeEvidence, rawSha256, withBatchLifetime } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -1144,6 +1144,7 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
       return handle
     }) as typeof fsPromises.open)
     await expect(verifyTrustedToolset(capture)).rejects.toThrow('Trusted runtime changed before inspection')
+    await expect(verifyTrustedToolsetWindow(capture)).rejects.toThrow('Trusted runtime changed before inspection')
   })
   it('rejects a canonical Git target that escapes its selected developer root', async () => {
     const a = await fixture(), location = '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git'
