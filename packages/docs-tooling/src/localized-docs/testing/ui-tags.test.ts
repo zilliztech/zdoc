@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { maskCodeAndComments, scanJsExpression, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
+import { maskCodeAndComments, maskCodeAndCommentsWithRanges, scanJsExpression, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
 
 describe('scanUiTags & validateUiTags', () => {
   it('extracts valid <UI>...</UI> tags with accurate 1-based line numbers', () => {
@@ -338,5 +338,97 @@ describe('scanUiTags & validateUiTags', () => {
     expect(scanUiTags('foo<><UI>Keep</UI></>bar')).toEqual({
       tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: 6 }],
     })
+  })
+
+  it('resolves 4+-space fences closed by 0-3 space fences sequentially without inverting parity and records nested-brace JSX wrappers inside JSX', () => {
+    // Iter 8 Finding 1: 4+-space fence closed by 0-3 space fence must not invert fence parity
+    expect(scanUiTags('# T\n\n    ```jsx\n<UI bad />\n```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n    ```jsx\n<UI bad />\n   ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n    ~~~jsx\n<UI bad />\n~~~\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+
+    const bypassUiErrors = validateUiTags('# T\n\n    ```jsx\nconst a = 1;\n```\n\n<UI bad />\n\nReal paragraph.\n')
+    expect(bypassUiErrors).toHaveLength(1)
+    expect(bypassUiErrors[0].code).toBe('UI_TAG_MALFORMED')
+    expect(bypassUiErrors[0].line).toBe(7)
+
+    const parityInversion = [
+      '# T',
+      '',
+      '    ```jsx',
+      'const a = 1;',
+      '```',
+      '',
+      'Real paragraph with <UI>Keep</UI>.',
+      '',
+      '```js',
+      '<UI bad />',
+      '```',
+      '',
+    ].join('\n')
+    expect(scanUiTags(parityInversion)).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 21 }],
+    })
+
+    // 0-space opener closed by 4-space closer, and 4-space 4-backtick fence containing 0-space 3-backtick fence
+    expect(scanUiTags('# T\n\n```jsx\n<UI bad />\n    ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n    ````md\n```js\n<UI bad />\n```\n````\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 6 }],
+    })
+
+    // Blockquote, list, and <Tabs><TabItem> fences with 0-3 space closers
+    expect(scanUiTags('# T\n\n> ```js\n> <UI bad />\n> ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 7, column: 6 }],
+    })
+    expect(scanUiTags('# T\n\n- item\n\n    ```js\n    <UI bad />\n    ```\n\nReal <UI>Keep</UI>.\n')).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 9, column: 6 }],
+    })
+    expect(
+      scanUiTags(
+        '<Tabs>\n\n    <TabItem value="a" label="A">\n\n    ```jsx\n<UI bad />\n```\n\n    </TabItem>\n\n</Tabs>\n\nReal <UI>Keep</UI>.\n',
+      ),
+    ).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 13, column: 6 }],
+    })
+
+    // Unmatched top-level 4-space fence opener followed by <Wrapper><UI>Keep</UI></Wrapper>
+    expect(
+      scanUiTags('# T\n\n    ```js\n    const x = 1;\n\n<Wrapper>\n\n    <UI>Keep</UI>\n\n</Wrapper>\n'),
+    ).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 8, column: 5 }],
+    })
+
+    // Strict O(N) time on thousands of unmatched 4-space fence openers
+    const t0 = performance.now()
+    const manyUnclosed = `# T\n\n${'    ```js\n'.repeat(5000)}\nReal <UI>Keep</UI>.\n`
+    const manyRes = scanUiTags(manyUnclosed)
+    expect(performance.now() - t0).toBeLessThan(150)
+    expect(manyRes).toEqual({
+      tags: [{ text: 'Keep', rawInner: 'Keep', line: 5004, column: 6 }],
+    })
+
+    // Iter 8 Finding 2: doubly-nested {...} / template wrappers inside {<Tag>...</Tag>}
+    for (const expr of [
+      '{<p>{`prefix ${<UI>Keep</UI>} suffix`}</p>}',
+      '{<p>{(() => { return <UI>Keep</UI>; })()}</p>}',
+      '{<p>{(() => { const x = { a: 1 }; return <UI>Keep</UI>; })()}</p>}',
+      '{<>{`prefix ${<UI>Keep</UI>} suffix`}</>}',
+    ]) {
+      expect(scanUiTags(expr), expr).toEqual({
+        tags: [{ text: 'Keep', rawInner: 'Keep', line: 1, column: expr.indexOf('<UI>') + 1 }],
+      })
+      const { masked, jsxExprWrapperRanges } = maskCodeAndCommentsWithRanges(expr)
+      expect(jsxExprWrapperRanges.length, expr).toBeGreaterThan(2)
+      expect(masked, expr).toContain('<UI>Keep</UI>')
+      expect(masked, expr).not.toContain('prefix')
+      expect(masked, expr).not.toContain('return')
+    }
   })
 })

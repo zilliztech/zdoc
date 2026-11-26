@@ -1283,4 +1283,95 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('handles 4+-space fences closed by 0-3 space fences and doubly-nested JSX wrappers inside {<Tag>...</Tag>} E2E (Iter 8 Findings 1-2)', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'iter9-e2e' } }
+
+      // Finding 1: 4+-space fences closed by 0-3 space fences must not invert document fence parity
+      const validFenceCases: [string, string, string[]][] = [
+        ['# T\n\n    ```jsx\n<UI bad />\n```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n    ```jsx\n<UI bad />\n   ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n    ~~~jsx\n<UI bad />\n~~~\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n    ```jsx\nconst a = 1;\n```\n\nReal paragraph with <UI>Keep</UI>.\n\n```js\n<UI bad />\n```\n', 'Real paragraph with Keep.', []],
+        ['# T\n\n```jsx\n<UI bad />\n    ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n    ````md\n```js\n<UI bad />\n```\n````\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n> ```js\n> <UI bad />\n> ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n- item\n\n    ```js\n    <UI bad />\n    ```\n\nReal paragraph.\n', 'Real paragraph.', []],
+        ['# T\n\n<Tabs>\n\n    <TabItem value="a" label="A">\n\n    ```jsx\n<UI bad />\n```\n\n    </TabItem>\n\n</Tabs>\n\nReal paragraph.\n', 'Real paragraph.', ['Tabs', 'TabItem']],
+      ]
+      for (const [sourceMd, expectedDesc, expectedComponents] of validFenceCases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter9-e2e',
+          sourceMd,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, sourceMd).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, sourceMd).toBe(expectedDesc)
+          expect(res.components, sourceMd).toEqual(expectedComponents)
+        }
+      }
+
+      // Downstream invalid <UI> and forbidden import after 4+-space fence closed by 0-space fence must NOT be bypassed
+      const bypassUi = await assembleLocalizedPage({
+        pageId: 'iter9-e2e',
+        sourceMd: '# T\n\n    ```jsx\nconst a = 1;\n```\n\n<UI bad />\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in bypassUi).toBe(true)
+      if ('errors' in bypassUi) {
+        expect(bypassUi.errors[0].code).toBe('UI_TAG_MALFORMED')
+      }
+
+      const bypassShell = await assembleLocalizedPage({
+        pageId: 'iter9-e2e',
+        sourceMd: '# T\n\n    ```jsx\nconst a = 1;\n```\n\nimport Evil from "@site/evil";\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in bypassShell).toBe(true)
+      if ('errors' in bypassShell) {
+        expect(bypassShell.errors[0].code).toBe('SOURCE_SHELL_FORBIDDEN')
+      }
+
+      // Finding 2: doubly-nested {...} / template wrappers inside {<Tag>...</Tag>} strip cleanly in extractFirstParagraph
+      const nestedWrapperCases: [string, string, string[]][] = [
+        ['{<p>{`prefix ${<UI>Keep</UI>} suffix`}</p>}\n\nReal paragraph.\n', 'Keep', []],
+        ['{<p>{(() => { return <UI>Keep</UI>; })()}</p>}\n\nReal paragraph.\n', 'Keep', []],
+        ['{<p>{(() => { return <Admonition type="note">Hidden</Admonition>; })()}</p>}\n\nReal paragraph.\n', 'Real paragraph.', ['Admonition']],
+        ['{<p>{(() => { const x = { a: 1 }; return <UI>Keep</UI>; })()}</p>}\n\nReal paragraph.\n', 'Keep', []],
+        ['{<p>{a ? { x: <UI>1</UI> }.x : b}</p>}\n\nReal paragraph.\n', '1', []],
+        ['{<>{`prefix ${<UI>Keep</UI>} suffix`}</>}\n\nReal paragraph.\n', 'Keep', []],
+        ['{<span>{`a ${<b>Keep</b>} b`}</span>}\n\nReal paragraph.\n', 'Keep', []],
+      ]
+      for (const [body, expectedDesc, expectedComponents] of nestedWrapperCases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'iter9-e2e',
+          sourceMd: `# T\n\n${body}`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, body).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, body).toBe(expectedDesc)
+          expect(res.components, body).toEqual(expectedComponents)
+        }
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })

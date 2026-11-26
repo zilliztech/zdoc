@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import { fencesIn, markdownLines } from '../../shared-docs/core/blocks.ts'
+import { markdownLines } from '../../shared-docs/core/blocks.ts'
 import type { DiagnosticContext, LocalizedDocsError, UiTagMatch } from './types.ts'
 import { localizedError } from './types.ts'
 
@@ -152,12 +152,33 @@ export function scanJsExpression(text: string, start: number): JsExpressionScanR
 
   const recordCompletedJsxSpan = (spanStart: number, spanEnd: number) => {
     hasJsx = true
-    const parent = stack[stack.length - 1]
-    if (parent && parent.kind === 'brace') {
-      parent.jsxSpans.push([spanStart, spanEnd])
+    const top = stack[stack.length - 1]
+    let nearestContainerIdx = -1
+    for (let s = stack.length - 1; s >= 0; s -= 1) {
+      if (stack[s].kind === 'jsx' || stack[s].kind === 'jsx-open') {
+        nearestContainerIdx = s
+        break
+      }
     }
-    if (!stack.some(frame => frame.kind === 'jsx' || frame.kind === 'jsx-open')) {
+    if (nearestContainerIdx < 0) {
+      if (top && top.kind === 'brace') {
+        top.jsxSpans.push([spanStart, spanEnd])
+      }
       topLevelJsxSpans.push([spanStart, spanEnd])
+      return
+    }
+    const container = stack[nearestContainerIdx]
+    const targetBrace =
+      container.kind === 'jsx' &&
+      nearestContainerIdx + 1 < stack.length &&
+      stack[nearestContainerIdx + 1].kind === 'brace'
+        ? (stack[nearestContainerIdx + 1] as Extract<JsScanFrame, { kind: 'brace' }>)
+        : null
+    if (targetBrace) {
+      targetBrace.jsxSpans.push([spanStart, spanEnd])
+    }
+    if (top && top.kind === 'brace' && top !== targetBrace) {
+      top.jsxSpans.push([spanStart, spanEnd])
     }
   }
 
@@ -705,28 +726,19 @@ function matchIndentedFenceOpener(lineText: string): { markerChar: string; marke
   return { markerChar: match[1][0], markerLen: match[1].length }
 }
 
-function findIndentedFenceClose(
-  fenceMasked: string,
-  lineNl: number,
+function findFenceCloseLine(
+  lines: readonly string[],
+  openLineIdx: number,
   openFence: { markerChar: string; markerLen: number },
-): { closeEnd: number; linesAdvanced: number } | null {
-  if (lineNl < 0) return null
+): number {
   const { markerChar, markerLen } = openFence
-  let scanLineStart = lineNl + 1
-  let linesAdvanced = 1
-  while (scanLineStart < fenceMasked.length) {
-    const nextNl = fenceMasked.indexOf('\n', scanLineStart)
-    const nextLineEnd = nextNl >= 0 ? nextNl : fenceMasked.length
-    const candidate = fenceMasked.slice(scanLineStart, nextLineEnd)
-    const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(candidate)
+  for (let k = openLineIdx + 1; k < lines.length; k += 1) {
+    const closeFence = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(lines[k])
     if (closeFence && closeFence[1][0] === markerChar && closeFence[1].length >= markerLen) {
-      return { closeEnd: nextLineEnd, linesAdvanced }
+      return k
     }
-    if (nextNl < 0) break
-    scanLineStart = nextNl + 1
-    linesAdvanced += 1
   }
-  return null
+  return -1
 }
 
 function scanInlineBacktickSpan(
@@ -801,21 +813,13 @@ function computeLastCloseOffsets(
 
       const lineText = fenceMasked.slice(i, lineEnd)
       const openFence = matchIndentedFenceOpener(lineText)
-      if (openFence) {
-        const close = findIndentedFenceClose(fenceMasked, nl, openFence)
-        if (close) {
-          lineIdx += close.linesAdvanced
-          i = close.closeEnd
-          continue
+      if (openFence && mdCodeBlockLines.has(lineIdx)) {
+        i = lineEnd
+        if (i < fenceMasked.length && fenceMasked[i] === '\n') {
+          lineIdx += 1
+          i += 1
         }
-        if (mdCodeBlockLines.has(lineIdx)) {
-          i = lineEnd
-          if (i < fenceMasked.length && fenceMasked[i] === '\n') {
-            lineIdx += 1
-            i += 1
-          }
-          continue
-        }
+        continue
       }
     }
 
@@ -960,22 +964,83 @@ export function maskCodeAndCommentsWithRanges(
 ): MaskCodeAndCommentsResult {
   const normalized = markdown.replace(/\r\n|\r/g, '\n')
   const lines = markdownLines(normalized)
-  const fences = fencesIn(normalized, lines)
   const fenceExcluded = new Set<number>()
   const mdCodeBlockLines = new Set<number>()
+  const mdNestedFences = new Map<number, number>()
+  const rawMdCodeBlockLines = new Set<number>()
 
-  for (const [start, fence] of fences) {
-    for (let i = start; i <= fence.end; i += 1) fenceExcluded.add(i)
-  }
+  let mdListDepth = 0
+  let mdBlockquoteDepth = 0
   for (const token of new MarkdownIt({ html: false }).parse(normalized, {})) {
+    if (token.type === 'list_item_open') mdListDepth += 1
+    else if (token.type === 'list_item_close') mdListDepth = Math.max(0, mdListDepth - 1)
+    else if (token.type === 'blockquote_open') mdBlockquoteDepth += 1
+    else if (token.type === 'blockquote_close') mdBlockquoteDepth = Math.max(0, mdBlockquoteDepth - 1)
+
     if (!token.map) continue
     if (token.type === 'fence') {
-      for (let i = token.map[0]; i < token.map[1]; i += 1) fenceExcluded.add(i)
+      if (mdListDepth > 0 || mdBlockquoteDepth > 0) {
+        mdNestedFences.set(token.map[0], token.map[1] - 1)
+      }
     } else if (token.type === 'code_block') {
       for (let i = token.map[0]; i < token.map[1]; i += 1) {
-        if (!fenceExcluded.has(i)) mdCodeBlockLines.add(i)
+        rawMdCodeBlockLines.add(i)
       }
     }
+  }
+
+  // Suffix-max closer lengths keep sequential fence resolution strictly O(N) on unclosed openers.
+  const lineCount = lines.length
+  const maxBacktickCloseAfter = new Int32Array(lineCount + 1)
+  const maxTildeCloseAfter = new Int32Array(lineCount + 1)
+  for (let k = lineCount - 1; k >= 0; k -= 1) {
+    let bt = maxBacktickCloseAfter[k + 1]
+    let tl = maxTildeCloseAfter[k + 1]
+    const closeMatch = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(lines[k])
+    if (closeMatch) {
+      if (closeMatch[1][0] === '`') bt = Math.max(bt, closeMatch[1].length)
+      else tl = Math.max(tl, closeMatch[1].length)
+    }
+    maxBacktickCloseAfter[k] = bt
+    maxTildeCloseAfter[k] = tl
+  }
+
+  // Resolve fenced blocks sequentially in line order so a 4+-space fence closed by a 0-3 space
+  // fence consumes its closer before CommonMark 0-3 space fence parsing can invert parity.
+  for (let lineIdx = 0; lineIdx < lineCount; lineIdx += 1) {
+    const nestedEnd = mdNestedFences.get(lineIdx)
+    if (nestedEnd !== undefined) {
+      for (let k = lineIdx; k <= nestedEnd; k += 1) fenceExcluded.add(k)
+      lineIdx = nestedEnd
+      continue
+    }
+
+    const openFence = matchIndentedFenceOpener(lines[lineIdx])
+    if (!openFence) continue
+
+    const maxAvail =
+      openFence.markerChar === '`'
+        ? maxBacktickCloseAfter[lineIdx + 1]
+        : maxTildeCloseAfter[lineIdx + 1]
+    const closeLine =
+      maxAvail >= openFence.markerLen
+        ? findFenceCloseLine(lines, lineIdx, openFence)
+        : -1
+
+    if (closeLine >= 0) {
+      for (let k = lineIdx; k <= closeLine; k += 1) fenceExcluded.add(k)
+      lineIdx = closeLine
+      continue
+    }
+
+    if (/^ {0,3}(?:`{3,}|~{3,})/.test(lines[lineIdx])) {
+      for (let k = lineIdx; k < lineCount; k += 1) fenceExcluded.add(k)
+      break
+    }
+  }
+
+  for (const line of rawMdCodeBlockLines) {
+    if (!fenceExcluded.has(line)) mdCodeBlockLines.add(line)
   }
 
   // Pre-mask fenced code lines so JSX/comment scanning never crosses into fences.
@@ -1006,22 +1071,13 @@ export function maskCodeAndCommentsWithRanges(
         continue
       }
 
-      // MDX treats matched indented ``` / ~~~ lines as fenced code blocks at both top level
-      // and inside open JSX containers (and unclosed indented fences inside JSX mask to EOF).
+      // Any remaining indented fence opener not in fenceExcluded has no closing fence; inside
+      // an open JSX container it masks to EOF, while at top level mdCodeBlockLines masks only
+      // the indented lines so unmatched code blocks never swallow downstream prose.
       const lineText = fenceMasked.slice(i, lineEnd)
-      const openFence = matchIndentedFenceOpener(lineText)
-      if (openFence) {
-        const close = findIndentedFenceClose(fenceMasked, nl, openFence)
-        if (close) {
-          maskRangePreservingNewlines(chars, i, close.closeEnd)
-          lineIdx += close.linesAdvanced
-          i = close.closeEnd
-          continue
-        }
-        if (jsxStack.length > 0) {
-          maskRangePreservingNewlines(chars, i, fenceMasked.length)
-          break
-        }
+      if (jsxStack.length > 0 && matchIndentedFenceOpener(lineText) !== null) {
+        maskRangePreservingNewlines(chars, i, fenceMasked.length)
+        break
       }
 
       if (mdCodeBlockLines.has(lineIdx) && jsxStack.length === 0) {
