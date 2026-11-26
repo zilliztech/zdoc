@@ -4,7 +4,17 @@ import { fencesIn, markdownLines } from '../../shared-docs/core/blocks.ts'
 import { parseYaml } from '../../shared-docs/core/yaml.ts'
 import { mergeVariables } from './config.ts'
 import { MACHINE_GENERATED_FRONTMATTER_KEYS, matchEsmImportAt } from './strip-en.ts'
-import { computeLineStarts, maskCodeAndComments, scanUiTags } from './ui-tags.ts'
+import {
+  HTML_CONTAINER_TAGS,
+  HTML_INLINE_UNWRAP_TAGS,
+  HTML_VOID_ELEMENTS,
+  computeLineStarts,
+  isEscapedAt,
+  isKnownHtmlOrJsxTagName,
+  maskCodeAndComments,
+  scanJsxOpenTag,
+  scanUiTags,
+} from './ui-tags.ts'
 import type {
   AssembleInput,
   AssembleOutput,
@@ -16,8 +26,7 @@ import { localizedError } from './types.ts'
 
 const NEXT_CHANNEL_ATTR_RE = /^<NextChannel\s+action="(include|exclude)"\s*>$/
 const NEXT_CHANNEL_EXCLUDE_RE = /^<NextChannel\s+action=(?:"exclude"|'exclude')\s*>$/
-const JSX_OPEN_HEAD_RE = /<([A-Z][A-Za-z0-9]*)(?=[\s/>])/y
-const JSX_CLOSE_TAG_RE = /<\/([A-Z][A-Za-z0-9]*)\s*>/y
+const JSX_CLOSE_TAG_RE = /<\/([A-Za-z][A-Za-z0-9.-]*)\s*>/y
 
 export interface ValidatedSourceShell {
   sourceTitle?: string
@@ -361,98 +370,6 @@ export function extractFirstH1(markdown: string): string | undefined {
   return undefined
 }
 
-function isEscapedAt(text: string, index: number): boolean {
-  let backslashes = 0
-  for (let i = index - 1; i >= 0 && text[i] === '\\'; i -= 1) {
-    backslashes += 1
-  }
-  return backslashes % 2 === 1
-}
-
-function scanJsxOpenTag(
-  masked: string,
-  start: number,
-): { tagName: string; end: number; selfClosing: boolean; rawTag: string } | null {
-  JSX_OPEN_HEAD_RE.lastIndex = start
-  const headMatch = JSX_OPEN_HEAD_RE.exec(masked)
-  if (!headMatch) return null
-  const tagName = headMatch[1]
-  let cursor = start + 1 + tagName.length
-  let quote: '"' | "'" | '`' | null = null
-  let braceDepth = 0
-
-  while (cursor < masked.length) {
-    const ch = masked[cursor]
-    if (quote !== null) {
-      if (ch === '\\' && braceDepth > 0) {
-        cursor += 2
-        continue
-      }
-      if (ch === quote) {
-        quote = null
-      }
-      cursor += 1
-      continue
-    }
-
-    if (braceDepth > 0) {
-      if (ch === '"' || ch === "'" || ch === '`') {
-        quote = ch
-        cursor += 1
-        continue
-      }
-      if (ch === '{') {
-        braceDepth += 1
-        cursor += 1
-        continue
-      }
-      if (ch === '}') {
-        braceDepth -= 1
-        cursor += 1
-        continue
-      }
-      if (ch === '/' && masked[cursor + 1] === '/') {
-        const nl = masked.indexOf('\n', cursor + 2)
-        cursor = nl >= 0 ? nl + 1 : masked.length
-        continue
-      }
-      if (ch === '/' && masked[cursor + 1] === '*') {
-        const end = masked.indexOf('*/', cursor + 2)
-        cursor = end >= 0 ? end + 2 : masked.length
-        continue
-      }
-      cursor += 1
-      continue
-    }
-
-    if (ch === '"' || ch === "'") {
-      quote = ch
-      cursor += 1
-      continue
-    }
-    if (ch === '{') {
-      braceDepth += 1
-      cursor += 1
-      continue
-    }
-    if (ch === '<') {
-      return null
-    }
-    if (ch === '>') {
-      const selfClosing = cursor > start + 1 + tagName.length && masked[cursor - 1] === '/'
-      return {
-        tagName,
-        end: cursor + 1,
-        selfClosing,
-        rawTag: masked.slice(start, cursor + 1),
-      }
-    }
-    cursor += 1
-  }
-
-  return null
-}
-
 function mergeRanges(ranges: readonly [number, number][]): [number, number][] {
   if (!ranges.length) return []
   const sorted = [...ranges].sort((a, b) => a[0] - b[0] || a[1] - b[1])
@@ -483,6 +400,18 @@ function stripRangesPreservingNewlines(text: string, merged: readonly [number, n
   return out
 }
 
+/**
+ * Compute byte ranges to strip from `masked` (and line-aligned `normalized`)
+ * before extracting the first prose paragraph:
+ * - Self-closing JSX/HTML tags and HTML void elements (`<br />`, `<hr>`, `<img />`, etc.):
+ *   strip only the single tag delimiter.
+ * - Unwrap tags (`<UI>`, `<NextChannel action="exclude">`, and `HTML_INLINE_UNWRAP_TAGS`
+ *   such as `<strong>`, `<em>`, `<a>`, `<span>`, `<code>`, `<p>`):
+ *   strip open/close tag delimiters while preserving inner prose text.
+ * - Container tags (all other PascalCase JSX components, `<NextChannel action="include">`,
+ *   and `HTML_CONTAINER_TAGS` such as `<details>`, `<summary>`, `<table>`, `<div>`):
+ *   strip the entire `[openStart, closeEnd)` subtree (or to EOF if unclosed).
+ */
 function computeJsxStripRanges(masked: string): [number, number][] {
   const ranges: [number, number][] = []
   const stack: { tagName: string; kind: 'unwrap' | 'container'; start: number }[] = []
@@ -500,7 +429,7 @@ function computeJsxStripRanges(masked: string): [number, number][] {
     if (masked[lt + 1] === '/') {
       JSX_CLOSE_TAG_RE.lastIndex = lt
       const closeMatch = JSX_CLOSE_TAG_RE.exec(masked)
-      if (!closeMatch) {
+      if (!closeMatch || !isKnownHtmlOrJsxTagName(closeMatch[1])) {
         cursor = lt + 1
         continue
       }
@@ -531,13 +460,18 @@ function computeJsxStripRanges(masked: string): [number, number][] {
       continue
     }
 
+    if (lt > 0 && /[A-Za-z0-9_$]/.test(masked[lt - 1])) {
+      cursor = lt + 1
+      continue
+    }
+
     const openTag = scanJsxOpenTag(masked, lt)
     if (!openTag) {
       cursor = lt + 1
       continue
     }
 
-    if (openTag.selfClosing) {
+    if (openTag.selfClosing || HTML_VOID_ELEMENTS.has(openTag.tagName)) {
       ranges.push([lt, openTag.end])
       cursor = openTag.end
       continue
@@ -545,7 +479,8 @@ function computeJsxStripRanges(masked: string): [number, number][] {
 
     const isUnwrap =
       openTag.tagName === 'UI' ||
-      (openTag.tagName === 'NextChannel' && NEXT_CHANNEL_EXCLUDE_RE.test(openTag.rawTag))
+      (openTag.tagName === 'NextChannel' && NEXT_CHANNEL_EXCLUDE_RE.test(openTag.rawTag)) ||
+      HTML_INLINE_UNWRAP_TAGS.has(openTag.tagName)
 
     if (isUnwrap) {
       ranges.push([lt, openTag.end])
@@ -591,6 +526,10 @@ export function extractFirstParagraph(markdown: string): string | undefined {
       continue
     }
     if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(trimmedMasked)) continue
+    const leadingHtmlMatch = /^<\/?([a-z][a-z0-9-]*)\b/.exec(trimmedMasked)
+    if (leadingHtmlMatch && (HTML_CONTAINER_TAGS.has(leadingHtmlMatch[1]) || HTML_VOID_ELEMENTS.has(leadingHtmlMatch[1]))) {
+      continue
+    }
     if (/^(?:[-*+]\s|\d+\.\s|>\s|\|)/.test(trimmedMasked)) continue
 
     const clean = rawLine.replace(/\s{2,}/g, ' ').trim()

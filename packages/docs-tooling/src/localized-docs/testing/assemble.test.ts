@@ -682,4 +682,244 @@ import {
       rmSync(root, { recursive: true, force: true })
     }
   })
+
+  it('does not over-mask past JSX attributes containing {/*, <!--, or backticks and preserves <UI>/<NextChannel>/import detection', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'attr-comments' } }
+
+      const withAttrComment = await assembleLocalizedPage({
+        pageId: 'attr-comments',
+        sourceMd: [
+          '# Title',
+          '',
+          '<Admonition type="note" title={/* c */ "Note"}>',
+          'secret',
+          '</Admonition>',
+          '',
+          '<Tabs>',
+          '  <TabItem value="a" label="A">',
+          '',
+          'Tab A',
+          '',
+          '  </TabItem>',
+          '</Tabs>',
+          '',
+          'Real paragraph.',
+          '',
+        ].join('\n'),
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in withAttrComment).toBe(false)
+      if (!('errors' in withAttrComment)) {
+        expect(withAttrComment.description).toBe('Real paragraph.')
+        expect(withAttrComment.components).toEqual(['Admonition', 'Tabs', 'TabItem'])
+        expect(withAttrComment.mdx).toContain("import Tabs from '@theme/Tabs';")
+        expect(withAttrComment.mdx).toContain("import TabItem from '@theme/TabItem';")
+      }
+
+      const validationNotBypassed = await assembleLocalizedPage({
+        pageId: 'attr-comments',
+        sourceMd: [
+          '# Title',
+          '',
+          '<Admonition type="note" title={/* c */ "Note"}>',
+          'secret',
+          '</Admonition>',
+          '',
+          '<UI attr-bad />',
+          '<NextChannel variant="bad">oops',
+        ].join('\n'),
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in validationNotBypassed).toBe(true)
+      if ('errors' in validationNotBypassed) {
+        const codes = validationNotBypassed.errors.map(e => e.code)
+        expect(codes).toContain('UI_TAG_MALFORMED')
+        expect(codes).toContain('CHANNEL_TAG_INVALID')
+        expect(codes).toContain('CHANNEL_TAG_UNBALANCED')
+      }
+
+      for (const attr of ['title="{/*"', 'title="<!--"', 'title="a`b" x={`>`}']) {
+        const res = await assembleLocalizedPage({
+          pageId: 'attr-comments',
+          sourceMd: `# Title\n\n<Admonition type="note" ${attr}>\nsecret\n</Admonition>\n\nReal paragraph.\n`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, attr).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, attr).toBe('Real paragraph.')
+        }
+      }
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('preserves 4-space indented JSX inside open JSX containers while still masking top-level 4-space code blocks', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'indented-jsx' } }
+
+      const tabs4Space = await assembleLocalizedPage({
+        pageId: 'indented-jsx',
+        sourceMd: [
+          '# Title',
+          '',
+          '<Tabs groupId="cli-install">',
+          '',
+          '    <TabItem value="linux" label="Linux">',
+          '',
+          '    Tab A',
+          '',
+          '    ```tsx',
+          '    import Banner from \'@theme/Banner\';',
+          '    <Banner />',
+          '    ```',
+          '',
+          '    </TabItem>',
+          '',
+          '</Tabs>',
+          '',
+          'Real paragraph.',
+          '',
+        ].join('\n'),
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in tabs4Space).toBe(false)
+      if (!('errors' in tabs4Space)) {
+        expect(tabs4Space.description).toBe('Real paragraph.')
+        expect(tabs4Space.components).toEqual(['Tabs', 'TabItem'])
+        expect(tabs4Space.mdx).toContain("import Tabs from '@theme/Tabs';")
+        expect(tabs4Space.mdx).toContain("import TabItem from '@theme/TabItem';")
+        expect(tabs4Space.mdx.split('\n# Title')[0]).not.toContain('import Banner')
+      }
+
+      const admonition4SpaceClose = await assembleLocalizedPage({
+        pageId: 'indented-jsx',
+        sourceMd: '# Title\n\n<Admonition type="note">\n\n    </Admonition>\n\nReal paragraph.\n',
+        groupVariables: {},
+        pageConfig: cfg,
+        preprocessAdapter,
+        mdxAdapter: localizedMdxAdapter,
+      })
+      expect('errors' in admonition4SpaceClose).toBe(false)
+      if (!('errors' in admonition4SpaceClose)) {
+        expect(admonition4SpaceClose.description).toBe('Real paragraph.')
+      }
+
+      // Negative checks: genuine top-level 4-space indented code blocks remain masked
+      const topLevelIndentedImport = validateSourceShell("# Title\n\n    import X from '@site/x';\n\nBody.\n")
+      expect('errors' in topLevelIndentedImport).toBe(false)
+
+      const indentedAfterClosedTabs = validateSourceShell(
+        "# Title\n\n<Tabs>\n\n    <TabItem value=\"a\" label=\"A\">\n\n    Tab\n\n    </TabItem>\n\n</Tabs>\n\n    import X from '@site/x';\n",
+      )
+      expect('errors' in indentedAfterClosedTabs).toBe(false)
+      expect(
+        detectImportableComponents(
+          "<Tabs>\n\n    <TabItem value=\"a\" label=\"A\">\n\n    Tab\n\n    </TabItem>\n\n</Tabs>\n\n    <Banner />\n",
+        ),
+      ).toEqual(['Tabs', 'TabItem'])
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('strips HTML container/void tags and unwraps inline HTML tags in extractFirstParagraph', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'html-tags' } }
+
+      const cases: [string, string][] = [
+        ['<details>\n<summary>Click</summary>\nsecret\n</details>\n\nReal paragraph.\n', 'Real paragraph.'],
+        ['<table>\n<thead><tr><th>Col</th></tr></thead>\n<tbody><tr><td>Val</td></tr></tbody>\n</table>\n\nReal paragraph.\n', 'Real paragraph.'],
+        ['<div>\nsecret\n</div>\n\nReal paragraph.\n', 'Real paragraph.'],
+        ['<br />\n\nReal paragraph.\n', 'Real paragraph.'],
+        ['<hr />\n\nReal paragraph.\n', 'Real paragraph.'],
+        ['<img src="https://example.com/a.png" alt="Diagram" />\n\nReal paragraph.\n', 'Real paragraph.'],
+        [
+          '<p>Use <strong>Zilliz Cloud</strong> with <a href="./docs">docs</a> and <span className="tag">Beta</span>.</p>\n',
+          'Use Zilliz Cloud with docs and Beta.',
+        ],
+      ]
+
+      for (const [body, expected] of cases) {
+        const res = await assembleLocalizedPage({
+          pageId: 'html-tags',
+          sourceMd: `# Title\n\n${body}`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, body).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, body).toBe(expected)
+        }
+      }
+
+      // Unknown lowercase placeholder tags (<region-code>, <bucket_name>) are not HTML tags and stay intact
+      expect(extractFirstParagraph('# Title\n\nPass <region-code> and <bucket_name> here.\n')).toBe(
+        'Pass <region-code> and <bucket_name> here.',
+      )
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('handles JS regex literals, division operators, and nested template ${...} expressions in scanJsxOpenTag', async () => {
+    const root = tempRoot()
+    try {
+      const preprocessAdapter = createLocalizedPreprocessAdapter({ groupRoot: root, hasFragmentsDir: false })
+      const cfg: PageConfig = { schema_version: 1, mode: 'incremental', en_source: { manual: 'guides', shared_page: 'jsx-exprs' } }
+
+      const exprAttrs = [
+        'title={/[}\'"`>]/.test("a") ? "x" : "y"}',
+        'title={/^\\d{1,3}\\/[}\'"`>]+$/i.test("1/a") ? "x" : "y"}',
+        'title={`a ${`b ${1} >`} c`}',
+        'title={`a ${(() => { const x = ">"; return x; })()} b`}',
+      ]
+
+      for (const attr of exprAttrs) {
+        const res = await assembleLocalizedPage({
+          pageId: 'jsx-exprs',
+          sourceMd: `# Title\n\n<Admonition type="note" ${attr}>\nsecret\n</Admonition>\n\nReal paragraph.\n`,
+          groupVariables: {},
+          pageConfig: cfg,
+          preprocessAdapter,
+          mdxAdapter: localizedMdxAdapter,
+        })
+        expect('errors' in res, attr).toBe(false)
+        if (!('errors' in res)) {
+          expect(res.description, attr).toBe('Real paragraph.')
+        }
+      }
+
+      // Division operators must not enter regex mode and swallow subsequent '>'
+      expect(
+        extractFirstParagraph('# Title\n\n<Admonition type="note" title={((a + b) / 2) > 1 ? "x" : "y"}>\nsecret\n</Admonition>\n\nReal paragraph.\n'),
+      ).toBe('Real paragraph.')
+      expect(
+        extractFirstParagraph('# Title\n\n<Admonition type="note" title={x.return / 2 > 1 ? "x" : "y"}>\nsecret\n</Admonition>\n\nReal paragraph.\n'),
+      ).toBe('Real paragraph.')
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
 })

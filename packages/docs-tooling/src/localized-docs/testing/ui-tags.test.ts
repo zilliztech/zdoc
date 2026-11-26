@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest'
-import { scanUiTags, validateUiTags } from '../core/ui-tags.ts'
+import { maskCodeAndComments, scanUiTags, validateUiTags } from '../core/ui-tags.ts'
 
 describe('scanUiTags & validateUiTags', () => {
   it('extracts valid <UI>...</UI> tags with accurate 1-based line numbers', () => {
@@ -65,5 +65,82 @@ describe('scanUiTags & validateUiTags', () => {
     expect(errors.length).toBeGreaterThan(0)
     expect(errors[0].code).toBe('UI_TAG_MALFORMED')
     expect(errors[0].line).toBe(expectedLine)
+  })
+
+  it('does not over-mask past JSX attributes containing {/*, <!--, or backticks and preserves comment masking in prose', () => {
+    const mdWithAttrComments = [
+      '<Admonition type="note" title={/* c */ "Note"}>',
+      'hidden',
+      '</Admonition>',
+      '',
+      '<Admonition type="note" title="{/*" data-x="<!--">',
+      'hidden',
+      '</Admonition>',
+      '',
+      '<Admonition type="note" title="a`b" x={`>`}>',
+      'hidden',
+      '</Admonition>',
+      '',
+      'Click <UI>Save</UI> and <UI attr-bad />.',
+    ].join('\n')
+
+    const errors = validateUiTags(mdWithAttrComments)
+    expect(errors).toHaveLength(1)
+    expect(errors[0].code).toBe('UI_TAG_MALFORMED')
+    expect(errors[0].line).toBe(13)
+
+    const validAfterAttr = [
+      '<Admonition type="note" title={/* c */ "Note"}>',
+      'body',
+      '</Admonition>',
+      '',
+      'Click <UI>Confirm</UI>.',
+    ].join('\n')
+    expect(scanUiTags(validAfterAttr)).toEqual({
+      tags: [{ text: 'Confirm', rawInner: 'Confirm', line: 5, column: 7 }],
+    })
+
+    // Standalone prose MDX comments (including space before }) and HTML comments still mask cleanly,
+    // while comment-bearing prose expressions like {/* c */ "Note"} do not blank subsequent lines.
+    const proseMasked = maskCodeAndComments(
+      '{/* single */}\n{/* spaced */ }\n<!-- html -->\n{/*\nmulti\n*/}\n{/* c */ "Note"}\nAfter <UI>Keep</UI>\n',
+    )
+    expect(proseMasked).toContain('After <UI>Keep</UI>')
+    expect(proseMasked).not.toContain('single')
+    expect(proseMasked).not.toContain('spaced')
+    expect(proseMasked).not.toContain('html')
+    expect(proseMasked).not.toContain('multi')
+  })
+
+  it('scans 4-space indented JSX/UI inside open JSX containers while masking top-level 4-space code blocks and indented fences', () => {
+    const mdInsideContainer = [
+      '<Tabs>',
+      '',
+      '    <TabItem value="a" label="A">',
+      '',
+      '    Click <UI>Submit</UI>.',
+      '',
+      '    ```tsx',
+      '    <UI>ignored inside indented fence</UI>',
+      '    ```',
+      '',
+      '    </TabItem>',
+      '',
+      '</Tabs>',
+      '',
+      '    <UI>top-level indented code block</UI>',
+    ].join('\n')
+
+    expect(scanUiTags(mdInsideContainer)).toEqual({
+      tags: [{ text: 'Submit', rawInner: 'Submit', line: 5, column: 11 }],
+    })
+
+    // Unclosed prose angle bracket <T> must not disable top-level 4-space code block masking
+    const proseAngleThenCode = [
+      'Use <T> here.',
+      '',
+      '    <UI>still top-level indented code</UI>',
+    ].join('\n')
+    expect(scanUiTags(proseAngleThenCode)).toEqual({ tags: [] })
   })
 })
