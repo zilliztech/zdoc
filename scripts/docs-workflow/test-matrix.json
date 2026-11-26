@@ -1251,6 +1251,22 @@
       "reason": "The docs-ui Docusaurus plugin registers shared and Chinese UI modules and pins the standalone Chinese developer hub page, including its favicon declaration and localized copy."
     },
     {
+      "id": "docs-ui-ui-label",
+      "paths": [
+        "packages/docs-ui/src/shared/components/UI/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/components/UI/index.test.tsx"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Global <UI> inline console-label MDX component must render <strong className=\"zd-ui-label\"> across English and Chinese copy, empty/nested children, and SSR while remaining globally registered in MDXComponents."
+    },
+    {
       "id": "translation-quality-assets",
       "paths": [
         "scripts/translation/tm-retrieve*",

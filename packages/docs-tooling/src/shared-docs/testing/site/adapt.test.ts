@@ -94,6 +94,38 @@ it('detects authored component tags and emits their imports once', async () => {
   expect(await toMdx(result, context)).toHaveProperty('mdx')
 })
 
+it('preserves globally registered <UI> tags across paragraphs, lists and NextChannel without emitting an import', async () => {
+  const body = [
+    'Click <UI>Create Cluster</UI>.',
+    '',
+    '- Open <UI>Create Cluster</UI>.',
+    '',
+    '<NextChannel action="include">',
+    '',
+    'Confirm <UI>Create Cluster</UI>.',
+    '',
+    '</NextChannel>',
+  ].join('\n')
+  const result = adapted(page(body))
+  expect(result.components).toEqual([])
+  expect(result.markdown).not.toMatch(/^import UI\b/m)
+  expect(result.markdown).toContain('Click <UI>Create Cluster</UI>.')
+  expect(result.markdown).toContain('- Open <UI>Create Cluster</UI>.')
+  expect(result.markdown).toContain('Confirm <UI>Create Cluster</UI>.')
+
+  const mdx = await toMdx(result, context)
+  if ('errors' in mdx) throw new Error(JSON.stringify(mdx.errors))
+  expect(mdx.mdx).toContain('Click <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).toContain('- Open <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).toContain('Confirm <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).not.toContain('&lt;UI&gt;')
+  expect(mdx.mdx).not.toMatch(/^import UI\b/m)
+
+  const withTabs = adapted(page('<Tabs>\n\n<TabItem value="a">Click <UI>Create Cluster</UI>.</TabItem>\n\n</Tabs>'))
+  expect(withTabs.components).toEqual(['Tabs', 'TabItem'])
+  expect(withTabs.markdown).not.toMatch(/^import UI\b/m)
+})
+
 it('caches only exact historical parser input and preserves individual diagnostic context', async () => {
   const finalize = createHistoricalMdxFinalizer()
   const sample = adapted(page('A value {name} is <10.'), {metadata: {title: 'Title {name}'}})

@@ -14,6 +14,7 @@ import Mermaid from '@theme/Mermaid';
 import FeatureCardGrid, {FeatureCard} from '../../components/FeatureCardGrid';
 import FeatureNote from '../../components/FeatureNote';
 import NextChannel from '../../components/NextChannel';
+import UI from '../../components/UI';
 import CloudRegions from '../../components/CloudRegions';
 import CloudFeatures from '../../components/CloudFeatures';
 import RegionIps from '../../components/RegionIps';
@@ -84,6 +85,8 @@ const MDXComponents = {
   RegionIps,
   // Release Channel block gate used by generated guides markdown
   NextChannel,
+  // Inline console/UI label marker used across EN and ZH guides
+  UI,
   // Custom icons used in docs
   LniInfo,
 };
