@@ -551,7 +551,7 @@ await milvusClient.search({
 
 - **highlighter** (*Highlighter*) -
 
-    A highlighter for the search results.
+    A highlighter for the search results. See Highlighter.
 
 - **timeout** (*number*) -
 
@@ -579,6 +579,8 @@ This method returns a promise that resolves to a **SearchResults&lt;T&gt;** obje
 ```
 
 **PARAMETERS:**
+
+<NextChannel action="exclude">
 
 - **results** (*SearchResultData[]* | *SearchResultData[][]*) -
 The hits returned for each query vector. When a single query vector is supplied, this is a flat **SearchResultData[]**. When a batch of query vectors is supplied, this is a nested **SearchResultData[][]** with one inner list per query.
@@ -642,6 +644,103 @@ A **ResStatus** object.
     - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **results** (*SearchResultData[]* | *SearchResultData[][]*) -
+The hits returned for each query vector. When a single query vector is supplied, this is a flat **SearchResultData[]**. When a batch of query vectors is supplied, this is a nested **SearchResultData[][]** with one inner list per query.
+
+    - **id** (*string*) -
+
+        The primary key of the matched row.
+
+    - **score** (*number*) -
+
+        The similarity score, scaled by the configured metric type.
+
+    - **offset** (*number* | *string*) -
+
+        The zero-based offset of this hit within its query group.
+
+    - **group_by_field_values** (*Record&lt;string, FieldData&gt;*) -
+
+        Set when **group_by_field** was supplied; carries the values of the grouping field for the hit.
+
+    - **highlight** (*HighlightResult*) -
+
+        Set when a **highlighter** was supplied on the request; carries the highlighted fragments for matching fields. It is a record that maps each field name to a **HighlightData** object with the following members:
+
+        - **fragments** (*string[]*) -
+
+            The highlighted fragments for the field.
+
+        - **scores** (*number[]*) -
+
+            The relevance scores of the fragments.
+
+    - **&lt;output_field&gt;** (*FieldData*) -
+
+        Each requested **output_fields** entry is added as a key on the hit, carrying the value from the matched row.
+
+- **recalls** (*number[]*) -
+The estimated recall score for each query, when the search engine produced one.
+
+- **session_ts** (*number*) -
+The session timestamp Milvus used to evaluate the search.
+
+- **collection_name** (*string*) -
+The collection that was searched.
+
+- **all_search_count** (*number*) -
+Optional. Set when the search reports the total candidate count examined.
+
+- **agg_buckets** (*AggregationBucket[]* | *undefined*) -
+Optional. Set when **search_aggregation** was supplied; contains aggregation buckets, nested metrics, top hits, and sub-groups. Each **AggregationBucket** has the following members:
+
+    - **key** (*AggregationBucketKey[]*) -
+
+        The group-by key entries that define the bucket.
+
+    - **count** (*string* | *number*) -
+
+        The number of entities in the bucket.
+
+    - **metrics** (*Record&lt;string, AggregationValue | undefined&gt;*) -
+
+        The computed metric values keyed by alias.
+
+    - **hits** (*AggregationHit[]*) -
+
+        The representative top hits of the bucket, each carrying its score and field values.
+
+    - **sub_groups** (*AggregationBucket[]*) -
+
+        The nested sub-aggregation buckets.
+
+- **search_iterator_v2_results** (*Record&lt;string, any&gt;*) -
+Optional. Internal results produced by a V2 search iterator.
+
+- **_search_iterator_v2_results** (*string*) -
+Optional. Internal serialized results produced by a V2 search iterator.
+
+- **ResStatus**
+A **ResStatus** object.
+
+    - **code** (*number*) -
+
+        A code that indicates the operation result. It remains **0** if this operation succeeds.
+
+    - **error_code** (*string* | *number*) -
+
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
+
+    - **reason** (*string*) -
+
+        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+</NextChannel>
 
 **EXCEPTIONS:**
 

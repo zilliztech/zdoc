@@ -71,6 +71,8 @@ await milvusClient.searchIterator({
 
 **PARAMETERS:**
 
+<NextChannel action="exclude">
+
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
@@ -190,6 +192,132 @@ await milvusClient.searchIterator({
 - **timeout** (*number*) -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+</NextChannel>
+
+<NextChannel action="include">
+
+- **collection_name** (*string*) -
+
+    **[REQUIRED]**
+
+    The name of the collection to search.
+
+- **data** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
+
+    The query vector(s). Supported types include FloatVector (number[]), BFloat16Vector (Uint8Array), Float16Vector (Uint8Array), BinaryVector (number[]), and SparseFloatVector. Provide either **data** or **vector**.
+
+- **vector** (*[SearchData](./Vector-SearchData) | SearchData[]*) -
+
+    An alias of **data** for the query vector(s).
+
+- **batchSize** (*number*) -
+
+    **[REQUIRED]**
+
+    The number of results to return per iteration. Cannot exceed 16,384.
+
+- **limit** (*number*) -
+
+    The maximum total number of results across all iterations. Defaults to the total count of matching entities (no limit).
+
+- **filter** (*string*) -
+
+    A scalar filtering condition to filter matching entities before the search. Defaults to an empty string (no filter).
+
+- **expr** (*string*) -
+
+    An alias of **filter**. Provide either **filter** or **expr**, not both.
+
+- **anns_field** (*string*) -
+
+    The name of the target vector field. Required when the collection has multiple vector fields.
+
+- **output_fields** (*string[]*) -
+
+    A list of field names to include in each returned entity. Only the primary field is included by default.
+
+- **partition_names** (*string[]*) -
+
+    The names of the partitions to search.
+
+- **params** (*keyValueObj*) -
+
+    Additional search parameters as key-value pairs, such as `radius` and `range_filter` for range searches.
+
+- **metric_type** (*string*) -
+
+    The metric type used to measure similarity between vectors. Defaults to the metric type of the indexed field.
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    The consistency level for this operation. Options: Strong (0), Session (1), Bounded (2), Eventually (3). Defaults to Bounded. See [ConsistencyLevelEnum](./Collections-ConsistencyLevelEnum).
+
+- **ignore_growing** (*boolean*) -
+
+    Whether to skip growing segments during the search.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by the specified field to ensure diversity.
+
+- **group_size** (*number*) -
+
+    The target number of entities to return within each group in a grouping search.
+
+- **strict_group_size** (*boolean*) -
+
+    Whether **group_size** is strictly enforced in a grouping search.
+
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the search results by.
+
+- **hints** (*string*) -
+
+    A hints string to improve search performance.
+
+- **round_decimal** (*number*) -
+
+    The number of decimal places to keep in the final results.
+
+- **exprValues** (*keyValueObj*) -
+
+    Placeholder values for a templated filter expression.
+
+- **nq** (*number*) -
+
+    The number of query vectors.
+
+- **ids** (*number[]* | *string[]*) -
+
+    Primary keys for search-by-PK queries.
+
+- **highlighter** (*Highlighter*) -
+
+    A highlighter for the search results. See Highlighter.
+
+- **rerank** (*[RerankerObj](./Vector-RerankerObj)* | *[FunctionObject](./Collections-FunctionObject)* | *[FunctionScore](./Vector-FunctionScore)*) -
+
+    A reranking strategy and its parameters. See `search()` for details on supported reranker types.
+
+- **transformers** (*[OutputTransformers](./Vector-OutputTransformers)*) -
+
+    Custom transformers for special vector data types such as BFloat16Vector and Float16Vector.
+
+- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+
+    An optional client-side filter function applied to each batch of results. Entities for which this function returns `false` are excluded from the yielded batch.
+
+- **db_name** (*string*) -
+
+    The name of the database containing the collection.
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+</NextChannel>
 
 **RETURNS:**
 

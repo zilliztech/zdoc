@@ -9,10 +9,10 @@
       "repository": "https://github.com/milvus-io/web-content",
       "dir": "API_Reference/milvus-sdk-node/v3.0.x",
       "current": "a0fa765e1fccfadc52d1edf7d59d766d9074b7f7",
-      "next": "0562d8053afd1d4455232c32b402c5ba6c0c7b59"
+      "next": "5005b323e194c3249b043e1fd691b101905e4ac1"
     },
     "tools": {
-      "zdoc": "e379404b9b388649fdb5c18144bf2a4bada14ca0"
+      "zdoc": "1b2f5084c5cf93436fe538f435d19ea5fd214655"
     },
     "config": {
       "files": [
@@ -62,7 +62,7 @@
         },
         {
           "path": "manual.yaml",
-          "sha256": "b1cb5890786d40c4dbaf32866a83977c1f6f25f228d429775ac0505b6c320ff1"
+          "sha256": "44e66571c3226d62022965de47338f1698ae2376690e59d785725ef140be3219"
         },
         {
           "path": "product-names.yaml",
@@ -553,7 +553,7 @@
       "channel": "current",
       "output": {
         "path": "node/Client/Client-MilvusClient.md",
-        "sha256": "da49822b357031d08eaa99171085b8f23837a489816ee08ecb791edf177445ca"
+        "sha256": "8dc197fb62d461fcec30c708ed664cc01c3502c3f07cda9368b1861be787a594"
       }
     },
     {
@@ -967,7 +967,7 @@
       "channel": "current",
       "output": {
         "path": "node/Collections/Collections-describeCollection.md",
-        "sha256": "9fcc21e3c612cab27422ef4e0a6c590066deedaf3b6e728c143e0577acbff6b6"
+        "sha256": "6ebd728201ea69e6811045c95beacadcf1fff6ceb8d965949a5cb84302c3e1e1"
       }
     },
     {
@@ -2469,7 +2469,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-hybridSearch.md",
-        "sha256": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
+        "sha256": "3b21681b92b4acf03b046da563e612dd515ad6415217a830cd1c1dbedb8c6eb1"
       }
     },
     {
@@ -2525,7 +2525,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-search.md",
-        "sha256": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
+        "sha256": "5cfd866207b689e104aa0e1ce9a7049e2de084a71696aff261ce37f7e34fcae3"
       }
     },
     {
@@ -2539,7 +2539,7 @@
       "channel": "current",
       "output": {
         "path": "node/Vector/Vector-searchIterator.md",
-        "sha256": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
+        "sha256": "9a4b0029d6f0f8a8125b9d67a35bb138de6547d5e0c9c5533311b2658233b45e"
       }
     },
     {
@@ -2712,7 +2712,7 @@
     },
     {
       "path": "node/Client/Client-MilvusClient.md",
-      "sha256": "da49822b357031d08eaa99171085b8f23837a489816ee08ecb791edf177445ca"
+      "sha256": "8dc197fb62d461fcec30c708ed664cc01c3502c3f07cda9368b1861be787a594"
     },
     {
       "path": "node/Client/Client-checkCompatibility.md",
@@ -2832,7 +2832,7 @@
     },
     {
       "path": "node/Collections/Collections-describeCollection.md",
-      "sha256": "9fcc21e3c612cab27422ef4e0a6c590066deedaf3b6e728c143e0577acbff6b6"
+      "sha256": "6ebd728201ea69e6811045c95beacadcf1fff6ceb8d965949a5cb84302c3e1e1"
     },
     {
       "path": "node/Collections/Collections-dropAlias.md",
@@ -3268,7 +3268,7 @@
     },
     {
       "path": "node/Vector/Vector-hybridSearch.md",
-      "sha256": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
+      "sha256": "3b21681b92b4acf03b046da563e612dd515ad6415217a830cd1c1dbedb8c6eb1"
     },
     {
       "path": "node/Vector/Vector-insert.md",
@@ -3284,11 +3284,11 @@
     },
     {
       "path": "node/Vector/Vector-search.md",
-      "sha256": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
+      "sha256": "5cfd866207b689e104aa0e1ce9a7049e2de084a71696aff261ce37f7e34fcae3"
     },
     {
       "path": "node/Vector/Vector-searchIterator.md",
-      "sha256": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
+      "sha256": "9a4b0029d6f0f8a8125b9d67a35bb138de6547d5e0c9c5533311b2658233b45e"
     },
     {
       "path": "node/Vector/Vector-upsert.md",
