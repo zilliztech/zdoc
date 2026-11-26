@@ -1074,3 +1074,43 @@ it('persists closure groups.json diagnostics above 64 KiB while still enforcing 
     })).rejects.toThrow('BATCH_SUMMARY_LIMIT')
   })
 })
+
+it('orders interleaved independent multi-PR components without COMPONENT_ORDER_UNPROVEN and isolates collateral page failures', async () => {
+  const f = await simpleFixture()
+  const target = 'site/en/source-target.md', peer = 'site/en/build-pipeline.md'
+  const origTarget = await (await import('node:fs/promises')).readFile(join(f.repo, target), 'utf8')
+  const origPeer = await (await import('node:fs/promises')).readFile(join(f.repo, peer), 'utf8')
+  // Interleave two disjoint components in Git history: A1 -> B1 -> B2 -> A2.
+  // Component A (shared-target) fails PRODUCT_NAME_FOUND from A1 onwards (including at target),
+  // while Component B (build-pipeline) is completely clean with unchanged headings.
+  await f.sourceChange(target, origTarget + '\nMilvus product mention in A1.\n')
+  await f.sourceChange(peer, origPeer + '\nIndependent clean change B1.\n')
+  await f.sourceChange(peer, origPeer + '\nIndependent clean change B1.\nIndependent clean change B2.\n')
+  await f.sourceChange(target, origTarget + '\nMilvus product mention in A1 and A2.\n')
+  const {discovery, pages, result} = await observeClosure(f)
+  expect(result.reasons).toEqual([])
+  expect(result.selected?.memberIds).toEqual(['build-pipeline'])
+  const heldGroup = result.groups.find(g => g.memberIds.includes('shared-target'))
+  expect(heldGroup?.dispositions[0].disposition).toBe('held')
+  expect(heldGroup?.dispositions[0].reasons).toContain('PRODUCT_NAME_FOUND')
+  expect(pages.find(p => p.header.pageId === 'shared-target')?.targetRendered).toBe(false)
+
+  // Non-consumable repo metadata on a stopped edge must not trigger COLLATERAL_INPUT_UNPROVEN,
+  // while a selected member with a renamed heading must fail closed when a collateral page target is unrendered.
+  const firstStopped = pages.find(p => p.header.pageId === 'shared-target')!.deferredHistory[0]?.commit
+  if (firstStopped) {
+    const edge = discovery.ledger.find(e => e.commit === firstStopped)!
+    const nonConsumable = {...edge, oldPath: 'scripts/config.json', newPath: 'scripts/config.json'}
+    const rechecked = batch.analyzeBatchClosure({report: discovery.report, ledger: [...discovery.ledger, nonConsumable], history: discovery.introductionOrder, pages})
+    expect(rechecked.reasons).toEqual([])
+    expect(rechecked.selected?.memberIds).toEqual(['build-pipeline'])
+  }
+  const renamedMember = pages.map(p => p.header.pageId === 'build-pipeline'
+    ? {...p, promotionAnchors: [{axis: 'current-to-candidate-next' as const, before: {anchor: 'old', text: 'Old', line: 1},
+      after: {anchor: 'renamed', text: 'Renamed', line: 1}, status: 'confirmed' as const, kind: 'renamed' as const,
+      manual: 'guides', path: 'tutorials/build-pipeline', reason: 'renamed heading'}]}
+    : p)
+  const blocked = batch.analyzeBatchClosure({report: discovery.report, ledger: discovery.ledger, history: discovery.introductionOrder, pages: renamedMember})
+  expect(blocked.selected).toBeNull()
+  expect(blocked.reasons).toContain('ADOPTION_DEPENDENCY_UNPROVEN')
+}, 120000)
