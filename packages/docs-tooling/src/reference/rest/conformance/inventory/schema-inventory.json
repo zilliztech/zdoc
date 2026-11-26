@@ -31,7 +31,7 @@
   "27-invoices-v2.json": "e6d0377f311f",
   "28-usage-v2.json": "846526bc2445",
   "29-on-demand-compute-v2.json": "575ed891c53d",
-  "30-global-clusters.json": "157a7c528178",
+  "30-global-clusters.json": "9cba0ce6ed90",
   "31-storage-integration-v2.json": "c046a25cf024",
   "32-spark-job-v2.json": "e02b883ff933",
   "33-on-demand-cluster-operations-v2.json": "075f13ca6cfc",
@@ -38551,6 +38551,26 @@
            "type": "string"
           }
          }
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "regionGroups",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "array",
+            "items": {
+             "type": "string"
+            }
+           }
+          }
+         ]
         }
        ],
        "required": []
