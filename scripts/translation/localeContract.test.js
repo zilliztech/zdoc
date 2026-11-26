@@ -1,6 +1,9 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const test = require('node:test')
 
 const {
@@ -10,6 +13,140 @@ const {
   validateLocaleContract,
   validateLocaleContractDraft,
 } = require('./localeContract')
+
+const REPO_ROOT = path.resolve(__dirname, '../..')
+
+const PRE_REFACTOR_ZH_CN_REFERENCE = {
+  schemaVersion: 1,
+  contractId: 'zh-CN-reference-2026-09-11-p0.5',
+  target: 'zh-CN-reference',
+  locale: 'zh-CN',
+  styleRules: [
+    'Use natural, concise Simplified Chinese developer-documentation prose and address the reader as 您 when a reader pronoun is necessary.',
+    'Preserve source meaning, conditions, product scope, and intensity without additions or omissions.',
+    'Use Chinese punctuation in prose and retain readable spacing around English product terms and inline code.',
+    'Treat fenced code comments as protected code bytes, not localizable prose.',
+    'Follow the authoritative Chinese style guide injected immediately after this contract; it governs scenario-level style (persona, parameter blocks, enumerations, punctuation and spacing, link text) wherever this contract does not already decide terminology.',
+    'Use a half-width space between Chinese text and Latin words or digits.',
+  ],
+  mandatoryTerms: [
+    {
+      source: 'Compaction',
+      target: 'Compaction',
+      caseSensitive: true,
+    },
+    {
+      source: 'collection',
+      target: 'Collection',
+      caseSensitive: false,
+      excludedSourceContexts: [
+        'garbage collection',
+      ],
+    },
+    {
+      source: 'entity',
+      target: 'Entity',
+      caseSensitive: false,
+    },
+    {
+      source: 'schema',
+      target: 'Schema',
+      caseSensitive: false,
+    },
+    {
+      source: 'database',
+      target: 'Database',
+      caseSensitive: false,
+    },
+    {
+      source: 'partition',
+      target: 'Partition',
+      caseSensitive: false,
+    },
+    {
+      source: 'segment',
+      target: 'Segment',
+      caseSensitive: false,
+    },
+    {
+      source: 'analyzer',
+      target: 'Analyzer',
+      caseSensitive: false,
+    },
+    {
+      source: 'endpoint',
+      target: 'Endpoint',
+      caseSensitive: true,
+    },
+  ],
+  forbiddenTranslations: [
+    {
+      source: 'Compaction',
+      targets: [
+        '压缩',
+        '压实',
+      ],
+    },
+  ],
+  doNotTranslate: [
+    'Zilliz Cloud',
+    'Milvus',
+    'BYOC',
+    'Serverless',
+    'AUTOINDEX',
+  ],
+  contextualTerms: [
+    {
+      source: 'Dedicated',
+      target: 'Dedicated',
+      caseSensitive: true,
+      sourceContexts: [
+        'Dedicated cluster',
+        'Dedicated deployment',
+        'Dedicated plan',
+        'Dedicated tier',
+      ],
+    },
+  ],
+  examples: [
+    {
+      id: 'zh-compaction-plan',
+      source: 'Compaction plans',
+      bad: '压实计划',
+      good: 'Compaction 计划',
+      explanation: 'Compaction is a Milvus and Zilliz product concept and must remain English.',
+    },
+    {
+      id: 'zh-compression-general',
+      source: 'Enable response compression.',
+      bad: '启用响应 Compaction。',
+      good: '启用响应压缩。',
+      explanation: 'Ordinary compression is not the Compaction product concept and may be translated as 压缩.',
+    },
+    {
+      id: 'zh-garbage-collection',
+      source: 'Garbage collection releases snapshot data.',
+      bad: '垃圾 Collection 会释放快照数据。',
+      good: '垃圾回收会释放快照数据。',
+      explanation: 'Garbage collection is an ordinary fixed phrase, not the Milvus Collection product concept.',
+    },
+    {
+      id: 'zh-code-comment',
+      source: '// Create a collection',
+      bad: '// 创建 Collection',
+      good: '// Create a collection',
+      explanation: 'Natural-language comments inside fenced code blocks are protected bytes.',
+    },
+  ],
+}
+
+function assertDeepFrozen(value) {
+  if (!value || typeof value !== 'object') return
+  assert.equal(Object.isFrozen(value), true)
+  for (const child of Object.values(value)) {
+    assertDeepFrozen(child)
+  }
+}
 
 test('loads exact deeply frozen Chinese and Japanese locale contracts', () => {
   const chinese = loadLocaleContract('zh-CN-reference')
@@ -372,4 +509,274 @@ test('does not repair the field-identifier vector but repairs prose collection',
   const repaired = applyDeterministicLocaleRepairs(source, source, contract)
   assert.match(repaired, /\*\*vector\*\*/)
   assert.match(repaired, /コレクション/)
+})
+
+test('loadLocaleContract(zh-CN-reference) matches pre-refactor contract and validateLocaleContract still rejects extends', () => {
+  const loaded = loadLocaleContract('zh-CN-reference')
+  assertDeepFrozen(loaded)
+  assert.equal(Object.hasOwn(loaded, 'extends'), false)
+  assert.equal(loaded.contractId, 'zh-CN-reference-2026-09-11-p0.5')
+
+  for (const key of [
+    'schemaVersion',
+    'contractId',
+    'target',
+    'locale',
+    'mandatoryTerms',
+    'forbiddenTranslations',
+    'doNotTranslate',
+    'contextualTerms',
+    'examples',
+  ]) {
+    assert.deepEqual(loaded[key], PRE_REFACTOR_ZH_CN_REFERENCE[key], `Mismatch on ${key}`)
+  }
+
+  // Note: zh-CN-common.json holds the 5 universal styleRules ([0, 1, 2, 3, 5] pre-refactor)
+  // and zh-CN-reference.json holds the Reference-specific styleRule ([4] pre-refactor),
+  // so [...base, ...child] swaps indices 4 and 5 ([R_space, R_ref]). Zero callers or tests index styleRules.
+  assert.equal(loaded.styleRules.length, PRE_REFACTOR_ZH_CN_REFERENCE.styleRules.length)
+  assert.equal(loaded.styleRules.length, 6)
+  assert.deepEqual([...loaded.styleRules].sort(), [...PRE_REFACTOR_ZH_CN_REFERENCE.styleRules].sort())
+
+  assert.throws(
+    () => validateLocaleContract({...loaded, extends: './zh-CN-common.json'}, 'zh-CN-reference'),
+    /exact schema|unexpected/i,
+  )
+  assert.throws(
+    () => validateLocaleContract({...loaded, extra: true}, 'zh-CN-reference'),
+    /exact schema|unexpected/i,
+  )
+})
+
+test('loadLocaleContract(zh-CN-guides) inherits zh-CN-common glossary and enforces shared terms', () => {
+  const common = JSON.parse(
+    fs.readFileSync(path.join(REPO_ROOT, 'config/translation/zh-CN-common.json'), 'utf8'),
+  )
+  const guides = loadLocaleContract('zh-CN-guides')
+
+  assertDeepFrozen(guides)
+  assert.equal(Object.hasOwn(guides, 'extends'), false)
+  assert.equal(guides.schemaVersion, 1)
+  assert.equal(guides.contractId, 'zh-CN-guides-2026-11-26-v1')
+  assert.equal(guides.target, 'zh-CN-guides')
+  assert.equal(guides.locale, 'zh-CN')
+
+  assert.equal(guides.styleRules.length, common.styleRules.length + 3)
+  assert.deepEqual(guides.styleRules.slice(0, common.styleRules.length), common.styleRules)
+  assert.ok(guides.styleRules.some(rule => rule.includes('<UI>...</UI>')))
+  assert.ok(guides.styleRules.some(rule => rule.includes('<NextChannel action="include">')))
+  assert.ok(guides.styleRules.some(rule => /Global-only/i.test(rule)))
+
+  assert.deepEqual(guides.mandatoryTerms, common.mandatoryTerms)
+  assert.deepEqual(guides.forbiddenTranslations, common.forbiddenTranslations)
+  assert.deepEqual(guides.doNotTranslate, common.doNotTranslate)
+  assert.deepEqual(guides.contextualTerms, common.contextualTerms)
+  assert.deepEqual(guides.examples, common.examples)
+
+  assert.equal(
+    validateLocaleContractDraft('Compaction plans merge segments.', '压缩计划会合并 Segment。', guides).length,
+    1,
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Compaction plans merge segments.', 'Compaction 计划会合并 Segment。', guides),
+    [],
+  )
+  assert.equal(
+    validateLocaleContractDraft('Create a collection.', '创建一个集合。', guides).length,
+    1,
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Create a collection.', '创建一个 Collection。', guides),
+    [],
+  )
+  assert.equal(
+    validateLocaleContractDraft('Open Zilliz Cloud.', '打开智利兹云。', guides).length,
+    1,
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Open Zilliz Cloud.', '打开 Zilliz Cloud。', guides),
+    [],
+  )
+  assert.equal(
+    validateLocaleContractDraft('Use a Dedicated deployment.', '使用专用部署。', guides).length,
+    1,
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Use a Dedicated deployment.', '使用 Dedicated 部署。', guides),
+    [],
+  )
+})
+
+function buildCommonBase(overrides = {}) {
+  return {
+    schemaVersion: 1,
+    locale: 'zh-CN',
+    styleRules: ['Use natural Simplified Chinese prose.'],
+    mandatoryTerms: [
+      {source: 'collection', target: 'Collection', caseSensitive: false},
+    ],
+    forbiddenTranslations: [],
+    doNotTranslate: ['Zilliz Cloud'],
+    contextualTerms: [],
+    examples: [],
+    ...overrides,
+  }
+}
+
+function buildGuidesChild(overrides = {}) {
+  return {
+    schemaVersion: 1,
+    contractId: 'zh-CN-guides-test-v1',
+    target: 'zh-CN-guides',
+    locale: 'zh-CN',
+    extends: './zh-CN-common.json',
+    styleRules: ['Preserve <UI>...</UI> console interface terms verbatim.'],
+    ...overrides,
+  }
+}
+
+function createTempContractRepo(t, {base, child, extraFiles = {}, symlinks = []} = {}) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-locale-contract-'))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const translationDir = path.join(root, 'config', 'translation')
+  fs.mkdirSync(translationDir, {recursive: true})
+  if (base !== undefined) {
+    fs.writeFileSync(path.join(translationDir, 'zh-CN-common.json'), JSON.stringify(base, null, 2))
+  }
+  if (child !== undefined) {
+    fs.writeFileSync(path.join(translationDir, 'zh-CN-guides.json'), JSON.stringify(child, null, 2))
+  }
+  for (const [relPath, content] of Object.entries(extraFiles)) {
+    const absPath = path.join(root, relPath)
+    fs.mkdirSync(path.dirname(absPath), {recursive: true})
+    fs.writeFileSync(absPath, typeof content === 'string' ? content : JSON.stringify(content, null, 2))
+  }
+  for (const {linkPath, targetPath} of symlinks) {
+    const absLink = path.join(root, linkPath)
+    fs.mkdirSync(path.dirname(absLink), {recursive: true})
+    fs.symlinkSync(targetPath, absLink)
+  }
+  return root
+}
+
+test('loadLocaleContract rejects unsafe extends paths, symlinks, and missing base files', t => {
+  const outsideRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({extends: '../outside.json'}),
+    extraFiles: {'config/outside.json': buildCommonBase()},
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', outsideRepo), /escapes config\/translation/i)
+
+  const backslashRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({extends: '..\\outside.json'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', backslashRepo), /safe relative path/i)
+
+  const absRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({extends: '/etc/passwd'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', absRepo), /relative path/i)
+
+  const nulRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({extends: './zh-CN-common.json\0.json'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', nulRepo), /safe relative path/i)
+
+  const outsideDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-locale-outside-'))
+  t.after(() => fs.rmSync(outsideDir, {recursive: true, force: true}))
+  const outsideBaseFile = path.join(outsideDir, 'outside-base.json')
+  fs.writeFileSync(outsideBaseFile, JSON.stringify(buildCommonBase(), null, 2))
+
+  const leafSymlinkRepo = createTempContractRepo(t, {
+    child: buildGuidesChild({extends: './symlink-base.json'}),
+    symlinks: [{linkPath: 'config/translation/symlink-base.json', targetPath: outsideBaseFile}],
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', leafSymlinkRepo), /symbolic links/i)
+
+  const dirSymlinkRepo = createTempContractRepo(t, {
+    child: buildGuidesChild({extends: './symlink-dir/outside-base.json'}),
+    symlinks: [{linkPath: 'config/translation/symlink-dir', targetPath: outsideDir}],
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', dirSymlinkRepo), /escapes config\/translation/i)
+
+  const missingRepo = createTempContractRepo(t, {
+    child: buildGuidesChild({extends: './missing-base.json'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', missingRepo), /does not exist/i)
+})
+
+test('loadLocaleContract rejects invalid extends schemas, cycles, mismatches, and post-merge duplicates', t => {
+  const localeMismatchRepo = createTempContractRepo(t, {
+    base: buildCommonBase({locale: 'ja-JP'}),
+    child: buildGuidesChild(),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', localeMismatchRepo), /does not match child locale/i)
+
+  const versionMismatchRepo = createTempContractRepo(t, {
+    base: buildCommonBase({schemaVersion: 2}),
+    child: buildGuidesChild(),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', versionMismatchRepo), /schemaVersion must be 1/i)
+
+  const nestedExtendsRepo = createTempContractRepo(t, {
+    base: buildCommonBase({extends: './other.json'}),
+    child: buildGuidesChild(),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', nestedExtendsRepo), /nested or cyclic extends/i)
+
+  const selfCycleRepo = createTempContractRepo(t, {
+    child: buildGuidesChild({extends: './zh-CN-guides.json'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', selfCycleRepo), /cyclic or self-referential/i)
+
+  const unexpectedChildKeyRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({extra: true}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', unexpectedChildKeyRepo), /exact schema|unexpected/i)
+
+  const invalidBaseSchemaRepo = createTempContractRepo(t, {
+    base: buildCommonBase({target: 'zh-CN-common'}),
+    child: buildGuidesChild(),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', invalidBaseSchemaRepo), /Base locale contract.*exact schema/i)
+
+  const nonArrayBaseRepo = createTempContractRepo(t, {
+    base: buildCommonBase({styleRules: 'not-an-array'}),
+    child: buildGuidesChild(),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', nonArrayBaseRepo), /styleRules must be an array/i)
+
+  const nonArrayChildRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({styleRules: 'not-an-array'}),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', nonArrayChildRepo), /styleRules must be an array/i)
+
+  const duplicateTermRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({
+      mandatoryTerms: [{source: 'collection', target: 'Collection', caseSensitive: false}],
+    }),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', duplicateTermRepo), /duplicate mandatory term/i)
+
+  const duplicateRuleRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({
+      styleRules: ['Use natural Simplified Chinese prose.'],
+    }),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', duplicateRuleRepo), /styleRules contains duplicate values/i)
+
+  const duplicateTokenRepo = createTempContractRepo(t, {
+    base: buildCommonBase(),
+    child: buildGuidesChild({
+      doNotTranslate: ['Zilliz Cloud'],
+    }),
+  })
+  assert.throws(() => loadLocaleContract('zh-CN-guides', duplicateTokenRepo), /doNotTranslate contains duplicate values/i)
 })
