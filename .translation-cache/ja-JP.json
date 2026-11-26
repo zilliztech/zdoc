@@ -831,9 +831,9 @@
       "translatedAt": "2026-10-30T19:44:10.283Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-highlighter.md": {
-      "sourceHash": "bf57919f10c15dde7c3f288d6039736345900b8557994de2f4de730277961137",
+      "sourceHash": "ffcc09309d38001d24910c3046b19ebfbc176eea9095cb9a2ee966354f807bf4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/text-highlighter.md",
-      "translatedAt": "2026-11-26T11:42:55.972Z"
+      "translatedAt": "2026-11-26T19:43:14.748Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/text-match.md": {
       "sourceHash": "98cdce9eb85d05c48b269a30e2c4041c494f868cd7f42d28acd7501f928368a7",
@@ -2276,9 +2276,9 @@
       "translatedAt": "2026-10-30T19:47:43.830Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-highlighter.md": {
-      "sourceHash": "13a5c998d8429429b11e4a6a821778bae9ccbb685ab37397014fc2a9fe64d346",
+      "sourceHash": "b7ff0f1e168cd76f1fef4a764990b06fb76c10dcd9294ff8ef038726fa63e6b2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/text-highlighter.md",
-      "translatedAt": "2026-11-26T11:42:55.972Z"
+      "translatedAt": "2026-11-26T19:43:14.748Z"
     },
     "content/en/guides/tutorials/development/search-and-query/text-match.md": {
       "sourceHash": "796fd4e894db3bf25abc52d1842dd58f237084850359bff95590539f611053ee",
