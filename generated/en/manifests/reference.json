@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "69b855994f2fd6352ec92c30bc0ad33fcd5adb78",
+  "sourceCommit": "9a1bc4257fe4bce9c924ef41d12c017da3e21a70",
   "records": [
     {
       "manual": "cli",
@@ -3525,7 +3525,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md",
-      "sourceHash": "da49822b357031d08eaa99171085b8f23837a489816ee08ecb791edf177445ca"
+      "sourceHash": "8dc197fb62d461fcec30c708ed664cc01c3502c3f07cda9368b1861be787a594"
     },
     {
       "manual": "node",
@@ -3675,7 +3675,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
-      "sourceHash": "9fcc21e3c612cab27422ef4e0a6c590066deedaf3b6e728c143e0577acbff6b6"
+      "sourceHash": "6ebd728201ea69e6811045c95beacadcf1fff6ceb8d965949a5cb84302c3e1e1"
     },
     {
       "manual": "node",
@@ -4220,7 +4220,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
-      "sourceHash": "190dcd30b18b91f91dc215d3d8becd33022b5e3b5f5d47d06ad10d7a5d2ebbc1"
+      "sourceHash": "3b21681b92b4acf03b046da563e612dd515ad6415217a830cd1c1dbedb8c6eb1"
     },
     {
       "manual": "node",
@@ -4240,12 +4240,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "ee6e79a02e71cf1ffaaf93052a11a5975910dc993c03d02cbd300823c5e38737"
+      "sourceHash": "5cfd866207b689e104aa0e1ce9a7049e2de084a71696aff261ce37f7e34fcae3"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md",
-      "sourceHash": "f5207174ab78881778eabd4c018d148f820c4bd37f382b34717db9938d6dbc0a"
+      "sourceHash": "9a4b0029d6f0f8a8125b9d67a35bb138de6547d5e0c9c5533311b2658233b45e"
     },
     {
       "manual": "node",
