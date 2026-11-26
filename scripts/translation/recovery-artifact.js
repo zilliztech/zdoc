@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const {loadTypeScript} = require('../lib/load-typescript');
-const {localeContractPathFor} = require('./localeContract');
+const {localeContractSourcePathsFor} = require('./localeContract');
 const {promptNamesFor} = require('./prompts');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
 const {isConsistentSuccessfulReview, successfulReview} = require('./reviewEvidence');
@@ -39,8 +39,9 @@ function promptContractSha256(target, repositoryRoot = process.cwd()) {
   for (const name of [...new Set(names)].sort()) {
     parts.push(name, fs.readFileSync(path.join(repositoryRoot, '.github/prompts', name), 'utf8'));
   }
-  const contractPath = localeContractPathFor(target);
-  parts.push(contractPath, fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'));
+  for (const contractPath of localeContractSourcePathsFor(target, repositoryRoot)) {
+    parts.push(contractPath, fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'));
+  }
   if (target === 'zh-CN-reference') {
     parts.push('config/reference-navigation.json', fs.readFileSync(path.join(repositoryRoot, 'config/reference-navigation.json'), 'utf8'));
   }
