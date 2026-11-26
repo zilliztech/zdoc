@@ -48,6 +48,33 @@ describe('pure two-version wrapper emitter', () => {
     lint(result.markdown)
   })
 
+  it('preserves <UI> across paragraphs, lists, NextChannel and unchanged paths without emitting import UI', () => {
+    const current = 'Shared <UI>Create Cluster</UI>.\n\n- Old <UI>Create Cluster</UI>.\n'
+    const next = 'Shared <UI>Create Cluster</UI>.\n\n- New <UI>Create Cluster</UI>.\n'
+    const merged = merge(current, next)
+    expect(merged.components).toEqual([])
+    expect(merged.markdown).not.toMatch(/^import UI\b/m)
+    expect(merged.markdown).toContain('Shared <UI>Create Cluster</UI>.')
+    expect(merged.markdown).toContain('<NextChannel action="exclude">\n\n- Old <UI>Create Cluster</UI>.\n\n</NextChannel>')
+    expect(merged.markdown).toContain('<NextChannel action="include">\n\n- New <UI>Create Cluster</UI>.\n\n</NextChannel>')
+    assertViews(merged, input(current, 'current'), input(next, 'next'))
+    lint(merged.markdown)
+
+    const authored = '<NextChannel action="include">\n\nConfirm <UI>Create Cluster</UI>.\n\n</NextChannel>\n'
+    const withAuthored = merge(`Old\n\n${authored}`, `New\n\n${authored}`)
+    expect(withAuthored.components).toEqual([])
+    expect(withAuthored.markdown).toContain(authored)
+    expect(withAuthored.markdown).not.toMatch(/^import UI\b/m)
+    assertViews(withAuthored, input(`Old\n\n${authored}`, 'current'), input(`New\n\n${authored}`, 'next'))
+    lint(withAuthored.markdown)
+
+    const unchanged = merge(current, current)
+    expect(unchanged.unchanged).toBe(true)
+    expect(unchanged.components).toEqual([])
+    expect(unchanged.markdown).toBe(current)
+    expect(unchanged.markdown).not.toContain('&lt;UI&gt;')
+  })
+
   it.each([
     ['moved gate', `A\n\n${gate}\nB\n\nC\n`, `A\n\nB\n\nC\n\n${gate}`, 'current', 42],
     ['next-only gate', 'A\n', `A\n\n${gate}`, 'next', 42],
