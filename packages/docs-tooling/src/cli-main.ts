@@ -443,6 +443,54 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       }, text => process.stdout.write(text), text => process.stderr.write(text));
       return true;
     }
+    if (argv[1] === 'draft') {
+      let options: Record<string, string | boolean>;
+      try {
+        options = parseOptions(argv.slice(2));
+        const allowed = [
+          'root',
+          'page',
+          'enNew',
+          'enBase',
+          'out',
+          'provider',
+          'enNewManifest',
+          'enBaseManifest',
+          'devRoot',
+          'devCommit',
+          'reviewedPr',
+          'updatedAt',
+          'styleGuide',
+          'localeContractRoot',
+        ];
+        for (const key of Object.keys(options)) {
+          if (!allowed.includes(key)) throw new Error(`Unknown localized-docs draft option: --${key}`);
+          requiredOption(options, key);
+        }
+        requiredOption(options, 'root');
+        requiredOption(options, 'page');
+        requiredOption(options, 'enNew');
+        requiredOption(options, 'out');
+      } catch (error) { process.stderr.write(`${String(error)}\n`); process.exitCode = 2; return true; }
+      const {runDraft} = await import('./localized-docs/commands/draft.ts');
+      process.exitCode = await runDraft({
+        root: String(options.root),
+        page: String(options.page),
+        enNew: String(options.enNew),
+        out: String(options.out),
+        ...(options.enBase !== undefined ? {enBase: String(options.enBase)} : {}),
+        ...(options.provider !== undefined ? {provider: String(options.provider)} : {}),
+        ...(options.enNewManifest !== undefined ? {enNewManifest: String(options.enNewManifest)} : {}),
+        ...(options.enBaseManifest !== undefined ? {enBaseManifest: String(options.enBaseManifest)} : {}),
+        ...(options.devRoot !== undefined ? {devRoot: String(options.devRoot)} : {}),
+        ...(options.devCommit !== undefined ? {devCommit: String(options.devCommit)} : {}),
+        ...(options.reviewedPr !== undefined ? {reviewedPr: String(options.reviewedPr)} : {}),
+        ...(options.updatedAt !== undefined ? {updatedAt: String(options.updatedAt)} : {}),
+        ...(options.styleGuide !== undefined ? {styleGuide: String(options.styleGuide)} : {}),
+        ...(options.localeContractRoot !== undefined ? {localeContractRoot: String(options.localeContractRoot)} : {}),
+      }, text => process.stdout.write(text), text => process.stderr.write(text), repositoryRoot);
+      return true;
+    }
     if (argv[1] === 'pr-check') {
       let options: import('./localized-docs/commands/pr-check.ts').PrCheckOptions;
       try {
@@ -453,7 +501,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       process.exitCode = await runPrCheck(options, text => process.stdout.write(text), text => process.stderr.write(text));
       return true;
     }
-    process.stderr.write('Error: localized-docs action must be check, build, or pr-check\n');
+    process.stderr.write('Error: localized-docs action must be check, build, draft, or pr-check\n');
     process.exitCode = 2;
     return true;
   }
