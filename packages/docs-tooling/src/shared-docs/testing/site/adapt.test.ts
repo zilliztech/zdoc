@@ -4,6 +4,7 @@ import { createRequire } from 'node:module'
 import { compile } from '@mdx-js/mdx'
 import { load } from 'js-yaml'
 import { expect, it, vi } from 'vitest'
+import * as mdxRuntime from '../../../mdx/index'
 import { createHistoricalMdxFinalizer, toMdx } from '../../adapters/mdx'
 import { parseTabsRules } from '../../core/site'
 import { adapt, adapted, context, group, page, rules, rulesText } from './helpers'
@@ -93,6 +94,38 @@ it('detects authored component tags and emits their imports once', async () => {
   expect(await toMdx(result, context)).toHaveProperty('mdx')
 })
 
+it('preserves globally registered <UI> tags across paragraphs, lists and NextChannel without emitting an import', async () => {
+  const body = [
+    'Click <UI>Create Cluster</UI>.',
+    '',
+    '- Open <UI>Create Cluster</UI>.',
+    '',
+    '<NextChannel action="include">',
+    '',
+    'Confirm <UI>Create Cluster</UI>.',
+    '',
+    '</NextChannel>',
+  ].join('\n')
+  const result = adapted(page(body))
+  expect(result.components).toEqual([])
+  expect(result.markdown).not.toMatch(/^import UI\b/m)
+  expect(result.markdown).toContain('Click <UI>Create Cluster</UI>.')
+  expect(result.markdown).toContain('- Open <UI>Create Cluster</UI>.')
+  expect(result.markdown).toContain('Confirm <UI>Create Cluster</UI>.')
+
+  const mdx = await toMdx(result, context)
+  if ('errors' in mdx) throw new Error(JSON.stringify(mdx.errors))
+  expect(mdx.mdx).toContain('Click <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).toContain('- Open <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).toContain('Confirm <UI>Create Cluster</UI>.')
+  expect(mdx.mdx).not.toContain('&lt;UI&gt;')
+  expect(mdx.mdx).not.toMatch(/^import UI\b/m)
+
+  const withTabs = adapted(page('<Tabs>\n\n<TabItem value="a">Click <UI>Create Cluster</UI>.</TabItem>\n\n</Tabs>'))
+  expect(withTabs.components).toEqual(['Tabs', 'TabItem'])
+  expect(withTabs.markdown).not.toMatch(/^import UI\b/m)
+})
+
 it('caches only exact historical parser input and preserves individual diagnostic context', async () => {
   const finalize = createHistoricalMdxFinalizer()
   const sample = adapted(page('A value {name} is <10.'), {metadata: {title: 'Title {name}'}})
@@ -110,6 +143,54 @@ it('caches only exact historical parser input and preserves individual diagnosti
   const result = await finalize(invalid, nextContext)
   expect(result).toEqual(await toMdx(invalid, nextContext))
   expect(result).toMatchObject({errors: [expect.objectContaining(nextContext)]})
+})
+
+it('coalesces concurrent identical MDX while preserving per-caller failure diagnostics', async () => {
+  const patches = vi.spyOn(mdxRuntime, 'applyMdxPatches')
+  try {
+    const finalize = createHistoricalMdxFinalizer()
+    const sample = adapted(page('Unique overlap example {name}.'))
+    const other = { ...context, file: 'other.md', channel: 'next' as const }
+    const [first, second] = await Promise.all([finalize(sample, context), finalize(sample, other)])
+    expect(first).toHaveProperty('mdx')
+    expect(second).toEqual(first)
+    expect(patches).toHaveBeenCalledTimes(1)
+    if ('mdx' in first) first.mdx = 'caller mutation'
+    expect(await finalize(sample, context)).toEqual(second)
+    expect(patches).toHaveBeenCalledTimes(1)
+
+    const invalid = adapted(page('export const broken ='))
+    const failures = await Promise.all([finalize(invalid, context), finalize(invalid, other)])
+    expect(failures[0]).toMatchObject({errors: [expect.objectContaining(context)]})
+    expect(failures[1]).toMatchObject({errors: [expect.objectContaining(other)]})
+    expect(patches).toHaveBeenCalledTimes(3)
+  } finally {
+    patches.mockRestore()
+  }
+})
+
+it('does not evict a newer success when an older in-flight entry fails after eviction', async () => {
+  let release!: () => void
+  const delayed = new Promise<void>(resolve => { release = resolve })
+  const patches = vi.spyOn(mdxRuntime, 'applyMdxPatches').mockImplementationOnce(async () => {
+    await delayed
+    throw new Error('first attempt failed')
+  })
+  try {
+    const finalize = createHistoricalMdxFinalizer()
+    const sample = adapted(page('Evicted first request.'))
+    const first = finalize(sample, context)
+    for (let i = 0; i < 32; i++) await finalize(adapted(page('Another page ' + i)), context)
+    const accepted = await finalize(sample, context)
+    expect(accepted).toHaveProperty('mdx')
+    release()
+    expect(await first).toMatchObject({errors: [expect.objectContaining({message: 'first attempt failed'})]})
+    expect(await finalize(sample, context)).toEqual(accepted)
+    expect(patches).toHaveBeenCalledTimes(34)
+  } finally {
+    release()
+    patches.mockRestore()
+  }
 })
 
 it('does not count authored component tags inside fenced or inline code', () => {

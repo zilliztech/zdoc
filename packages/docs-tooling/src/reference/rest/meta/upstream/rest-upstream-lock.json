@@ -9,14 +9,14 @@
         "path": "vdc/global/cloud-control-api/openapi.yaml"
       },
       "pin": {
-        "commit": "c6e3d6f3e22b681e0eaec48e4eb7b51a36131cae",
-        "contentSha256": "b8956e2690710e3ea5a901c366cd3d4a1d8b769d0bcedd15570dd97b2e3b168e"
+        "commit": "d46dc9555a188b1fd569c07d9155c9ebad12e0ae",
+        "contentSha256": "e5302f2db65a9c246ea00af0f382e89af032cebae2eba1a07f5bef3fa8bfae59"
       },
       "trackedRef": "master",
       "apiSurface": "control-plane",
       "publicationTarget": "zilliz",
       "upstreamOasVersion": "3.1.0",
-      "lastVerifiedAt": "2026-11-21T04:22:47.426Z"
+      "lastVerifiedAt": "2026-11-25T04:23:54.454Z"
     },
     {
       "id": "milvus-data-plane",
@@ -28,12 +28,12 @@
         ]
       },
       "pin": {
-        "commit": "8e8036ce880fb2974aff35c3eab4c8580ebcb67c"
+        "commit": "8f5bd72bd2bda4c9783e85cfbe075c91d7462afe"
       },
       "trackedRef": "master",
       "apiSurface": "data-plane",
       "publicationTarget": "milvus",
-      "lastVerifiedAt": "2026-11-23T01:58:51.035Z"
+      "lastVerifiedAt": "2026-11-24T04:23:22.860Z"
     }
   ]
 }

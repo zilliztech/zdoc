@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zilliz.com/contracts/rest-upstream-adjudications.schema.json",
+  "title": "REST Upstream Semantic Adjudications",
+  "description": "Field/pointer-level semantic facts settled by human adjudication (design: .claude/plans/2026-11-23-rest-adjudication-decision-ledger-design.md; 2026-11-25 review). Operation-level classification stays in the ledger; this file records what the upstream IS at field granularity so later refresh rounds stop re-asking the same question. Append-only: new rounds append or supersede by reviewed PR, never rewrite.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "adjudications"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "adjudications": {"type": "array", "items": {"$ref": "#/$defs/adjudication"}}
+  },
+  "$defs": {
+    "isoDate": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "sourceId": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "opKey": {"type": "string", "pattern": "^(get|put|post|delete|patch|options|head|trace) /[^\\s]+$"},
+    "scope": {
+      "enum": ["requestBody", "parameter"],
+      "description": "Request-shape facts only. Response-scope diff entries are addressed by HTTP status code (their diff field is the status, which the fieldPath grammar cannot name) and operation-scope entries carry no field at all; the canonical key deliberately omits responseStatus, so response facts would over-match across statuses."
+    },
+    "fieldPath": {
+      "type": "string",
+      "description": "Dot path of the adjudicated leaf relative to the operation schema, first segment = the diff entry's top-level field (parameter scope: the bare parameter name). Required: this file never records operation-level verdicts — the ledger owns those.",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)*$"
+    },
+    "fact": {
+      "type": "string",
+      "description": "One verifiable assertion citing machine-checkable evidence: a literal set {…} or a Go symbol. The loader enforces this floor beyond the schema.",
+      "minLength": 5,
+      "maxLength": 240
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pr"],
+      "properties": {
+        "pr": {"type": "integer", "minimum": 1},
+        "commentUrl": {"type": "string", "pattern": "^https://"},
+        "goSymbols": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "validatedBy": {"type": "string", "minLength": 1}
+      }
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "opKey", "scope", "fieldPath", "decision", "facts", "evidence", "decidedAt", "decidedBy"],
+      "properties": {
+        "source": {"$ref": "#/$defs/sourceId"},
+        "opKey": {"$ref": "#/$defs/opKey"},
+        "scope": {"$ref": "#/$defs/scope"},
+        "branch": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Scenario-tab label when the adjudicated subtree lives inside one branch; absent = unbranched, and matching requires the drift entry to be unbranched too."
+        },
+        "fieldPath": {"$ref": "#/$defs/fieldPath"},
+        "decision": {
+          "enum": ["upstream-truth", "spec-divergence"],
+          "description": "upstream-truth = code/wire-verified upstream behavior the docs must align to; spec-divergence = the upstream spec and the deployed wire disagree and the wire wins."
+        },
+        "facts": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/fact"}},
+        "specLiterals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "description": "Literals the upstream payload must still contain for the fact to count as confirmed this round; when the matched drift entry carries upstream bytes and any literal is missing, the adjudication degrades to stale and the question re-opens. Absent = the cheap staleness check cannot run and the entry stays applicable (the decide report and the refresh PR body still carry decidedAt plus the evidence PR per key)."
+        },
+        "evidence": {"$ref": "#/$defs/evidence"},
+        "decidedAt": {"$ref": "#/$defs/isoDate"},
+        "decidedBy": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

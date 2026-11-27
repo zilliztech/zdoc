@@ -1,11 +1,12 @@
 import { basename } from 'node:path'
+import { deserialize, serialize } from 'node:v8'
 import { groupFile } from './group-context'
 import { addLegacyCloudAnchors, aliasChannelHeadings } from './channel-heading-aliases'
 import { parsePageConfig, parseSourceConfig } from '../core/config'
 import { cloudAnchor, collectReferences, headingText, rewriteLinksAndImages, imageDigest } from '../core/links'
 import type { ImageRecord, LinkMap, Notice, PreparedLinkInputs } from '../core/links'
 import { adaptPage } from '../core/site'
-import type { AdaptedPage, TabsRules } from '../core/site'
+import type { AdaptedPage, AdaptPageInput, AdaptResult, TabsRules } from '../core/site'
 import { checkProductNames } from '../core/product-names'
 import { scanProductNames } from '../core/product-names/scan'
 import type { ProductNameDetail, ProductNameRules, ProductNameSource } from '../core/product-names'
@@ -305,9 +306,50 @@ export interface BuildPageInput {
   /** Detached actual adaptation evidence. Observer exceptions cannot change generation. */
   observe?: (observation: BuildPageObservation) => void
 }
-export async function buildPage(input: BuildPageInput): Promise<BuildPageResult> {
+type ChannelInput = Omit<AdaptPageInput, 'headingAnchor'>
+type ChannelAdapter = (input: ChannelInput, targetPath: string) => AdaptResult
+
+function adaptBuildChannel(input: ChannelInput): AdaptResult {
+  const result = adaptPage({ ...input, headingAnchor: text => cloudAnchor(headingText(text)) })
+  return 'errors' in result ? result : addLegacyCloudAnchors(result)
+}
+
+/** A single historical collector owns this cache. Rewriting links and verifying images
+ * precede adaptation on every commit; origins and observations are rebuilt afterwards. */
+export function createHistoricalPageBuilder(): typeof buildPage {
+  const maxBytes = 4 * 1024 * 1024, maxEntries = 32
+  const entries = new Map<string, { output: Buffer; bytes: number }>()
+  let used = 0
+  const adaptChannel: ChannelAdapter = (input, targetPath) => {
+    // All variable inputs are structured data. The heading algorithm is fixed above.
+    if (2 * input.markdown.length >= maxBytes) return adaptBuildChannel(input)
+    const key = serialize([targetPath, input]).toString('base64')
+    const hit = entries.get(key)
+    if (hit) return deserialize(hit.output) as AdaptedPage
+    const result = adaptBuildChannel(input)
+    if ('errors' in result || 2 * key.length >= maxBytes) return result
+    const output = serialize(result)
+    const bytes = 2 * key.length + output.length + 1024
+    if (bytes > maxBytes) return result
+    while (entries.size >= maxEntries || used + bytes > maxBytes) {
+      const oldest = entries.keys().next().value!
+      used -= entries.get(oldest)!.bytes
+      entries.delete(oldest)
+    }
+    entries.set(key, { output, bytes })
+    used += bytes
+    return result
+  }
+  return input => buildWithObservations(input, adaptChannel)
+}
+
+export function buildPage(input: BuildPageInput): Promise<BuildPageResult> {
+  return buildWithObservations(input, adaptBuildChannel)
+}
+
+async function buildWithObservations(input: BuildPageInput, adaptChannel: ChannelAdapter): Promise<BuildPageResult> {
   const channels: BuildChannelObservation[] | undefined = input.observe ? [] : undefined
-  const result = await generatePage(input, channels)
+  const result = await generatePage(input, adaptChannel, channels)
   if (input.observe) {
     const observation = structuredClone({ pageId: input.pageId, channels: channels!, errors: 'errors' in result ? result.errors : [] })
     try { input.observe(observation) } catch { /* Observation is isolated from the generation transaction. */ }
@@ -315,7 +357,7 @@ export async function buildPage(input: BuildPageInput): Promise<BuildPageResult>
   return result
 }
 
-async function generatePage(input: BuildPageInput, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
+async function generatePage(input: BuildPageInput, adaptChannel: ChannelAdapter, observations?: BuildChannelObservation[]): Promise<BuildPageResult> {
   const { pageId, sharedDocs: shared, reader, runtime, finalizeMdx = toMdx } = input
   const page = shared.pages.get(pageId)
   if (!page) throw new Error(`Unknown shared page: ${pageId}`)
@@ -432,12 +474,11 @@ async function generatePage(input: BuildPageInput, observations?: BuildChannelOb
         pathLinks: !!layout, ...(channelAbsent.size ? { channelAbsent } : {}) })
       if ('errors' in rewritten) { errors.push(...mappedErrors(rewritten.errors)); continue }
       for (const image of rewritten.images) if (!runtime.fetchContext?.recordedImages?.has(image.original)) runtime.fetchContext?.recordedImages?.set(image.original, image.sha256)
-      const adaptation = adaptPage({ markdown: rewritten.markdown, pageId, manual: target.manual,
+      const adapted = adaptChannel({ markdown: rewritten.markdown, pageId, manual: target.manual,
         ...(presentation(target.manual) ? { presentation: presentation(target.manual) } : {}),
         metadata: config.metadata, tabsRules: shared.tabsRules, betaValues: shared.context.betaValues,
-        headingAnchor: text => cloudAnchor(headingText(text)), navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location })
-      if ('errors' in adaptation) { errors.push(...mappedErrors(adaptation.errors)); continue }
-      const adapted = addLegacyCloudAnchors(adaptation)
+        navigation: dev.navigation, customEditUrl, releaseChannel: dev.fetch?.channel, context: location }, target.path)
+      if ('errors' in adapted) { errors.push(...mappedErrors(adapted.errors)); continue }
       const origins = adapted.provenance.inputLines.map((_, index): MergeOrigin[] => {
         const origin = version.provenance?.[index]?.origin
         return [{ channel, file: origin?.file ?? version.variant?.file ?? source, line: origin?.line ?? originalPageLine(index + 1, version.blocks) }]

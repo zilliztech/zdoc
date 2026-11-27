@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "contractId": "zh-CN-guides-2026-11-26-v1",
+  "target": "zh-CN-guides",
+  "locale": "zh-CN",
+  "extends": "./zh-CN-common.json",
+  "styleRules": [
+    "Preserve <UI>...</UI> console interface terms verbatim without translating them freely so reviewers can align them with the Chinese console UI.",
+    "Preserve <NextChannel action=\"include\"> and <NextChannel action=\"exclude\"> release-channel boundaries without inventing, dropping, or flipping tags.",
+    "Do not introduce Global-only product claims, quotas, regions, or behaviors into Simplified Chinese site documentation."
+  ]
+}

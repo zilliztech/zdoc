@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+import base64
+from copy import deepcopy
 import json
 import io
 from contextlib import redirect_stdout
@@ -60,6 +62,157 @@ class Fetch:
 
 
 class PreparationTest(unittest.TestCase):
+    def test_equivalent_source_requires_exact_flat_variable_measurements(self):
+        variables = {'product': 'Zilliz Cloud'}
+        dep = dict(kind='variable', identity='product', state='resolved', sha256=p.sha256(b'"Zilliz Cloud"'))
+        source = b'{{var.Product}} / {{var.PRODUCT}}'
+        p._batch_equivalent_source(source, variables, [dep])
+        for content, manifest, deps in [
+            (source, variables, []), (source, variables, [dict(dep, sha256='1' * 64)]),
+            (source, variables, [dep, dep]), (source, dict(variables, PRODUCT='other'), [dep]),
+            (source, {'product': '{{ fragment }}'}, [dep]), (b'![img](a)', {}, []), (b'<Img />', {}, []),
+            (b'{{fragments/p.md}}', {}, []), (b'\xff', {}, []), (' \ufeff \ufeff '.encode(), {}, [])
+        ]:
+            with self.subTest(content=content, manifest=manifest, deps=deps), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                p._batch_equivalent_source(content, manifest, deps)
+
+    def test_equivalent_intervals_require_native_render_with_same_source_context(self):
+        page = 'page'
+        prefix = f'shared-docs/guides/pages/{page}/'
+        source = 'site/en/source.md'
+        targets = [dict(manual='guides', path='docs/page'), dict(manual='guides-byoc', path='docs/page')]
+        config = dict(pageId=page, sourceFile=source, files=[
+            dict(path=prefix + 'page.yaml', ref='yaml'), dict(path=prefix + 'lock.yaml', ref='lock'),
+            dict(path='shared-docs/guides/Variables.json', ref='vars')])
+        yaml = b'schema_version: 1\nsource:\n  file: site/en/source.md\npublish:\n  - manual: guides\n    path: docs/page\n  - manual: guides-byoc\n    path: docs/page\n'
+        native = dict(commit=SOURCE, sourceFile=source, rawRef='raw-native', inventoryRef='inv-native',
+                      manuals=[dict(target, ref='manual-' + target['manual']) for target in targets],
+                      imagesRef='images', diagnosticsRef='diagnostics', dependencies=[], outputStatus='observed', imageStatus='observed')
+        alias = dict(native, commit=MASTER, rawRef='raw-alias', inventoryRef='inv-alias', equivalentTo=SOURCE)
+        history = dict(interval=[alias, native], commitProofRef='commits', inventoryProofRef='inventory')
+        entries = [dict(path=source, ref='source', oid=CURRENT)]
+        inv = dict(treeOid=DEV, kind='guides-batch-git-inventory-v1', commitRef='commit', absentPaths=[])
+        records = dict(yaml=yaml, vars=b'{}', source=b'Markdown', diagnostics=dict(errors=[], rawErrors=[], reasons=[]),
+                       images=[dict(role=r, images=[]) for r in ('current', 'oldNext', 'target')])
+        records.update({'inv-native': dict(inv, commit=SOURCE), 'inv-alias': dict(inv, commit=MASTER),
+                        'raw-native': dict(commit=SOURCE, entries=entries), 'raw-alias': dict(commit=MASTER, entries=entries)})
+
+        def verify(change=None, endpoints=(), rules=()):
+            values, conf, hist = deepcopy((records, config, history))
+            if change:
+                change(values, conf, hist)
+            reader = Mock()
+            reader.object.side_effect = lambda ref, fields: p.batch_exact(values[ref], fields)
+            reader.blob.side_effect = lambda ref, **kwargs: values[ref]
+            p._batch_verify_equivalent_intervals(reader, conf, targets, endpoints, hist, rules)
+
+        verify()
+        for change in [
+            lambda v, c, h: h.pop('commitProofRef'), lambda v, c, h: h['interval'][1].update(equivalentTo=MASTER),
+            lambda v, c, h: v['inv-alias'].update(treeOid=CURRENT),
+            lambda v, c, h: v['raw-alias'].update(entries=[]),
+            lambda v, c, h: h['interval'][0].update(manuals=[]),
+            lambda v, c, h: c['files'].append(dict(path=prefix + 'replace.md', ref='replacement')),
+            lambda v, c, h: v.update(yaml=yaml + b'transforms: []\n'),
+            lambda v, c, h: v['diagnostics']['reasons'].append('held'),
+            lambda v, c, h: v['images'][0]['images'].append({'id': 'unexpected'}),
+        ]:
+            with self.subTest(change=change), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(change)
+        for point in (MASTER, SOURCE):
+            with self.subTest(endpoint=point), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(endpoints=[point])
+            with self.subTest(rule=point), self.assertRaisesRegex(p.Hold, p._EQUIVALENCE_ERROR):
+                verify(rules={(page, point)})
+
+    def test_historical_render_views_bind_exact_git_bytes_and_both_sides_of_each_edit(self):
+        registry = p._batch_load_historical_rules()
+        checkout = HERE.parents[2]
+        fixture = checkout / 'packages/docs-tooling/src/shared-docs/fixtures/historical-render'
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / 'blobs').mkdir()
+        root_fd, blobs_fd = (os.open(folder, os.O_RDONLY | os.O_DIRECTORY) for folder in (root, root / 'blobs'))
+        self.addCleanup(os.close, root_fd)
+        self.addCleanup(os.close, blobs_fd)
+        reader = p._BatchReader(root_fd, blobs_fd, dict(rootIdentity=p._BatchReader.identity(root_fd),
+                                                        blobsIdentity=p._BatchReader.identity(blobs_fd)))
+
+        def store(raw):
+            digest = p.sha256(raw)
+            path = 'blobs/' + digest
+            (root / path).write_bytes(raw)
+            return dict(path=path, sha256=digest, bytes=len(raw))
+
+        variables = (checkout / 'shared-docs/guides/Variables.json').read_bytes()
+        variable_ref = store(variables)
+        for rule in json.loads((HERE / 'historical-render-rules.json').read_bytes())['rules']:
+            page, source = rule['pageId'], rule['sourceFile']
+            config = dict(pageId=page, sourceFile=source, files=[dict(path='shared-docs/guides/Variables.json', ref=variable_ref)])
+            original = base64.b64decode((fixture / (page + '.md.base64')).read_bytes())
+            raw_ref = store(original)
+            raw = dict(entries=[dict(path=source, oid=rule['rawOid'], ref=raw_ref)])
+            view = original
+            for edit in reversed(rule['edits']):
+                offset, before = edit['offset'], edit['before'].encode()
+                self.assertEqual(view[offset:offset + len(before)], before)
+                view = view[:offset] + edit['after'].encode() + view[offset + len(before):]
+            view_ref = store(view)
+            self.assertEqual(view_ref['sha256'], rule['renderSha256'])
+            keys = ['product_name'] if page == 'manage-collections' else ['example_endpoint', 'example_token', 'product_name']
+            deps = [dict(kind='variable', identity=key, state='resolved', sha256=p.sha256(json.dumps(
+                json.loads(variables)[key], ensure_ascii=False).encode())) for key in keys]
+            for commit in rule['commits']:
+                witness = dict(pageId=page, sourceFile=source, commit=commit, rawOid=rule['rawOid'],
+                               rawSha256=raw_ref['sha256'], viewRef=view_ref, rulesSha256=registry[0])
+                observation = dict(commit=commit, sourceFile=source, historicalView=witness, dependencies=deps,
+                                   outputStatus='observed', imageStatus='observed')
+
+                metadata = {rule['rawOid']: dict(id=page + '.md', title=(
+                    'Collection Explained' if page == 'manage-collections' else 'Basic Vector Search'))}
+
+                def verify(obs=observation, cfg=config, tree=raw, pins=(CURRENT, DEV, SOURCE), discovery=metadata):
+                    return p._batch_verify_historical_view(reader, registry, cfg, pins, obs, tree, discovery)
+
+                verify()
+            foreign = {**observation, 'commit': MASTER}
+            no_view = {k: v for k, v in observation.items() if k != 'historicalView'}
+            verify(obs={**no_view, 'commit': MASTER})
+            verify(obs=no_view, pins=(commit, DEV, SOURCE))
+            invalid = [
+                dict(obs=foreign), dict(obs=no_view), dict(discovery=None),
+                dict(discovery={rule['rawOid']: dict(id=page + '.md', title='another title')}),
+                dict(cfg={**config, 'pageId': 'other'}), dict(cfg={**config, 'sourceFile': 'site/en/other.md'}),
+                dict(tree=dict(entries=[])), dict(tree=dict(entries=[{**raw['entries'][0], 'ref': view_ref}])),
+                dict(obs={**observation, 'outputStatus': 'error'}), dict(obs={**observation, 'dependencies': []}),
+                dict(cfg={**config, 'files': []}), dict(obs={**observation, 'dependencies': [{**deps[0], 'sha256': '0'*64}, *deps[1:]]}),
+                *(dict(pins=pins) for pins in ((commit, DEV, SOURCE), (CURRENT, commit, SOURCE), (CURRENT, DEV, commit))),
+                *(dict(obs={**observation, 'historicalView': {**witness, **change}}) for change in (
+                    dict(commit=MASTER), dict(rawOid=rule['markedOid']), dict(rawSha256=view_ref['sha256']),
+                    dict(rulesSha256='0'*64), dict(viewRef=raw_ref), dict(extra=True))),
+            ]
+            for change in invalid:
+                with self.subTest(page=page, change=change), self.assertRaises(p.Hold):
+                    verify(**change)
+            (root / view_ref['path']).write_bytes(b'x' * view_ref['bytes'])
+            with self.assertRaisesRegex(p.Hold, 'BATCH_BLOB_BINDING_INVALID'):
+                verify()
+
+    def test_historical_rules_reject_unreviewed_edit_shapes_and_ambiguous_point_keys(self):
+        table = json.loads((HERE / 'historical-render-rules.json').read_bytes())
+        for alter in (
+            lambda rule: rule.update(extra=True),
+            lambda rule: rule['commits'].insert(0, rule['commits'][0]),
+            lambda rule: rule['edits'][0].update(offset=True),
+            lambda rule: rule['edits'][0].update(after='unrelated replacement'),
+            lambda rule: rule['edits'][1].update(offset=rule['edits'][0]['offset']),
+        ):
+            changed = deepcopy(table)
+            alter(changed['rules'][0])
+            with self.subTest(alter=alter), self.assertRaises(p.Hold):
+                p._batch_historical_rules(json.dumps(changed).encode())
+
     def test_batch_independent_selection_rechecks_every_collateral_edge(self):
         pages = ['earlier', 'later-a', 'later-b']
         roots = [dict(sourceFile='site/en/' + page + '.md') for page in pages]
@@ -79,15 +232,19 @@ class PreparationTest(unittest.TestCase):
         self.assertEqual(evidence[('earlier', '0:one:two:site/en/earlier.md')][0], 'held')
         self.assertEqual(evidence[('later-b', '2:three:four:site/en/later-b.md')][0], 'consumed')
         for suspect in [dict(history[0], seedKey='later'), dict(history[0], associationResult='unknown'),
-                        edge('site/en/Variables.json', 'one', 'two', 'early'),
                         edge('assets/image.png', 'one', 'two', 'early')]:
             with self.subTest(suspect=suspect), self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_EDGE_UNPROVEN'):
                 verify([*history, suspect])
+        # Non-consumable repo metadata and upstream Variables.json (ignored by shared-docs)
+        # on a stopped commit must not spuriously block an independent batch.
+        for benign in ('scripts/config.json', 'site/en/menuStructure/en.json', 'site/en/Variables.json', 'site/zh-CN/doc.md', '.github/workflows/ci.yml'):
+            with self.subTest(benign=benign):
+                self.assertEqual(len(verify([*history, edge(benign, 'one', 'two', 'early')])), 9)
 
     def test_batch_adoption_boundary_checks_decoded_cross_component_anchor(self):
-        refs = dict(producer=dict(observations=[{}, {}, dict(manuals=[dict(manual='guides', ref='link')])],
+        refs = dict(producer=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[dict(manual='guides', ref='link')])],
                                   promotionAnchors=[]),
-                    target=dict(observations=[{}, {}, dict(manuals=[])], promotionAnchors=[
+                    target=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[])], promotionAnchors=[
                         dict(kind='renamed', status='confirmed', manual='guides', after=dict(anchor='new-heading'))]),
                     link=dict(references=[]))
         headers = {key: dict(projectionRef=key) for key in ('producer', 'target')}
@@ -101,6 +258,28 @@ class PreparationTest(unittest.TestCase):
         refs['link']['references'] = [dict(url='./target#%ZZ')]
         with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ROUTE_UNPROVEN'):
             p._batch_verify_adoption_boundary(reader, headers, {'target'})
+
+    def test_batch_adoption_boundary_guards_unrendered_collateral_pages(self):
+        refs = dict(
+            broken=dict(observations=[{}, {}, dict(outputStatus='error', manuals=[])], promotionAnchors=[]),
+            clean=dict(observations=[{}, {}, dict(outputStatus='observed', manuals=[dict(manual='guides', ref='clean_link')])],
+                       promotionAnchors=[dict(kind='unchanged', status='confirmed', manual='guides')]),
+            clean_link=dict(references=[]),
+        )
+        headers = {key: dict(projectionRef=key) for key in ('broken', 'clean')}
+        reader = Mock()
+        reader.blob.side_effect = lambda ref, parse: refs[ref]
+        # Clean member with 100% confirmed unchanged headings and no #anchor links to broken passes.
+        p._batch_verify_adoption_boundary(reader, headers, {'clean'})
+        # Member linking with #anchor to the unrendered collateral page must fail closed.
+        refs['clean_link']['references'] = [dict(url='./broken#some-heading')]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ADOPTION_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'clean'})
+        refs['clean_link']['references'] = []
+        # Member with any renamed/non-unchanged heading must fail closed when a collateral target is unrendered.
+        refs['clean']['promotionAnchors'] = [dict(kind='renamed', status='confirmed', manual='guides', after=dict(anchor='new'))]
+        with self.assertRaisesRegex(p.Hold, 'BATCH_COLLATERAL_ADOPTION_UNPROVEN'):
+            p._batch_verify_adoption_boundary(reader, headers, {'clean'})
 
     def test_observed_batch_material_rejects_replay_detail_field(self):
         reader = Mock()

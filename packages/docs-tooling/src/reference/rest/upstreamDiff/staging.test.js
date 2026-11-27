@@ -90,3 +90,41 @@ test('staging layout is deterministic and carries a manifest with per-file diges
         for (const dir of [first, second, root]) fs.rmSync(dir, {recursive: true, force: true})
     }
 })
+
+test('an adjudications file rides the staged meta only when the caller passes one', () => {
+    const stagingDir = tmpDir('rest-upstream-staging-adj-')
+    const root = tmpDir('rest-upstream-staging-adj-root-')
+    try {
+        const {diff, markdown} = fixture()
+        const options = {
+            repositoryRoot: root,
+            diff,
+            diffMarkdown: markdown,
+            specSha256: 'f'.repeat(64),
+            upstreamCommit: diff.upstreamPin,
+            fragments: new Map([['21-project-operations-v2.json', {openapi: '3.0.1', paths: {}}]]),
+            fragmentFiles: ['21-project-operations-v2.json'],
+            rulesPath: path.join(__dirname, '..', 'meta', 'upstream', 'refresh-rules.json'),
+            titlesPath: path.join(__dirname, '..', 'meta', 'titles.json'),
+            ledgerPath: path.join(__dirname, '..', 'meta', 'upstream', 'ledger.json'),
+            lockPath: path.join(__dirname, '..', 'meta', 'upstream', 'rest-upstream-lock.json'),
+            adjudicationsPath: path.join(__dirname, '..', 'meta', 'upstream', 'adjudications.json'),
+        }
+        const manifest = prepareRestUpstreamStaging({stagingDir, ...options})
+        assert.deepEqual(manifest.files.map(file => file.path), [
+            'diff/diff.json',
+            'diff/diff.md',
+            'fragments/21-project-operations-v2.json',
+            'meta/adjudications.json',
+            'meta/ledger.json',
+            'meta/lock.json',
+            'meta/titles.json',
+            'rules/refresh-rules.json',
+        ])
+        const staged = JSON.parse(fs.readFileSync(path.join(stagingDir, 'meta', 'adjudications.json'), 'utf8'))
+        assert.equal(staged.schemaVersion, 1)
+        assert.ok(staged.adjudications.length > 0)
+    } finally {
+        for (const dir of [stagingDir, root]) fs.rmSync(dir, {recursive: true, force: true})
+    }
+})

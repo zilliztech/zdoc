@@ -3430,6 +3430,19 @@ exclude:
   - Management/getQuerySegmentInfo.md
   - Management/loadBalance.md
   - Vector/OrderByFields.md
+  - Client/allocTimestamp.md
+  - Client/deleteClientCommand.md
+  - Client/getClientTelemetry.md
+  - Client/getComponentStates.md
+  - Client/pushClientCommand.md
+  - Client/registerLink.md
+  - Collections/computePhraseMatchSlop.md
+  - Management/batchUpdateManifest.md
+  - Snapshot/exportSnapshot.md
+  - Snapshot/getExportSnapshotState.md
+  - Snapshot/restoreExternalSnapshot.md
+  - Vector/FunctionChain.md
+  - Vector/Highlighter.md
 milvus_values:
   endpoint: "'localhost:19530'"
   token: root:Milvus

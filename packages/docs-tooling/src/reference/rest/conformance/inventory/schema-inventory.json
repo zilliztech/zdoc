@@ -5,14 +5,14 @@
   "01-import-operations.json": "f60830d79ab1",
   "02-collection-operations.json": "ae8c57b09ca4",
   "03-vector-operations.json": "27bc31e809dd",
-  "04-vector-operations-v2.json": "59b321927f80",
-  "05-collection-operations-v2.json": "889a358910b3",
+  "04-vector-operations-v2.json": "cfdb0982b537",
+  "05-collection-operations-v2.json": "55d2f15f31ec",
   "06-database-operations-v2.json": "6c78a736fb94",
   "07-index-operations-v2.json": "653db572c7df",
   "08-partition-operations-v2.json": "77c60f81b12a",
   "09-role-operations-v2.json": "7930c706c338",
   "10-resource-group-v2.json": "f3d4eac72970",
-  "11-import-operations-v2.json": "94d884b27c79",
+  "11-import-operations-v2.json": "0f20282ead8d",
   "12-alias-operations-v2.json": "d1bebc1a999e",
   "13-user-operations-v2.json": "10756aa34d80",
   "14-privilege-group-operations-v2.json": "813768dc3ff8",
@@ -23,15 +23,15 @@
   "19-extract-load-and-transform-v2.json": "d94b1ce6f5d1",
   "20-volume-operations-v2.json": "b81e8c51da3b",
   "21-project-operations-v2.json": "ac3db53599f7",
-  "22-cluster-operations-v2.json": "a279c133fb07",
+  "22-cluster-operations-v2.json": "96d0d9d11cef",
   "23-cloud-migration-v2.json": "b5bb01e8bf7c",
-  "24-backup-and-restore-v2.json": "9150f5777384",
+  "24-backup-and-restore-v2.json": "ff9aebb65bc1",
   "25-metrics-and-alerts-v2.json": "8291ec548711",
   "26-cloud-job-v2.json": "ced1a80f1f94",
   "27-invoices-v2.json": "e6d0377f311f",
   "28-usage-v2.json": "846526bc2445",
   "29-on-demand-compute-v2.json": "575ed891c53d",
-  "30-global-clusters.json": "45194586adcb",
+  "30-global-clusters.json": "9cba0ce6ed90",
   "31-storage-integration-v2.json": "c046a25cf024",
   "32-spark-job-v2.json": "e02b883ff933",
   "33-on-demand-cluster-operations-v2.json": "075f13ca6cfc",
@@ -2249,23 +2249,13 @@
       {
        "name": "data",
        "in": "body",
-       "type": "oneOf",
+       "type": "array",
        "required": false,
-       "branches": [
-        {
-         "type": "object",
-         "fields": [],
-         "required": []
-        },
-        {
-         "type": "array",
-         "items": {
-          "type": "object",
-          "fields": [],
-          "required": []
-         }
-        }
-       ]
+       "items": {
+        "type": "object",
+        "fields": [],
+        "required": []
+       }
       },
       {
        "name": "partitionName",
@@ -2482,10 +2472,13 @@
       {
        "name": "data",
        "in": "body",
-       "type": "object",
-       "required": [],
-       "fields": [],
-       "dynamic": true
+       "type": "array",
+       "required": false,
+       "items": {
+        "type": "object",
+        "fields": [],
+        "required": []
+       }
       },
       {
        "name": "partialUpdate",
@@ -3211,15 +3204,6 @@
           "required": false
          },
          {
-          "name": "stage",
-          "in": "body",
-          "type": "string",
-          "required": false,
-          "enum": [
-           "FunctionChainStageL2Rerank"
-          ]
-         },
-         {
           "name": "ops",
           "in": "body",
           "type": "array",
@@ -3228,23 +3212,11 @@
            "type": "object",
            "fields": [
             {
-             "name": "op",
-             "in": "body",
-             "type": "string",
-             "required": false
-            },
-            {
              "name": "expr",
              "in": "body",
              "type": "object",
              "required": [],
              "fields": [
-              {
-               "name": "name",
-               "in": "body",
-               "type": "string",
-               "required": false
-              },
               {
                "name": "args",
                "in": "body",
@@ -3270,6 +3242,12 @@
                }
               },
               {
+               "name": "name",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
                "name": "params",
                "in": "body",
                "type": "object",
@@ -3287,6 +3265,12 @@
              "items": {
               "type": "string"
              }
+            },
+            {
+             "name": "op",
+             "in": "body",
+             "type": "string",
+             "required": false
             },
             {
              "name": "outputs",
@@ -3308,6 +3292,12 @@
            ],
            "required": []
           }
+         },
+         {
+          "name": "stage",
+          "in": "body",
+          "type": "string",
+          "required": false
          }
         ],
         "required": []
@@ -3782,19 +3772,19 @@
           "name": "annsField",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "filter",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "groupingField",
           "in": "body",
           "type": "string",
-          "required": true
+          "required": false
          },
          {
           "name": "metricType",
@@ -3818,13 +3808,7 @@
           "name": "offset",
           "in": "body",
           "type": "integer",
-          "required": true
-         },
-         {
-          "name": "ignoreGrowing",
-          "in": "body",
-          "type": "boolean",
-          "required": true
+          "required": false
          },
          {
           "name": "params",
@@ -3854,16 +3838,107 @@
           "type": "object",
           "required": [],
           "fields": []
+         },
+         {
+          "name": "functionChains",
+          "in": "body",
+          "type": "array",
+          "required": false,
+          "items": {
+           "type": "object",
+           "fields": [
+            {
+             "name": "name",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "ops",
+             "in": "body",
+             "type": "array",
+             "required": false,
+             "items": {
+              "type": "object",
+              "fields": [
+               {
+                "name": "expr",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "args",
+                  "in": "body",
+                  "type": "array",
+                  "required": false
+                 },
+                 {
+                  "name": "name",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "params",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [],
+                  "dynamic": true
+                 }
+                ]
+               },
+               {
+                "name": "inputs",
+                "in": "body",
+                "type": "array",
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
+               },
+               {
+                "name": "op",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "outputs",
+                "in": "body",
+                "type": "array",
+                "required": false,
+                "items": {
+                 "type": "string"
+                }
+               },
+               {
+                "name": "params",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [],
+                "dynamic": true
+               }
+              ],
+              "required": []
+             }
+            },
+            {
+             "name": "stage",
+             "in": "body",
+             "type": "string",
+             "required": false
+            }
+           ],
+           "required": []
+          }
          }
         ],
         "required": [
          "data",
-         "annsField",
-         "filter",
-         "groupingField",
-         "limit",
-         "offset",
-         "ignoreGrowing"
+         "limit"
         ]
        }
       },
@@ -3873,16 +3948,6 @@
        "type": "object",
        "required": [],
        "fields": [
-        {
-         "name": "strategy",
-         "in": "body",
-         "type": "string",
-         "required": false,
-         "enum": [
-          "rrf",
-          "weighted"
-         ]
-        },
         {
          "name": "params",
          "in": "body",
@@ -3895,6 +3960,16 @@
            "type": "integer",
            "required": false
           }
+         ]
+        },
+        {
+         "name": "strategy",
+         "in": "body",
+         "type": "string",
+         "required": false,
+         "enum": [
+          "rrf",
+          "weighted"
          ]
         }
        ]
@@ -4897,6 +4972,294 @@
                 "in": "body",
                 "type": "unresolved",
                 "required": false
+               },
+               {
+                "name": "description",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "externalField",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "typeParams",
+                "in": "body",
+                "type": "ref",
+                "required": false
+               },
+               {
+                "name": "fields",
+                "in": "body",
+                "type": "array",
+                "required": false,
+                "items": {
+                 "type": "object",
+                 "fields": [
+                  {
+                   "name": "fieldName",
+                   "in": "body",
+                   "type": "string",
+                   "required": true
+                  },
+                  {
+                   "name": "dataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": true,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar",
+                    "Array",
+                    "Json",
+                    "Geometry",
+                    "BinaryVector",
+                    "FloatVector",
+                    "Float16Vector",
+                    "BFloat16Vector",
+                    "SparseFloatVector",
+                    "Int8Vector"
+                   ]
+                  },
+                  {
+                   "name": "elementDataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar"
+                   ]
+                  },
+                  {
+                   "name": "externalField",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "isPrimary",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isPartitionKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isClusteringKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "elementTypeParams",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "max_length",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "dim",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "max_capacity",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "description",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "fields",
+                   "in": "body",
+                   "type": "array",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "defaultValue",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "elementNullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "typeSchema",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": false
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  }
+                 ],
+                 "required": [
+                  "fieldName",
+                  "dataType"
+                 ]
+                }
+               },
+               {
+                "name": "elementNullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "typeSchema",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "leafType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "arrayElement",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": [],
+                    "fields": [
+                     {
+                      "name": "leafType",
+                      "in": "body",
+                      "type": "string",
+                      "required": false
+                     },
+                     {
+                      "name": "arrayElement",
+                      "in": "body",
+                      "type": "object",
+                      "required": false
+                     },
+                     {
+                      "name": "typeParams",
+                      "in": "body",
+                      "type": "ref",
+                      "required": false
+                     },
+                     {
+                      "name": "nullable",
+                      "in": "body",
+                      "type": "boolean",
+                      "required": false
+                     }
+                    ]
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 }
+                ]
                }
               ],
               "required": [
@@ -4915,6 +5278,18 @@
              "name": "structFields",
              "in": "body",
              "type": "unresolved",
+             "required": false
+            },
+            {
+             "name": "externalSource",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "externalSpec",
+             "in": "body",
+             "type": "string",
              "required": false
             }
            ],
@@ -5218,13 +5593,7 @@
                 ]
                },
                {
-                "name": "nullable",
-                "in": "body",
-                "type": "boolean",
-                "required": false
-               },
-               {
-                "name": "defaultValue",
+                "name": "externalField",
                 "in": "body",
                 "type": "string",
                 "required": false
@@ -5274,10 +5643,298 @@
                 ]
                },
                {
-                "name": "externalField",
+                "name": "description",
                 "in": "body",
                 "type": "string",
                 "required": false
+               },
+               {
+                "name": "typeParams",
+                "in": "body",
+                "type": "ref",
+                "required": false
+               },
+               {
+                "name": "fields",
+                "in": "body",
+                "type": "array",
+                "required": false,
+                "items": {
+                 "type": "object",
+                 "fields": [
+                  {
+                   "name": "fieldName",
+                   "in": "body",
+                   "type": "string",
+                   "required": true
+                  },
+                  {
+                   "name": "dataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": true,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar",
+                    "Array",
+                    "Json",
+                    "Geometry",
+                    "BinaryVector",
+                    "FloatVector",
+                    "Float16Vector",
+                    "BFloat16Vector",
+                    "SparseFloatVector",
+                    "Int8Vector"
+                   ]
+                  },
+                  {
+                   "name": "elementDataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar"
+                   ]
+                  },
+                  {
+                   "name": "externalField",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "isPrimary",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isPartitionKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isClusteringKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "elementTypeParams",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "max_length",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "dim",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "max_capacity",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "description",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "fields",
+                   "in": "body",
+                   "type": "array",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "defaultValue",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "elementNullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "typeSchema",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": false
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  }
+                 ],
+                 "required": [
+                  "fieldName",
+                  "dataType"
+                 ]
+                }
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "defaultValue",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "elementNullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               },
+               {
+                "name": "typeSchema",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "leafType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "arrayElement",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": [],
+                    "fields": [
+                     {
+                      "name": "leafType",
+                      "in": "body",
+                      "type": "string",
+                      "required": false
+                     },
+                     {
+                      "name": "arrayElement",
+                      "in": "body",
+                      "type": "object",
+                      "required": false
+                     },
+                     {
+                      "name": "typeParams",
+                      "in": "body",
+                      "type": "ref",
+                      "required": false
+                     },
+                     {
+                      "name": "nullable",
+                      "in": "body",
+                      "type": "boolean",
+                      "required": false
+                     }
+                    ]
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 }
+                ]
                }
               ],
               "required": [
@@ -5411,19 +6068,150 @@
                     "Float",
                     "Double",
                     "VarChar",
+                    "Array",
+                    "Json",
+                    "Geometry",
                     "BinaryVector",
                     "FloatVector",
                     "Float16Vector",
                     "BFloat16Vector",
+                    "SparseFloatVector",
                     "Int8Vector"
                    ]
+                  },
+                  {
+                   "name": "elementDataType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false,
+                   "enum": [
+                    "Bool",
+                    "Int8",
+                    "Int16",
+                    "Int32",
+                    "Int64",
+                    "Float",
+                    "Double",
+                    "VarChar"
+                   ]
+                  },
+                  {
+                   "name": "externalField",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "isPrimary",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isPartitionKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "isClusteringKey",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
                   },
                   {
                    "name": "elementTypeParams",
                    "in": "body",
                    "type": "object",
                    "required": [],
-                   "fields": []
+                   "fields": [
+                    {
+                     "name": "max_length",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "dim",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    },
+                    {
+                     "name": "max_capacity",
+                     "in": "body",
+                     "type": "integer",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "description",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "fields",
+                   "in": "body",
+                   "type": "array",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "defaultValue",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "elementNullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  },
+                  {
+                   "name": "typeSchema",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": false
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
                   }
                  ],
                  "required": [
@@ -5447,12 +6235,17 @@
                   "required": true
                  }
                 ]
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
                }
               ],
               "required": [
                "fieldName",
-               "fields",
-               "typeParams"
+               "fields"
               ]
              }
             }
@@ -7811,13 +8604,7 @@
          ]
         },
         {
-         "name": "nullable",
-         "in": "body",
-         "type": "boolean",
-         "required": false
-        },
-        {
-         "name": "defaultValue",
+         "name": "externalField",
          "in": "body",
          "type": "string",
          "required": false
@@ -7867,10 +8654,906 @@
          ]
         },
         {
-         "name": "externalField",
+         "name": "description",
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "typeParams",
+         "in": "body",
+         "type": "ref",
+         "required": false
+        },
+        {
+         "name": "fields",
+         "in": "body",
+         "type": "array",
+         "required": false,
+         "items": {
+          "type": "object",
+          "fields": [
+           {
+            "name": "fieldName",
+            "in": "body",
+            "type": "string",
+            "required": true
+           },
+           {
+            "name": "dataType",
+            "in": "body",
+            "type": "string",
+            "required": true,
+            "enum": [
+             "Bool",
+             "Int8",
+             "Int16",
+             "Int32",
+             "Int64",
+             "Float",
+             "Double",
+             "VarChar",
+             "Array",
+             "Json",
+             "Geometry",
+             "BinaryVector",
+             "FloatVector",
+             "Float16Vector",
+             "BFloat16Vector",
+             "SparseFloatVector",
+             "Int8Vector"
+            ]
+           },
+           {
+            "name": "elementDataType",
+            "in": "body",
+            "type": "string",
+            "required": false,
+            "enum": [
+             "Bool",
+             "Int8",
+             "Int16",
+             "Int32",
+             "Int64",
+             "Float",
+             "Double",
+             "VarChar"
+            ]
+           },
+           {
+            "name": "externalField",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "isPrimary",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "isPartitionKey",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "isClusteringKey",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "elementTypeParams",
+            "in": "body",
+            "type": "object",
+            "required": [],
+            "fields": [
+             {
+              "name": "max_length",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             },
+             {
+              "name": "dim",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             },
+             {
+              "name": "max_capacity",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             }
+            ]
+           },
+           {
+            "name": "description",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "typeParams",
+            "in": "body",
+            "type": "ref",
+            "required": false
+           },
+           {
+            "name": "fields",
+            "in": "body",
+            "type": "array",
+            "required": false,
+            "items": {
+             "type": "object",
+             "fields": [
+              {
+               "name": "fieldName",
+               "in": "body",
+               "type": "string",
+               "required": true
+              },
+              {
+               "name": "dataType",
+               "in": "body",
+               "type": "string",
+               "required": true,
+               "enum": [
+                "Bool",
+                "Int8",
+                "Int16",
+                "Int32",
+                "Int64",
+                "Float",
+                "Double",
+                "VarChar",
+                "Array",
+                "Json",
+                "Geometry",
+                "BinaryVector",
+                "FloatVector",
+                "Float16Vector",
+                "BFloat16Vector",
+                "SparseFloatVector",
+                "Int8Vector"
+               ]
+              },
+              {
+               "name": "elementDataType",
+               "in": "body",
+               "type": "string",
+               "required": false,
+               "enum": [
+                "Bool",
+                "Int8",
+                "Int16",
+                "Int32",
+                "Int64",
+                "Float",
+                "Double",
+                "VarChar"
+               ]
+              },
+              {
+               "name": "externalField",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "isPrimary",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "isPartitionKey",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "isClusteringKey",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "elementTypeParams",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "max_length",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                },
+                {
+                 "name": "dim",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                },
+                {
+                 "name": "max_capacity",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "name": "description",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "typeParams",
+               "in": "body",
+               "type": "ref",
+               "required": false
+              },
+              {
+               "name": "fields",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "fieldName",
+                  "in": "body",
+                  "type": "string",
+                  "required": true
+                 },
+                 {
+                  "name": "dataType",
+                  "in": "body",
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                   "Bool",
+                   "Int8",
+                   "Int16",
+                   "Int32",
+                   "Int64",
+                   "Float",
+                   "Double",
+                   "VarChar",
+                   "Array",
+                   "Json",
+                   "Geometry",
+                   "BinaryVector",
+                   "FloatVector",
+                   "Float16Vector",
+                   "BFloat16Vector",
+                   "SparseFloatVector",
+                   "Int8Vector"
+                  ]
+                 },
+                 {
+                  "name": "elementDataType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false,
+                  "enum": [
+                   "Bool",
+                   "Int8",
+                   "Int16",
+                   "Int32",
+                   "Int64",
+                   "Float",
+                   "Double",
+                   "VarChar"
+                  ]
+                 },
+                 {
+                  "name": "externalField",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "isPrimary",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "isPartitionKey",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "isClusteringKey",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "elementTypeParams",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "max_length",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   },
+                   {
+                    "name": "dim",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   },
+                   {
+                    "name": "max_capacity",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "description",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "fields",
+                  "in": "body",
+                  "type": "array",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "defaultValue",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "elementNullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "typeSchema",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": false
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 }
+                ],
+                "required": [
+                 "fieldName",
+                 "dataType"
+                ]
+               }
+              },
+              {
+               "name": "nullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "defaultValue",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "elementNullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "typeSchema",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "leafType",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                },
+                {
+                 "name": "arrayElement",
+                 "in": "body",
+                 "type": "object",
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "leafType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "arrayElement",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": false
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  }
+                 ]
+                },
+                {
+                 "name": "typeParams",
+                 "in": "body",
+                 "type": "ref",
+                 "required": false
+                },
+                {
+                 "name": "nullable",
+                 "in": "body",
+                 "type": "boolean",
+                 "required": false
+                }
+               ]
+              }
+             ],
+             "required": [
+              "fieldName",
+              "dataType"
+             ]
+            }
+           },
+           {
+            "name": "nullable",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "defaultValue",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "elementNullable",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "typeSchema",
+            "in": "body",
+            "type": "object",
+            "required": [],
+            "fields": [
+             {
+              "name": "leafType",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "arrayElement",
+              "in": "body",
+              "type": "object",
+              "required": [],
+              "fields": [
+               {
+                "name": "leafType",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "arrayElement",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "leafType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "arrayElement",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": [],
+                    "fields": [
+                     {
+                      "name": "leafType",
+                      "in": "body",
+                      "type": "string",
+                      "required": false
+                     },
+                     {
+                      "name": "arrayElement",
+                      "in": "body",
+                      "type": "object",
+                      "required": false
+                     },
+                     {
+                      "name": "typeParams",
+                      "in": "body",
+                      "type": "ref",
+                      "required": false
+                     },
+                     {
+                      "name": "nullable",
+                      "in": "body",
+                      "type": "boolean",
+                      "required": false
+                     }
+                    ]
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 }
+                ]
+               },
+               {
+                "name": "typeParams",
+                "in": "body",
+                "type": "ref",
+                "required": false
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               }
+              ]
+             },
+             {
+              "name": "typeParams",
+              "in": "body",
+              "type": "ref",
+              "required": false
+             },
+             {
+              "name": "nullable",
+              "in": "body",
+              "type": "boolean",
+              "required": false
+             }
+            ]
+           }
+          ],
+          "required": [
+           "fieldName",
+           "dataType"
+          ]
+         }
+        },
+        {
+         "name": "nullable",
+         "in": "body",
+         "type": "boolean",
+         "required": false
+        },
+        {
+         "name": "defaultValue",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "elementNullable",
+         "in": "body",
+         "type": "boolean",
+         "required": false
+        },
+        {
+         "name": "typeSchema",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "leafType",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "arrayElement",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "leafType",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "arrayElement",
+             "in": "body",
+             "type": "object",
+             "required": [],
+             "fields": [
+              {
+               "name": "leafType",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "arrayElement",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "leafType",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                },
+                {
+                 "name": "arrayElement",
+                 "in": "body",
+                 "type": "object",
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "leafType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "arrayElement",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": [],
+                     "fields": [
+                      {
+                       "name": "leafType",
+                       "in": "body",
+                       "type": "string",
+                       "required": false
+                      },
+                      {
+                       "name": "arrayElement",
+                       "in": "body",
+                       "type": "object",
+                       "required": false
+                      },
+                      {
+                       "name": "typeParams",
+                       "in": "body",
+                       "type": "ref",
+                       "required": false
+                      },
+                      {
+                       "name": "nullable",
+                       "in": "body",
+                       "type": "boolean",
+                       "required": false
+                      }
+                     ]
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  }
+                 ]
+                },
+                {
+                 "name": "typeParams",
+                 "in": "body",
+                 "type": "ref",
+                 "required": false
+                },
+                {
+                 "name": "nullable",
+                 "in": "body",
+                 "type": "boolean",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "name": "typeParams",
+               "in": "body",
+               "type": "ref",
+               "required": false
+              },
+              {
+               "name": "nullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              }
+             ]
+            },
+            {
+             "name": "typeParams",
+             "in": "body",
+             "type": "ref",
+             "required": false
+            },
+            {
+             "name": "nullable",
+             "in": "body",
+             "type": "boolean",
+             "required": false
+            }
+           ]
+          },
+          {
+           "name": "typeParams",
+           "in": "body",
+           "type": "ref",
+           "required": false
+          },
+          {
+           "name": "nullable",
+           "in": "body",
+           "type": "boolean",
+           "required": false
+          }
+         ]
         }
        ]
       }
@@ -9805,13 +11488,7 @@
          ]
         },
         {
-         "name": "nullable",
-         "in": "body",
-         "type": "boolean",
-         "required": false
-        },
-        {
-         "name": "defaultValue",
+         "name": "externalField",
          "in": "body",
          "type": "string",
          "required": false
@@ -9861,10 +11538,231 @@
          ]
         },
         {
-         "name": "externalField",
+         "name": "description",
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "typeParams",
+         "in": "body",
+         "type": "ref",
+         "required": false
+        },
+        {
+         "name": "fields",
+         "in": "body",
+         "type": "array",
+         "required": false,
+         "items": {
+          "refProblem": "#/components/schemas/FieldSchema"
+         }
+        },
+        {
+         "name": "nullable",
+         "in": "body",
+         "type": "boolean",
+         "required": false
+        },
+        {
+         "name": "defaultValue",
+         "in": "body",
+         "type": "string",
+         "required": false
+        },
+        {
+         "name": "elementNullable",
+         "in": "body",
+         "type": "boolean",
+         "required": false
+        },
+        {
+         "name": "typeSchema",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "leafType",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
+           "name": "arrayElement",
+           "in": "body",
+           "type": "object",
+           "required": [],
+           "fields": [
+            {
+             "name": "leafType",
+             "in": "body",
+             "type": "string",
+             "required": false
+            },
+            {
+             "name": "arrayElement",
+             "in": "body",
+             "type": "object",
+             "required": [],
+             "fields": [
+              {
+               "name": "leafType",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "arrayElement",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "leafType",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                },
+                {
+                 "name": "arrayElement",
+                 "in": "body",
+                 "type": "object",
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "leafType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "arrayElement",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": [],
+                     "fields": [
+                      {
+                       "name": "leafType",
+                       "in": "body",
+                       "type": "string",
+                       "required": false
+                      },
+                      {
+                       "name": "arrayElement",
+                       "in": "body",
+                       "type": "object",
+                       "required": false
+                      },
+                      {
+                       "name": "typeParams",
+                       "in": "body",
+                       "type": "ref",
+                       "required": false
+                      },
+                      {
+                       "name": "nullable",
+                       "in": "body",
+                       "type": "boolean",
+                       "required": false
+                      }
+                     ]
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  }
+                 ]
+                },
+                {
+                 "name": "typeParams",
+                 "in": "body",
+                 "type": "ref",
+                 "required": false
+                },
+                {
+                 "name": "nullable",
+                 "in": "body",
+                 "type": "boolean",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "name": "typeParams",
+               "in": "body",
+               "type": "ref",
+               "required": false
+              },
+              {
+               "name": "nullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              }
+             ]
+            },
+            {
+             "name": "typeParams",
+             "in": "body",
+             "type": "ref",
+             "required": false
+            },
+            {
+             "name": "nullable",
+             "in": "body",
+             "type": "boolean",
+             "required": false
+            }
+           ]
+          },
+          {
+           "name": "typeParams",
+           "in": "body",
+           "type": "ref",
+           "required": false
+          },
+          {
+           "name": "nullable",
+           "in": "body",
+           "type": "boolean",
+           "required": false
+          }
+         ]
         }
        ]
       },
@@ -10311,19 +12209,654 @@
              "Float",
              "Double",
              "VarChar",
+             "Array",
+             "Json",
+             "Geometry",
              "BinaryVector",
              "FloatVector",
              "Float16Vector",
              "BFloat16Vector",
+             "SparseFloatVector",
              "Int8Vector"
             ]
+           },
+           {
+            "name": "elementDataType",
+            "in": "body",
+            "type": "string",
+            "required": false,
+            "enum": [
+             "Bool",
+             "Int8",
+             "Int16",
+             "Int32",
+             "Int64",
+             "Float",
+             "Double",
+             "VarChar"
+            ]
+           },
+           {
+            "name": "externalField",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "isPrimary",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "isPartitionKey",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "isClusteringKey",
+            "in": "body",
+            "type": "boolean",
+            "required": false
            },
            {
             "name": "elementTypeParams",
             "in": "body",
             "type": "object",
             "required": [],
-            "fields": []
+            "fields": [
+             {
+              "name": "max_length",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             },
+             {
+              "name": "dim",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             },
+             {
+              "name": "max_capacity",
+              "in": "body",
+              "type": "integer",
+              "required": false
+             }
+            ]
+           },
+           {
+            "name": "description",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "typeParams",
+            "in": "body",
+            "type": "ref",
+            "required": false
+           },
+           {
+            "name": "fields",
+            "in": "body",
+            "type": "array",
+            "required": false,
+            "items": {
+             "type": "object",
+             "fields": [
+              {
+               "name": "fieldName",
+               "in": "body",
+               "type": "string",
+               "required": true
+              },
+              {
+               "name": "dataType",
+               "in": "body",
+               "type": "string",
+               "required": true,
+               "enum": [
+                "Bool",
+                "Int8",
+                "Int16",
+                "Int32",
+                "Int64",
+                "Float",
+                "Double",
+                "VarChar",
+                "Array",
+                "Json",
+                "Geometry",
+                "BinaryVector",
+                "FloatVector",
+                "Float16Vector",
+                "BFloat16Vector",
+                "SparseFloatVector",
+                "Int8Vector"
+               ]
+              },
+              {
+               "name": "elementDataType",
+               "in": "body",
+               "type": "string",
+               "required": false,
+               "enum": [
+                "Bool",
+                "Int8",
+                "Int16",
+                "Int32",
+                "Int64",
+                "Float",
+                "Double",
+                "VarChar"
+               ]
+              },
+              {
+               "name": "externalField",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "isPrimary",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "isPartitionKey",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "isClusteringKey",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "elementTypeParams",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "max_length",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                },
+                {
+                 "name": "dim",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                },
+                {
+                 "name": "max_capacity",
+                 "in": "body",
+                 "type": "integer",
+                 "required": false
+                }
+               ]
+              },
+              {
+               "name": "description",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "typeParams",
+               "in": "body",
+               "type": "ref",
+               "required": false
+              },
+              {
+               "name": "fields",
+               "in": "body",
+               "type": "array",
+               "required": false,
+               "items": {
+                "type": "object",
+                "fields": [
+                 {
+                  "name": "fieldName",
+                  "in": "body",
+                  "type": "string",
+                  "required": true
+                 },
+                 {
+                  "name": "dataType",
+                  "in": "body",
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                   "Bool",
+                   "Int8",
+                   "Int16",
+                   "Int32",
+                   "Int64",
+                   "Float",
+                   "Double",
+                   "VarChar",
+                   "Array",
+                   "Json",
+                   "Geometry",
+                   "BinaryVector",
+                   "FloatVector",
+                   "Float16Vector",
+                   "BFloat16Vector",
+                   "SparseFloatVector",
+                   "Int8Vector"
+                  ]
+                 },
+                 {
+                  "name": "elementDataType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false,
+                  "enum": [
+                   "Bool",
+                   "Int8",
+                   "Int16",
+                   "Int32",
+                   "Int64",
+                   "Float",
+                   "Double",
+                   "VarChar"
+                  ]
+                 },
+                 {
+                  "name": "externalField",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "isPrimary",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "isPartitionKey",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "isClusteringKey",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "elementTypeParams",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "max_length",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   },
+                   {
+                    "name": "dim",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   },
+                   {
+                    "name": "max_capacity",
+                    "in": "body",
+                    "type": "integer",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "description",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "fields",
+                  "in": "body",
+                  "type": "array",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "defaultValue",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "elementNullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 },
+                 {
+                  "name": "typeSchema",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": false
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 }
+                ],
+                "required": [
+                 "fieldName",
+                 "dataType"
+                ]
+               }
+              },
+              {
+               "name": "nullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "defaultValue",
+               "in": "body",
+               "type": "string",
+               "required": false
+              },
+              {
+               "name": "elementNullable",
+               "in": "body",
+               "type": "boolean",
+               "required": false
+              },
+              {
+               "name": "typeSchema",
+               "in": "body",
+               "type": "object",
+               "required": [],
+               "fields": [
+                {
+                 "name": "leafType",
+                 "in": "body",
+                 "type": "string",
+                 "required": false
+                },
+                {
+                 "name": "arrayElement",
+                 "in": "body",
+                 "type": "object",
+                 "required": [],
+                 "fields": [
+                  {
+                   "name": "leafType",
+                   "in": "body",
+                   "type": "string",
+                   "required": false
+                  },
+                  {
+                   "name": "arrayElement",
+                   "in": "body",
+                   "type": "object",
+                   "required": [],
+                   "fields": [
+                    {
+                     "name": "leafType",
+                     "in": "body",
+                     "type": "string",
+                     "required": false
+                    },
+                    {
+                     "name": "arrayElement",
+                     "in": "body",
+                     "type": "object",
+                     "required": false
+                    },
+                    {
+                     "name": "typeParams",
+                     "in": "body",
+                     "type": "ref",
+                     "required": false
+                    },
+                    {
+                     "name": "nullable",
+                     "in": "body",
+                     "type": "boolean",
+                     "required": false
+                    }
+                   ]
+                  },
+                  {
+                   "name": "typeParams",
+                   "in": "body",
+                   "type": "ref",
+                   "required": false
+                  },
+                  {
+                   "name": "nullable",
+                   "in": "body",
+                   "type": "boolean",
+                   "required": false
+                  }
+                 ]
+                },
+                {
+                 "name": "typeParams",
+                 "in": "body",
+                 "type": "ref",
+                 "required": false
+                },
+                {
+                 "name": "nullable",
+                 "in": "body",
+                 "type": "boolean",
+                 "required": false
+                }
+               ]
+              }
+             ],
+             "required": [
+              "fieldName",
+              "dataType"
+             ]
+            }
+           },
+           {
+            "name": "nullable",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "defaultValue",
+            "in": "body",
+            "type": "string",
+            "required": false
+           },
+           {
+            "name": "elementNullable",
+            "in": "body",
+            "type": "boolean",
+            "required": false
+           },
+           {
+            "name": "typeSchema",
+            "in": "body",
+            "type": "object",
+            "required": [],
+            "fields": [
+             {
+              "name": "leafType",
+              "in": "body",
+              "type": "string",
+              "required": false
+             },
+             {
+              "name": "arrayElement",
+              "in": "body",
+              "type": "object",
+              "required": [],
+              "fields": [
+               {
+                "name": "leafType",
+                "in": "body",
+                "type": "string",
+                "required": false
+               },
+               {
+                "name": "arrayElement",
+                "in": "body",
+                "type": "object",
+                "required": [],
+                "fields": [
+                 {
+                  "name": "leafType",
+                  "in": "body",
+                  "type": "string",
+                  "required": false
+                 },
+                 {
+                  "name": "arrayElement",
+                  "in": "body",
+                  "type": "object",
+                  "required": [],
+                  "fields": [
+                   {
+                    "name": "leafType",
+                    "in": "body",
+                    "type": "string",
+                    "required": false
+                   },
+                   {
+                    "name": "arrayElement",
+                    "in": "body",
+                    "type": "object",
+                    "required": [],
+                    "fields": [
+                     {
+                      "name": "leafType",
+                      "in": "body",
+                      "type": "string",
+                      "required": false
+                     },
+                     {
+                      "name": "arrayElement",
+                      "in": "body",
+                      "type": "object",
+                      "required": false
+                     },
+                     {
+                      "name": "typeParams",
+                      "in": "body",
+                      "type": "ref",
+                      "required": false
+                     },
+                     {
+                      "name": "nullable",
+                      "in": "body",
+                      "type": "boolean",
+                      "required": false
+                     }
+                    ]
+                   },
+                   {
+                    "name": "typeParams",
+                    "in": "body",
+                    "type": "ref",
+                    "required": false
+                   },
+                   {
+                    "name": "nullable",
+                    "in": "body",
+                    "type": "boolean",
+                    "required": false
+                   }
+                  ]
+                 },
+                 {
+                  "name": "typeParams",
+                  "in": "body",
+                  "type": "ref",
+                  "required": false
+                 },
+                 {
+                  "name": "nullable",
+                  "in": "body",
+                  "type": "boolean",
+                  "required": false
+                 }
+                ]
+               },
+               {
+                "name": "typeParams",
+                "in": "body",
+                "type": "ref",
+                "required": false
+               },
+               {
+                "name": "nullable",
+                "in": "body",
+                "type": "boolean",
+                "required": false
+               }
+              ]
+             },
+             {
+              "name": "typeParams",
+              "in": "body",
+              "type": "ref",
+              "required": false
+             },
+             {
+              "name": "nullable",
+              "in": "body",
+              "type": "boolean",
+              "required": false
+             }
+            ]
            }
           ],
           "required": [
@@ -29273,6 +31806,12 @@
            ]
           },
           {
+           "name": "milvusVersion",
+           "in": "body",
+           "type": "string",
+           "required": false
+          },
+          {
            "name": "connectAddress",
            "in": "body",
            "type": "string",
@@ -32680,6 +35219,34 @@
        "in": "body",
        "type": "string",
        "required": false
+      },
+      {
+       "name": "version",
+       "in": "body",
+       "type": "object",
+       "required": [
+        "channel",
+        "milvusVersion"
+       ],
+       "fields": [
+        {
+         "name": "milvusVersion",
+         "in": "body",
+         "type": "string",
+         "required": true
+        },
+        {
+         "name": "channel",
+         "in": "body",
+         "type": "string",
+         "required": true,
+         "enum": [
+          "GA",
+          "PUBLIC_PREVIEW",
+          "ORIGIN"
+         ]
+        }
+       ]
       }
      ],
      "required": [
@@ -35984,6 +38551,26 @@
            "type": "string"
           }
          }
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "regionGroups",
+           "in": "body",
+           "type": "array",
+           "required": false,
+           "items": {
+            "type": "array",
+            "items": {
+             "type": "string"
+            }
+           }
+          }
+         ]
         }
        ],
        "required": []
@@ -37418,6 +40005,20 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []
@@ -38001,6 +40602,20 @@
          "in": "body",
          "type": "string",
          "required": false
+        },
+        {
+         "name": "data",
+         "in": "body",
+         "type": "object",
+         "required": [],
+         "fields": [
+          {
+           "name": "jobId",
+           "in": "body",
+           "type": "string",
+           "required": false
+          }
+         ]
         }
        ],
        "required": []

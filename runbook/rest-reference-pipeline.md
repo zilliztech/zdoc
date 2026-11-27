@@ -241,6 +241,33 @@ only reclassify ledger entries in their own master PR (the
 `rest-upstream-ledger-bootstrap` merge above); they have no fragment effect
 and do not belong inside the refresh commit.
 
+Settled field-level semantic facts ("what the upstream IS") go into
+`packages/docs-tooling/src/reference/rest/meta/upstream/adjudications.json`
+(append-only, reviewed PR, `(source, opKey, scope, branch, fieldPath)`
+unique — duplicate or unevidenced facts fail closed). This is the sibling of
+the ledger: the ledger records operation-level classification
+(adopted/rejected/deferred/external) for the T4 accounting gate; the
+adjudication file records facts like "writeCondition.op accepts only
+{gt, gte}" so later rounds stop re-asking. Operation-level verdicts never
+belong here, and adjudication entries never change who decides — the next
+refresh's decision stage sees the facts as a `prior adjudication`
+annotation, an adopt/ledger stance must cite the key (deviations need a
+`deviationReason`, enforced again by the assembler), and an entry whose
+cited literals no longer hold in the upstream payload degrades to stale and
+re-opens in the PR body instead of auto-aligning. Bootstrap source: PR
+#1414's adjudication comment.
+
+Two known blind spots of that staleness check — it is a floor, not proof:
+a cited literal appearing anywhere in the mirrored subtree's prose still
+counts as confirmed, and a retired field re-added upstream keeps the
+surviving literals fresh, so the re-adjudication of a re-addition relies on
+the facts text plus the human seeing the drift in the diff. And when
+replaying an old run's decisions through `rest-upstream-assemble` or
+`decide-batches` by hand, pass the staging copy explicitly
+(`--adjudications <staging>/meta/adjudications.json`): the repo default
+points at today's file, which would hard-gate yesterday's stances against
+adjudications they never saw.
+
 After any hand edit on the refresh branch, re-run the whole landing chain in
 one command instead of stepping through it:
 

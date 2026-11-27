@@ -44,15 +44,15 @@ function patchedLineMap(before: string[], after: string[], sources: readonly (nu
 }
 
 type MdxOptions = { preserveFrontMatter?: boolean }
-interface MdxPatchCache {
-  get(key: string): string | undefined
-  put(key: string, mdx: string): void
-}
-async function finalizeMdx(adapted: AdaptedPage, context: DiagnosticContext, options: MdxOptions, cache?: MdxPatchCache): Promise<{ mdx: string } | { errors: SharedDocsError[] }> {
-  let mdx = adapted.markdown
-  let sources = [...adapted.provenance.outputLines]
+export async function toMdx(adapted: AdaptedPage, context: DiagnosticContext, { preserveFrontMatter = false }: MdxOptions = {}): Promise<{ mdx: string } | { errors: SharedDocsError[] }> {
+  const markdown = adapted.markdown
+  let mdx = markdown
+  let sources: (number | null)[] | undefined
   const failure = (message: string, outputLine?: number): SharedDocsError => {
-    const line = outputLine === undefined ? undefined : sources[outputLine - 1] ?? undefined
+    if (outputLine !== undefined) {
+      sources ??= patchedLineMap(markdown.split('\n'), mdx.split('\n'), adapted.provenance.outputLines)
+    }
+    const line = outputLine === undefined ? undefined : sources?.[outputLine - 1] ?? undefined
     return { ...context, code: 'ADAPT_MDX_INVALID', message, ...(line === undefined ? {} : { line }),
       detail: { ...(line === undefined ? {} : { text: adapted.provenance.inputLines[line - 1] }) } }
   }
@@ -60,56 +60,69 @@ async function finalizeMdx(adapted: AdaptedPage, context: DiagnosticContext, opt
   const before = (validateMdxStructure(mdx) as string[]).filter(message => /^prose found between|^\d+ (?:unclosed|extra)/.test(message))
   if (before.length) return { errors: before.map(message => failure(message)) }
   try {
-    const front = options.preserveFrontMatter ? /^---[ \t]*\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/.exec(mdx)?.[0] || '' : ''
-    // Options for patching and compilation are fixed below. Front-matter
-    // handling is the only per-call input beyond the original exact text.
-    const key = cache ? (options.preserveFrontMatter ? '1' : '0') + mdx : ''
-    const patched = cache?.get(key)
-    mdx = patched ?? front + await applyMdxPatches(mdx.slice(front.length), { repairEndTagMismatch: true })
-    sources = patchedLineMap(adapted.markdown.split('\n'), mdx.split('\n'), sources)
+    const front = preserveFrontMatter ? /^---[ \t]*\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/.exec(mdx)?.[0] || '' : ''
+    mdx = front + await applyMdxPatches(mdx.slice(front.length), { repairEndTagMismatch: true })
     const structure = validateMdxStructure(mdx) as string[]
     const errors = structure.map(message => failure(message))
-    if (patched === undefined) {
-      try {
-        const { compile, remarkMath } = await compiler()
-        await compile(options.preserveFrontMatter ? mdx.slice(front.length) : mdx, { development: false, remarkPlugins: [remarkMath] })
-      } catch (error) {
-        const problem = error as { message: string; line?: number; place?: { line?: number; start?: { line?: number } } }
-        const bodyLine = problem.line ?? problem.place?.line ?? problem.place?.start?.line
-        errors.push(failure(problem.message, bodyLine === undefined ? undefined : bodyLine + (front.match(/\n/g)?.length || 0)))
-      }
+    try {
+      const { compile, remarkMath } = await compiler()
+      await compile(preserveFrontMatter ? mdx.slice(front.length) : mdx, { development: false, remarkPlugins: [remarkMath] })
+    } catch (error) {
+      const problem = error as { message: string; line?: number; place?: { line?: number; start?: { line?: number } } }
+      const bodyLine = problem.line ?? problem.place?.line ?? problem.place?.start?.line
+      errors.push(failure(problem.message, bodyLine === undefined ? undefined : bodyLine + (front.match(/\n/g)?.length || 0)))
     }
     if (errors.length) return { errors }
-    if (patched === undefined) cache?.put(key, mdx)
     return { mdx }
   } catch (error) {
     return { errors: [failure(error instanceof Error ? error.message : String(error))] }
   }
 }
 
-export function toMdx(adapted: AdaptedPage, context: DiagnosticContext, options: MdxOptions = {}) {
-  return finalizeMdx(adapted, context, options)
-}
-
-/** Own one bounded parser cache per historical worker. Context, provenance,
- * structure checks and failures still belong to the individual invocation. */
+/** Per historical worker, share only successfully validated text. A failed parse
+ * must report the file, channel and source lines from each caller's own input. */
 export function createHistoricalMdxFinalizer(): typeof toMdx {
   const maxBytes = 4 * 1024 * 1024, maxEntries = 32
+  type Entry = { mdx: Promise<string | undefined>; bytes: number }
+  const entries = new Map<string, Entry>()
   let used = 0
-  const entries = new Map<string, {mdx: string; bytes: number}>()
-  const cache: MdxPatchCache = {
-    get: key => entries.get(key)?.mdx,
-    put(key, mdx) {
-      const bytes = 2 * (key.length + mdx.length) + 1024
-      if (bytes > maxBytes || entries.has(key)) return
-      while (entries.size >= maxEntries || used + bytes > maxBytes) {
-        const oldest = entries.keys().next().value!
-        used -= entries.get(oldest)!.bytes
-        entries.delete(oldest)
-      }
-      entries.set(key, {mdx, bytes})
-      used += bytes
-    },
+  function remove(key: string) {
+    used -= entries.get(key)!.bytes
+    entries.delete(key)
   }
-  return (adapted, context, options = {}) => finalizeMdx(adapted, context, options, cache)
+  function put(key: string, entry: Entry) {
+    while (entries.size >= maxEntries || used + entry.bytes > maxBytes) remove(entries.keys().next().value!)
+    entries.set(key, entry)
+    used += entry.bytes
+  }
+  return async (adapted, context, { preserveFrontMatter = false } = {}) => {
+    const options = { preserveFrontMatter }
+    const key = (preserveFrontMatter ? '1' : '0') + adapted.markdown
+    const hit = entries.get(key)
+    if (hit) {
+      const mdx = await hit.mdx
+      if (mdx !== undefined) return { mdx }
+      return toMdx(adapted, context, options)
+    }
+    const keyBytes = 2 * key.length + 1024
+    if (keyBytes > maxBytes) return toMdx(adapted, context, options)
+    const rendering = toMdx(adapted, context, options)
+    const entry = { bytes: keyBytes, mdx: rendering.then(result => 'mdx' in result ? result.mdx : undefined, () => undefined) }
+    put(key, entry)
+    let mdx: string | undefined
+    try {
+      const result = await rendering
+      if ('mdx' in result) mdx = result.mdx
+      return result
+    } finally {
+      // Other commits can evict pending work; a late completion must never replace a newer entry.
+      if (entries.get(key) === entry) {
+        remove(key)
+        if (mdx !== undefined) {
+          const bytes = keyBytes + 2 * mdx.length
+          if (bytes <= maxBytes) put(key, { bytes, mdx: entry.mdx })
+        }
+      }
+    }
+  }
 }

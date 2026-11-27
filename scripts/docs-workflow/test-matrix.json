@@ -300,6 +300,7 @@
         "packages/docs-tooling/src/reference/rest/meta/upstream/**",
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-lock.schema.json",
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-ledger.schema.json",
+        "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-adjudications.schema.json",
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-change-set.schema.json",
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-decisions.schema.json",
         "packages/docs-tooling/src/reference/rest/contracts/rest-upstream-branch-plan.schema.json",
@@ -343,7 +344,7 @@
         "git diff --check",
         "pnpm test:workflow-policy"
       ],
-      "reason": "The rest-upstream pipeline pins upstream REST sources (lock), records adoption decisions (ledger), diffs pinned upstreams against the fragments branch-aware, and applies agent change sets deterministically; its hermetic suite also guards the canonical fragment byte format every fragment must keep. P1 adds the read-only drift watchdog, the staged single-turn refresh agent with a repository-path isolation sweep, the deterministic ledger bootstrap, and the PAT-opened refresh workflow; the 10-21 replay alignment report is its acceptance evidence. P2 adds the vendored Go source-tree extractor (milvus data plane), the skeleton contract and converter, structure-only diffing for source-tree sources, cross-fragment component resolution, and source-tree drift classification in the watchdog; the P2 report is its acceptance evidence. P3 adds the data-plane lifecycle suggestions (x-added-at/x-last-modified/x-deprecated-since bound into change-set entries), the T4 ledger accounting gate with the schemaVersion 2 completeness receipt, and the machine-checked fragment-migration gate behind the rest-upstream-accounting and rest-upstream-migration CLI commands; the refresh workflow gains the milvus source-tree lane (setup-go + vendored extractor) and lands ledger drafts as deferred entries so adoption stays atomic, and regenerates the conformance schema-inventory with the land step (same generator the byte-identical drift gate runs) so a fragment refresh cannot strand the inventory outside the refresh commit. The decisions-first pipeline (2026-10-29) retires the codex agent turn and the instruction pack: the decision contract, the machine-generated candidate list, and the deterministic assembler behind rest-upstream-candidates/rest-upstream-assemble produce the change set from stances alone (never loci or values), decide-batches.js shards the model calls per fragment behind citation/contract/coverage gates, and the refresh workflow embeds the decision divergences in the PR body; the decisions-pipeline design doc is its acceptance anchor. The entry owns the shared `.github/prompts` root, including the retired codex-rest-refresh-agent pack whose deletion this pipeline supersedes. The 2026-10-30 merge model (.claude/specs/2026-10-30-rest-upstream-mirror-model.md; the PR #964 review) moves structure into deterministic lanes: diff.js collapses any deep API-truth difference into one schema|mirror entry carrying the resolved upstream subtree (structure-only sources strip scalar-constraint keys the extractor cannot speak to), the assembler auto-assembles mirrors and placed additions (mergeMirrorProse keeps local prose/x-* at surviving nodes; placements come from the branch-plan stage whose model only picks existing tab labels), translate-additions fills zh/ja fail-closed before apply, and the applier gains recomputation-bound mirror/addition writes, a translation-completeness gate, and the shape gate against object+items/scalar+properties monsters; prose/retirements/unplaced/pending-confirmation lists ride the PR body."
+      "reason": "The rest-upstream pipeline pins upstream REST sources (lock), records adoption decisions (ledger), diffs pinned upstreams against the fragments branch-aware, and applies agent change sets deterministically; its hermetic suite also guards the canonical fragment byte format every fragment must keep. P1 adds the read-only drift watchdog, the staged single-turn refresh agent with a repository-path isolation sweep, the deterministic ledger bootstrap, and the PAT-opened refresh workflow; the 10-21 replay alignment report is its acceptance evidence. P2 adds the vendored Go source-tree extractor (milvus data plane), the skeleton contract and converter, structure-only diffing for source-tree sources, cross-fragment component resolution, and source-tree drift classification in the watchdog; the P2 report is its acceptance evidence. P3 adds the data-plane lifecycle suggestions (x-added-at/x-last-modified/x-deprecated-since bound into change-set entries), the T4 ledger accounting gate with the schemaVersion 2 completeness receipt, and the machine-checked fragment-migration gate behind the rest-upstream-accounting and rest-upstream-migration CLI commands; the refresh workflow gains the milvus source-tree lane (setup-go + vendored extractor) and lands ledger drafts as deferred entries so adoption stays atomic, and regenerates the conformance schema-inventory with the land step (same generator the byte-identical drift gate runs) so a fragment refresh cannot strand the inventory outside the refresh commit. The decisions-first pipeline (2026-10-29) retires the codex agent turn and the instruction pack: the decision contract, the machine-generated candidate list, and the deterministic assembler behind rest-upstream-candidates/rest-upstream-assemble produce the change set from stances alone (never loci or values), decide-batches.js shards the model calls per fragment behind citation/contract/coverage gates, and the refresh workflow embeds the decision divergences in the PR body; the decisions-pipeline design doc is its acceptance anchor. The entry owns the shared `.github/prompts` root, including the retired codex-rest-refresh-agent pack whose deletion this pipeline supersedes. The 2026-10-30 merge model (.claude/specs/2026-10-30-rest-upstream-mirror-model.md; the PR #964 review) moves structure into deterministic lanes: diff.js collapses any deep API-truth difference into one schema|mirror entry carrying the resolved upstream subtree (structure-only sources strip scalar-constraint keys the extractor cannot speak to), the assembler auto-assembles mirrors and placed additions (mergeMirrorProse keeps local prose/x-* at surviving nodes; placements come from the branch-plan stage whose model only picks existing tab labels), translate-additions fills zh/ja fail-closed before apply, and the applier gains recomputation-bound mirror/addition writes, a translation-completeness gate, and the shape gate against object+items/scalar+properties monsters; prose/retirements/unplaced/pending-confirmation lists ride the PR body. The semantic-adjudication layer (2026-11-25) adds field-level human-adjudicated facts (meta/upstream/adjudications.json + its contract schema): the decision stage injects fresh facts into candidates and enforces adjudication-key citations on adopt/ledger stances, the assembler re-proves the same citation gate fail-closed and reports deviations, describe-additions grounds on the facts, and stale literals degrade the entry back to re-adjudication instead of auto-aligning."
     },
     {
       "id": "rest-conformance-live-rounds",
@@ -1267,6 +1268,22 @@
       "reason": "The docs-ui Docusaurus plugin registers shared and Chinese UI modules and pins the standalone Chinese developer hub page, including its favicon declaration and localized copy."
     },
     {
+      "id": "docs-ui-ui-label",
+      "paths": [
+        "packages/docs-ui/src/shared/components/UI/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/shared/components/UI/index.test.tsx"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Global <UI> inline console-label MDX component must render <strong className=\"zd-ui-label\"> across English and Chinese copy, empty/nested children, and SSR while remaining globally registered in MDXComponents."
+    },
+    {
       "id": "translation-quality-assets",
       "paths": [
         "scripts/translation/tm-retrieve*",
@@ -1310,6 +1327,8 @@
       "id": "translation-zh-style-guide",
       "paths": [
         ".github/prompts/codex-style-guide.zh-CN-reference.md",
+        "config/translation/zh-CN-common.json",
+        "config/translation/zh-CN-guides.json",
         "config/translation/zh-CN-reference.json"
       ],
       "focusedTests": [],
@@ -1319,7 +1338,7 @@
         "pnpm test:workflow-matrix",
         "pnpm test:workflow-policy"
       ],
-      "reason": "The zh-CN-reference style guide joins the prompt contract chain (promptContractSha256); contract JSON schema and recovery prompt-hash tests must stay green. Mirror of the ja-JP quality-assets change for Phase C."
+      "reason": "The zh-CN-reference style guide, shared Chinese glossary base (zh-CN-common.json), and contract shells (zh-CN-reference.json, zh-CN-guides.json) belong to the locale-contract and prompt-contract chain; contract JSON schema, inheritance/security, and recovery prompt-hash tests must stay green."
     },
     {
       "id": "manual-translation-entry",
@@ -1891,6 +1910,24 @@
         "git diff --check"
       ],
       "reason": "The .claude local workspace retains only plans/, specs/, and skills/ per the working-tree policy; moved or added workspace documents carry no runtime behavior, so the guard is the retired-layout repository sweep (which treats all of .claude as non-production) plus matrix and whitespace gates. Tracked residue outside those three directories is removed through reviewed PRs, never accumulated."
+    },
+    {
+      "id": "localized-docs-core",
+      "paths": [
+        "packages/docs-tooling/src/localized-docs/**"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/localized-docs --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "Localized zh-CN guides core schema, EN shell stripping, <UI>/channel validation, md2md preprocessing, and offline CLI checks."
     }
   ]
 }

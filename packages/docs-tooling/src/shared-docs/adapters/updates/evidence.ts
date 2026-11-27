@@ -92,7 +92,7 @@ export interface EvidenceStore {
   readJournal(ref: BlobRef): Promise<Uint8Array>
   readMaterial(material: { path: string; sha256: string; bytes: number }, ref: BlobRef): Promise<Uint8Array>
 }
-const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void>; writeBlob: (bytes: Uint8Array) => Promise<BlobRef> }>()
+const evidenceStores = new WeakMap<EvidenceStore, { root: string; verify: () => Promise<void>; writeBlob: EvidenceStore['writeBlob']; readBlob: EvidenceStore['readBlob'] }>()
 /** Filesystem-only discovery avoids an ambient Git executable before launcher ownership exists. */
 async function gitMetadataDirectories(repository: string): Promise<string[]> {
   const dot = join(repository,'.git'), stat = await identityStat(dot).catch(error=>{if(missing(error))return null;throw error})
@@ -242,7 +242,7 @@ export async function initializeEvidence(options: EvidenceOptions): Promise<Evid
       await rename(temporary, target); ownedJournals.set(path, await identityStat(target)); await verify()
     },
   }
-  evidenceStores.set(store, { root, verify, writeBlob: store.writeBlob }); return store
+  evidenceStores.set(store, { root, verify, writeBlob: store.writeBlob, readBlob }); return store
 }
 
 /** Capability-checked, exclusive directory for task-owned launcher material. */
@@ -263,16 +263,67 @@ export async function writeOwnedBlob(store: EvidenceStore, bytes: Uint8Array): P
   await owned.verify(); return owned.writeBlob(bytes)
 }
 
+/** One collection retains its page payloads in order. Every occurrence authenticates the actual CAS file. */
+export function createPageBlobRetainer(store: EvidenceStore) {
+  const owned = evidenceStores.get(store)
+  if (!owned) throw new Error('Evidence store is not independently owned')
+  const persisted = new Set<string>()
+  const retain = async (bytes: Uint8Array, expected?: BlobRef): Promise<BlobRef> => {
+    currentBatchLifetime()?.check()
+    const sha256 = rawSha256(bytes)
+    const ref = {path: `blobs/${sha256}`, sha256, bytes: bytes.byteLength}
+    if (expected && (expected.sha256 !== sha256 || expected.bytes !== ref.bytes || expected.path !== ref.path)) throw Error('BATCH_CAS_BINDING_INVALID')
+    if (!persisted.has(sha256)) {
+      const stored = await writeOwnedBlob(store, bytes)
+      if (stored.path !== ref.path || stored.sha256 !== sha256 || stored.bytes !== ref.bytes) throw Error('BATCH_CAS_BINDING_INVALID')
+    }
+    // A settled ref can only be read back. A missing or changed file must stop collection.
+    await owned.readBlob(ref)
+    currentBatchLifetime()?.check()
+    persisted.add(sha256)
+    return ref
+  }
+  return Object.assign(retain, {
+    async retainPage<T extends {ref: BlobRef}>(payloads: readonly T[], decode: (payload: T) => Uint8Array, checkActive: () => void) {
+      const visit = async (payload: T) => {
+        checkActive()
+        await retain(decode(payload), payload.ref)
+        checkActive()
+      }
+      for (let start = 0; start < payloads.length;) {
+        // Only already-settled refs share a read window. A new blob or a large
+        // blob runs alone, after all preceding reads have settled successfully.
+        let end = start
+        let bytes = 0
+        while (end < payloads.length && end - start < 4) {
+          const ref = payloads[end].ref
+          if (!persisted.has(ref.sha256) || bytes + ref.bytes > 4 * 1024 * 1024) break
+          bytes += ref.bytes
+          end++
+        }
+        if (end === start) {
+          await visit(payloads[start++])
+          continue
+        }
+        const results = await Promise.allSettled(payloads.slice(start, end).map(visit))
+        for (const result of results) if (result.status === 'rejected') throw result.reason
+        start = end
+      }
+    },
+  })
+}
+
 import {statfs} from 'node:fs/promises'
 import {AsyncLocalStorage} from 'node:async_hooks'
 const MiB = 1024 ** 2, GiB = 1024 ** 3
 interface BatchLifetime {deadline: number; signal: AbortSignal; check(): number}
 const batchLifetime = new AsyncLocalStorage<BatchLifetime>()
 export function currentBatchLifetime() {return batchLifetime.getStore()}
+export const BATCH_OPERATION_LIFETIME_MS = 14_400_000
 /** Fixed operation-wide ceiling; callers cannot select a deadline or retry. */
 export async function withBatchLifetime<T>(body: () => Promise<T>) {
-  const controller = new AbortController(), deadline = performance.now() + 4_500_000
-  const timer = setTimeout(() => controller.abort(Error('BATCH_OPERATION_DEADLINE')), 4_500_000)
+  const controller = new AbortController(), deadline = performance.now() + BATCH_OPERATION_LIFETIME_MS
+  const timer = setTimeout(() => controller.abort(Error('BATCH_OPERATION_DEADLINE')), BATCH_OPERATION_LIFETIME_MS)
   const lifetime: BatchLifetime = {deadline, signal: controller.signal, check() {
     const remaining = Math.floor(deadline - performance.now())
     if (remaining < 1 || controller.signal.aborted) throw Error('BATCH_OPERATION_DEADLINE')

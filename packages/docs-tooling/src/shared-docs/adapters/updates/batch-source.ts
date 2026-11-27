@@ -471,7 +471,17 @@ export class BatchGitStore {
   }
 
   /** Walk changed subtrees from both authenticated roots. Report regular-file transitions and hash both endpoint blobs. */
-  async delta(from: string | null, to: string): Promise<RawChange[]> {
+  delta(from: string | null, to: string): Promise<RawChange[]> {
+    return this.walkDelta(from, to, 'verify-blobs')
+  }
+
+  /** Read-only scope evidence: a verified Git tree binds the name, mode and object ID, even
+   * when a separate local blob is unavailable. This does not certify the contents of that blob. */
+  treeIdentityDelta(from: string | null, to: string): Promise<RawChange[]> {
+    return this.walkDelta(from, to, 'tree-identities')
+  }
+
+  private async walkDelta(from: string | null, to: string, evidence: 'verify-blobs' | 'tree-identities'): Promise<RawChange[]> {
     await this.loadCommits(from ? [from, to] : [to])
     const changes: RawChange[] = []
     let visits = 0
@@ -488,8 +498,11 @@ export class BatchGitStore {
           if (a && b && a.mode !== b.mode) stop('GIT_PATH_TYPE_INVALID')
           await walk(path + '/', a?.oid, b?.oid); continue
         }
-        if (a) await this.blob(a)
-        if (b) await this.blob(b)
+        for (const entry of [a, b]) {
+          if (!entry) continue
+          if (evidence === 'verify-blobs') await this.blob(entry)
+          else if (!['100644', '100755'].includes(entry.mode)) stop('GIT_PATH_TYPE_INVALID')
+        }
         changes.push({ path, before: a?.oid ?? null, after: b?.oid ?? null, beforeMode: a?.mode ?? null, afterMode: b?.mode ?? null })
       }
     }
@@ -579,14 +592,31 @@ export async function measureBatchRenderFragments(repository: string, commits: r
   return {bytes: Math.max(endpointBytes, peak('bytes')), count: Math.max(endpointCount, peak('count')),
     snapshots: endpoints.length + intermediates.length, endpoints: {bytes: endpointBytes, count: endpointCount}, intermediates}
 }
-export async function reserveBatchContentAllocation(store: EvidenceStore, inputs: {
-  masterRepository: string; master: string; devRepository: string; dev: string; sourceRepository: string; commits: readonly string[]
-}) {
+type BatchContentStores = {masterRepository: string; master: string; devRepository: string; dev: string; sourceRepository: string}
+
+/** Each simultaneous worker owns separate exports and fragment snapshots, even
+ * for identical Git objects. Check their combined peak before launching any of
+ * them. The coordinator waits for every child to exit before retaining CAS. */
+export async function reserveBatchContentWindow(store: EvidenceStore, inputs: BatchContentStores, pages: readonly (readonly string[])[]) {
+  if (pages.length < 1 || pages.length > 2 || pages.some(commits => commits.length !== 3)) stop('BATCH_CONTENT_WINDOW_INVALID')
   const master = await measureBatchExport(inputs.masterRepository, inputs.master, ['shared-docs/guides'])
   const dev = await measureBatchExport(inputs.devRepository, inputs.dev, ['content/en/guides', 'content/en/byoc',
     'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'generated/en/manifests/shared-pages/guides/active.json'])
-  const fragments = await measureBatchRenderFragments(inputs.sourceRepository, inputs.commits)
-  await reserveBatchAllocation(store, master.bytes + dev.bytes + fragments.bytes, master.count + dev.count + fragments.count + 4)
+  let bytes = pages.length * (master.bytes + dev.bytes)
+  let entries = pages.length * (master.count + dev.count + 4)
+  const fragments = []
+  for (const commits of pages) {
+    const peak = await measureBatchRenderFragments(inputs.sourceRepository, commits)
+    bytes += peak.bytes
+    entries += peak.count
+    fragments.push(peak)
+  }
+  await reserveBatchAllocation(store, bytes, entries)
+  return {master, dev, fragments}
+}
+export async function reserveBatchContentAllocation(store: EvidenceStore, inputs: BatchContentStores & {commits: readonly string[]}) {
+  if (inputs.commits.length !== 3) stop('BATCH_FRAGMENT_BINDING_INVALID')
+  const {master, dev, fragments: [fragments]} = await reserveBatchContentWindow(store, inputs, [inputs.commits])
   return {master, dev, fragments}
 }
 /** Bound the whole export, then reserve each chunk from the physical tree.

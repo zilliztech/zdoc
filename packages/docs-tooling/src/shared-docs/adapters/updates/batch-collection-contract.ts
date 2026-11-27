@@ -5,6 +5,8 @@ import {canonicalBytes, compareUtf8, isValidUnicode, parseStrictJson} from '../.
 import {DigestSchema, GitShaSchema, RepoPathSchema} from '../../core/updates/envelope'
 import {BATCH_TREE_VISITS, batchRenderCommitSet, parseBatchGitCommit, parseBatchGitTree} from './batch-git-object'
 import {isMilvusIgnoredPathComponent} from '../../core/links/milvus-page-path'
+import {milvusPageMetadata} from '../../core/links/milvus-page-metadata'
+import {getHistoricalRenderView, isHistoricalRenderPoint, loadHistoricalRenderRules} from './historical-render'
 
 export const BATCH_BLOB_LIMIT = 64 * 1024 * 1024
 export const BATCH_WIRE_LIMIT = 128 * 1024 * 1024
@@ -210,7 +212,11 @@ export const BatchImagesSchema = z.array(z.strictObject({role, images: z.array(z
     reference: BatchReferenceSchema, adaptedLine: BatchCountSchema, origins: z.array(z.strictObject({file: text.optional(), line: BatchCountSchema.optional(), channel: z.enum(['current', 'next', 'both']).optional()})), source: span.optional()})), ref: BatchBlobRefSchema.nullable()})).refine(v => ordered(v, batchImageKey))}))
   .length(3).refine(v => v.every((o, i) => o.role === batchRoles[i]))
 
-export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSchema, sourceFile: RepoPathSchema,
+const historicalView = z.strictObject({rulesSha256: DigestSchema, pageId: BatchPageIdSchema, sourceFile: RepoPathSchema,
+  commit: GitShaSchema, rawOid: GitShaSchema, rawSha256: DigestSchema, viewRef: BatchBlobRefSchema})
+export type BatchHistoricalView = z.infer<typeof historicalView>
+export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSchema, sourceFile: RepoPathSchema, historicalView: historicalView.optional(),
+  equivalentTo: GitShaSchema.optional(),
   rawRef: BatchBlobRefSchema, inventoryRef: BatchBlobRefSchema, manuals: z.array(z.strictObject({manual: z.enum(['guides', 'guides-byoc']), path: RepoPathSchema, ref: BatchBlobRefSchema})).refine(v => ordered(v, m => `${m.manual}:${m.path}`)),
   imagesRef: BatchBlobRefSchema, diagnosticsRef: BatchBlobRefSchema,
   dependencies,
@@ -218,6 +224,46 @@ export const BatchIntervalObservationSchema = z.strictObject({commit: GitShaSche
 export const BatchHistorySchema = z.strictObject({commits: BatchCommitHistorySchema,
   interval: z.array(BatchIntervalObservationSchema).refine(v => ordered(v, o => o.commit)), inventoryProofRef: BatchBlobRefSchema.optional(),
   commitProofRef: BatchBlobRefSchema.optional()})
+
+/** Only plain, fixed page declarations qualify. Compare the complete YAML byte spelling
+ * (ignoring empty lines); unsupported declarations use the ordinary historical renderer. */
+export function batchEquivalentPageConfig(pageId: string, sourceFile: string, targets: readonly {manual: string; path: string}[],
+  files: readonly {path: string}[], yamlBytes: Uint8Array) {
+  const prefix = 'shared-docs/guides/pages/' + pageId + '/'
+  const own = files.filter(file => file.path.startsWith(prefix)).map(file => file.path.slice(prefix.length)).sort()
+  if (own.length !== 2 || own[0] !== 'lock.yaml' || own[1] !== 'page.yaml' ||
+      ![sourceFile, ...targets.map(target => target.path)].every(path => /^[A-Za-z0-9_./-]+$/.test(path)) ||
+      !targets.length || targets.some(target => !['guides', 'guides-byoc'].includes(target.manual))) return false
+  const expected = ['schema_version: 1', 'source:', '  file: ' + sourceFile, 'publish:',
+    ...targets.flatMap(target => ['  - manual: ' + target.manual, '    path: ' + target.path])]
+  const lines = Buffer.from(yamlBytes).toString('utf8').split('\n').filter(line => line.length > 0)
+  return expected.length === lines.length && expected.every((line, index) => line === lines[index])
+}
+
+export function batchEquivalentSourceBytes(raw: Uint8Array, variablesBytes: Uint8Array, deps: Readonly<z.infer<typeof dependencies>>) {
+  const source = Buffer.from(raw).toString('utf8')
+  if (!source.trim() || source.includes('\uFFFD')) return false
+  let manifest: unknown
+  try { manifest = parseStrictJson(variablesBytes) } catch { return false }
+  const values = z.record(z.string(), z.unknown()).safeParse(manifest)
+  if (!values.success) return false
+  const keys = new Set<string>()
+  let supported = true
+  const expanded = source.replace(/\{\{var\.([a-zA-Z0-9_]+)\}\}/g, (_, name: string) => {
+    const key = name.toLowerCase()
+    const matches = Object.keys(values.data).filter(k => k.toLowerCase() === key)
+    const value = matches.length === 1 ? values.data[matches[0]] : undefined
+    const dep = deps.find(d => d.kind === 'variable' && d.identity === key)
+    if (typeof value !== 'string' || !value.length || value.length > 256 || /[^a-zA-Z0-9_. -]/.test(value) ||
+        dep?.state !== 'resolved' || dep.sha256 !== batchSha256(Buffer.from(JSON.stringify(value)))) {
+      supported = false
+      return ''
+    }
+    keys.add(key)
+    return value
+  })
+  return supported && deps.length === keys.size && !expanded.includes('{{') && !/!\[|<img/i.test(expanded)
+}
 
 export function parseBatchCanonical<T>(bytes: Uint8Array, schema: z.ZodType<T>): T {
   if (bytes.length > BATCH_BLOB_LIMIT) throw Error('BATCH_CAS_BLOB_LIMIT')
@@ -322,6 +368,7 @@ export function batchGitInventoryReader(
     }
   }
   return {
+    metadataFor(oid: string) { return metadata.get(oid) },
     inventory(value: z.infer<typeof BatchGitInventorySchema>): SourceInventory & {discoveryRows(): readonly DiscoveryRow[]} {
       const {commit, treeOid, commitRef, absentPaths} = value
       const key = commit + ':' + commitRef.sha256
@@ -423,6 +470,25 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
       if (inventory.oidOf(entry.path) !== entry.oid || createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== entry.oid) throw Error('BATCH_SOURCE_INVENTORY_INVALID')
     }
   }
+  const rules = loadHistoricalRenderRules()
+  const endpoints = new Set([header.current, header.oldNext, base.pins.source])
+  const hasEquivalence = history.interval.some(row => row.equivalentTo)
+  const nativeIntervals = new Map(hasEquivalence ? history.interval.filter(row => !row.equivalentTo).map(row => [row.commit, row] as const) : [])
+  let equivalentVariables: Buffer | undefined
+  if (hasEquivalence) {
+    const variables = config.files.find(file => file.path === 'shared-docs/guides/Variables.json')
+    const pageYaml = config.files.find(file => file.path === 'shared-docs/guides/pages/' + header.pageId + '/page.yaml')
+    if (!gitInventory || !history.commitProofRef || !pageYaml || !variables) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    function gitConfigBytes(file: typeof config.files[number]) {
+      const raw = bytes(file.ref)
+      if (createHash('sha1').update(`blob ${raw.length}\0`).update(raw).digest('hex') !== file.oid)
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      return raw
+    }
+    equivalentVariables = gitConfigBytes(variables)
+    if (!batchEquivalentPageConfig(header.pageId, config.sourceFile, header.targets, config.files, gitConfigBytes(pageYaml)))
+      throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+  }
   for (const observation of history.interval) {
     const raw = object(observation.rawRef, BatchRawTreeSchema), inventory = inventoryAt(observation.inventoryRef)
     if (observation.commit !== raw.commit || observation.commit !== inventory.commit) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
@@ -431,13 +497,99 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
       const content = bytes(entry.ref)
       if (inventory.oidOf(entry.path) !== entry.oid || createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex') !== entry.oid) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
     }
+    const witness = observation.historicalView
+    const required = !endpoints.has(observation.commit) && isHistoricalRenderPoint(rules, header.pageId, observation.commit)
+    if (Boolean(witness) !== required) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+    if (observation.equivalentTo) {
+      const representative = nativeIntervals.get(observation.equivalentTo)
+      if (!representative || endpoints.has(observation.commit) || endpoints.has(representative.commit) ||
+          required || isHistoricalRenderPoint(rules, header.pageId, representative.commit) ||
+          inventoryAt(representative.inventoryRef).treeOid !== inventory.treeOid)
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      // Raw records name their own commit, so compare their complete entry lists separately.
+      // All other measured fields, including future additions, must match the native row.
+      const same = (a: unknown, b: unknown) => Buffer.from(canonicalBytes(a)).equals(canonicalBytes(b))
+      const measured = ({commit, equivalentTo, inventoryRef, rawRef, ...fields}: typeof observation) => fields
+      if (!same(measured(observation), measured(representative)) ||
+          !same(raw.entries, object(representative.rawRef, BatchRawTreeSchema).entries))
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+      if (observation.sourceFile !== config.sourceFile || raw.entries.length !== 1 ||
+          raw.entries[0].path !== config.sourceFile || !equivalentVariables ||
+          !batchEquivalentSourceBytes(bytes(raw.entries[0].ref), equivalentVariables, observation.dependencies) ||
+          observation.outputStatus !== 'observed' || observation.imageStatus !== 'observed' ||
+          observation.manuals.length !== header.targets.length ||
+          header.targets.some(target => !observation.manuals.some(m => m.manual === target.manual && m.path === target.path)))
+        throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    }
+    if (witness) {
+      const root = raw.entries.find(entry => entry.path === config.sourceFile)
+      if (observation.outputStatus !== 'observed' || observation.imageStatus !== 'observed' ||
+          observation.dependencies.some(dep => dep.state !== 'resolved' || !dep.sha256) ||
+          header.targets.length !== 2 || header.targets[0].manual !== 'guides' || header.targets[1].manual !== 'guides-byoc' ||
+          observation.manuals.length !== header.targets.length ||
+          header.targets.some(target => !observation.manuals.some(m => m.path === target.path && m.manual === target.manual)))
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      if (!root || !gitInventory || !history.commitProofRef ||
+          witness.rulesSha256 !== rules.rulesSha256 || witness.pageId !== header.pageId ||
+          witness.sourceFile !== config.sourceFile || observation.sourceFile !== config.sourceFile ||
+          witness.commit !== observation.commit || witness.rawOid !== root.oid || witness.rawSha256 !== root.ref.sha256)
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      const original = bytes(root.ref)
+      const view = getHistoricalRenderView(rules, witness, original)
+      if (!view || view.renderSha256 !== witness.viewRef.sha256 || !view.bytes.equals(bytes(witness.viewRef)))
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      const source = view.bytes.toString('utf8')
+      const metadata = milvusPageMetadata(root.path, original.toString('utf8'))
+      const renderedMetadata = milvusPageMetadata(root.path, source)
+      const inventoryMetadata = gitInventory.metadataFor(root.oid)
+      if (!metadata || !renderedMetadata || !inventoryMetadata ||
+          inventoryMetadata.id !== metadata.id || inventoryMetadata.title !== metadata.title ||
+          renderedMetadata.id !== metadata.id || renderedMetadata.title !== metadata.title)
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      const variables = config.files.find(file => file.path === 'shared-docs/guides/Variables.json')
+      if (!variables) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      const configBytes = bytes(variables.ref)
+      if (createHash('sha1').update(`blob ${configBytes.length}\0`).update(configBytes).digest('hex') !== variables.oid)
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      const values = z.record(z.string(), z.unknown()).parse(parseStrictJson(configBytes))
+      for (const key of new Set([...source.matchAll(/\{\{var\.([a-z0-9_]+)\}\}/g)].map(match => match[1]))) {
+        const names = Object.keys(values).filter(name => name.toLowerCase() === key)
+        const dependency = observation.dependencies.find(dep => dep.kind === 'variable' && dep.identity === key)
+        const value = names.length === 1 ? values[names[0]] : undefined
+        if (typeof value !== 'string' || dependency?.state !== 'resolved' ||
+            dependency.sha256 !== batchSha256(Buffer.from(JSON.stringify(value)))) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      }
+      for (const dep of observation.dependencies.filter(dep => dep.kind === 'fragment')) {
+        if (dep.state !== 'resolved' || !raw.entries.some(entry => entry.path === dep.identity && entry.ref.sha256 === dep.sha256))
+          throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      }
+    }
     for (const manual of observation.manuals) {
       const body = object(manual.ref, BatchManualSchema)
       if (body.manual !== manual.manual || body.path !== manual.path) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')
+      if (witness && (!body.markdown.trim() || !body.output?.trim())) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      if (observation.equivalentTo && (!body.markdown.trim() || !body.output?.trim())) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
     }
     const images = object(observation.imagesRef, BatchImagesSchema)
-    for (const role of images) for (const image of role.images) if (image.ref) {bytes(image.ref); if (!image.observed || image.ref.sha256 !== image.observed.sha256 || image.ref.bytes !== image.observed.bytes || image.ref.sha256 !== image.emitted.sha256) throw Error('BATCH_IMAGE_BINDING_INVALID')}
-    object(observation.diagnosticsRef, BatchDiagnosticsSchema)
+    if (observation.equivalentTo && images.some(role => role.images.length)) throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    for (const role of images) for (const image of role.images) {
+      if (!image.ref) {
+        if (witness) throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+        continue
+      }
+      const imageBytes = bytes(image.ref)
+      if (!image.observed || image.ref.sha256 !== image.observed.sha256 || image.ref.bytes !== image.observed.bytes ||
+          image.ref.sha256 !== image.emitted.sha256) throw Error('BATCH_IMAGE_BINDING_INVALID')
+      if (witness && image.origin.kind === 'unavailable') throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+      if (witness && image.origin.kind === 'repository' && (image.origin.commit !== observation.commit ||
+          inventory.oidOf(image.origin.path) !== createHash('sha1').update(`blob ${imageBytes.length}\0`).update(imageBytes).digest('hex')))
+        throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
+    }
+    const diagnostics = object(observation.diagnosticsRef, BatchDiagnosticsSchema)
+    if (observation.equivalentTo && (diagnostics.errors.length || diagnostics.rawErrors.length || diagnostics.reasons.length))
+      throw Error('BATCH_HISTORY_EQUIVALENCE_INVALID')
+    if (witness && (diagnostics.errors.length || diagnostics.rawErrors.length || diagnostics.reasons.length))
+      throw Error('BATCH_HISTORICAL_RENDER_UNPROVEN')
   }
   for (const manual of header.renderedManualRefs) {
     const body = object(manual.ref, BatchManualSchema)
@@ -459,7 +611,6 @@ export function validateBatchWire(value: unknown, expected: BatchRenderRequest) 
   object(header.diagnosticsRef, BatchDiagnosticsSchema)
   if (gitInventory) {
     gitInventory.finish()
-    const endpoints = new Set([header.current, header.oldNext, base.pins.source])
     const required = batchRenderCommitSet(history.commits, header.current, header.oldNext, base.pins.source, !history.commitProofRef)
       .filter(oid => !endpoints.has(oid))
     if (required.length !== history.interval.length || required.some((oid, i) => oid !== history.interval[i].commit)) throw Error('BATCH_INTERVAL_OBSERVATION_INVALID')

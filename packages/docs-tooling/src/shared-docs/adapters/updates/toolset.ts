@@ -1,5 +1,5 @@
 import {immutable} from '../../core/updates/types'
-import {consumeBatchContentLaunch, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
+import {consumeBatchContentLaunch, consumeObservedContentPair, type BatchContentPair, type BatchContentTicket, replayBatchContentData, consumeBatchQualifierLaunch, consumeBatchVerifierLaunch} from './batch-collection'
 import {BatchRenderRequestSchema, BatchQualifierRequestSchema, BatchQualificationSchema, BatchVerifyControlSchema, batchDigest, validateBatchWire, type BatchQualifierRequest, type BatchQualification, type BatchVerifyControl, type BatchRenderRequest, type BatchMaterialWire} from './batch-collection-contract'
 import { constants } from 'node:fs'
 import { lstat, open, readdir, readlink, realpath, symlink, writeFile } from 'node:fs/promises'
@@ -269,13 +269,14 @@ export async function acquireLocalIdentity(environment: NodeJS.ProcessEnv): Prom
     userIndex:index(outputs[3]),groupIndex:index(outputs[4]),credentials:{uid:process.getuid(),euid:process.geteuid(),gid:process.getgid(),egid:process.getegid(),groups:process.getgroups().sort((a,b)=>a-b)} }
 }
 
+const captureReadWindow = 8
 /** Keep observations fresh and ordered without serializing independent filesystem reads. */
 async function* inspectAccessWindows<T, Result>(inputs: Iterable<T>, inspect: (input: T) => Promise<Result>) {
-  const ordered = [...inputs], window = 8
-  for (let offset = 0; offset < ordered.length; offset += window) {
+  const ordered = [...inputs]
+  for (let offset = 0; offset < ordered.length; offset += captureReadWindow) {
     currentBatchLifetime()?.check()
     // A failed read must not leave another read from this window running.
-    const results = await Promise.allSettled(ordered.slice(offset, offset + window).map(inspect))
+    const results = await Promise.allSettled(ordered.slice(offset, offset + captureReadWindow).map(inspect))
     for (const result of results) {
       if (result.status === 'rejected') throw result.reason
       yield result.value
@@ -403,9 +404,9 @@ async function verifyRuntimeBytes(state: CapturePrivate) {
 }
 
 /** Trusted install files may be hardlinked by pnpm; bytes are rehashed, never trusted from SRI alone. */
-async function fileBytes(path: string) {
+async function fileBytes(path: string, maximum = limit) {
   const before = await lstat(path,{bigint:true})
-  if (!before.isFile() || before.isSymbolicLink() || before.size > limit || before.mode & 0o6022n || !safeOwner(Number(before.uid))) throw new Error(`Unsafe trusted file: ${path}`)
+  if (!before.isFile() || before.isSymbolicLink() || before.size > maximum || before.mode & 0o6022n || !safeOwner(Number(before.uid))) throw new Error(`Unsafe trusted file: ${path}`)
   const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW)
   try {
     const st = await handle.stat({bigint:true})
@@ -417,6 +418,27 @@ async function fileBytes(path: string) {
     if (after.mtimeNs !== st.mtimeNs || after.ctimeNs !== st.ctimeNs || current.ino !== st.ino || current.dev !== st.dev || current.isSymbolicLink()) throw new Error('Trusted file changed')
     return { bytes: Uint8Array.from(buffer), mode: (st.mode & 0o111n ? '100755' : '100644') as '100755' | '100644' }
   } finally { await handle.close() }
+}
+
+const parallelCaptureFileLimit = 1024 * 1024
+/** A capture may overlap small independent reads. Large reads retain the single-file limit. */
+function captureFileWindow<T>(read: (file: T, maximum: number) => Promise<() => void>) {
+  let pending: T[] = []
+  async function flush() {
+    const window = pending
+    pending = []
+    for await (const retain of inspectAccessWindows(window, file => read(file, parallelCaptureFileLimit))) retain()
+  }
+  return {flush, async read(file: T, size: number | bigint) {
+    if (size > parallelCaptureFileLimit) {
+      await flush()
+      const retain = await read(file, limit)
+      retain()
+      return
+    }
+    pending.push(file)
+    if (pending.length === captureReadWindow) await flush()
+  }}
 }
 async function gitBytes(binary: string, root: string, args: string[], env: NodeJS.ProcessEnv, input?: string): Promise<Buffer> {
   if (!['cat-file', 'ls-tree', 'rev-parse', '--version'].includes(args[0])) throw new Error('Unsupported Git read')
@@ -538,22 +560,26 @@ type CapturePrivate = { lookup: LookupState; access: AccessEvidence; rootIdentit
 const captures = new WeakMap<TrustedToolsetCapture, CapturePrivate>()
 async function captureRepository(root: string, commit: string, git: string, env: NodeJS.ProcessEnv, entries: Map<string, ClosureEntry>, physical: Map<string, string>) {
   const all = await tree(git, root, commit, env), selected = [...all.values()].filter(e => protectedToolsetPath(e.path)), blobs = await blobObjects(git, root, selected, env)
+  const files = captureFileWindow(async ({e, path, full, bytes}: {e: TreeEntry; path: string; full: string; bytes: Uint8Array}, maximum) => {
+    if (!contains(root, await realpath(full))) throw new Error('Repository path escape')
+    const actual = await fileBytes(full, maximum)
+    if (actual.mode !== e.mode || !Buffer.from(actual.bytes).equals(bytes)) throw new Error(`Uncommitted protected material: ${e.path}`)
+    const entry = fileEntry(path, bytes, actual.mode)
+    return () => {entries.set(path, entry); physical.set(full, path); addDirectories(entries, path)}
+  })
   for (const e of selected) {
     const path = `repo/${e.path}`, bytes = blobs.get(e.oid)!, full = join(root, e.path)
     if (e.mode === '120000') {
+      await files.flush()
       const literal = new TextDecoder('utf8', { fatal: true }).decode(bytes)
       if (isAbsolute(literal) || /[\\\0\r\n]/.test(literal)) throw new Error('Escaped repository symlink')
       const target = posix.normalize(posix.join(posix.dirname(path), literal)); logical.parse(target)
       if (!target.startsWith('repo/') || !contains(root, await realpath(full)) || await readlink(full) !== literal) throw new Error('Repository symlink drift')
       entries.set(path, { path, state: 'symlink', mode: '120000', policy: 'repository-literal', linkTextBase64: Buffer.from(bytes).toString('base64'), target })
-    } else {
-      if (!contains(root, await realpath(full))) throw new Error('Repository path escape')
-      const actual = await fileBytes(full)
-      if (actual.mode !== e.mode || !Buffer.from(actual.bytes).equals(Buffer.from(bytes))) throw new Error(`Uncommitted protected material: ${e.path}`)
-      entries.set(path, fileEntry(path, bytes, actual.mode)); physical.set(full, path)
-    }
-    addDirectories(entries, path)
+      addDirectories(entries, path)
+    } else await files.read({e, path, full, bytes}, bytes.length)
   }
+  await files.flush()
   for (const path of optional) if (!all.has(path)) {
     try { await lstat(join(root, path)); throw new Error(`Untracked execution config: ${path}`) } catch (e) { if (!absent(e)) throw e }
     entries.set(`repo/${path}`, { path: `repo/${path}`, state: 'absent' })
@@ -626,14 +652,20 @@ async function captureDependencies(root: string, all: Map<string, TreeEntry>, en
     throw new Error(`Unmeasured dependency escape: ${path}`)
   }
   const links: { path: string; physical: string }[] = [], nativeTargets: { name: string; path: string }[] = []
+  const files = captureFileWindow(async ({full, path}: {full: string; path: string}, maximum) => {
+    const content = await fileBytes(full, maximum)
+    const entry = fileEntry(path, content.bytes, content.mode), native = nativeDependencies(content.bytes)
+    return () => {entries.set(path, entry); physical.set(full, path); if (native) nativeTargets.push({name: path, path: full})}
+  })
   for (const pkg of packageRoots) await walk(pkg.physical, async (suffix, stat) => {
     const full = join(pkg.physical, suffix), path = `${pkg.logical}/${suffix}`
+    if (!stat.isFile()) await files.flush()
     if (stat.isSymbolicLink()) { links.push({ path, physical: full }); return false }
     if (stat.isDirectory()) { entries.set(path, { path, state: 'directory', mode: '040000' }); physical.set(full, path); return }
     if (!stat.isFile()) throw new Error('Unsupported installed file type')
-    const content = await fileBytes(full); entries.set(path, fileEntry(path, content.bytes, content.mode)); physical.set(full, path)
-    if (nativeDependencies(content.bytes)) nativeTargets.push({ name: path, path: full })
+    await files.read({full, path}, stat.size)
   })
+  await files.flush()
   for (const link of links) {
     const target = mapPhysical(await realpath(link.physical)); entries.set(link.path, { path: link.path, state: 'symlink', mode: '120000', policy: 'installed-logical', linkTextBase64: null, target }); physical.set(link.physical, link.path)
   }
@@ -809,6 +841,13 @@ export async function captureTrustedToolset(options: CaptureOptions): Promise<Tr
   captures.set(result, { lookup, access, rootIdentity: { dev: rootIdentity.dev, ino: rootIdentity.ino }, gitVersion, flags: [...flags], sha256: result.toolsetSha256, closure: validateClosure(result.closure), hostExclusions: [...new Set(hostExclusions)].sort(compareUtf8), options: { ...options, root }, git, environment, tree: all, physical }); return result
 }
 function captured(value: TrustedToolsetCapture) { const state = captures.get(value); if (!state) throw new Error('Missing independently captured trusted toolset'); return state }
+/** Fast per-window check for intermediate read-only content workers inside one collection; authoritative boundaries still run full verifyTrustedToolset. */
+export async function verifyTrustedToolsetWindow(value: TrustedToolsetCapture) {
+  const state = captured(value), root = await lstat(state.options.root)
+  if (!root.isDirectory() || root.isSymbolicLink() || root.ino !== state.rootIdentity.ino || root.dev !== state.rootIdentity.dev) throw new Error('Trusted root identity changed')
+  await recheckAccess(state.access)
+  await verifyRuntimeBytes(state)
+}
 /** Recollect immediately before K or any new compiler load. Serialized manifests cannot authorize this. */
 export async function verifyTrustedToolset(value: TrustedToolsetCapture) {
   const state = captured(value), root = await lstat(state.options.root)
@@ -1133,20 +1172,50 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     await inspectAccess(new Map([[owned.root, 'launcher'], ...expected.map(name => [join(owned.root, name), 'launcher'] as [string, string])]), state.environment)
     await owned.verify()
   }
-  async function runBatchContent(ticket: import('./batch-collection').BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
-    // Consumption is synchronous before the first await.
-    const request = consumeBatchContentLaunch(ticket, value, evidence, kind)
-    signal?.throwIfAborted()
+  function contentWorker(ticket: BatchContentTicket, launch: ReturnType<typeof consumeBatchContentLaunch>,
+    kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const {request} = launch
     const input = canonicalBytes(request)
     if (input.length > workerLimit || request.pins.trustedTools !== state.options.commit || request.pins.toolsetSha256 !== state.sha256) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-    await owned.verify(); await verifyTrustedToolset(value); await verifyLauncher(); signal?.throwIfAborted()
     const args = [...guardedFlags, join(owned.root, 'guides-worker.cjs'), state.options.root, `batch-content-${kind}`]
     const replayData = kind === 'replay' ? replayBatchContentData(ticket, value, evidence) ?? new Uint8Array() : undefined
     if (replayData && replayData.length > workerLimit) throw Error('BATCH_LAUNCH_BINDING_INVALID')
-    const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData)
-    immutable(child.value)
-    measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
-    return child as BatchMeasuredChild
+    return async (authenticationMs: number) => {
+      const child = await invokeGuidesWorker(targets.get('runtime/node')!, args, state.options.root, environment, input, signal, undefined, request, replayData, undefined,
+        () => launch.renderWorkerStarted(authenticationMs))
+      immutable(child.value)
+      measuredContent.set(child, {ticket, capture: value, store: evidence, request: childContentMeasures.get(child)!})
+      return child as BatchMeasuredChild
+    }
+  }
+  let authenticatedContentWindows = 0
+  async function startAuthenticatedContent<T>(signal: AbortSignal | undefined, start: (elapsed: number) => T) {
+    const before = performance.now()
+    await owned.verify()
+    if (authenticatedContentWindows === 0) await verifyTrustedToolset(value)
+    else await verifyTrustedToolsetWindow(value)
+    await verifyLauncher()
+    signal?.throwIfAborted()
+    authenticatedContentWindows++
+    return start(Math.ceil(performance.now() - before))
+  }
+  async function runBatchContent(ticket: BatchContentTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
+    const launch = consumeBatchContentLaunch(ticket, value, evidence, kind)
+    signal?.throwIfAborted()
+    const start = contentWorker(ticket, launch, kind, signal)
+    await launch.authenticating()
+    return startAuthenticatedContent(signal, start)
+  }
+  async function runObservedBatchContentPair(pair: BatchContentPair, signal: AbortSignal) {
+    const launches = consumeObservedContentPair(pair, value, evidence)
+    signal.throwIfAborted()
+    const first = contentWorker(pair[0], launches[0], 'observed', signal)
+    const second = contentWorker(pair[1], launches[1], 'observed', signal)
+    await Promise.all(launches.map(launch => launch.authenticating()))
+    // Each page records the same wall-clock wait. Use the maximum per window when aggregating.
+    // invokeGuidesWorker calls spawn synchronously before its first await. The
+    // final verification starts both children in the same turn.
+    return startAuthenticatedContent(signal, elapsed => [first(elapsed), second(elapsed)] as const)
   }
   async function runBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, kind: 'observed' | 'replay', signal?: AbortSignal) {
     const launch = consumeBatchQualifierLaunch(ticket, value, evidence, kind), request = launch.request
@@ -1206,6 +1275,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
     },
   }
   batchLaunchers.set(launcher, {
+    runObservedBatchContentPair,
     runObservedBatchContent: (ticket, signal) => runBatchContent(ticket, 'observed', signal),
     runReplayBatchContent: (ticket, signal) => runBatchContent(ticket, 'replay', signal),
     runObservedBatchQualification: (ticket, signal) => runBatchQualification(ticket, 'observed', signal),
@@ -1215,6 +1285,7 @@ export async function prepareTrustedLauncher(value: TrustedToolsetCapture, evide
   return launcher
 }
 interface BatchLauncher {
+  runObservedBatchContentPair(pair: BatchContentPair, signal: AbortSignal): Promise<readonly [Promise<BatchMeasuredChild>, Promise<BatchMeasuredChild>]>
   runObservedBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
   runReplayBatchQualification(ticket: import('./batch-collection').BatchQualificationLaunchTicket, signal?: AbortSignal): Promise<BatchQualifiedChild>
   runBatchVerifier(ticket: import('./batch-collection').BatchVerifierLaunchTicket, signal?: AbortSignal): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}>
@@ -1358,11 +1429,13 @@ export function takeMeasuredBatchQualification(child: BatchQualifiedChild, ticke
 /** Own only the group born from this actual handle; a parent cannot clean up after
  * its own fatal death, or certify descendants that deliberately leave the group. */
 async function invokeGuidesWorker(binary: string, args: string[], cwd: string, environment: NodeJS.ProcessEnv,
-  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>}): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
+  input: Uint8Array, signal?: AbortSignal, broker?: {runId: number; token: string} | {runId: number; replay: readonly ReplayMetadataRow[]}, contentRequest?: BatchRenderRequest | BatchQualifierRequest | BatchVerifyControl, replayInput?: Uint8Array, descriptors?: {root: number; blobs: number; parent?: number; finalize?: (signal: AbortSignal) => Promise<number>},
+  onWorkerStarted?: () => Promise<void>): Promise<{value: unknown; stdout: string; stderr: string; settlement: GuidesWorkerSettlement}> {
   signal?.throwIfAborted()
   const child = spawn(binary, args, {cwd, env: environment,
     stdio: ['pipe', 'pipe', 'pipe', 'pipe', descriptors ? descriptors.root : broker ? 'pipe' : 'ignore', descriptors ? descriptors.blobs : broker ? 'pipe' : 'ignore', descriptors?.parent ?? (replayInput !== undefined ? 'pipe' : 'ignore')], detached: true})
   const readerLifetime = new AbortController(), publicationLifetime = new AbortController()
+  let startedProgress: Promise<void> | undefined
   let closeBroker: (() => void) | undefined
   let serving: Promise<void> | undefined
   let brokerFailed = false
@@ -1422,7 +1495,15 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
   try {
     child.on('spawn', guarded(() => {
       if (replayInput !== undefined) {const pipes: readonly (Readable | Writable | null)[] = child.stdio; const replayPipe = pipes[6] as Writable; replayPipe.on('error', guarded(fail)); replayPipe.end(replayInput)}
-      receipt.born = true; birthDone(); if (!primary) {inputHash.update(input); inputBytes += input.length; descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)} }))
+      receipt.born = true; birthDone()
+      if (!primary) {
+        inputHash.update(input); inputBytes += input.length
+        descriptors?.finalize ? child.stdin.write(input) : child.stdin.end(input)
+        // The OS emitted spawn and the real request has been submitted. Record
+        // this after launch so no asynchronous I/O separates verification and spawn.
+        startedProgress = onWorkerStarted?.()
+      }
+    }))
     child.on('error', guarded(error => {birthDone(); fail(error)}))
     child.stdin.on('error', guarded(fail)).on('finish', guarded(() => {inputFinished = true}))
     for (const [i, stream] of [child.stdout, child.stderr, child.stdio[3]].entries()) stream!.on('error', guarded(fail)).on('data', guarded((bytes: Buffer) => {
@@ -1530,6 +1611,8 @@ async function invokeGuidesWorker(binary: string, args: string[], cwd: string, e
     for (const timer of timers) cleanup('clear-timer', () => clearTimeout(timer))
     terminal = true
   }
+  // Finish the optional atomic snapshot before the coordinator journals the next phase.
+  if (startedProgress) await startedProgress
   if (contentRequest && receipt.cleanupErrors.length) primary ??= new Error('BATCH_LAUNCH_BINDING_INVALID')
   if (primary) throw Object.assign(new Error((primary as Error).message, {cause: primary}), {settlement: receipt})
   return response!

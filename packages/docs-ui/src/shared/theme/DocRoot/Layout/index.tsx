@@ -329,6 +329,11 @@ function DocRootLayoutInner({children}: Props): ReactNode {
   const [hiddenSidebar, setHiddenSidebarState] = useState(persistedHidden);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const {prefetchPageContext} = useChatContext();
+  const chatActive = isChatOpen || isChatExpanded;
+  useEffect(() => {
+    if (chatActive) return prefetchPageContext();
+  }, [chatActive, prefetchPageContext]);
   const [chatWidth, setChatWidth] = useState<number | null>(null);
   const navCompactRef = useRef(false);
   const chatCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -678,7 +683,7 @@ export default function DocRootLayout(props: Props): ReactNode {
   }
 
   return (
-    <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug}>
+    <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug} releaseChannel={runtimeChannel}>
       <DocRootLayoutInner {...props} />
     </ChatProvider>
   );

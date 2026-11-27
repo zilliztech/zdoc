@@ -286,9 +286,23 @@ describe('filterNextChannelSidebarItems', () => {
     expect(filtered[0]).toBe(untouched);
     expect(filtered[1]).not.toBe(items[1]);
   });
+
+  it('still removes a channel-marked navigation-only link row from the sidebar', () => {
+    // The docId-less exemption lives in the path gate only: visibility
+    // filtering must keep hiding the ref row itself on CURRENT deployments —
+    // that filtering is the mechanism the staging phase relies on.
+    const items: PropSidebarItem[] = [
+      {type: 'link', key: 'ref:preview', href: '/docs/preview', label: 'Ref', customProps: {channel: 'next'}} as unknown as PropSidebarItem,
+      docItem('stable'),
+    ];
+    expect(filterNextChannelSidebarItems(items)).toEqual([docItem('stable')]);
+  });
 });
 
 describe('filterNextChannelPaginationLinks', () => {
+  // The NEXT-marked entry carries docId because this is the production shape
+  // of a real NEXT doc page: Docusaurus resolves doc leaves into link items
+  // before the theme sees them (only writer ref/link rows lack docId).
   const sidebar: PropSidebarItem[] = [
     {type: 'link', key: 'a', href: '/docs/stable', label: 'Stable'} as unknown as PropSidebarItem,
     {
@@ -296,6 +310,7 @@ describe('filterNextChannelPaginationLinks', () => {
       key: 'b',
       href: '/docs/single-sign-on-with-ping-one',
       label: 'PingOne',
+      docId: 'single-sign-on-with-ping-one',
       customProps: {channel: 'next'},
     } as unknown as PropSidebarItem,
   ];
@@ -328,6 +343,19 @@ describe('filterNextChannelPaginationLinks', () => {
       previous: undefined,
       next: undefined,
     });
+  });
+
+  it('keeps pagination when the sidebar only hides a navigation-only ref row', () => {
+    // A NEXT-marked docId-less ref pointing at a live page must not drop
+    // prev/next links to that page: its channel describes the sidebar entry,
+    // never the route (releaseChannel.ts isNavigationOnlyLinkItem).
+    const navRefSidebar: PropSidebarItem[] = [
+      {type: 'link', key: 'ref:preview', href: '/docs/stable', label: 'Ref', customProps: {channel: 'next'}} as unknown as PropSidebarItem,
+    ];
+    const previous = {title: 'Google Workspace', permalink: '/docs/stable'};
+    const next = {title: 'Split Part A', permalink: '/docs/live'};
+
+    expect(filterNextChannelPaginationLinks(previous, next, navRefSidebar)).toEqual({previous, next});
   });
 });
 
@@ -362,6 +390,40 @@ describe('sidebarPathIsNextChannel', () => {
 
   it('stays page-exact: a CURRENT child of a NEXT category renders normally', () => {
     expect(sidebarPathIsNextChannel(items, '/docs/unreleased/child')).toBe(false);
+  });
+
+  it('does not gate navigation-only link rows even when their href matches a live page', () => {
+    // Writer-produced ref rows are docId-less links whose channel marks the
+    // sidebar entry, not the target route: a NEXT-marked ref pointing at a
+    // CURRENT-live page must not swap the docs shell for the 404 page.
+    const withNavRef: PropSidebarItem[] = [
+      {type: 'link', key: 'ref:preview', href: '/docs/stable', label: 'Ref', customProps: {channel: 'next'}} as unknown as PropSidebarItem,
+    ];
+    expect(sidebarPathIsNextChannel(withNavRef, '/docs/stable')).toBe(false);
+  });
+
+  it('still gates resolved doc leaves that arrive as docId-bearing links', () => {
+    // The exemption is keyed on the absence of docId: the production shape of
+    // a real NEXT page is a link item with docId and keeps gating its route.
+    const withDocLeaf: PropSidebarItem[] = [
+      {type: 'link', key: 'doc:preview', href: '/docs/stable', label: 'Page', docId: 'preview', customProps: {channel: 'next'}} as unknown as PropSidebarItem,
+    ];
+    expect(sidebarPathIsNextChannel(withDocLeaf, '/docs/stable')).toBe(true);
+  });
+
+  it('does not gate a navigation-only ref row nested inside categories', () => {
+    // Real ref rows live under section categories: the exemption must hold at
+    // depth, where the gate recurses.
+    const nested: PropSidebarItem[] = [
+      {
+        type: 'category',
+        label: 'Agentbase',
+        items: [
+          {type: 'link', key: 'ref:preview', href: '/docs/stable', label: 'Ref', customProps: {channel: 'next'}} as unknown as PropSidebarItem,
+        ],
+      } as unknown as PropSidebarItem,
+    ];
+    expect(sidebarPathIsNextChannel(nested, '/docs/stable')).toBe(false);
   });
 });
 
@@ -404,9 +466,22 @@ describe('filterRetiredChannelSidebarItems', () => {
     expect(isRetiredChannelSidebarItem(items[1]!)).toBe(false);
     expect(isNextChannelSidebarItem(items[1]!)).toBe(true);
   });
+
+  it('still removes a channel-marked navigation-only link row from the sidebar', () => {
+    // Mirror of the NEXT pin: the docId-less path-gate exemption must not
+    // leak into visibility filtering — a RETIRE-marked ref row stays hidden
+    // on NEXT deployments.
+    const items: PropSidebarItem[] = [
+      docItem('live'),
+      {type: 'link', key: 'ref:legacy', href: '/docs/legacy', label: 'Ref', customProps: {channel: 'retire-in-next'}} as unknown as PropSidebarItem,
+    ];
+    expect(filterRetiredChannelSidebarItems(items)).toEqual([docItem('live')]);
+  });
 });
 
 describe('filterRetiredChannelPaginationLinks', () => {
+  // Same production shape as the NEXT fixture: the RETIRE-IN-NEXT-marked doc
+  // page arrives as a link item carrying docId.
   const sidebar: PropSidebarItem[] = [
     {type: 'link', key: 'a', href: '/docs/live', label: 'Live'} as unknown as PropSidebarItem,
     {
@@ -414,6 +489,7 @@ describe('filterRetiredChannelPaginationLinks', () => {
       key: 'b',
       href: '/docs/legacy-monolith',
       label: 'Legacy Monolith',
+      docId: 'legacy-monolith',
       customProps: {channel: 'retire-in-next'},
     } as unknown as PropSidebarItem,
   ];
@@ -433,6 +509,16 @@ describe('filterRetiredChannelPaginationLinks', () => {
     const next = {title: 'Split Part A', permalink: '/docs/live'};
 
     expect(filterRetiredChannelPaginationLinks(previous, next, undefined)).toEqual({previous, next});
+  });
+
+  it('keeps pagination when the sidebar only hides a navigation-only ref row', () => {
+    const navRefSidebar: PropSidebarItem[] = [
+      {type: 'link', key: 'ref:legacy', href: '/docs/live', label: 'Ref', customProps: {channel: 'retire-in-next'}} as unknown as PropSidebarItem,
+    ];
+    const previous = {title: 'Legacy Monolith', permalink: '/docs/legacy-monolith'};
+    const next = {title: 'Live', permalink: '/docs/live'};
+
+    expect(filterRetiredChannelPaginationLinks(previous, next, navRefSidebar)).toEqual({previous, next});
   });
 });
 
@@ -460,6 +546,20 @@ describe('sidebarPathIsRetiredChannel', () => {
     ];
     expect(sidebarPathIsRetiredChannel(nextOnly, '/docs/preview')).toBe(false);
     expect(sidebarPathIsNextChannel(items, '/docs/legacy-monolith')).toBe(false);
+  });
+
+  it('does not gate navigation-only link rows even when their href matches a live page', () => {
+    const withNavRef: PropSidebarItem[] = [
+      {type: 'link', key: 'ref:legacy', href: '/docs/live', label: 'Ref', customProps: {channel: 'retire-in-next'}} as unknown as PropSidebarItem,
+    ];
+    expect(sidebarPathIsRetiredChannel(withNavRef, '/docs/live')).toBe(false);
+  });
+
+  it('still gates resolved doc leaves that arrive as docId-bearing links', () => {
+    const withDocLeaf: PropSidebarItem[] = [
+      {type: 'link', key: 'doc:legacy', href: '/docs/live', label: 'Page', docId: 'legacy', customProps: {channel: 'retire-in-next'}} as unknown as PropSidebarItem,
+    ];
+    expect(sidebarPathIsRetiredChannel(withDocLeaf, '/docs/live')).toBe(true);
   });
 });
 

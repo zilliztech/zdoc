@@ -16,7 +16,7 @@ import { EventEmitter } from 'node:events'
 import { PassThrough } from 'node:stream'
 import { toMdx } from '../../adapters/mdx'
 import { canonicalBytes } from '../../core/updates/canonical'
-import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
+import { captureTrustedToolset, compareCandidateToolset, verifyTrustedToolset, verifyTrustedToolsetWindow, serializeClosure, bindClosure, verifyClosureBinding, trustedLauncherEnvironment, authorizeTrustedResolution, prepareTrustedLauncher, batchContentLauncher, captureTrustedNativeFiles, nativeDependencies, parseDarwinAccess, validateDarwinAccess, validateAccessMode, validateLocalIdentity, parseIdentityPlist, assertStableAccessIdentity, retainTrustedAccessEvidence, assertNoExtendedAccess, acquireLocalIdentity } from '../../adapters/updates/toolset'
 import { initializeEvidence, rawSha256, withBatchLifetime } from '../../adapters/updates/evidence'
 const hostTcb = { kind: 'host-os-tcb', schemaVersion: 1, policy: 'host-os-tcb-v1', platform: process.platform, release: release(), architecture: process.arch, systemLibraries: 'trusted-host-unmeasured' }
 const git = (root: string, ...args: string[]) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8' }).trim()
@@ -436,6 +436,38 @@ it('reverifies a closure larger than one batch Git output ceiling on supported h
   a.commit = commitAll(a.root)
   const capture = await captureTrustedToolset(a)
   await expect(withBatchLifetime(() => verifyTrustedToolset(capture))).resolves.toBeUndefined()
+})
+
+it('bounds concurrent small-file reads in committed and installed material on supported hosts and refuses Linux before reading', async () => {
+  if (process.platform === 'linux') {
+    const calls = vi.mocked(fsPromises.open).mock.calls.length
+    await expectLinuxCaptureRefusal()
+    expect(vi.mocked(fsPromises.open).mock.calls).toHaveLength(calls)
+    return
+  }
+  const a = await fixture()
+  const paths = [join(a.root, 'scripts'), join(a.root, 'node_modules/.pnpm/jiti@1.0.0/node_modules/jiti')]
+  for (const directory of paths) {
+    for (let index = 0; index < 12; index++) await put(directory, `window-${index}.js`, `// file ${index}\n`)
+  }
+  a.commit = commitAll(a.root)
+  const active = [0, 0], peak = [0, 0]
+  const originalOpen = vi.mocked(fsPromises.open).getMockImplementation()!
+  vi.mocked(fsPromises.open).mockImplementation((async (path, ...args) => {
+    const group = paths.indexOf(dirname(String(path)))
+    if (group === -1 || !String(path).includes('/window-')) return originalOpen(path, ...args)
+    peak[group] = Math.max(peak[group], ++active[group])
+    try {
+      await new Promise(resolve => setTimeout(resolve, 20))
+      return await originalOpen(path, ...args)
+    } finally {active[group]--}
+  }) as typeof fsPromises.open)
+  try {
+    const capture = await captureTrustedToolset(a)
+    expect(capture.closure.entries.filter(entry => /\/window-\d+\.js$/.test(entry.path))).toHaveLength(24)
+    expect(peak.every(count => count > 1 && count <= 8)).toBe(true)
+    expect(active).toEqual([0, 0])
+  } finally {vi.mocked(fsPromises.open).mockImplementation(originalOpen)}
 })
 
 describe.skipIf(process.platform === 'linux')('trusted closure capture', () => {
@@ -1032,7 +1064,7 @@ describe.skipIf(process.platform === 'linux').sequential('Guides worker owned se
 
 vi.mock('node:fs/promises', async importOriginal => {
   const actual = await importOriginal<typeof import('node:fs/promises')>()
-  return {...actual, open: vi.fn(actual.open), realpath: vi.fn(actual.realpath), readdir: vi.fn(actual.readdir)}
+  return {...actual, open: vi.fn(actual.open), realpath: vi.fn(actual.realpath)}
 })
 const fsPromisesOpen = vi.mocked(fsPromises.open).getMockImplementation()!
 const originalRealpath = vi.mocked(fsPromises.realpath).getMockImplementation()!
@@ -1073,7 +1105,9 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
     const gitPath = execFileSync('/usr/bin/xcrun', ['--find', 'git'], {encoding: 'utf8'}).trim()
     discover(gitPath, location)
     vi.spyOn(fsPromises, 'realpath').mockImplementation((async path => String(path) === location ? binary : [binary, stdlib].includes(String(path)) ? String(path) : originalRealpath(path)) as typeof fsPromises.realpath)
-    const originalRead = vi.mocked(fsPromises.readdir).getMockImplementation()!
+    // Limit result recording to this fault probe. A suite-wide readdir spy
+    // retains every sibling list produced by the real evidence-store checks.
+    const originalRead = fsPromises.readdir
     const read = vi.spyOn(fsPromises, 'readdir').mockImplementation((async (path, ...args) => {
       if (String(path) === stdlib) throw new Error('MEASURE_STDLIB_SENTINEL')
       return (originalRead as Function)(path, ...args)
@@ -1110,6 +1144,7 @@ describe.skipIf(process.platform !== 'darwin')('fixed developer tool capture pro
       return handle
     }) as typeof fsPromises.open)
     await expect(verifyTrustedToolset(capture)).rejects.toThrow('Trusted runtime changed before inspection')
+    await expect(verifyTrustedToolsetWindow(capture)).rejects.toThrow('Trusted runtime changed before inspection')
   })
   it('rejects a canonical Git target that escapes its selected developer root', async () => {
     const a = await fixture(), location = '/Applications/Xcode_16.4.app/Contents/Developer/usr/bin/git'
@@ -1231,6 +1266,25 @@ export function collectBatchPageMaterial(data){
 `)
   a.commit = commitAll(a.root)
   const capture = await captureTrustedToolset(a), original = toolset.batchContentLauncher
+  const consume = batch.consumeBatchContentLaunch
+  const phases: {pageId: string; phase: string}[] = []
+  const timings: {authenticationMs: number; observedMs: number}[] = []
+  const consumeSpy = vi.spyOn(batch, 'consumeBatchContentLaunch').mockImplementation((...args) => {
+    const launch = consume(...args), pageId = launch.request.pageId
+    let started = 0
+    return {...launch,
+      async authenticating() {
+        phases.push({pageId, phase: 'launch-authentication'})
+        await launch.authenticating()
+        started = performance.now()
+      },
+      async renderWorkerStarted(authenticationMs) {
+        timings.push({authenticationMs, observedMs: Math.ceil(performance.now() - started)})
+        phases.push({pageId, phase: 'render-worker'})
+        await launch.renderWorkerStarted(authenticationMs)
+      },
+    }
+  })
   const probes = vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
     const fixed = original(launcher)
     return {...fixed, async runReplayBatchContent(ticket, signal) {
@@ -1244,7 +1298,16 @@ export function collectBatchPageMaterial(data){
   const out = join(a.root, '.claude', 'measured-batch')
   const result = await batch.collectReplayBatchMaterial({capture, sourceRepository: f.repo, zdocRepository: f.root, out,
     fixtureBytes: canonicalBytes({frames, imageManifest: []}), replayClockMs: 0}, {transport: f.transport})
-  probes.mockRestore()
+    .finally(() => { probes.mockRestore(); consumeSpy.mockRestore() })
+  for (const {authenticationMs, observedMs} of timings) {
+    expect(authenticationMs).toBeGreaterThan(0)
+    expect(authenticationMs).toBeLessThanOrEqual(observedMs)
+  }
+  expect(phases).toHaveLength(2 * f.ids.length)
+  for (const pageId of f.ids) {
+    expect(phases.filter(row => row.pageId === pageId).map(row => row.phase))
+      .toEqual(['launch-authentication', 'render-worker'])
+  }
   expect(result).toMatchObject({status: 'material-complete', memberIds: ['build-pipeline'], origin: {kind: 'replay'}})
   if (result.status !== 'material-complete') throw Error(JSON.stringify(result))
   expect(JSON.stringify(result.ticket)).toBe('{}')
@@ -1354,3 +1417,87 @@ export async function qualifyBatchLifecycle(data){
     expect(launchFailure?.settlement).toMatchObject({born: true, close: {code: 0}, group: 'absent'})
   } finally {observed.mockRestore()}
 }, 120000)
+
+it('launches independently measured observed handoff workers in one turn, settles failed siblings and reauthenticates the next pair', async () => {
+  if (process.platform === 'linux') {await expectLinuxCaptureRefusal(); return}
+  const batch = await import('../../adapters/updates/batch-collection')
+  const toolset = await import('../../adapters/updates/toolset')
+  const discovery = await import('../../adapters/updates/batch-discovery')
+  const budget = await import('../../adapters/updates/batch-source')
+  const {batchQualificationFixture} = await import('./fixtures/batch-qualification')
+  const {collectBatchPageMaterial} = await import('../../adapters/updates/guides-provider')
+  const a = await loaderFixture(), dataRoot = await realpath(await mkdtemp(join(tmpdir(), 'observed-pair-fixture-')))
+  onTestFinished(async () => {await fsPromises.rm(dataRoot, {recursive: true, force: true}); await fsPromises.rm(a.root, {recursive: true, force: true})})
+  const f = await batchQualificationFixture(dataRoot)
+  await f.append('site/en/build-pipeline.md', '\nChanged source.\n')
+  const frames: Record<string, Awaited<ReturnType<typeof collectBatchPageMaterial>>> = {}
+  for (const id of f.ids) frames[id] = await collectBatchPageMaterial(await f.request(id), {repositoryRoot: f.root, fetcher: f.fetcher})
+  await put(a.root, 'packages/docs-tooling/src/shared-docs/adapters/updates/guides-provider.ts', `
+const frames=${JSON.stringify(frames)};
+export function collectGuidesWorker(){throw Error('wrong lane')}
+export async function collectBatchPageMaterial(data) {
+  if (data.origin.purpose !== 'isolated-candidate') throw Error('wrong handoff origin');
+  if (data.pageId === 'zz-third') throw Error('fixture failure');
+  if (data.pageId === 'zz-fourth') await new Promise(resolve => setTimeout(resolve, 30000));
+  const wire=frames[data.pageId];wire.material.base={origin:data.origin,session:data.session,pins:data.pins};return wire;
+}
+`)
+  a.commit = commitAll(a.root)
+  const capture = await captureTrustedToolset(a)
+  const rawDiscovery = await discovery.replayBatchDiscovery(
+    {zdocRepository: f.root, sourceRepository: f.repo, tools: a.commit}, {fixtureBytes: Buffer.from('cohort'), replayClockMs: 0}, {transport: f.transport})
+  const input = discovery.readBatchDiscoveryCapture(rawDiscovery)
+  const observed = {...input, origin: {kind: 'observed' as const}, report: {...input.report, pages:
+    [...input.report.pages, ...['zz-third', 'zz-fourth'].map(pageId => ({...input.report.pages[0], pageId}))]}}
+  // Substitute GitHub acquisition and capacity inputs only. Ticket issuance, the
+  // handoff entry, guarded launcher, child transport, retention and cleanup are real.
+  const spies: {mockRestore(): void}[] = []
+  onTestFinished(() => {for (const spy of spies.reverse()) spy.mockRestore()})
+  spies.push(vi.spyOn(discovery, 'observeBatchDiscovery').mockResolvedValue(rawDiscovery),
+    vi.spyOn(discovery, 'readBatchDiscoveryCapture').mockReturnValue(observed),
+    vi.spyOn(toolset, 'captureTrustedToolset').mockResolvedValue(capture),
+    vi.spyOn(budget, 'reserveBatchContentWindow').mockResolvedValue({} as never))
+  const actualLauncher = toolset.batchContentLauncher
+  let launchError = '', pairCount = 0, authenticatedFailure = false, prior: Parameters<typeof batch.consumeObservedContentPair>[0] | undefined
+  const signal = new AbortController().signal
+  spies.push(vi.spyOn(toolset, 'batchContentLauncher').mockImplementation(launcher => {
+    const fixed = actualLauncher(launcher)
+    return {...fixed, async runObservedBatchContentPair(pair, abort) {
+      pairCount++
+      const previous = prior
+      prior = pair
+      const invalidPairs = [[...pair], [pair[0], pair[0]], ...(previous ? [[previous[0], pair[1]], previous] : [])]
+      for (const invalid of invalidPairs) await expect(fixed.runObservedBatchContentPair(invalid as typeof pair, signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      await expect(fixed.runObservedBatchContent(pair[0], signal)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      if (authenticatedFailure && pairCount === 2) {
+        await writeFile(join(launcher.bin, 'guides-worker.cjs'), 'changed fixture launcher')
+      }
+      const children = fixed.runObservedBatchContentPair(pair, abort)
+      await expect(fixed.runObservedBatchContentPair(pair, abort)).rejects.toThrow('BATCH_LAUNCH_BINDING_INVALID')
+      try { return await children } catch (error) {launchError = error instanceof Error ? error.stack ?? error.message : String(error); throw error}
+    }}
+  }))
+  const born: number[] = [], turns: number[] = []
+  let turn = 0
+  const spawnMock = vi.mocked(childProcess.spawn), nativeSpawn = spawnMock.getMockImplementation()!
+  onTestFinished(() => {spawnMock.mockImplementation(nativeSpawn)})
+  spawnMock.mockImplementation(((...args: Parameters<typeof nativeSpawn>) => {
+    const child = nativeSpawn(...args)
+    if (Array.isArray(args[1]) && args[1].includes('batch-content-observed')) {
+      born.push(child.pid!); turns.push(turn); queueMicrotask(() => {turn++})
+    }
+    return child
+  }) as typeof nativeSpawn)
+  for (const tamper of [false, true]) {
+    pairCount = 0; born.length = 0; turns.length = 0; authenticatedFailure = tamper
+    const out = join(dataRoot, tamper ? 'altered-launcher' : 'child-failure')
+    const result = await batch.prepareObservedBatchHandoff({sourceRepository: f.repo, out})
+    expect(result).toMatchObject({status: 'held', operations: [], writeEligible: false})
+    expect({pairCount, born: born.length, reasons: result.reasons, pages: JSON.parse(await readFile(join(out, 'measurement.json'), 'utf8')).pages.map((p: {pageId: string}) => p.pageId)}, `handoff reasons: ${result.reasons.join(',')} / ${launchError}`)
+      .toMatchObject({pairCount: 2, born: tamper ? 2 : 4, pages: f.ids})
+    expect(turns[0]).toBe(turns[1])
+    if (!tamper) expect(turns[2]).toBe(turns[3])
+    expect(new Set(born).size).toBe(born.length)
+    for (const pid of born) for (const id of [pid, -pid]) expect(() => process.kill(id, 0)).toThrow(expect.objectContaining({code: 'ESRCH'}))
+  }
+}, 300_000)

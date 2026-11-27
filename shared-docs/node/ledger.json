@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "file": "Client/allocTimestamp.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method reference for allocating a hybrid logical timestamp; cloud users need it as a standalone page.",
+        "metadata_draft": {
+          "description": "Allocates a Milvus hybrid logical timestamp from the proxy and returns it as a decimal string.",
+          "keywords": [
+            "allocTimestamp",
+            "hybrid logical timestamp",
+            "timestamp",
+            "MilvusClient",
+            "node.js SDK"
+          ],
+          "sidebar_position": 1
+        }
+      }
+    },
+    {
+      "file": "Client/deleteClientCommand.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method for removing a queued telemetry command, part of the client telemetry command workflow.",
+        "metadata_draft": {
+          "description": "Removes a previously queued or persistent telemetry command and returns a ResStatus.",
+          "keywords": [
+            "deleteClientCommand",
+            "telemetry command",
+            "command_id",
+            "MilvusClient",
+            "node.js SDK"
+          ],
+          "sidebar_position": 2
+        }
+      }
+    },
+    {
+      "file": "Client/getClientTelemetry.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method that lists connected clients and their telemetry metrics; useful reference for operators.",
+        "metadata_draft": {
+          "description": "Lists connected clients and optionally their aggregated telemetry metrics.",
+          "keywords": [
+            "getClientTelemetry",
+            "client telemetry",
+            "metrics",
+            "client_id",
+            "MilvusClient"
+          ],
+          "sidebar_position": 3
+        }
+      }
+    },
+    {
+      "file": "Client/getComponentStates.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method returning proxy component state for health checks.",
+        "metadata_draft": {
+          "description": "Gets the proxy's component state, including its own state and the states of its subcomponents.",
+          "keywords": [
+            "getComponentStates",
+            "component state",
+            "proxy",
+            "health",
+            "MilvusClient"
+          ],
+          "sidebar_position": 4
+        }
+      }
+    },
+    {
+      "file": "Client/pushClientCommand.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method for queueing telemetry commands to clients; pairs with deleteClientCommand.",
+        "metadata_draft": {
+          "description": "Queues a telemetry command for selected clients or a database, delivered on their next heartbeat.",
+          "keywords": [
+            "pushClientCommand",
+            "telemetry command",
+            "target_client_id",
+            "target_database",
+            "MilvusClient"
+          ],
+          "sidebar_position": 5
+        }
+      }
+    },
+    {
+      "file": "Client/registerLink.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24"
+    },
+    {
+      "file": "Collections/computePhraseMatchSlop.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method for computing phrase-match slop; standalone reference with parameters and returns.",
+        "metadata_draft": {
+          "description": "Computes the minimum phrase-match slop for each input text against a query phrase.",
+          "keywords": [
+            "computePhraseMatchSlop",
+            "phrase match",
+            "slop",
+            "text search",
+            "analyzer_params"
+          ],
+          "sidebar_position": 1,
+          "added_since": "v3.0.6"
+        }
+      }
+    },
+    {
+      "file": "Management/batchUpdateManifest.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24"
+    },
+    {
+      "file": "Snapshot/exportSnapshot.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method exporting a snapshot bundle; part of the snapshot workflow users need documented.",
+        "metadata_draft": {
+          "description": "Exports a snapshot as a self-contained bundle to a target S3 path and returns the export job ID.",
+          "keywords": [
+            "exportSnapshot",
+            "snapshot export",
+            "target_s3_path",
+            "job_id",
+            "MilvusClient"
+          ],
+          "sidebar_position": 1,
+          "added_since": "v3.0.6"
+        }
+      }
+    },
+    {
+      "file": "Snapshot/getExportSnapshotState.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method polling export job progress; complements exportSnapshot as a reference page.",
+        "metadata_draft": {
+          "description": "Gets the progress and the completed bundle's metadata URI for an export snapshot job.",
+          "keywords": [
+            "getExportSnapshotState",
+            "snapshot export",
+            "job status",
+            "job_id",
+            "progress"
+          ],
+          "sidebar_position": 2,
+          "added_since": "v3.0.6"
+        }
+      }
+    },
+    {
+      "file": "Snapshot/restoreExternalSnapshot.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public SDK method restoring an exported snapshot into a new collection.",
+        "metadata_draft": {
+          "description": "Restores an exported snapshot into a new collection and returns the restore job ID.",
+          "keywords": [
+            "restoreExternalSnapshot",
+            "snapshot restore",
+            "snapshot_metadata_uri",
+            "target_collection_name",
+            "MilvusClient"
+          ],
+          "sidebar_position": 3,
+          "added_since": "v3.0.6"
+        }
+      }
+    },
+    {
+      "file": "Vector/FunctionChain.md",
+      "first_seen_pin": "0562d8053afd1d4455232c32b402c5ba6c0c7b59",
+      "first_seen_at": "2026-11-24",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-24",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Public class reference for building function chains passed to search, query, and hybridSearch.",
+        "metadata_draft": {
+          "description": "Builds an ordered chain of operations for a Milvus execution stage, passed to search, query, and hybridSearch via function_chains.",
+          "keywords": [
+            "FunctionChain",
+            "function chains",
+            "FunctionChainStage",
+            "rerank",
+            "hybrid search",
+            "col",
+            "fn"
+          ],
+          "sidebar_position": 1
+        }
+      }
+    },
+    {
+      "file": "Vector/Highlighter.md",
+      "first_seen_pin": "5005b323e194c3249b043e1fd691b101905e4ac1",
+      "first_seen_at": "2026-11-25",
+      "classification": "deferred",
+      "reason": "Upstream addition staged behind an exclude entry; adoption, exclusion, or deferral is a human ledger edit.",
+      "owner": "shared-docs-manual-lane",
+      "decided_at": "2026-11-25",
+      "proposal": {
+        "action": "adopt",
+        "reason": "Documents a public SDK configuration type users need when searching with term highlighting.",
+        "metadata_draft": {
+          "description": "Defines the Highlighter union for post-processing search results, covering LexicalHighlighter and SemanticHighlighter options.",
+          "keywords": [
+            "highlighter",
+            "lexical highlighter",
+            "semantic highlighter",
+            "highlight search terms",
+            "search results",
+            "typescript sdk"
+          ],
+          "sidebar_position": 10
+        }
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { readSharedDocs } from '../../commands/build'
 import { classifyLink, collectReferences } from '../../core/links'
 import type { SharedDocsError } from '../../core/types'
 import { groupFile } from '../group-context'
-import { buildPage, createBuildReader, createBuildRuntime } from '../build-page'
+import { buildPage, createBuildReader, createBuildRuntime, createHistoricalPageBuilder } from '../build-page'
 import { collectHistoricalUpdateObservation, collectUpdateInputs, readUpdateConfiguration, type CollectUpdateInput, type UpdateConfiguration } from '../update-inputs'
 import { GitMilvusDocsReader } from '../git-milvus-docs-reader'
 import { RealMd2md } from '../md2md'
@@ -59,7 +59,7 @@ function createCandidateDevInputs(dev: string) {
 }
 
 async function withCandidateServices<T>(input: CandidateSource, use: (services: CandidateServices) => Promise<T>,
-  historical?: {devInputs: ReturnType<typeof createCandidateDevInputs>; finalizeMdx: typeof toMdx;
+  historical?: {buildPage: typeof buildPage; devInputs: ReturnType<typeof createCandidateDevInputs>; finalizeMdx: typeof toMdx;
     fragments?: Pick<InspectionReader, 'withFragments'>; links?: LinkInputReader}) {
   const git = new GitMilvusDocsReader(input.repo)
   const reader = createBuildReader(input.repo, {
@@ -86,7 +86,7 @@ async function withCandidateServices<T>(input: CandidateSource, use: (services: 
             code: 'UPDATE_CONFIGURATION_DEPENDENCY_UNAVAILABLE', message: `Cannot authenticate shared target ${ref.url}: invalid page configuration`,
             detail: { target: ref.url, invalidPages: [...input.invalidPageIds!] } }))] }
         }
-        return buildPage({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime, finalizeMdx: historical?.finalizeMdx })
+        return (historical?.buildPage ?? buildPage)({ pageId, sharedDocs, reader, observe, md2md: new RealMd2md(), runtime, finalizeMdx: historical?.finalizeMdx })
       } })
   } finally { await reader.dispose() }
 }
@@ -103,6 +103,7 @@ export async function collectCandidate(input: CandidateSource & {current: string
  * namespace and front matter; each commit still gets fresh source/build state. */
 export function createHistoricalCandidateCollector(input: Omit<CandidateSource, 'invalidPageIds' | 'target'>, finalizeMdx: typeof toMdx,
   fragments?: Pick<InspectionReader, 'withFragments'>, links?: LinkInputReader) {
+  const buildHistoricalPage = createHistoricalPageBuilder()
   let devInputs: ReturnType<typeof createCandidateDevInputs> | undefined
   return (target: string) => {
     if (!devInputs) {
@@ -114,6 +115,6 @@ export function createHistoricalCandidateCollector(input: Omit<CandidateSource, 
     }
     return withCandidateServices({ ...input, target }, services => collectHistoricalUpdateObservation({ ...services,
       pageId: input.pageId, request: { commit: target, configuration: input.configuration },
-    }), {devInputs, finalizeMdx, fragments, links})
+    }), {buildPage: buildHistoricalPage, devInputs, finalizeMdx, fragments, links})
   }
 }

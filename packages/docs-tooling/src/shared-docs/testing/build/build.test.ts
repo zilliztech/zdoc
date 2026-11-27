@@ -7,7 +7,7 @@ import { mkdir, mkdtemp, readFile, readdir, rename, rm, symlink } from 'node:fs/
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { afterEach, expect, it, vi } from 'vitest'
-import { buildPage, createBuildReader, createBuildRuntime, createPairedImageFetcher } from '../../adapters/build-page'
+import { buildPage, createBuildReader, createBuildRuntime, createHistoricalPageBuilder, createPairedImageFetcher } from '../../adapters/build-page'
 import { createGuidesSnapshot, guidesSnapshotPath } from '../../adapters/guides-snapshot'
 import { FakeImageFetcher } from '../../adapters/images'
 import { GitMilvusDocsReader } from '../../adapters/git-milvus-docs-reader'
@@ -17,6 +17,7 @@ import { createZdocContentReader } from '../../adapters/zdoc-content'
 import { buildImageManifest, readSharedDocs, runBuild } from '../../commands/build'
 import { findAccidentalMathSpans } from '../../../markdown/accidentalMathSpans.js'
 import { imageDigest } from '../../core/links'
+import * as site from '../../core/site'
 import { currentView, nextView } from '../merge/helpers'
 import { createBuildDemo, externalImage, git, imageBytes, pageYaml, runBuildDemo, write } from './demo'
 
@@ -104,6 +105,48 @@ it('[3-4] composes the real full pipeline and reuses committed inputs across ver
     expect(build.records).toHaveBeenCalledTimes(1)
   } finally { await build.reader.dispose() }
   expect([await git(options.repo, 'status', '--porcelain'), await git(options.dev, 'status', '--porcelain')]).toEqual(before)
+})
+
+it('reuses only identical historical adaptations after per-channel reads and link rewriting', async () => {
+  const build = await inputs(await demo())
+  const adapt = vi.spyOn(site, 'adaptPage')
+  const prepare = vi.spyOn(build.runtime, 'prepare')
+  const observe = vi.fn()
+  const request = { ...build, md2md: new RealMd2md(), pageId: 'build-pipeline', observe }
+  const historical = createHistoricalPageBuilder()
+  try {
+    const first = await historical(request)
+    expect(first).toHaveProperty('pages')
+    expect(adapt).toHaveBeenCalledTimes(4)
+    const warm = await historical(request)
+    expect(warm).toEqual(first)
+    expect(adapt).toHaveBeenCalledTimes(4)
+    expect(prepare).toHaveBeenCalledTimes(8)
+    expect(observe.mock.calls[1][0]).toEqual(observe.mock.calls[0][0])
+
+    const manual = build.runtime.manual.bind(build.runtime)
+    const navigation = { ...build.runtime, async manual(name: string) {
+      const existing = await manual(name)
+      return { ...existing, reader: { ...existing.reader, readFrontMatter: async () => ({ sidebar_label: 'New navigation' }) } }
+    } }
+    const changedNav = await historical({ ...request, runtime: navigation })
+    expect(adapt).toHaveBeenCalledTimes(8)
+    expect(changedNav).toEqual(await buildPage({ ...request, runtime: navigation }))
+    if ('errors' in changedNav) throw Error(JSON.stringify(changedNav.errors))
+    expect(changedNav.pages[0].mdx).toContain('New navigation')
+
+    const sharedPages = build.runtime.sharedPages.bind(build.runtime)
+    const retargeted = { ...build.runtime, async sharedPages(commit: string) {
+      return new Map<string, string>(await sharedPages(commit)).set('public-target.md', 'new-target')
+    } }
+    const changedTarget = await historical({ ...request, runtime: retargeted })
+    expect(changedTarget).toEqual(await buildPage({ ...request, runtime: retargeted }))
+    if ('errors' in changedTarget) throw Error(JSON.stringify(changedTarget.errors))
+    expect(changedTarget.pages[0].mdx).toContain('./new-target')
+  } finally {
+    adapt.mockRestore()
+    await build.reader.dispose()
+  }
 })
 
 it('writes only the selected page while preserving the complete shared-page public-ID registry', async () => {

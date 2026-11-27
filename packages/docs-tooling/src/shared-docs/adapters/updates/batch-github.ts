@@ -248,8 +248,19 @@ export function createBatchGitHub(budget: BatchBudget, seam: BatchGitHubTestSeam
     const [master, dev, source] = await fixedReads([() => ref(zdoc, 'master'), () => ref(zdoc, 'dev'), () => ref(milvus, 'v3.0.x')])
     return { master, dev, source }
   }
+  async function mergedSeed(number: number) {
+    if (!positive.safeParse(number).success) stop('METADATA_QUERY_INVALID')
+    const response = await get(milvus, '/pulls/' + number)
+    const parsed = detail.safeParse(response.value)
+    if (!parsed.success) stop('METADATA_SHAPE_INVALID')
+    const pr = parsed.data
+    if (pr.number !== number || pr.base.repo.id !== repoIds[milvus] || pr.base.repo.full_name !== milvus ||
+        pr.base.ref !== 'v3.0.x') stop('PR_BASE_MISMATCH')
+    if (!pr.merged || pr.state !== 'closed' || !pr.merged_at || !pr.merge_commit_sha) stop('UPSTREAM_UNMERGED')
+    return {number, head: pr.head.sha, mergeCommit: pr.merge_commit_sha, commits: pr.commits, digest: response.digest}
+  }
   function close() { admissionClosed = true; agent?.destroy() }
-  return { pins, association, associations, close }
+  return { pins, association, associations, mergedSeed, close }
 }
 
 import {retainedMetadata, boundArtifact, object, type ReadonlyGitHub} from './github'

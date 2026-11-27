@@ -53,6 +53,24 @@ describe('parser source segmentation', () => {
     expect(doc.blocks[2].kind).toBe('paragraph')
   })
 
+  it('keeps inline <UI> inside paragraphs, lists and NextChannel without emitting gates or html block containers', () => {
+    const plain = 'Click <UI>Create Cluster</UI>.\n\n- Select <UI>Create Cluster</UI>.\n'
+    const plainDoc = segment(plain)
+    expect(plainDoc.blocks.map(item => item.kind)).toEqual(['paragraph', 'list'])
+    expect(plainDoc.gates).toEqual([])
+
+    const withChannel = 'Click <UI>Create Cluster</UI>.\n\n- Select <UI>Create Cluster</UI>.\n\n<NextChannel action="include">\n\nConfirm <UI>Create Cluster</UI>.\n\n</NextChannel>\n'
+    const channelDoc = segment(withChannel)
+    expect(channelDoc.blocks.map(item => item.kind)).toEqual(['paragraph', 'list', 'channel'])
+    expect(channelDoc.blocks[0].text).toContain('<UI>Create Cluster</UI>')
+    expect(channelDoc.blocks[1].text).toContain('<UI>Create Cluster</UI>')
+    expect(channelDoc.blocks[2].text).toContain('<UI>Create Cluster</UI>')
+    expect(channelDoc.gates.map(gate => withChannel.slice(gate.span.start, gate.span.end))).toEqual([
+      '<NextChannel action="include">',
+      '</NextChannel>',
+    ])
+  })
+
   it('does not let a fence-looking line in an opaque comment hide a later authored gate', () => {
     const source = '<!--\n```\n-->\n\n<NextChannel action="include">\n\nA\n\n</NextChannel>\n'
     const doc = segment(source)

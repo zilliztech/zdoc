@@ -558,6 +558,16 @@
       "fragment": "35-cloud-api-key-operations-v2.json"
     },
     {
+      "opKey": "get /v2/clusters/versions",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "b46b400349cc0659ebfb4e43ee1bdc7e44f5691c",
+      "firstSeenAt": "2026-11-24",
+      "classification": "deferred",
+      "reason": "New upstream operation get /v2/clusters/versions absent from fragments; operation-level placement deferred to a separate stage.",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-24"
+    },
+    {
       "opKey": "get /v2/groups",
       "source": "zilliz-cloud-control-plane",
       "firstSeenPin": "e64f3bd77c94971d2352ca61eb86d1a1f11bf2cb",
@@ -857,6 +867,16 @@
       "owner": "rest-upstream-bootstrap",
       "decidedAt": "2026-10-28",
       "fragment": "35-cloud-api-key-operations-v2.json"
+    },
+    {
+      "opKey": "post /v2/clusters",
+      "source": "zilliz-cloud-control-plane",
+      "firstSeenPin": "b46b400349cc0659ebfb4e43ee1bdc7e44f5691c",
+      "firstSeenAt": "2026-11-24",
+      "classification": "deferred",
+      "reason": "New upstream operation post /v2/clusters absent from fragments; operation-level placement deferred to a separate stage.",
+      "owner": "rest-decision-stage",
+      "decidedAt": "2026-11-24"
     },
     {
       "opKey": "post /v2/clusters/onDemandClusters/{CLUSTER_ID}/modifyProperties",

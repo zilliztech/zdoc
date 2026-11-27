@@ -57,16 +57,28 @@ export function buildControlSuite(ctx, call) {
     },
     {
       id: "setup.region", family: "setup", op: "/v2/regions", method: "GET", kind: "setup", critical: true,
-      expect: "ok", param: "(no body)", intent: "split regions by supportedClusterTypes (user-clarified 2026-11-04: only some regions carry the serverless plan, e.g. gcp-us-west1 in UAT3)",
+      expect: "ok", param: "(no body)", intent: "resolve serverless/dedicated regions from the PROJECT-BOUND regionIds intersected with /v2/regions supportedClusterTypes (live-learned 2026-11-24: the raw regions list may lead with regions the project is not bound to, and createDedicated rejects unbound regions)",
       body: {},
       effect: (hh, res) => {
         const regions = (res.json && res.json.data) || []
         const types = (r) => r.supportedClusterTypes || []
-        const sv = Array.isArray(regions) ? regions.find((r) => types(r).includes("serverless")) : null
-        const dv = Array.isArray(regions) ? regions.find((r) => types(r).includes("dedicated")) : null
-        if (sv) state.serverlessRegionId = sv.regionId || sv.id
-        if (dv) state.dedicatedRegionId = dv.regionId || dv.id
-        return { ok: !!state.serverlessRegionId && !!state.dedicatedRegionId, detail: `serverless=${state.serverlessRegionId || "none"} dedicated=${state.dedicatedRegionId || "none"}` }
+        let bound = []
+        try {
+          const pd = call("GET", `/v2/projects/${PROJECT}`)
+          bound = (pd.json && pd.json.data && pd.json.data.regionIds) || []
+        } catch (e) { bound = [] }
+        const pick = (kind) => {
+          for (const rid of bound) {
+            const r = Array.isArray(regions) ? regions.find((x) => x.regionId === rid && types(x).includes(kind)) : null
+            if (r) return rid
+          }
+          if (state.existingRegionId && (!bound.length || bound.includes(state.existingRegionId))) return state.existingRegionId
+          const r = Array.isArray(regions) ? regions.find((x) => types(x).includes(kind)) : null
+          return r ? (r.regionId || r.id) : null
+        }
+        state.serverlessRegionId = pick("serverless")
+        state.dedicatedRegionId = pick("dedicated")
+        return { ok: !!state.serverlessRegionId && !!state.dedicatedRegionId, detail: `serverless=${state.serverlessRegionId || "none"} dedicated=${state.dedicatedRegionId || "none"} (project-bound: ${bound.join(",") || "unknown"})` }
       },
     },
   ]
@@ -186,13 +198,25 @@ export function buildControlSuite(ctx, call) {
 
   // ---- dedicated lifecycle (full state machine: suspend/resume across async STOPPING) ----
   push({
-    id: "clusters.create-dedicated", family: "clusters", op: "/v2/clusters/createDedicated", method: "POST", kind: "positive", expect: "ok",
-    param: "clusterName/projectId/regionId/cuSize/cuType", intent: "dedicated cluster lifecycle: create (smallest CU, mirroring the region's existing cuType)",
-    body: (hh) => ({ clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId: state.dedicatedRegionId, cuType: state.cuType, cuSize: 1 }),
-    effect: (hh, res) => {
-      const d = (res.json && res.json.data) || {}
-      state.dedicatedClusterId = d.clusterId || d.id
-      return { ok: !!state.dedicatedClusterId, detail: "clusterId=" + (state.dedicatedClusterId || "none") }
+    id: "clusters.create-dedicated", family: "clusters", op: "skip-request", kind: "positive", expect: "ok",
+    param: "clusterName/projectId/regionId/cuSize/cuType", intent: "dedicated cluster lifecycle: create (smallest CU; cuType mirrors the existing cluster or falls back to live-verified Performance-optimized; on a 99203 unbound-region rejection the Supported regionIds from the error are parsed and the create is retried once on a supported region — /v2/regions ordering is not stable across days)",
+    body: {},
+    effect: async (hh) => {
+      const mk = (regionId, cuType) => call("POST", "/v2/clusters/createDedicated",
+        { clusterName: `${P}_cl_${Date.now() % 100000}`, projectId: PROJECT, regionId, cuType, cuSize: 1 })
+      let d = await mk(state.dedicatedRegionId, state.cuType || "Performance-optimized")
+      if (d.code !== 0 && d.http !== 200) {
+        const m = String(d.message || "").match(/Supported regionIds: \[([^\]]*)\]/)
+        if (m) {
+          const supported = m[1].split(",").map((x) => x.trim())
+          const reg = supported.includes(state.dedicatedRegionId) ? state.dedicatedRegionId : supported[0]
+          state.dedicatedRegionId = reg
+          d = await mk(reg, state.cuType || "Performance-optimized")
+        }
+      }
+      const dd = d.code === 0 || d.http === 200 ? (d.json && d.json.data) : null
+      state.dedicatedClusterId = typeof dd === "string" ? dd : (dd && (dd.clusterId || dd.id)) || null
+      return { ok: !!state.dedicatedClusterId, detail: "clusterId=" + (state.dedicatedClusterId || "none") + " region=" + state.dedicatedRegionId + (d.code !== 0 && d.http !== 200 ? " (create rejected: " + String(d.message || "").slice(0, 80) + ")" : "") }
     },
   })
   push({
