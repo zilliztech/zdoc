@@ -472,7 +472,7 @@ function validateLocalizedDocsWorkflow(workflow, source, file, errors) {
   if (JSON.stringify(workflow.permissions) !== JSON.stringify({ contents: 'read' }) ||
       Object.keys(jobs).join(',') !== 'validate' ||
       jobs.validate?.permissions !== undefined ||
-      /secrets\.|github\.token|GH_TOKEN|GITHUB_TOKEN|git push|report-card/i.test(source)) {
+      /\bsecrets\s*[.[\])]|\btoJSON\s*\(\s*secrets\b|\bgithub\s*(?:\.\s*token|\[\s*['"]token['"]\s*\])|\bGH_TOKEN\b|\bGITHUB_TOKEN\b|git push|report-card/i.test(source)) {
     fail('must remain strictly read-only without secrets, tokens, or writers')
   }
 
