@@ -386,9 +386,9 @@
       "translatedAt": "2026-09-19T13:47:07.007Z"
     },
     "content/en/byoc/tutorials/development/data-import/data-import-zero-to-hero.md": {
-      "sourceHash": "3e256844813e51e80689a96370d1db6f222944c4b9b38e8216ffda8d52989cbf",
+      "sourceHash": "64013c0f987d3fc81b6c6cc5fc1aa93111dbd30c30af34aa6c4d8726be53ac9d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-zero-to-hero.md",
-      "translatedAt": "2026-11-09T12:46:01.582Z"
+      "translatedAt": "2026-11-27T11:41:09.691Z"
     },
     "content/en/byoc/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
       "sourceHash": "d82ade8840b02ee802954e91d662a48304522c5cd733245e8404515b0ab61130",
@@ -1186,9 +1186,9 @@
       "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "3f47c6d7a708b41152f6f7e1637a9ecdf7a26a514da8c9c8058ea7e5aa13be3d",
+      "sourceHash": "8e57f4046397f6ee64ba0068bffa3c5c93e19f2a4afaba984d9f0f0ae4ddcfb6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-27T08:46:21.875Z"
+      "translatedAt": "2026-11-27T11:41:09.691Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "b96472ac06c34e2613482cd4f46df544afe452918502925e6c47e8266c534138",
@@ -1796,9 +1796,9 @@
       "translatedAt": "2026-09-19T14:05:52.293Z"
     },
     "content/en/guides/tutorials/development/data-import/data-import-zero-to-hero.md": {
-      "sourceHash": "55666e77fb75c5c03da6a9f623a86faa5dc551a5be26bc7882ba9b2c2a92f674",
+      "sourceHash": "5a36e179f3fb35567c4984fa92eff5de26cfcdc68522f3c74c604a88b54c16bd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-zero-to-hero.md",
-      "translatedAt": "2026-11-09T13:42:33.325Z"
+      "translatedAt": "2026-11-27T11:41:09.691Z"
     },
     "content/en/guides/tutorials/development/data-import/import-data/import-data-on-web-ui.md": {
       "sourceHash": "c009aa73339ef62496a3dc70fa2ba0a7c59c073a682fc126895fa2afcdf68a90",
@@ -2901,9 +2901,9 @@
       "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "7daee0238dbd511e3238371f6af12ac3d8789af0aadc08cd26ed771db33b81b0",
+      "sourceHash": "4cd6d357b042565b684ff296cbf1532f74f0b20da6873cf306b88f0f7c591f1f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-27T08:46:21.875Z"
+      "translatedAt": "2026-11-27T11:41:09.691Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "b286291bdcf7a5d9273b71822f3e92ff3067d61009a660f7bcc4cf35ba526b19",

@@ -387,7 +387,6 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
 
 ```python
 from pymilvus import MilvusClient, DataType
-from pymilvus import MilvusClient
 from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType
 import random, string, json
 import numpy as np
@@ -568,6 +567,8 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
         .withAccessKey(ACCESS_KEY)
         .withSecretKey(SECRET_KEY)
         .build();
+
+// Note: secure=True is not supported in milvus-sdk-java as of v3.0.13.
 ```
 
 </TabItem>
@@ -580,6 +581,9 @@ storageConnectParam = AzureConnectParam.newBuilder()
         .withConnStr(AZURE_CONNECT_STRING)
         .withContainerName(AZURE_CONTAINER)
         .build();
+
+// Note: the Azure account_url/credential connect variant is not supported in
+// milvus-sdk-java as of v3.0.13; use the conn_str variant above.
 ```
 
 </TabItem>
