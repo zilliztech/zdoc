@@ -328,7 +328,24 @@ export function createGitHubCliPrAdapter(options: GitHubCliPrAdapterOptions): Gi
         let startRef = baseSha
         if (remoteHeadSha && isCommit(remoteHeadSha)) {
           await runGit(repoRoot, ['fetch', '--no-tags', remoteUrl, remoteHeadSha], true)
-          startRef = remoteHeadSha
+          if (expectedHeadSha) {
+            startRef = remoteHeadSha
+          } else {
+            let isAncestor = false
+            try {
+              await runGit(repoRoot, ['merge-base', '--is-ancestor', remoteHeadSha, baseSha])
+              isAncestor = true
+            } catch {
+              isAncestor = false
+            }
+            if (!isAncestor) {
+              throw new Error(
+                `Stale unmerged remote branch ${headBranch} (${remoteHeadSha}) exists without an open PR; delete or merge it before opening a new rolling PR`,
+              )
+            }
+            // Previously merged branch can fast-forward cleanly from current master (baseSha) without force-push.
+            startRef = baseSha
+          }
         }
         await runGit(repoRoot, ['worktree', 'add', '--detach', worktreeDir, startRef])
         worktreeAdded = true

@@ -3690,7 +3690,9 @@ test('translate-zh-guides workflow policy rejects queue, permission, kill-switch
     [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.run = `${target.run}\ngit push origin HEAD:refs/heads/master` }), 'must never push directly to master or dev'],
     [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.run = `${target.run}\ngit push origin HEAD:refs/heads/dev` }), 'must never push directly to master or dev'],
     [s => s.replace('--validation-workflow localized-docs-validate.yml', '--no-dispatch-validate'), 'localized-docs-validate.yml dispatch enabled'],
-    [objectMutation(w => { w.jobs.daily_digest.if = 'always()' }), 'daily_digest must run only after a successful schedule job'],
+    [objectMutation(w => { w.jobs.daily_digest.if = 'always()' }), 'daily_digest must run only after a successful non-dry-run schedule job'],
+    [objectMutation(w => { w.jobs.daily_digest.if = "${{ needs.schedule.result == 'success' && needs.schedule.outputs.should_notify == 'true' }}" }), 'daily_digest must run only after a successful non-dry-run schedule job'],
+    [s => s.replace('--manual-state-file "$manual_state_file"\n', ''), 'manual dedup state'],
     [s => s.replace('--file tmp/zh-guides-schedule/digest-note.md', '--file /tmp/digest-note.md'), 'repository-relative path tmp/zh-guides-schedule/digest-note.md'],
   ]
   try {

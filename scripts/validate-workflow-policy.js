@@ -647,9 +647,10 @@ function validateTranslateZhGuidesWorkflow(workflow, source, file, errors) {
       !scanRun.includes('localized-docs schedule') ||
       !scanRun.includes('--root localized-docs/zh-CN/guides') ||
       !scanRun.includes('--base-branch master') ||
+      !scanRun.includes('--manual-state-file "$manual_state_file"') ||
       !scanRun.includes('--validation-workflow localized-docs-validate.yml') ||
       scanRun.includes('--no-dispatch-validate')) {
-    fail('must invoke localized-docs schedule targeting master with localized-docs-validate.yml dispatch enabled')
+    fail('must invoke localized-docs schedule targeting master with manual dedup state and localized-docs-validate.yml dispatch enabled')
   }
 
   // 7. Feishu kill switch & secret isolation (only best-effort report-card steps in daily_digest)
@@ -669,8 +670,8 @@ function validateTranslateZhGuidesWorkflow(workflow, source, file, errors) {
   }
   const digestJob = jobs.daily_digest
   if (digestJob?.needs !== 'schedule' ||
-      digestJob?.if !== "${{ needs.schedule.result == 'success' && needs.schedule.outputs.should_notify == 'true' }}") {
-    fail('daily_digest must run only after a successful schedule job with should_notify == true')
+      digestJob?.if !== "${{ needs.schedule.result == 'success' && needs.schedule.outputs.should_notify == 'true' && needs.schedule.outputs.dry_run != 'true' }}") {
+    fail('daily_digest must run only after a successful non-dry-run schedule job with should_notify == true')
   }
   const digestNoteRun = run('daily_digest', 'Attach daily zh-CN Guides digest note')
   if (!digestNoteRun.includes('--file tmp/zh-guides-schedule/digest-note.md')) {
