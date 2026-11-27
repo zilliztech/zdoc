@@ -11,6 +11,9 @@ run-name: shared-docs-manual-update ${{ inputs.mode || 'update' }} ${{ inputs.gr
 # and every unadjudicated addition rides behind a new `exclude` entry plus a deferred
 # `ledger.json` entry — the advisory model stage only drafts proposals into those
 # entries and never decides, so adoption always needs a human-authored edit.
+# A tracking-head advance with a zero tracked-page diff stages and delivers nothing
+# (no pin-bump-only PR): the pin stays behind and the next real change is computed
+# from it.
 # Read-only lane: it writes only its own candidate branch through a PAT and never
 # master or dev, so it must not reacquire the production queue.
 
@@ -204,6 +207,8 @@ jobs:
               echo 'result=blocked' >> "$GITHUB_OUTPUT"
             elif jq -e '.upToDate == true' "$out/report.json" > /dev/null; then
               echo 'result=up-to-date' >> "$GITHUB_OUTPUT"
+            elif jq -e '.noop == true' "$out/report.json" > /dev/null; then
+              echo 'result=no-op' >> "$GITHUB_OUTPUT"
             else
               jq -e '.kind == "shared-manual-update" and .upToDate == false and (.to | test("^[0-9a-f]{40}$"))' "$out/report.json" > /dev/null
               test -f "$out/next-lock.yaml"
@@ -419,6 +424,8 @@ jobs:
             echo "The $MODE candidate produced no diff against $BASE_REF; nothing was delivered." >> "$GITHUB_STEP_SUMMARY"
           elif [ "$CLASSIFY_RESULT" = up-to-date ]; then
             echo "The group lock is up to date with the tracking head; no candidate was staged." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$CLASSIFY_RESULT" = no-op ]; then
+            echo "The tracking head advanced past the locked next with a zero tracked-page diff, so no candidate was staged or delivered and the pin stays behind; the next real change is computed from it." >> "$GITHUB_STEP_SUMMARY"
           elif [ "$DELIVERED" != success ] && [ "$APPLY_RESULT" != staged ]; then
             echo "Lane outcome: ${CLASSIFY_RESULT:-failed} (applied: ${APPLY_RESULT:-none})." >> "$GITHUB_STEP_SUMMARY"
           fi

@@ -3548,8 +3548,10 @@ test('shared-docs manual update lane policy rejects trigger, permission, gate an
     [source => source.replace('GH_TOKEN="$SHARED_DOCS_UPDATE_PAT" gh pr create', 'gh pr create'), 'through the PAT'],
     [source => source.replace('--repo "$GITHUB_REPOSITORY" --base "$BASE_REF" --head "$branch"', '--repo "$GITHUB_REPOSITORY" --head "$branch"'), 'through the PAT'],
     [objectMutation(w => { step(w, 'lane', 'Retain the lane evidence').if = 'failure()' }), 'retained even when the lane fails'],
-    [source => source.replace("jq -e '.blocked == true'", "jq -e '.never == true'"), 'classify blocked, up-to-date and candidate outcomes'],
-    [source => source.replace("echo 'result=blocked'", "echo 'result=candidate'"), 'classify blocked, up-to-date and candidate outcomes'],
+    [source => source.replace("jq -e '.blocked == true'", "jq -e '.never == true'"), 'classify blocked, up-to-date, no-op and candidate outcomes'],
+    [source => source.replace("echo 'result=blocked'", "echo 'result=candidate'"), 'classify blocked, up-to-date, no-op and candidate outcomes'],
+    [source => source.replace("jq -e '.noop == true'", "jq -e '.never == true'"), 'classify blocked, up-to-date, no-op and candidate outcomes'],
+    [source => source.replace("echo 'result=no-op'", "echo 'result=candidate'"), 'classify blocked, up-to-date, no-op and candidate outcomes'],
     [objectMutation(w => { step(w, 'lane', 'Report the blocked surface').if = 'always()' }), 'fail the lane without staging anything'],
     [source => source.split("jq -r '.removedPublished[]'").join('true'), 'fail the lane without staging anything'],
     [objectMutation(w => { step(w, 'lane', 'Draft the advisory proposals').if = 'always()' }), 'run only for update-mode candidates'],
@@ -3566,6 +3568,7 @@ test('shared-docs manual update lane policy rejects trigger, permission, gate an
     [source => source.replace('Zero-auto-adoption pairing', 'pairing'), 'pairing and any advisory degradation'],
     [source => source.replace('Advisory stage degraded', 'degraded'), 'pairing and any advisory degradation'],
     [source => source.replace('[ "$CLASSIFY_RESULT" = blocked ]', 'false'), 'report the blocked outcome'],
+    [source => source.replace('[ "$CLASSIFY_RESULT" = no-op ]', 'false'), 'report the blocked outcome'],
   ]
   try {
     for (const [mutate, expected] of fixtures) {

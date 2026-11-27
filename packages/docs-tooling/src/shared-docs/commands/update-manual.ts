@@ -15,7 +15,9 @@ import type { ManualLedgerEntry, ManualMetadata } from '../core/types'
  * the impact report. The publish surface is never changed by the lane alone (design:
  * B + tiered blocking): a removed page that is still published blocks the run, and each
  * unadjudicated added page is paired with a new `exclude` entry plus a deferred
- * `ledger.json` entry, so adoption always needs a human-authored edit. The command never
+ * `ledger.json` entry, so adoption always needs a human-authored edit. A tracking-head
+ * advance with a zero tracked-page diff is a no-op: nothing is staged (the pin stays
+ * behind) and the caller should not open an update PR. The command never
  * edits the group; the caller commits the candidate files into the rolling update PR,
  * whose validation runs the normal build. */
 export interface ManualUpdateOptions { sharedDocs: string; repo: string; dev: string; out: string }
@@ -46,6 +48,10 @@ export interface ManualUpdateReport {
   metadataExample?: { file: string; fields: ManualMetadata }
   blocked: boolean
   upToDate: boolean
+  /** True when the tracking head advanced past the locked next with a zero tracked-page
+   * diff: nothing is staged or delivered (like up-to-date), but the pin stays behind and
+   * `upToDate` stays false so the report keeps the pin identity honest. */
+  noop: boolean
   counts: { added: number; removed: number; changed: number; addedPending: number; removedPublished: number }
 }
 
@@ -99,7 +105,8 @@ export async function manualUpdate(options: ManualUpdateOptions, write: (text: s
     const report: ManualUpdateReport = { schema_version: 1, kind: 'shared-manual-update', group,
       manual: shared.manualConfig.publish.manual, tracking: shared.sourceConfig.track, from: shared.lock.next, to: head,
       added: [], addedPending: [], removed: [], removedPublished: [], removedExcluded: [], changed: [],
-      blocked: false, upToDate: false, counts: { added: 0, removed: 0, changed: 0, addedPending: 0, removedPublished: 0 } }
+      blocked: false, upToDate: false, noop: false,
+      counts: { added: 0, removed: 0, changed: 0, addedPending: 0, removedPublished: 0 } }
     const exampleKey = Object.keys(shared.manualConfig.metadata ?? {}).find(key => key.endsWith('.md'))
     if (exampleKey) report.metadataExample = { file: exampleKey, fields: shared.manualConfig.metadata![exampleKey] }
     // Fail closed on a rewritten or diverged upstream history before anything else:
@@ -152,6 +159,16 @@ export async function manualUpdate(options: ManualUpdateOptions, write: (text: s
       await writeReport(out, report, undefined, undefined, undefined)
       write(JSON.stringify({ exitCode: 3, out, blocked: true, removedPublished: report.removedPublished.length, ...report.counts, upToDate: false }) + '\n')
       return 3
+    }
+    if (report.added.length === 0 && report.removed.length === 0 && report.changed.length === 0) {
+      // Zero tracked-page diff: the tracking head advanced past the locked next without
+      // touching any page in the manual's source set. Nothing is staged or delivered — a
+      // pin-bump-only PR carries no reviewable change — and the pin stays behind, so the
+      // next real change is still computed from this pin (the diff is content-based).
+      report.noop = true
+      await writeReport(out, report, undefined, undefined, undefined)
+      write(JSON.stringify({ exitCode: 0, out, ...report.counts, blocked: false, upToDate: false, noop: true }) + '\n')
+      return 0
     }
     let candidateManual: string | undefined
     let candidateLedger: string | undefined
@@ -209,6 +226,12 @@ function updateMarkdown(report: ManualUpdateReport): string {
     return [`# Manual update: ${report.manual}`, '',
       `The tracking head equals the locked next (${short} on \`${report.tracking}\`); there is nothing to adopt.`,
       'No lock candidate was staged, so the caller should not open an update PR.'].join('\n') + '\n'
+  }
+  if (report.noop) {
+    return [`# Manual update: ${report.manual} — no tracked-page changes at ${short}`, '',
+      `Range: ${report.from.slice(0, 12)}…${short} on \`${report.tracking}\`: the tracking head advanced past the locked next`,
+      `without touching any page in the manual's source set. No lock candidate was staged, so the caller should not`,
+      'open an update PR; the pin stays behind and the next real change is computed from it.'].join('\n') + '\n'
   }
   if (report.blocked) {
     return [`# Manual update: ${report.manual} — blocked at ${short}`, '',
