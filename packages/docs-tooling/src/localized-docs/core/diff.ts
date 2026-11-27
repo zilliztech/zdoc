@@ -1,3 +1,4 @@
+import { applyTier2CodeRules } from './code-sync.ts'
 import {
   projectChannelText,
   type BlockUnit,
@@ -219,10 +220,191 @@ function findBaselineCodeMeta(
   return baselineSec.code_blocks[codeOrdinal] ?? null
 }
 
+function alignByWeightedScore<A, B>(
+  base: readonly A[],
+  next: readonly B[],
+  scoreMatch: (a: A, b: B, basePos: number, nextPos: number) => number | null,
+): AlignmentHunk[] {
+  const dp = Array.from({ length: base.length + 1 }, () => new Float64Array(next.length + 1))
+  for (let i = base.length - 1; i >= 0; i -= 1) {
+    for (let j = next.length - 1; j >= 0; j -= 1) {
+      let best = Math.max(dp[i + 1][j], dp[i][j + 1])
+      const matchScore = scoreMatch(base[i], next[j], i, j)
+      if (matchScore !== null) {
+        const candidate = matchScore + dp[i + 1][j + 1]
+        if (candidate > best) {
+          best = candidate
+        }
+      }
+      dp[i][j] = best
+    }
+  }
+
+  const result: AlignmentHunk[] = []
+  let basePending: number[] = []
+  let newPending: number[] = []
+  const flush = () => {
+    if (basePending.length || newPending.length) {
+      result.push({
+        kind: 'change',
+        baseIndices: basePending,
+        newIndices: newPending,
+      })
+      basePending = []
+      newPending = []
+    }
+  }
+
+  let i = 0
+  let j = 0
+  while (i < base.length || j < next.length) {
+    const matchScore =
+      i < base.length && j < next.length ? scoreMatch(base[i], next[j], i, j) : null
+    if (
+      i < base.length &&
+      j < next.length &&
+      matchScore !== null &&
+      matchScore + dp[i + 1][j + 1] >= dp[i + 1][j] &&
+      matchScore + dp[i + 1][j + 1] >= dp[i][j + 1]
+    ) {
+      flush()
+      result.push({
+        kind: 'common',
+        baseIdx: i,
+        newIdx: j,
+        baseIndices: [i],
+        newIndices: [j],
+      })
+      i += 1
+      j += 1
+    } else if (i < base.length && (j === next.length || dp[i + 1][j] >= dp[i][j + 1])) {
+      basePending.push(i)
+      i += 1
+    } else {
+      newPending.push(j)
+      j += 1
+    }
+  }
+  flush()
+  return result
+}
+
+function multisetDice(a: readonly string[], b: readonly string[]): number {
+  if (a.length === 0 && b.length === 0) return 1
+  if (a.length === 0 || b.length === 0) return 0
+  const counts = new Map<string, number>()
+  for (const item of a) {
+    counts.set(item, (counts.get(item) ?? 0) + 1)
+  }
+  let intersection = 0
+  for (const item of b) {
+    const cur = counts.get(item) ?? 0
+    if (cur > 0) {
+      counts.set(item, cur - 1)
+      intersection += 1
+    }
+  }
+  return (2 * intersection) / (a.length + b.length)
+}
+
+function codeBodySimilarity(aBody: string, bBody: string): number {
+  const normA = aBody.replace(/\r\n|\r/g, '\n')
+  const normB = bBody.replace(/\r\n|\r/g, '\n')
+  if (normA === normB) return 1
+  const linesA = normA
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+  const linesB = normB
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+  const tokensA = normA.match(/[A-Za-z0-9_.-]+/g) ?? []
+  const tokensB = normB.match(/[A-Za-z0-9_.-]+/g) ?? []
+  return 0.5 * multisetDice(linesA, linesB) + 0.5 * multisetDice(tokensA, tokensB)
+}
+
+function scoreCodeBlockPair(options: {
+  baseBlock: BlockUnit
+  otherBlock: BlockUnit
+  mode: 'base-new' | 'base-zh'
+  baselineSec?: BaselineSection
+  zhCodeCount?: number
+  zhCodeOrdinal?: number
+}): number | null {
+  const { baseBlock, otherBlock, mode, baselineSec, zhCodeCount, zhCodeOrdinal } = options
+  if (anchorKey(baseBlock) !== anchorKey(otherBlock)) return null
+
+  if (baseBlock.sha256 === otherBlock.sha256) {
+    return 10000
+  }
+  const baseBody = baseBlock.code?.body ?? ''
+  const otherBody = otherBlock.code?.body ?? ''
+  if (baseBody === otherBody) {
+    return 9800
+  }
+
+  let score = 100
+  if (mode === 'base-zh') {
+    const tier2 = applyTier2CodeRules(baseBody)
+    if (tier2.transformed === otherBody) {
+      return 9000
+    }
+    if (tier2.transformed.trim() === otherBody.trim()) {
+      return 8500
+    }
+    if (baselineSec) {
+      if (
+        zhCodeCount !== undefined &&
+        zhCodeOrdinal !== undefined &&
+        baselineSec.code_blocks.length === zhCodeCount &&
+        baselineSec.code_blocks[zhCodeOrdinal]?.en_sha256 === baseBlock.sha256
+      ) {
+        score += 500
+      } else {
+        const otherIsKnownZhOnly = baselineSec.code_blocks.some(
+          cb => cb.en_sha256 === otherBlock.sha256 && cb.customized_for_zh,
+        )
+        const baseHasOwnEntry = baselineSec.code_blocks.some(
+          cb => cb.en_sha256 === baseBlock.sha256,
+        )
+        if (otherIsKnownZhOnly && baseHasOwnEntry) {
+          score -= 50
+        }
+      }
+    }
+  }
+
+  score += Math.round(codeBodySimilarity(baseBody, otherBody) * 500)
+  return score
+}
+
+function scoreStructuralAnchorPair(options: {
+  baseBlock: BlockUnit
+  otherBlock: BlockUnit
+  mode: 'base-new' | 'base-zh'
+  baselineSec?: BaselineSection
+  zhCodeCount?: number
+  zhCodeOrdinal?: number
+}): number | null {
+  const { baseBlock, otherBlock } = options
+  if (anchorKey(baseBlock) !== anchorKey(otherBlock)) return null
+  if (baseBlock.kind === 'code') {
+    return scoreCodeBlockPair(options)
+  }
+  if (baseBlock.kind === 'heading') {
+    return baseBlock.sha256 === otherBlock.sha256 ? 1100 : 1000
+  }
+  return baseBlock.raw === otherBlock.raw ? 1100 : 1000
+}
+
 function pairThreeWayAnchors(
   baseBlocks: readonly BlockUnit[],
   newBlocks: readonly BlockUnit[],
   zhBlocks: readonly BlockUnit[],
+  baselineSec: BaselineSection | undefined,
+  zhCodeCount: number,
+  zhCodeOrdinalByIdx: ReadonlyMap<number, number>,
 ): { baseIdx: number; newIdx: number; zhIdx: number }[] {
   const baseAnchors = baseBlocks
     .map((b, idx) => ({ b, idx }))
@@ -234,10 +416,12 @@ function pairThreeWayAnchors(
     .map((b, idx) => ({ b, idx }))
     .filter(item => isStructuralAnchorKind(item.b.kind))
 
-  const baseNewHunks = alignByPredicate(
-    baseAnchors,
-    newAnchors,
-    (a, b) => anchorKey(a.b) === anchorKey(b.b),
+  const baseNewHunks = alignByWeightedScore(baseAnchors, newAnchors, (a, b) =>
+    scoreStructuralAnchorPair({
+      baseBlock: a.b,
+      otherBlock: b.b,
+      mode: 'base-new',
+    }),
   )
   const baseToNew = new Map<number, number>()
   for (const hunk of baseNewHunks) {
@@ -246,10 +430,15 @@ function pairThreeWayAnchors(
     }
   }
 
-  const baseZhHunks = alignByPredicate(
-    baseAnchors,
-    zhAnchors,
-    (a, b) => anchorKey(a.b) === anchorKey(b.b),
+  const baseZhHunks = alignByWeightedScore(baseAnchors, zhAnchors, (a, b) =>
+    scoreStructuralAnchorPair({
+      baseBlock: a.b,
+      otherBlock: b.b,
+      mode: 'base-zh',
+      baselineSec,
+      zhCodeCount,
+      zhCodeOrdinal: zhCodeOrdinalByIdx.get(b.idx),
+    }),
   )
   const pairs: { baseIdx: number; newIdx: number; zhIdx: number }[] = []
   for (const hunk of baseZhHunks) {
@@ -286,11 +475,32 @@ function alignSectionBlocks(options: {
   const newBlocks = newEnSec.blocks
   const zhBlocks = curZhSec.blocks
 
-  const anchorTriples = pairThreeWayAnchors(baseBlocks, newBlocks, zhBlocks)
+  const zhCodeOrdinalByIdx = new Map<number, number>()
+  let zhCodeCount = 0
+  for (let zi = 0; zi < zhBlocks.length; zi += 1) {
+    if (zhBlocks[zi].kind === 'code') {
+      zhCodeOrdinalByIdx.set(zi, zhCodeCount)
+      zhCodeCount += 1
+    }
+  }
+
+  const anchorTriples = pairThreeWayAnchors(
+    baseBlocks,
+    newBlocks,
+    zhBlocks,
+    baselineSec,
+    zhCodeCount,
+    zhCodeOrdinalByIdx,
+  )
   const sentinels = [
     ...anchorTriples,
     { baseIdx: baseBlocks.length, newIdx: newBlocks.length, zhIdx: zhBlocks.length },
   ]
+
+  const zhBlockIndexByRef = new Map<BlockUnit, number>()
+  for (let zi = 0; zi < zhBlocks.length; zi += 1) {
+    zhBlockIndexByRef.set(zhBlocks[zi], zi)
+  }
 
   const emittedItems: DiffBlockItem[] = []
   let blockCounter = 0
@@ -301,7 +511,11 @@ function alignSectionBlocks(options: {
 
   const computeLeadingRaw = (zhBlock: BlockUnit | null): string => {
     if (zhBlock && lastZhBlockEmitted && zhBlock.start >= lastZhBlockEmitted.end) {
-      return curZhBodyText.slice(lastZhBlockEmitted.end, zhBlock.start)
+      const prevIdx = zhBlockIndexByRef.get(lastZhBlockEmitted)
+      const currIdx = zhBlockIndexByRef.get(zhBlock)
+      if (prevIdx !== undefined && currIdx !== undefined && currIdx === prevIdx + 1) {
+        return curZhBodyText.slice(lastZhBlockEmitted.end, zhBlock.start)
+      }
     }
     if (emittedItems.length === 0) {
       return ''
@@ -458,19 +672,25 @@ function alignSectionBlocks(options: {
       })
     }
 
-    const gapCodeHunks = alignByPredicate(
-      gapBaseCodeIndices,
-      gapZhCodeIndices,
-      (bi, zi) => anchorKey(baseBlocks[bi]) === anchorKey(zhBlocks[zi]),
+    const gapCodeHunks = alignByWeightedScore(gapBaseCodeIndices, gapZhCodeIndices, (bi, zi) =>
+      scoreCodeBlockPair({
+        baseBlock: baseBlocks[bi],
+        otherBlock: zhBlocks[zi],
+        mode: 'base-zh',
+        baselineSec,
+        zhCodeCount,
+        zhCodeOrdinal: zhCodeOrdinalByIdx.get(zi),
+      }),
     )
     for (const codeHunk of gapCodeHunks) {
       if (codeHunk.kind === 'common' && codeHunk.baseIdx !== undefined && codeHunk.newIdx !== undefined) {
         emitGapCodePair(gapBaseCodeIndices[codeHunk.baseIdx], gapZhCodeIndices[codeHunk.newIdx])
       } else {
-        for (let k = 0; k < Math.max(codeHunk.baseIndices.length, codeHunk.newIndices.length); k += 1) {
-          const bi = codeHunk.baseIndices[k] !== undefined ? gapBaseCodeIndices[codeHunk.baseIndices[k]] : undefined
-          const zi = codeHunk.newIndices[k] !== undefined ? gapZhCodeIndices[codeHunk.newIndices[k]] : undefined
-          emitGapCodePair(bi, zi)
+        for (const baseSubIdx of codeHunk.baseIndices) {
+          emitGapCodePair(gapBaseCodeIndices[baseSubIdx], undefined)
+        }
+        for (const zhSubIdx of codeHunk.newIndices) {
+          emitGapCodePair(undefined, gapZhCodeIndices[zhSubIdx])
         }
       }
     }
@@ -502,6 +722,18 @@ function alignSectionBlocks(options: {
       const hasAddedChannelWrappers = gapNewAll.some(nb => nb.kind === 'channel-open')
 
       if (allBaseCommon && gapBaseProseIndices.length === gapZhProseIndices.length) {
+        const matchedNewOffsets = new Set<number>()
+        for (const h of proseHunks) {
+          if (h.kind === 'common' && h.newIdx !== undefined) matchedNewOffsets.add(h.newIdx)
+        }
+        const wrapsHumanEditInNextOnly =
+          zhEdited &&
+          hasAddedChannelWrappers &&
+          gapBaseProseIndices.some((_, idx) => {
+            const commonHunk = proseHunks.find(h => h.kind === 'common' && h.baseIdx === idx)
+            return commonHunk?.newIdx !== undefined && gapNewAll[commonHunk.newIdx].channel === 'next'
+          })
+
         let firstCommonNewOffset = gapNewAll.length
         for (const h of proseHunks) {
           if (h.kind === 'common' && h.newIdx !== undefined) {
@@ -510,35 +742,75 @@ function alignSectionBlocks(options: {
           }
         }
         for (let offset = 0; offset < firstCommonNewOffset; offset += 1) {
-          emitAddedNewBlock(gapNewAll[offset])
+          const addedNewBlock = gapNewAll[offset]
+          if (
+            !(
+              wrapsHumanEditInNextOnly &&
+              (addedNewBlock.kind === 'channel-open' || addedNewBlock.kind === 'channel-close')
+            )
+          ) {
+            emitAddedNewBlock(addedNewBlock)
+          }
         }
 
-        const matchedNewOffsets = new Set<number>()
-        for (const h of proseHunks) {
-          if (h.kind === 'common' && h.newIdx !== undefined) matchedNewOffsets.add(h.newIdx)
-        }
         for (let k = 0; k < gapBaseProseIndices.length; k += 1) {
           const bi = gapBaseProseIndices[k]
           const zi = gapZhProseIndices[k]
           const zb = zhBlocks[zi]
           const commonHunk = proseHunks.find(h => h.kind === 'common' && h.baseIdx === k)
           const nb = commonHunk?.newIdx !== undefined ? gapNewAll[commonHunk.newIdx] : null
-          pushEmitted({
-            id: nextBlockId(),
-            sectionAnchor: anchor,
-            status: 'unchanged',
-            kind: zb.kind,
-            channel: nb?.channel ?? zb.channel,
-            baseEn: baseBlocks[bi],
-            newEn: nb,
-            curZh: zb,
-            leadingRaw: computeLeadingRaw(zb),
-          })
+          if (wrapsHumanEditInNextOnly && nb?.channel === 'next') {
+            const blockId = nextBlockId()
+            pushEmitted({
+              id: blockId,
+              sectionAnchor: anchor,
+              status: 'manual-zh-conflict',
+              kind: zb.kind,
+              channel: zb.channel,
+              baseEn: baseBlocks[bi],
+              newEn: nb,
+              curZh: zb,
+              leadingRaw: computeLeadingRaw(zb),
+              ambiguousReason: 'Section contains human ZH edits overlapping an EN NextChannel wrapper',
+            })
+            todos.push({
+              id: `manual-zh-conflict:${blockId}`,
+              kind: 'manual-zh-conflict',
+              sectionAnchor: anchor,
+              blockId,
+              title: '人工修订与英文通道边界变更重叠，已保留中文原文待合并',
+              details:
+                '该小节存在人工修订，且英文将其移入 <NextChannel action="include">。为避免从现网（Prod）隐藏人工稿，已原样保留当前中文原文，请主审确认合并。',
+              enBefore: baseBlocks[bi].raw,
+              enAfter: gapNewAll.map(item => item.raw).join('\n\n'),
+              zhCurrent: zb.raw,
+            })
+          } else {
+            pushEmitted({
+              id: nextBlockId(),
+              sectionAnchor: anchor,
+              status: 'unchanged',
+              kind: zb.kind,
+              channel: wrapsHumanEditInNextOnly ? zb.channel : (nb?.channel ?? zb.channel),
+              baseEn: baseBlocks[bi],
+              newEn: nb,
+              curZh: zb,
+              leadingRaw: computeLeadingRaw(zb),
+            })
+          }
         }
 
         for (let offset = firstCommonNewOffset; offset < gapNewAll.length; offset += 1) {
           if (!matchedNewOffsets.has(offset)) {
-            emitAddedNewBlock(gapNewAll[offset])
+            const addedNewBlock = gapNewAll[offset]
+            if (
+              !(
+                wrapsHumanEditInNextOnly &&
+                (addedNewBlock.kind === 'channel-open' || addedNewBlock.kind === 'channel-close')
+              )
+            ) {
+              emitAddedNewBlock(addedNewBlock)
+            }
           }
         }
       } else if (allBaseCommon && gapZhProseIndices.length !== gapBaseProseIndices.length) {
@@ -606,13 +878,31 @@ function alignSectionBlocks(options: {
           })
 
         if (is1To1Prose) {
+          const hasGapChannelBoundary = gapNewIndices.some(
+            ni => newBlocks[ni].kind === 'channel-open' || newBlocks[ni].kind === 'channel-close',
+          )
+          const hasZhConflictInGap =
+            zhEdited &&
+            gapBaseProseIndices.some(
+              (bi, idx) => baseBlocks[bi].sha256 !== newBlocks[gapNewProseIndices[idx]].sha256,
+            )
+          const omitAddedChannelTags = hasGapChannelBoundary && hasZhConflictInGap
+
           let newCursor = 0
           for (let k = 0; k < gapBaseProseIndices.length; k += 1) {
             const bi = gapBaseProseIndices[k]
             const ni = gapNewProseIndices[k]
             const zi = gapZhProseIndices[k]
             while (newCursor < gapNewIndices.length && gapNewIndices[newCursor] < ni) {
-              emitAddedNewBlock(newBlocks[gapNewIndices[newCursor]])
+              const addedNewBlock = newBlocks[gapNewIndices[newCursor]]
+              if (
+                !(
+                  omitAddedChannelTags &&
+                  (addedNewBlock.kind === 'channel-open' || addedNewBlock.kind === 'channel-close')
+                )
+              ) {
+                emitAddedNewBlock(addedNewBlock)
+              }
               newCursor += 1
             }
             newCursor += 1
@@ -627,7 +917,7 @@ function alignSectionBlocks(options: {
                 sectionAnchor: anchor,
                 status: 'unchanged',
                 kind: zb.kind,
-                channel: nb.channel,
+                channel: omitAddedChannelTags ? zb.channel : nb.channel,
                 baseEn: bb,
                 newEn: nb,
                 curZh: zb,
@@ -640,7 +930,7 @@ function alignSectionBlocks(options: {
                 sectionAnchor: anchor,
                 status: 'manual-zh-conflict',
                 kind: zb.kind,
-                channel: nb.channel,
+                channel: omitAddedChannelTags ? zb.channel : nb.channel,
                 baseEn: bb,
                 newEn: nb,
                 curZh: zb,
@@ -653,10 +943,13 @@ function alignSectionBlocks(options: {
                 sectionAnchor: anchor,
                 blockId,
                 title: '人工修订与英文更新重叠，已保留中文原文待合并',
-                details:
-                  '该小节存在人工修订，且对应英文段落同时发生变化。为避免覆盖人工稿，已保留当前中文原文，请主审确认合并。',
+                details: omitAddedChannelTags
+                  ? '该小节存在人工修订，且对应英文段落同时发生变化并调整了 <NextChannel> 边界。为避免覆盖人工稿或影响现网可见性，已原样保留当前中文原文，请主审确认合并。'
+                  : '该小节存在人工修订，且对应英文段落同时发生变化。为避免覆盖人工稿，已保留当前中文原文，请主审确认合并。',
                 enBefore: bb.raw,
-                enAfter: nb.raw,
+                enAfter: omitAddedChannelTags
+                  ? gapNewIndices.map(idx => newBlocks[idx].raw).join('\n\n')
+                  : nb.raw,
                 zhCurrent: zb.raw,
               })
             } else {
@@ -674,7 +967,15 @@ function alignSectionBlocks(options: {
             }
           }
           while (newCursor < gapNewIndices.length) {
-            emitAddedNewBlock(newBlocks[gapNewIndices[newCursor]])
+            const addedNewBlock = newBlocks[gapNewIndices[newCursor]]
+            if (
+              !(
+                omitAddedChannelTags &&
+                (addedNewBlock.kind === 'channel-open' || addedNewBlock.kind === 'channel-close')
+              )
+            ) {
+              emitAddedNewBlock(addedNewBlock)
+            }
             newCursor += 1
           }
         } else {

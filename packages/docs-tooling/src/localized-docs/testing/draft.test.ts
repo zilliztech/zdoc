@@ -3,6 +3,7 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { loadLocalizedContractSupport } from '../adapters/contract.ts'
 import { FakeDraftLlmProvider, createDraftLlmProvider } from '../adapters/llm.ts'
+import { projectChannelPreview } from '../core/pr-body.ts'
 import {
   executeDraftEngine,
   maskProtectedTokensForLlm,
@@ -897,5 +898,348 @@ Step 1 and Step 2 merged into one step.
     expect(todo).toBeDefined()
     expect(todo?.enAfter).toContain('<NextChannel action="include">')
     expect(todo?.enAfter).toContain('Step 1 and Step 2 merged into one step.')
+  })
+
+  it('handles same-language multi-code-block deletion (1D & 1E) and ZH-only python before EN python (1F & 1H) end-to-end', async () => {
+    const contractSupport = loadLocalizedContractSupport({ repositoryRoot: repoRoot })
+    const provider = new FakeDraftLlmProvider({
+      responder: unit => unit.maskedEnText,
+    })
+
+    // 1D: 2 python blocks; B1 customized deleted by EN, B2 uncustomized kept by EN
+    const baseEn1D = makeEnSnapshot(`---
+title: "CodeAlign1D"
+---
+
+# CodeAlign1D
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+print("block-1-en")
+\`\`\`
+
+\`\`\`python
+client = 1
+\`\`\`
+`)
+    const newEn1D = makeEnSnapshot(`---
+title: "CodeAlign1D"
+---
+
+# CodeAlign1D
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+client = 1
+\`\`\`
+`, 'delete-entities', '2'.repeat(40))
+    const curZh1D = `# CodeAlign1D
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+# 中国站定制 block 1
+uri = "https://in01-cn.zillizcloud.com.cn"
+\`\`\`
+
+\`\`\`python
+client = 1
+\`\`\`
+`
+    const baseline1D = makeBaseline('delete-entities', baseEn1D, curZh1D)
+    baseline1D.sections[1].code_blocks[0].customized_for_zh = true
+
+    const res1D = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: { hasSourceMd: true, sourceMdText: curZh1D, hasBaselineJson: true, baseline: baseline1D, lifecycleState: 'ready' },
+      newEn: newEn1D,
+      baseEn: baseEn1D,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(res1D.status).toBe('drafted')
+    if (res1D.status !== 'drafted') return
+    expect(res1D.candidateSourceMd).toContain('# 中国站定制 block 1')
+    expect(res1D.candidateSourceMd).toContain('client = 1')
+    expect(res1D.todos.some(t => t.kind === 'code-conflict')).toBe(true)
+    expect(res1D.todos.some(t => t.kind === 'ambiguous-merge')).toBe(false)
+    expect(res1D.updatedBaseline.sections[1].code_blocks).toHaveLength(2)
+
+    // 1E: 2 python blocks; B1 uncustomized deleted by EN, B2 customized kept by EN (with EN modification or kept unchanged)
+    const baseEn1E = makeEnSnapshot(`---
+title: "CodeAlign1E"
+---
+
+# CodeAlign1E
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+print("block-1-en")
+\`\`\`
+
+\`\`\`python
+# block 2 keep unchanged
+uri = "https://cloud.zilliz.com"
+\`\`\`
+`)
+    const newEn1E = makeEnSnapshot(`---
+title: "CodeAlign1E"
+---
+
+# CodeAlign1E
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+# block 2 keep unchanged
+uri = "https://cloud.zilliz.com"
+\`\`\`
+`, 'delete-entities', '3'.repeat(40))
+    const curZh1E = `# CodeAlign1E
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+print("block-1-en")
+\`\`\`
+
+\`\`\`python
+# 中国站定制 block 2 (kept by EN)
+uri = "https://in01-cn.zillizcloud.com.cn"
+\`\`\`
+`
+    const baseline1E = makeBaseline('delete-entities', baseEn1E, curZh1E)
+    baseline1E.sections[1].code_blocks[1].customized_for_zh = true
+
+    const res1E = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: { hasSourceMd: true, sourceMdText: curZh1E, hasBaselineJson: true, baseline: baseline1E, lifecycleState: 'ready' },
+      newEn: newEn1E,
+      baseEn: baseEn1E,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(res1E.status).toBe('drafted')
+    if (res1E.status !== 'drafted') return
+    expect(res1E.candidateSourceMd).not.toContain('print("block-1-en")')
+    expect(res1E.candidateSourceMd).toContain('# 中国站定制 block 2 (kept by EN)')
+    expect(res1E.candidateSourceMd.match(/```python/g)?.length).toBe(1)
+    expect(res1E.todos.some(t => t.kind === 'code-conflict')).toBe(false)
+    expect(res1E.updatedBaseline.sections[1].code_blocks).toHaveLength(1)
+    expect(res1E.updatedBaseline.sections[1].code_blocks[0].customized_for_zh).toBe(true)
+
+    // 1E variant where EN also modifies kept block B2 slightly (e.g. cloud.zilliz.com -> in01.zillizcloud.com)
+    const newEn1EMod = makeEnSnapshot(`---
+title: "CodeAlign1E"
+---
+
+# CodeAlign1E
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+# block 2 keep unchanged
+uri = "https://in01.zillizcloud.com"
+\`\`\`
+`, 'delete-entities', '4'.repeat(40))
+    const res1EMod = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: { hasSourceMd: true, sourceMdText: curZh1E, hasBaselineJson: true, baseline: baseline1E, lifecycleState: 'ready' },
+      newEn: newEn1EMod,
+      baseEn: baseEn1E,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(res1EMod.status).toBe('drafted')
+    if (res1EMod.status !== 'drafted') return
+    expect(res1EMod.candidateSourceMd).not.toContain('print("block-1-en")')
+    expect(res1EMod.candidateSourceMd).toContain('# 中国站定制 block 2 (kept by EN)')
+    expect(res1EMod.candidateSourceMd.match(/```python/g)?.length).toBe(1)
+    expect(res1EMod.todos.filter(t => t.kind === 'code-conflict')).toHaveLength(1)
+
+    // 1F & 1H: ZH-only python block BEFORE EN python block
+    const baseEn1FH = makeEnSnapshot(`---
+title: "CodeAlign1FH"
+---
+
+# CodeAlign1FH
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+val = 1
+\`\`\`
+`)
+    const curZh1FH = `# CodeAlign1FH
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+zh_extra = "cn-only"
+\`\`\`
+
+\`\`\`python
+val = 1
+\`\`\`
+`
+    const baseline1FH = makeBaseline('delete-entities', baseEn1FH, curZh1FH)
+
+    // 1F: EN deletes val = 1
+    const newEn1F = makeEnSnapshot(`---
+title: "CodeAlign1FH"
+---
+
+# CodeAlign1FH
+
+## Connect\\{#connect}
+
+Intro.
+`, 'delete-entities', '5'.repeat(40))
+    const res1F = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: { hasSourceMd: true, sourceMdText: curZh1FH, hasBaselineJson: true, baseline: baseline1FH, lifecycleState: 'ready' },
+      newEn: newEn1F,
+      baseEn: baseEn1FH,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(res1F.status).toBe('drafted')
+    if (res1F.status !== 'drafted') return
+    expect(res1F.candidateSourceMd).toContain('zh_extra = "cn-only"')
+    expect(res1F.candidateSourceMd).not.toContain('val = 1')
+    expect(res1F.todos.some(t => t.kind === 'code-conflict')).toBe(false)
+
+    // 1H: EN modifies val = 1 -> val = 2
+    const newEn1H = makeEnSnapshot(`---
+title: "CodeAlign1FH"
+---
+
+# CodeAlign1FH
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+val = 2
+\`\`\`
+`, 'delete-entities', '6'.repeat(40))
+    const res1H = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: { hasSourceMd: true, sourceMdText: curZh1FH, hasBaselineJson: true, baseline: baseline1FH, lifecycleState: 'ready' },
+      newEn: newEn1H,
+      baseEn: baseEn1FH,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(res1H.status).toBe('drafted')
+    if (res1H.status !== 'drafted') return
+    expect(res1H.candidateSourceMd).toContain('zh_extra = "cn-only"')
+    expect(res1H.candidateSourceMd).toContain('val = 2')
+    expect(res1H.candidateSourceMd).not.toContain('val = 1')
+    expect(res1H.todos.some(t => t.kind === 'code-conflict')).toBe(false)
+  })
+
+  it('preserves human-edited Prod prose in CURRENT view when 1:1 paragraph is wrapped in <NextChannel action="include"> (2D)', async () => {
+    const contractSupport = loadLocalizedContractSupport({ repositoryRoot: repoRoot })
+    let llmCalls = 0
+    const provider = new FakeDraftLlmProvider({
+      responder: () => {
+        llmCalls += 1
+        return 'unused'
+      },
+    })
+
+    const baseEn = makeEnSnapshot(`---
+title: "ZhEdited2D"
+---
+
+# ZhEdited2D
+
+## Steps\\{#steps}
+
+Step 1 original.
+`)
+    const reviewedZh = `# ZhEdited2D
+
+## 步骤\\{#steps}
+
+第一步原译文。
+`
+    const humanEditedZh = `# ZhEdited2D
+
+## 步骤\\{#steps}
+
+第一步人工精修（现网可见）。
+`
+    const newEn = makeEnSnapshot(`---
+title: "ZhEdited2D"
+---
+
+# ZhEdited2D
+
+## Steps\\{#steps}
+
+<NextChannel action="include">
+
+Step 1 updated in NEXT.
+
+</NextChannel>
+`, 'delete-entities', '2'.repeat(40))
+    const baseline = makeBaseline('delete-entities', baseEn, reviewedZh)
+
+    const res = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: {
+        hasSourceMd: true,
+        sourceMdText: humanEditedZh,
+        hasBaselineJson: true,
+        baseline,
+        lifecycleState: 'ready',
+      },
+      newEn,
+      baseEn,
+      llmProvider: provider,
+      contractSupport,
+    })
+
+    expect(res.status).toBe('drafted')
+    if (res.status !== 'drafted') return
+    expect(llmCalls).toBe(0)
+    expect(res.candidateSourceMd).not.toContain('<NextChannel')
+    expect(res.candidateSourceMd).not.toContain('</NextChannel>')
+    expect(projectChannelPreview(res.candidateSourceMd, 'current')).toContain('第一步人工精修（现网可见）。')
+    const todo = res.todos.find(t => t.kind === 'manual-zh-conflict')
+    expect(todo).toBeDefined()
+    expect(todo?.enAfter).toContain('<NextChannel action="include">')
+    expect(todo?.enAfter).toContain('Step 1 updated in NEXT.')
+    expect(todo?.zhCurrent).toBe('第一步人工精修（现网可见）。')
   })
 })

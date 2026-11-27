@@ -437,4 +437,224 @@ Body.
       'old-name',
     ])
   })
+
+  it('aligns same-language code blocks by content when EN deletes block 1 of 2 (1D & 1E)', () => {
+    const baseEn = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+print("block-1-en")
+\`\`\`
+
+\`\`\`python
+# block 2 keep unchanged
+client = 1
+\`\`\`
+`
+    const newEn = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+# block 2 keep unchanged
+client = 1
+\`\`\`
+`
+
+    // 1D: B1 customized, B2 uncustomized, EN deletes B1 and keeps B2
+    const curZh1D = `# 标题
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+# 中国站定制 block 1
+uri = "https://in01-cn.zillizcloud.com.cn"
+\`\`\`
+
+\`\`\`python
+# block 2 keep unchanged
+client = 1
+\`\`\`
+`
+    const baseline1D = makeBaseline(baseEn, curZh1D)
+    baseline1D.sections[1].code_blocks[0].customized_for_zh = true
+
+    const diff1D = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(curZh1D),
+      baseline: baseline1D,
+    })
+    const sec1D = diff1D.sections.find(s => s.anchor === 'connect')!
+    const codeBlocks1D = sec1D.blocks.filter(b => b.kind === 'code')
+    expect(codeBlocks1D).toHaveLength(2)
+    expect(codeBlocks1D[0].status).toBe('removed')
+    expect(codeBlocks1D[0].curZh?.raw).toContain('# 中国站定制 block 1')
+    expect(codeBlocks1D[1].status).toBe('unchanged')
+    expect(codeBlocks1D[1].curZh?.raw).toContain('client = 1')
+    expect(diff1D.todos.some(t => t.kind === 'ambiguous-merge')).toBe(false)
+
+    // 1E: B1 uncustomized deleted by EN, B2 customized kept by EN
+    const curZh1E = `# 标题
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+print("block-1-en")
+\`\`\`
+
+\`\`\`python
+# 中国站定制 block 2 (kept by EN)
+uri = "https://in01-cn.zillizcloud.com.cn"
+\`\`\`
+`
+    const baseline1E = makeBaseline(baseEn, curZh1E)
+    baseline1E.sections[1].code_blocks[1].customized_for_zh = true
+
+    const diff1E = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(curZh1E),
+      baseline: baseline1E,
+    })
+    const sec1E = diff1E.sections.find(s => s.anchor === 'connect')!
+    const codeBlocks1E = sec1E.blocks.filter(b => b.kind === 'code')
+    expect(codeBlocks1E).toHaveLength(2)
+    expect(codeBlocks1E[0].status).toBe('removed')
+    expect(codeBlocks1E[0].curZh?.raw).toContain('print("block-1-en")')
+    expect(codeBlocks1E[1].status).toBe('unchanged')
+    expect(codeBlocks1E[1].curZh?.raw).toContain('# 中国站定制 block 2 (kept by EN)')
+  })
+
+  it('preserves ZH-only code block placed BEFORE same-language EN code block when EN deletes or modifies (1F & 1H)', () => {
+    const baseEn = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+val = 1
+\`\`\`
+`
+    const curZh = `# 标题
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+zh_extra = "cn-only"
+\`\`\`
+
+\`\`\`python
+val = 1
+\`\`\`
+`
+    const baseline = makeBaseline(baseEn, curZh)
+
+    // 1F: EN deletes val = 1
+    const newEnDelete = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+`
+    const diff1F = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEnDelete),
+      curZh: parseZh(curZh),
+      baseline,
+    })
+    const sec1F = diff1F.sections.find(s => s.anchor === 'connect')!
+    const codes1F = sec1F.blocks.filter(b => b.kind === 'code')
+    expect(codes1F).toHaveLength(2)
+    expect(codes1F[0].status).toBe('zh-only-preserved')
+    expect(codes1F[0].curZh?.raw).toContain('zh_extra = "cn-only"')
+    expect(codes1F[1].status).toBe('removed')
+    expect(codes1F[1].curZh?.raw).toContain('val = 1')
+
+    // 1H: EN modifies val = 1 -> val = 2
+    const newEnMod = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+val = 2
+\`\`\`
+`
+    const diff1H = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEnMod),
+      curZh: parseZh(curZh),
+      baseline,
+    })
+    const sec1H = diff1H.sections.find(s => s.anchor === 'connect')!
+    const codes1H = sec1H.blocks.filter(b => b.kind === 'code')
+    expect(codes1H).toHaveLength(2)
+    expect(codes1H[0].status).toBe('zh-only-preserved')
+    expect(codes1H[0].curZh?.raw).toContain('zh_extra = "cn-only"')
+    expect(codes1H[1].status).toBe('modified')
+    expect(codes1H[1].newEn?.raw).toContain('val = 2')
+    expect(codes1H[1].curZh?.raw).toContain('val = 1')
+  })
+
+  it('does not wrap human-edited curZh in added <NextChannel action="include"> on 1:1 manual-zh-conflict (2D)', () => {
+    const baseEn = `# ZhEdited2D
+
+## Steps\\{#steps}
+
+Step 1 original.
+`
+    const reviewedZh = `# ZhEdited2D
+
+## 步骤\\{#steps}
+
+第一步原译文。
+`
+    const humanEditedZh = `# ZhEdited2D
+
+## 步骤\\{#steps}
+
+第一步人工精修（现网可见）。
+`
+    const newEn = `# ZhEdited2D
+
+## Steps\\{#steps}
+
+<NextChannel action="include">
+
+Step 1 updated in NEXT.
+
+</NextChannel>
+`
+    const diff = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(humanEditedZh),
+      baseline: makeBaseline(baseEn, reviewedZh),
+    })
+
+    const sec = diff.sections.find(s => s.anchor === 'steps')!
+    expect(sec.status).toBe('manual-zh-conflict')
+    expect(sec.lockedRawSpan?.raw).toContain('第一步人工精修（现网可见）。')
+    expect(sec.lockedRawSpan?.raw).not.toContain('<NextChannel')
+    expect(sec.blocks.some(b => b.kind === 'channel-open' || b.kind === 'channel-close')).toBe(false)
+    const todo = diff.todos.find(t => t.kind === 'manual-zh-conflict')
+    expect(todo).toBeDefined()
+    expect(todo?.enAfter).toContain('<NextChannel action="include">')
+    expect(todo?.enAfter).toContain('Step 1 updated in NEXT.')
+    expect(todo?.zhCurrent).toBe('第一步人工精修（现网可见）。')
+  })
 })
