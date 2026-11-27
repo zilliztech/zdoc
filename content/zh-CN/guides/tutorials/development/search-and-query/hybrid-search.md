@@ -120,10 +120,10 @@ import io.milvus.v2.service.vector.request.data.BaseVector;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+import io.milvus.v2.service.vector.response.InsertResp;
 import io.milvus.v2.service.vector.response.SearchResp;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
@@ -180,8 +180,8 @@ schema.addFunction(Function.builder()
 import (
     "context"
     "fmt"
+    "math/rand"
 
-    "github.com/milvus-io/milvus/client/v3/column"
     "github.com/milvus-io/milvus/client/v3/entity"
     "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
@@ -297,7 +297,6 @@ let schema = CollectionSchema::new()
 
 ```c++
 #include "milvus/MilvusClientV2.h"
-
 #include <iostream>
 #include <random>
 #include <vector>
@@ -318,9 +317,9 @@ milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>(
 schema->AddField({"id", milvus::DataType::INT64, "", true, false});
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
 schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
-schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
+schema->AddField(milvus::FieldSchema("text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
 schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
+schema->AddFunction(function);
 ```
 
 </TabItem>
@@ -355,7 +354,7 @@ const fields = [
     },
     {
         name: "text_sparse",
-        data_type: DataType.SPARSE_FLOAT_VECTOR
+        data_type: DataType.SparseFloatVector
     },
     {
         name: "image_dense",
@@ -382,6 +381,7 @@ const functions = [
 <TabItem value='csharp'>
 
 ```csharp
+using System;
 using Milvus.Client.V2.Types;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
@@ -544,7 +544,7 @@ IndexParam indexParamForTextDense = IndexParam.builder()
         .build();
 
 Map<String, Object> sparseParams = new HashMap<>();
-sparseParams.put("inverted_index_algo": "DAAT_MAXSCORE");
+sparseParams.put("inverted_index_algo", "DAAT_MAXSCORE");
 IndexParam indexParamForTextSparse = IndexParam.builder()
         .fieldName("text_sparse")
         .indexName("text_sparse_index")
@@ -577,7 +577,6 @@ indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "text_sparse"
     index.NewSparseInvertedIndex(entity.BM25, 0.2))
 indexOption3 := milvusclient.NewCreateIndexOption("my_collection", "image_dense",
     index.NewAutoIndex(index.MetricType(entity.IP)))
-)
 ```
 
 </TabItem>
@@ -738,7 +737,7 @@ client.createCollection(createCollectionReq);
 ```go
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithIndexOptions(indexOption1, indexOption2))
+        WithIndexOptions(indexOption1, indexOption2, indexOption3))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -768,7 +767,7 @@ client.create_collection(
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                         .WithCollectionName("my_collection")
                                         .WithCollectionSchema(schema)
-                                        .WithIndexes(std::move(indexes));
+                                        .WithIndexes(std::move(indexes)));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
@@ -782,6 +781,7 @@ if (!status.IsOk()) {
 const res = await client.createCollection({
     collection_name: "my_collection",
     fields: fields,
+    functions: functions,
     index_params: index_params,
 })
 ```
@@ -911,6 +911,22 @@ res = client.insert(
 <TabItem value='java'>
 
 ```java
+java.util.function.IntFunction<float[]> generateFloatVector = dim -> {
+    java.util.Random random = new java.util.Random();
+    float[] vector = new float[dim];
+    for (int i = 0; i < dim; i++) {
+        vector[i] = random.nextFloat();
+    }
+    return vector;
+};
+
+float[] text_dense1 = generateFloatVector.apply(768);
+float[] text_dense2 = generateFloatVector.apply(768);
+float[] dense3 = generateFloatVector.apply(768);
+float[] image_dense = generateFloatVector.apply(512);
+float[] image_dense2 = generateFloatVector.apply(512);
+float[] sparse3 = generateFloatVector.apply(512);
+
 Gson gson = new Gson();
 JsonObject row1 = new JsonObject();
 row1.addProperty("id", 0);
@@ -944,6 +960,14 @@ InsertResp insertResp = client.insert(insertReq);
 <TabItem value='go'>
 
 ```go
+generateDenseVector := func(dim int) []float32 {
+    vector := make([]float32, dim)
+    for i := range vector {
+        vector[i] = rand.Float32()
+    }
+    return vector
+}
+
 _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
     WithInt64Column("id", []int64{0, 1, 2}).
     WithVarcharColumn("text", []string{
@@ -952,15 +976,15 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
         "Stainless steel water bottle, 500ml",
     }).
     WithFloatVectorColumn("text_dense", 768, [][]float32{
-        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...},
-        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...},
-        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...},
+        generateDenseVector(768),
+        generateDenseVector(768),
+        generateDenseVector(768),
     }).
     WithFloatVectorColumn("image_dense", 512, [][]float32{
-        {0.6366019600530924, -0.09323198122475052, ...},
-        {0.6414180010301553, 0.8976979978567611, ...},
-        {-0.6901259768402174, 0.6100500332193755, ...},
-    }).
+        generateDenseVector(512),
+        generateDenseVector(512),
+        generateDenseVector(512),
+    }))
 if err != nil {
     fmt.Println(err.Error())
     // handle err
@@ -1046,10 +1070,12 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
+const generateDenseVector = (dim) => Array.from({ length: dim }, () => Math.random());
+
 var data = [
-    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */], image_dense: [0.6366019600530924, -0.09323198122475052 /* ...remaining dims */]},
-    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: [0.19886812562848388, 0.06023560599112088, 0.6976963061752597 /* ...remaining dims */], image_dense: [0.6414180010301553, 0.8976979978567611 /* ...remaining dims */]},
-    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: [0.43742130801983836, -0.5597502546264526, 0.6457887650909682 /* ...remaining dims */], image_dense: [-0.6901259768402174, 0.6100500332193755 /* ...remaining dims */]}
+    {id: 0, text: "Red cotton t-shirt with round neck" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)},
+    {id: 1, text: "Wireless noise-cancelling over-ear headphones" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)},
+    {id: 2, text: "Stainless steel water bottle, 500ml" , text_dense: generateDenseVector(768), image_dense: generateDenseVector(512)}
 ]
 
 var res = await client.insert({
@@ -1063,8 +1089,16 @@ var res = await client.insert({
 <TabItem value='csharp'>
 
 ```csharp
-var textDense = Enumerable.Repeat(0.1f, 768).ToArray();
-var imageDense = Enumerable.Repeat(0.1f, 512).ToArray();
+float[] GenerateDenseVector(int dimension)
+{
+    var rnd = new Random();
+    var vector = new float[dimension];
+    for (int i = 0; i < dimension; i++) vector[i] = (float)rnd.NextDouble();
+    return vector;
+}
+
+var textDense = GenerateDenseVector(768);
+var imageDense = GenerateDenseVector(512);
 
 await client.InsertAsync(new InsertReq
 {
@@ -1175,10 +1209,10 @@ reqs = [request_1, request_2, request_3]
 <TabItem value='java'>
 
 ```java
-float[] queryDense = new float[]{-0.0475336798f,  0.0521207601f,  0.0904406682f, ...};
-float[] queryMultimodal = new float[]{0.0158298651f, 0.5264158340f, ...}
+float[] queryDense = generateFloatVector.apply(768);
+float[] queryMultimodal = generateFloatVector.apply(512);
 
-List<BaseVector> queryTexts = Collections.singletonList(new EmbeddedText("white headphones, quiet and comfortable");)
+List<BaseVector> queryTexts = Collections.singletonList(new EmbeddedText("white headphones, quiet and comfortable"));
 List<BaseVector> queryDenseVectors = Collections.singletonList(new FloatVec(queryDense));
 List<BaseVector> queryMultimodalVectors = Collections.singletonList(new FloatVec(queryMultimodal));
 
@@ -1205,9 +1239,9 @@ searchRequests.add(AnnSearchReq.builder()
 <TabItem value='go'>
 
 ```go
-queryText := entity.Text({"white headphones, quiet and comfortable"})
-queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...}
-queryMultimodalVector := []float32{0.015829865178701663, 0.5264158340734488, ...}
+queryText := entity.Text("white headphones, quiet and comfortable")
+queryVector := generateDenseVector(768)
+queryMultimodalVector := generateDenseVector(512)
 
 request1 := milvusclient.NewAnnRequest("text_dense", 2, entity.FloatVector(queryVector)).
     WithAnnParam(index.NewIvfAnnParam(10))
@@ -1274,7 +1308,7 @@ auto sub_req2 = milvus::SubSearchRequest()
                     .WithLimit(2);
 
 auto sub_req3 = milvus::SubSearchRequest()
-                    .AddEmbeddedText(query_multimodal_vector)
+                    .AddFloatVector(query_multimodal_vector)
                     .WithAnnsField("image_dense")
                     .WithLimit(2);
 ```
@@ -1285,8 +1319,8 @@ auto sub_req3 = milvus::SubSearchRequest()
 
 ```javascript
 const query_text = "white headphones, quiet and comfortable"
-const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835 /* ...remaining dims */]
-const query_multimodal_vector = [0.015829865178701663, 0.5264158340734488 /* ...remaining dims */]
+const query_vector = generateDenseVector(768)
+const query_multimodal_vector = generateDenseVector(512)
 
 const search_param_1 = {
     "data": query_vector, 
@@ -1312,8 +1346,8 @@ const search_param_3 = {
 <TabItem value='csharp'>
 
 ```csharp
-float[] queryDenseVector = Enumerable.Repeat(0.1f, 768).ToArray();
-float[] queryMultimodalVector = Enumerable.Repeat(0.1f, 512).ToArray();
+float[] queryDenseVector = GenerateDenseVector(768);
+float[] queryMultimodalVector = GenerateDenseVector(512);
 
 // text semantic search (dense)
 AnnSearchReq req1 = new()
@@ -1417,7 +1451,7 @@ Function ranker = Function.builder()
         .functionType(FunctionType.RERANK)
         .param("reranker", "rrf")
         .param("k", "100")
-        .build()
+        .build();
 ```
 
 </TabItem>
@@ -1425,11 +1459,7 @@ Function ranker = Function.builder()
 <TabItem value='go'>
 
 ```go
-ranker := entity.NewFunction().
-    WithName("rrf").
-    WithType(entity.FunctionTypeRerank).
-    WithParam("reranker", "rrf").
-    WithParam("k", "100")
+ranker := milvusclient.NewRRFReranker().WithK(100)
 ```
 
 </TabItem>
@@ -1526,6 +1556,10 @@ for hits in res:
     print("TopK results:")
     for hit in hits:
         print(hit)
+# Output:
+# TopK results:
+# {'id': 1, 'distance': 0.029508832842111588, 'entity': {}}
+# {'id': 0, 'distance': 0.019801979884505272, 'entity': {}}
 ```
 
 </TabItem>
@@ -1541,6 +1575,8 @@ HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .build();
 
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+// Output:
+// [{id: 0, Score: 0.01980198, OutputFields: {}}, {id: 1, Score: 0.019704912, OutputFields: {}}]
 ```
 
 </TabItem>
@@ -1564,6 +1600,9 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
+// Output:
+// IDs:  long_data:{data:0 data:1}
+// Scores:  [0.01980198 0.019704912]
 ```
 
 </TabItem>
@@ -1587,6 +1626,10 @@ for result in res.results() {
         println!("{:?}", row.to_entity_row()?);
     }
 }
+// Output:
+// TopK results:
+// {"id": Number(1), "score": Number(0.029702968895435333)}
+// {"id": Number(0), "score": Number(0.009803921915590763)}
 ```
 
 </TabItem>
@@ -1601,7 +1644,7 @@ auto request = milvus::HybridSearchRequest()
                 .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
                 .WithRerank(ranker)
                 .WithLimit(2);
-                
+
 milvus::SearchResponse response;
 auto status = client->HybridSearch(request, response);
 if (!status.IsOk()) {
@@ -1616,6 +1659,10 @@ for (auto& result : response.Results().Results()) {
         std::cout << "\t" << row << std::endl;
     }
 }
+// Output:
+// TopK results:
+// 	{"id":1,"score":0.02960590273141861}
+// 	{"id":2,"score":0.0197049118578434}
 ```
 
 </TabItem>
@@ -1633,6 +1680,8 @@ const search = await client.search({
   limit: 2,
   rerank: ranker
 });
+// Output:
+// [{"id":"2","score":0.019801979884505272},{"id":"0","score":0.019607843831181526}]
 ```
 
 </TabItem>
@@ -1652,6 +1701,9 @@ foreach (long id in res.Ids.LongIds ?? [])
 {
     Console.WriteLine(id);
 }
+// Output:
+// 1
+// 0
 ```
 
 </TabItem>
@@ -1673,6 +1725,8 @@ curl --request POST \
     },
     \"limit\": 2
 }"
+# Output:
+# {"code":0,"cost":0,"data":[{"distance":0.032786883,"id":0},{"distance":0.032522473,"id":1}],"topks":[2]}
 ```
 
 </TabItem>
@@ -1719,6 +1773,12 @@ res = client.hybrid_search(
     # highlight-next-line
     timezone="America/Havana",
 )
+for hits in res:
+    for hit in hits:
+        print(hit)
+# Output:
+# {'id': 1, 'distance': 0.019801979884505272, 'entity': {}}
+# {'id': 0, 'distance': 0.0197049118578434, 'entity': {}}
 ```
 
 </TabItem>
@@ -1726,7 +1786,37 @@ res = client.hybrid_search(
 <TabItem value='java'>
 
 ```java
-// java
+List<AnnSearchReq> searchRequests = new ArrayList<>();
+searchRequests.add(AnnSearchReq.builder()
+        .vectorFieldName("text_dense")
+        .vectors(queryDenseVectors)
+        .topK(2)
+        .timezone("America/Havana")
+        .build());
+searchRequests.add(AnnSearchReq.builder()
+        .vectorFieldName("text_sparse")
+        .vectors(queryTexts)
+        .topK(2)
+        .timezone("America/Havana")
+        .build());
+searchRequests.add(AnnSearchReq.builder()
+        .vectorFieldName("image_dense")
+        .vectors(queryMultimodalVectors)
+        .topK(2)
+        .timezone("America/Havana")
+        .build());
+
+HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
+        .collectionName("my_collection")
+        .searchRequests(searchRequests)
+        .ranker(ranker)
+        .topK(2)
+        .build();
+
+SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+System.out.println(searchResp.getSearchResults());
+// Output:
+// [{id: 0, Score: 0.01980198, OutputFields: {}}, {id: 1, Score: 0.019704912, OutputFields: {}}]
 ```
 
 </TabItem>
@@ -1734,7 +1824,9 @@ res = client.hybrid_search(
 <TabItem value='go'>
 
 ```go
-// go
+// Note: Setting a timezone on a hybrid search is not supported in milvus-sdk-go
+// as of v3.0.0. Use the generic WithSearchParam passthrough if the server
+// accepts the "timezone" search param.
 ```
 
 </TabItem>
@@ -1775,6 +1867,15 @@ let res = client.hybrid_search(
         .build()?,
 )
 .await?;
+
+for result in res.results() {
+    for row in result.rows()? {
+        println!("{:?}", row.to_entity_row()?);
+    }
+}
+// Output:
+// {"id": Number(1), "score": Number(0.029702968895435333)}
+// {"id": Number(0), "score": Number(0.009803921915590763)}
 ```
 
 </TabItem>
@@ -1782,7 +1883,50 @@ let res = client.hybrid_search(
 <TabItem value='c++'>
 
 ```c++
-// cpp
+auto sub_req1 = milvus::SubSearchRequest()
+                    .AddFloatVector(query_dense_vector)
+                    .WithAnnsField("text_dense")
+                    .WithLimit(2)
+                    .WithTimezone("America/Havana");
+
+auto sub_req2 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_text)
+                    .WithAnnsField("text_sparse")
+                    .WithLimit(2)
+                    .WithTimezone("America/Havana");
+
+auto sub_req3 = milvus::SubSearchRequest()
+                    .AddFloatVector(query_multimodal_vector)
+                    .WithAnnsField("image_dense")
+                    .WithLimit(2)
+                    .WithTimezone("America/Havana");
+
+auto request = milvus::HybridSearchRequest()
+                .WithCollectionName("my_collection")
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
+                .WithRerank(ranker)
+                .WithLimit(2);
+
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+// Output:
+// TopK results:
+// 	{"id":1,"score":0.02960590273141861}
+// 	{"id":2,"score":0.0197049118578434}
 ```
 
 </TabItem>
@@ -1790,7 +1934,9 @@ let res = client.hybrid_search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+// Note: Setting a timezone on a search/hybrid search is not supported in the
+// Node.js SDK as of v3.0.x. Use the generic params passthrough if the server
+// accepts the "timezone" search param.
 ```
 
 </TabItem>
@@ -1806,6 +1952,14 @@ SearchResp res = await client.HybridSearchAsync(new HybridSearchReq
     Limit = 2,
     Parameters = new SearchParameters { Timezone = "America/Havana" }
 });
+
+foreach (long id in res.Ids.LongIds ?? [])
+{
+    Console.WriteLine(id);
+}
+// Output:
+// 1
+// 0
 ```
 
 </TabItem>

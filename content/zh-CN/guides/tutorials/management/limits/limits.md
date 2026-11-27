@@ -172,13 +172,15 @@ Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的�
    </tr>
    <tr>
      <td><p>所有字段（每个 Collection）</p></td>
-     <td><p>64</p></td>
+     <td><ul><li><p>兼容 Milvus v3.0.x 的集群：256</p></li><li><p>兼容 Milvus v2.x 的集群：64</p></li></ul></td>
    </tr>
    <tr>
      <td><p>向量字段（每个 Collection）</p></td>
      <td><ul><li><p>Free & Serverless：4</p></li><li><p>Dedicated：10</p></li></ul></td>
    </tr>
 </table>
+
+每个 StructArray 字段计为 1 加上其子字段的数量。动态字段（`$meta`）不计入。向现有 Collection 添加字段时同样受此限制。
 
 关于字段的其他限制：
 

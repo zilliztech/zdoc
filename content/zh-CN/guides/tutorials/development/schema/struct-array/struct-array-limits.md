@@ -125,6 +125,8 @@ StructArray Vector subfield 可以为 EmbeddingList Search 或 Element-level Sea
 
 规划 Collection Schema 时，StructArray Vector subfield 会计入 Vector subfield。请确保 Vector Field 和 Vector subfield 总数符合目标版本和服务层级的限制。
 
+StructArray Field 也计入 Collection 级字段数上限 `proxy.maxFieldNum`（默认 256）：每个 StructArray Field 计为 1 加上其子字段的数量，动态字段（`$meta`）不计入。向现有 Collection 添加 Field 时同样受此限制。
+
 element-nullable 向量子字段仅支持使用常规向量度量进行元素级搜索。`MAX_SIM*` 度量、EmbeddingList 索引和 EmbeddingList 搜索在其上会被拒绝，`AUTOINDEX` 也不会为其选择 `MAX_SIM*` 度量。null 向量不参与搜索。element-nullable 子字段和标量 array 子字段不支持标量索引。
 
 关于支持的 Index type 和 metric type matrix，请参阅 [为 StructArray Field 创建 Index](./index-struct-array)。

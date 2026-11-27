@@ -77,12 +77,19 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(false).
 
 ```rust
 let mut schema = CollectionSchema::new();
-schema = schema.add_field(
-    FieldSchema::new()
-        .name("content")
-        .data_type(DataType::Text)
-        .enable_analyzer(true),
-);
+schema = schema
+    .add_field(
+        FieldSchema::new()
+            .name("id")
+            .data_type(DataType::Int64)
+            .primary_key(true),
+    )
+    .add_field(
+        FieldSchema::new()
+            .name("content")
+            .data_type(DataType::Text)
+            .enable_analyzer(true),
+    );
 ```
 
 </TabItem>
@@ -90,6 +97,7 @@ schema = schema.add_field(
 <TabItem value='c++'>
 
 ```c++
+milvus::FieldSchema id_field("id", milvus::DataType::INT64, "", true, false);
 milvus::FieldSchema content_field("content", milvus::DataType::TEXT);
 content_field.EnableAnalyzer(true);
 ```
@@ -117,6 +125,7 @@ var schema = new CollectionSchema
 };
 
 // DataType.Text is an alias of VarChar with analyzer support for full-text search
+schema.Fields.Add(new FieldSchema("id", DataType.Int64, isPrimaryKey: true));
 schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableAnalyzer: true, enableMatch: true));
 ```
 
@@ -125,13 +134,19 @@ schema.Fields.Add(FieldSchema.CreateVarchar("content", maxLength: 65535, enableA
 <TabItem value='bash'>
 
 ```bash
+export primaryField='{
+    "fieldName": "id",
+    "dataType": "Int64",
+    "isPrimary": true
+}'
+
 export contentField='{
     "fieldName": "content",
     "dataType": "Text",
     "elementTypeParams": {
         "enable_analyzer": true
     }
-}'
+}''
 ```
 
 </TabItem>
@@ -151,13 +166,13 @@ export contentField='{
 
 TEXT 字段支持空值。要启用此功能，请将 nullable 设置为 True。详情请参阅[Nullable 属性](./nullable-fields)。
 
+在兼容 Milvus v3.0.x 的集群上，TEXT 字段在 `enable_analyzer` 和 `enable_match` 均设置为 True 时支持 `TEXT_MATCH` 和 `PHRASE_MATCH`。详情请参阅[Phrase Match](./phrase-match)。
+
 </Admonition>
 
 ## 限制\{#limits}
 
 - 一个 `TEXT` 字段不能用作主字段。主字段支持 `INT64` 和 `VARCHAR`。
-
-- `TEXT` 字段不支持 `PHRASE_MATCH`。
 
 - `TEXT` 字段不支持默认值。
 
@@ -240,6 +255,7 @@ import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.collection.request.DropCollectionReq;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.request.data.EmbeddedText;
@@ -659,9 +675,12 @@ client
 <TabItem value='c++'>
 
 ```c++
-std::vector<milvus::IndexDesc> indexes = {
-    milvus::IndexDesc("sparse", "sparse_bm25_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25)
-};
+milvus::IndexDesc sparse_index("sparse", "sparse_bm25_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+sparse_index.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
+sparse_index.AddExtraParam("bm25_k1", "1.2");
+sparse_index.AddExtraParam("bm25_b", "0.75");
+
+std::vector<milvus::IndexDesc> indexes = {sparse_index};
 
 status = client->CreateCollection(milvus::CreateCollectionRequest()
                                       .WithCollectionName("text_bm25_collection")
@@ -833,8 +852,12 @@ if err != nil {
     // handle error
 }
 
-_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("text_bm25_collection"))
 if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+if err := loadTask.Await(ctx); err != nil {
     fmt.Println(err.Error())
     // handle error
 }
@@ -888,6 +911,11 @@ status = client->Insert(milvus::InsertRequest()
                             .WithCollectionName("text_bm25_collection")
                             .WithRowsData(std::move(rows)),
                          response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName("text_bm25_collection"));
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }

@@ -49,13 +49,13 @@ import TabItem from '@theme/TabItem';
 
 ## 开启词组匹配\{#enable-phrase-match}
 
-短语匹配适用于 `VARCHAR` 字段类型，即 Zilliz Cloud 中的字符串数据类型。
+短语匹配适用于 `VARCHAR` 字段；在兼容 Milvus v3.0.x 的集群上，也适用于 `TEXT` 字段。
 
 要启用短语匹配，请通过将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True` 来配置 Collection Schema。此配置会对文本进行分词，并基于位置信息构建倒排索引，从而实现高效的短语匹配查询。
 
 ### 定义字段类型\{#define-schema-fields}
 
-若要为特定的 `VARCHAR` 字段启用短语匹配，请在定义字段 Schema 时将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True`。
+若要为特定的 `VARCHAR` 或 `TEXT` 字段启用短语匹配，请在定义字段 Schema 时将 `enable_analyzer` 和 `enable_match` 参数都设置为 `True`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"Rust","value":"rust"},{"label":"C++","value":"c++"},{"label":"NodeJS","value":"javascript"},{"label":"CSharp","value":"csharp"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -170,8 +170,12 @@ import (
     "fmt"
 
     "github.com/milvus-io/milvus/client/v3/entity"
+    "github.com/milvus-io/milvus/client/v3/index"
     "github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 APIKey := "YOUR_API_KEY"
@@ -180,6 +184,8 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  APIKey,
 })
+
+collectionName := "tech_articles" // Name your collection
 
 schema := entity.NewSchema().WithName(collectionName).
         WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true).WithIsAutoID(true)).
@@ -313,6 +319,7 @@ using Milvus.Client.V2;
 using Milvus.Client.V2.Requests.Collection;
 using Milvus.Client.V2.Requests.Dml;
 using Milvus.Client.V2.Requests.Dql;
+using Milvus.Client.V2.Requests.Index;
 using Milvus.Client.V2.Responses.Dql;
 using Milvus.Client.V2.Types;
 using System.Collections.Generic;
@@ -480,24 +487,15 @@ client.createCollection(
 <TabItem value='go'>
 
 ```go
-// Create a schema for a new collection
-schema := entity.NewSchema().WithDynamicFieldEnabled(false)
-schema.WithField(entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true).
-    WithIsAutoID(true),
-).WithField(entity.NewField().
-    WithName("text").                      // Name of the field
-    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR (string)
-    WithMaxLength(1000).                   // Maximum length of the string
-    WithEnableAnalyzer(true).              // Enables text analysis (tokenization)
-    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
-).WithField(entity.NewField().
-    WithName("embeddings").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(5),
-)
+// Create the collection
+client.DropCollection(ctx, milvusclient.NewDropCollectionOption(collectionName))
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption(collectionName, schema))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -745,19 +743,29 @@ Gson gson = new Gson();
 List<JsonObject> data = new ArrayList<>();
 
 JsonObject row1 = new JsonObject();
-row1.addProperty("text", "machine learning boosts efficiency");
+row1.addProperty("text", "Machine learning is a subset of artificial intelligence that focuses on algorithms.");
 row1.add("embeddings", gson.toJsonTree(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f, 0.5f)));
 data.add(row1);
 
 JsonObject row2 = new JsonObject();
-row2.addProperty("text", "learning machine is fun");
+row2.addProperty("text", "Deep learning machine algorithms require large datasets for training.");
 row2.add("embeddings", gson.toJsonTree(Arrays.asList(0.2f, 0.3f, 0.4f, 0.5f, 0.6f)));
 data.add(row2);
 
 JsonObject row3 = new JsonObject();
-row3.addProperty("text", "machine quickly boosts learning");
+row3.addProperty("text", "The machine learning model showed excellent performance on the test set.");
 row3.add("embeddings", gson.toJsonTree(Arrays.asList(0.3f, 0.4f, 0.5f, 0.6f, 0.7f)));
 data.add(row3);
+
+JsonObject row4 = new JsonObject();
+row4.addProperty("text", "Natural language processing and machine learning go hand in hand.");
+row4.add("embeddings", gson.toJsonTree(Arrays.asList(0.4f, 0.5f, 0.6f, 0.7f, 0.8f)));
+data.add(row4);
+
+JsonObject row5 = new JsonObject();
+row5.addProperty("text", "This article discusses various learning machine techniques and applications.");
+row5.add("embeddings", gson.toJsonTree(Arrays.asList(0.5f, 0.6f, 0.7f, 0.8f, 0.9f)));
+data.add(row5);
 client.insert(InsertReq.builder().collectionName(COLLECTION_NAME).data(data).build());
 
 client.createIndex(CreateIndexReq.builder()
@@ -779,18 +787,40 @@ client.loadCollection(LoadCollectionReq.builder()
 <TabItem value='go'>
 
 ```go
-// Define analyzer parameters for English-language tokenization
-analyzerParams := map[string]any{"type": "english"}
+// Insert sample data with text containing "machine learning" phrases
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionName).
+    WithVarcharColumn("text", []string{
+        "Machine learning is a subset of artificial intelligence that focuses on algorithms.",
+        "Deep learning machine algorithms require large datasets for training.",
+        "The machine learning model showed excellent performance on the test set.",
+        "Natural language processing and machine learning go hand in hand.",
+        "This article discusses various learning machine techniques and applications.",
+    }).
+    WithFloatVectorColumn("embeddings", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+        {0.2, 0.3, 0.4, 0.5, 0.6},
+        {0.3, 0.4, 0.5, 0.6, 0.7},
+        {0.4, 0.5, 0.6, 0.7, 0.8},
+        {0.5, 0.6, 0.7, 0.8, 0.9},
+    }))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-// Add the VARCHAR field with the English analyzer enabled
-schema.WithField(entity.NewField().
-    WithName("text").                      // Name of the field
-    WithDataType(entity.FieldTypeVarChar). // Field data type set as VARCHAR
-    WithMaxLength(1000).                   // Maximum length of the string
-    WithEnableAnalyzer(true).              // Enables text analysis
-    WithAnalyzerParams(analyzerParams).    // Specifies the analyzer configuration
-    WithEnableMatch(true),                 // Enables inverted indexing for phrase matching
-)
+// Index the vector field and load the collection
+_, err = client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(collectionName, "embeddings",
+    index.NewAutoIndex(index.MetricType(entity.COSINE))))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption(collectionName))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -946,9 +976,19 @@ await client.InsertAsync(new InsertReq
     [
         new Dictionary<string, object?> { ["text"] = "Machine learning is a subset of artificial intelligence that focuses on algorithms.", ["embeddings"] = new[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f } },
         new Dictionary<string, object?> { ["text"] = "Deep learning machine algorithms require large datasets for training.", ["embeddings"] = new[] { 0.2f, 0.3f, 0.4f, 0.5f, 0.6f } },
-        new Dictionary<string, object?> { ["text"] = "The machine learning model showed excellent performance.", ["embeddings"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f } }
+        new Dictionary<string, object?> { ["text"] = "The machine learning model showed excellent performance on the test set.", ["embeddings"] = new[] { 0.3f, 0.4f, 0.5f, 0.6f, 0.7f } },
+        new Dictionary<string, object?> { ["text"] = "Natural language processing and machine learning go hand in hand.", ["embeddings"] = new[] { 0.4f, 0.5f, 0.6f, 0.7f, 0.8f } },
+        new Dictionary<string, object?> { ["text"] = "This article discusses various learning machine techniques and applications.", ["embeddings"] = new[] { 0.5f, 0.6f, 0.7f, 0.8f, 0.9f } }
     ]
 });
+
+await client.CreateIndexAsync(new CreateIndexReq
+{
+    CollectionName = COLLECTION_NAME,
+    Indexes = [ new IndexParam("embeddings", "embeddings_index", IndexType.AutoIndex, MetricType.Cosine) ]
+});
+
+await client.LoadCollectionAsync(new LoadCollectionReq { CollectionName = COLLECTION_NAME });
 ```
 
 </TabItem>
@@ -1032,7 +1072,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 
 ## 使用词组匹配\{#use-phrase-match}
 
-在 Collection Schema 中为 `VARCHAR` 字段启用匹配后，您可以使用 `PHRASE_MATCH` 表达式执行短语匹配。
+在 Collection Schema 中为 `VARCHAR` 或 `TEXT` 字段启用匹配后，您可以使用 `PHRASE_MATCH` 表达式执行短语匹配。
 
 <Admonition type="info" title="注释">
 
@@ -1123,7 +1163,7 @@ zilliz collection query --collection-name tech_articles --filter "PHRASE_MATCH(t
 </TabItem>
 </Tabs>
 
-- `field_name`：您执行短语匹配的`VARCHAR`字段的名称。
+- `field_name`：您执行短语匹配的`VARCHAR`或`TEXT`字段的名称。
 
 - `phrase`：要搜索的确切短语。
 
@@ -1175,6 +1215,10 @@ QueryResp result = client.query(QueryReq.builder()
         .filter(filter)
         .outputFields(Arrays.asList("id", "text"))
         .build());
+
+System.out.println("Query result: " + result);
+// Output:
+// QueryResp{queryResults=[QueryResult{entity={id=470744148279337632, text=Machine learning is a subset of artificial intelligence that focuses on algorithms.}}, QueryResult{entity={id=470744148279337634, text=The machine learning model showed excellent performance on the test set.}}, QueryResult{entity={id=470744148279337635, text=Natural language processing and machine learning go hand in hand.}}]}
 ```
 
 </TabItem>
@@ -1192,6 +1236,13 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println("Query result: ", resultSet)
+// Output:
+// Query result:  3 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
 ```
 
 </TabItem>
@@ -1211,6 +1262,13 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("Query result: {:?}", result);
+// Output:
+// Query result: 3 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
 ```
 
 </TabItem>
@@ -1232,6 +1290,16 @@ auto status = client->Query(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+std::cout << "Query result: " << std::endl;
+for (const auto& row : response.Rows()) {
+    std::cout << row << std::endl;
+}
+// Output:
+// Query result:
+//   {"text": "Machine learning is a subset of artificial intelligence that focuses on algorithms.", "id": ...}
+//   {"text": "The machine learning model showed excellent performance on the test set.", "id": ...}
+//   {"text": "Natural language processing and machine learning go hand in hand.", "id": ...}
 ```
 
 </TabItem>
@@ -1247,6 +1315,10 @@ const result = await client.query({
     filter: filter,
     output_fields: ["id", "text"]
 });
+
+console.log("Query result:", result.data);
+// Output:
+// Query result: [{"id": "1", "text": "Machine learning is a subset of artificial intelligence that focuses on algorithms."}, {"id": "3", "text": "The machine learning model showed excellent performance on the test set."}, {"id": "4", "text": "Natural language processing and machine learning go hand in hand."}]
 ```
 
 </TabItem>
@@ -1263,6 +1335,13 @@ QueryResp result = await client.QueryAsync(new QueryReq
     Expression = filter,
     Parameters = new QueryParameters { OutputFields = { "id", "text" } }
 });
+
+Console.WriteLine("Query result: " + result);
+// Output:
+// Query result: 3 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
 ```
 
 </TabItem>
@@ -1349,6 +1428,12 @@ SearchResp resultSlop1 = client.search(SearchReq.builder()
         .build());
 
 System.out.println("Slop 1 result: " + resultSlop1);
+
+System.out.println("Slop 1 result: " + resultSlop1);
+// Output:
+// Slop 1 result: 2 docs
+//   {id: 470744148279337633, Score: 0.99493676, text: Deep learning machine algorithms require large datasets for training.}
+//   {id: 470744148279337636, Score: 0.97106075, text: This article discusses various learning machine techniques and applications.}
 ```
 
 </TabItem>
@@ -1357,20 +1442,27 @@ System.out.println("Slop 1 result: " + resultSlop1);
 
 ```go
 // Example: Filter documents containing "learning machine" with slop=1
-filter := "PHRASE_MATCH(text, 'learning machine', 1)"
+filterSlop1 := "PHRASE_MATCH(text, 'learning machine', 1)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop1, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
 ).WithANNSField("embeddings").
-    WithFilter(filter).
+    WithFilter(filterSlop1).
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println("resultSetsSlop1:", resultSetsSlop1)
+// Output:
+// resultSetsSlop1: 2 docs
+//   Deep learning machine algorithms require large datasets for training.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1393,6 +1485,12 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("Slop 1 result: {:?}", result);
+// Output:
+// Slop 1 result: 2 docs
+//   Deep learning machine algorithms require large datasets for training.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1417,6 +1515,19 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+std::cout << "Slop 1 result:" << std::endl;
+for (auto& result : response.Results().Results()) {
+    milvus::EntityRows output_rows;
+    result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << row << std::endl;
+    }
+}
+// Output:
+// Slop 1 result: 2 docs
+//   Deep learning machine algorithms require large datasets for training.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1435,6 +1546,12 @@ const result_slop1 = await client.search({
   limit: 10,
   output_fields: ["id", "text"],
 });
+
+console.log("Slop 1 result:", result_slop1);
+// Output:
+// Slop 1 result: 2 docs
+//   Deep learning machine algorithms require large datasets for training.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1457,6 +1574,12 @@ SearchResp result = await client.SearchAsync(new SearchReq
         OutputFields = { "id", "text" }
     }
 });
+
+Console.WriteLine("Slop 1 result: " + result);
+// Output:
+// Slop 1 result: 2 docs
+//   Deep learning machine algorithms require large datasets for training.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1545,6 +1668,15 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .limit(10)
         .outputFields(Arrays.asList("id", "text"))
         .build());
+
+System.out.println("Slop 2 result: " + resultSlop2);
+// Output:
+// Slop 2 result: 5 docs
+//   {id: 470744148279337632, Score: 0.9999999, text: Machine learning is a subset of artificial intelligence that focuses on algorithms.}
+//   {id: 470744148279337633, Score: 0.99493676, text: Deep learning machine algorithms require large datasets for training.}
+//   {id: 470744148279337634, Score: 0.98644, text: The machine learning model showed excellent performance on the test set.}
+//   {id: 470744148279337635, Score: 0.9782319, text: Natural language processing and machine learning go hand in hand.}
+//   {id: 470744148279337636, Score: 0.97106075, text: This article discusses various learning machine techniques and applications.}
 ```
 
 </TabItem>
@@ -1553,20 +1685,30 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 // Example: Filter documents containing "machine learning" with slop=2
-filter := "PHRASE_MATCH(text, 'machine learning', 2)"
+filterSlop2 := "PHRASE_MATCH(text, 'machine learning', 2)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop2, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit, maximum results to return
     []entity.Vector{entity.FloatVector(queryVector)}, // query vector
 ).WithANNSField("embeddings"). // vector field name
-    WithFilter(filter).        // filter expression
+    WithFilter(filterSlop2).    // filter expression
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println("resultSetsSlop2:", resultSetsSlop2)
+// Output:
+// resultSetsSlop2: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1589,6 +1731,15 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("Slop 2 result: {:?}", result);
+// Output:
+// Slop 2 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1613,6 +1764,22 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+std::cout << "Slop 2 result:" << std::endl;
+for (auto& result : response.Results().Results()) {
+    milvus::EntityRows output_rows;
+    result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << row << std::endl;
+    }
+}
+// Output:
+// Slop 2 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1631,6 +1798,15 @@ const result_slop2 = await client.search({
   limit: 10,
   output_fields: ["id", "text"],
 });
+
+console.log("Slop 2 result:", result_slop2);
+// Output:
+// Slop 2 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1653,6 +1829,15 @@ SearchResp result = await client.SearchAsync(new SearchReq
         OutputFields = { "id", "text" }
     }
 });
+
+Console.WriteLine("Slop 2 result: " + result);
+// Output:
+// Slop 2 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1735,6 +1920,15 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .limit(10)
         .outputFields(Arrays.asList("id", "text"))
         .build());
+
+System.out.println("Slop 3 result: " + resultSlop3);
+// Output:
+// Slop 3 result: 5 docs
+//   {id: 470744148279337632, Score: 0.9999999, text: Machine learning is a subset of artificial intelligence that focuses on algorithms.}
+//   {id: 470744148279337633, Score: 0.99493676, text: Deep learning machine algorithms require large datasets for training.}
+//   {id: 470744148279337634, Score: 0.98644, text: The machine learning model showed excellent performance on the test set.}
+//   {id: 470744148279337635, Score: 0.9782319, text: Natural language processing and machine learning go hand in hand.}
+//   {id: 470744148279337636, Score: 0.97106075, text: This article discusses various learning machine techniques and applications.}
 ```
 
 </TabItem>
@@ -1743,20 +1937,30 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 ```go
 // Example: Filter documents containing "machine learning" with slop=3
-filter := "PHRASE_MATCH(text, 'machine learning', 3)"
+filterSlop3 := "PHRASE_MATCH(text, 'machine learning', 3)"
+queryVector := []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+resultSetsSlop3, err := client.Search(ctx, milvusclient.NewSearchOption(
     "tech_articles", // collectionName
     10,              // limit, maximum results to return
     []entity.Vector{entity.FloatVector(queryVector)}, // query vector
 ).WithANNSField("embeddings"). // vector field name
-    WithFilter(filter).        // filter expression
+    WithFilter(filterSlop3).    // filter expression
     WithSearchParam("nprobe", "10").
     WithOutputFields("id", "text"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println("resultSetsSlop3:", resultSetsSlop3)
+// Output:
+// resultSetsSlop3: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1779,6 +1983,15 @@ let result = client
             .build()?,
     )
     .await?;
+
+println!("Slop 3 result: {:?}", result);
+// Output:
+// Slop 3 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1803,6 +2016,22 @@ auto status = client->Search(request, response);
 if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
+
+std::cout << "Slop 3 result:" << std::endl;
+for (auto& result : response.Results().Results()) {
+    milvus::EntityRows output_rows;
+    result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << row << std::endl;
+    }
+}
+// Output:
+// Slop 3 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1821,6 +2050,15 @@ const result_slop3 = await client.search({
   limit: 10,
   output_fields: ["id", "text"],
 });
+
+console.log("Slop 3 result:", result_slop3);
+// Output:
+// Slop 3 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>
@@ -1843,6 +2081,15 @@ SearchResp result = await client.SearchAsync(new SearchReq
         OutputFields = { "id", "text" }
     }
 });
+
+Console.WriteLine("Slop 3 result: " + result);
+// Output:
+// Slop 3 result: 5 docs
+//   Machine learning is a subset of artificial intelligence that focuses on algorithms.
+//   Deep learning machine algorithms require large datasets for training.
+//   The machine learning model showed excellent performance on the test set.
+//   Natural language processing and machine learning go hand in hand.
+//   This article discusses various learning machine techniques and applications.
 ```
 
 </TabItem>

@@ -196,6 +196,7 @@ schema.WithField(entity.NewField().
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 let client = ClientV2::new(
     &ConnectConfig::new()
@@ -731,7 +732,7 @@ milvus::EntityRows data = {{{"varchar_field1", "Product A"}, {"varchar_field2", 
                            {{"varchar_field1", "Product B"}, {"pk", 2}, {"embedding", std::vector<float>{0.4, 0.5, 0.6}}},
                            {{"varchar_field1", nullptr}, {"varchar_field2", nullptr}, {"pk", 3}, {"embedding", std::vector<float>{0.2, 0.3, 0.1}}},
                            {{"varchar_field1", "Product C"}, {"varchar_field2", nullptr}, {"pk", 4}, {"embedding", std::vector<float>{0.5, 0.7, 0.2}}},
-                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.5, 0.4, 0.8}}},
+                           {{"varchar_field1", nullptr}, {"varchar_field2", "Exclusive deal"}, {"pk", 5}, {"embedding", std::vector<float>{0.6, 0.4, 0.8}}},
                            {{"varchar_field1", "Unknown"}, {"varchar_field2", nullptr}, {"pk", 6}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}},
                            {{"varchar_field1", ""}, {"varchar_field2", "Best seller"}, {"pk", 7}, {"embedding", std::vector<float>{0.8, 0.5, 0.3}}}};
 
@@ -945,11 +946,13 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-await client.query({
+const res = await client.query({
     collection_name: 'my_collection',
     filter: 'varchar_field1 == "Product A"',
     output_fields: ['varchar_field1', 'varchar_field2']
 });
+
+console.log(res);
 ```
 
 </TabItem>
@@ -1090,11 +1093,13 @@ for (const auto& row : output_rows) {
 <TabItem value='javascript'>
 
 ```javascript
-await client.query({
+const res = await client.query({
     collection_name: 'my_collection',
     filter: 'varchar_field2 is null',
     output_fields: ['varchar_field1', 'varchar_field2']
 });
+
+console.log(res);
 ```
 
 </TabItem>
@@ -1233,11 +1238,13 @@ for (const auto& row : output_rows) {
 
 ```javascript
 // node
-await client.query({
+const res = await client.query({
     collection_name: 'my_collection',
     filter: 'varchar_field1 == "Unknown"',
     output_fields: ['varchar_field1', 'varchar_field2']
 });
+
+console.log(res);
 ```
 
 </TabItem>
@@ -1300,6 +1307,10 @@ print(res)
 
 ```java
 String filter = "varchar_field2 == \"Best seller\"";
+// Prepare search params
+Map<String, Object> searchParams = new HashMap<>();
+searchParams.put("nprobe", 10);
+
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .annsField("embedding")
@@ -1307,6 +1318,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .topK(5)
         .outputFields(Arrays.asList("varchar_field1", "varchar_field2"))
         .filter(filter)
+        .searchParams(searchParams)
         .build());
 
 System.out.println(searchResp.getSearchResults());
@@ -1352,6 +1364,9 @@ for _, resultSet := range resultSets {
 <TabItem value='rust'>
 
 ```rust
+// Prepare search params
+let search_params = HashMap::from([("nprobe".to_string(), "10".to_string())]);
+
 let res = client
     .search(
         SearchRequest::builder()
@@ -1361,6 +1376,7 @@ let res = client
             .filter(r#"varchar_field2 == "Best seller""#)
             .output_fields(["varchar_field1", "varchar_field2"])
             .limit(5)
+            .extra_params(search_params)
             .build()?,
     )
     .await?;
@@ -1404,7 +1420,7 @@ for (auto& result : search_results.Results()) {
 <TabItem value='javascript'>
 
 ```javascript
-await client.search({
+const res = await client.search({
     collection_name: 'my_collection',
     data: [0.3, -0.6, 0.1],
     limit: 5,
@@ -1414,6 +1430,8 @@ await client.search({
        nprobe: 10
     }
 });
+
+console.log(res);
 ```
 
 </TabItem>

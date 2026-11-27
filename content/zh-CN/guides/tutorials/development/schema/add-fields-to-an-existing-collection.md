@@ -150,6 +150,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build();
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
 client.addCollectionField(AddCollectionFieldReq.builder()
         .collectionName("product_catalog")
         .fieldName("source")
@@ -198,6 +199,7 @@ if err != nil {
 
 ```rust
 use milvus::v2::prelude::*;
+use std::collections::HashMap;
 
 let config = ConnectConfig::new().uri("YOUR_CLUSTER_ENDPOINT");
 let client = ClientV2::new(&config).await?;
@@ -1192,6 +1194,11 @@ client.add_function_field(
 <TabItem value='java'>
 
 ```java
+Map<String, Object> bm25Params = new HashMap<>();
+bm25Params.put("inverted_index_algo", "DAAT_MAXSCORE");
+bm25Params.put("bm25_k1", 1.2);
+bm25Params.put("bm25_b", 0.75);
+
 // Add a BM25 function, its generated sparse vector field, and the bound index
 client.addFunctionField(AddFunctionFieldReq.builder()
         .collectionName("product_catalog")
@@ -1201,6 +1208,7 @@ client.addFunctionField(AddFunctionFieldReq.builder()
                 .fieldName("text_sparse")
                 .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
                 .metricType(IndexParam.MetricType.BM25)
+                .extraParams(bm25Params)
                 .build())
         .function(CreateCollectionReq.Function.builder()
                 .name("text_bm25")
@@ -1225,7 +1233,13 @@ function := entity.NewFunction().
     WithType(entity.FunctionTypeBM25).
     WithInputFields("text").
     WithOutputFields("text_sparse")
-boundIndex := index.NewSparseInvertedIndex(entity.BM25, 0.2)
+boundIndex := index.NewGenericIndex("text_sparse", map[string]string{
+    index.IndexTypeKey:     string(index.SparseInverted),
+    index.MetricTypeKey:    string(entity.BM25),
+    "inverted_index_algo":  "DAAT_MAXSCORE",
+    "bm25_k1":              "1.2",
+    "bm25_b":               "0.75",
+})
 err = client.AddFunctionField(ctx, milvusclient.NewAddFunctionFieldOption("product_catalog", field, function, boundIndex))
 if err != nil {
     log.Fatal("failed to add function field: ", err.Error())
@@ -1258,7 +1272,12 @@ client
                 IndexParam::new()
                     .field_name("text_sparse")
                     .index_type(IndexType::SparseInvertedIndex)
-                    .metric_type(MetricType::Bm25),
+                    .metric_type(MetricType::Bm25)
+                    .extra_params(HashMap::from([
+                        ("inverted_index_algo".to_string(), "DAAT_MAXSCORE".to_string()),
+                        ("bm25_k1".to_string(), "1.2".to_string()),
+                        ("bm25_b".to_string(), "0.75".to_string()),
+                    ])),
             )
             .build()?,
     )
@@ -1276,6 +1295,9 @@ milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", m
 function->AddInputFieldName("text");
 function->AddOutputFieldName("text_sparse");
 milvus::IndexDesc index("text_sparse", "", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+index.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
+index.AddExtraParam("bm25_k1", "1.2");
+index.AddExtraParam("bm25_b", "0.75");
 status = client->AddFunctionField(milvus::AddFunctionFieldRequest()
                                       .WithCollectionName("product_catalog")
                                       .WithField(std::move(sparse_field))

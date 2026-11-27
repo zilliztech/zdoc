@@ -1066,7 +1066,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "65a41549b6283186b17ecf19fdb057bff8a850cc099e977dda9a89b0a147bbd4",
+      "sha256": "d37a03c93c5dbea848324d815bcd528d553ef6c40a56c9d9471e8ae7f354aadb",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
       "revisionId": "1992"
     },
@@ -1162,9 +1162,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "2d8e6a9a0840665d8aead544c5dfdff6d53773e673902c9e563979bd20c2df55",
+      "sha256": "adeff96d3db53c61b564e0042a1e021aaf8f29f83cdbbb6b9b6e9e87c998919c",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "173"
+      "revisionId": "174"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -1210,15 +1210,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-string-field.md",
-      "sha256": "7ae42e7850940286105face70c798b517adcb61ad45778b2702265806262452b",
+      "sha256": "ad1dd9529c8d3d31177e6f777aacd4893bc3f0320a4895265514afc581461ad7",
       "docToken": "Z1kKwms8miXdCnkQEzWc9hNyn9f",
       "revisionId": "1825"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-text-field.md",
-      "sha256": "e6971a566f41af64dcb0f8401519077727b579c723db5fbe7f3ed85f604e9af6",
+      "sha256": "9d1a452edde97fda5fce5006e55c16ae4b2283a32213f6f1e06734337540e5c5",
       "docToken": "QD5jwHBpaiZECQkWZs3ciYemnHb",
-      "revisionId": "192"
+      "revisionId": "194"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/schema/use-timestamptz-field.md",
@@ -1228,7 +1228,7 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/consistency-level.md",
-      "sha256": "9c36862a9b512a56bc2ea53d29efc9559a59e2b5ada17ed573a2797efb62400b",
+      "sha256": "577c6cceb5c10b4d8dab190374cd3852ab05c88a2e96ace93371dba2afa6f182",
       "docToken": "IJhRwKG2Qi8m1skZoD7ckUkxnBe",
       "revisionId": "1829"
     },
@@ -1324,15 +1324,15 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "0f54121d63f15f0aa1975fc73f1cb01e0221edbf86c7a683a695bd077a2a65b8",
+      "sha256": "2c216aaca0757ccb3467e6c11942f477d1a5c8665089b360111c81d42b142a10",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/phrase-match.md",
-      "sha256": "1203ace1ff2bf352ddf4fad6de4ffb879ba6931e13be098888985765824f7347",
+      "sha256": "c218d78f833ebc07df15dd0d7dbae03acc617757b675a93112ca51bf48f40600",
       "docToken": "AXhtwvmowicwpskTZCWcNhgOnog",
-      "revisionId": "623"
+      "revisionId": "627"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/development/search-and-query/primary-key-search.md",
@@ -1858,9 +1858,9 @@
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/limits/limits.md",
-      "sha256": "89997a8e9f721ea4e5fdcc62568ad5281e148201773147696697fe542da431b0",
+      "sha256": "fc1e4976e778bf432c70903bf54542e68c0bd12f2677e12533752d46fe5f523d",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
-      "revisionId": "3897"
+      "revisionId": "3899"
     },
     {
       "path": "content/zh-CN/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md",
@@ -2656,7 +2656,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/add-fields-to-an-existing-collection.md",
-      "sha256": "a91e9f997bb9f90580c20dd271e41c7b9f210ca2cd0e719ba01771cdbd56ec2d",
+      "sha256": "1573c6cd5059f1e5a1e0be9233cb16cd8f1bf4b172f8755f4d92ee396a4d3340",
       "docToken": "JU6ZwfYLpilJ6vkncdzcLtFLnjf",
       "revisionId": "1992"
     },
@@ -2752,9 +2752,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/struct-array-limits.md",
-      "sha256": "ffe6f43b2a21a8781ee977402d9806d33de42310d163e198c1f6d89548ff715b",
+      "sha256": "b14a03cb8e1c52c4291a568677dd65630250e62c64b92617be274b353080d290",
       "docToken": "RANTwGTbUizuOOk4JQYcVZPbn7f",
-      "revisionId": "173"
+      "revisionId": "174"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/struct-array/use-array-of-structs.md",
@@ -2800,15 +2800,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-string-field.md",
-      "sha256": "00ee0aec38b7f536d8d664eb56a3b2601a50ce647587717438bf65598525dd14",
+      "sha256": "433012f371c6a8207736cbc262901163d3c7cef8bb6487f0c2871006b1246e91",
       "docToken": "Z1kKwms8miXdCnkQEzWc9hNyn9f",
       "revisionId": "1825"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-text-field.md",
-      "sha256": "0dcb35ab2b02033a311ada10dd92c84ff69078bb76721ca1f79befcf068747d4",
+      "sha256": "221d74f693aaee03166cfef3a957a8d6ada1a9f889e9f05d0c3bdc67d46222ae",
       "docToken": "QD5jwHBpaiZECQkWZs3ciYemnHb",
-      "revisionId": "192"
+      "revisionId": "194"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/schema/use-timestamptz-field.md",
@@ -2818,7 +2818,7 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/consistency-level.md",
-      "sha256": "cb070262a63285e8c411d2b8c27535cf0a3ab13179f5f3ac35c203c030b67d99",
+      "sha256": "1187a61141745251c2d7980d2bb8e4a69e109a48c16b739ccbd50cc967543cfe",
       "docToken": "IJhRwKG2Qi8m1skZoD7ckUkxnBe",
       "revisionId": "1829"
     },
@@ -2920,15 +2920,15 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/hybrid-search.md",
-      "sha256": "dd243330ee5a7a050a3086aa598a4d400127395061496a5c0ee010e2473fcf1d",
+      "sha256": "d0ede2c796db3fd8b0be351e342eceee07c68a69428acfe43a58e1705e128e93",
       "docToken": "SU1DwjEeii0p2ik3odJcQ55Unbf",
       "revisionId": "3112"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/phrase-match.md",
-      "sha256": "66469ef1edee9a43110878e5f942d5f5646f23b1d01a4de4fae4e296adeaa23e",
+      "sha256": "2aba2519793a0d33923c944ad2cf4de6253d4bea8c870e7d0df292ae812a64ed",
       "docToken": "AXhtwvmowicwpskTZCWcNhgOnog",
-      "revisionId": "623"
+      "revisionId": "627"
     },
     {
       "path": "content/zh-CN/guides/tutorials/development/search-and-query/primary-key-search.md",
@@ -3856,9 +3856,9 @@
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/limits/limits.md",
-      "sha256": "e83f4951b29519027210a1f372440942bb133fb8326dba462d3c6766a888ed2b",
+      "sha256": "0f9c55d45b8d9b646b2fdac7397369d88279bbc9b7b3c5fb51a0bad19c7748ac",
       "docToken": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
-      "revisionId": "3897"
+      "revisionId": "3899"
     },
     {
       "path": "content/zh-CN/guides/tutorials/management/metrics-alerts/manage-notification-channels.md",

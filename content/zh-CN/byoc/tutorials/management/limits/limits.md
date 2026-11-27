@@ -117,10 +117,22 @@ import Admonition from '@theme/Admonition';
 
 ### 字段\{#fields}
 
-| **内容** | **最大数量** |
-| --- | --- |
-| 所有字段（每个 Collection） | 64 |
-| 向量字段（每个 Collection） | 10 |
+<table>
+   <tr>
+     <th><p><strong>内容</strong></p></th>
+     <th><p><strong>最大数量</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>所有字段（每个 Collection）</p></td>
+     <td><ul><li><p>兼容 Milvus v3.0.x 的集群：256</p></li><li><p>兼容 Milvus v2.x 的集群：64</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p>向量字段（每个 Collection）</p></td>
+     <td><p>10</p></td>
+   </tr>
+</table>
+
+每个 StructArray 字段计为 1 加上其子字段的数量。动态字段（`$meta`）不计入。向现有 Collection 添加字段时同样受此限制。
 
 关于字段的其他限制：
 
