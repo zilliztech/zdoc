@@ -15,7 +15,7 @@ function violations(source: string, path = join(coreRoot, 'types.ts')): string[]
       const specifier = (node.moduleSpecifier as ts.StringLiteral).text
       const target = specifier.startsWith('.') ? resolve(dirname(path), specifier) : specifier
       if (
-        /^(?:node:)?(?:fs|child_process|http|https|http2|net|tls|dgram|dns|worker_threads|module)(?:\/|$)/.test(target) ||
+        /^(?:node:)?(?:fs|child_process|http|https|http2|net|tls|dgram|dns|worker_threads|module|process)(?:\/|$)/.test(target) ||
         /^(?:axios|node-fetch|undici|got|simple-git|isomorphic-git)(?:\/|$)/.test(target) ||
         /(?:^|\/)(?:lark|adapters|commands)(?:\/|$)/.test(target)
       ) {
@@ -41,19 +41,32 @@ function violations(source: string, path = join(coreRoot, 'types.ts')): string[]
 }
 
 it('keeps every localized-docs core source free of I/O, network, lark, and adapter imports', () => {
+  const scanned: string[] = []
   function check(dir: string) {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const path = join(dir, entry.name)
       if (entry.isDirectory()) check(path)
-      else if (/\.tsx?$/.test(path)) expect(violations(readFileSync(path, 'utf8'), path), path).toEqual([])
+      else if (/\.tsx?$/.test(path)) {
+        scanned.push(path.slice(coreRoot.length))
+        expect(violations(readFileSync(path, 'utf8'), path), path).toEqual([])
+      }
     }
   }
   check(coreRoot)
+  expect(scanned).toEqual(
+    expect.arrayContaining([
+      'handoff/source-state.ts',
+      'handoff/routing.ts',
+      'handoff/receipt.ts',
+      'handoff/promote.ts',
+    ]),
+  )
 })
 
 it('detects forbidden filesystem, process, network, lark, and adapter dependencies', () => {
   for (const source of [
     "import fs from 'node:fs'",
+    "import proc from 'node:process'",
     "export * from 'node:child_process'",
     "import x from '../../lark/x'",
     "import x from '../adapters/md2md.ts'",

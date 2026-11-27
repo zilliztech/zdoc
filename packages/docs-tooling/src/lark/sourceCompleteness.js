@@ -1,6 +1,7 @@
 'use strict'
 
 const {validateSharedSnapshotRecord, validateSharedReceipt} = require('./sharedPageRouting')
+const {validateLocalizedSnapshotRecord, validateLocalizedReceipt, recordPageUrl} = require('./localizedPageRouting')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -32,7 +33,7 @@ function isRenderableCanonicalSource(source) {
   return blocks.some(block => block.block_type !== 1)
 }
 
-function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, snapshot, sharedReceiptsByRecordId = new Map(), authenticatedFallbackIds = new Set() }) {
+function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, snapshot, sharedReceiptsByRecordId = new Map(), localizedReceiptsByPageUrl = new Map(), authenticatedFallbackIds = new Set() }) {
   const result = {
     complete: false,
     snapshotHash: hashSnapshot(snapshot || {}),
@@ -66,6 +67,22 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
   for (const record of records) {
     if (authenticatedFallbackIds.has(record.record_id)) { result.validCanonicalSources++; continue }
     if (record.source_kind !== undefined) {
+      if (record.source_kind === 'localized-page') {
+        try {
+          validateLocalizedSnapshotRecord(record)
+          const pageUrl = record.localized_page?.page_url || recordPageUrl(record)
+          const receipt = localizedReceiptsByPageUrl.get(pageUrl)
+          if (!receipt) throw new Error('missing localized receipt')
+          validateLocalizedReceipt(receipt, {
+            locale: 'zh-CN',
+            group: 'guides',
+            page: record.localized_page.page,
+            page_url: pageUrl,
+          })
+          result.validCanonicalSources++
+        } catch (error) { result.identityErrors.push(`localized receipt ${record.localized_page?.page_url || record.record_id}: ${error.message}`) }
+        continue
+      }
       try {
         validateSharedSnapshotRecord(record)
         const receipt = sharedReceiptsByRecordId.get(record.record_id)

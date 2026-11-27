@@ -10,6 +10,7 @@ const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-medi
 const { validateAssemblyDecision } = require('./guides-assembly-identity')
 
 const sharedBundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+const localizedSources = require('./guides-localized-sources')
 
 const SHA = /^[0-9a-f]{40}$/
 const MEDIA_PREFETCH_REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
@@ -28,6 +29,7 @@ function stagePaths(site = 'en') {
   return {
   source: [
     ...(site === 'en' ? [sharedBundle.ROOT] : []),
+    ...(site === 'zh-CN' ? [localizedSources.LOCALIZED_BUNDLE_ROOT] : []),
     identity.sourceDir,
     identity.mediaManifest,
     `packages/docs-tooling/src/lark/meta/reports/guides-${site}-incremental-fetch-plan.json`,
@@ -156,7 +158,7 @@ async function collect(root, prefixes) {
       return
     }
     if (!stat.isFile()) throw new Error(`Unsupported file type: ${relative}`)
-    if (relative.startsWith(`${sharedBundle.ROOT}/`) && (stat.size > sharedBundle.FILE_LIMIT || (sharedBytes += stat.size) > sharedBundle.LIMIT || ++sharedFiles > 8192)) throw new Error('Shared bundle file exceeds size limit')
+    if ((relative.startsWith(`${sharedBundle.ROOT}/`) || relative.startsWith(`${localizedSources.LOCALIZED_BUNDLE_ROOT}/`)) && (stat.size > sharedBundle.FILE_LIMIT || (sharedBytes += stat.size) > sharedBundle.LIMIT || ++sharedFiles > 8192)) throw new Error('Shared bundle file exceeds size limit')
     result.set(relative, await fs.readFile(full))
   }
   for (const prefix of prefixes) await visit(prefix)
@@ -390,6 +392,10 @@ async function assertSourceStageCompleteness({ site = 'en', workspace, snapshotC
   }
   const bundlePath = path.join(workspace, sharedBundle.ROOT)
   const handoff = site === 'en' && require('node:fs').existsSync(bundlePath) ? sharedBundle.loadBundle(bundlePath) : null
+  const localizedBundlePath = path.join(workspace, localizedSources.LOCALIZED_BUNDLE_ROOT)
+  const localizedHandoff = site === 'zh-CN' && require('node:fs').existsSync(localizedBundlePath)
+    ? localizedSources.loadLocalizedBundle(localizedBundlePath)
+    : null
   assertSourceCompleteness({
     manual: 'guides',
     buildEnv: 'uat',
@@ -397,6 +403,7 @@ async function assertSourceStageCompleteness({ site = 'en', workspace, snapshotC
     sourceDir: path.join(workspace, siteIdentity(site).sourceDir),
     snapshot: handoff && !handoff.continuation ? require('../../packages/docs-tooling/src/lark/sharedPageFetch').pendingSourceSnapshot(snapshot, handoff.routing) : snapshot,
     sharedReceiptsByRecordId: handoff?.receipts,
+    localizedReceiptsByPageUrl: localizedHandoff?.receiptsByPageUrl,
   })
 }
 
@@ -430,6 +437,9 @@ async function createGuidesStageArtifact({ site = 'en', stage, workspace, baseli
     if (site === 'en') {
       const handoff = sharedBundle.fromPayload(current, {masterSha, devBaselineSha})
       if (handoff?.continuation) require('../../packages/docs-tooling/src/lark/sharedPagePublication').authenticateContinuation(workspace, handoff, JSON.parse(current.get('packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')))
+    }
+    if (site === 'zh-CN') {
+      localizedSources.validateLocalizedPayload(current, {masterSha, devBaselineSha})
     }
   }
   await fs.rm(output, { recursive: true, force: true })
@@ -497,6 +507,7 @@ async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
     if (!assemblyDecision) throw new Error('Guides source artifact is missing required assembly decision')
     validatePackagedMediaInventory(mediaManifest, mediaReport)
     if (manifest.site === 'en') sharedBundle.fromPayload(payloadBytes, {masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha})
+    if (manifest.site === 'zh-CN') localizedSources.validateLocalizedPayload(payloadBytes, {masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha})
   }
   return { manifest, payloadBytes }
 }

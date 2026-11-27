@@ -7,6 +7,7 @@ const {
 } = require('./canonicalLinkAuditor')
 const { sourceFilesByToken, createGuidesNavigationState } = require('./sourceSnapshot')
 const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('./guidesBaseRecordSemantics')
+const { recordPageUrl } = require('./localizedPageRouting')
 
 const GUIDES_TARGETS = ['zilliz.paas', 'zilliz.saas']
 
@@ -132,6 +133,7 @@ function compareRecord(record, previous, sourceByToken, currentNodeMetadataByTok
   const currentKind = record.source_kind || (record.routing_error ? 'invalid' : 'feishu')
   if (currentKind !== previousKind) reasons.push('source ownership changed')
   if (record.source_kind === 'shared-page' && record.shared_page?.inputs_sha256 !== previous.shared_page?.inputs_sha256) reasons.push('shared inputs changed')
+  if (record.source_kind === 'localized-page' && record.localized_page?.inputs_sha256 !== previous.localized_page?.inputs_sha256) reasons.push('localized inputs changed')
   if (record.routing_error) reasons.push(record.routing_error.code)
   const source = record.doc_token ? sourceByToken.get(record.doc_token) : null
   const currentNode = currentNodeMetadataByToken.get(record.doc_token)
@@ -307,35 +309,56 @@ function planIncrementalFetch({
   }
 
   const previousById = snapshotRecordsById(previousSnapshot)
+  const previousByPageUrl = new Map()
+  for (const prev of previousSnapshot.records || []) {
+    const prevUrl = prev.localized_page?.page_url || prev.page_url || recordPageUrl(prev)
+    if (prevUrl) previousByPageUrl.set(prevUrl, prev)
+  }
   const previousByToken = snapshotRecordsByToken(previousSnapshot)
   const currentRecordIds = new Set(canonicalRecords.map(record => record.record_id))
+  const currentLocalizedPageUrls = new Set(
+    canonicalRecords
+      .filter(record => record.source_kind === 'localized-page')
+      .map(record => record.localized_page?.page_url || recordPageUrl(record))
+      .filter(Boolean),
+  )
   const changedRecords = []
   const removedRecords = []
 
   for (const record of canonicalRecords) {
-    const reasons = compareRecord(record, previousById.get(record.record_id), sourceByToken, currentNodeMetadataByToken)
+    const localizedUrl = record.source_kind === 'localized-page' ? (record.localized_page?.page_url || recordPageUrl(record)) : null
+    const previous = (localizedUrl && previousByPageUrl.get(localizedUrl)) || previousById.get(record.record_id)
+    const reasons = compareRecord(record, previous, sourceByToken, currentNodeMetadataByToken)
     if (reasons.length > 0) {
       changedRecords.push({ ...record, reasons })
-      // Shared-page records have no doc_token; keep their reasons reportable under
-      // a record-scoped key instead of dropping them.
-      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason, `shared:${record.record_id}`))
+      // Shared-page and localized-page records have no doc_token; keep their reasons reportable under
+      // a stable scoped key instead of dropping them.
+      const fallbackKey = record.source_kind === 'localized-page'
+        ? `localized:${localizedUrl || record.record_id}`
+        : `shared:${record.record_id}`
+      reasons.forEach(reason => addReason(reasonsByToken, record.doc_token, reason, fallbackKey))
     }
   }
 
   for (const previous of previousSnapshot.records || []) {
+    const prevLocalizedUrl = previous.source_kind === 'localized-page'
+      ? (previous.localized_page?.page_url || previous.page_url || recordPageUrl(previous))
+      : null
+    if (prevLocalizedUrl && currentLocalizedPageUrls.has(prevLocalizedUrl)) continue
     if (!currentRecordIds.has(previous.record_id)) {
       warnings.push(`Record removed since last snapshot: ${previous.title || previous.record_id}`)
       removedRecords.push(previous)
-      addReason(reasonsByToken, previous.doc_token, 'record removed', `shared:${previous.record_id}`)
+      addReason(reasonsByToken, previous.doc_token, 'record removed', prevLocalizedUrl ? `localized:${prevLocalizedUrl}` : `shared:${previous.record_id}`)
     }
   }
 
   const minimumFullFetchCount = 10
-  // The mode must reflect real Feishu-side drift: shared-page records are
+  // The mode must reflect real Feishu-side drift: shared-page and localized-page records are
   // re-derived from published state every run, so counting them in the
   // threshold votes a full fetch regardless of actual document churn.
-  const feishuChangedCount = changedRecords.filter(record => record.source_kind !== 'shared-page').length
-  const feishuRecordCount = canonicalRecords.filter(record => record.source_kind !== 'shared-page').length
+  const isGitSourced = record => record.source_kind === 'shared-page' || record.source_kind === 'localized-page'
+  const feishuChangedCount = changedRecords.filter(record => !isGitSourced(record)).length
+  const feishuRecordCount = canonicalRecords.filter(record => !isGitSourced(record)).length
   const changedLimit = Math.max(minimumFullFetchCount, Math.ceil(feishuRecordCount * fullFetchThreshold))
   if (feishuChangedCount > changedLimit) {
     return fullPlan({

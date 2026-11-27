@@ -247,6 +247,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       ...allPreservedPaths,
       ...sourceSnapshots,
       ...(site === 'en' && groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
+      ...(site === 'zh-CN' && groupName === 'guides' ? ['generated/zh-CN/manifests/localized-pages/guides'] : []),
       ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),

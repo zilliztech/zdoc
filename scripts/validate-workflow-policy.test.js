@@ -3712,3 +3712,63 @@ test('translate-zh-guides workflow policy rejects queue, permission, kill-switch
     fs.rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('localized Chinese Guides wiring in reusable Fetch workflows stays isolated to zh-CN and never reacquires docs-production-dev', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'localized-guides-fetch-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const fetchFile = path.join(directory, '_fetch-guides-sources.yml')
+    const fetchOrig = fs.readFileSync(fetchFile, 'utf8')
+    const assembleFile = path.join(directory, '_assemble-guides.yml')
+    const assembleOrig = fs.readFileSync(assembleFile, 'utf8')
+
+    // 1. Removing site == 'zh-CN' guard on source generation must fail
+    fs.writeFileSync(
+      fetchFile,
+      fetchOrig.replace(
+        "      - name: Generate selected localized Chinese Guides sources\n        if: ${{ inputs.site == 'zh-CN' }}",
+        '      - name: Generate selected localized Chinese Guides sources',
+      ),
+    )
+    assert.ok(
+      validateWorkflowPolicies(directory).includes(
+        '_fetch-guides-sources.yml: localized Chinese Guides source generation must stay isolated to site zh-CN',
+      ),
+    )
+    fs.writeFileSync(fetchFile, fetchOrig)
+
+    // 2. Removing the zh-CN guard on localized finalization must fail
+    fs.writeFileSync(
+      assembleFile,
+      assembleOrig.replace(
+        'if [[ "${{ inputs.site }}" == "zh-CN" && -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then',
+        'if [[ -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then',
+      ),
+    )
+    assert.ok(
+      validateWorkflowPolicies(directory).includes(
+        '_assemble-guides.yml: localized Chinese Guides finalization must run only on zh-CN and precede combined guides validation',
+      ),
+    )
+    fs.writeFileSync(assembleFile, assembleOrig)
+
+    // 3. Adding concurrency: docs-production-dev to either reusable workflow must fail
+    fs.writeFileSync(fetchFile, `concurrency:\n  group: docs-production-dev\n  queue: max\n\n${fetchOrig}`)
+    assert.ok(
+      validateWorkflowPolicies(directory).includes(
+        '_fetch-guides-sources.yml: reusable workflow must not reacquire docs-production-dev',
+      ),
+    )
+    fs.writeFileSync(fetchFile, fetchOrig)
+
+    fs.writeFileSync(assembleFile, `concurrency:\n  group: docs-production-dev\n  queue: max\n\n${assembleOrig}`)
+    assert.ok(
+      validateWorkflowPolicies(directory).includes(
+        '_assemble-guides.yml: reusable workflow must not reacquire docs-production-dev',
+      ),
+    )
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})

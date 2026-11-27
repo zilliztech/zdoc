@@ -10,6 +10,7 @@ const {
 } = require('../../packages/docs-tooling/src/lark/requestedGuidesFetchPlanner')
 
 const {sharedSourceProjection} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
+const {localizedSourceProjection} = require('../../packages/docs-tooling/src/lark/localizedPageRouting')
 
 const SHA40 = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
@@ -153,10 +154,14 @@ function semanticSourceProjection(snapshot) {
     const recordId = nullableString(record.record_id, 'Guides semantic record_id', { required: true })
     if (ids.has(recordId)) throw new Error(`Duplicate Guides semantic record_id: ${recordId}`)
     ids.add(recordId)
-    if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown Guides semantic source kind')
+    if (record.source_kind !== undefined && record.source_kind !== 'shared-page' && record.source_kind !== 'localized-page') throw new Error('Unknown Guides semantic source kind')
     if (record.source_kind === 'shared-page') return canonicalize({
       ...Object.fromEntries(SEMANTIC_FIELDS.map(field => [field, record[field] ?? null])),
       ...sharedSourceProjection(record), outgoing_tokens: [],
+    })
+    if (record.source_kind === 'localized-page') return canonicalize({
+      ...Object.fromEntries(SEMANTIC_FIELDS.map(field => [field, record[field] ?? null])),
+      ...localizedSourceProjection(record), outgoing_tokens: [],
     })
     const projected = {}
     for (const field of SEMANTIC_FIELDS) projected[field] = ['node_token', 'origin_node_token', 'obj_token', 'obj_type'].includes(field)
