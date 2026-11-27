@@ -454,6 +454,118 @@ function validateSharedDocsWorkflow(workflow, source, file, errors) {
       })) fail('only best-effort infrastructure card steps may receive Feishu secrets and must honor the kill switch')
 }
 
+function validateLocalizedDocsWorkflow(workflow, source, file, errors) {
+  const fail = message => errors.push(`${file}: localized-docs ${message}`)
+  const jobs = workflow.jobs || {}
+  const stepsOf = job => jobs[job]?.steps || []
+  const step = (job, name) => stepsOf(job).find(item => item.name === name)
+  const run = (job, name) => String(step(job, name)?.run || '')
+  const allSteps = Object.values(jobs).flatMap(job => job.steps || [])
+
+  if (workflow.concurrency?.group !== 'localized-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.event_name }}' ||
+      workflow.concurrency?.['cancel-in-progress'] !== true ||
+      workflow.concurrency?.queue !== undefined ||
+      Object.values(jobs).some(job => job.concurrency !== undefined)) {
+    fail('must use isolated per-PR and per-event concurrency without the production queue')
+  }
+
+  if (JSON.stringify(workflow.permissions) !== JSON.stringify({ contents: 'read' }) ||
+      Object.keys(jobs).join(',') !== 'validate' ||
+      jobs.validate?.permissions !== undefined ||
+      /\bsecrets\s*[.[\])]|\btoJSON\s*\(\s*secrets\b|\bgithub\s*(?:\.\s*token|\[\s*['"]token['"]\s*\])|\bGH_TOKEN\b|\bGITHUB_TOKEN\b|git push|report-card/i.test(source)) {
+    fail('must remain strictly read-only without secrets, tokens, or writers')
+  }
+
+  if (jobs.validate?.name !== 'localized-docs-validate' ||
+      jobs.validate?.if !== undefined ||
+      jobs.validate?.['timeout-minutes'] !== 30) {
+    fail('must define a single stable validate job with a 30-minute timeout')
+  }
+
+  const expectedTypes = ['opened', 'synchronize', 'reopened', 'ready_for_review', 'edited']
+  const expectedPaths = [
+    'localized-docs/zh-CN/guides/**',
+    'config/translation/zh-CN-common.json',
+    'config/translation/zh-CN-guides.json',
+  ]
+  if (Object.keys(workflow.on || {}).sort().join(',') !== 'pull_request,workflow_dispatch' ||
+      JSON.stringify(workflow.on?.pull_request?.branches) !== JSON.stringify(['master']) ||
+      JSON.stringify(workflow.on?.pull_request?.paths) !== JSON.stringify(expectedPaths) ||
+      JSON.stringify(workflow.on?.pull_request?.types) !== JSON.stringify(expectedTypes)) {
+    fail('must target master on localized-docs paths with edited in pull_request types plus workflow_dispatch')
+  }
+
+  const inputs = workflow.on?.workflow_dispatch?.inputs || {}
+  if (['pr_number', 'source_sha', 'base_sha'].some(name => inputs[name]?.type !== 'string' || inputs[name]?.required !== true) ||
+      inputs.request_id?.type !== 'string' || inputs.request_id?.required !== false ||
+      workflow['run-name'] !== 'localized-docs-validate ${{ inputs.request_id || github.event.pull_request.number || inputs.pr_number }}') {
+    fail('dispatch must expose immutable identities and a discoverable request ID')
+  }
+
+  if (workflow.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(workflow.env || {})) ||
+      Object.values(jobs).some(job => job.env?.GH_TOKEN !== undefined || /secrets\./.test(JSON.stringify(job.env || {}))) ||
+      allSteps.some(item => /\$\{\{/.test(item.run || '')) ||
+      source.includes('github.event.pull_request.body')) {
+    fail('must isolate expressions in env and never interpolate PR body in shell scripts')
+  }
+
+  const identityStep = step('validate', 'Validate immutable PR identities')
+  const expectedIdentityEnv = {
+    PR_NUMBER: '${{ github.event.pull_request.number || inputs.pr_number }}',
+    SOURCE_SHA: '${{ github.event.pull_request.head.sha || inputs.source_sha }}',
+    BASE_SHA: '${{ github.event.pull_request.base.sha || inputs.base_sha }}',
+  }
+  const identityRun = run('validate', 'Validate immutable PR identities')
+  if (identityStep?.id !== 'identity' ||
+      Object.entries(expectedIdentityEnv).some(([key, value]) => identityStep.env?.[key] !== value) ||
+      !identityRun.includes('^[1-9][0-9]*$') ||
+      !identityRun.includes('^[0-9a-f]{40}$') ||
+      !identityRun.includes('test "$GITHUB_SHA" = "$SOURCE_SHA"')) {
+    fail('must validate immutable PR/SHA identities and bind dispatch to github.sha')
+  }
+
+  const checkouts = allSteps.filter(item => String(item.uses || '').startsWith('actions/checkout@'))
+  const headCheckout = step('validate', 'Check out exact PR head')
+  const steps = stepsOf('validate')
+  if (checkouts.length !== 1 ||
+      headCheckout?.uses !== 'actions/checkout@v5' ||
+      headCheckout?.with?.ref !== '${{ steps.identity.outputs.source_sha }}' ||
+      headCheckout?.with?.['persist-credentials'] !== false ||
+      steps.indexOf(headCheckout) <= steps.indexOf(identityStep)) {
+    fail('must check out exact immutable PR head after identity validation with persist-credentials disabled')
+  }
+
+  const prBodyStep = step('validate', 'Extract PR body metadata')
+  const prBodyRun = run('validate', 'Extract PR body metadata')
+  const checkStep = step('validate', 'Validate localized Chinese Guides candidate')
+  const checkRun = run('validate', 'Validate localized Chinese Guides candidate')
+  if (prBodyStep?.id !== 'pr_body' ||
+      !prBodyRun.includes('GITHUB_EVENT_PATH') ||
+      !prBodyRun.includes('localized-docs-pr-body.md') ||
+      steps.indexOf(prBodyStep) < 0 ||
+      steps.indexOf(prBodyStep) >= steps.indexOf(checkStep)) {
+    fail('must safely extract PR body from GITHUB_EVENT_PATH before running pr-check')
+  }
+
+  if (checkStep?.['continue-on-error'] === true ||
+      checkStep?.env?.HAS_PR_BODY_FILE !== '${{ steps.pr_body.outputs.has_file }}' ||
+      !checkRun.includes('pnpm docs-tooling localized-docs pr-check') ||
+      !checkRun.includes('--root localized-docs/zh-CN/guides') ||
+      !checkRun.includes('--preview-out "$RUNNER_TEMP/localized-docs-preview"') ||
+      !checkRun.includes('--pr-body-file "$RUNNER_TEMP/localized-docs-pr-body.md"') ||
+      !checkRun.includes('exit "$status"') ||
+      !checkRun.includes('GITHUB_STEP_SUMMARY')) {
+    fail('must fail-closed invoke pnpm docs-tooling localized-docs pr-check with safe PR body and preview paths')
+  }
+
+  const uploadStep = step('validate', 'Upload dual-channel preview artifact')
+  if (uploadStep?.uses !== 'actions/upload-artifact@v6' ||
+      uploadStep?.with?.path !== '${{ runner.temp }}/localized-docs-preview' ||
+      uploadStep?.with?.['retention-days'] !== 14) {
+    fail('must upload read-only dual-channel preview artifact with 14-day retention')
+  }
+}
+
 /** Manual-layout update/promote lane (design 10 WP12/WP13): one candidate PR per
  *  group and mode, delivered only through a PAT, never touching master or dev.
  *  Publish-surface safety: a removal that would retire a live route blocks the lane
@@ -718,6 +830,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }
     if (file === 'shared-docs-lock.yml' || file === 'shared-docs-validate.yml') validateSharedDocsWorkflow(workflow, source, file, errors)
+    if (file === 'localized-docs-validate.yml') validateLocalizedDocsWorkflow(workflow, source, file, errors)
     if (file === 'shared-docs-manual-update.yml') validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors)
     const primaryJobs = Object.values(workflow.jobs || {}).filter(job => job?.['runs-on'])
     if (primaryJobs.some(job => !Number.isFinite(job?.['timeout-minutes']))) {
