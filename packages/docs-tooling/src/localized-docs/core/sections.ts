@@ -714,6 +714,7 @@ export function buildBaselineSections(
   zhDoc: ParsedDocStructure,
   customizedFlagsByEnCodeSha?: ReadonlyMap<string, boolean>,
   customizedOverrideByBlock?: ReadonlyMap<string, BaselineCodeBlock>,
+  codeBlocksOverrideBySection?: ReadonlyMap<string, readonly BaselineCodeBlock[]>,
 ): BaselineSection[] {
   const enByAnchor = new Map(enDoc.sections.map(sec => [sec.anchor, sec]))
   const emptySha = sha256Hex('')
@@ -722,9 +723,11 @@ export function buildBaselineSections(
     const enSec = enByAnchor.get(zhSec.anchor)
     const enCodeBlocks = enSec ? enSec.blocks.filter(b => b.kind === 'code') : []
     const zhCodeBlocks = zhSec.blocks.filter(b => b.kind === 'code')
+    const sectionOverride = codeBlocksOverrideBySection?.get(zhSec.anchor)
 
-    const codeBlocks: BaselineCodeBlock[] =
-      enCodeBlocks.length > 0
+    const codeBlocks: BaselineCodeBlock[] = sectionOverride
+      ? [...sectionOverride]
+      : enCodeBlocks.length > 0
         ? enCodeBlocks.map((cb, idx) => {
             const override = customizedOverrideByBlock?.get(`${zhSec.anchor}:code:${idx}`)
             if (override) return override

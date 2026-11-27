@@ -584,4 +584,318 @@ Click <UI>Save</UI> now and \`{{var.token}}\`.
       createDraftLlmProvider({ provider: 'openai', env: {} }),
     ).toThrow(/ZDOC_DRAFT_LLM_BASE_URL/)
   })
+
+  it('preserves Tier-3 customized ZH code block verbatim and retains customized_for_zh in baseline when EN deletes the code block', async () => {
+    const contractSupport = loadLocalizedContractSupport({ repositoryRoot: repoRoot })
+    const provider = new FakeDraftLlmProvider({
+      responder: unit => unit.maskedEnText.replace('Updated intro.', '更新后的简介。'),
+    })
+
+    const baseEn = makeEnSnapshot(`---
+title: "Tier3Remove"
+---
+
+# Tier3Remove
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+print("en-original")
+\`\`\`
+
+\`\`\`bash
+echo "kept-en-code"
+\`\`\`
+
+Outro.
+`)
+    const newEn = makeEnSnapshot(`---
+title: "Tier3Remove"
+---
+
+# Tier3Remove
+
+## Connect\\{#connect}
+
+Updated intro.
+
+\`\`\`bash
+echo "kept-en-code-v2"
+\`\`\`
+
+Outro.
+`, 'delete-entities', '2'.repeat(40))
+
+    const curZh = `# Tier3Remove
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`python
+# 中国站定制代码不能被静默删除
+uri = "https://in01-cn.zillizcloud.com.cn"
+\`\`\`
+
+\`\`\`bash
+echo "kept-en-code"
+\`\`\`
+
+结尾。
+`
+    const baseline = makeBaseline('delete-entities', baseEn, curZh)
+    baseline.sections[1].code_blocks[0].customized_for_zh = true
+
+    const res = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: {
+        hasSourceMd: true,
+        sourceMdText: curZh,
+        hasBaselineJson: true,
+        baseline,
+        lifecycleState: 'ready',
+      },
+      newEn,
+      baseEn,
+      llmProvider: provider,
+      contractSupport,
+    })
+
+    expect(res.status).toBe('drafted')
+    if (res.status !== 'drafted') return
+
+    expect(res.candidateSourceMd).toContain('# 中国站定制代码不能被静默删除')
+    expect(res.candidateSourceMd).toContain('uri = "https://in01-cn.zillizcloud.com.cn"')
+    expect(res.candidateSourceMd).toContain('echo "kept-en-code-v2"')
+    expect(res.todos.some(t => t.kind === 'code-conflict' && t.zhCurrent?.includes('中国站定制代码不能被静默删除'))).toBe(true)
+
+    const connectSec = res.updatedBaseline.sections.find(s => s.anchor === 'connect')!
+    expect(connectSec.code_blocks).toHaveLength(2)
+    expect(connectSec.code_blocks[0].customized_for_zh).toBe(true)
+    expect(connectSec.code_blocks[0].lang).toBe('python')
+    expect(connectSec.code_blocks[1].customized_for_zh).toBe(false)
+    expect(connectSec.code_blocks[1].lang).toBe('bash')
+
+    // Verify single-code-block section when EN deletes the only code block
+    const singleBaseEn = makeEnSnapshot(`---
+title: "SingleRemove"
+---
+
+# SingleRemove
+
+## Code\\{#code}
+
+Intro.
+
+\`\`\`python
+print("en")
+\`\`\`
+`)
+    const singleNewEn = makeEnSnapshot(`---
+title: "SingleRemove"
+---
+
+# SingleRemove
+
+## Code\\{#code}
+
+Updated intro.
+`, 'delete-entities', '3'.repeat(40))
+    const singleCurZh = `# SingleRemove
+
+## 代码\\{#code}
+
+简介。
+
+\`\`\`python
+print("zh-custom")
+\`\`\`
+`
+    const singleBaseline = makeBaseline('delete-entities', singleBaseEn, singleCurZh)
+    singleBaseline.sections[1].code_blocks[0].customized_for_zh = true
+
+    const singleRes = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: {
+        hasSourceMd: true,
+        sourceMdText: singleCurZh,
+        hasBaselineJson: true,
+        baseline: singleBaseline,
+        lifecycleState: 'ready',
+      },
+      newEn: singleNewEn,
+      baseEn: singleBaseEn,
+      llmProvider: provider,
+      contractSupport,
+    })
+    expect(singleRes.status).toBe('drafted')
+    if (singleRes.status !== 'drafted') return
+    expect(singleRes.candidateSourceMd).toContain('print("zh-custom")')
+    const singleCodeSec = singleRes.updatedBaseline.sections.find(s => s.anchor === 'code')!
+    expect(singleCodeSec.code_blocks).toHaveLength(1)
+    expect(singleCodeSec.code_blocks[0].customized_for_zh).toBe(true)
+  })
+
+  it('preserves ZH-only code block alongside an EN code block in the same section', async () => {
+    const contractSupport = loadLocalizedContractSupport({ repositoryRoot: repoRoot })
+    const provider = new FakeDraftLlmProvider({
+      responder: unit => unit.maskedEnText.replace('Intro updated.', '更新后的简介。'),
+    })
+
+    const baseEn = makeEnSnapshot(`---
+title: "ZhOnlyCode"
+---
+
+# ZhOnlyCode
+
+## Setup\\{#setup}
+
+Intro.
+
+\`\`\`python
+print("en-v1")
+\`\`\`
+`)
+    const newEn = makeEnSnapshot(`---
+title: "ZhOnlyCode"
+---
+
+# ZhOnlyCode
+
+## Setup\\{#setup}
+
+Intro updated.
+
+\`\`\`python
+print("en-v2")
+\`\`\`
+`, 'delete-entities', '2'.repeat(40))
+
+    const curZh = `# ZhOnlyCode
+
+## 安装\\{#setup}
+
+简介。
+
+\`\`\`bash
+# 中国站独有镜像源配置
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+\`\`\`
+
+\`\`\`python
+print("en-v1")
+\`\`\`
+`
+    const baseline = makeBaseline('delete-entities', baseEn, curZh)
+
+    const res = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: {
+        hasSourceMd: true,
+        sourceMdText: curZh,
+        hasBaselineJson: true,
+        baseline,
+        lifecycleState: 'ready',
+      },
+      newEn,
+      baseEn,
+      llmProvider: provider,
+      contractSupport,
+    })
+
+    expect(res.status).toBe('drafted')
+    if (res.status !== 'drafted') return
+    expect(res.candidateSourceMd).toContain('# 中国站独有镜像源配置')
+    expect(res.candidateSourceMd).toContain('https://pypi.tuna.tsinghua.edu.cn/simple')
+    expect(res.candidateSourceMd).toContain('print("en-v2")')
+    expect(res.todos.some(t => t.kind === 'code-conflict')).toBe(false)
+
+    const setupSec = res.updatedBaseline.sections.find(s => s.anchor === 'setup')!
+    expect(setupSec.code_blocks).toHaveLength(2)
+    expect(setupSec.code_blocks[0]).toMatchObject({ lang: 'bash', customized_for_zh: true })
+    expect(setupSec.code_blocks[1]).toMatchObject({ lang: 'python', customized_for_zh: false })
+  })
+
+  it('does not emit empty <NextChannel action="include"> wrapper on ambiguous merge with added NEXT wrapper', async () => {
+    const contractSupport = loadLocalizedContractSupport({ repositoryRoot: repoRoot })
+    let llmCalls = 0
+    const provider = new FakeDraftLlmProvider({
+      responder: () => {
+        llmCalls += 1
+        return 'unused'
+      },
+    })
+
+    const baseEn = makeEnSnapshot(`---
+title: "MergeNext"
+---
+
+# MergeNext
+
+## Steps\\{#steps}
+
+Step 1 original.
+
+Step 2 original.
+`)
+    const curZh = `# MergeNext
+
+## 步骤\\{#steps}
+
+第一步原文。
+
+**提示：** 中文独有夹层提示。
+
+第二步原文。
+`
+    const newEn = makeEnSnapshot(`---
+title: "MergeNext"
+---
+
+# MergeNext
+
+## Steps\\{#steps}
+
+<NextChannel action="include">
+
+Step 1 and Step 2 merged into one step.
+
+</NextChannel>
+`, 'delete-entities', '2'.repeat(40))
+    const baseline = makeBaseline('delete-entities', baseEn, curZh)
+
+    const res = await executeDraftEngine({
+      pageId: 'delete-entities',
+      pageConfig: incrementalConfig,
+      curZh: {
+        hasSourceMd: true,
+        sourceMdText: curZh,
+        hasBaselineJson: true,
+        baseline,
+        lifecycleState: 'ready',
+      },
+      newEn,
+      baseEn,
+      llmProvider: provider,
+      contractSupport,
+    })
+
+    expect(res.status).toBe('drafted')
+    if (res.status !== 'drafted') return
+    expect(llmCalls).toBe(0)
+    expect(res.candidateSourceMd).not.toContain('<NextChannel')
+    expect(res.candidateSourceMd).not.toContain('</NextChannel>')
+    expect(res.candidateSourceMd).toContain('第一步原文。')
+    expect(res.candidateSourceMd).toContain('**提示：** 中文独有夹层提示。')
+    expect(res.candidateSourceMd).toContain('第二步原文。')
+    const todo = res.todos.find(t => t.sectionAnchor === 'steps')
+    expect(todo).toBeDefined()
+    expect(todo?.enAfter).toContain('<NextChannel action="include">')
+    expect(todo?.enAfter).toContain('Step 1 and Step 2 merged into one step.')
+  })
 })

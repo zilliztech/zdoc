@@ -206,18 +206,6 @@ function detectManualZhDrift(
   return false
 }
 
-function computeSectionBlockOverlap(a: SectionNode, b: SectionNode): number {
-  const aNonHeading = a.blocks.filter(bl => bl.kind !== 'heading')
-  const bNonHeading = b.blocks.filter(bl => bl.kind !== 'heading')
-  if (aNonHeading.length === 0 || bNonHeading.length === 0) return 0
-  const bHashes = new Set(bNonHeading.map(bl => bl.sha256))
-  let matches = 0
-  for (const bl of aNonHeading) {
-    if (bHashes.has(bl.sha256)) matches += 1
-  }
-  return matches / Math.max(aNonHeading.length, bNonHeading.length)
-}
-
 function findBaselineCodeMeta(
   baselineSec: BaselineSection | undefined,
   baseEnCode: BlockUnit | null,
@@ -416,12 +404,36 @@ function alignSectionBlocks(options: {
       }
     }
 
-    for (let k = 0; k < Math.max(gapBaseCodeIndices.length, gapZhCodeIndices.length); k += 1) {
-      const bi = gapBaseCodeIndices[k]
-      const zi = gapZhCodeIndices[k]
+    const emitGapCodePair = (bi: number | undefined, zi: number | undefined) => {
       const bb = bi !== undefined ? baseBlocks[bi] : null
       const zb = zi !== undefined ? zhBlocks[zi] : null
       const blockId = nextBlockId()
+
+      if (!bb && zb) {
+        pushEmitted({
+          id: blockId,
+          sectionAnchor: anchor,
+          status: 'zh-only-preserved',
+          kind: 'code',
+          channel: zb.channel,
+          baseEn: null,
+          newEn: null,
+          curZh: zb,
+          codeTriplet: {
+            sectionAnchor: anchor,
+            blockId,
+            channel: zb.channel,
+            ...(zb.tabValue !== undefined ? { tabValue: zb.tabValue } : {}),
+            baseEn: null,
+            newEn: null,
+            curZh: zb,
+            baselineCodeMeta: null,
+          },
+          leadingRaw: computeLeadingRaw(zb),
+        })
+        return
+      }
+
       const baselineCodeMeta = findBaselineCodeMeta(baselineSec, bb, codeCounter++)
       pushEmitted({
         id: blockId,
@@ -442,8 +454,25 @@ function alignSectionBlocks(options: {
           curZh: zb,
           baselineCodeMeta,
         },
-        leadingRaw: computeLeadingRaw(null),
+        leadingRaw: zb ? computeLeadingRaw(zb) : computeLeadingRaw(null),
       })
+    }
+
+    const gapCodeHunks = alignByPredicate(
+      gapBaseCodeIndices,
+      gapZhCodeIndices,
+      (bi, zi) => anchorKey(baseBlocks[bi]) === anchorKey(zhBlocks[zi]),
+    )
+    for (const codeHunk of gapCodeHunks) {
+      if (codeHunk.kind === 'common' && codeHunk.baseIdx !== undefined && codeHunk.newIdx !== undefined) {
+        emitGapCodePair(gapBaseCodeIndices[codeHunk.baseIdx], gapZhCodeIndices[codeHunk.newIdx])
+      } else {
+        for (let k = 0; k < Math.max(codeHunk.baseIndices.length, codeHunk.newIndices.length); k += 1) {
+          const bi = codeHunk.baseIndices[k] !== undefined ? gapBaseCodeIndices[codeHunk.baseIndices[k]] : undefined
+          const zi = codeHunk.newIndices[k] !== undefined ? gapZhCodeIndices[codeHunk.newIndices[k]] : undefined
+          emitGapCodePair(bi, zi)
+        }
+      }
     }
 
     const gapNewIndices: number[] = []
@@ -672,12 +701,6 @@ function alignSectionBlocks(options: {
             })
           }
 
-          for (const ni of gapNewIndices) {
-            if (isStructuralAnchorKind(newBlocks[ni].kind)) {
-              emitAddedNewBlock(newBlocks[ni])
-            }
-          }
-
           todos.push({
             id: `${reasonKind}:${firstBlockId}`,
             kind: reasonKind,
@@ -692,7 +715,7 @@ function alignSectionBlocks(options: {
             details:
               '由于英文存在拆并段或当前区间含中文独有段落，工具已逐字保留原中文正文未改写，请结合改前/改后英文确认调整。',
             enBefore: gapBaseProseIndices.map(bi => baseBlocks[bi].raw).join('\n\n'),
-            enAfter: gapNewProseIndices.map(ni => newBlocks[ni].raw).join('\n\n'),
+            enAfter: gapNewIndices.map(ni => newBlocks[ni].raw).join('\n\n'),
             zhCurrent: gapZhProseIndices.map(zi => zhBlocks[zi].raw).join('\n\n'),
           })
         }
@@ -1040,8 +1063,10 @@ export function computeThreeWayDiff(input: {
       const zhSec = curZhByAnchor.get(baseSec.anchor) ?? null
       const baselineSec = baselineByAnchor.get(baseSec.anchor)
 
-      emitZhOnlyPreservedBefore(baseSec.anchor)
-      if (zhSec) emittedZhAnchors.add(zhSec.anchor)
+      if (zhSec) {
+        emitZhOnlyPreservedBefore(baseSec.anchor)
+        emittedZhAnchors.add(zhSec.anchor)
+      }
 
       if (!zhSec) {
         // Section was missing in curZh: treat as added
@@ -1134,8 +1159,7 @@ export function computeThreeWayDiff(input: {
       // Heading rename (1 -> 1) or section split/merge -> preserve curZh verbatim + ReviewTodo!
       let todoKind: ReviewTodoKind = 'ambiguous-split'
       if (unmatchedBase.length === 1 && unmatchedNew.length === 1) {
-        const overlap = computeSectionBlockOverlap(unmatchedBase[0], unmatchedNew[0])
-        todoKind = overlap >= 0.25 ? 'heading-rename' : 'heading-rename'
+        todoKind = 'heading-rename'
       } else if (unmatchedBase.length > unmatchedNew.length) {
         todoKind = 'ambiguous-merge'
       }
@@ -1143,6 +1167,10 @@ export function computeThreeWayDiff(input: {
       const zhSectionsInHunk = unmatchedBase
         .map(bs => curZhByAnchor.get(bs.anchor))
         .filter((s): s is SectionNode => Boolean(s))
+
+      if (zhSectionsInHunk.length > 0) {
+        emitZhOnlyPreservedBefore(zhSectionsInHunk[0].anchor)
+      }
 
       for (const zhSec of zhSectionsInHunk) {
         emittedZhAnchors.add(zhSec.anchor)
@@ -1199,6 +1227,7 @@ export function computeThreeWayDiff(input: {
         if (zhSec) emittedZhAnchors.add(zhSec.anchor)
         const zhEdited = zhSec && baselineSec ? zhSec.sha256 !== baselineSec.zh_sha256 : false
         if (zhSec && zhEdited) {
+          emitZhOnlyPreservedBefore(zhSec.anchor)
           lockedSpans.push({
             sectionAnchor: zhSec.anchor,
             start: zhSec.start,

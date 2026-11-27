@@ -115,6 +115,27 @@ export function syncCodeBlockTriplet(
     }
   }
 
+  // Case 1b: ZH-only code block (neither baseEn nor newEn existed)
+  if (!baseEn && !newEn && curZh) {
+    const lang = curZh.code?.lang ?? null
+    return {
+      blockId,
+      sectionAnchor,
+      tier: 0,
+      action: 'unchanged',
+      lang,
+      customizedForZh: true,
+      outputRaw: curZh.raw,
+      baselineEntry: {
+        lang,
+        customized_for_zh: true,
+        en_sha256: curZh.sha256,
+      },
+      appliedRuleIds: [],
+      note: '中文独有代码块，已原样保留。',
+    }
+  }
+
   // Case 2: EN removed the code block
   if (!newEn) {
     if (isCustomized && curZh) {

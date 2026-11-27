@@ -224,4 +224,29 @@ client = MilvusClient(uri="https://in01-custom-cn.api.ali-cn-hangzhou.zillizclou
     expect(res.outputRaw).toBe(curZhCode.raw)
     expect(res.todo?.kind).toBe('code-conflict')
   })
+
+  it('preserves ZH-only code blocks verbatim without false removal or code-conflict todo', () => {
+    const zhOnlyCode = extractFirstCodeBlock(`# T\n\n\`\`\`python\n# 中国站独有代码\nprint("cn-only")\n\`\`\`\n`)
+
+    const res = syncCodeBlockTriplet({
+      sectionAnchor: '__h1__',
+      blockId: 'sec:__h1__:b1',
+      channel: 'shared',
+      baseEn: null,
+      newEn: null,
+      curZh: zhOnlyCode,
+      baselineCodeMeta: null,
+    })
+
+    expect(res.tier).toBe(0)
+    expect(res.action).toBe('unchanged')
+    expect(res.customizedForZh).toBe(true)
+    expect(res.outputRaw).toBe(zhOnlyCode.raw)
+    expect(res.baselineEntry).toEqual({
+      lang: 'python',
+      customized_for_zh: true,
+      en_sha256: zhOnlyCode.sha256,
+    })
+    expect(res.todo).toBeUndefined()
+  })
 })

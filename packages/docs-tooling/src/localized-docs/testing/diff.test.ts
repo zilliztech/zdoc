@@ -289,4 +289,152 @@ First EN updated.
     expect(zhOnly.status).toBe('zh-only-preserved')
     expect(zhOnly.lockedRawSpan?.raw).toContain('此处仅在中国站文档展示。')
   })
+
+  it('preserves ZH-only code block alongside an EN code block in the same section', () => {
+    const baseEn = `# Title
+
+## Connect\\{#connect}
+
+Intro.
+
+\`\`\`python
+print("en")
+\`\`\`
+`
+    const newEn = `# Title
+
+## Connect\\{#connect}
+
+Intro updated.
+
+\`\`\`python
+print("en-v2")
+\`\`\`
+`
+    const curZh = `# 标题
+
+## 连接\\{#connect}
+
+简介。
+
+\`\`\`bash
+# 中国站独有前置命令
+export ZILLIZ_REGION=cn-hangzhou
+\`\`\`
+
+\`\`\`python
+print("en")
+\`\`\`
+`
+    const diff = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(curZh),
+      baseline: makeBaseline(baseEn, curZh),
+    })
+
+    const sec = diff.sections.find(s => s.anchor === 'connect')!
+    expect(sec.status).toBe('modified')
+    const zhOnlyCode = sec.blocks.find(b => b.kind === 'code' && b.status === 'zh-only-preserved')
+    expect(zhOnlyCode).toBeDefined()
+    expect(zhOnlyCode?.curZh?.raw).toContain('export ZILLIZ_REGION=cn-hangzhou')
+    const syncedCode = sec.blocks.find(b => b.kind === 'code' && b.status === 'modified')
+    expect(syncedCode?.newEn?.raw).toContain('print("en-v2")')
+  })
+
+  it('locks curZh section verbatim without emitting empty <NextChannel> when ambiguous merge wraps prose in <NextChannel action="include"> without exclude copy', () => {
+    const baseEn = `# MergeNext
+
+## Steps\\{#steps}
+
+Step 1 original.
+
+Step 2 original.
+`
+    const curZh = `# MergeNext
+
+## 步骤\\{#steps}
+
+第一步原文。
+
+**提示：** 中文独有夹层提示。
+
+第二步原文。
+`
+    const newEn = `# MergeNext
+
+## Steps\\{#steps}
+
+<NextChannel action="include">
+
+Step 1 and Step 2 merged into one step.
+
+</NextChannel>
+`
+    const diff = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(curZh),
+      baseline: makeBaseline(baseEn, curZh),
+    })
+
+    const sec = diff.sections.find(s => s.anchor === 'steps')!
+    expect(sec.status).toBe('ambiguous')
+    expect(sec.lockedRawSpan?.raw).toContain('**提示：** 中文独有夹层提示。')
+    expect(sec.blocks.some(b => b.status === 'added' && (b.kind === 'channel-open' || b.kind === 'channel-close'))).toBe(false)
+    const todo = diff.todos.find(t => t.sectionAnchor === 'steps')
+    expect(todo).toBeDefined()
+    expect(todo?.enAfter).toContain('<NextChannel action="include">')
+    expect(todo?.enAfter).toContain('Step 1 and Step 2 merged into one step.')
+  })
+
+  it('orders ZH-only section before a renamed EN section in diff.sections', () => {
+    const baseEn = `# Title
+
+## First\\{#first}
+
+First.
+
+## Old Name\\{#old-name}
+
+Body.
+`
+    const newEn = `# Title
+
+## First\\{#first}
+
+First.
+
+## New Name\\{#new-name}
+
+Body.
+`
+    const curZh = `# 标题
+
+## 第一节\\{#first}
+
+第一段。
+
+## 中国站独有前置小节\\{#zh-before-rename}
+
+前置内容。
+
+## 旧名\\{#old-name}
+
+正文。
+`
+    const diff = computeThreeWayDiff({
+      baseEn: parseEn(baseEn),
+      newEn: parseEn(newEn),
+      curZh: parseZh(curZh),
+      baseline: makeBaseline(baseEn, curZh),
+    })
+
+    expect(diff.sections.map(s => s.anchor)).toEqual([
+      '__h1__',
+      'first',
+      'zh-before-rename',
+      'old-name',
+    ])
+  })
 })

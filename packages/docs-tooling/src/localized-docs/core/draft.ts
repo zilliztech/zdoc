@@ -1028,7 +1028,7 @@ export async function executeDraftEngine(input: DraftEngineInput): Promise<Draft
 
     const blockParts: string[] = []
     for (const block of sec.blocks) {
-      if (block.status === 'removed') continue
+      if (block.status === 'removed' && block.kind !== 'code') continue
 
       let content: string | null = null
       if (block.kind === 'code') {
@@ -1101,7 +1101,49 @@ export async function executeDraftEngine(input: DraftEngineInput): Promise<Draft
 
   // 10. Post-Assembly Gate Checks
   const postViolations: string[] = []
+  const effectiveLockedSpans: { sectionAnchor: string; start: number; end: number; raw: string }[] = []
+  if (!diff.isInitialTranslation && parsedCurZh) {
+    for (const sec of diff.sections) {
+      if (sec.status === 'removed') continue
+      if (sec.lockedRawSpan) {
+        effectiveLockedSpans.push({
+          sectionAnchor: sec.anchor,
+          start: sec.lockedRawSpan.start,
+          end: sec.lockedRawSpan.end,
+          raw: sec.lockedRawSpan.raw,
+        })
+        continue
+      }
+      for (const block of sec.blocks) {
+        if (!block.curZh) continue
+        if (
+          block.status === 'unchanged' ||
+          block.status === 'ambiguous' ||
+          block.status === 'zh-only-preserved' ||
+          block.status === 'manual-zh-conflict'
+        ) {
+          effectiveLockedSpans.push({
+            sectionAnchor: sec.anchor,
+            start: block.curZh.start,
+            end: block.curZh.end,
+            raw: block.curZh.raw,
+          })
+        } else if (block.kind === 'code') {
+          const codeRes = codeSyncByBlockId.get(block.id)
+          if (codeRes && codeRes.action === 'tier3-conflict' && codeRes.outputRaw === block.curZh.raw) {
+            effectiveLockedSpans.push({
+              sectionAnchor: sec.anchor,
+              start: block.curZh.start,
+              end: block.curZh.end,
+              raw: block.curZh.raw,
+            })
+          }
+        }
+      }
+    }
+  }
   postViolations.push(...verifyLockedSpansPreserved(candidateBodyText, diff.lockedSpans))
+  postViolations.push(...verifyLockedSpansPreserved(candidateBodyText, effectiveLockedSpans))
 
   const shellCheck = validateSourceShell(candidateSourceMd, {
     file: `pages/${pageId}/source.md`,
@@ -1182,14 +1224,37 @@ export async function executeDraftEngine(input: DraftEngineInput): Promise<Draft
 
   const customizedFlagsByEnCodeSha = new Map<string, boolean>()
   const customizedOverrideByBlock = new Map<string, BaselineCodeBlock>()
+  const codeBlocksOverrideBySection = new Map<string, BaselineCodeBlock[]>()
   const codeCountPerSection = new Map<string, number>()
 
   for (const res of codeSyncResults) {
-    if (!res.baselineEntry) continue
+    if (res.outputRaw === null || !res.baselineEntry) continue
     const ordinal = codeCountPerSection.get(res.sectionAnchor) ?? 0
     codeCountPerSection.set(res.sectionAnchor, ordinal + 1)
     customizedFlagsByEnCodeSha.set(res.baselineEntry.en_sha256, res.customizedForZh)
     customizedOverrideByBlock.set(`${res.sectionAnchor}:code:${ordinal}`, res.baselineEntry)
+  }
+
+  for (const sec of diff.sections) {
+    if (sec.status === 'removed') continue
+    if (sec.lockedRawSpan) {
+      const prevBaseSec = resolvedBaseline?.sections.find(s => s.anchor === sec.anchor)
+      const zhCodeCount = sec.curZhSection
+        ? sec.curZhSection.blocks.filter(b => b.kind === 'code').length
+        : 0
+      if (prevBaseSec && prevBaseSec.code_blocks.length === zhCodeCount) {
+        codeBlocksOverrideBySection.set(sec.anchor, [...prevBaseSec.code_blocks])
+      }
+      continue
+    }
+    const entries: BaselineCodeBlock[] = []
+    for (const block of sec.blocks) {
+      if (block.kind !== 'code') continue
+      const codeRes = codeSyncByBlockId.get(block.id)
+      if (!codeRes || codeRes.outputRaw === null || !codeRes.baselineEntry) continue
+      entries.push(codeRes.baselineEntry)
+    }
+    codeBlocksOverrideBySection.set(sec.anchor, entries)
   }
 
   const sections = buildBaselineSections(
@@ -1197,6 +1262,7 @@ export async function executeDraftEngine(input: DraftEngineInput): Promise<Draft
     parsedCandidateZh.doc,
     customizedFlagsByEnCodeSha,
     customizedOverrideByBlock,
+    codeBlocksOverrideBySection,
   )
 
   const reviewedPr = input.reviewedPr ?? resolvedBaseline?.zh_reviewed.reviewed_pr ?? 1
