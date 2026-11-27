@@ -110,6 +110,11 @@ ${REVIEW_TODOS_END_MARKER}
       `${REVIEW_TODOS_START_MARKER}\n- [~] tilde box\n${REVIEW_TODOS_END_MARKER}`,
       `${REVIEW_TODOS_START_MARKER}\n- [?] question box\n${REVIEW_TODOS_END_MARKER}`,
       `${REVIEW_TODOS_START_MARKER}\n- [ ]no-space\n${REVIEW_TODOS_END_MARKER}`,
+      `${REVIEW_TODOS_START_MARKER}\n- [x ] trailing space\n${REVIEW_TODOS_END_MARKER}`,
+      `${REVIEW_TODOS_START_MARKER}\n- [ x] leading space\n${REVIEW_TODOS_END_MARKER}`,
+      `${REVIEW_TODOS_START_MARKER}\n- [1] numbered box\n${REVIEW_TODOS_END_MARKER}`,
+      `${REVIEW_TODOS_START_MARKER}\n- [TODO] text box\n${REVIEW_TODOS_END_MARKER}`,
+      `${REVIEW_TODOS_START_MARKER}\n- [🔲] emoji box\n${REVIEW_TODOS_END_MARKER}`,
     ]
 
     for (const sample of malformedCases) {
@@ -117,6 +122,40 @@ ${REVIEW_TODOS_END_MARKER}
       expect(res.ok, sample).toBe(false)
       expect(res.errors[0].code, sample).toBe('REVIEW_TODOS_MARKER_MALFORMED')
     }
+  })
+
+  it('does not flag valid Markdown links in list items as corrupted checkboxes', () => {
+    const prBody = `
+${REVIEW_TODOS_START_MARKER}
+- [x] Check [guide](https://example.com)
+- [See docs](https://example.com)
+- [ref][id]
+${REVIEW_TODOS_END_MARKER}
+`
+    const res = evaluateReviewTodos(prBody)
+    expect(res.ok).toBe(true)
+    expect(res.hasBlock).toBe(true)
+    expect(res.totalCount).toBe(1)
+    expect(res.resolvedCount).toBe(1)
+    expect(res.errors).toEqual([])
+  })
+
+  it('does not allow an unclosed inline backtick in one list item to mask a subsequent unchecked todo', () => {
+    const prBody = `
+${REVIEW_TODOS_START_MARKER}
+- [x] Check \`foo
+- [ ] Confirm \`bar\` item
+${REVIEW_TODOS_END_MARKER}
+`
+    const res = evaluateReviewTodos(prBody)
+    expect(res.ok).toBe(false)
+    expect(res.hasBlock).toBe(true)
+    expect(res.totalCount).toBe(2)
+    expect(res.resolvedCount).toBe(1)
+    expect(res.unresolvedItems).toHaveLength(1)
+    expect(res.unresolvedItems[0].line).toBe(4)
+    expect(res.unresolvedItems[0].text).toBe('Confirm `bar` item')
+    expect(res.errors[0].code).toBe('REVIEW_TODOS_UNRESOLVED')
   })
 
   it('ignores markers and unchecked tasks inside fenced code blocks and inline code spans', () => {
@@ -268,6 +307,10 @@ Inline \`<NextChannel action="include">code</NextChannel>\` stays literal.
     const unterminatedExclude = 'Keep\n\n<NextChannel action="exclude">\nCURRENT_TAIL\n'
     expect(projectChannelView(unterminatedExclude, 'next')).not.toContain('CURRENT_TAIL')
     expect(projectChannelView(unterminatedExclude, 'current')).toContain('CURRENT_TAIL')
+
+    const standaloneUnclosed = projectDualChannelMdx('Head\n<NextChannel action="include">\nSECRET_NEXT\n')
+    expect(standaloneUnclosed.ok).toBe(false)
+    expect(standaloneUnclosed.errors.some(e => e.code === 'CHANNEL_RESIDUAL_TAG' && e.line === 2)).toBe(true)
 
     const malformedTag = projectDualChannelMdx('<NextChannel variant="next">\nBad\n</NextChannel>\n')
     expect(malformedTag.ok).toBe(false)

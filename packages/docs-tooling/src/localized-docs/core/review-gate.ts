@@ -63,8 +63,8 @@ const END_MARKER_RE = /<!--\s*localized-docs:review-todos:end\s*-->/g
 const ANY_MARKER_HINT_RE = /localized-docs:review-todos/gi
 
 const TASK_ITEM_RE = /^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\[([ xX])\](?:[ \t]+(.*))?$/
-const CORRUPTED_TASK_NO_SPACE_RE = /^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\[[ xX]\][^\s]/
-const CORRUPTED_TASK_BOX_RE = /^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\[(?:\s*|[^\]a-zA-Z0-9\s]|[a-zA-Z]|xx|XX)\](?:[ \t]|$)/
+const CORRUPTED_TASK_NO_SPACE_RE = /^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\[[ xX]\][^\s(\[:]/
+const CORRUPTED_TASK_BOX_RE = /^[ \t]*(?:[-*+]|\d+[.)])[ \t]+\[[^\]]*\](?:[ \t]|$)/
 
 const FRONTMATTER_RE = /^---[ \t]*\n(?:[\s\S]*?\n)?(?:---|\.\.\.)[ \t]*(?:\n|$)/
 const NEXT_CHANNEL_TAG_RE = /<\/?NextChannel(?=$|[\s/>])/g
@@ -100,6 +100,18 @@ function maskRangePreservingNewlines(chars: string[], start: number, end: number
   for (let i = Math.max(0, start); i < limit; i += 1) {
     if (chars[i] !== '\n') chars[i] = ' '
   }
+}
+
+function isInlineSpanBlockBoundary(line: string, prevBqDepth: number): boolean {
+  const { bqDepth, rest } = stripBlockquotePrefix(line)
+  if (bqDepth !== prevBqDepth) return true
+  return (
+    /^[ \t]*$/.test(rest) ||
+    /^[ \t]*(?:[-*+]|\d+[.)])[ \t]/.test(rest) ||
+    /^[ \t]*#{1,6}(?:[ \t]|$)/.test(rest) ||
+    /^[ \t]*<!--/.test(rest) ||
+    /^[ \t]*(?:(?:\*[ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})[ \t]*$/.test(rest)
+  )
 }
 
 /**
@@ -139,14 +151,15 @@ function maskMarkdownCodePreservingHtmlComments(normalized: string): string {
   }
 
   const fenceMasked = chars.join('')
+  const fenceMaskedLines = fenceMasked.split('\n')
   const failedTickLens = new Set<number>()
   let i = 0
+  let lineIdx = 0
   while (i < fenceMasked.length) {
     if (fenceMasked[i] === '\n') {
-      // Blank line resets inline code span search boundary
-      let j = i + 1
-      while (j < fenceMasked.length && (fenceMasked[j] === ' ' || fenceMasked[j] === '\t')) j += 1
-      if (j < fenceMasked.length && fenceMasked[j] === '\n') {
+      lineIdx += 1
+      const prevBqDepth = stripBlockquotePrefix(fenceMaskedLines[lineIdx - 1]).bqDepth
+      if (isInlineSpanBlockBoundary(fenceMaskedLines[lineIdx], prevBqDepth)) {
         failedTickLens.clear()
       }
       i += 1
@@ -163,15 +176,17 @@ function maskMarkdownCodePreservingHtmlComments(normalized: string): string {
       continue
     }
 
+    const startBqDepth = stripBlockquotePrefix(fenceMaskedLines[lineIdx]).bqDepth
     let cursor = i + tickLen
+    let cursorLineIdx = lineIdx
     let foundEnd = -1
     while (cursor < fenceMasked.length) {
       if (fenceMasked[cursor] === '\n') {
-        let nextNonWs = cursor + 1
-        while (nextNonWs < fenceMasked.length && (fenceMasked[nextNonWs] === ' ' || fenceMasked[nextNonWs] === '\t')) {
-          nextNonWs += 1
-        }
-        if (nextNonWs >= fenceMasked.length || fenceMasked[nextNonWs] === '\n') {
+        cursorLineIdx += 1
+        if (
+          cursorLineIdx >= fenceMaskedLines.length ||
+          isInlineSpanBlockBoundary(fenceMaskedLines[cursorLineIdx], startBqDepth)
+        ) {
           break
         }
         cursor += 1
@@ -193,6 +208,7 @@ function maskMarkdownCodePreservingHtmlComments(normalized: string): string {
     if (foundEnd >= 0) {
       maskRangePreservingNewlines(chars, i, foundEnd)
       i = foundEnd
+      lineIdx = cursorLineIdx
     } else {
       failedTickLens.add(tickLen)
       i += tickLen
@@ -824,10 +840,71 @@ export function validateProjectedChannelView(
   }
 }
 
+function findUnbalancedChannelTags(
+  compiledMdx: string,
+  context: DiagnosticContext,
+): LocalizedDocsError[] {
+  const normalized = compiledMdx.replace(/\r\n|\r/g, '\n')
+  const { frontmatter, body } = splitFrontmatter(normalized)
+  const frontmatterLineOffset = frontmatter ? frontmatter.split('\n').length - 1 : 0
+  const { masked } = maskCodeAndCommentsWithRanges(body)
+  const bodyLineStarts = computeLineStarts(body)
+  const errors: LocalizedDocsError[] = []
+
+  let activeGate: { action: 'include' | 'exclude'; openStart: number } | null = null
+
+  for (const match of masked.matchAll(NEXT_CHANNEL_TAG_RE)) {
+    const idx = match.index!
+    let gtIdx = -1
+    for (let cursor = idx + match[0].length; cursor < masked.length; cursor += 1) {
+      if (masked[cursor] === '>') {
+        gtIdx = cursor
+        break
+      }
+      if (masked[cursor] === '<') break
+    }
+    if (gtIdx < 0) continue
+
+    const rawTag = masked.slice(idx, gtIdx + 1)
+    const isClosing = match[0].startsWith('</')
+
+    if (!isClosing) {
+      const openMatch = NEXT_CHANNEL_OPEN_RE.exec(rawTag)
+      if (!openMatch) continue
+      if (activeGate === null) {
+        activeGate = {
+          action: openMatch[1] as 'include' | 'exclude',
+          openStart: idx,
+        }
+      }
+      continue
+    }
+
+    if (rawTag === '</NextChannel>' && activeGate !== null) {
+      activeGate = null
+    }
+  }
+
+  if (activeGate !== null) {
+    const line = frontmatterLineOffset + lineNumberAt(bodyLineStarts, activeGate.openStart)
+    errors.push(
+      localizedError(
+        'CHANNEL_RESIDUAL_TAG',
+        `Unclosed <NextChannel action="${activeGate.action}"> tag remains at EOF`,
+        context,
+        line,
+      ),
+    )
+  }
+
+  return errors
+}
+
 export function projectDualChannelMdx(
   compiledMdx: string,
   context: DiagnosticContext = {},
 ): DualChannelProjectionResult {
+  const unbalancedErrors = findUnbalancedChannelTags(compiledMdx, context)
   const current = validateProjectedChannelView(
     projectChannelView(compiledMdx, 'current'),
     'current',
@@ -838,7 +915,7 @@ export function projectDualChannelMdx(
     'next',
     context,
   )
-  const errors = [...current.errors, ...next.errors]
+  const errors = [...unbalancedErrors, ...current.errors, ...next.errors]
   return {
     ok: errors.length === 0,
     current,

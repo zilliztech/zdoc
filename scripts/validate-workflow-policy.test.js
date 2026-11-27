@@ -3618,6 +3618,7 @@ test('localized-docs PR validation workflow policy rejects permission, queue, tr
   const fixtures = [
     [objectMutation(w => { w.permissions.contents = 'write' }), 'must remain strictly read-only'],
     [objectMutation(w => { w.jobs.validate.permissions = { contents: 'write' } }), 'must remain strictly read-only'],
+    [objectMutation(w => { const target = step(w, 'validate', 'Validate localized Chinese Guides candidate'); target.env = { ...(target.env || {}), MY_TOKEN: '${{ github.token }}' } }), 'must remain strictly read-only without secrets, tokens, or writers'],
     [objectMutation(w => { w.concurrency.group = 'docs-production-dev' }), 'only production dev queue owners may use docs-production-dev'],
     [objectMutation(w => { w.concurrency.queue = 'max' }), 'isolated per-PR and per-event concurrency'],
     [objectMutation(w => { w.concurrency['cancel-in-progress'] = false }), 'isolated per-PR and per-event concurrency'],
