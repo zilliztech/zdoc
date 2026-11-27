@@ -42,7 +42,7 @@ export async function runLock(options: LockOptions, write: (text: string) => voi
   const group = groupContext(options.sharedDocs, repositoryRoot)
   if ('errors' in group) { print(group.errors); return 1 }
   try {
-    if (options.page !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(options.page)) throw new InputError('--page must be a lowercase page ID')
+    if (options.page !== undefined && !/^[a-z0-9_]+(?:-[a-z0-9_]+)*$/.test(options.page)) throw new InputError('--page must be a lowercase page ID')
     const root = group.root
     await checkTree(root)
     const source = parseSourceConfig(await configFile(join(root, 'source.yaml'), group.file('source.yaml')), { file: group.file('source.yaml') })

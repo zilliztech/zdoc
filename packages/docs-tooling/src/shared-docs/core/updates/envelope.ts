@@ -154,7 +154,7 @@ export interface SemanticInput {
  * Zod still enforces required fields and explicit nulls at runtime. */
 const text = z.string().refine(isValidUnicode, 'Invalid Unicode surrogate')
 const label = text.min(1).refine(value => !/[\x00-\x1f\x7f-\x9f]/.test(value), 'Control character in identifier')
-const id = label.regex(/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/)
+const id = label.regex(/^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/)
 export const GitShaSchema = text.regex(/^[0-9a-f]{40}$/) as z.ZodType<GitSha>
 export const GitTreeOidSchema = text.regex(/^[0-9a-f]{40}$/) as z.ZodType<GitTreeOid>
 export const DigestSchema = text.regex(/^[0-9a-f]{64}$/) as z.ZodType<Digest>

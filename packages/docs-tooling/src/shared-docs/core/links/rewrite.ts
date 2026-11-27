@@ -48,6 +48,19 @@ export function rewriteLinksAndImages(input: RewriteInput) {
     let kind = classifyLink(ref.url)
     if (kind === 'external' || kind === 'milvus-url') continue
     if (kind === 'root' || kind === 'unknown' || (kind === 'page-path' && !input.pathLinks)) {
+      // Rustdoc intra-document paths leak into upstream prose as CommonMark autolinks
+      // (`Result<Option<response::dql::QueryResponse>>` — `response:` looks like a URI
+      // scheme). No legitimate manual or web destination contains `::`, so the link is
+      // replaced by its text like an excluded target instead of failing the manual.
+      // The angle brackets are Rust generic syntax, so an autolink keeps them (MDX then
+      // escapes them); a labeled link keeps just its label.
+      if (kind === 'unknown' && ref.url.includes('::') && ref.text !== undefined && ref.full) {
+        notices.push({ ...diagnostic('LINK_INTRA_DOC', `Rustdoc intra-document link ${ref.url} has no manual target; the link is replaced with its text.`, context, ref.line),
+          code: 'LINK_INTRA_DOC', detail: { target: ref.url } })
+        edits.set(ref.full.start, { end: ref.full.end, url: ref.text || `<${ref.url}>` })
+        if (ref.definition) edits.set(ref.definition.start, { end: ref.definition.end, url: '' })
+        continue
+      }
       fail(ref, kind === 'root' ? 'LINK_ROOT_PATH' : 'LINK_UNKNOWN_FORM', `Unsupported link: ${ref.url}`)
       continue
     }

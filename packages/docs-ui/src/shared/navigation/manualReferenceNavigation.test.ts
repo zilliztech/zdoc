@@ -17,6 +17,7 @@ describe('getManualReferenceNavigation', () => {
       ['go', 'Go SDK'],
       ['cpp', 'C++ SDK'],
       ['cli', 'CLI'],
+      ['rust', 'Rust SDK'],
       ['restful', 'REST API'],
     ]);
     expect(navigation.targets.find(target => target.kind === 'nodejs')).toMatchObject({
@@ -54,6 +55,7 @@ describe('getManualReferenceNavigation', () => {
       ['go', 'Go SDK'],
       ['cpp', 'C++ SDK'],
       ['cli', 'Zilliz CLI'],
+      ['rust', 'Rust SDK'],
       ['restful', 'RESTful API'],
     ]);
     expect(navigation.entryRedirects).toEqual({

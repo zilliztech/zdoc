@@ -11,6 +11,7 @@ describe('reference presentation path-filters drift check', () => {
       'generated/en/sidebars/go.sidebar.js',
       'generated/en/sidebars/cpp.sidebar.js',
       'generated/en/sidebars/cli.sidebar.js',
+      'generated/en/sidebars/rust.sidebar.js',
       'generated/en/sidebars/restful.sidebar.js',
     ]);
   });

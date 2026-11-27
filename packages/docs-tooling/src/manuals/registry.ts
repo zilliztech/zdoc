@@ -540,13 +540,48 @@ const definitions: ManualDefinition[] = [
       icon: 'rest',
       href: '/reference/restful',
       prefix: '/reference/restful',
-      groupOrder: 7,
-      navOrder: {en: 6, 'zh-CN': 6},
+      groupOrder: 8,
+      navOrder: {en: 7, 'zh-CN': 7},
       standalone: false,
       documentIdPrefix: 'api/restful/restful',
       landingPage: 'api/restful/restful/restful.md',
       minimumProseCharacters: 500,
       minimumHeadingCount: 3,
+      requireSourceDifference: true,
+    },
+  },
+  {
+    id: 'rust',
+    kind: 'reference',
+    // Greenfield whole-manual group (design 10, playbook B): the English producer
+    // is the shared-docs manual pipeline (shared-docs/rust, Git-pinned through its
+    // lock.yaml). There is no Lark history to migrate; the hand-written landing
+    // page below content/ is the master-reserved go.md-mode file, and zh-CN is
+    // machine-translated from the publication like every other SDK.
+    sources: {
+      rust: shared('shared-docs/rust'),
+      chineseTranslation: local('content/zh-CN/reference/api/rust/rust'),
+    },
+    sourceOrder: ['rust', 'chineseTranslation'],
+    publications: {
+      en: publication('en', 'rust', 'reference/api/rust/rust', 'reference', 'rust', 'zilliz', undefined, ['rust.md']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/rust/rust', 'reference', 'rust'),
+    },
+    presentation: {
+      referenceKind: 'rust',
+      sidebar: 'rust',
+      sidebarKey: 'rustSidebar',
+      label: {en: 'Rust SDK', 'zh-CN': 'Rust SDK'},
+      icon: 'rust',
+      href: '/reference/rust',
+      prefix: '/reference/rust',
+      groupOrder: 7,
+      navOrder: {en: 6, 'zh-CN': 6},
+      standalone: false,
+      documentIdPrefix: 'api/rust/rust',
+      landingPage: 'api/rust/rust/rust.md',
+      minimumProseCharacters: 300,
+      minimumHeadingCount: 2,
       requireSourceDifference: true,
     },
   },

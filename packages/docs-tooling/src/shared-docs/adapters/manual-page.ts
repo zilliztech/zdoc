@@ -237,7 +237,7 @@ export function expandManualPages(files: readonly string[] | { current: readonly
     if (manual.transforms?.[logical]?.length) consumedTransforms.add(logical)
     if (excludedLogicals.has(logical)) continue
     const derived = identity(logical)
-    if (!/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(derived.pageId)) {
+    if (!/^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/.test(derived.pageId)) {
       errors.push({ file: 'manual.yaml', page: derived.pageId, channel: 'both' as const, code: 'CONFIG_PAGE_ID_INVALID', message: `Upstream page ${logical} does not derive a valid page ID: ${derived.pageId}` })
       continue
     }
@@ -252,7 +252,7 @@ export function expandManualPages(files: readonly string[] | { current: readonly
   }
   for (const [logical, content] of (cloud ?? new Map<string, ContentFile>()).entries()) {
     const derived = identity(logical)
-    if (!/^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(derived.pageId)) {
+    if (!/^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/.test(derived.pageId)) {
       errors.push({ file: 'manual.yaml', page: derived.pageId, channel: 'both' as const, code: 'CONFIG_PAGE_ID_INVALID', message: `Cloud page ${logical} does not derive a valid page ID: ${derived.pageId}` })
       continue
     }

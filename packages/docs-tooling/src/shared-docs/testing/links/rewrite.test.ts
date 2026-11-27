@@ -108,3 +108,21 @@ it('strips links to channel-absent targets before they resolve to their shared d
   expect(result).toHaveProperty('markdown', 'See Scalar Index for selections.')
   expect(result.notices?.map(notice => notice.code)).toEqual(['LINK_TARGET_EXCLUDED'])
 })
+
+it('[LINK_INTRA_DOC] strips rustdoc intra-document paths to bracketed text instead of failing', () => {
+  // A Rust generic type signature parses as a CommonMark autolink (`response:` looks like
+  // a URI scheme). The construct keeps its angle brackets — they are generic syntax — and
+  // the notice replaces the fail-closed unknown-form error for `::` destinations only.
+  const markdown = '- `next()` (*Result<Option<response::dql::QueryResponse>>*) -'
+  const result = rewriteLinksAndImages(input(markdown, {}))
+  expect(result).toHaveProperty('markdown', markdown)
+  expect(result.notices?.map(notice => notice.code)).toEqual(['LINK_INTRA_DOC'])
+  // A labeled link keeps just its visible label.
+  const labeled = rewriteLinksAndImages(input('See [QueryResponse](response::dql::QueryResponse).', {}))
+  expect(labeled).toHaveProperty('markdown', 'See QueryResponse.')
+  expect(labeled.notices?.map(notice => notice.code)).toEqual(['LINK_INTRA_DOC'])
+  // Unknown forms without `::` stay fail-closed.
+  const bare = rewriteLinksAndImages(input('[x](filtering)', {}))
+  expect(bare).not.toHaveProperty('markdown')
+  expect(bare.errors?.map(error => error.code)).toEqual(['LINK_UNKNOWN_FORM'])
+})

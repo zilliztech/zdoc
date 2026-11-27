@@ -44,7 +44,8 @@ function fixture(t) {
     'source/go': '2026-08-04T00:00:05.000Z',
     'source/cli': '2026-08-04T00:00:06.000Z',
     'source/cpp': '2026-08-04T00:00:07.000Z',
-    'source/python': '2026-08-04T00:00:08.000Z',
+    'source/rust': '2026-08-04T00:00:08.000Z',
+    'source/python': '2026-08-04T00:00:09.000Z',
   }
   const jobs = selection.units.map((unit, index) => ({
     id: index + 1, name: unit.producerJob, run_attempt: 1, status: 'completed', conclusion: 'success',
@@ -94,7 +95,7 @@ function faultFixture(t) {
   })
   const completionOrder = [
     'source/rest', 'source/rest-zh-CN', 'source/go', 'source/cli', 'source/node',
-    'source/java', 'source/guides-zh-CN', 'source/cpp', 'source/python', 'source/guides-en',
+    'source/java', 'source/guides-zh-CN', 'source/cpp', 'source/rust', 'source/python', 'source/guides-en',
   ]
   const jobs = selection.units.map((unit, index) => ({
     id: index + 10, name: unit.producerJob, run_attempt: 1, status: 'completed', conclusion: 'success',
@@ -122,15 +123,15 @@ test('trusted Jobs facts derive FIFO while the canonical order remains fixed', t
   const value = fixture(t)
   assert.deepEqual(value.selection.units.map(unit => unit.unitKey), [
     'source/python', 'source/java', 'source/node', 'source/go', 'source/cli',
-    'source/cpp', 'source/rest', 'source/rest-zh-CN', 'source/guides-en', 'source/guides-zh-CN',
+    'source/cpp', 'source/rust', 'source/rest', 'source/rest-zh-CN', 'source/guides-en', 'source/guides-zh-CN',
   ])
   assert.deepEqual(deriveFifoUnitKeys(value.selection, value.jobs), [
     'source/rest', 'source/rest-zh-CN', 'source/java', 'source/guides-en', 'source/guides-zh-CN',
-    'source/node', 'source/go', 'source/cli', 'source/cpp', 'source/python',
+    'source/node', 'source/go', 'source/cli', 'source/cpp', 'source/rust', 'source/python',
   ])
 })
 
-test('replay preflights all ten archives before extraction and publishes both orders', async t => {
+test('replay preflights all eleven archives before extraction and publishes both orders', async t => {
   const value = fixture(t)
   const calls = []
   const published = {canonical: [], fifo: []}
@@ -154,13 +155,13 @@ test('replay preflights all ten archives before extraction and publishes both or
     },
   })
 
-  assert.equal(calls.filter(call => call.startsWith('preflight:')).length, 10)
-  assert.equal(calls.filter(call => call.startsWith('extract:')).length, 10)
+  assert.equal(calls.filter(call => call.startsWith('preflight:')).length, 11)
+  assert.equal(calls.filter(call => call.startsWith('extract:')).length, 11)
   assert.ok(calls.lastIndexOf('preflight:source/guides-zh-CN') < calls.indexOf('extract:source/java'))
   assert.deepEqual(published.canonical, value.selection.units.map(unit => unit.unitKey))
   assert.deepEqual(published.fifo, deriveFifoUnitKeys(value.selection, value.jobs))
   assert.equal(result.canonicalTree, result.fifoTree)
-  assert.equal(result.unitCount, 10)
+  assert.equal(result.unitCount, 11)
   assert.deepEqual(verifyEvidence({evidenceRoot: value.evidenceRoot}).fifoUnitKeys, published.fifo)
 })
 
@@ -211,7 +212,7 @@ test('replay rejects missing units, mixed baselines, tree differences, and impli
     bareRemote: missing.bareRemote,
     evidenceRoot: missing.evidenceRoot,
     dependencies: {},
-  }), /exactly 10 checkpoint artifacts/i)
+  }), /exactly 11 checkpoint artifacts/i)
 
   const mixed = fixture(t)
   let preflightCount = 0
@@ -221,11 +222,11 @@ test('replay rejects missing units, mixed baselines, tree differences, and impli
     evidenceRoot: mixed.evidenceRoot,
     dependencies: {
       assertBareRemote() {},
-      preflight() { preflightCount += 1; return {manifest: {devBaselineSha: preflightCount === 10 ? SHA('9') : SHA('2'), masterSha: SHA('1')}} },
+      preflight() { preflightCount += 1; return {manifest: {devBaselineSha: preflightCount === 11 ? SHA('9') : SHA('2'), masterSha: SHA('1')}} },
       extract() { throw new Error('must not extract mixed baselines') },
     },
   }), /baseline/i)
-  assert.equal(preflightCount, 10)
+  assert.equal(preflightCount, 11)
 
   const trees = fixture(t)
   await assert.rejects(replayRun({
@@ -277,7 +278,7 @@ test('fault injection validates the retained run and routes an approved scenario
     status: 'injected',
     runId: 123,
     runAttempt: 1,
-    unitCount: 10,
+    unitCount: 11,
     failedUnitKey: 'source/go',
   })
   assert.deepEqual(

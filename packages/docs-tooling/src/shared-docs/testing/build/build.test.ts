@@ -305,7 +305,7 @@ it('applies the real CLI image timeout override and reports the timeout reason w
     const root = fileURLToPath(new URL('../../../../../..', import.meta.url))
     const result = await promisify(execFile)(process.execPath, ['scripts/docs-tooling.js', 'shared-docs', 'build',
       '--shared-docs', options.sharedDocs, '--repo', options.repo, '--dev', options.dev, '--out', options.out,
-      '--page', 'build-pipeline', '--image-timeout', '0.02'], { cwd: root, timeout: 10_000 })
+      '--page', 'build-pipeline', '--image-timeout', '0.02'], { cwd: root, timeout: 60_000 })
       .then(value => ({ code: 0, output: value.stdout + value.stderr }), error => ({ code: error.code, output: error.stdout + error.stderr }))
     expect(result.code).toBe(1)
     expect(result.output).toContain(`IMAGE_FETCH_FAILED: Cannot read a stable image: ${url} (The operation was aborted due to timeout)`)

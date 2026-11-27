@@ -160,7 +160,7 @@ jobs:
           const { execFileSync } = require('node:child_process');
           // Dependency-free copy of packages/docs-tooling/src/shared-docs/core/groups.ts
           // (SHARED_DOC_GROUPS); testing/workflows.test.ts asserts the lists stay identical.
-          const SHARED_DOC_GROUPS = ['guides', 'node'];
+          const SHARED_DOC_GROUPS = ['guides', 'node', 'rust'];
           const git = args => execFileSync('git', args, { encoding: 'utf8' });
           const paths = git(['ls-files', '--others', '--exclude-standard', '-z', '--', 'shared-docs/']).split('\0').filter(Boolean);
           // Accept exactly what the lock command writes per layout: page groups get

@@ -60,7 +60,9 @@ it('reads per-page version metadata carried into generated front matter', () => 
 })
 
 it('reports independent nested errors together with accurate one-based YAML locations', () => {
-  const result = parsePageConfig('Bad_ID', `schema_version: 2
+  // Underscores are legal page-ID characters since the rust manual (snake_case upstream
+  // stems), so the invalid-ID fixture uses a dot instead.
+  const result = parsePageConfig('dotted.name', `schema_version: 2
 source: {file: ../escape.md, extra: true}
 publish:
   - manual: missing

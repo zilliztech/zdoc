@@ -744,6 +744,7 @@
       "id": "manual-registry-and-workflow-units",
       "paths": [
         "packages/docs-tooling/src/manuals/**",
+        "config/reference-navigation.json",
         "scripts/docs-workflow/content-groups*",
         "scripts/docs-workflow/group-paths*",
         "scripts/docs-workflow/print-workflow-groups*",
@@ -1233,6 +1234,22 @@
         "git diff --check"
       ],
       "reason": "Docs UI text dictionary drives navbar, sidebar, search, and chat copy per site and locale; keep locale selection, secondary navbar label mapping, and Japanese copy deterministic."
+    },
+    {
+      "id": "docs-ui-reference-icons",
+      "paths": [
+        "packages/docs-ui/src/en/navigation/navIcons*",
+        "packages/docs-ui/src/shared/icons/**"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-ui/src/en/navigation/navIcons.test.tsx"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Navbar and sidebar SDK icons are keyed by reference kind; a new SDK section without a registered icon renders an iconless dropdown entry, so every generated reference target kind must resolve to a registry icon."
     },
     {
       "id": "docs-ui-docusaurus-plugin",

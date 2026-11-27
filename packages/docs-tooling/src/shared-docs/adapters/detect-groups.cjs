@@ -9,7 +9,7 @@ const {execFileSync} = require('node:child_process')
 // (SHARED_DOC_GROUPS): the detector executes before pnpm install, so it cannot
 // load the TypeScript authority. testing/workflows.test.ts asserts both lists
 // stay identical.
-const SHARED_DOC_GROUPS = ['guides', 'node']
+const SHARED_DOC_GROUPS = ['guides', 'node', 'rust']
 
 function detectGroups() {
   const {SOURCE_SHA, BASE_SHA, RUNNER_TEMP, GITHUB_OUTPUT} = process.env
