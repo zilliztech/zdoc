@@ -83,6 +83,7 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     'site-validation.yml',
     'sync-master-tooling-to-dev.yml',
     'translate-codex.yml',
+    'translate-zh-guides.yml',
   ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
