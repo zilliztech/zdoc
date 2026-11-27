@@ -1,0 +1,3 @@
+# Code owners for localized Chinese Guides source files.
+# Confirm @zilliztech/docs-team exists with write access in GitHub org settings before enabling required CODEOWNERS review in Branch Protection.
+/localized-docs/zh-CN/guides/ @zilliztech/docs-team

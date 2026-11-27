@@ -1,0 +1,132 @@
+name: localized docs validate
+run-name: localized-docs-validate ${{ inputs.request_id || github.event.pull_request.number || inputs.pr_number }}
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'localized-docs/zh-CN/guides/**'
+      - 'config/translation/zh-CN-common.json'
+      - 'config/translation/zh-CN-guides.json'
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number
+        required: true
+        type: string
+      source_sha:
+        description: Exact PR head to validate
+        required: true
+        type: string
+      base_sha:
+        description: Exact PR comparison base
+        required: true
+        type: string
+      request_id:
+        description: Optional caller identity for run discovery
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: localized-docs-validate-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: localized-docs-validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Validate immutable PR identities
+        id: identity
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || inputs.source_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$PR_NUMBER" =~ ^[1-9][0-9]*$ ]] || exit 1
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ && "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            test "$GITHUB_SHA" = "$SOURCE_SHA"
+          fi
+          printf 'source_sha=%s\nbase_sha=%s\n' "$SOURCE_SHA" "$BASE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Check out exact PR head
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.identity.outputs.source_sha }}
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Extract PR body metadata
+        id: pr_body
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          if (process.env.GITHUB_EVENT_NAME !== 'pull_request') {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_file=false\n');
+            process.exit(0);
+          }
+          const eventPath = process.env.GITHUB_EVENT_PATH;
+          if (!eventPath || !fs.existsSync(eventPath)) {
+            throw new Error('GITHUB_EVENT_PATH is required for pull_request PR body extraction');
+          }
+          const event = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+          if (!event || typeof event !== 'object' || !event.pull_request) {
+            throw new Error('pull_request payload missing from GITHUB_EVENT_PATH');
+          }
+          const bodyFile = path.join(process.env.RUNNER_TEMP, 'localized-docs-pr-body.md');
+          fs.writeFileSync(bodyFile, String(event.pull_request.body ?? ''), 'utf8');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_file=true\n');
+          NODE
+
+      - name: Validate localized Chinese Guides candidate
+        env:
+          HAS_PR_BODY_FILE: ${{ steps.pr_body.outputs.has_file }}
+        run: |
+          set -euo pipefail
+          extra_args=()
+          if [[ "$HAS_PR_BODY_FILE" == true ]]; then
+            extra_args+=(--pr-body-file "$RUNNER_TEMP/localized-docs-pr-body.md")
+          fi
+          status=0
+          pnpm docs-tooling localized-docs pr-check \
+            --root localized-docs/zh-CN/guides \
+            --preview-out "$RUNNER_TEMP/localized-docs-preview" \
+            ${extra_args[@]+"${extra_args[@]}"} > "$RUNNER_TEMP/localized-docs-validation.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/localized-docs-validation.log"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const log = fs.readFileSync(`${process.env.RUNNER_TEMP}/localized-docs-validation.log`, 'utf8');
+          const excerpt = log.split('\n').slice(-200).join('\n').slice(-32000).replace(/```/g, '[code fence]');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `Localized docs validation diagnostics (last 200 lines, up to 32000 characters):\n\n\`\`\`text\n${excerpt}\n\`\`\`\n`);
+          NODE
+          exit "$status"
+
+      - name: Upload dual-channel preview artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: localized-docs-preview-${{ github.event.pull_request.number || inputs.pr_number }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/localized-docs-preview
+          retention-days: 14
+          if-no-files-found: ignore

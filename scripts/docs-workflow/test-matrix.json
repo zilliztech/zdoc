@@ -1911,6 +1911,23 @@
         "git diff --check"
       ],
       "reason": "Localized zh-CN guides core schema, EN shell stripping, <UI>/channel validation, md2md preprocessing, and offline CLI checks."
+    },
+    {
+      "id": "localized-docs-pr-workflow",
+      "paths": [
+        ".github/workflows/localized-docs-validate.yml",
+        ".github/CODEOWNERS"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/localized-docs --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Localized zh-CN guides PR validation workflow and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, edited-triggered for todo-zero review gating, and owned by @zilliztech/docs-team."
     }
   ]
 }

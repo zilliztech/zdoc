@@ -3604,3 +3604,52 @@ test('the GA4 404 remediation Git writer inventory rejects renamed or extra push
     fs.rmSync(directory, {recursive: true, force: true})
   }
 })
+
+test('localized-docs PR validation workflow policy rejects permission, queue, trigger, SHA, PR body interpolation, and command mutations', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'localized-docs-policy-'))
+  const file = 'localized-docs-validate.yml'
+  const original = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
+  const objectMutation = mutate => source => {
+    const workflow = yaml.load(source)
+    mutate(workflow)
+    return yaml.dump(workflow, { lineWidth: -1, noRefs: true })
+  }
+  const step = (workflow, job, name) => workflow.jobs[job].steps.find(item => item.name === name)
+  const fixtures = [
+    [objectMutation(w => { w.permissions.contents = 'write' }), 'must remain strictly read-only'],
+    [objectMutation(w => { w.jobs.validate.permissions = { contents: 'write' } }), 'must remain strictly read-only'],
+    [objectMutation(w => { w.concurrency.group = 'docs-production-dev' }), 'only production dev queue owners may use docs-production-dev'],
+    [objectMutation(w => { w.concurrency.queue = 'max' }), 'isolated per-PR and per-event concurrency'],
+    [objectMutation(w => { w.concurrency['cancel-in-progress'] = false }), 'isolated per-PR and per-event concurrency'],
+    [objectMutation(w => { w.on.pull_request.branches = ['master', 'dev'] }), 'must target master'],
+    [objectMutation(w => { w.on.pull_request.types = ['opened', 'synchronize', 'reopened', 'ready_for_review'] }), 'edited in pull_request types'],
+    [objectMutation(w => { w.on.pull_request.paths = ['config/translation/zh-CN-common.json', 'config/translation/zh-CN-guides.json'] }), 'on localized-docs paths'],
+    [objectMutation(w => { w.on.workflow_dispatch.inputs.source_sha.required = false }), 'dispatch must expose immutable identities'],
+    [objectMutation(w => { w.jobs.validate['timeout-minutes'] = 15 }), '30-minute timeout'],
+    [objectMutation(w => { step(w, 'validate', 'Check out exact PR head').with.ref = '${{ github.head_ref }}' }), 'exact immutable PR head'],
+    [objectMutation(w => { step(w, 'validate', 'Check out exact PR head').with['persist-credentials'] = true }), 'exact immutable PR head'],
+    [objectMutation(w => { step(w, 'validate', 'Validate immutable PR identities').env.SOURCE_SHA = '${{ github.sha }}' }), 'immutable PR/SHA identities'],
+    [s => s.replace('test "$GITHUB_SHA" = "$SOURCE_SHA"', 'true'), 'immutable PR/SHA identities'],
+    [objectMutation(w => { const target = step(w, 'validate', 'Validate localized Chinese Guides candidate'); target.run = `${target.run}\necho '\${{ github.event.pull_request.body }}'` }), 'never interpolate PR body in shell scripts'],
+    [s => s.replace('pnpm docs-tooling localized-docs pr-check', 'pnpm docs-tooling localized-docs check'), 'fail-closed invoke pnpm docs-tooling localized-docs pr-check'],
+    [s => s.replace('exit "$status"', 'exit 0'), 'fail-closed invoke pnpm docs-tooling localized-docs pr-check'],
+    [objectMutation(w => { step(w, 'validate', 'Validate localized Chinese Guides candidate')['continue-on-error'] = true }), 'fail-closed invoke pnpm docs-tooling localized-docs pr-check'],
+    [objectMutation(w => { step(w, 'validate', 'Upload dual-channel preview artifact').with['retention-days'] = 7 }), '14-day retention'],
+  ]
+  try {
+    for (const [mutate, expected] of fixtures) {
+      const changed = mutate(original)
+      assert.notEqual(changed, original, `${file}: ${expected} mutation must change the source`)
+      const destination = path.join(directory, file)
+      fs.writeFileSync(destination, changed)
+      const errors = validateWorkflowPolicies(directory)
+      assert.ok(
+        errors.some(error => error.includes(expected)),
+        `${file}: expected "${expected}"; got:\n${errors.join('\n')}`,
+      )
+      fs.unlinkSync(destination)
+    }
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
