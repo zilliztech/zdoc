@@ -281,7 +281,15 @@ export function promoteLocalizedSource(
       block.precedingMarkerStart !== null ? block.precedingMarkerStart : block.openStart
 
     if (block.isBlockLevel) {
-      const cutStart = findLineStart(normalized, effectiveStart)
+      const markerAloneOnLine =
+        block.precedingMarkerStart !== null &&
+        normalized.slice(findLineStart(normalized, block.precedingMarkerStart), block.precedingMarkerStart).trim()
+          .length === 0
+      const cutStart = markerAloneOnLine
+        ? findLineStart(normalized, block.precedingMarkerStart!)
+        : block.precedingMarkerStart !== null
+          ? block.precedingMarkerStart
+          : findLineStart(normalized, block.openStart)
       const closeLineEnd = findLineEnd(normalized, block.closeEnd)
       const cutEnd =
         closeLineEnd < normalized.length && normalized[closeLineEnd] === '\n'

@@ -508,12 +508,15 @@ export function createLocalizedRoutingContext(
       const existing = nextByPageUrl.get(pageUrl)
       const record = recordsByPageUrl.get(pageUrl)
       const baseline = fallbackBaselineByPageUrl.get(pageUrl)
+      const fallbackPrimaryToken =
+        collectValidTokens([
+          baseline?.doc_token,
+          baseline?.node_token,
+          baseline?.origin_node_token,
+          baseline?.obj_token,
+        ])[0] ?? null
       const primaryToken =
-        existing?.feishu_token !== undefined
-          ? existing.feishu_token
-          : baseline?.doc_token && isValidFeishuAlias(baseline.doc_token)
-            ? baseline.doc_token
-            : null
+        existing?.feishu_token !== undefined ? existing.feishu_token : fallbackPrimaryToken
 
       const mergedAliases = primaryToken
         ? collectValidTokens([
