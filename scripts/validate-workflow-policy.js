@@ -1484,6 +1484,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v5 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
+      const finalizeLocalizedIndex = stepIndex('Finalize localized Chinese Guides publication')
+      const finalizeLocalizedStep = steps[finalizeLocalizedIndex]
+      if (finalizeLocalizedIndex < 0 ||
+          finalizeLocalizedIndex >= validateIndex ||
+          finalizeLocalizedStep?.if ||
+          !/\[\[ "\$\{\{ inputs\.site \}\}" == "zh-CN" && -d tmp\/docs-tooling\/zh-CN\/localized-pages\/guides \]\]/.test(finalizeLocalizedStep?.run || '') ||
+          !/guides-localized-sources\.js --operation finalize/.test(finalizeLocalizedStep?.run || '')) {
+        errors.push(`${file}: localized Chinese Guides finalization must run only on zh-CN and precede combined guides validation`)
+      }
       if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
         errors.push(`${file}: observe-only assembly must validate decision, generate, validate the selected site, then finalize identity`)
       }
@@ -1496,6 +1505,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: Guides assembly must fail early on source completeness, media, coverage, and generated navigation for the selected site`)
       }
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
+      if (!/guides-localized-sources\.js --operation validate/.test(checkpointStep?.run || '')) {
+        errors.push(`${file}: Guides checkpoint creation must wire localized Chinese Guides validation when localized outputs exist`)
+      }
       const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}"
       if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||
           !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
@@ -2449,6 +2461,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!(tableIndex >= 0 && tableIndex < decisionIndex && decisionIndex < artifactIndex) ||
         !/git -C "\$RUNNER_TEMP\/baseline" rev-parse HEAD[\s\S]*guides-assembly-identity\.js decide[\s\S]*--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"[\s\S]*validate-decision[\s\S]*decision-sha[\s\S]*assembly_decision_sha256/.test(decisionStep?.run || '')) {
       errors.push('_fetch-guides-sources.yml: assembly reuse decision must follow final table planning and precede source artifact creation')
+    }
+    const localizedStep = guidesSteps.find(step => step.name === 'Generate selected localized Chinese Guides sources')
+    if (!localizedStep || localizedStep.if !== "${{ inputs.site == 'zh-CN' }}" ||
+        !/guides-localized-sources\.js/.test(localizedStep.run || '')) {
+      errors.push('_fetch-guides-sources.yml: localized Chinese Guides source generation must stay isolated to site zh-CN')
+    }
+    const baselineStep = guidesSteps.find(step => step.name === 'Prepare immutable baseline')
+    if (!/generated\/zh-CN\/manifests\/localized-pages\/guides/.test(baselineStep?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: immutable baseline preparation must seed localized Chinese Guides manifests for zh-CN')
     }
     if (!/^      assembly_decision_sha256: \{ value: '\$\{\{ jobs\.fetch\.outputs\.assembly_decision_sha256 \}\}' \}$/m.test(guidesSource) || !/^      assembly_decision_sha256: \$\{\{ steps\.assembly_decision\.outputs\.assembly_decision_sha256 \}\}$/m.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: must expose the canonical assembly decision hash')
