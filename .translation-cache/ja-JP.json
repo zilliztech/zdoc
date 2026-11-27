@@ -671,9 +671,9 @@
       "translatedAt": "2026-11-09T12:49:41.519Z"
     },
     "content/en/byoc/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "8b72fbc279945b417a8db405c50eddaa7e056a040ab84c5df8160e40f549b440",
+      "sourceHash": "ace95a63ffe73bc5065572fdd0a2d56bb34a8278347376f744dd628dd704bd6b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-11-17T13:45:09.949Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/byoc/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "fb7ef974caadcc707901aaa8d0a2a20afc630f5a8594c126742b9b7ef70a88a2",
@@ -771,9 +771,9 @@
       "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "e824da25abc1d8cd056ed5c14849520a7770c920f8dcb01915db6921a0076642",
+      "sourceHash": "4429c79199bd0b591992928ae92ae9848d2fa82c2ac025e04ef6b5dc0600e6e2",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-11-26T11:42:55.972Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/byoc/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "a680dcd83ac255713f973004e16b4b16b3faa06e3746e94703c8b573f80836c1",
@@ -1186,9 +1186,9 @@
       "translatedAt": "2026-10-29T12:55:32.070Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "fab626a2d4e566689c0575253ef0c9fc241c3ded5c1fd0b6336c856f7444ddcc",
+      "sourceHash": "3f47c6d7a708b41152f6f7e1637a9ecdf7a26a514da8c9c8058ea7e5aa13be3d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-09T12:57:16.914Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "b96472ac06c34e2613482cd4f46df544afe452918502925e6c47e8266c534138",
@@ -1351,9 +1351,9 @@
       "translatedAt": "2026-11-09T12:57:16.914Z"
     },
     "content/en/byoc/tutorials/management/limits/limits.md": {
-      "sourceHash": "c16ae2d785972de74eb3030a90f204edd99ea4297894e7cd0c33fd518e419bfe",
+      "sourceHash": "8051c69284c430e784585741933a05945d605fb0e4c7743efaebce238082b68d",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-10-10T05:49:11.808Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/byoc/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "8fd6fe449bb9df09755dc667290d479ca77cd0ac1615cecd604e9c7bbaeda12f",
@@ -2116,9 +2116,9 @@
       "translatedAt": "2026-11-09T13:47:51.369Z"
     },
     "content/en/guides/tutorials/development/schema/use-text-field.md": {
-      "sourceHash": "14c770d70bd05270b9a8d89832c0e4192dba915ee8e6a6afea8c4bc30ea094d5",
+      "sourceHash": "30e29742d3b251d6217db96c9a80a4be7bbf5cdfebe54c6b7d71f7a9bffc507a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-text-field.md",
-      "translatedAt": "2026-11-17T13:45:09.949Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/guides/tutorials/development/schema/use-timestamptz-field.md": {
       "sourceHash": "a3aef1f7ae73e7916213786b29bd687f52f04d535ecb860d3bde8e51f0fc7b45",
@@ -2216,9 +2216,9 @@
       "translatedAt": "2026-11-26T07:41:12.555Z"
     },
     "content/en/guides/tutorials/development/search-and-query/phrase-match.md": {
-      "sourceHash": "35f09ed1b442da0fc014dd6a9011f3cc339126532212e29688faf08c197d0736",
+      "sourceHash": "2dc61380aeb2c1fa96d07a19188bc9607200adbd3aedce58d13d0cec13d81842",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/phrase-match.md",
-      "translatedAt": "2026-11-26T11:42:55.972Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/guides/tutorials/development/search-and-query/primary-key-search.md": {
       "sourceHash": "b5dea7746c94210f93166c8b5621b5c1723a88ee81584d025481b3b637b4a6a9",
@@ -2901,9 +2901,9 @@
       "translatedAt": "2026-10-29T12:57:57.824Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
-      "sourceHash": "aaf0c1fed60bdf9ec0d4cff3c6aa6881de3f57273108799ee132658d2fd5001f",
+      "sourceHash": "7daee0238dbd511e3238371f6af12ac3d8789af0aadc08cd26ed771db33b81b0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
-      "translatedAt": "2026-11-09T13:57:51.180Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/guides/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
       "sourceHash": "b286291bdcf7a5d9273b71822f3e92ff3067d61009a660f7bcc4cf35ba526b19",
@@ -2986,9 +2986,9 @@
       "translatedAt": "2026-11-09T13:57:51.180Z"
     },
     "content/en/guides/tutorials/management/cost-management/cost-optimization.md": {
-      "sourceHash": "3dac579a5c4f2a39a65153e9f9500fea91002be67c574b7a9bec90ec89a71f20",
+      "sourceHash": "8190abd55b56a83fa06134caa5065d4f82cde92ff67a744af649999ebc3c0c91",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/cost-management/cost-optimization.md",
-      "translatedAt": "2026-11-25T11:50:14.728Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/guides/tutorials/management/cost-management/understand-cost/data-transfer-cost.md": {
       "sourceHash": "30f26524e99ee48815d5043c870e2e9c79261f25656bf0a1af68f48d2c6e65e7",
@@ -3111,9 +3111,9 @@
       "translatedAt": "2026-10-28T03:00:26.017Z"
     },
     "content/en/guides/tutorials/management/limits/limits.md": {
-      "sourceHash": "b991d6caaae5effac598696ed2cc49d6c42357688c290e9cc2f111163e43436f",
+      "sourceHash": "909c7be1719c93fbbffc09eafe258098839e848a4957df1b72761c142f136ba0",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/limits/limits.md",
-      "translatedAt": "2026-10-10T05:59:09.018Z"
+      "translatedAt": "2026-11-27T08:46:21.875Z"
     },
     "content/en/guides/tutorials/management/metrics-alerts/manage-notification-channels.md": {
       "sourceHash": "d2c31aecd0a69746128078f0a98ab1b6056d4364c7613456bbc58be3d0385efa",

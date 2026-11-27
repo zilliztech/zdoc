@@ -202,7 +202,7 @@ if (!status.IsOk()) {
 <TabItem value='javascript'>
 
 ```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 // Use the global endpoint for automatic routing
 const client = new MilvusClient({
@@ -227,7 +227,7 @@ using Milvus.Client.V2.Types;
 var client = new MilvusClientV2(new ConnectConfig
 {
     Uri = "YOUR_GLOBAL_ENDPOINT",  // Global endpoint from the console
-    Username = "YOUR_CLUSTER_TOKEN" // API key or username:password
+    ApiKey = "YOUR_CLUSTER_TOKEN"  // API key or username:password
 });
 ```
 
@@ -271,7 +271,7 @@ curl --request POST \
 
 ```go
 // Connect directly to a specific cluster
-, &milvusclient.ClientConfig{
+client, err := milvusclient.New(context.Background(), &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_PUBLIC_ENDPOINT", // Public endpoint of a specific cluster
     APIKey:  "YOUR_CLUSTER_TOKEN",           // API key or username:password
 })

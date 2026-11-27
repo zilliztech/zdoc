@@ -166,13 +166,13 @@ export contentField='{
 
 TEXT フィールドは null 値をサポートします。この機能を有効にするには、nullable を True に設定します。詳細については、[Nullable Fields](./nullable-fields) を参照してください。
 
+Milvus v3.0.x と互換性のあるクラスターでは、`enable_analyzer` と `enable_match` の両方が `True` に設定されている場合、`TEXT` フィールドは `TEXT_MATCH` と `PHRASE_MATCH` をサポートします。詳細については、[Phrase Match](./phrase-match) を参照してください。
+
 </Admonition>
 
 ## 制限事項\{#limits}
 
 - `TEXT` フィールドはプライマリフィールドにできません。プライマリフィールドは `INT64` と `VARCHAR` をサポートします。
-
-- `TEXT` フィールドは `PHRASE_MATCH` をサポートしません。
 
 - `TEXT` フィールドはデフォルト値をサポートしません。
 

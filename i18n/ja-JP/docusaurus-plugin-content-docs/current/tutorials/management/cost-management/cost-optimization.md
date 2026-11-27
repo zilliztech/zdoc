@@ -186,7 +186,6 @@ mmap 設定を変更する前にコレクションをリリースし、変更後
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
@@ -493,6 +492,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .annsField("embedding")
+        .metricType(IndexParam.MetricType.COSINE)
         .topK(10)
         .build();
 
@@ -510,11 +510,13 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
-).WithANNSField("embedding"))
+).WithANNSField("embedding").WithSearchParam("metric_type", "COSINE"))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println(resultSets)
 ```
 
 </TabItem>
@@ -531,6 +533,7 @@ let results = client
             .collection_name("my_collection")
             .vector_field("embedding")
             .vectors(SearchVectors::Float(vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]))
+            .metric_type(MetricType::Cosine)
             .limit(10)
             .build()?,
     )
@@ -569,6 +572,7 @@ const results = await client.search({
     collection_name: "my_collection",
     data: query_vector,
     anns_field: "embedding",
+    params: { metric_type: "COSINE" },
     limit: 10,
 });
 ```
@@ -592,6 +596,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
     CollectionName = "my_collection",
     VectorFieldName = "embedding",
     Vectors = [queryVector],
+    MetricType = MetricType.Cosine,
     Limit = 10
 });
 ```
@@ -615,6 +620,7 @@ curl --request POST \
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
     "annsField": "embedding",
+    "searchParams": {"metricType": "COSINE"},
     "limit": 10
 }'
 ```
@@ -652,6 +658,7 @@ SearchReq searchReq = SearchReq.builder()
         .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .annsField("embedding")
+        .metricType(IndexParam.MetricType.COSINE)
         .topK(10)
         // Do not return "content" and other large fields
         .outputFields(Arrays.asList("id", "title", "category"))
@@ -671,11 +678,13 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     10,              // limit
     []entity.Vector{entity.FloatVector(queryVector)},
-).WithANNSField("embedding").WithOutputFields("id", "title", "category")) // Do not return "content" and other large fields
+).WithANNSField("embedding").WithSearchParam("metric_type", "COSINE").WithOutputFields("id", "title", "category")) // Do not return "content" and other large fields
 if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
+
+fmt.Println(resultSets)
 ```
 
 </TabItem>
@@ -692,6 +701,7 @@ let results = client
             .collection_name("my_collection")
             .vector_field("embedding")
             .vectors(SearchVectors::Float(vec![vec![0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]))
+            .metric_type(MetricType::Cosine)
             .limit(10)
             .output_fields(["id", "title", "category"]) // Do not return "content" and other large fields
             .build()?,
@@ -732,6 +742,7 @@ const results = await client.search({
     collection_name: "my_collection",
     data: query_vector,
     anns_field: "embedding",
+    params: { metric_type: "COSINE" },
     limit: 10,
     // Do not return "content" and other large fields
     output_fields: ["id", "title", "category"],
@@ -757,6 +768,7 @@ SearchResp results = await client.SearchAsync(new SearchReq
     CollectionName = "my_collection",
     VectorFieldName = "embedding",
     Vectors = [queryVector],
+    MetricType = MetricType.Cosine,
     Limit = 10,
     Parameters = new SearchParameters
     {
@@ -785,6 +797,7 @@ curl --request POST \
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
     "annsField": "embedding",
+    "searchParams": {"metricType": "COSINE"},
     "limit": 10,
     "outputFields": ["id", "title", "category"]
 }'
