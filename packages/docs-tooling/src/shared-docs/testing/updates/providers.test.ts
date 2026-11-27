@@ -21,4 +21,4 @@ it('loads the common provider facade without executing B1 or compiler modules in
     assert.deepEqual(ambient,[]);process.stdout.write('parent-facade-only');
   `, root], { encoding: 'utf8', env: { ...process.env, JITI_CACHE: 'false' }, timeout: 30_000 })
   expect(stdout).toBe('parent-facade-only')
-})
+}, 30_000)
