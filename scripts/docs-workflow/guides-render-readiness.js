@@ -33,8 +33,10 @@ function validateGuidesRenderReadiness(options) {
   }
   let snapshot = options.snapshot || JSON.parse(fs.readFileSync(options.snapshotPath, 'utf8'))
   const sharedBundle = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
+  const localizedSources = require('./guides-localized-sources')
   const bundlePath = path.join(workspace, sharedBundle.ROOT)
   let sharedReceiptsByRecordId
+  let localizedReceiptsByPageUrl
   if (site === 'en' && fs.existsSync(bundlePath)) {
     const handoff = sharedBundle.loadBundle(bundlePath)
     if (handoff.continuation) {
@@ -46,6 +48,10 @@ function validateGuidesRenderReadiness(options) {
       snapshot = require('../../packages/docs-tooling/src/lark/sharedPageFetch').pendingSourceSnapshot(snapshot, handoff.routing)
     }
   }
+  const localizedBundlePath = path.join(workspace, localizedSources.LOCALIZED_BUNDLE_ROOT)
+  if (site === 'zh-CN' && fs.existsSync(localizedBundlePath)) {
+    localizedReceiptsByPageUrl = localizedSources.loadLocalizedBundle(localizedBundlePath).receiptsByPageUrl
+  }
   return assertSourceCompleteness({
     manual: 'guides',
     buildEnv: 'uat',
@@ -53,6 +59,7 @@ function validateGuidesRenderReadiness(options) {
     sourceDir: path.join(workspace, expectedIdentity.sourceDir),
     snapshot,
     sharedReceiptsByRecordId,
+    localizedReceiptsByPageUrl,
   })
 }
 

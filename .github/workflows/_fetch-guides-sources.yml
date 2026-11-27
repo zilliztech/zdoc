@@ -90,6 +90,12 @@ jobs:
               mkdir -p generated/en/manifests/shared-pages
               cp -a "$RUNNER_TEMP/baseline/generated/en/manifests/shared-pages/guides" generated/en/manifests/shared-pages/
             fi
+          elif [[ "${{ inputs.site }}" == zh-CN ]]; then
+            rm -rf generated/zh-CN/manifests/localized-pages/guides
+            if [[ -d "$RUNNER_TEMP/baseline/generated/zh-CN/manifests/localized-pages/guides" ]]; then
+              mkdir -p generated/zh-CN/manifests/localized-pages
+              cp -a "$RUNNER_TEMP/baseline/generated/zh-CN/manifests/localized-pages/guides" generated/zh-CN/manifests/localized-pages/
+            fi
           fi
       - name: Preflight Guides Base before source fetch
         run: node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs --manual guides --guidesBasePreflight --buildEnv uat
@@ -285,6 +291,19 @@ jobs:
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           SPACE_ID: ${{ secrets.SPACE_ID }}
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+      - name: Generate selected localized Chinese Guides sources
+        if: ${{ inputs.site == 'zh-CN' }}
+        run: |
+          node scripts/docs-workflow/guides-localized-sources.js \
+            --operation generate \
+            --workspace "$GITHUB_WORKSPACE" --baseline "$RUNNER_TEMP/baseline" \
+            --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+            --previous-snapshot "$snapshot_path" \
+            --out tmp/docs-tooling/zh-CN/localized-pages/guides \
+            --run-id "${{ github.run_id }}"
+        env:
+          IMAGE_BED_URL: ${{ vars.ZH_CN_IMAGE_BED_URL }}
       - name: Audit canonical links in fetched Guides sources
         run: |
           node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs \
@@ -476,8 +495,8 @@ jobs:
           if-no-files-found: ignore
       - name: Create shared source artifact
         run: |
-          # Shared drafts are authenticated by the source artifact, never by final cache completeness.
-          if [[ ! -d tmp/docs-tooling/en/shared-pages/guides ]]; then
+          # Shared/localized drafts are authenticated by the source artifact, never by final cache completeness.
+          if [[ ! -d tmp/docs-tooling/en/shared-pages/guides && ! -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then
             node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
           fi
           node scripts/docs-workflow/guides-stage-artifact.js --operation create --site "$ZDOC_SITE" --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"

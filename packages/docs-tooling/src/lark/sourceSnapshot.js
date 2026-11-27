@@ -1,5 +1,6 @@
 const crypto = require('node:crypto')
 const {routeForRecord, validateSharedSnapshotRecord, sourceFieldsForRecord} = require('./sharedPageRouting')
+const {validateLocalizedSnapshotRecord, recordPageUrl} = require('./localizedPageRouting')
 const fs = require('node:fs')
 const path = require('node:path')
 const {
@@ -62,19 +63,26 @@ function validateCandidateSnapshot(candidate, expected = {}) {
   const recordIds = new Set(), docTokens = new Set()
   for (const record of candidate.records) {
     if (!record || typeof record !== 'object' || typeof record.record_id !== 'string' || !record.record_id) throw new Error('Candidate snapshot record ID is required')
-    if (record.source_kind === undefined && record.shared_page !== undefined) throw new Error('Shared identity requires its snapshot discriminant')
-    if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown snapshot source kind')
+    if (record.source_kind === undefined && (record.shared_page !== undefined || record.localized_page !== undefined)) throw new Error('Shared identity requires its snapshot discriminant')
+    if (record.source_kind !== undefined && record.source_kind !== 'shared-page' && record.source_kind !== 'localized-page') throw new Error('Unknown snapshot source kind')
     if (record.source_kind === 'shared-page') {
       const sharedCapable = candidate.manual === 'guides' ? candidate.schema_version === 3
         : require('./sharedGroups').sharedGroupConfig(candidate.manual).group === candidate.manual && candidate.schema_version === 2
       if (!sharedCapable) throw new Error(`Shared records require a shared-docs snapshot for ${candidate.manual} (Guides schema 3, others schema 2)`)
       validateSharedSnapshotRecord(record)
     }
-    if (record.source_kind !== 'shared-page' && (typeof record.doc_token !== 'string' || !record.doc_token)) throw new Error('Candidate snapshot document token is required')
+    if (record.source_kind === 'localized-page') {
+      if (candidate.manual !== 'guides' || candidate.schema_version !== 3) {
+        throw new Error(`Localized records require a Guides schema 3 snapshot for ${candidate.manual}`)
+      }
+      validateLocalizedSnapshotRecord(record)
+    }
+    const isGitSourced = record.source_kind === 'shared-page' || record.source_kind === 'localized-page'
+    if (!isGitSourced && (typeof record.doc_token !== 'string' || !record.doc_token)) throw new Error('Candidate snapshot document token is required')
     if (recordIds.has(record.record_id) || (record.doc_token && docTokens.has(record.doc_token))) throw new Error('Candidate snapshot contains duplicate records')
     recordIds.add(record.record_id); if (record.doc_token) docTokens.add(record.doc_token)
-    if (record.source_kind !== 'shared-page' && (typeof record.source_file !== 'string' || !record.source_file)) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
-    if (record.source_kind !== 'shared-page' && !/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
+    if (!isGitSourced && (typeof record.source_file !== 'string' || !record.source_file)) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
+    if (!isGitSourced && !/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
     if (!Array.isArray(record.outgoing_tokens)) throw new Error(`Candidate snapshot outgoing tokens are invalid for ${record.doc_token}`)
     if (record.output_paths !== undefined && !Array.isArray(record.output_paths)) throw new Error(`Candidate snapshot output paths are invalid for ${record.doc_token}`)
     for (const outputPath of record.output_paths || []) {
@@ -269,6 +277,7 @@ function createSourceSnapshot({
   nodeMetadataByToken = new Map(),
   outputPathsByToken = new Map(),
   outputPathsByRecordId = new Map(),
+  outputPathsByPageUrl = new Map(),
   routingContext = null,
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
@@ -290,6 +299,7 @@ function createSourceSnapshot({
     base_app_token: baseAppToken,
     records: canonicalRecords.map(record => {
       const shared = record.source_kind === 'shared-page'
+      const localized = record.source_kind === 'localized-page'
       const source = record.doc_token ? sourceByToken.get(record.doc_token) : null
       const baseRecord = baseRecordById.get(record.record_id)
       const targetField = baseRecord?.fields?.Targets ?? baseRecord?.fields?.['Publish Targets'] ?? []
@@ -310,6 +320,24 @@ function createSourceSnapshot({
           output_paths: [...new Set(outputPathsByRecordId.get(record.record_id) || [])].sort(),
         }
         validateSharedSnapshotRecord(result)
+        return result
+      }
+      if (localized) {
+        const navigation = guidesNavigation.navigationRecords.find(entry => entry.record_id === record.record_id)
+        const pageUrl = record.localized_page?.page_url || recordPageUrl(baseRecord || record)
+        const result = {
+          ...record, source_file: null, source_hash: null, node_metadata: null,
+          page_url: pageUrl,
+          labels: navigation?.labels ?? '', parent_record_ids: navigation?.parent_record_ids ?? [], order: navigation?.order ?? 0,
+          publish_targets: [...new Set(publishTargets)].sort(),
+          publish_status: plainValue(baseRecord?.fields?.Status ?? baseRecord?.fields?.Progress) || null,
+          release_channel: guidesRecordChannel(baseRecord), outgoing_tokens: [],
+          output_paths: [...new Set([
+            ...(outputPathsByPageUrl.get(pageUrl) || []),
+            ...(outputPathsByRecordId.get(record.record_id) || []),
+          ])].sort(),
+        }
+        validateLocalizedSnapshotRecord(result)
         return result
       }
       const nodeToken = nodeMetadata?.node_token || source?.node_token || null

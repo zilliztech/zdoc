@@ -1929,6 +1929,30 @@
         "git diff --check"
       ],
       "reason": "Localized zh-CN guides PR validation workflow, scheduled rolling-PR/digest workflow, and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, isolated from docs-production-dev, and owned by @zilliztech/techcomms."
+    },
+    {
+      "id": "localized-pages-fetch-and-replay",
+      "paths": [
+        "packages/docs-tooling/src/lark/localizedPageRouting*",
+        "scripts/docs-workflow/guides-localized-sources*",
+        "scripts/docs-workflow/replay-localized-pages*"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/lark/localizedPageRouting.test.js scripts/docs-workflow/guides-localized-sources.test.js",
+        "pnpm exec vitest run packages/docs-tooling/src/localized-docs --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [
+        "pnpm test:replay:localized-pages",
+        "pnpm test:replay:fetch"
+      ],
+      "gates": [
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm typecheck",
+        "pnpm test:workflow-policy",
+        "pnpm test:workflow-matrix",
+        "git diff --check"
+      ],
+      "reason": "Localized zh-CN Guides Fetch routing, pinned-Git assembly, record_id-decoupled active/receipt handoff, Promote unwrapping, and isolated local bare-remote replay preserve strict zh-CN Guides write-boundary isolation and per-page fallback."
     }
   ]
 }

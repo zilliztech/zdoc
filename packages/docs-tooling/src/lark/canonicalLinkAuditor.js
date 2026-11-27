@@ -315,11 +315,18 @@ function buildCanonicalMap(records, sources, {routingContext = null} = {}) {
       canonicalByToken.set(alias, record)
     }
   }
-  for (const [alias, recordId] of routingContext?.aliasesByToken || []) {
-    const record = canonicalByRecordId.get(recordId)
-    if (!record) throw new Error(`Shared alias has no canonical owner: ${recordId}`)
+  const isLocalized = Boolean(routingContext && (routingContext.site === 'zh-CN' || routingContext.routesByPageUrl instanceof Map))
+  const { recordPageUrl } = require('./localizedPageRouting')
+  const canonicalByPageUrl = isLocalized
+    ? new Map(canonicalRecords.map(record => [record.localized_page?.page_url || recordPageUrl(record), record]).filter(([url]) => Boolean(url)))
+    : null
+  for (const [alias, ownerKey] of routingContext?.aliasesByToken || []) {
+    const record = isLocalized ? canonicalByPageUrl.get(ownerKey) : canonicalByRecordId.get(ownerKey)
+    if (!record) throw new Error(`Shared alias has no canonical owner: ${ownerKey}`)
     const existing = canonicalByToken.get(alias)
-    if (existing && existing.record_id !== recordId) throw new Error(`Conflicting canonical alias: ${alias}`)
+    if (existing && (isLocalized ? (existing.localized_page?.page_url || recordPageUrl(existing)) !== ownerKey : existing.record_id !== ownerKey)) {
+      throw new Error(`Conflicting canonical alias: ${alias}`)
+    }
     canonicalByToken.set(alias, record)
   }
   return { canonicalByToken, canonicalByRecordId, canonicalRecords }

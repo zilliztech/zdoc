@@ -4,6 +4,7 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const {sharedSourceProjection} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
+const {localizedSourceProjection} = require('../../packages/docs-tooling/src/lark/localizedPageRouting')
 
 const RECORD_FIELDS = Object.freeze([
   'record_id', 'placement_type', 'source_file', 'source_hash', 'doc_token',
@@ -31,9 +32,10 @@ function semanticGuidesSnapshotProjection(snapshot) {
   }
   const records = snapshot.records.map(record => {
     if (!record || typeof record.record_id !== 'string' || !record.record_id) throw new Error('Stable Guides record identity requires record_id')
-    if (record.source_kind !== undefined && record.source_kind !== 'shared-page') throw new Error('Unknown Guides cache source kind')
+    if (record.source_kind !== undefined && record.source_kind !== 'shared-page' && record.source_kind !== 'localized-page') throw new Error('Unknown Guides cache source kind')
     const projected = Object.fromEntries(RECORD_FIELDS.map(field => [field, valueOrNull(record[field])]))
     if (record.source_kind === 'shared-page') Object.assign(projected, sharedSourceProjection(record))
+    if (record.source_kind === 'localized-page') Object.assign(projected, localizedSourceProjection(record))
     projected.outgoing_tokens = sortedStrings(record.outgoing_tokens || [], `Guides record ${record.record_id} outgoing_tokens`)
     return projected
   }).sort((left, right) => left.record_id.localeCompare(right.record_id))
@@ -75,6 +77,11 @@ function cacheSaveRequired({ cacheVersion, prefetchMode, candidateSnapshotPath, 
   if (selectionMode === 'requested') return false
   const bundleApi = require('../../packages/docs-tooling/src/lark/sharedPageBundle')
   if (fs.existsSync(bundleApi.ROOT) && bundleApi.loadBundle(bundleApi.ROOT).bundle.outcomes.some(row => row.status === 'fallback')) return false
+  const localizedBundleFile = 'tmp/docs-tooling/zh-CN/localized-pages/guides/bundle.json'
+  if (fs.existsSync(localizedBundleFile)) {
+    const localizedBundle = readJson(localizedBundleFile)
+    if (localizedBundle.cache_eligible === false || (localizedBundle.outcomes || []).some(row => row.status === 'fallback')) return false
+  }
   const candidateHash = semanticGuidesSnapshotHash(candidateSnapshotPath)
   if (cacheVersion !== 'v5' || prefetchMode === 'recovery' || !fs.existsSync(baselineSnapshotPath)) return true
   try { return candidateHash !== semanticGuidesSnapshotHash(baselineSnapshotPath) } catch { return true }
