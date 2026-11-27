@@ -501,7 +501,17 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       process.exitCode = await runPrCheck(options, text => process.stdout.write(text), text => process.stderr.write(text));
       return true;
     }
-    process.stderr.write('Error: localized-docs action must be check, build, draft, or pr-check\n');
+    if (argv[1] === 'bootstrap') {
+      let options: import('./localized-docs/commands/bootstrap.ts').BootstrapOptions;
+      try {
+        const {parseBootstrapArgs} = await import('./localized-docs/commands/bootstrap.ts');
+        options = parseBootstrapArgs(argv.slice(2));
+      } catch (error) { process.stderr.write(`${String(error)}\n`); process.exitCode = 2; return true; }
+      const {runBootstrap} = await import('./localized-docs/commands/bootstrap.ts');
+      process.exitCode = await runBootstrap(options, text => process.stdout.write(text), text => process.stderr.write(text), repositoryRoot);
+      return true;
+    }
+    process.stderr.write('Error: localized-docs action must be check, build, draft, pr-check, or bootstrap\n');
     process.exitCode = 2;
     return true;
   }
