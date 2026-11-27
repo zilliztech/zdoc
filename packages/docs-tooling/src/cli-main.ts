@@ -491,7 +491,17 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       }, text => process.stdout.write(text), text => process.stderr.write(text), repositoryRoot);
       return true;
     }
-    process.stderr.write('Error: localized-docs action must be check, build, or draft\n');
+    if (argv[1] === 'pr-check') {
+      let options: import('./localized-docs/commands/pr-check.ts').PrCheckOptions;
+      try {
+        const {parsePrCheckArgs} = await import('./localized-docs/commands/pr-check.ts');
+        options = parsePrCheckArgs(argv.slice(2));
+      } catch (error) { process.stderr.write(`${String(error)}\n`); process.exitCode = 2; return true; }
+      const {runPrCheck} = await import('./localized-docs/commands/pr-check.ts');
+      process.exitCode = await runPrCheck(options, text => process.stdout.write(text), text => process.stderr.write(text));
+      return true;
+    }
+    process.stderr.write('Error: localized-docs action must be check, build, draft, or pr-check\n');
     process.exitCode = 2;
     return true;
   }
