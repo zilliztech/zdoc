@@ -1927,7 +1927,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Localized zh-CN guides PR validation workflow and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, edited-triggered for todo-zero review gating, and owned by @zilliztech/docs-team."
+      "reason": "Localized zh-CN guides PR validation workflow and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, edited-triggered for todo-zero review gating, and owned by @zilliztech/techcomms."
     }
   ]
 }
