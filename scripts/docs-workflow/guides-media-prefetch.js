@@ -5,6 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const slugify = require('slugify')
 const {validateSharedSnapshotRecord} = require('../../packages/docs-tooling/src/lark/sharedPageRouting')
+const {validateLocalizedSnapshotRecord} = require('../../packages/docs-tooling/src/lark/localizedPageRouting')
 
 function figmaIdentity(rawUrl) {
   const url = new URL(decodeURIComponent(rawUrl))
@@ -26,6 +27,7 @@ function allSourceFiles(sourceDir) {
 function sourceFilesForSnapshot(sourceDir, snapshot) {
   for (const record of snapshot.records || []) {
     if (record.source_kind === 'shared-page') validateSharedSnapshotRecord(record)
+    else if (record.source_kind === 'localized-page') validateLocalizedSnapshotRecord(record)
     else if (record.source_kind !== undefined) throw new Error(`Unknown media source kind: ${record.source_kind}`)
   }
   const available = new Set(allSourceFiles(sourceDir))
@@ -57,6 +59,7 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
   const sourceByToken = new Map()
   for (const record of snapshot.records || []) {
     if (record.source_kind === 'shared-page') { validateSharedSnapshotRecord(record); continue }
+    if (record.source_kind === 'localized-page') { validateLocalizedSnapshotRecord(record); continue }
     if (record.source_kind !== undefined) throw new Error(`Unknown media source kind: ${record.source_kind}`)
     for (const token of [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].filter(Boolean)) {
       sourceByToken.set(token, record.source_file)

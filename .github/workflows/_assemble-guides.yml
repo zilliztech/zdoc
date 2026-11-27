@@ -185,6 +185,11 @@ jobs:
       - name: Finalize shared Guides publication
         run: |
           node scripts/docs-workflow/guides-shared-publication.js --operation finalize --workspace "$GITHUB_WORKSPACE" --candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+      - name: Finalize localized Chinese Guides publication
+        run: |
+          if [[ "${{ inputs.site }}" == "zh-CN" && -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then
+            node scripts/docs-workflow/guides-localized-sources.js --operation finalize --workspace "$GITHUB_WORKSPACE" --candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          fi
       - name: Validate combined guides output
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
@@ -256,6 +261,11 @@ jobs:
             echo 'selection=effective' >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          if [[ "${{ inputs.site }}" == zh-CN && -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then
+            node scripts/docs-workflow/guides-localized-sources.js --operation promote --workspace "$GITHUB_WORKSPACE" --output "$snapshot" --source-dir "$source_dir" --source-branch "${{ inputs.target_branch }}"
+            echo 'selection=effective' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           selection=$(node scripts/docs-workflow/guides-cache-generation-lifecycle.js select \
             --cache-version "${{ inputs.cache_version }}" \
             --save-required "${{ inputs.cache_save_required }}" \
@@ -284,6 +294,7 @@ jobs:
           snapshot="$snapshot_path"
           manifest="$source_manifest_path"
           if [[ -f generated/en/manifests/shared-pages/guides/_publication.json ]] && [[ $(node -p 'require("./generated/en/manifests/shared-pages/guides/_publication.json").cache_eligible') == false ]]; then exit 0; fi
+          if [[ "${{ inputs.site }}" == zh-CN && -f generated/zh-CN/manifests/localized-pages/guides/_publication.json ]] && [[ $(node -p 'require("./generated/zh-CN/manifests/localized-pages/guides/_publication.json").cache_eligible') == false ]]; then exit 0; fi
           node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot "$snapshot" --output "$manifest" --media-manifest "$media_manifest_path" --root-token "$root_token"
       - id: guides_v5_generation
         name: Create Guides v5 generation payload
@@ -326,7 +337,9 @@ jobs:
           printf -v build_validation 'node scripts/run-doc-build-stage.js --build "%s" --skipLinkChecks --skipCardReporting' "$ZDOC_BUILD_COMMAND"
           shared_validation=()
           if [[ -d tmp/docs-tooling/en/shared-pages/guides ]]; then shared_validation=(--validation-command "node scripts/docs-workflow/guides-shared-publication.js --operation validate --snapshot $snapshot_path"); fi
-          node scripts/docs-workflow/create-checkpoint-artifact.js "${shared_validation[@]}" --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
+          localized_validation=()
+          if [[ "${{ inputs.site }}" == zh-CN && -d tmp/docs-tooling/zh-CN/localized-pages/guides ]]; then localized_validation=(--validation-command "node scripts/docs-workflow/guides-localized-sources.js --operation validate --workspace . --snapshot $snapshot_path"); fi
+          node scripts/docs-workflow/create-checkpoint-artifact.js "${shared_validation[@]}" "${localized_validation[@]}" --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v6

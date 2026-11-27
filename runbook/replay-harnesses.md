@@ -78,3 +78,16 @@ The snapshot and output roots must be distinct absolute paths below the platform
 3. Extract `guides-source.tar` and the checkpoint/table archives below `artifacts/` in that root and write a `real-context.json` describing the run identity, the baseline snapshot path (from `git show <devBaselineSha>:packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json`), the candidate snapshot path, the source directory, the site root token, and the table artifact manifest directories.
 4. Run `REPLAY_REQUESTED_GUIDES_ROOT=<evidence-root> pnpm test:replay:requested`. The harness verifies every recorded digest, preflights the checkpoint archive, replays the stable-table, outline-change, cross-table-move, and closure-external-conflict scenarios, and proves the ordinary automatic planner still detects the external change after a blocked requested run.
 5. Preserve the generated `replay-report.json` (run identity, artifact digests, checkpoint file count, per-scenario plan/receipt hashes, isolation results) as the merge and rollout evidence.
+
+## Localized Chinese Guides isolated bare-remote replay
+
+`pnpm test:replay:localized-pages` runs hermetically against an isolated temporary local bare Git remote (never touching real `origin` or `dev`) and exercises all eight localized zh-CN Guides handoff scenarios: cold publish and warm zero-drift reuse, Git Chinese source updates with unchanged Feishu records (and dirty-worktree isolation), single-page failure fallback with healthy sibling publication, ownership violations (`OWNERSHIP_REVERTED`, cross-site `OWNERSHIP_PATH_MISMATCH`, duplicate `<page-id>`), Feishu `record_id` change immunity (`recOLD -> recNEW`) for both normal publish and fallback, rename/deletion protection, reviewed NEXT channel Promote (and `PROMOTE_EN_MISMATCH` guard), and strict `content/zh-CN/guides/` write-boundary isolation.
+
+To capture a standalone JSON evidence report for review or rollout sign-off:
+
+```bash
+node scripts/docs-workflow/replay-localized-pages.js \
+  --evidence-root /absolute/path/to/localized-pages-evidence
+```
+
+Preserve the generated `localized-pages-replay-report.json` alongside `pnpm build:zh-CN` verification output.

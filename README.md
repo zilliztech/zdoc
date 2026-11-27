@@ -233,7 +233,8 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay:translation` covers Translation FIFO publication and monitor artifact authentication; it is slower and runs on the scheduled replay workflow.
 - `pnpm test:replay:requested` covers the requested Guides fetch surfaces (planner closure, state-merge receipts, checkpoint scope) against a committed real-data slice extracted from retained production artifacts.
 - `pnpm test:replay:shared-pages` includes the focused independent regeneration tests and exercises selected shared Guides generation, authenticated source artifacts, offline tables, fresh assembly, immutable image uploads and a real checkpoint transaction against a local bare remote. It also compares ordinary Feishu output with valid and malformed inactive configuration.
-- `pnpm test:replay` is the PR-level contract + Fetch + recovery + requested Guides + shared-pages gate.
+- `pnpm test:replay:localized-pages` exercises localized Chinese Guides Fetch source generation, `record_id`-decoupled `(page, page_url)` ownership, per-page fallback, NEXT channel Promote unwrapping, strict `content/zh-CN/guides/` write-boundary isolation, and real `zh-CN` checkpoint publication against an isolated local bare remote.
+- `pnpm test:replay` is the PR-level contract + Fetch + recovery + requested Guides + shared-pages + localized-pages gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
 The replay harnesses use the platform system temporary directory for their isolated lanes, replicas, and evidence roots. The translation replay harness accepts an explicit override via `ZDOC_REPLAY_SAFE_ROOT` when the default is not appropriate.
