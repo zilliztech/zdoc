@@ -236,6 +236,27 @@ class larkDocWriter {
                 child = { ...child, slug: guidesTableSlug(site, childSource?.title || child.title) }
             }
 
+            if (childSource?.base_nav_chapter) {
+                // Chapter hat: an always-expanded grouping heading minted by the
+                // scraper from the Base Chapter column. Never collapsible, never a
+                // link; skipped entirely when gating removes every child beneath it.
+                const label = childSource.title || child.title
+                const slug = child.slug || slugify(label, { lower: true, strict: true })
+                const childItems = child.has_child
+                    ? await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
+                    : []
+                if (childItems.length === 0) continue
+                items.push({
+                    type: 'category',
+                    label,
+                    key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                    collapsed: false,
+                    collapsible: false,
+                    items: childItems,
+                })
+                continue
+            }
+
             if (childSource?.base_placement_type === 'section') {
                 if (!this.__base_source_is_publishable(childSource)) continue
                 const label = this.__plain_value(childSource.base_labels) || childSource.title || child.title

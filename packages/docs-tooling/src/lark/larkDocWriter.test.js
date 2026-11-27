@@ -1463,8 +1463,106 @@ async function testPlainWriterSidebarSkipsSharedManualResolution() {
   }
 }
 
+function writeChapterHatSidebarFixture(dir) {
+  const leafSource = (title, slug, token) => ({
+    title,
+    name: title,
+    slug,
+    node_token: token,
+    origin_node_token: token,
+    parent_node_token: token === 'dev-doc' ? 'base:tbl:chapter:0' : 'base:tbl:chapter:1',
+    base_record_id: `rec-${token}`,
+    base_placement_type: 'canonical',
+    base_targets: ['Zilliz.SaaS'],
+    base_status: 'Draft',
+    blocks: {
+      items: [
+        { block_id: `page-${token}`, block_type: 1, page: {}, children: [`text-${token}`] },
+        { block_id: `text-${token}`, block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+      ],
+    },
+  });
+  const hatSource = (title, token, childToken) => ({
+    title,
+    name: title,
+    slug: title.toLowerCase(),
+    node_token: token,
+    origin_node_token: token,
+    parent_node_token: 'base:tbl',
+    base_nav_virtual: true,
+    base_nav_chapter: true,
+    has_child: true,
+    children: [{ title: childToken === 'dev-doc' ? 'Search & Query' : 'Organizations', slug: childToken === 'dev-doc' ? 'search-and-query' : 'organizations', node_token: childToken, has_child: false }],
+  });
+  fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+    title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+    children: [
+      { title: 'Development', slug: 'development', node_token: 'base:tbl:chapter:0', has_child: true },
+      { title: 'Management', slug: 'management', node_token: 'base:tbl:chapter:1', has_child: true },
+    ],
+  }, null, 2));
+  fs.writeFileSync(path.join(dir, 'base_tbl_chapter_0.json'), JSON.stringify(hatSource('Development', 'base:tbl:chapter:0', 'dev-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'base_tbl_chapter_1.json'), JSON.stringify(hatSource('Management', 'base:tbl:chapter:1', 'mgmt-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'dev-doc.json'), JSON.stringify(leafSource('Search & Query', 'search-and-query', 'dev-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'mgmt-doc.json'), JSON.stringify(leafSource('Organizations', 'organizations', 'mgmt-doc'), null, 2));
+}
+
+async function testSidebarChapterHatEmitsAlwaysExpandedCategory() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-chapter-hat-'));
+  const writer = new LarkDocWriter('root', 'base:*', 'default', tempDir, path.join(tempDir, 'images'), 'zilliz.saas', true, false);
+  try {
+    writeChapterHatSidebarFixture(tempDir);
+    const items = await writer.generate_sidebar('docs/tutorials', 'docs');
+    assert.deepEqual(items, [
+      {
+        type: 'category',
+        label: 'Development',
+        key: 'category:tutorials/development',
+        collapsed: false,
+        collapsible: false,
+        items: [
+          { type: 'doc', id: 'tutorials/development/search-and-query', label: 'Search & Query', key: 'doc:tutorials/development/search-and-query' },
+        ],
+      },
+      {
+        type: 'category',
+        label: 'Management',
+        key: 'category:tutorials/management',
+        collapsed: false,
+        collapsible: false,
+        items: [
+          { type: 'doc', id: 'tutorials/management/organizations', label: 'Organizations', key: 'doc:tutorials/management/organizations' },
+        ],
+      },
+    ]);
+  } finally {
+    writer.destroy();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
+async function testSidebarChapterHatSkippedWhenEveryChildIsGatedOut() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-chapter-hat-'));
+  const writer = new LarkDocWriter('root', 'base:*', 'default', tempDir, path.join(tempDir, 'images'), 'zilliz.saas', true, false);
+  try {
+    writeChapterHatSidebarFixture(tempDir);
+    // gate the only Development child out: an empty hat must not render
+    const dev = JSON.parse(fs.readFileSync(path.join(tempDir, 'dev-doc.json'), 'utf8'));
+    dev.base_status = 'Deprecated';
+    fs.writeFileSync(path.join(tempDir, 'dev-doc.json'), JSON.stringify(dev, null, 2));
+    const items = await writer.generate_sidebar('docs/tutorials', 'docs');
+    assert.deepEqual(items.map(item => item.label), ['Management']);
+    assert.equal(items[0].collapsible, false);
+  } finally {
+    writer.destroy();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testPlainWriterSidebarSkipsSharedManualResolution();
+  await testSidebarChapterHatEmitsAlwaysExpandedCategory();
+  await testSidebarChapterHatSkippedWhenEveryChildIsGatedOut();
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();
