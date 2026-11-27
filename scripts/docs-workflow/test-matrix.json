@@ -1893,6 +1893,24 @@
         "git diff --check"
       ],
       "reason": "The .claude local workspace retains only plans/, specs/, and skills/ per the working-tree policy; moved or added workspace documents carry no runtime behavior, so the guard is the retired-layout repository sweep (which treats all of .claude as non-production) plus matrix and whitespace gates. Tracked residue outside those three directories is removed through reviewed PRs, never accumulated."
+    },
+    {
+      "id": "localized-docs-core",
+      "paths": [
+        "packages/docs-tooling/src/localized-docs/**"
+      ],
+      "focusedTests": [
+        "pnpm exec vitest run packages/docs-tooling/src/localized-docs --pool=forks --isolate --maxWorkers=1"
+      ],
+      "harnesses": [],
+      "gates": [
+        "pnpm test:typescript-runtime-boundary",
+        "pnpm typecheck",
+        "pnpm test:workflow-matrix",
+        "pnpm test:workflow-policy",
+        "git diff --check"
+      ],
+      "reason": "Localized zh-CN guides core schema, EN shell stripping, <UI>/channel validation, md2md preprocessing, and offline CLI checks."
     }
   ]
 }
