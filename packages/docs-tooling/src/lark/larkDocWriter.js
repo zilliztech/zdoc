@@ -237,23 +237,23 @@ class larkDocWriter {
             }
 
             if (childSource?.base_nav_chapter) {
-                // Chapter hat: an always-expanded grouping heading minted by the
-                // scraper from the Base Chapter column. Never collapsible, never a
-                // link; skipped entirely when gating removes every child beneath it.
+                // Chapter hat: a plain HTML heading (NOT a Docusaurus category)
+                // minted by the scraper from the Base Chapter column. Html sidebar
+                // items are leaves, so the chapter's entries render flattened right
+                // beneath the heading; skipped entirely when gating removes every
+                // child beneath it.
                 const label = childSource.title || child.title
-                const slug = child.slug || slugify(label, { lower: true, strict: true })
                 const childItems = child.has_child
-                    ? await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
+                    ? await this.__sidebar_items(currentPath, contentRoot, child.node_token)
                     : []
                 if (childItems.length === 0) continue
                 items.push({
-                    type: 'category',
-                    label,
-                    key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
-                    collapsed: false,
-                    collapsible: false,
-                    items: childItems,
+                    type: 'html',
+                    value: `<span class="sidebar-chapter-hat">${this.__escapeJsxAttribute(label)}</span>`,
+                    defaultStyle: false,
+                    className: 'sidebar-chapter-hat',
                 })
+                items.push(...childItems)
                 continue
             }
 

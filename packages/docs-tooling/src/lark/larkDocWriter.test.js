@@ -1507,7 +1507,7 @@ function writeChapterHatSidebarFixture(dir) {
   fs.writeFileSync(path.join(dir, 'mgmt-doc.json'), JSON.stringify(leafSource('Organizations', 'organizations', 'mgmt-doc'), null, 2));
 }
 
-async function testSidebarChapterHatEmitsAlwaysExpandedCategory() {
+async function testSidebarChapterHatEmitsHtmlHeadingWithFlattenedChildren() {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-chapter-hat-'));
   const writer = new LarkDocWriter('root', 'base:*', 'default', tempDir, path.join(tempDir, 'images'), 'zilliz.saas', true, false);
   try {
@@ -1515,25 +1515,19 @@ async function testSidebarChapterHatEmitsAlwaysExpandedCategory() {
     const items = await writer.generate_sidebar('docs/tutorials', 'docs');
     assert.deepEqual(items, [
       {
-        type: 'category',
-        label: 'Development',
-        key: 'category:tutorials/development',
-        collapsed: false,
-        collapsible: false,
-        items: [
-          { type: 'doc', id: 'tutorials/development/search-and-query', label: 'Search & Query', key: 'doc:tutorials/development/search-and-query' },
-        ],
+        type: 'html',
+        value: '<span class="sidebar-chapter-hat">Development</span>',
+        defaultStyle: false,
+        className: 'sidebar-chapter-hat',
       },
+      { type: 'doc', id: 'tutorials/search-and-query', label: 'Search & Query', key: 'doc:tutorials/search-and-query' },
       {
-        type: 'category',
-        label: 'Management',
-        key: 'category:tutorials/management',
-        collapsed: false,
-        collapsible: false,
-        items: [
-          { type: 'doc', id: 'tutorials/management/organizations', label: 'Organizations', key: 'doc:tutorials/management/organizations' },
-        ],
+        type: 'html',
+        value: '<span class="sidebar-chapter-hat">Management</span>',
+        defaultStyle: false,
+        className: 'sidebar-chapter-hat',
       },
+      { type: 'doc', id: 'tutorials/organizations', label: 'Organizations', key: 'doc:tutorials/organizations' },
     ]);
   } finally {
     writer.destroy();
@@ -1551,8 +1545,8 @@ async function testSidebarChapterHatSkippedWhenEveryChildIsGatedOut() {
     dev.base_status = 'Deprecated';
     fs.writeFileSync(path.join(tempDir, 'dev-doc.json'), JSON.stringify(dev, null, 2));
     const items = await writer.generate_sidebar('docs/tutorials', 'docs');
-    assert.deepEqual(items.map(item => item.label), ['Management']);
-    assert.equal(items[0].collapsible, false);
+    assert.deepEqual(items.map(item => item.type === 'html' ? item.value : item.label), ['<span class="sidebar-chapter-hat">Management</span>', 'Organizations']);
+    assert.equal(items.filter(item => item.type === 'html').length, 1);
   } finally {
     writer.destroy();
     fs.rmSync(tempDir, { recursive: true, force: true });
@@ -1561,7 +1555,7 @@ async function testSidebarChapterHatSkippedWhenEveryChildIsGatedOut() {
 
 async function run() {
   await testPlainWriterSidebarSkipsSharedManualResolution();
-  await testSidebarChapterHatEmitsAlwaysExpandedCategory();
+  await testSidebarChapterHatEmitsHtmlHeadingWithFlattenedChildren();
   await testSidebarChapterHatSkippedWhenEveryChildIsGatedOut();
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
