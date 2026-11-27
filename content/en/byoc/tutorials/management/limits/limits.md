@@ -107,10 +107,22 @@ You can create a maximum of **1,024** collections or **4,096** partitions per CU
 
 ### Fields\{#fields}
 
-| **Item** | **Max Number** |
-| --- | --- |
-| Fields per collection | 64 |
-| Vector fields per collection | 10 |
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Fields per collection</p></td>
+     <td><ul><li><p>Clusters compatible with Milvus v3.0.x: 256</p></li><li><p>Clusters compatible with Milvus v2.x: 64</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p>Vector fields per collection</p></td>
+     <td><p>10</p></td>
+   </tr>
+</table>
+
+Each StructArray field counts as 1 plus the number of its subfields. The dynamic field (`$meta`) does not count. This limit also applies when you add fields to an existing collection.
 
 Other limits on fields:
 

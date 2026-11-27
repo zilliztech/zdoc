@@ -166,13 +166,13 @@ After the field is defined, each entity can include a string value in that field
 
 TEXT fields support null values. To enable this feature, set nullable to True. For details, refer to [Nullable Fields](./nullable-fields).
 
+On clusters compatible with Milvus v3.0.x, `TEXT` fields support `TEXT_MATCH` and `PHRASE_MATCH` when both `enable_analyzer` and `enable_match` are set to `True`. For details, refer to [Phrase Match](./phrase-match).
+
 </Admonition>
 
 ## Limits\{#limits}
 
 - A `TEXT` field cannot be a primary field. Primary fields support `INT64` and `VARCHAR`.
-
-- `TEXT` fields do not support `PHRASE_MATCH`.
 
 - `TEXT` fields do not support default values.
 
