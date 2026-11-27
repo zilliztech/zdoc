@@ -1,11 +1,11 @@
-import React, {createContext, useContext, useState, useRef, useCallback, useEffect} from 'react';
+import React, {createContext, useContext, useState, useRef, useCallback, useEffect, useMemo} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 import {getVisitorId} from './visitorIdentity';
 import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
 import {getChatAgentConfig} from './agentConfig';
-import {fetchPageContext} from './pageContext';
+import {createPageContextCache} from './pageContext';
 import {useDocsUiText} from '../../i18n/uiText';
 import {durationBucket, trackEvent} from '../../utils/analytics';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
@@ -26,6 +26,7 @@ export interface ChatContextValue {
   isStreaming: boolean;
   send: (text: string) => Promise<void>;
   stop: () => void;
+  prefetchPageContext: () => () => void;
   newChat: () => void;
   rateFeedback: (messageIndex: number, rating: 'up' | 'down') => void;
   chatHistory: ChatHistoryEntry[];
@@ -122,11 +123,12 @@ function loadHistory(): ChatHistoryEntry[] {
 interface ChatProviderProps {
   chatEndpoint: string;
   debugDefault?: boolean;
+  releaseChannel?: string;
   children: React.ReactNode;
 }
 
-export function ChatProvider({chatEndpoint, debugDefault = false, children}: ChatProviderProps) {
-  const {siteConfig} = useDocusaurusContext();
+export function ChatProvider({chatEndpoint, debugDefault = false, releaseChannel, children}: ChatProviderProps) {
+  const {siteConfig, i18n} = useDocusaurusContext();
   const uiText = useDocsUiText();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -153,6 +155,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   const activeChatIdRef = useRef(activeChatId);
   activeChatIdRef.current = activeChatId;
   const location = useLocation();
+  const pageContextCache = useMemo(() => createPageContextCache(location.pathname),
+    [location.pathname, i18n.currentLocale, siteConfig.customFields?.site, releaseChannel]);
+  useEffect(() => pageContextCache.clear, [pageContextCache]);
   const debugEnabledRef = useRef(resolveChatDebugEnabled(debugDefault));
   const chatDebug = useCallback((event: string, data: Record<string, unknown> = {}) => {
     if (!debugEnabledRef.current) return;
@@ -312,7 +317,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       if (!conversationIdRef.current) conversationIdRef.current = uuid();
       const conversationId = conversationIdRef.current;
       const {agentConfigCode, site} = getChatAgentConfig(siteConfig.customFields?.site);
-      const pageContext = await fetchPageContext(location.pathname, controller.signal);
+      const pageContext = await pageContextCache.read(controller.signal);
       if (!isCurrentRequest()) return;
       updateLastAssistant({status: 'preparing', busy: true});
       const requestBody = {
@@ -533,7 +538,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         }
       }
     }
-  }, [chatDebug, chatEndpoint, location.pathname, siteConfig.customFields?.site, uiText.chat]);
+  }, [chatDebug, chatEndpoint, location.pathname, pageContextCache, siteConfig.customFields?.site, uiText.chat]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
     // Feedback is analytics-only since the chat-proxy /api/feedback backend
@@ -634,7 +639,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
   }, []);
 
   return (
-    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, stop, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip}}>
+    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, stop, prefetchPageContext: pageContextCache.prefetch, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip}}>
       {children}
     </ChatContext.Provider>
   );

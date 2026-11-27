@@ -2,14 +2,14 @@ import React from 'react';
 import {act, renderHook, waitFor} from '@testing-library/react';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
-const {siteState} = vi.hoisted(() => ({siteState: {current: 'en'}}));
+const {siteState} = vi.hoisted(() => ({siteState: {current: 'en', path: '/docs/home'}}));
 
 vi.mock('@docusaurus/router', () => ({
-  useLocation: () => ({pathname: '/docs/home'}),
+  useLocation: () => ({pathname: siteState.path}),
 }));
 
 vi.mock('@docusaurus/useDocusaurusContext', () => ({
-  default: () => ({siteConfig: {customFields: {site: siteState.current}}, i18n: {currentLocale: 'en'}}),
+  default: () => ({siteConfig: {customFields: {site: siteState.current}}, i18n: {currentLocale: siteState.current}}),
 }));
 
 import {ChatProvider, useChatContext} from './ChatContext';
@@ -102,6 +102,7 @@ function wrapper(debugDefault = false) {
 describe('ChatProvider request debugging', () => {
   beforeEach(() => {
     siteState.current = 'en';
+    siteState.path = '/docs/home';
     localStorage.clear();
     localStorage.setItem('zd-user-id', '550e8400-e29b-41d4-a716-446655440000');
     let uuidCount = 0;
@@ -156,6 +157,82 @@ describe('ChatProvider request debugging', () => {
       agent_config: {agent_config_code: 'zilliz_docs_agent'},
       page_context: {url: 'http://localhost:3000/docs/home', content: '# Test page'},
     });
+  });
+
+  it('shares an in-flight prefetch with send and reuses only that page while open', async () => {
+    let release!: (response: Response) => void;
+    const pending = new Promise<Response>(resolve => { release = resolve; });
+    vi.mocked(fetch).mockImplementation(async input => {
+      if (input === '/docs/home.md') return pending;
+      if (isMarkdownUrl(input)) return markdownResponse('# Next');
+      return sseResponse([{type: 'done', data: {}}]);
+    });
+    const view = renderHook(() => useChatContext(), {wrapper: wrapper()});
+    expect(fetch).not.toHaveBeenCalled();
+    const close = view.result.current.prefetchPageContext();
+    let sent!: Promise<void>;
+    act(() => { sent = view.result.current.send('first'); });
+    expect(fetch).toHaveBeenCalledTimes(1);
+    release(markdownResponse('# Original'));
+    await act(async () => sent);
+    await act(async () => view.result.current.send('follow-up'));
+    const outgoing = () => vi.mocked(fetch).mock.calls.filter(([url]) => url === '/api/chat')
+      .map(([, init]) => JSON.parse(init?.body as string).page_context);
+    expect(outgoing()).toEqual(Array(2).fill({url: 'http://localhost:3000/docs/home', content: '# Original'}));
+    expect(fetch).toHaveBeenCalledTimes(3);
+
+    close();
+    siteState.path = '/docs/next';
+    view.rerender();
+    view.result.current.prefetchPageContext();
+    await act(async () => view.result.current.send('new page'));
+    expect(outgoing().at(-1)).toEqual({url: 'http://localhost:3000/docs/next', content: '# Next'});
+  });
+
+  it('retries a failed in-flight prefetch at send time and clears stale entries', async () => {
+    let release!: (response: Response) => void;
+    const pending = new Promise<Response>(resolve => { release = resolve; });
+    const markdownCalls = () => vi.mocked(fetch).mock.calls.filter(([url]) => isMarkdownUrl(url));
+    vi.mocked(fetch).mockImplementation(async input => {
+      if (isMarkdownUrl(input)) return markdownCalls().length === 1 ? pending : markdownResponse();
+      return sseResponse([{type: 'done', data: {}}]);
+    });
+    const view = renderHook(() => useChatContext(), {wrapper: wrapper()});
+    const close = view.result.current.prefetchPageContext();
+    let sent!: Promise<void>;
+    act(() => { sent = view.result.current.send('question'); });
+    release(new Response('<html>fallback</html>'));
+    await act(async () => sent);
+    expect(markdownCalls()).toHaveLength(2);
+    const payload = JSON.parse(vi.mocked(fetch).mock.calls.find(([url]) => url === '/api/chat')![1]?.body as string);
+    expect(payload.page_context.content).toBe('# Test page');
+    const now = Date.now();
+    vi.spyOn(Date, 'now').mockReturnValue(now + 31_000);
+    await act(async () => view.result.current.send('expired'));
+    expect(markdownCalls()).toHaveLength(3);
+    close();
+    await act(async () => view.result.current.send('after close'));
+    expect(markdownCalls()).toHaveLength(4);
+  });
+
+  it('discards an unclaimed prefetch when language or page changes', async () => {
+    let settle!: (response: Response) => void;
+    const pending = new Promise<Response>(resolve => { settle = resolve; });
+    vi.mocked(fetch).mockImplementation(async input => {
+      if (isMarkdownUrl(input)) return siteState.current === 'en' ? pending : markdownResponse('# 本页');
+      return sseResponse([{type: 'done', data: {}}]);
+    });
+    const view = renderHook(() => useChatContext(), {wrapper: wrapper()});
+    view.result.current.prefetchPageContext();
+    const signal = vi.mocked(fetch).mock.calls[0][1]?.signal;
+    siteState.current = 'zh-CN';
+    view.rerender();
+    expect(signal?.aborted).toBe(true);
+    view.result.current.prefetchPageContext();
+    settle(markdownResponse('# Old locale'));
+    await act(async () => view.result.current.send('当前页'));
+    const payload = JSON.parse(vi.mocked(fetch).mock.calls.find(([url]) => url === '/api/chat')![1]?.body as string);
+    expect(payload.page_context.content).toBe('# 本页');
   });
 
   it('keeps visitor identity across new chats and provider remounts', async () => {
@@ -302,8 +379,8 @@ describe('ChatProvider request debugging', () => {
     await act(async () => result.current.send('first question'));
     await act(async () => result.current.send('second question'));
 
-    const firstInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
-    const secondInit = vi.mocked(fetch).mock.calls[3][1] as RequestInit;
+    const [firstInit, secondInit] = vi.mocked(fetch).mock.calls
+      .filter(([url]) => url === '/api/chat').map(([, init]) => init as RequestInit);
     expect(JSON.parse(secondInit.body as string)).toMatchObject({
       message: 'second question',
       session_id: 'server-session-1',
@@ -333,7 +410,7 @@ describe('ChatProvider request debugging', () => {
     act(() => result.current.loadChat(chatId));
     await act(async () => result.current.send('history follow-up'));
 
-    const followUpInit = vi.mocked(fetch).mock.calls[3][1] as RequestInit;
+    const followUpInit = vi.mocked(fetch).mock.calls.filter(([url]) => url === '/api/chat')[1][1] as RequestInit;
     expect(JSON.parse(followUpInit.body as string)).toMatchObject({
       session_id: 'server-session-1',
       conversationId: 'client-conversation-1',
