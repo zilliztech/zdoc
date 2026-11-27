@@ -848,3 +848,45 @@ describe('localized-docs draft dispatch', () => {
     }
   });
 });
+
+describe('localized-docs schedule dispatch', () => {
+  it('dispatches localized-docs schedule cleanly on an empty/absent root and rejects unknown flags with exit 2', () => {
+    const repoCheckout = path.resolve(import.meta.dirname, '../../..');
+    const launcher = path.join(repoCheckout, 'scripts/docs-tooling.js');
+    const root = realpathSync(temporaryRoot());
+    try {
+      const missingRoot = path.join(root, 'localized-docs/zh-CN/guides');
+      const outDir = path.join(root, 'schedule-out');
+
+      const result = spawnSync(process.execPath, [
+        launcher,
+        'localized-docs',
+        'schedule',
+        '--root',
+        missingRoot,
+        '--dry-run',
+        '--out',
+        outDir,
+      ], {cwd: repoCheckout, encoding: 'utf8'});
+      expect(result.status, result.stderr || result.stdout).toBe(0);
+      expect(JSON.parse(readFileSync(path.join(outDir, 'schedule-summary.json'), 'utf8'))).toMatchObject({
+        schema_version: 1,
+        scanned_pages: 0,
+        should_notify: false,
+        dry_run: true,
+      });
+
+      const unknownFlag = spawnSync(process.execPath, [
+        launcher,
+        'localized-docs',
+        'schedule',
+        '--root',
+        missingRoot,
+        '--unknown-flag',
+      ], {cwd: repoCheckout, encoding: 'utf8'});
+      expect(unknownFlag.status).toBe(2);
+    } finally {
+      rmSync(root, {recursive: true, force: true});
+    }
+  });
+});
