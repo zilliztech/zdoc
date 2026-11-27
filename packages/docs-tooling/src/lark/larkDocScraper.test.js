@@ -1903,97 +1903,6 @@ async function testReferencedSyncedLiveSourceStillReplaced() {
   }
 }
 
-function chapterHatRecord(id, slug, chapter, index) {
-  return {
-    record_id: id,
-    base_table_id: 'tbl',
-    base_table_name: 'Vector Database',
-    base_record_index: index,
-    fields: {
-      Docs: { text: slug, link: `https://zilliverse.feishu.cn/wiki/${id}` },
-      Slug: slug,
-      Status: 'Published',
-      'Publish Targets': ['zilliz.saas'],
-      ...(chapter ? { Chapter: chapter } : {}),
-    },
-  };
-}
-
-async function runChapterHatScraperScenario(records, tableChildrenAssertions) {
-  const larkDocScraper = require('./larkDocScraper');
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-chapter-'));
-  try {
-    const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
-    scraper.use_all_base_tables = true;
-    scraper.records = records;
-    scraper.base_tables = [{ table_id: 'tbl', name: 'Vector Database', index: 0 }];
-    scraper.__fetch_base_doc_sources = async () => {};
-
-    await scraper.__apply_base_navigation({ partialTables: true });
-
-    const table = JSON.parse(fs.readFileSync(path.join(tempDir, 'base_tbl.json'), 'utf8'));
-    tableChildrenAssertions(table, tempDir);
-  } finally {
-    fs.rmSync(tempDir, { recursive: true, force: true });
-  }
-}
-
-async function testChapterHatsGroupRootRowsByChapterColumn() {
-  await runChapterHatScraperScenario([
-    chapterHatRecord('rec-dev', 'search-and-query', 'Development', 0),
-    chapterHatRecord('rec-mgmt', 'organizations', 'Management', 1),
-  ], (table, tempDir) => {
-    assert.equal(table.children.length, 2);
-    assert.equal(table.children[0].base_nav_chapter, true);
-    assert.equal(table.children[0].base_nav_virtual, true);
-    assert.equal(table.children[0].title, 'Development');
-    assert.equal(table.children[0].node_token, 'base:tbl:chapter:0');
-    assert.equal(table.children[0].has_child, true);
-    assert.deepEqual(table.children[0].children.map(child => child.node_token), ['rec-dev']);
-    assert.equal(table.children[1].base_nav_chapter, true);
-    assert.equal(table.children[1].title, 'Management');
-    assert.equal(table.children[1].node_token, 'base:tbl:chapter:1');
-    assert.deepEqual(table.children[1].children.map(child => child.node_token), ['rec-mgmt']);
-    // rows re-parent under their hat so the Feishu 5-level nesting is untouched
-    const row = JSON.parse(fs.readFileSync(path.join(tempDir, 'rec-dev.json'), 'utf8'));
-    assert.equal(row.parent_node_token, 'base:tbl:chapter:0');
-  });
-}
-
-async function testChapterHatsKeepFlatTreeWithoutChapterData() {
-  // no Chapter values at all (today's tables) and a single uniform chapter both
-  // keep the flat tree — hats ship inert and only activate on the two-chapter IA data
-  await runChapterHatScraperScenario([
-    chapterHatRecord('rec-a', 'search-and-query', null, 0),
-    chapterHatRecord('rec-b', 'organizations', null, 1),
-  ], table => {
-    assert.equal(table.children.length, 2);
-    assert.equal(table.children[0].base_nav_chapter, undefined);
-    assert.equal(table.children[0].node_token, 'rec-a');
-    assert.equal(table.children[1].node_token, 'rec-b');
-  });
-  await runChapterHatScraperScenario([
-    chapterHatRecord('rec-a', 'search-and-query', 'Development', 0),
-    chapterHatRecord('rec-b', 'organizations', 'Development', 1),
-  ], table => {
-    assert.equal(table.children.length, 2);
-    assert.equal(table.children[0].base_nav_chapter, undefined);
-  });
-}
-
-async function testChapterHatsFallBackToFlatWhenAnyRootLacksChapter() {
-  // a partially stamped table must not silently strand ungrouped rows: the
-  // whole table keeps its flat tree until every root row carries a chapter
-  await runChapterHatScraperScenario([
-    chapterHatRecord('rec-a', 'search-and-query', 'Development', 0),
-    chapterHatRecord('rec-b', 'organizations', null, 1),
-  ], table => {
-    assert.equal(table.children.length, 2);
-    assert.equal(table.children[0].base_nav_chapter, undefined);
-    assert.equal(table.children[0].node_token, 'rec-a');
-  });
-}
-
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -2012,9 +1921,6 @@ async function run() {
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
   await testFullWikiFetchHydratesBaseCanonicalSources();
   await testBaseNavigationCreatesRootWhenSourceCacheIsEmpty();
-  await testChapterHatsGroupRootRowsByChapterColumn();
-  await testChapterHatsKeepFlatTreeWithoutChapterData();
-  await testChapterHatsFallBackToFlatWhenAnyRootLacksChapter();
   await testChineseBaseNavigationUsesEnglishTableSlug();
   await testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc();
   await testBaseDocHydrationRefetchesVirtualCanonicalSources();

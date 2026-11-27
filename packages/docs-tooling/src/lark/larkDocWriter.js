@@ -41,6 +41,11 @@ const {
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
+// Guides tables rendered as plain HTML chapter headings in the sidebar
+// (Development / Management and their zh twins) instead of collapsible
+// categories. Every other guides table keeps the category rendering.
+const SIDEBAR_HTML_TABLES = new Set(['Development', 'Management', '开发指南', '运维指南'])
+
 // Sidebar entries and front matter carry the Base Release Channel verbatim
 // whenever it deviates from CURRENT; NEXT hides the entry on CURRENT
 // deployments and RETIRE-IN-NEXT hides it on NEXT deployments (the mirror).
@@ -234,27 +239,26 @@ class larkDocWriter {
             if (/^base:tbl[^:]+$/.test(tableToken || '')) {
                 const site = node_path.basename(this.docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
                 child = { ...child, slug: guidesTableSlug(site, childSource?.title || child.title) }
-            }
-
-            if (childSource?.base_nav_chapter) {
-                // Chapter hat: a plain HTML heading (NOT a Docusaurus category)
-                // minted by the scraper from the Base Chapter column. Html sidebar
-                // items are leaves, so the chapter's entries render flattened right
-                // beneath the heading; skipped entirely when gating removes every
-                // child beneath it.
-                const label = childSource.title || child.title
-                const childItems = child.has_child
-                    ? await this.__sidebar_items(currentPath, contentRoot, child.node_token)
-                    : []
-                if (childItems.length === 0) continue
-                items.push({
-                    type: 'html',
-                    value: `<span class="sidebar-chapter-hat">${this.__escapeJsxAttribute(label)}</span>`,
-                    defaultStyle: false,
-                    className: 'sidebar-chapter-hat',
-                })
-                items.push(...childItems)
-                continue
+                // The Development / Management tables render as plain HTML chapter
+                // headings (NOT Docusaurus categories): html items are leaves, so
+                // their entries render flattened beneath the heading while doc ids
+                // keep the table-slug path segment unchanged. Other tables keep the
+                // regular collapsible-category rendering.
+                const tableTitle = childSource?.title || child.title || ''
+                if (SIDEBAR_HTML_TABLES.has(tableTitle)) {
+                    const childItems = child.has_child
+                        ? await this.__sidebar_items(`${currentPath}/${child.slug}`, contentRoot, child.node_token)
+                        : []
+                    if (childItems.length === 0) continue
+                    items.push({
+                        type: 'html',
+                        value: `<span class="sidebar-chapter-hat">${this.__escapeJsxAttribute(tableTitle)}</span>`,
+                        defaultStyle: false,
+                        className: 'sidebar-chapter-hat',
+                    })
+                    items.push(...childItems)
+                    continue
+                }
             }
 
             if (childSource?.base_placement_type === 'section') {

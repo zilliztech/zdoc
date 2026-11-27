@@ -1239,28 +1239,6 @@ class larkDocScraper {
         }
     }
 
-    // Chapter hats: a product-line table groups its ROOT rows under the
-    // Chapter single-select (e.g. Development / Management) as always-expanded
-    // sidebar headings. The hat is a virtual source so the extra sidebar level
-    // never consumes Feishu's 5-level Parent nesting. Returns null (keep the
-    // flat tree) unless every root row carries a chapter value and at least
-    // two distinct chapters exist — hats materialize only once the IA data
-    // lands, so this ships inert.
-    __chapter_groups(rows) {
-        const groups = []
-        const byChapter = new Map()
-        for (const row of rows) {
-            const chapter = (this.__plain_value(row.fields['Chapter']) || '').trim()
-            if (!chapter) return null
-            if (!byChapter.has(chapter)) {
-                byChapter.set(chapter, { chapter, rows: [] })
-                groups.push(byChapter.get(chapter))
-            }
-            byChapter.get(chapter).rows.push(row)
-        }
-        return groups.length > 1 ? groups : null
-    }
-
     async __apply_base_navigation({ partialTables=false, hydrateLinkedDocs=false } = {}) {
         if (!this.records) {
             await this.__base()
@@ -1404,23 +1382,7 @@ class larkDocScraper {
         for (const table of this.base_tables) {
             const tableToken = `base:${table.table_id}`
             const rows = this.__sort_records([...(childrenByParent.get(`${table.table_id}:root`) || [])])
-            const chapterGroups = this.__chapter_groups(rows)
-            const children = chapterGroups
-                ? chapterGroups.map((group, index) => {
-                    // hat token embeds the first-appearance index (not the raw
-                    // chapter label) so zh chapter values stay filesystem-safe
-                    const hatToken = `base:${table.table_id}:chapter:${index}`
-                    const hat = this.__virtual_source({
-                        nodeToken: hatToken,
-                        parentToken: tableToken,
-                        title: group.chapter,
-                        slug: slugify(group.chapter, { lower: true, strict: true }) || `chapter-${index + 1}`,
-                        children: group.rows.map(record => materializeRecord(record, hatToken)),
-                    })
-                    hat.base_nav_chapter = true
-                    return hat
-                })
-                : rows.map(record => materializeRecord(record, tableToken))
+            const children = rows.map(record => materializeRecord(record, tableToken))
             const tableSource = this.__virtual_source({
                 nodeToken: tableToken,
                 parentToken: this.root,
