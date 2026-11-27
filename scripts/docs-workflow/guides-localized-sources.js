@@ -982,23 +982,32 @@ async function main(argv = process.argv.slice(2)) {
     if (args.records && fs.existsSync(path.resolve(workspace, args.records))) {
       records = JSON.parse(fs.readFileSync(path.resolve(workspace, args.records), 'utf8'))
     } else if (candidate?.navigation_records) {
-      records = candidate.navigation_records.map(nav => ({
-        record_id: nav.record_id,
-        base_table_id: nav.table_id,
-        base_table_name: nav.table_name,
-        base_record_index: nav.order,
-        placement_type: nav.placement_type,
-        page_url: nav.localized_page?.page_url || nav.slug,
-        doc_link: nav.doc_link || '',
-        fields: {
-          'Placement Type': nav.placement_type,
-          Labels: nav.labels,
-          Slug: nav.slug,
-          Progress: nav.progress,
-          Targets: nav.targets,
-          Docs: nav.doc_link ? { link: nav.doc_link, text: nav.title || nav.labels } : undefined,
-        },
-      }))
+      const snapshotByRecordId = new Map(
+        (candidate.records || []).filter(row => row?.record_id).map(row => [row.record_id, row]),
+      )
+      records = candidate.navigation_records.map(nav => {
+        const snap = snapshotByRecordId.get(nav.record_id)
+        const releaseChannel = snap?.release_channel
+        return {
+          record_id: nav.record_id,
+          base_table_id: nav.table_id,
+          base_table_name: nav.table_name,
+          base_record_index: nav.order,
+          placement_type: nav.placement_type,
+          ...(releaseChannel ? { base_channel: releaseChannel } : {}),
+          page_url: nav.localized_page?.page_url || snap?.page_url || nav.slug,
+          doc_link: nav.doc_link || '',
+          fields: {
+            'Placement Type': nav.placement_type,
+            Labels: nav.labels,
+            Slug: nav.slug,
+            Progress: nav.progress,
+            Targets: nav.targets,
+            ...(releaseChannel ? { 'Release Channel': releaseChannel } : {}),
+            Docs: nav.doc_link ? { link: nav.doc_link, text: nav.title || nav.labels } : undefined,
+          },
+        }
+      })
     }
 
     const previousSnapshotPath = args['previous-snapshot']
