@@ -3657,3 +3657,56 @@ test('localized-docs PR validation workflow policy rejects permission, queue, tr
     fs.rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('translate-zh-guides workflow policy rejects queue, permission, kill-switch, secret-leak, push, interpolation, and dispatch mutations', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translate-zh-guides-policy-'))
+  const file = 'translate-zh-guides.yml'
+  const original = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
+  const objectMutation = mutate => source => {
+    const workflow = yaml.load(source)
+    mutate(workflow)
+    return yaml.dump(workflow, { lineWidth: -1, noRefs: true })
+  }
+  const step = (workflow, job, name) => workflow.jobs[job].steps.find(item => item.name === name)
+  const fixtures = [
+    [objectMutation(w => { w.concurrency.group = 'docs-production-dev' }), 'only production dev queue owners may use docs-production-dev'],
+    [objectMutation(w => { w.concurrency['cancel-in-progress'] = true }), 'independent concurrency group translate-zh-guides'],
+    [objectMutation(w => { w.concurrency.queue = 'max' }), 'independent concurrency group translate-zh-guides'],
+    [objectMutation(w => { w.jobs.schedule.concurrency = { group: 'docs-production-dev', queue: 'max' } }), 'job-level concurrency must not acquire docs-production-dev'],
+    [objectMutation(w => { delete w.env.FEISHU_NOTIFICATIONS_DISABLED }), 'FEISHU_NOTIFICATIONS_DISABLED kill switch'],
+    [objectMutation(w => { delete step(w, 'daily_digest', 'Create daily zh-CN Guides digest card').env.FEISHU_NOTIFICATIONS_DISABLED }), 'honor FEISHU_NOTIFICATIONS_DISABLED'],
+    [objectMutation(w => { step(w, 'daily_digest', 'Finish daily zh-CN Guides digest card')['continue-on-error'] = false }), 'best-effort and honor FEISHU_NOTIFICATIONS_DISABLED'],
+    [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.env = { ...(target.env || {}), APP_SECRET: '${{ secrets.APP_SECRET }}' } }), 'isolate Feishu secrets and report-card calls out of the schedule job'],
+    [objectMutation(w => { const target = step(w, 'daily_digest', 'Download daily digest artifact'); target.env = { APP_ID: '${{ secrets.APP_ID }}' } }), 'only best-effort report-card steps in daily_digest may receive Feishu secrets'],
+    [objectMutation(w => { w.permissions = { contents: 'write' } }), 'minimal top-level contents: read'],
+    [objectMutation(w => { delete w.jobs.schedule.permissions.actions }), 'minimal top-level contents: read and exact job permissions'],
+    [objectMutation(w => { w.jobs.schedule.permissions.packages = 'write' }), 'minimal top-level contents: read and exact job permissions'],
+    [objectMutation(w => { w.jobs.daily_digest.permissions.contents = 'write' }), 'minimal top-level contents: read and exact job permissions'],
+    [objectMutation(w => { w.on.workflow_dispatch.inputs.dry_run.default = false }), 'dry_run (default true)'],
+    [objectMutation(w => { w.on.schedule = [{ cron: '0 2 * * *' }] }), 'weekday 08:00 CST schedule (0 0 * * 1-5)'],
+    [objectMutation(w => { w.on.push = { branches: ['master'] } }), 'weekday 08:00 CST schedule'],
+    [objectMutation(w => { step(w, 'schedule', 'Check out pinned master').with['persist-credentials'] = true }), 'persist-credentials: false'],
+    [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.run = `${target.run}\necho '\${{ inputs.page }}'` }), 'pass GitHub expressions through step env'],
+    [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.run = `${target.run}\ngit push origin HEAD:refs/heads/master` }), 'must never push directly to master or dev'],
+    [objectMutation(w => { const target = step(w, 'schedule', 'Scan localized zh-CN Guides and maintain rolling PRs'); target.run = `${target.run}\ngit push origin HEAD:refs/heads/dev` }), 'must never push directly to master or dev'],
+    [s => s.replace('--validation-workflow localized-docs-validate.yml', '--no-dispatch-validate'), 'localized-docs-validate.yml dispatch enabled'],
+    [objectMutation(w => { w.jobs.daily_digest.if = 'always()' }), 'daily_digest must run only after a successful schedule job'],
+    [s => s.replace('--file tmp/zh-guides-schedule/digest-note.md', '--file /tmp/digest-note.md'), 'repository-relative path tmp/zh-guides-schedule/digest-note.md'],
+  ]
+  try {
+    for (const [mutate, expected] of fixtures) {
+      const changed = mutate(original)
+      assert.notEqual(changed, original, `${file}: ${expected} mutation must change the source`)
+      const destination = path.join(directory, file)
+      fs.writeFileSync(destination, changed)
+      const errors = validateWorkflowPolicies(directory)
+      assert.ok(
+        errors.some(error => error.includes(expected)),
+        `${file}: expected "${expected}"; got:\n${errors.join('\n')}`,
+      )
+      fs.unlinkSync(destination)
+    }
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})

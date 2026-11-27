@@ -566,6 +566,136 @@ function validateLocalizedDocsWorkflow(workflow, source, file, errors) {
   }
 }
 
+function validateTranslateZhGuidesWorkflow(workflow, source, file, errors) {
+  const fail = message => errors.push(`${file}: translate-zh-guides ${message}`)
+  const jobs = workflow.jobs || {}
+  const stepsOf = job => jobs[job]?.steps || []
+  const step = (job, name) => stepsOf(job).find(item => item.name === name)
+  const run = (job, name) => String(step(job, name)?.run || '')
+  const allSteps = Object.values(jobs).flatMap(job => job.steps || [])
+
+  // 1. Triggers: weekday 08:00 CST schedule + safe workflow_dispatch (dry_run default true)
+  const triggerKeys = Object.keys(workflow.on || {}).sort().join(',')
+  const scheduleCrons = (workflow.on?.schedule || []).map(item => item?.cron)
+  const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
+  if (triggerKeys !== 'schedule,workflow_dispatch' ||
+      JSON.stringify(scheduleCrons) !== JSON.stringify(['0 0 * * 1-5']) ||
+      dispatchInputs.page?.type !== 'string' ||
+      dispatchInputs.dry_run?.type !== 'boolean' ||
+      dispatchInputs.dry_run?.default !== true ||
+      dispatchInputs.provider?.type !== 'string') {
+    fail('must keep weekday 08:00 CST schedule (0 0 * * 1-5) and workflow_dispatch with page, dry_run (default true), and provider')
+  }
+
+  // 2. Concurrency: independent translate-zh-guides group, never docs-production-dev
+  if (workflow.concurrency?.group !== 'translate-zh-guides' ||
+      workflow.concurrency?.['cancel-in-progress'] !== false ||
+      workflow.concurrency?.queue !== undefined ||
+      Object.values(jobs).some(job => job.concurrency !== undefined)) {
+    fail('must use independent concurrency group translate-zh-guides with cancel-in-progress: false and never acquire docs-production-dev')
+  }
+
+  // 3. Minimal permissions & exact job inventory
+  const expectedSchedulePerms = { contents: 'write', 'pull-requests': 'write', actions: 'write' }
+  const expectedDigestPerms = { contents: 'read' }
+  const permsEqual = (actual, expected) => {
+    if (!actual || typeof actual !== 'object') return false
+    const aKeys = Object.keys(actual).sort()
+    const eKeys = Object.keys(expected).sort()
+    return aKeys.length === eKeys.length && aKeys.every((k, i) => k === eKeys[i] && actual[k] === expected[k])
+  }
+  if (!permsEqual(workflow.permissions, { contents: 'read' }) ||
+      Object.keys(jobs).join(',') !== 'schedule,daily_digest' ||
+      !permsEqual(jobs.schedule?.permissions, expectedSchedulePerms) ||
+      !permsEqual(jobs.daily_digest?.permissions, expectedDigestPerms)) {
+    fail('must declare minimal top-level contents: read and exact job permissions for schedule and daily_digest')
+  }
+
+  // 4. Timeouts & checkout hygiene
+  if (jobs.schedule?.['timeout-minutes'] !== 45 || jobs.daily_digest?.['timeout-minutes'] !== 10) {
+    fail('must keep bounded job timeouts (schedule: 45, daily_digest: 10)')
+  }
+  const checkouts = allSteps.filter(item => String(item.uses || '').startsWith('actions/checkout@'))
+  if (checkouts.length < 2 || checkouts.some(item => item.uses !== 'actions/checkout@v5' || item.with?.['persist-credentials'] !== false)) {
+    fail('every checkout must use actions/checkout@v5 with persist-credentials: false')
+  }
+
+  // 5. No untrusted expression interpolation in shell run blocks & no direct git push to master/dev
+  if (allSteps.some(item => /\$\{\{/.test(item.run || ''))) {
+    fail('must pass GitHub expressions through step env rather than interpolating into shell run blocks')
+  }
+  if (/\bgit\s+(?:-C\s+\S+\s+)?push\b/.test(source) || /refs\/heads\/(?:master|dev)\b/.test(
+    allSteps.map(item => String(item.run || '')).filter(text => /\bpush\b/.test(text)).join('\n'),
+  )) {
+    fail('must never push directly to master or dev from workflow shell scripts; branch delivery is mediated by localized-docs schedule')
+  }
+
+  // 6. Schedule step wiring: localized-docs schedule + localized-docs-validate.yml dispatch
+  const validateInputsStep = step('schedule', 'Validate dispatch inputs')
+  const validateInputsRun = run('schedule', 'Validate dispatch inputs')
+  if (!validateInputsStep ||
+      !validateInputsRun.includes('^[a-z0-9]+(-[a-z0-9]+)*$') ||
+      !validateInputsRun.includes('"$INPUT_PROVIDER" == fake || "$INPUT_PROVIDER" == openai')) {
+    fail('must validate page slug and provider inputs before execution')
+  }
+
+  const scanStep = step('schedule', 'Scan localized zh-CN Guides and maintain rolling PRs')
+  const scanRun = run('schedule', 'Scan localized zh-CN Guides and maintain rolling PRs')
+  if (!scanStep ||
+      scanStep.id !== 'scan' ||
+      scanStep['continue-on-error'] === true ||
+      !scanRun.includes('localized-docs schedule') ||
+      !scanRun.includes('--root localized-docs/zh-CN/guides') ||
+      !scanRun.includes('--base-branch master') ||
+      !scanRun.includes('--validation-workflow localized-docs-validate.yml') ||
+      scanRun.includes('--no-dispatch-validate')) {
+    fail('must invoke localized-docs schedule targeting master with localized-docs-validate.yml dispatch enabled')
+  }
+
+  // 7. Feishu kill switch & secret isolation (only best-effort report-card steps in daily_digest)
+  const killSwitchExpr = "${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}"
+  if (workflow.env?.FEISHU_NOTIFICATIONS_DISABLED !== killSwitchExpr) {
+    fail('must honor FEISHU_NOTIFICATIONS_DISABLED kill switch at workflow env')
+  }
+
+  const digestCardSteps = [
+    'Create daily zh-CN Guides digest card',
+    'Attach daily zh-CN Guides digest note',
+    'Finish daily zh-CN Guides digest card',
+  ]
+  const scheduleSerialized = JSON.stringify(jobs.schedule || {})
+  if (/\bAPP_ID\b|\bAPP_SECRET\b|\bFEISHU_HOST\b|report-card/.test(scheduleSerialized)) {
+    fail('must isolate Feishu secrets and report-card calls out of the schedule job')
+  }
+  const digestJob = jobs.daily_digest
+  if (digestJob?.needs !== 'schedule' ||
+      digestJob?.if !== "${{ needs.schedule.result == 'success' && needs.schedule.outputs.should_notify == 'true' }}") {
+    fail('daily_digest must run only after a successful schedule job with should_notify == true')
+  }
+  const digestNoteRun = run('daily_digest', 'Attach daily zh-CN Guides digest note')
+  if (!digestNoteRun.includes('--file tmp/zh-guides-schedule/digest-note.md')) {
+    fail('daily digest note must use repository-relative path tmp/zh-guides-schedule/digest-note.md')
+  }
+  for (const [jobName, job] of Object.entries(jobs)) {
+    for (const item of job.steps || []) {
+      const serialized = JSON.stringify(item)
+      const touchesFeishuSecrets = /\bAPP_ID\b|\bAPP_SECRET\b/.test(serialized)
+      if (touchesFeishuSecrets && (jobName !== 'daily_digest' || !digestCardSteps.includes(item.name))) {
+        fail('only best-effort report-card steps in daily_digest may receive Feishu secrets')
+      }
+    }
+  }
+  for (const name of digestCardSteps) {
+    const item = step('daily_digest', name)
+    if (!item ||
+        item['continue-on-error'] !== true ||
+        item.env?.FEISHU_NOTIFICATIONS_DISABLED !== killSwitchExpr ||
+        !/pnpm docs-tooling report-card (?:create|note|finish)/.test(item.run || '')) {
+      fail('every daily digest report-card step must be best-effort and honor FEISHU_NOTIFICATIONS_DISABLED')
+    }
+  }
+}
+
 /** Manual-layout update/promote lane (design 10 WP12/WP13): one candidate PR per
  *  group and mode, delivered only through a PAT, never touching master or dev.
  *  Publish-surface safety: a removal that would retire a live route blocks the lane
@@ -831,6 +961,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     if (file === 'shared-docs-lock.yml' || file === 'shared-docs-validate.yml') validateSharedDocsWorkflow(workflow, source, file, errors)
     if (file === 'localized-docs-validate.yml') validateLocalizedDocsWorkflow(workflow, source, file, errors)
+    if (file === 'translate-zh-guides.yml') validateTranslateZhGuidesWorkflow(workflow, source, file, errors)
     if (file === 'shared-docs-manual-update.yml') validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors)
     const primaryJobs = Object.values(workflow.jobs || {}).filter(job => job?.['runs-on'])
     if (primaryJobs.some(job => !Number.isFinite(job?.['timeout-minutes']))) {
