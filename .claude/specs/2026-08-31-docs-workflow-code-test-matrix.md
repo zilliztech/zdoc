@@ -309,3 +309,7 @@ allowlist in shared-docs `spec/coverage.ts`, alongside recursive local TypeScrip
 tests. WP9b removes exactly twelve approved Fetch pending IDs; `T06` still needs
 separate site/browser acceptance evidence, and WP14 dev-PR/old-writer cases remain
 outside these tests. Tags alone cannot replace retained-artifact evidence.
+
+### Localized Chinese Guides workflows and tooling
+
+`localized-docs-core` covers `packages/docs-tooling/src/localized-docs/**` (core schema, 3-way drafting, PR check, scheduling planner, GitHub PR adapter, and CLI commands). `localized-docs-pr-workflow` covers `.github/workflows/localized-docs-validate.yml`, `.github/workflows/translate-zh-guides.yml`, and `.github/CODEOWNERS`. Run `pnpm exec vitest run packages/docs-tooling/src/localized-docs --pool=forks --isolate --maxWorkers=1` together with `pnpm test:workflow-policy`, `pnpm test:workflow-matrix`, `pnpm test:typescript-runtime-boundary`, `pnpm typecheck`, and `git diff --check`. Both workflows stay isolated from `docs-production-dev`, preserve immutable SHA bindings, and enforce Feishu secret isolation plus `FEISHU_NOTIFICATIONS_DISABLED`.

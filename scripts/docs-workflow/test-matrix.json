@@ -1916,6 +1916,7 @@
       "id": "localized-docs-pr-workflow",
       "paths": [
         ".github/workflows/localized-docs-validate.yml",
+        ".github/workflows/translate-zh-guides.yml",
         ".github/CODEOWNERS"
       ],
       "focusedTests": [
@@ -1927,7 +1928,7 @@
         "pnpm test:workflow-matrix",
         "git diff --check"
       ],
-      "reason": "Localized zh-CN guides PR validation workflow and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, edited-triggered for todo-zero review gating, and owned by @zilliztech/techcomms."
+      "reason": "Localized zh-CN guides PR validation workflow, scheduled rolling-PR/digest workflow, and CODEOWNERS keep candidate checks read-only, immutable-SHA-bound, isolated from docs-production-dev, and owned by @zilliztech/techcomms."
     }
   ]
 }

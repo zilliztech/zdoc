@@ -511,7 +511,21 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       process.exitCode = await runBootstrap(options, text => process.stdout.write(text), text => process.stderr.write(text), repositoryRoot);
       return true;
     }
-    process.stderr.write('Error: localized-docs action must be check, build, draft, pr-check, or bootstrap\n');
+    if (argv[1] === 'schedule') {
+      let options: import('./localized-docs/commands/schedule.ts').ScheduleOptions;
+      try {
+        const {parseScheduleArgs} = await import('./localized-docs/commands/schedule.ts');
+        options = parseScheduleArgs(argv.slice(2));
+      } catch (error) { process.stderr.write(`${String(error)}\n`); process.exitCode = 2; return true; }
+      const {runSchedule} = await import('./localized-docs/commands/schedule.ts');
+      process.exitCode = await runSchedule(options, {
+        write: text => process.stdout.write(text),
+        writeError: text => process.stderr.write(text),
+        repositoryRoot,
+      });
+      return true;
+    }
+    process.stderr.write('Error: localized-docs action must be check, build, draft, pr-check, bootstrap, or schedule\n');
     process.exitCode = 2;
     return true;
   }

@@ -1,0 +1,277 @@
+name: translate zh guides
+run-name: translate-zh-guides ${{ inputs.page || 'all' }}
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      page:
+        description: Optional single page ID under localized-docs/zh-CN/guides/pages/
+        required: false
+        type: string
+        default: ''
+      dry_run:
+        description: Run read-only planning without pushing branches or opening PRs
+        required: false
+        type: boolean
+        default: true
+      provider:
+        description: Draft LLM provider (fake or openai)
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+env:
+  FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+concurrency:
+  group: translate-zh-guides
+  cancel-in-progress: false
+
+jobs:
+  schedule:
+    name: schedule-zh-guides
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    outputs:
+      should_notify: ${{ steps.scan.outputs.should_notify }}
+      card_status: ${{ steps.scan.outputs.card_status }}
+      artifact_name: ${{ steps.scan.outputs.artifact_name }}
+      dry_run: ${{ steps.dispatch_inputs.outputs.dry_run }}
+      has_manual_state_update: ${{ steps.scan.outputs.has_manual_state_update }}
+    steps:
+      - name: Validate dispatch inputs
+        id: dispatch_inputs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_PAGE: ${{ inputs.page || '' }}
+          INPUT_DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          INPUT_PROVIDER: ${{ inputs.provider || vars.ZH_GUIDES_DRAFT_PROVIDER || 'fake' }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$INPUT_PAGE" ]]; then
+            [[ "$INPUT_PAGE" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo '::error::page must be a lowercase hyphenated slug'; exit 1; }
+          fi
+          [[ "$INPUT_PROVIDER" == fake || "$INPUT_PROVIDER" == openai ]] || { echo '::error::provider must be fake or openai'; exit 1; }
+          {
+            printf 'page=%s\n' "$INPUT_PAGE"
+            printf 'dry_run=%s\n' "$INPUT_DRY_RUN"
+            printf 'provider=%s\n' "$INPUT_PROVIDER"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Check out pinned master
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+
+      - name: Resolve exact dev snapshot SHA
+        id: dev_ref
+        run: |
+          set -euo pipefail
+          dev_sha=$(git ls-remote --exit-code "https://github.com/$GITHUB_REPOSITORY.git" refs/heads/dev | awk '{print $1}')
+          [[ "$dev_sha" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::failed to resolve dev SHA'; exit 1; }
+          printf 'sha=%s\n' "$dev_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Check out read-only dev snapshot
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.dev_ref.outputs.sha }}
+          path: .zh-guides-dev
+          fetch-depth: 0
+          filter: blob:none
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /content/en/guides/
+            /generated/en/manifests/shared-pages/guides/
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore manual notification dedup state
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ runner.temp }}/zh-guides-manual-state
+          key: zh-guides-manual-notify-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            zh-guides-manual-notify-state-
+
+      - name: Scan localized zh-CN Guides and maintain rolling PRs
+        id: scan
+        env:
+          GH_TOKEN: ${{ secrets.ZH_GUIDES_TRANSLATE_APP_TOKEN || github.token }}
+          TARGET_PAGE: ${{ steps.dispatch_inputs.outputs.page }}
+          DRY_RUN: ${{ steps.dispatch_inputs.outputs.dry_run }}
+          DRAFT_PROVIDER: ${{ steps.dispatch_inputs.outputs.provider }}
+          DEV_COMMIT: ${{ steps.dev_ref.outputs.sha }}
+          ZDOC_DRAFT_LLM_BASE_URL: ${{ vars.ZDOC_DRAFT_LLM_BASE_URL || '' }}
+          ZDOC_DRAFT_LLM_MODEL: ${{ vars.ZDOC_DRAFT_LLM_MODEL || '' }}
+          ZDOC_DRAFT_LLM_API_KEY: ${{ secrets.ZDOC_DRAFT_LLM_API_KEY || '' }}
+        run: |
+          set -euo pipefail
+          out_dir="$RUNNER_TEMP/zh-guides-schedule"
+          manual_state_file="$RUNNER_TEMP/zh-guides-manual-state/state.json"
+          rm -rf "$out_dir"
+          mkdir -p "$(dirname "$manual_state_file")"
+          args=(
+            localized-docs schedule
+            --root localized-docs/zh-CN/guides
+            --dev-root .zh-guides-dev
+            --dev-git-dir .zh-guides-dev
+            --dev-commit "$DEV_COMMIT"
+            --repo "$GITHUB_REPOSITORY"
+            --base-branch master
+            --provider "$DRAFT_PROVIDER"
+            --manual-state-file "$manual_state_file"
+            --validation-workflow localized-docs-validate.yml
+            --out "$out_dir"
+          )
+          if [[ -n "$TARGET_PAGE" ]]; then
+            args+=(--page "$TARGET_PAGE")
+          fi
+          if [[ "$DRY_RUN" == true ]]; then
+            args+=(--dry-run)
+          fi
+          pnpm docs-tooling "${args[@]}"
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const outDir = path.join(process.env.RUNNER_TEMP, 'zh-guides-schedule');
+          const summaryPath = path.join(outDir, 'schedule-summary.json');
+          const manualStatePath = path.join(process.env.RUNNER_TEMP, 'zh-guides-manual-state', 'state.json');
+          const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+          const shouldNotify = summary.should_notify === true ? 'true' : 'false';
+          const blockedCount = Array.isArray(summary.blocked) ? summary.blocked.length : 0;
+          const cardStatus = blockedCount === 0 ? 'success' : 'fail';
+          const artifactName = `zh-guides-schedule-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}`;
+          const hasManualUpdates =
+            process.env.DRY_RUN !== 'true' &&
+            Array.isArray(summary.manual_notified_updates) &&
+            summary.manual_notified_updates.length > 0 &&
+            fs.existsSync(manualStatePath);
+          if (hasManualUpdates) {
+            fs.copyFileSync(manualStatePath, path.join(outDir, 'manual-notify-state.json'));
+          }
+          fs.appendFileSync(
+            process.env.GITHUB_OUTPUT,
+            `should_notify=${shouldNotify}\ncard_status=${cardStatus}\nartifact_name=${artifactName}\nhas_manual_state_update=${hasManualUpdates ? 'true' : 'false'}\n`,
+          );
+          NODE
+
+      - name: Upload schedule summary and digest artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: zh-guides-schedule-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/zh-guides-schedule
+          retention-days: 14
+          if-no-files-found: ignore
+
+  daily_digest:
+    name: send-daily-digest-card
+    needs: schedule
+    if: ${{ needs.schedule.result == 'success' && needs.schedule.outputs.should_notify == 'true' && needs.schedule.outputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out pinned reporting tooling
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download daily digest artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.schedule.outputs.artifact_name }}
+          path: tmp/zh-guides-schedule
+
+      - name: Create daily zh-CN Guides digest card
+        id: report_card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Zilliz Cloud 中文 Guides 每日翻译汇总" --stages "Scan and draft zh-CN Guides"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+      - name: Attach daily zh-CN Guides digest note
+        id: attach_note
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/zh-guides-schedule/digest-note.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+
+      - name: Finish daily zh-CN Guides digest card
+        id: finish_card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status "$CARD_STATUS"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_NOTIFICATIONS_DISABLED: ${{ vars.FEISHU_NOTIFICATIONS_DISABLED || '' }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ needs.schedule.outputs.card_status }}
+
+      - name: Stage manual notification dedup state after successful delivery
+        if: ${{ steps.report_card.outputs.card_id != '' && steps.attach_note.outcome == 'success' && steps.finish_card.outcome == 'success' && needs.schedule.outputs.has_manual_state_update == 'true' }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/zh-guides-manual-state"
+          cp tmp/zh-guides-schedule/manual-notify-state.json "$RUNNER_TEMP/zh-guides-manual-state/state.json"
+
+      - name: Save manual notification dedup state
+        if: ${{ steps.report_card.outputs.card_id != '' && steps.attach_note.outcome == 'success' && steps.finish_card.outcome == 'success' && needs.schedule.outputs.has_manual_state_update == 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/zh-guides-manual-state
+          key: zh-guides-manual-notify-state-${{ github.run_id }}-${{ github.run_attempt }}
