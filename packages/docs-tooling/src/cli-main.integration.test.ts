@@ -785,3 +785,66 @@ describe('revision inventory snapshot gating', () => {
     expect(report.authoritativeReplacements ?? []).toEqual([]);
   });
 });
+
+describe('localized-docs draft dispatch', () => {
+  it('dispatches localized-docs draft with fake provider and rejects unknown flags with exit 2', () => {
+    const repoCheckout = path.resolve(import.meta.dirname, '../../..');
+    const launcher = path.join(repoCheckout, 'scripts/docs-tooling.js');
+    const root = realpathSync(temporaryRoot());
+    try {
+      const guidesRoot = path.join(root, 'localized-docs/zh-CN/guides');
+      mkdirSync(path.join(guidesRoot, 'pages/demo-page'), {recursive: true});
+      writeFileSync(path.join(guidesRoot, 'Variables.json'), JSON.stringify({product_name: 'Zilliz Cloud'}));
+      writeFileSync(
+        path.join(guidesRoot, 'pages/demo-page/page.yaml'),
+        'schema_version: 1\nmode: incremental\nen_source:\n  manual: guides\n  shared_page: demo-page\n',
+      );
+      const enNew = path.join(root, 'demo-en.md');
+      writeFileSync(enNew, '# Demo Page\n\nClick <UI>Connect</UI>.\n');
+      const outDir = path.join(root, 'draft-out');
+
+      const result = spawnSync(process.execPath, [
+        launcher,
+        'localized-docs',
+        'draft',
+        '--root',
+        guidesRoot,
+        '--page',
+        'demo-page',
+        '--en-new',
+        enNew,
+        '--out',
+        outDir,
+        '--provider',
+        'fake',
+        '--locale-contract-root',
+        repoCheckout,
+      ], {cwd: repoCheckout, encoding: 'utf8'});
+      expect(result.status, result.stderr || result.stdout).toBe(0);
+      expect(JSON.parse(readFileSync(path.join(outDir, 'draft-report.json'), 'utf8'))).toMatchObject({
+        status: 'drafted',
+        page_id: 'demo-page',
+        mode: 'initial',
+      });
+
+      const unknownFlag = spawnSync(process.execPath, [
+        launcher,
+        'localized-docs',
+        'draft',
+        '--root',
+        guidesRoot,
+        '--page',
+        'demo-page',
+        '--en-new',
+        enNew,
+        '--out',
+        path.join(root, 'draft-out-2'),
+        '--unknown-flag',
+        '1',
+      ], {cwd: repoCheckout, encoding: 'utf8'});
+      expect(unknownFlag.status).toBe(2);
+    } finally {
+      rmSync(root, {recursive: true, force: true});
+    }
+  });
+});
