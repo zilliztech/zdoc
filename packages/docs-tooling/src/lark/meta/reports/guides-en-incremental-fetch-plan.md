@@ -1,27 +1,25 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-11-26T10:37:58.287Z
+Generated: 2026-11-26T18:30:00.919Z
 Mode: incremental
 Build env: uat
 Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-11-26T10:37:58.287Z
+Previous snapshot: 2026-11-26T18:30:00.919Z
 
 ## Summary
 
-- Changed docs: 1 (1 with Feishu tokens)
-- Expanded docs: 3
+- Changed docs: 0 (0 with Feishu tokens)
+- Expanded docs: 0
 - Removed docs: 0
 - Warnings: 0
 
 ## Changed Docs
 
-- Lexical Highlighter (BJCjwpj8JizP0nkI11uci1pPndh): wiki node revision changed
+- None
 
 ## Expanded Tokens
 
-- BJCjwpj8JizP0nkI11uci1pPndh: wiki node revision changed
-- MUL3wkn7Yi3YoFkYk59csf8bnNc: incoming reference to BJCjwpj8JizP0nkI11uci1pPndh
-- ZBEiwpvlbijhYDkmnNScc7zyn5d: incoming reference to BJCjwpj8JizP0nkI11uci1pPndh
+- None
 
 ## Removed Docs
 
