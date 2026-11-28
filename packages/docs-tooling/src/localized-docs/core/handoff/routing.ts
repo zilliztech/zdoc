@@ -40,12 +40,16 @@ export interface LocalizedRoutingRecord {
   /** Target relative publish path / slug in Guides. */
   page_url: string
   doc_link: string
+  /** Optional normalized publish targets (e.g. `zilliz.saas`, `zilliz.paas`) for disjoint Feishu records. */
+  publish_targets?: readonly string[] | null
 }
 
 export interface LocalizedFallbackSnapshotRecord {
   /** Optional reference-only metadata; never used for fallback matching. */
   record_id?: string | null
   page_url: string
+  source_kind?: string | null
+  publish_targets?: readonly string[] | null
   doc_token?: string | null
   node_token?: string | null
   origin_node_token?: string | null
@@ -82,6 +86,7 @@ export interface LocalizedRoutingContext {
   activePageUrls: ReadonlySet<string>
   routesByPageUrl: Map<string, LocalizedSourceRoute>
   inspectedDocsByPageUrl: Map<string, string>
+  inspectedFeishuLinksByPageUrl: Map<string, Set<string>>
   recordsByPageUrl: Map<string, LocalizedRoutingRecord>
   ownerPageUrlByPageId: Map<PageId, string>
   fallbackBaselineByPageUrl: Map<string, LocalizedFallbackSnapshotRecord>
@@ -95,6 +100,26 @@ export interface LocalizedRoutingContext {
 const SAFE_PAGE_URL_SEGMENT_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/
 const SAFE_RUN_ID_RE = /^[^\s\x00-\x1f\x7f]+$/
 const RESERVED_ALIAS_PREFIX_RE = /^(?:base_|shared-|localized-)/
+
+function normalizePublishTargets(targets?: readonly string[] | null): string[] {
+  if (!Array.isArray(targets)) return []
+  const normalized = new Set<string>()
+  for (const raw of targets) {
+    const value = String(raw ?? '').trim().toLowerCase()
+    if (!value) continue
+    if (value === 'saas' || value === 'zilliz.saas') normalized.add('zilliz.saas')
+    else if (value === 'paas' || value === 'byoc' || value === 'zilliz.paas' || value === 'zilliz.byoc') {
+      normalized.add('zilliz.paas')
+    } else {
+      normalized.add(value)
+    }
+  }
+  return [...normalized].sort((a, b) => a.localeCompare(b))
+}
+
+function hasDisjointNonEmptyTargets(a: readonly string[], b: readonly string[]): boolean {
+  return a.length > 0 && b.length > 0 && !a.some(target => b.includes(target))
+}
 
 function assertCondition(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message)
@@ -339,17 +364,30 @@ export function createLocalizedRoutingContext(
   }
 
   const fallbackBaselineByPageUrl = new Map<string, LocalizedFallbackSnapshotRecord>()
+  const fallbackTargetsByPageUrl = new Map<string, string[]>()
   for (const snapshotRecord of input.previousSnapshot?.records ?? []) {
     const normalizedUrl = normalizeLocalizedPageUrl(snapshotRecord.page_url)
-    assertCondition(
-      !fallbackBaselineByPageUrl.has(normalizedUrl),
-      `Duplicate previous snapshot page_url: "${normalizedUrl}"`,
-    )
+    const nextTargets = normalizePublishTargets(snapshotRecord.publish_targets)
+    const existingBaseline = fallbackBaselineByPageUrl.get(normalizedUrl)
+    if (existingBaseline) {
+      const seenTargets = fallbackTargetsByPageUrl.get(normalizedUrl) ?? []
+      const canCoexist =
+        existingBaseline.source_kind !== 'localized-page' &&
+        snapshotRecord.source_kind !== 'localized-page' &&
+        hasDisjointNonEmptyTargets(seenTargets, nextTargets)
+      assertCondition(canCoexist, `Duplicate previous snapshot page_url: "${normalizedUrl}"`)
+      fallbackTargetsByPageUrl.set(normalizedUrl, [...seenTargets, ...nextTargets])
+      continue
+    }
     fallbackBaselineByPageUrl.set(normalizedUrl, { ...snapshotRecord, page_url: normalizedUrl })
+    fallbackTargetsByPageUrl.set(normalizedUrl, nextTargets)
   }
 
   const routesByPageUrl = new Map<string, LocalizedSourceRoute>()
   const inspectedDocsByPageUrl = new Map<string, string>()
+  const inspectedFeishuLinksByPageUrl = new Map<string, Set<string>>()
+  const feishuTargetsByPageUrl = new Map<string, string[]>()
+  const feishuRoutesByPageUrl = new Map<string, Array<Extract<LocalizedSourceRoute, { kind: 'feishu' }>>>()
   const recordsByPageUrl = new Map<string, LocalizedRoutingRecord>()
   const ownerPageUrlByPageId = new Map<PageId, string>()
   const errors: LocalizedRoutingError[] = []
@@ -374,10 +412,22 @@ export function createLocalizedRoutingContext(
       continue
     }
 
-    assertCondition(
-      !routesByPageUrl.has(normalizedUrl),
-      `Duplicate canonical page_url: "${normalizedUrl}"`,
-    )
+    const existingRoute = routesByPageUrl.get(normalizedUrl)
+    if (existingRoute) {
+      const candidateRoute = classifyLocalizedSourceRoute(record.doc_link, { site, availablePages })
+      const seenTargets = feishuTargetsByPageUrl.get(normalizedUrl) ?? []
+      const nextTargets = normalizePublishTargets(record.publish_targets)
+      const canCoexist =
+        !activeEntry &&
+        existingRoute.kind === 'feishu' &&
+        candidateRoute.kind === 'feishu' &&
+        hasDisjointNonEmptyTargets(seenTargets, nextTargets)
+      assertCondition(canCoexist, `Duplicate canonical page_url: "${normalizedUrl}"`)
+      feishuTargetsByPageUrl.set(normalizedUrl, [...seenTargets, ...nextTargets])
+      inspectedFeishuLinksByPageUrl.get(normalizedUrl)!.add(record.doc_link)
+      feishuRoutesByPageUrl.get(normalizedUrl)!.push(candidateRoute)
+      continue
+    }
 
     let route = classifyLocalizedSourceRoute(record.doc_link, { site, availablePages })
 
@@ -438,6 +488,9 @@ export function createLocalizedRoutingContext(
     }
 
     if (route.kind === 'feishu') {
+      feishuTargetsByPageUrl.set(normalizedUrl, normalizePublishTargets(record.publish_targets))
+      inspectedFeishuLinksByPageUrl.set(normalizedUrl, new Set([record.doc_link]))
+      feishuRoutesByPageUrl.set(normalizedUrl, [route])
       continue
     }
 
@@ -460,13 +513,14 @@ export function createLocalizedRoutingContext(
     }
   }
 
-  for (const [pageUrl, route] of routesByPageUrl) {
-    if (route.kind !== 'feishu') continue
-    const owner = aliasesByToken.get(route.token)
-    assertCondition(
-      !owner || owner === pageUrl,
-      `Conflicting localized Feishu alias "${route.token}" between "${owner}" and "${pageUrl}"`,
-    )
+  for (const [pageUrl, feishuRoutes] of feishuRoutesByPageUrl) {
+    for (const route of feishuRoutes) {
+      const owner = aliasesByToken.get(route.token)
+      assertCondition(
+        !owner || owner === pageUrl,
+        `Conflicting localized Feishu alias "${route.token}" between "${owner}" and "${pageUrl}"`,
+      )
+    }
   }
 
   const resolveRoute = (rawPageUrl: string): LocalizedSourceRoute | undefined => {
@@ -571,6 +625,7 @@ export function createLocalizedRoutingContext(
     activePageUrls: new Set(activeByPageUrl.keys()),
     routesByPageUrl,
     inspectedDocsByPageUrl,
+    inspectedFeishuLinksByPageUrl,
     recordsByPageUrl,
     ownerPageUrlByPageId,
     fallbackBaselineByPageUrl,
