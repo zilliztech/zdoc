@@ -54,6 +54,16 @@ it('rejects upstream pages that collide case-insensitively', () => {
   expect(errors.some(error => error.code === 'CONFIG_SLUG_DUPLICATE')).toBe(true)
 })
 
+it('expands snake_case pages and nested module directories into underscore page IDs', () => {
+  // The rust upstream names method pages snake_case and nests Collections/Function/;
+  // both derive legal page IDs (`Database-list_databases`, `Collections-BoostRerank`).
+  const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'rust' } }
+  const { pages, errors } = expandManualPages(
+    [`${sourceDir}/Database/list_databases.md`, `${sourceDir}/Collections/Function/BoostRerank.md`], manual)
+  expect(errors).toEqual([])
+  expect([...pages.keys()].sort()).toEqual(['Collections-BoostRerank', 'Database-list_databases'])
+})
+
 it('expands excluded pages out of the manual while consuming their metadata', () => {
   const manual: ManualConfig = { schema_version: 1, source: { dir: sourceDir }, publish: { manual: 'node' },
     exclude: ['Collections/DataType.md'], metadata: { 'Collections/DataType.md': { added_since: 'v2.3.x' } } }

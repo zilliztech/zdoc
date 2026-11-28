@@ -24,6 +24,7 @@ const sidebars: SidebarsConfig = {
   goSidebar: applyOverrides(tryRequire('../../../../../generated/en/sidebars/go.sidebar'), tryResolve('../../../../../sidebar-overrides/en/go.json')),
   cppSidebar: applyOverrides(tryRequire('../../../../../generated/en/sidebars/cpp.sidebar'), tryResolve('../../../../../sidebar-overrides/en/cpp.json')),
   cliSidebar: applyOverrides(tryRequire('../../../../../generated/en/sidebars/cli.sidebar'), tryResolve('../../../../../sidebar-overrides/en/cli.json')),
+  rustSidebar: applyOverrides(tryRequire('../../../../../generated/en/sidebars/rust.sidebar'), tryResolve('../../../../../sidebar-overrides/en/rust.json')),
   // REST API reference sidebar — generated from Apifox specifications
   restfulSidebar: applyOverrides(tryRequire('../../../../../generated/en/sidebars/restful.sidebar'), tryResolve('../../../../../sidebar-overrides/en/restful.json')),
 };

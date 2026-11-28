@@ -1,0 +1,13 @@
+check:
+  - localhost:19530
+  - 127.0.0.1
+  - root:Milvus
+# `localhost:19530` rather than bare `localhost`: the reranker pages intentionally point
+# model-provider examples at a local TEI server on another port, and bare `localhost`
+# would drag those in without an allow-listable phrase. The connection-value guard keeps
+# its hard failure for every real Milvus endpoint spelling.
+# Intentional mentions the Cloud page keeps verbatim: the ConnectConfig table and prose
+# document the SDK's own OSS defaults.
+allow:
+  - '`String` | `"http://localhost:19530"`'
+  - 'for example `http://localhost:19530`'

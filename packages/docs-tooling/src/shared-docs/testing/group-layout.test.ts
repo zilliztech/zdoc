@@ -43,7 +43,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('rejects unsupported %s grou
         : await runLinksSeed(options, write)
       expect(code).toBe(1)
       expect(output).toContain('CONFIG_FIELD_MISSING')
-      expect(output).toContain('Only the guides and node groups are supported')
+      expect(output).toContain('Only the guides, node, and rust groups are supported')
     }
     for (const spy of [read, stat, real, list, writeFile]) expect(spy).not.toHaveBeenCalled()
   } finally { vi.restoreAllMocks() }
@@ -56,7 +56,7 @@ it.each(['build', 'lock', 'inspect', 'links-seed'])('validates the group through
     const result = cli(action, '--shared-docs', sharedDocs, '--repo', '/missing/repo', ...args, ...extra)
     expect(result.status).toBe(1)
     expect(result.stdout + result.stderr).toContain('CONFIG_FIELD_MISSING')
-    expect(result.stdout + result.stderr).toContain('Only the guides and node groups are supported')
+    expect(result.stdout + result.stderr).toContain('Only the guides, node, and rust groups are supported')
     expect(result.stdout + result.stderr).not.toContain('ENOENT')
   }
 })

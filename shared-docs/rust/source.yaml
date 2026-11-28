@@ -1,0 +1,8 @@
+schema_version: 1
+repository: https://github.com/milvus-io/web-content
+track: master
+presentation:
+  rust:
+    title_suffix: Rust
+    slug_prefix: /rust/rust
+    displayed_sidebar: rustSidebar

@@ -62,6 +62,16 @@
       "requireSourceDifference": true
     },
     {
+      "manual": "rust",
+      "sidebarKey": "rustSidebar",
+      "sidebar": "rust",
+      "documentIdPrefix": "api/rust/rust",
+      "landingPage": "api/rust/rust/rust.md",
+      "minimumProseCharacters": 300,
+      "minimumHeadingCount": 2,
+      "requireSourceDifference": true
+    },
+    {
       "manual": "rest",
       "sidebarKey": "restfulSidebar",
       "sidebar": "restful",

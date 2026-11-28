@@ -815,6 +815,12 @@
       "area_id": "links-and-images"
     },
     {
+      "code": "LINK_INTRA_DOC",
+      "area": "链接与图片",
+      "when": "上游散文里的 rustdoc 路径被 CommonMark 识别成 autolink（如 `Option<response::dql::QueryResponse>`），去链接保文字",
+      "area_id": "links-and-images"
+    },
+    {
       "code": "LINK_MAP_INVALID",
       "area": "链接与图片",
       "when": "`links.yaml` 格式不对：不是合法的 YAML，同一个 Milvus 页面登记了两次，键不是 `.md` 文件名，或值既不是页面标识也不是 `https://milvus.io/` 开头的地址",

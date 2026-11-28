@@ -128,8 +128,13 @@ function scanReferences(markdown: string, onLink?: (ref: LinkRef, text: string) 
     const ok = autoRule(state, silent)
     if (ok && !silent && state.src === masked && !ignored()) {
       const token = state.tokens.slice(first).find(token => token.type === 'link_open')
-      if (token) add(false, String(token.attrGet('href')), { start: start + 1, end: state.pos - 1 }, start,
-        onLink ? headingText(masked.slice(start, state.pos)) : '')
+      if (token) {
+        const text = onLink ? headingText(masked.slice(start, state.pos)) : ''
+        add(false, String(token.attrGet('href')), { start: start + 1, end: state.pos - 1 }, start, text,
+          // The whole `<...>` construct rides along so a rewrite can strip the autolink
+          // to its text; the inner span stays the edit target for destination rewrites.
+          { text, full: { start, end: state.pos } })
+      }
     }
     return ok
   })

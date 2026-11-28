@@ -29,7 +29,7 @@ export function groupContext(directory: string, repositoryRoot = process.cwd()):
   const path = (outside ? root : repositoryPath).split(sep).join('/')
   const name = basename(root)
   if (!SUPPORTED_GROUPS.has(name)) return { errors: [{ code: 'CONFIG_FIELD_MISSING',
-    message: 'Only the guides and node groups are supported; --shared-docs must select its group directory',
+    message: 'Only the guides, node, and rust groups are supported; --shared-docs must select its group directory',
     file: path, line: 1, channel: 'both' as const }] }
   return { root, path, name, file: (file: string) => groupFile(path, file) }
 }

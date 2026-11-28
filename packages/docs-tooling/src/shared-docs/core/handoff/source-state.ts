@@ -30,7 +30,7 @@ export interface SharedReceiptExpectation {group: string; page: string;
   renderManuals?: readonly {manual: string; contentRoot: string}[]}
 const GUIDES_RENDER_MANUALS: readonly {manual: string; contentRoot: string}[] = [
   {manual: 'guides', contentRoot: 'content/en/guides'}, {manual: 'guides-byoc', contentRoot: 'content/en/byoc'}]
-const SLUG = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/
+const SLUG = /^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/
 const TOKEN = /^[A-Za-z0-9_-]+$/
 const SHA = /^[a-f0-9]{64}$/
 const COMMIT = /^[a-f0-9]{40}$/

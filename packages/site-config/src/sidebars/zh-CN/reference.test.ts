@@ -13,13 +13,17 @@ const names = [
   'goSidebar',
   'cppSidebar',
   'cliSidebar',
+  'rustSidebar',
   'restfulSidebar',
 ] as const;
 
 // References with a published zh-CN translation must be non-empty. cpp is
 // excluded: its translation is optional and may not have landed yet, so its
 // generated sidebar can legitimately be empty (tolerated by loadPublishedSidebar).
-const translatedNames = names.filter(name => name !== 'cppSidebar');
+// rust is excluded for now: its zh-CN tree is machine-translated from the first
+// production fetch, so it starts empty like cpp and the exclusion flips when the
+// translation lands.
+const translatedNames = names.filter(name => name !== 'cppSidebar' && name !== 'rustSidebar');
 
 type SidebarNode = Readonly<{
   label?: string;
@@ -35,7 +39,7 @@ function collectCategoryLabels(items: readonly SidebarNode[]): string[] {
 }
 
 describe('zh-CN reference sidebars', () => {
-  it('loads seven isolated published sidebars', () => {
+  it('loads eight isolated published sidebars', () => {
     expect(Object.keys(sidebars)).toEqual(names);
     for (const name of names) {
       expect(Array.isArray(sidebars[name])).toBe(true);

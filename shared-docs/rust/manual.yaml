@@ -1,0 +1,55 @@
+schema_version: 1
+source:
+  dir: API_Reference/milvus-sdk-rust/v3.0.x
+publish:
+  manual: rust
+metadata:
+  Authentication/:
+    sidebar_position: 7
+  Client/:
+    sidebar_position: 1
+  Collections/:
+    sidebar_position: 2
+  DataImport/:
+    title: Data Import
+    sidebar_position: 3
+  Database/:
+    sidebar_position: 8
+  FileResources/:
+    sidebar_position: 10
+  Management/:
+    sidebar_position: 4
+  Partitions/:
+    sidebar_position: 9
+  Snapshots/:
+    sidebar_position: 5
+  Vector/:
+    sidebar_position: 6
+exclude:
+  - ResourceGroup/
+  - CDC/
+  - About.md
+  - Authentication/create_row_policy.md
+  - Authentication/delete_rls_principal_tags.md
+  - Authentication/drop_row_policy.md
+  - Authentication/get_rls_principal_tags.md
+  - Authentication/list_rls_principals.md
+  - Authentication/list_row_policies.md
+  - Authentication/RowPolicyAction.md
+  - Authentication/RowPolicyType.md
+  - Authentication/set_rls_principal_tags.md
+  - Authentication/update_row_policy.md
+  - Management/SegmentLevel.md
+  - Management/SegmentState.md
+  - Management/list_persistent_segments.md
+  - Management/list_query_segments.md
+  - Management/list_running_requests.md
+  - Management/cancel_requests.md
+  - Management/RunningRequestInfo.md
+  - Management/RunningRequestNodeResult.md
+  - Management/list_compaction_tasks.md
+  - Management/optimize.md
+  - Vector/OrderByField.md
+milvus_values:
+  endpoint: http://localhost:19530
+  token: root:Milvus

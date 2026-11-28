@@ -16,6 +16,7 @@ const sidebars = {
   goSidebar: loadPublishedSidebar("go", () => tryRequire('../../../../../generated/zh-CN/sidebars/go.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/go.json')),
   cppSidebar: loadPublishedSidebar("cpp", () => tryRequire('../../../../../generated/zh-CN/sidebars/cpp.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/cpp.json')),
   cliSidebar: loadPublishedSidebar("cli", () => tryRequire('../../../../../generated/zh-CN/sidebars/cli.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/cli.json')),
+  rustSidebar: loadPublishedSidebar("rust", () => tryRequire('../../../../../generated/zh-CN/sidebars/rust.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/rust.json')),
   restfulSidebar: loadPublishedSidebar("restful", () => tryRequire('../../../../../generated/zh-CN/sidebars/restful.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/restful.json')),
 } satisfies SidebarsConfig;
 

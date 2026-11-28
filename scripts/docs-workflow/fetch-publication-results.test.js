@@ -153,7 +153,7 @@ test('projects canonical group states and preserves later-unit continuation outc
       'source/guides-zh-CN': 'published',
     }, resultShas: {'source/guides-zh-CN': SHA('e')}}),
   })
-  assert.deepEqual(projected.requestedGroups, ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'])
+  assert.deepEqual(projected.requestedGroups, ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rust', 'rest'])
   assert.equal(projected.groups.java.source, 'fetch_failed')
   assert.equal(projected.groups.node.source, 'validation_failed')
   assert.equal(projected.groups.go.source, 'publish_failed')

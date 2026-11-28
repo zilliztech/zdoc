@@ -9,7 +9,7 @@ export function referencesPage(from: PageIdentity, to: PageIdentity, url: string
   if (destination.includes('?')) return false
   let decoded: string
   try { decoded = decodeURIComponent(destination) } catch { return false }
-  const pageId = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/
+  const pageId = /^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/
   if (!pageId.test(from.pageId) || !pageId.test(to.pageId)) return false
   if (!decoded) return from.pageId === to.pageId
   return decoded === `./${to.pageId}` || decoded === `/${to.pageId}` || decoded === to.pageId

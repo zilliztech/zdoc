@@ -929,6 +929,8 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 - [Node.js](/reference/nodejs)
 
+- [Rust](/reference/rust)
+
 - [RESTful API](/reference/restful)
 
 </Blocks>

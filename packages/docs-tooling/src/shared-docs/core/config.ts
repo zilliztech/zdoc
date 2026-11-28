@@ -40,8 +40,8 @@ export function parsePageConfig(pageId: string, text: string, context: PageConfi
   checkBudget()
   const location = { file: context.file ?? `shared-docs/guides/pages/${pageId}/page.yaml`, page: pageId,
     channel: context.channel ?? 'both' as const }
-  const idErrors = /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(pageId) ? []
-    : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must contain letters, numbers, and hyphens', location)]
+  const idErrors = /^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)*$/.test(pageId) ? []
+    : [diagnostic('CONFIG_PAGE_ID_INVALID', 'Page ID must contain letters, numbers, underscores, and hyphens', location)]
   const parsed = parseYaml(text, 'CONFIG_SYNTAX_INVALID', location, checkBudget)
   if ('errors' in parsed) return { errors: [...idErrors, ...parsed.errors] }
   const check = new ConfigValidation(parsed.document, location, undefined, undefined, checkBudget)

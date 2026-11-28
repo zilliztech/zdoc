@@ -13,7 +13,7 @@ export type ImageRef = LinkRef
 export interface ImageContent { bytes: Uint8Array; sha256: string }
 export interface ImageRecord { original: string; sha256: string; address: string }
 /** Non-blocking diagnostics: reported with the build result, never failing it. */
-export interface Notice extends SharedDocsError { code: 'IMAGE_SOURCE_CHANGED' | 'LINK_TARGET_EXCLUDED' | 'PRODUCT_NAME_FOUND' }
+export interface Notice extends SharedDocsError { code: 'IMAGE_SOURCE_CHANGED' | 'LINK_INTRA_DOC' | 'LINK_TARGET_EXCLUDED' | 'PRODUCT_NAME_FOUND' }
 export interface CloudPage { slug: string; title: string }
 export interface PreparedLinkInputs {
   targets: ReadonlyMap<string, string | null>

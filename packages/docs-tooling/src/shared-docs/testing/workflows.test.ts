@@ -172,7 +172,7 @@ describe('read-only validation shell contracts', () => {
     for (const [workflow, job, name] of [[validate, 'validate', 'Detect shared input changes'], [lock, 'lock', 'Detect shared input changes']] as const) {
       const result = execute(workflow, job, name, setup, { SOURCE_SHA: head })
       expect(result.status).toBe(1); expect(result.outputs.failure_class).toBe('content')
-      expect(result.stderr).toContain('Supported shared-docs groups: guides, node')
+      expect(result.stderr).toContain('Supported shared-docs groups: guides, node, rust')
       const names = workflow.jobs[job].steps.map(step => step.name)
       expect(names.indexOf(name)).toBeLessThan(names.indexOf('Clone complete tracking history'))
     }
