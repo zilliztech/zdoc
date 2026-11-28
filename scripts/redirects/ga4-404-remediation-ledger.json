@@ -479,6 +479,13 @@
       "to": "/docs/changelogs",
       "note": "Release-notes family endpoint; /release-notes and /docs/release-notes already resolve to docs/changelogs.",
       "decided_at": "2026-11-22T23:31:57.777Z"
+    },
+    {
+      "from": "/docs/query",
+      "status": "fixed",
+      "to": "/reference/restful/query",
+      "note": "GA4 window 7d: unique-basename ladder (1 events / 1 users)",
+      "decided_at": "2026-11-28T03:24:44.463Z"
     }
   ]
 }
