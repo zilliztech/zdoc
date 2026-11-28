@@ -192,7 +192,9 @@ Two whole-manual lifecycle commands complete the manual layout (design 04/06/10)
 tracking head with the locked `next`, writing `next-lock.yaml` plus
 `report.json`/`report.md` (added, removed, and changed pages) into an empty
 output directory. A head that is not a descendant of the locked `next` fails
-closed; an up-to-date manual produces the report without a lock candidate.
+closed; an up-to-date manual produces the report without a lock candidate. A
+head that advanced past the locked `next` with a zero tracked-page diff is a
+no-op: no candidate is staged (the pin stays behind) and the lane opens no PR.
 `promote` moves `current` to `next` and carries the one-sided configuration
 across: `cloud_pages` `channel: next` entries become two-sided,
 `retire-in-next` entries leave the manual (their `content/` files stay in

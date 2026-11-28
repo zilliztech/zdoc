@@ -35,6 +35,36 @@ it('reports no changes when the tracking head equals the locked next', async () 
   await expect(readdir(out)).resolves.not.toContain('next-lock.yaml')
 })
 
+it('stages nothing when the tracking head advances with a zero tracked-page diff', async () => {
+  const demo = await createManualDemo(await temp('manual-upd-noop-'))
+  expect(await runLock({ fromFork: false, sharedDocs: demo.sharedDocs, repo: demo.repo }, () => {})).toBe(0)
+  // The tracking head moves past the locked next, but the commit only touches files
+  // outside the manual's source dir — the real-lane "upstream housekeeping" case that
+  // would otherwise open a pin-bump-only PR with no reviewable change.
+  await write(demo.repo, 'README.md', '# web-content\n\nHousekeeping outside the manual source.\n')
+  await git(demo.repo, 'add', '.')
+  await git(demo.repo, 'commit', '--quiet', '-m', 'Upstream housekeeping outside the manual')
+  const head = await git(demo.repo, 'rev-parse', 'HEAD')
+  const out = join(demo.root, 'report')
+  let output = ''
+  const code = await runUpdate({ sharedDocs: demo.sharedDocs, repo: demo.repo, dev: join(demo.root, 'dev'), out },
+    text => { output += text })
+  expect(code).toBe(0)
+  expect(output).toContain('"noop":true')
+  expect(output).toContain('"upToDate":false')
+  const report = JSON.parse(await readFile(join(out, 'report.json'), 'utf8'))
+  expect(report).toMatchObject({ kind: 'shared-manual-update', manual: 'node', blocked: false, upToDate: false,
+    noop: true, from: demo.commit, to: head,
+    counts: { added: 0, removed: 0, changed: 0, addedPending: 0, removedPublished: 0 } })
+  // Nothing is staged: the pin stays behind so the next real change is computed from it.
+  await expect(readdir(out)).resolves.not.toContain('next-lock.yaml')
+  await expect(readdir(out)).resolves.not.toContain('manual.yaml')
+  await expect(readdir(out)).resolves.not.toContain('ledger.json')
+  const markdown = await readFile(join(out, 'report.md'), 'utf8')
+  expect(markdown).toContain('no tracked-page changes')
+  expect(markdown).toContain('should not')
+})
+
 const UPDATE_MANUAL = `schema_version: 1
 source:
   dir: ${sourceDir}

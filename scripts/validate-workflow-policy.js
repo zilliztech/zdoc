@@ -770,8 +770,9 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
   }
   const classify = run('lane', 'Classify the lane result')
   if (!classify.includes("jq -e '.blocked == true'") || !classify.includes("echo 'result=blocked'") ||
-      !classify.includes("echo 'result=up-to-date'") || !classify.includes("echo 'result=candidate'")) {
-    fail('the lane must classify blocked, up-to-date and candidate outcomes from the authenticated report')
+      !classify.includes("echo 'result=up-to-date'") || !classify.includes("jq -e '.noop == true'") ||
+      !classify.includes("echo 'result=no-op'") || !classify.includes("echo 'result=candidate'")) {
+    fail('the lane must classify blocked, up-to-date, no-op and candidate outcomes from the authenticated report')
   }
   const blocked = run('lane', 'Report the blocked surface')
   if (step('lane', 'Report the blocked surface')?.if !== "steps.classify.outputs.result == 'blocked'" ||
@@ -835,8 +836,9 @@ function validateSharedDocsManualUpdateWorkflow(workflow, source, file, errors) 
       !deliver.includes("jq -r '.summary.degraded'")) {
     fail('the candidate PR body must surface the pairing and any advisory degradation loudly')
   }
-  if (!run('lane', 'Summarize the lane outcome').includes('[ "$CLASSIFY_RESULT" = blocked ]')) {
-    fail('the lane summary must report the blocked outcome and point at the adjudication recipe')
+  const summary = run('lane', 'Summarize the lane outcome')
+  if (!summary.includes('[ "$CLASSIFY_RESULT" = blocked ]') || !summary.includes('[ "$CLASSIFY_RESULT" = no-op ]')) {
+    fail('the lane summary must report the blocked outcome and point at the adjudication recipe, and must explain the zero-diff no-op outcome')
   }
   if (step('lane', 'Retain the lane evidence')?.if !== 'always()') {
     fail('lane evidence must be retained even when the lane fails')
