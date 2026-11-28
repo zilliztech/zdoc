@@ -2,6 +2,7 @@
 
 const path = require('node:path')
 const { loadTypeScript } = require('../../../../scripts/lib/load-typescript')
+const { guidesRecordPublishTargets } = require('./guidesBaseRecordSemantics')
 
 const sourceState = loadTypeScript(path.resolve(__dirname, '../localized-docs/core/handoff/source-state.ts'))
 const routingCore = loadTypeScript(path.resolve(__dirname, '../localized-docs/core/handoff/routing.ts'))
@@ -47,17 +48,44 @@ function recordPageUrl(record) {
   return routingCore.tryNormalizeLocalizedPageUrl(raw) || String(raw).trim()
 }
 
+function recordPublishTargets(record) {
+  const explicit = guidesRecordPublishTargets(record)
+  if (explicit.length > 0) return explicit
+  const raw = record?.publish_targets
+  const values = Array.isArray(raw) ? raw : raw == null ? [] : [raw]
+  return values.map(item => plain(item).toLowerCase()).filter(Boolean)
+}
+
+function normalizePreviousSnapshot(previousSnapshot) {
+  if (!previousSnapshot || !Array.isArray(previousSnapshot.records)) return previousSnapshot
+  const records = []
+  for (const row of previousSnapshot.records) {
+    const pageUrl = row?.page_url !== undefined ? row.page_url : recordPageUrl(row)
+    if (row?.page_url === undefined && !pageUrl) continue
+    records.push({
+      ...row,
+      page_url: pageUrl,
+      publish_targets: recordPublishTargets(row),
+    })
+  }
+  return { ...previousSnapshot, records }
+}
+
 function createLocalizedRoutingContext(input) {
   const records = (input.records || []).map(record => ({
     ...(record.record_id !== undefined ? { record_id: record.record_id } : {}),
     placement_type: recordPlacement(record),
     page_url: recordPageUrl(record),
     doc_link: recordLink(record),
+    publish_targets: recordPublishTargets(record),
   }))
   return routingAdapter.createLocalizedFetchRoutingContext({
     ...input,
     site: input.site ?? 'zh-CN',
     records,
+    ...(input.previousSnapshot !== undefined
+      ? { previousSnapshot: normalizePreviousSnapshot(input.previousSnapshot) }
+      : {}),
   })
 }
 
@@ -90,6 +118,14 @@ function routeForLocalizedRecord(record, routingContext = null) {
   }
 
   if (normalizedUrl && routingContext.inspectedDocsByPageUrl?.has(normalizedUrl)) {
+    const inspectedRoute = routingContext.routesByPageUrl.get(normalizedUrl)
+    if (
+      observed.kind === 'feishu' &&
+      inspectedRoute?.kind === 'feishu' &&
+      routingContext.inspectedFeishuLinksByPageUrl?.get(normalizedUrl)?.has(link)
+    ) {
+      return observed
+    }
     if (routingContext.inspectedDocsByPageUrl.get(normalizedUrl) !== link) {
       return {
         kind: 'invalid',
@@ -97,7 +133,7 @@ function routeForLocalizedRecord(record, routingContext = null) {
         message: `Docs changed after route preflight for page_url "${normalizedUrl}"; repeat route preflight`,
       }
     }
-    return routingContext.routesByPageUrl.get(normalizedUrl)
+    return inspectedRoute
   }
 
   if (recordPlacement(record) === 'canonical') {
