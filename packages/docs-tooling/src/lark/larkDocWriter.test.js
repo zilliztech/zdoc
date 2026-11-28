@@ -1463,8 +1463,120 @@ async function testPlainWriterSidebarSkipsSharedManualResolution() {
   }
 }
 
+function writeChapterHatSidebarFixture(dir) {
+  const leafSource = (title, slug, token) => ({
+    title,
+    name: title,
+    slug,
+    node_token: token,
+    origin_node_token: token,
+    base_record_id: `rec-${token}`,
+    base_placement_type: 'canonical',
+    base_targets: ['Zilliz.SaaS'],
+    base_status: 'Draft',
+    blocks: {
+      items: [
+        { block_id: `page-${token}`, block_type: 1, page: {}, children: [`text-${token}`] },
+        { block_id: `text-${token}`, block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+      ],
+    },
+  });
+  // table-level sources shaped like the scraper's virtual table nodes
+  const tableSource = (title, token, childTitle, childSlug, childToken) => ({
+    title,
+    name: title,
+    slug: title.toLowerCase(),
+    node_token: token,
+    origin_node_token: token,
+    base_table_id: token.replace(/^base:/, ''),
+    base_nav_virtual: true,
+    has_child: true,
+    children: [{ title: childTitle, slug: childSlug, node_token: childToken, has_child: false }],
+  });
+  fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+    title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+    children: [
+      { title: 'Development', slug: 'development', node_token: 'base:tbldev', has_child: true },
+      { title: 'Management', slug: 'management', node_token: 'base:tblmgmt', has_child: true },
+      { title: 'Get Started', slug: 'get-started', node_token: 'base:tblstart', has_child: true },
+    ],
+  }, null, 2));
+  fs.writeFileSync(path.join(dir, 'base_tbldev.json'), JSON.stringify(tableSource('Development', 'base:tbldev', 'Search & Query', 'search-and-query', 'dev-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'base_tblmgmt.json'), JSON.stringify(tableSource('Management', 'base:tblmgmt', 'Organizations', 'organizations', 'mgmt-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'base_tblstart.json'), JSON.stringify(tableSource('Get Started', 'base:tblstart', 'Quickstart', 'quickstart', 'start-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'dev-doc.json'), JSON.stringify(leafSource('Search & Query', 'search-and-query', 'dev-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'mgmt-doc.json'), JSON.stringify(leafSource('Organizations', 'organizations', 'mgmt-doc'), null, 2));
+  fs.writeFileSync(path.join(dir, 'start-doc.json'), JSON.stringify(leafSource('Quickstart', 'quickstart', 'start-doc'), null, 2));
+}
+
+async function testSidebarHtmlTablesRenderHeadingsWhileOthersStayCategories() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-chapter-hat-'));
+  const writer = new LarkDocWriter('root', 'base:*', 'default', tempDir, path.join(tempDir, 'images'), 'zilliz.saas', true, false);
+  try {
+    writeChapterHatSidebarFixture(tempDir);
+    const items = await writer.generate_sidebar('docs/tutorials', 'docs');
+    assert.deepEqual(items, [
+      {
+        type: 'html',
+        value: '<span class="sidebar-chapter-hat">Development</span>',
+        defaultStyle: false,
+        className: 'sidebar-chapter-hat',
+      },
+      // doc ids KEEP the table-slug path segment — only the render shape changes
+      { type: 'doc', id: 'tutorials/development/search-and-query', label: 'Search & Query', key: 'doc:tutorials/development/search-and-query' },
+      {
+        type: 'html',
+        value: '<span class="sidebar-chapter-hat">Management</span>',
+        defaultStyle: false,
+        className: 'sidebar-chapter-hat',
+      },
+      { type: 'doc', id: 'tutorials/management/organizations', label: 'Organizations', key: 'doc:tutorials/management/organizations' },
+      // non-chapter tables keep the collapsible-category rendering
+      {
+        type: 'category',
+        label: 'Get Started',
+        key: 'category:tutorials/get-started',
+        link: {
+          type: 'doc',
+          id: 'tutorials/get-started/get-started',
+        },
+        items: [
+          { type: 'doc', id: 'tutorials/get-started/quickstart', label: 'Quickstart', key: 'doc:tutorials/get-started/quickstart' },
+        ],
+      },
+    ]);
+  } finally {
+    writer.destroy();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
+async function testSidebarHtmlTableSkippedWhenEveryChildIsGatedOut() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-chapter-hat-'));
+  const writer = new LarkDocWriter('root', 'base:*', 'default', tempDir, path.join(tempDir, 'images'), 'zilliz.saas', true, false);
+  try {
+    writeChapterHatSidebarFixture(tempDir);
+    // gate the only Development child out: the heading must not render either
+    const dev = JSON.parse(fs.readFileSync(path.join(tempDir, 'dev-doc.json'), 'utf8'));
+    dev.base_status = 'Deprecated';
+    fs.writeFileSync(path.join(tempDir, 'dev-doc.json'), JSON.stringify(dev, null, 2));
+    const items = await writer.generate_sidebar('docs/tutorials', 'docs');
+    assert.deepEqual(items.map(item => item.type === 'html' ? item.value : item.label), [
+      '<span class="sidebar-chapter-hat">Management</span>',
+      'Organizations',
+      'Get Started',
+    ]);
+    assert.equal(items.filter(item => item.type === 'html').length, 1);
+  } finally {
+    writer.destroy();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testPlainWriterSidebarSkipsSharedManualResolution();
+  await testSidebarHtmlTablesRenderHeadingsWhileOthersStayCategories();
+  await testSidebarHtmlTableSkippedWhenEveryChildIsGatedOut();
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();
