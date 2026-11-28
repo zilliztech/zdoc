@@ -1,14 +1,14 @@
 import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { lstat, mkdir, readFile, realpath, writeFile } from 'node:fs/promises'
+import { dirname, isAbsolute, join } from 'node:path'
 import { isDeepStrictEqual, promisify } from 'node:util'
 import { compileFunction, constants } from 'node:vm'
 import { pathToFileURL } from 'node:url'
 import { canonicalRouteKey, resolveSiteProfile } from '@zilliz/site-config'
 import { rewriteDocHref } from '../../../../docs-ui/src/shared/links/rewriteDocLinks'
-import { validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
+import { openEnglishUatEvidence, validateReleaseRecord } from '../../../../../deploy/contracts/verify-image.mjs'
 import { readSharedDocs } from '../commands/build'
 import { safeHandoffPath, sharedReceiptPath, validateActiveState, validateSharedReceipt } from '../core/handoff/source-state'
 import type { ActivePage, SharedReceipt } from '../core/handoff/source-state'
@@ -25,9 +25,10 @@ import { RealMd2md } from './md2md'
 import { createZdocContentReader } from './zdoc-content'
 import type { ZdocContentReader } from './zdoc-content'
 import { classifyPromotion, decidePromotion, promotionPageId, selectPromotionPages } from '../core/promotion'
-import type { PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease } from '../core/promotion'
-import { compareUtf8, parseStrictJson } from '../core/updates/canonical'
+import type { JenkinsUatPreview, PromotionEdit, PromotionPage, PromotionPageCheck, PromotionPreview, PromotionResult, PromotionViewCheck, ReplayUatRelease, UatEvidencePreview } from '../core/promotion'
+import { canonicalBytes, compareUtf8, parseStrictJson } from '../core/updates/canonical'
 import { guidesSnapshotPath } from './guides-snapshot'
+import type { JenkinsEvidenceReader } from './jenkins-promotion-evidence'
 import { exportTree, gitEnvironment, gitRead, resolveCommit } from './updates/git'
 
 const exec = promisify(execFile)
@@ -159,7 +160,8 @@ async function verifyEditableYaml(path: string, decoded: string | undefined) {
   throw new Error(`Editable ${path.split('/').at(-1)} must round-trip as UTF-8 at the pinned Git baseline`)
 }
 
-export interface PromotionInputs { master: string; upstream: string; dev: string; record: string }
+interface PromotionRepositories { master: string; upstream: string; dev: string }
+export interface PromotionInputs extends PromotionRepositories { record: string }
 type LoadedConfiguration = Exclude<Awaited<ReturnType<typeof readSharedDocs>>, { errors: unknown }>
 type LoadedPage = LoadedConfiguration['pages'] extends ReadonlyMap<string, infer P> ? P : never
 
@@ -172,7 +174,19 @@ interface PageReplay {
 }
 
 export async function collectPromotionPreview(input: PromotionInputs, scratch: string) {
-  const [uat, master, dev] = await Promise.all([readReplayRecord(input.record), resolveCommit(input.master), resolveCommit(input.dev)])
+  const uat = await readReplayRecord(input.record)
+  const { baseline, pages, pageReplays, track } = await collectPinnedPromotion(input, uat, scratch)
+  const preview: PromotionPreview = { schema_version: 1, observation: 'replay', status: 'preview', uat, baseline, pages }
+  return { preview, pageReplays, devSha: baseline.dev, track }
+}
+
+async function collectPinnedPromotion(
+  input: PromotionRepositories,
+  uat: { record: Pick<ReplayUatRelease, 'sourceSha'>; openUpdatePages?: readonly string[] },
+  scratch: string,
+  selectedPage?: string,
+) {
+  const [master, dev] = await Promise.all([resolveCommit(input.master), resolveCommit(input.dev)])
   const deployed = await resolveCommit(input.dev, uat.record.sourceSha)
   if (deployed !== uat.record.sourceSha) throw new Error('UAT sourceSha must name the exact deployed commit')
   const devHistory = new GitMilvusDocsReader(input.dev)
@@ -180,7 +194,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
   const [acceptedActive, currentActive, acceptedSnapshot, currentSnapshot] = await Promise.all([
     readActive(input.dev, deployed), readActive(input.dev, dev), readSnapshot(input.dev, deployed), readSnapshot(input.dev, dev),
   ])
-  const ids = [...new Set([...acceptedActive.pages, ...currentActive.pages].map(row => row.page))].sort(compareUtf8)
+  const ids = selectedPage ? [selectedPage] : [...new Set([...acceptedActive.pages, ...currentActive.pages].map(row => row.page))].sort(compareUtf8)
   const pageInputs = (page: string) => `${group}/pages/${page}`
   const idsWithConfig = ids.filter(promotionPageId)
   const overlay = join(scratch, 'master')
@@ -190,7 +204,7 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
   if ('errors' in globals) throw new Error(globals.errors.map(error => error.message).join(', '))
   const upstream = new GitMilvusDocsReader(input.upstream)
   const upstreamHead = await upstream.trackedHead(globals.sourceConfig.track)
-  const preview: PromotionPreview = { schema_version: 1, observation: 'replay', status: 'preview', uat, baseline: { master, dev, upstream: upstreamHead }, pages: [] }
+  const pages: PromotionPage[] = []
   const pageReplays = new Map<string, PageReplay>()
   for (const page of ids) {
     const state: Omit<PromotionPage, 'status'> = { page, targets: [] }
@@ -270,16 +284,16 @@ export async function collectPromotionPreview(input: PromotionInputs, scratch: s
         if (!isDeepStrictEqual(acceptedOverlay, relevant) || !await devHistory.isAncestor(receipt.inputs.dev.commit, deployed)) {
           throw new Error('Receipt history does not match the pinned Guides overlay and dev baseline')
         }
-        if (uat.openUpdatePages.includes(page)) throw new Error('An open upstream update for this page requires coordination')
+        if (uat.openUpdatePages?.includes(page)) throw new Error('An open upstream update for this page requires coordination')
         if (loadedPage.variants || receipt.inputs.variants) throw new Error('Adopted variants require separate promotion handling')
         pageReplays.set(page, { page, receipt, configuration, loadedPage, outputs })
       }
     } catch (error) {
       state.reason = promotionError(error)
     }
-    preview.pages.push(classifyPromotion(state))
+    pages.push(classifyPromotion(state))
   }
-  return { preview, pageReplays, devSha: dev, track: globals.sourceConfig.track }
+  return { baseline: { master, dev, upstream: upstreamHead }, pages, pageReplays, track: globals.sourceConfig.track }
 }
 
 function advanceLock(before: string, pins: PageLock) {
@@ -482,7 +496,7 @@ async function checkPage(page: PageReplay, pins: PageLock, options: Parameters<t
     targetChecks.push({ manual: target.manual, path: output.path, deployedSha256: output.sha256,
       uatViewSha256: originalNext, candidateProdViewSha256: prod })
   }
-  const check: PromotionPageCheck = { page: page.page, lock: { from: pins, to: { ...pins, current: pins.next } },
+  const check = { page: page.page, lock: { from: pins, to: { ...pins, current: pins.next } },
     edits: edits.map(edit => edit.path), views: targetChecks }
   return { check, edits, links }
 }
@@ -619,9 +633,184 @@ function verifyHistoricalDev(receipt: SharedReceipt, actual: ReadonlyMap<string,
   }
 }
 
+function gitDirectoryLines(output: string, pathCount: number) {
+  const lines = output.split('\n')
+  const bare = lines.pop()
+  if (lines.length !== pathCount || (bare !== 'true' && bare !== 'false')
+    || lines.some(line => !isAbsolute(line) || /[\0\r]/.test(line))) {
+    throw new Error('Ambiguous Git directories in UAT evidence preview')
+  }
+  return { paths: lines, bare }
+}
+
+export async function readUatGitDirectories(repository: string): Promise<{ metadata: string[]; worktree?: string }> {
+  try { await lstat(repository) }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return { metadata: [] }
+    throw error
+  }
+  let output: string
+  try {
+    // gitRead trims the complete command output. A final Boolean keeps
+    // whitespace that is part of an absolute Git directory path intact.
+    output = await gitRead(repository, ['rev-parse', '--path-format=absolute', '--git-dir', '--git-common-dir', '--is-bare-repository'])
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('not a git repository')) return { metadata: [] }
+    throw error
+  }
+  const { paths, bare } = gitDirectoryLines(output, 2)
+  const metadata = [...new Set(await Promise.all(paths.map(path => realpath(path))))]
+  if (bare === 'true') return { metadata }
+  const worktree = gitDirectoryLines(await gitRead(repository, ['rev-parse', '--show-toplevel', '--is-bare-repository']), 1)
+  if (worktree.bare !== 'false') throw new Error('Git worktree changed while reading UAT input directories')
+  return { metadata, worktree: await realpath(worktree.paths[0]) }
+}
+
+function evidencePreview(input: { build: string; page: string }) {
+  return {
+    schema_version: 1, status: 'paused', build: input.build, page: input.page,
+    comparison: { status: 'not-run' }, imageLabels: { status: 'pending' },
+    operatorAcceptance: { status: 'pending' }, openUpdatePrs: { status: 'unobserved' },
+  } as const
+}
+
+export async function previewUatEvidence(
+  input: PromotionRepositories & { build: string; page: string; requestDirectories: string[] },
+  scratch: string,
+): Promise<UatEvidencePreview> {
+  const report: UatEvidencePreview = {
+    ...evidencePreview(input), observation: 'uat-evidence',
+    deployment: { status: 'unavailable', reason: 'No verified release record' },
+  }
+  try {
+    const read = await openEnglishUatEvidence(input.build, input.requestDirectories)
+    const record: ReplayUatRelease = await read()
+    const recordSha256 = sha256(canonicalBytes(record))
+    report.deployment = { status: 'record-validated', record, recordSha256 }
+    await compareEvidencePreview(input, report, record.sourceSha, scratch, async () => {
+      if (sha256(canonicalBytes(await read())) !== recordSha256) throw new Error('Release record changed during UAT preview')
+    })
+  } catch (error) {
+    report.deployment = { status: 'unavailable', reason: promotionError(error) }
+  }
+  return report
+}
+
+export async function previewJenkinsUatEvidence(
+  input: PromotionRepositories & { build: string; page: string },
+  read: JenkinsEvidenceReader,
+  scratch: string,
+): Promise<JenkinsUatPreview> {
+  const report: JenkinsUatPreview = {
+    ...evidencePreview(input), observation: 'jenkins-direct',
+    deployment: { status: 'unavailable', reason: 'No verified Jenkins build' },
+  }
+  try {
+    const deployment = await read()
+    report.deployment = { status: 'build-validated', ...deployment }
+    await compareEvidencePreview(input, report, deployment.sourceSha, scratch, async () => {
+      const current = await read()
+      if (current.buildMetadataSha256 !== deployment.buildMetadataSha256) throw new Error('Jenkins build metadata changed during UAT preview')
+      if (current.stagesSha256 !== deployment.stagesSha256) throw new Error('Jenkins stage evidence changed during UAT preview')
+      if (current.archiveSha256 !== deployment.archiveSha256) throw new Error('Jenkins output.json changed during UAT preview')
+    })
+  } catch (error) {
+    report.deployment = { status: 'unavailable', reason: promotionError(error) }
+  }
+  return report
+}
+
+async function compareEvidencePreview(
+  input: PromotionRepositories,
+  report: UatEvidencePreview | JenkinsUatPreview,
+  sourceSha: string,
+  scratch: string,
+  reobserve: () => Promise<void>,
+) {
+  let pinnedTrack: string | undefined
+  try {
+    await requireUatHistory(input)
+    const { baseline, pages: [page], pageReplays, track } = await collectPinnedPromotion(input, { record: { sourceSha } }, scratch, report.page)
+    report.baseline = baseline
+    pinnedTrack = track
+    if (page.status === 'blocked') throw new Error(page.reason)
+    if (page.targets.length !== manuals.length || manuals.some(manual => !page.targets.some(target => target.manual === manual.manual))) {
+      throw new Error('A UAT evidence preview requires both English Cloud and BYOC targets')
+    }
+    if (page.status === 'unnecessary') {
+      report.comparison = { status: 'unnecessary', lock: page.lock!, deployedNext: page.acceptedNext! }
+    } else {
+      const replay = pageReplays.get(report.page)!
+      const check = await compareUatPage(input, replay, page.lock!, baseline.dev, scratch)
+      report.comparison = { status: 'matched', lock: page.lock!, deployedNext: page.acceptedNext!, views: check.views }
+    }
+  } catch (error) {
+    report.comparison = { status: 'blocked', reason: promotionError(error) }
+  }
+  try {
+    await reobserve()
+  } catch (error) {
+    report.deployment = { status: 'changed', reason: promotionError(error) }
+    report.comparison = { status: 'blocked', reason: 'Deployment evidence changed during UAT preview' }
+    return
+  }
+  if (pinnedTrack) {
+    try {
+      const [master, dev, upstream] = await Promise.all([
+        resolveCommit(input.master), resolveCommit(input.dev), new GitMilvusDocsReader(input.upstream).trackedHead(pinnedTrack),
+      ])
+      await requireUatHistory(input)
+      if (!isDeepStrictEqual({ master, dev, upstream }, report.baseline)) throw new Error('Pinned repositories changed during UAT preview')
+    } catch (error) {
+      report.comparison = { status: 'blocked', reason: promotionError(error) }
+    }
+  }
+  if (report.comparison.status === 'matched' || report.comparison.status === 'unnecessary') report.status = 'preview'
+}
+
+async function requireUatHistory(input: PromotionRepositories) {
+  const repositories = [...new Set([input.master, input.dev, input.upstream])]
+  const roots = await Promise.all(repositories.map(readUatGitDirectories))
+  const metadata = new Set(roots.flatMap(root => root.metadata))
+  for (const directory of metadata) {
+    try {
+      await lstat(join(directory, 'info', 'grafts'))
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue
+      throw error
+    }
+    throw new Error('Git grafts are unsupported in UAT evidence previews')
+  }
+}
+
+async function compareUatPage(
+  input: PromotionRepositories, page: PageReplay, pins: PageLock, devSha: string, scratch: string,
+) {
+  const devRoot = join(scratch, 'dev')
+  await exportTree(input.dev, devSha, site.content.map(source => source.sourcePath), devRoot)
+  await Promise.all(manuals.map(manual => mkdir(join(devRoot, manual.root), { recursive: true })))
+  const devReaders = createDevReaders(devRoot)
+  const acceptedDev = await historicalDev(input.dev, page.receipt.inputs.dev.commit, scratch)
+  verifyHistoricalDev(page.receipt, acceptedDev.inventory)
+  const reader = createBuildReader(input.upstream)
+  try {
+    const groupCheck = await checkPage(page, pins, { reader, devReaders, historicalReaders: acceptedDev.readers })
+    const gatedRoutes = await gatedEnglishGuidesRoutes(devRoot, scratch, devReaders)
+    await checkDependencies(page.page, groupCheck.links, new Map([[page.page, groupCheck]]), devReaders, devRoot, gatedRoutes)
+    return groupCheck.check
+  } finally {
+    await reader.dispose()
+  }
+}
+
 export async function preparePromotion(input: PromotionInputs & { previewPath: string; selection: 'all-eligible' | readonly string[] }, scratch: string) {
   const bytes = await readFile(input.previewPath)
   const prior = parseStrictJson(bytes)
+  if (recordObject(prior) && prior.observation === 'jenkins-direct') {
+    const result: PromotionResult = { schema_version: 1, observation: 'replay', status: 'paused', previewSha256: sha256(bytes),
+      selected: [], pages: [], reasons: ['Prepare requires a replay preview. The Jenkins preview is read-only.'] }
+    return { result }
+  }
   const { preview, pageReplays, devSha, track } = await collectPromotionPreview(input, scratch)
   const result: PromotionResult = { schema_version: 1, observation: 'replay', status: 'paused', previewSha256: sha256(bytes),
     uat: preview.uat, baseline: preview.baseline, selected: [], pages: [], reasons: [] }

@@ -687,6 +687,13 @@ async function main(): Promise<void> {
       process.exitCode = await runUpdatePrepare(argv.slice(2));
       return;
     }
+    if (argv[0] === 'shared-docs' && argv[1] === 'promote-guides' && argv.slice(2).includes('--jenkins-build')) {
+      const {captureJenkinsPreviewEnvironment} = await import('./shared-docs/adapters/jenkins-promotion-evidence.ts');
+      const environment = captureJenkinsPreviewEnvironment();
+      const {runGuidesPromotion} = await import('./shared-docs/commands/promote-guides.ts');
+      process.exitCode = await runGuidesPromotion(argv.slice(2), repositoryRoot, undefined, environment);
+      return;
+    }
     loadDotenv({path: path.join(repositoryRoot, '.env'), override: false});
     if (await executeExplicitCommand(argv, repositoryRoot)) return;
     if (argv[0] === 'reference-manifest' || argv[0] === 'reference-sidebar' || argv[0] === 'validate-reference') {

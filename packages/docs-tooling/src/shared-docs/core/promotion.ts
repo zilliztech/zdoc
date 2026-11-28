@@ -68,6 +68,47 @@ export interface PromotionViewCheck {
   candidateProdViewSha256: string
 }
 
+interface UatGuidesPreview {
+  schema_version: 1
+  status: 'preview' | 'paused'
+  page: string
+  build: string
+  baseline?: PromotionPreview['baseline']
+  comparison:
+    | { status: 'matched'; lock: PageLock; deployedNext: string; views: PromotionViewCheck[] }
+    | { status: 'unnecessary'; lock: PageLock; deployedNext: string }
+    | { status: 'blocked'; reason: string }
+    | { status: 'not-run' }
+  imageLabels: { status: 'pending' }
+  operatorAcceptance: { status: 'pending' }
+  openUpdatePrs: { status: 'unobserved' }
+}
+
+type UatEvidenceFailure = { status: 'unavailable' | 'changed'; reason: string }
+
+export interface UatEvidencePreview extends UatGuidesPreview {
+  observation: 'uat-evidence'
+  deployment: { status: 'record-validated'; record: ReplayUatRelease; recordSha256: string } | UatEvidenceFailure
+}
+
+export interface JenkinsUatDeployment {
+  job: string
+  number: string
+  buildId: string
+  stage: { id: string; name: 'uat-en'; status: 'SUCCESS' }
+  archivePath: 'output.json'
+  archiveSha256: string
+  buildMetadataSha256: string
+  stagesSha256: string
+  sourceSha: string
+  finalDeployedDigest: string
+}
+
+export interface JenkinsUatPreview extends UatGuidesPreview {
+  observation: 'jenkins-direct'
+  deployment: ({ status: 'build-validated' } & JenkinsUatDeployment) | UatEvidenceFailure
+}
+
 export interface PromotionPageCheck {
   page: string
   lock?: { from: PageLock; to: PageLock }

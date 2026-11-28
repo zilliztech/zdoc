@@ -657,9 +657,39 @@ it('reports forbidden execution dependencies as infrastructure failure before lo
 
 describe('shared-docs promotion dispatch', () => {
   const launcher = path.resolve(import.meta.dirname, '../../../scripts/docs-tooling.js');
-  function promotion(root: string, ...args: string[]) {
-    return spawnSync(process.execPath, [launcher, 'shared-docs', ...args], {cwd: root, encoding: 'utf8'});
+  function promotionWithEnv(root: string, env: NodeJS.ProcessEnv, args: string[]) {
+    return spawnSync(process.execPath, [launcher, 'shared-docs', ...args], {cwd: root, encoding: 'utf8', env});
   }
+  function promotion(root: string, ...args: string[]) {
+    return promotionWithEnv(root, process.env, args);
+  }
+
+  it('does not turn absent deployment evidence into a replay or a patch', () => {
+    const root = realpathSync(temporaryRoot());
+    try {
+      const [master, upstream, dev, out] = ['master', 'upstream', 'dev', 'out'].map(name => path.join(root, name));
+      for (const dir of [master, upstream, dev]) mkdirSync(dir);
+      const env = {...process.env};
+      delete env.VDC_JENKINS_EVIDENCE_ROOT;
+      delete env.VDC_JENKINS_EVIDENCE_PROTECTION;
+      const base = ['promote-guides', '--uat-build', 'vdc-jenkins/english-uat/1', '--page', 'first',
+        '--repo', upstream, '--dev', dev, '--out', out];
+      const prepare = promotionWithEnv(master, env, [...base, '--mode', 'prepare']);
+      expect(prepare.status).toBe(2);
+      expect(prepare.stdout).toContain('preview only');
+      const replayPath = path.join(root, 'submitted-record.json');
+      writeFileSync(replayPath, '{}\n');
+      expect(promotionWithEnv(master, env, [...base, '--mode', 'preview', '--uat-record', replayPath]).status).toBe(2);
+      const preview = promotionWithEnv(master, env, [...base, '--mode', 'preview']);
+      expect(preview.status).toBe(1);
+      expect(JSON.parse(readFileSync(path.join(out, 'promotion-preview.json'), 'utf8'))).toMatchObject({
+        observation: 'uat-evidence', status: 'paused', deployment: {status: 'unavailable',
+          reason: expect.stringContaining('VDC_JENKINS_EVIDENCE_ROOT')},
+      });
+    } finally {
+      rmSync(root, {recursive: true, force: true});
+    }
+  });
 
   it('requires the replay arguments and reserves a fresh output directory', () => {
     const root = realpathSync(temporaryRoot());
