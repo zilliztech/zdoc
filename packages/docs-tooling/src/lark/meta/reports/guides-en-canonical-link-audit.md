@@ -1,6 +1,6 @@
 # guides Canonical Link Audit
 
-Generated: 2026-11-27T18:45:54.077Z
+Generated: 2026-11-28T02:49:04.853Z
 Target: (not specified)
 Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 
