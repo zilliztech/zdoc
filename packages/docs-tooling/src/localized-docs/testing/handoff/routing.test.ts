@@ -350,6 +350,115 @@ describe('localized-docs handoff routing (record_id-decoupled)', () => {
     ).toThrow(/Conflicting localized Feishu alias/)
   })
 
+  it('allows disjoint-target Feishu records (SaaS vs PaaS) to share a page_url while still rejecting overlaps and localized collisions', () => {
+    const saasLink = 'https://zilliverse.feishu.cn/wiki/FeishuSaasDoc01'
+    const paasLink = 'https://zilliverse.feishu.cn/wiki/FeishuPaasDoc02'
+    const ctx = createLocalizedRoutingContext({
+      site: 'zh-CN',
+      availablePages: ['delete-entities'],
+      previousSnapshot: {
+        records: [
+          {
+            page_url: 'integrate-with-amazon-s3-cn',
+            publish_targets: ['Zilliz.SaaS'],
+            doc_token: 'FeishuSaasDoc01',
+          },
+          {
+            page_url: 'integrate-with-amazon-s3-cn',
+            publish_targets: ['Zilliz.PaaS'],
+            doc_token: 'FeishuPaasDoc02',
+          },
+        ],
+      },
+      records: [
+        {
+          record_id: 'rec-saas',
+          placement_type: 'canonical',
+          page_url: 'integrate-with-amazon-s3-cn',
+          doc_link: saasLink,
+          publish_targets: ['Zilliz.SaaS'],
+        },
+        {
+          record_id: 'rec-paas',
+          placement_type: 'canonical',
+          page_url: 'integrate-with-amazon-s3-cn',
+          doc_link: paasLink,
+          publish_targets: ['Zilliz.PaaS'],
+        },
+      ],
+    })
+    expect(ctx.errors).toEqual([])
+    expect(ctx.inspectedFeishuLinksByPageUrl.get('integrate-with-amazon-s3-cn')).toEqual(
+      new Set([saasLink, paasLink]),
+    )
+
+    // Overlapping targets on the same page_url must still fail closed.
+    expect(() =>
+      createLocalizedRoutingContext({
+        site: 'zh-CN',
+        records: [
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: saasLink,
+            publish_targets: ['Zilliz.SaaS'],
+          },
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: paasLink,
+            publish_targets: ['Zilliz.SaaS', 'Zilliz.PaaS'],
+          },
+        ],
+      }),
+    ).toThrow(/Duplicate canonical page_url/)
+
+    // A localized-page record can never share a page_url with a Feishu record, even across disjoint targets.
+    expect(() =>
+      createLocalizedRoutingContext({
+        site: 'zh-CN',
+        availablePages: ['delete-entities'],
+        records: [
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: saasLink,
+            publish_targets: ['Zilliz.SaaS'],
+          },
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: DOC_LINK,
+            publish_targets: ['Zilliz.PaaS'],
+          },
+        ],
+      }),
+    ).toThrow(/Duplicate canonical page_url/)
+
+    // Disjoint-target Feishu sibling still checks conflicting localized Feishu aliases.
+    expect(() =>
+      createLocalizedRoutingContext({
+        site: 'zh-CN',
+        availablePages: ['delete-entities'],
+        active: makeActiveRegistry(),
+        records: [
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: saasLink,
+            publish_targets: ['Zilliz.SaaS'],
+          },
+          {
+            placement_type: 'canonical',
+            page_url: 'integrate-with-amazon-s3-cn',
+            doc_link: 'https://zilliverse.feishu.cn/wiki/doxcnObjToken',
+            publish_targets: ['Zilliz.PaaS'],
+          },
+        ],
+      }),
+    ).toThrow(/Conflicting localized Feishu alias/)
+  })
+
   it('activates a new localized page with no record_id and preserves non-active Feishu records', () => {
     const ctx = createLocalizedRoutingContext({
       site: 'zh-CN',

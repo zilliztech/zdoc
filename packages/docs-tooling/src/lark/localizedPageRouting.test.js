@@ -221,3 +221,68 @@ test('sourceSnapshot and incrementalFetchPlanner support localized-page with rec
   assert.ok(planChangedDigest.changed_records[0].reasons.includes('localized inputs changed'))
   assert.deepEqual(planChangedDigest.changed_tokens, [])
 })
+
+test('zh-CN Guides preflight permits disjoint SaaS and PaaS Feishu canonical records sharing a slug and preserves per-record tokens', () => {
+  const saasRow = {
+    record_id: 'rec-s3-saas',
+    base_table_id: 'tbl-zh',
+    base_table_name: '开发指南',
+    fields: {
+      Docs: { link: 'https://zilliverse.feishu.cn/wiki/FeishuS3Saas01', text: 'Amazon S3' },
+      'Placement Type': 'canonical',
+      Slug: 'integrate-with-amazon-s3-cn',
+      Progress: 'Published',
+      Targets: ['Zilliz.SaaS'],
+    },
+  }
+  const paasRow = {
+    record_id: 'rec-s3-paas',
+    base_table_id: 'tbl-zh',
+    base_table_name: '开发指南',
+    fields: {
+      Docs: { link: 'https://zilliverse.feishu.cn/wiki/FeishuS3Paas02', text: 'Amazon S3' },
+      'Placement Type': 'canonical',
+      Slug: 'integrate-with-amazon-s3-cn',
+      Progress: 'Published',
+      Targets: ['Zilliz.PaaS'],
+    },
+  }
+  const previousSnapshot = {
+    records: [
+      {
+        record_id: 'rec-s3-saas',
+        slug: 'integrate-with-amazon-s3-cn',
+        publish_targets: ['Zilliz.SaaS'],
+        doc_token: 'FeishuS3Saas01',
+      },
+      {
+        record_id: 'rec-s3-paas',
+        slug: 'integrate-with-amazon-s3-cn',
+        publish_targets: ['Zilliz.PaaS'],
+        doc_token: 'FeishuS3Paas02',
+      },
+    ],
+  }
+  const routingContext = localizedRouting.createLocalizedRoutingContext({
+    site: 'zh-CN',
+    records: [saasRow, paasRow],
+    previousSnapshot,
+  })
+  assert.deepEqual(localizedRouting.routeForLocalizedRecord(saasRow, routingContext), {
+    kind: 'feishu',
+    token: 'FeishuS3Saas01',
+    url: 'https://zilliverse.feishu.cn/wiki/FeishuS3Saas01',
+  })
+  assert.deepEqual(localizedRouting.routeForLocalizedRecord(paasRow, routingContext), {
+    kind: 'feishu',
+    token: 'FeishuS3Paas02',
+    url: 'https://zilliverse.feishu.cn/wiki/FeishuS3Paas02',
+  })
+  const preflight = validateGuidesBasePreflight({
+    site: 'zh-CN',
+    tables: [{ table_id: 'tbl-zh', name: '开发指南' }],
+    records: [saasRow, paasRow],
+    routingContext,
+  })
+  assert.deepEqual(preflight, { tables: 1, records: 2 })
+})
